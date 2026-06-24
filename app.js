@@ -108,19 +108,29 @@
 
   // ---------- Suggest-a-correction link (pre-filled GitHub issue) ----------
   function suggestUrl(q) {
-    const title = `[Revision] ${q.id} — ${q.reference || ("Exodus " + q.chapter)}`;
+    const title = `[Revision] ${q.id} — ${scriptureRef(q)}`;
     const body = [
       `**Question ID:** ${q.id}`,
       `**Reference:** ${q.reference || "(none)"}`,
+      `**Topic:** ${q.topic || "(none)"}`,
       `**Type:** ${q.type}`,
       "",
       `**Question:** ${q.question}`,
-      `**Current answer:** ${q.answer}`,
-      "",
-      "**Suggested change / issue:**",
-      "_Describe the correction here._",
-    ].join("\n");
-    return `https://github.com/${REPO}/issues/new?title=${encodeURIComponent(title)}&body=${encodeURIComponent(body)}`;
+      `**Answer:** ${q.answer}`,
+    ];
+    if (q.type === "multiple-choice" && Array.isArray(q.options)) {
+      body.push(`**Options:** ${q.options.join(" · ")}`);
+    }
+    if (q.type === "fill-in" && Array.isArray(q.acceptableAnswers) && q.acceptableAnswers.length) {
+      body.push(`**Also accepted:** ${q.acceptableAnswers.join(" · ")}`);
+    }
+    if (q.memoryAid && q.memoryAid.text) {
+      body.push("");
+      body.push(`**Memory aid (${q.memoryAid.type || "mnemonic"}):** ${q.memoryAid.text}`);
+      if (q.memoryAid.source) body.push(`**Source:** ${q.memoryAid.source}`);
+    }
+    body.push("", "---", "**Suggested change / issue:**", "_Describe the correction here._");
+    return `https://github.com/${REPO}/issues/new?title=${encodeURIComponent(title)}&body=${encodeURIComponent(body.join("\n"))}`;
   }
 
   // ---------- Scripture passage link (Septuagint, in context) ----------
