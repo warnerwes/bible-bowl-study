@@ -264,6 +264,7 @@
     // Mode launchers
     $("quick-start").addEventListener("click", startQuick);
     $("drill-missed").addEventListener("click", startDrill);
+    $("review-mastered").addEventListener("click", startReview);
     $("start-btn").addEventListener("click", startCustom);
     $("export-csv").addEventListener("click", exportAnki);
 
@@ -288,6 +289,9 @@
     $("missed-count").textContent = due;
 
     const mastered = masteredQuestions().length;
+    $("mastered-cta").hidden = mastered === 0;
+    $("mastered-count").textContent = mastered;
+
     const seen = Object.keys(stats).length;
     const line = $("progress-line");
     line.innerHTML = "";
@@ -359,6 +363,13 @@
     const due = dueQuestions();
     if (!due.length) return;
     launch(weightedOrder(due), "drill");
+  }
+  // Revisit mastered questions — "review" mode does not record results, so a
+  // miss here won't knock a question out of the mastered bucket.
+  function startReview() {
+    const m = masteredQuestions();
+    if (!m.length) return;
+    launch(weightedOrder(m), "review");
   }
   function startCustom() {
     const requested = Number($("count").value);
@@ -441,7 +452,7 @@
     state.answered = true;
     if (correct) state.score++;
     else state.missed.push(q);
-    recordResult(q, correct);
+    if (state.mode !== "review") recordResult(q, correct);
     showFeedback(q, correct);
   });
 
