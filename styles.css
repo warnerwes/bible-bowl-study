@@ -69,7 +69,18 @@ h2 { font-size: 1.35rem; margin-top: 0; }
   border: 1px solid var(--accent);
 }
 .ghost-btn:hover:not(:disabled) { background: rgba(212, 160, 78, 0.12); }
-.aid-toggle { display: inline-flex; margin: 0 auto 1.75rem; }
+.aid-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin: 0.25rem auto 1.6rem;
+  color: var(--muted);
+  font-size: 0.8rem;
+  font-family: system-ui, sans-serif;
+  cursor: pointer;
+}
+.aid-toggle input { accent-color: var(--accent); margin: 0; }
+.aid-toggle:hover { color: var(--text); }
 .home-foot {
   display: flex;
   flex-direction: column;
