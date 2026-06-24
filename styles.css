@@ -1,55 +1,121 @@
 :root {
-  --bg: #0f1419;
-  --surface: #1a2230;
-  --surface-2: #232d3e;
-  --border: #313d52;
-  --text: #e8ecf3;
-  --muted: #94a3b8;
+  /* Warm "Byzantine night" — warm charcoal ground, ivory ink, gilded gold */
+  --bg: #0c0e12;
+  --surface: #171b21;
+  --surface-2: #20242c;
+  --border: #2b313b;
+  --line: var(--border);
+  --border-gold: rgba(212, 160, 78, 0.26);
+  --text: #ece6d8;
+  --muted: #a39b8b;
   --accent: #d4a04e;
-  --accent-strong: #e0b25f;
-  --correct: #3fb27f;
-  --wrong: #e2645a;
+  --accent-strong: #e6c074;
+  --correct: #5fae86;
+  --wrong: #d2766b;
   --aid-mnemonic: #6aa9e0;
   --aid-teaching: #b48ad6;
   --aid-image: #e08a5a;
-  --radius: 14px;
-  --maxw: 720px;
+  --radius: 12px;
+  --maxw: 700px;
+  --measure: 62ch;
+  --font-display: "Cormorant Garamond", "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
+  --font-body: "Spectral", "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
   font-size: 16px;
 }
 
 * { box-sizing: border-box; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 4px; }
 
 body {
   margin: 0;
+  min-height: 100vh;
   background: var(--bg);
+  background: radial-gradient(1100px 760px at 50% -12%, #141821, #0b0d11 62%);
   color: var(--text);
-  font-family: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
-  line-height: 1.5;
+  font-family: var(--font-body);
+  font-size: 1.0625rem;
+  line-height: 1.6;
   -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
 }
 
 .site-header {
   text-align: center;
-  padding: 2rem 1rem 0.5rem;
+  padding: 2.75rem 1rem 0.5rem;
 }
 .site-header h1 {
   margin: 0;
-  font-size: 1.9rem;
-  letter-spacing: 0.5px;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 2.7rem;
+  letter-spacing: 0.06em;
   color: var(--accent-strong);
 }
-.subtitle { margin: 0.2rem 0 0; color: var(--muted); font-style: italic; }
+.subtitle {
+  margin: 0.1rem 0 0;
+  color: var(--muted);
+  font-style: italic;
+  font-size: 1.1rem;
+  letter-spacing: 0.04em;
+}
+/* A single thin, centered gold hairline — the only decorative element */
+.site-header::after {
+  content: "";
+  display: block;
+  width: 64px;
+  height: 1px;
+  margin: 1.15rem auto 0;
+  background: linear-gradient(90deg, transparent, var(--accent), transparent);
+  opacity: 0.55;
+}
 
 main {
   max-width: var(--maxw);
   margin: 0 auto;
-  padding: 1.5rem 1rem 3rem;
+  padding: 1.75rem 1rem 3.5rem;
 }
 
-.screen { animation: fade 0.25s ease; }
+.screen { animation: fade 0.3s ease; }
 @keyframes fade { from { opacity: 0; transform: translateY(6px);} to {opacity:1; transform:none;} }
+@media (prefers-reduced-motion: reduce) {
+  .screen { animation: none; }
+  * { transition: none !important; }
+}
 
-h2 { font-size: 1.35rem; margin-top: 0; }
+h2 { font-size: 1.45rem; margin-top: 0; line-height: 1.2; font-weight: 600; }
+
+/* ---------- Home (simple "Go") ---------- */
+#home { text-align: center; padding: 2.25rem 0 0.5rem; }
+#home h2 { font-family: var(--font-display); font-weight: 600; font-size: 2.2rem; }
+.lead {
+  color: var(--muted);
+  font-size: 1.12rem;
+  line-height: 1.55;
+  max-width: 36rem;
+  margin: 0.8rem auto 2.1rem;
+}
+.big-btn { font-size: 1.18rem; padding: 1rem 2.6rem; }
+.under-btn { margin: 0.7rem 0 1.6rem; }
+#missed-cta { margin-bottom: 1.6rem; }
+.ghost-btn {
+  background: transparent;
+  color: var(--accent-strong);
+  border: 1px solid var(--accent);
+}
+.ghost-btn:hover:not(:disabled) { background: rgba(212, 160, 78, 0.12); }
+.home-foot {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  align-items: center;
+  border-top: 1px solid var(--border);
+  padding-top: 1.25rem;
+}
+#progress-line { font-size: 0.85rem; }
+
+/* ---------- Advanced builder ---------- */
+#advanced h2 { text-align: left; }
+#close-advanced { display: block; margin-top: 1.1rem; }
 
 /* ---------- Setup ---------- */
 .field { margin-bottom: 1.5rem; }
@@ -91,20 +157,31 @@ h2 { font-size: 1.35rem; margin-top: 0; }
 }
 
 .primary-btn {
-  background: var(--accent);
-  color: #1a1206;
+  background: linear-gradient(180deg, var(--accent-strong), var(--accent));
+  color: #1c1408;
   border: none;
   border-radius: 10px;
-  padding: 0.8rem 1.4rem;
+  padding: 0.85rem 1.5rem;
   font-size: 1.05rem;
-  font-weight: 700;
+  font-weight: 600;
+  letter-spacing: 0.02em;
   font-family: inherit;
   cursor: pointer;
-  transition: background 0.15s, transform 0.05s;
+  transition: filter 0.18s, transform 0.05s;
 }
-.primary-btn:hover:not(:disabled) { background: var(--accent-strong); }
+.primary-btn:hover:not(:disabled) { filter: brightness(1.06); }
 .primary-btn:active:not(:disabled) { transform: translateY(1px); }
-.primary-btn:disabled { opacity: 0.45; cursor: not-allowed; }
+.primary-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+/* Ghost variant (drill + export buttons) — higher specificity than .primary-btn */
+.primary-btn.ghost-btn {
+  background: transparent;
+  color: var(--accent-strong);
+  border: 1px solid var(--accent);
+}
+.primary-btn.ghost-btn:hover:not(:disabled) { background: rgba(212, 160, 78, 0.12); filter: none; }
+
+.advanced-export { margin-top: 1.4rem; }
+.advanced-export .export-note { margin: 0.55rem 0 0; }
 
 .link-btn {
   background: none;
@@ -124,15 +201,15 @@ h2 { font-size: 1.35rem; margin-top: 0; }
 /* ---------- Quiz ---------- */
 .quiz-top { margin-bottom: 1rem; }
 .progress {
-  height: 7px;
-  background: var(--surface);
+  height: 6px;
+  background: rgba(255, 255, 255, 0.05);
   border-radius: 999px;
   overflow: hidden;
 }
 .progress-bar {
   height: 100%;
   width: 0%;
-  background: var(--accent);
+  background: linear-gradient(90deg, var(--accent), var(--accent-strong));
   transition: width 0.3s ease;
 }
 .quiz-meta {
@@ -146,26 +223,28 @@ h2 { font-size: 1.35rem; margin-top: 0; }
 
 .card {
   background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  padding: 1.5rem;
+  border: 1px solid var(--border-gold);
+  border-radius: 16px;
+  padding: 1.9rem 1.75rem;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.02), 0 18px 40px -28px rgba(0, 0, 0, 0.85);
 }
 
-.q-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-bottom: 0.9rem; }
+.q-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-bottom: 1rem; }
 .tag {
-  font-size: 0.72rem;
+  font-size: 0.66rem;
   text-transform: uppercase;
-  letter-spacing: 0.5px;
-  background: var(--surface-2);
+  letter-spacing: 1px;
+  background: transparent;
+  border: 1px solid var(--border);
   color: var(--muted);
-  border-radius: 6px;
-  padding: 0.2rem 0.5rem;
+  border-radius: 4px;
+  padding: 0.18rem 0.5rem;
   font-family: system-ui, sans-serif;
 }
-.tag-ref { color: var(--accent); }
+.tag-ref { color: var(--accent); border-color: var(--border-gold); }
 .tag-type { color: var(--text); }
 
-.q-text { font-size: 1.3rem; margin: 0 0 1.25rem; line-height: 1.35; }
+.q-text { font-size: 1.4rem; margin: 0 0 1.4rem; line-height: 1.4; font-weight: 500; }
 
 #answer-area { display: flex; flex-direction: column; gap: 0.6rem; margin-bottom: 1.1rem; }
 
@@ -182,9 +261,9 @@ h2 { font-size: 1.35rem; margin-top: 0; }
   transition: border-color 0.15s, background 0.15s;
 }
 .option-btn:hover:not(:disabled) { border-color: var(--accent); }
-.option-btn.selected { border-color: var(--accent); background: #2c3850; }
-.option-btn.correct { border-color: var(--correct); background: rgba(63,178,127,0.16); }
-.option-btn.wrong { border-color: var(--wrong); background: rgba(226,100,90,0.16); }
+.option-btn.selected { border-color: var(--accent); background: rgba(212,160,78,0.12); }
+.option-btn.correct { border-color: var(--correct); background: rgba(95,174,134,0.15); }
+.option-btn.wrong { border-color: var(--wrong); background: rgba(210,118,107,0.15); }
 .option-btn:disabled { cursor: default; }
 
 .text-input {
@@ -207,12 +286,43 @@ h2 { font-size: 1.35rem; margin-top: 0; }
 .correct-answer { margin: 0 0 1rem; }
 .correct-answer strong { color: var(--accent-strong); }
 
+/* Read-in-context scripture link (revealed after answering) */
+.passage-link {
+  display: block;
+  width: fit-content;
+  margin-bottom: 0.8rem;
+  color: var(--accent);
+  font-size: 0.95rem;
+  font-weight: 500;
+  text-decoration: none;
+  border-bottom: 1px solid var(--border-gold);
+  padding-bottom: 1px;
+}
+.passage-link:hover { color: var(--accent-strong); border-bottom-color: var(--accent); }
+
+.study-guide-toggle {
+  display: block;
+  width: fit-content;
+  margin: -0.25rem 0 0.85rem;
+}
+
+/* Suggest-a-correction link */
+.suggest-link {
+  display: inline-block;
+  margin-bottom: 1rem;
+  color: var(--muted);
+  font-size: 0.82rem;
+  font-family: system-ui, sans-serif;
+  text-decoration: none;
+}
+.suggest-link:hover { color: var(--accent); text-decoration: underline; }
+
 .memory-aid {
-  border-left: 4px solid var(--accent);
-  background: var(--surface-2);
+  border-left: 3px solid var(--accent);
+  background: rgba(255, 255, 255, 0.025);
   border-radius: 0 10px 10px 0;
-  padding: 0.9rem 1.1rem;
-  margin-bottom: 1.1rem;
+  padding: 1rem 1.2rem;
+  margin-bottom: 1.2rem;
 }
 .memory-aid p { margin: 0.5rem 0 0; }
 .aid-source {
@@ -222,6 +332,9 @@ h2 { font-size: 1.35rem; margin-top: 0; }
   font-style: italic;
   color: var(--muted);
 }
+/* Without this, the display:block above overrides the [hidden] attribute,
+   so a hidden citation would stay visible (leaking the previous question's). */
+.aid-source[hidden] { display: none; }
 .aid-badge {
   display: inline-block;
   font-size: 0.7rem;
@@ -240,8 +353,107 @@ h2 { font-size: 1.35rem; margin-top: 0; }
 .memory-aid.teaching { border-left-color: var(--aid-teaching); }
 .memory-aid.image { border-left-color: var(--aid-image); }
 
+.aid-review {
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  padding: 0.95rem 0;
+  margin: 0.2rem 0 1.2rem;
+}
+.aid-review-title {
+  margin: 0 0 0.65rem;
+  color: var(--muted);
+  font-weight: 700;
+}
+.aid-review-options {
+  display: grid;
+  gap: 0.65rem;
+}
+.aid-choice {
+  display: grid;
+  gap: 0.35rem;
+  width: 100%;
+  padding: 0.8rem 0.9rem;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.025);
+  color: var(--text);
+  cursor: pointer;
+  text-align: left;
+  font: inherit;
+  position: relative;
+}
+.aid-choice:hover {
+  border-color: var(--accent);
+  background: rgba(212, 164, 78, 0.08);
+}
+.aid-choice.selected {
+  border: 3px solid var(--accent);
+  background: rgba(212, 164, 78, 0.18);
+  box-shadow: 0 0 0 2px rgba(212, 164, 78, 0.2);
+  padding: calc(0.8rem - 2px) calc(0.9rem - 2px);
+}
+.aid-choice.selected::before {
+  content: "✓";
+  position: absolute;
+  top: 0.65rem;
+  right: 0.75rem;
+  width: 1.45rem;
+  height: 1.45rem;
+  border-radius: 999px;
+  background: var(--accent);
+  color: var(--bg);
+  display: grid;
+  place-items: center;
+  font-weight: 900;
+}
+.aid-choice-label {
+  color: var(--accent);
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+.aid-choice-state {
+  display: none;
+  width: fit-content;
+  padding: 0.12rem 0.5rem;
+  border-radius: 999px;
+  background: var(--accent);
+  color: var(--bg);
+  font-size: 0.72rem;
+  font-weight: 800;
+}
+.aid-choice.selected .aid-choice-state { display: inline-block; }
+.aid-choice-text { line-height: 1.35; }
+.aid-choice-source {
+  color: var(--muted);
+  font-size: 0.78rem;
+}
+.custom-aid-toggle { margin-top: 0.75rem; }
+.custom-aid-box {
+  display: grid;
+  gap: 0.6rem;
+  margin-top: 0.65rem;
+}
+.custom-aid-box textarea {
+  width: 100%;
+  min-height: 5.25rem;
+  resize: vertical;
+  background: var(--surface-2);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 0.75rem;
+  font: inherit;
+  line-height: 1.35;
+}
+.custom-aid-box textarea:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+.custom-aid-box[hidden] { display: none; }
+
 /* ---------- Results ---------- */
-.result-score { font-size: 1.5rem; text-align: center; margin: 1rem 0 2rem; }
+.result-score { font-family: var(--font-display); font-size: 2rem; text-align: center; margin: 1.2rem 0 2rem; }
 .result-score strong { color: var(--accent-strong); }
 #missed-review h3 { font-size: 1.05rem; color: var(--muted); }
 .missed-item {
@@ -255,6 +467,7 @@ h2 { font-size: 1.35rem; margin-top: 0; }
 .missed-item .ma { color: var(--accent-strong); margin: 0 0 0.6rem; font-size: 0.95rem; }
 .missed-item .aid-badge { margin-bottom: 0.4rem; }
 .missed-item .aid-body { margin: 0.3rem 0 0; font-size: 0.95rem; color: var(--text); }
+.missed-item .suggest-link { margin: 0.7rem 0 0; }
 
 .site-footer { text-align: center; padding: 0 1rem 2rem; }
 

@@ -17,6 +17,7 @@ data/
   raw/*.json      # per-chapter-group source files that get merged into questions.json
 scripts/
   build.js        # merge + validate data/raw/*.json -> data/questions.json
+  build-review-packets.js  # create candidate/review files for human curation
 ```
 
 The **question library is the heart of this project**. The front-end is
@@ -81,3 +82,53 @@ node scripts/build.js
 true/false answers, memory aids present) and fails loudly on any problem before
 writing `data/questions.json`. To add a new book or chapter, drop another
 `data/raw/<name>.json` array in and rebuild.
+
+## Human review factory
+
+For the memory-aid curation workflow, see
+[`docs/question-factory.md`](docs/question-factory.md). The short version:
+
+```bash
+node scripts/build-review-packets.js groupA
+node scripts/generate-ollama-candidates.js groupA llama3.1
+node scripts/make-source-search-export.js groupA
+node scripts/export-review-csv.js groupA
+# import source JSON after using ChatGPT/Gemini/Google
+node scripts/import-source-export.js data/source-exports/groupA.sources.json
+# after reviewers select and verify
+node scripts/prepare-review-selections.js groupA
+node scripts/apply-reviewed-choice.js groupA
+node scripts/build.js
+```
+
+The quiz can also collect lightweight A/B votes for current vs imported memory
+aid candidates. Exported vote JSON files can be tallied with:
+
+```bash
+node scripts/aggregate-aid-votes.js votes/*.json
+```
+
+Or pull the public Google Forms response Sheet directly:
+
+```bash
+node scripts/sync-form-votes.js
+```
+
+For invisible Google Forms collection, create the form fields and generate
+`data/vote-sink.json` from a pre-filled link:
+
+```bash
+node scripts/create-vote-sink-from-prefill.js "PASTE_PREFILLED_URL_HERE"
+```
+
+Closed loop from votes to published aids:
+
+```bash
+node scripts/sync-form-votes.js --prepare
+# verify OSB answers and source-backed candidates in data/reviews + data/candidates
+node scripts/apply-reviewed-choice.js groupA
+node scripts/build.js
+git add .
+git commit -m "Promote reviewed memory aids"
+git push origin main
+```

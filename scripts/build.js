@@ -8,10 +8,13 @@ const path = require("path");
 
 const ROOT = path.resolve(__dirname, "..");
 const RAW_DIR = path.join(ROOT, "data", "raw");
+const CANDIDATE_DIR = path.join(ROOT, "data", "candidates");
 const OUT = path.join(ROOT, "data", "questions.json");
+const REVIEW_OUT = path.join(ROOT, "data", "review-candidates.json");
 
 const TYPES = new Set(["multiple-choice", "true-false", "fill-in"]);
 const AID_TYPES = new Set(["mnemonic", "teaching", "image"]);
+const STRICT_REVIEW = process.env.STRICT_REVIEW === "1";
 
 const errors = [];
 const seenIds = new Set();
@@ -59,15 +62,30 @@ function validate(q, file) {
     if (typeof q.memoryAid.text !== "string" || q.memoryAid.text.trim().length < 10) {
       fail(file, id, "memoryAid.text too short or missing");
     }
-    // Teaching aids make theological claims and MUST cite a source.
+    // Teaching aids make theological claims and MUST cite a source. Mnemonics
+    // and images may cite a source only when they carry a factual/surprising
+    // claim rather than functioning as a pure memory device.
     if (q.memoryAid.type === "teaching") {
       if (typeof q.memoryAid.source !== "string" || q.memoryAid.source.trim().length < 4) {
         fail(file, id, "teaching memoryAid must include a non-empty source citation");
       }
+      if (STRICT_REVIEW) {
+        if (typeof q.memoryAid.sourceUrl !== "string" || !/^https?:\/\//i.test(q.memoryAid.sourceUrl)) {
+          fail(file, id, "STRICT_REVIEW teaching memoryAid must include sourceUrl");
+        }
+        if (typeof q.memoryAid.sourceClaim !== "string" || q.memoryAid.sourceClaim.trim().length < 10) {
+          fail(file, id, "STRICT_REVIEW teaching memoryAid must include sourceClaim");
+        }
+      }
     } else if (q.memoryAid.source !== undefined && q.memoryAid.source !== "") {
-      // Images and mnemonics are memory devices, not claims — they must NOT
-      // carry a citation (a citation on a non-teaching aid is a misattribution).
-      fail(file, id, `${q.memoryAid.type} memoryAid must not carry a source (citations belong only on teaching aids)`);
+      if (typeof q.memoryAid.sourceUrl !== "string" || !/^https?:\/\//i.test(q.memoryAid.sourceUrl)) {
+        fail(file, id, `${q.memoryAid.type} sourced memoryAid must include sourceUrl`);
+      }
+      if (typeof q.memoryAid.sourceClaim !== "string" || q.memoryAid.sourceClaim.trim().length < 10) {
+        fail(file, id, `${q.memoryAid.type} sourced memoryAid must include sourceClaim`);
+      }
+    } else if (q.memoryAid.sourceUrl || q.memoryAid.sourceClaim) {
+      fail(file, id, `${q.memoryAid.type} memoryAid must include source when sourceUrl/sourceClaim is present`);
     }
   }
 }
@@ -114,7 +132,43 @@ if (errors.length) {
 // Stable sort: chapter, then id.
 all.sort((a, b) => a.chapter - b.chapter || a.id.localeCompare(b.id));
 
-fs.writeFileSync(OUT, JSON.stringify(all, null, 2) + "\n");
+fs.writeFileSync(OUT, JSON.stringify(all) + "\n");
+
+function buildReviewCandidates() {
+  if (!fs.existsSync(CANDIDATE_DIR)) return {};
+  const currentById = new Map(all.map((q) => [q.id, q.memoryAid && q.memoryAid.text]));
+  const review = {};
+  for (const file of fs.readdirSync(CANDIDATE_DIR).filter((f) => f.endsWith(".candidates.json")).sort()) {
+    let packet;
+    try {
+      packet = JSON.parse(fs.readFileSync(path.join(CANDIDATE_DIR, file), "utf8"));
+    } catch (e) {
+      console.warn(`Skipping ${file}: invalid candidate JSON (${e.message})`);
+      continue;
+    }
+    for (const q of packet.questions || []) {
+      const choices = (q.candidates || [])
+        .filter((c) => c.candidateId && c.text && c.text !== currentById.get(q.id))
+        .map((c) => ({
+          candidateId: c.candidateId,
+          type: c.type,
+          text: c.text,
+          source: c.source || "",
+        }));
+      if (choices.length) review[q.id] = choices;
+    }
+  }
+  return review;
+}
+
+const reviewCandidates = buildReviewCandidates();
+if (Object.keys(reviewCandidates).length) {
+  fs.writeFileSync(
+    REVIEW_OUT,
+    JSON.stringify({ generatedAt: new Date().toISOString(), questions: reviewCandidates }) + "\n",
+  );
+  console.log(`Review candidates: ${Object.keys(reviewCandidates).length} question(s) written to data/review-candidates.json`);
+}
 
 // Report
 const byType = {};

@@ -5,7 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Bible Bowl Study — Exodus</title>
   <meta name="description" content="Quiz yourself on the Book of Exodus with mnemonics, teachings, and vivid memory aids." />
-  <link rel="stylesheet" href="styles.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Spectral:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css?v=10" />
 </head>
 <body>
   <header class="site-header">
@@ -16,44 +19,75 @@
   <main id="app">
     <!-- ===================== SETUP SCREEN ===================== -->
     <section id="setup" class="screen">
-      <h2>Build your quiz</h2>
 
-      <div class="field">
-        <div class="field-label-row">
-          <label class="field-label">Chapters</label>
-          <div class="field-actions">
-            <button type="button" class="link-btn" data-select="all">All</button>
-            <button type="button" class="link-btn" data-select="none">None</button>
+      <!-- ---------- Home (simple "Go") ---------- -->
+      <div id="home">
+        <h2>Ready to study?</h2>
+        <p class="lead">Quiz yourself on the Book of Exodus. Miss one and you'll get a memory aid — a mnemonic, teaching, or vivid image — to make it stick.</p>
+
+        <button id="quick-start" class="primary-btn big-btn">Start studying</button>
+        <p class="under-btn muted">All <span id="total-count">…</span> questions, shuffled. Ones you miss come back more often.</p>
+
+        <div id="missed-cta" hidden>
+          <button id="drill-missed" class="primary-btn ghost-btn">Drill my missed questions (<span id="missed-count">0</span>)</button>
+        </div>
+
+        <div id="mastered-cta" hidden>
+          <button id="review-mastered" class="primary-btn ghost-btn">Review mastered (<span id="mastered-count">0</span>)</button>
+        </div>
+
+        <div class="home-foot">
+          <button type="button" id="toggle-advanced" class="link-btn" aria-expanded="false">Build a custom quiz ▾</button>
+          <button type="button" id="export-votes" class="link-btn" hidden>Export memory-aid votes</button>
+          <span id="progress-line" class="muted" hidden></span>
+        </div>
+      </div>
+
+      <!-- ---------- Advanced (custom builder) ---------- -->
+      <div id="advanced" hidden>
+        <h2>Build a custom quiz</h2>
+
+        <div class="field">
+          <div class="field-label-row">
+            <label class="field-label">Chapters</label>
+            <div class="field-actions">
+              <button type="button" class="link-btn" data-select="all">All</button>
+              <button type="button" class="link-btn" data-select="none">None</button>
+            </div>
+          </div>
+          <div id="chapter-list" class="chip-grid" aria-label="Choose chapters"></div>
+        </div>
+
+        <div class="field">
+          <label class="field-label">Question types</label>
+          <div id="type-list" class="chip-grid">
+            <label class="chip"><input type="checkbox" value="multiple-choice" checked /><span>Multiple choice</span></label>
+            <label class="chip"><input type="checkbox" value="true-false" checked /><span>True / False</span></label>
+            <label class="chip"><input type="checkbox" value="fill-in" checked /><span>Fill in / Type in</span></label>
           </div>
         </div>
-        <div id="chapter-list" class="chip-grid" aria-label="Choose chapters"></div>
-      </div>
 
-      <div class="field">
-        <label class="field-label">Question types</label>
-        <div id="type-list" class="chip-grid">
-          <label class="chip"><input type="checkbox" value="multiple-choice" checked /><span>Multiple choice</span></label>
-          <label class="chip"><input type="checkbox" value="true-false" checked /><span>True / False</span></label>
-          <label class="chip"><input type="checkbox" value="fill-in" checked /><span>Fill in / Type in</span></label>
+        <div class="field">
+          <label class="field-label" for="count">How many questions?</label>
+          <select id="count" class="select">
+            <option value="10">10</option>
+            <option value="20" selected>20</option>
+            <option value="30">30</option>
+            <option value="0">All available</option>
+          </select>
         </div>
+
+        <p id="setup-summary" class="muted"></p>
+        <button id="start-btn" class="primary-btn">Start custom quiz</button>
+
+        <div class="advanced-export">
+          <button type="button" id="export-csv" class="primary-btn ghost-btn">⬇ Export to Anki (CSV)</button>
+          <p class="muted export-note">Exports <strong>every</strong> question matching your selected chapters &amp; types as an Anki deck — Basic notes (question → answer, with reference and memory aid). The “How many questions?” setting only limits a quiz, not the export.</p>
+        </div>
+
+        <button type="button" id="close-advanced" class="link-btn">← Back</button>
       </div>
 
-      <div class="field">
-        <label class="field-label" for="count">How many questions?</label>
-        <select id="count" class="select">
-          <option value="10">10</option>
-          <option value="20" selected>20</option>
-          <option value="30">30</option>
-          <option value="0">All available</option>
-        </select>
-      </div>
-
-      <div class="field">
-        <label class="chip standalone"><input type="checkbox" id="show-aid-always" /><span>Always show the memory aid (even when correct)</span></label>
-      </div>
-
-      <p id="setup-summary" class="muted"></p>
-      <button id="start-btn" class="primary-btn">Start quiz</button>
       <p id="load-error" class="error" hidden></p>
     </section>
 
@@ -90,6 +124,19 @@
             <p id="aid-text"></p>
             <cite id="aid-source" class="aid-source" hidden></cite>
           </div>
+          <div id="aid-review" class="aid-review" hidden>
+            <p class="aid-review-title">Which aid sticks better?</p>
+            <div id="aid-review-options" class="aid-review-options"></div>
+            <button id="custom-aid-toggle" type="button" class="link-btn custom-aid-toggle">Suggest my own</button>
+            <div id="custom-aid-box" class="custom-aid-box" hidden>
+              <textarea id="custom-aid-text" rows="3" placeholder="Write the memory hook you would actually remember..."></textarea>
+              <button id="custom-aid-save" type="button" class="primary-btn ghost-btn">Use my suggestion</button>
+            </div>
+            <p id="aid-review-saved" class="muted" hidden>Saved.</p>
+          </div>
+          <a id="passage-link" class="passage-link" target="_blank" rel="noopener"></a>
+          <button id="study-guide-toggle" type="button" class="link-btn study-guide-toggle" hidden>Show study guide</button>
+          <a id="suggest-link" class="suggest-link" target="_blank" rel="noopener">⚐ Suggest a correction</a>
           <button id="next-btn" type="button" class="primary-btn">Next</button>
         </div>
       </div>
@@ -110,6 +157,6 @@
     <p class="muted">Memory aids draw on Orthodox/patristic tradition and the Orthodox Study Bible.</p>
   </footer>
 
-  <script src="app.js"></script>
+  <script src="app.js?v=10"></script>
 </body>
 </html>
