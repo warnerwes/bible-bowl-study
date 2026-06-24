@@ -15,6 +15,7 @@
 
   const REPO = "warnerwes/bible-bowl-study";
   const STORAGE_KEY = "bbs:stats:v1";
+  const VOTE_STORAGE_KEY = "bbs:aid-votes:v1";
 
   const TYPE_LABELS = {
     "multiple-choice": "Multiple choice",
@@ -33,6 +34,8 @@
     index: 0,
     score: 0,
     missed: [],       // questions answered wrong this session
+    reviewCandidates: {},
+    voteSink: null,
     answered: false,  // whether current question has been checked
     selected: null,   // selected option for MC/TF
     showAidAlways: false,
@@ -54,13 +57,20 @@
   // ---------- Progress tracking (localStorage) ----------
   // stats[id] = { wrong, right, streak, seen } — streak = consecutive corrects.
   let stats = {};
+  let aidVotes = [];
   function loadStats() {
     try { stats = JSON.parse(localStorage.getItem(STORAGE_KEY)) || {}; }
     catch (e) { stats = {}; }
+    try { aidVotes = JSON.parse(localStorage.getItem(VOTE_STORAGE_KEY)) || []; }
+    catch (e) { aidVotes = []; }
   }
   function saveStats() {
     try { localStorage.setItem(STORAGE_KEY, JSON.stringify(stats)); }
     catch (e) { /* private mode / storage disabled — tracking just won't persist */ }
+  }
+  function saveAidVotes() {
+    try { localStorage.setItem(VOTE_STORAGE_KEY, JSON.stringify(aidVotes)); }
+    catch (e) { /* private mode / storage disabled */ }
   }
   function recordResult(q, correct) {
     const s = stats[q.id] || { wrong: 0, right: 0, streak: 0, seen: 0 };
@@ -198,6 +208,23 @@
     a.remove();
     setTimeout(() => URL.revokeObjectURL(url), 1000);
   }
+  function exportAidVotes() {
+    if (!aidVotes.length) return;
+    const payload = {
+      exportedAt: new Date().toISOString(),
+      userAgent: navigator.userAgent,
+      votes: aidVotes,
+    };
+    const blob = new Blob([JSON.stringify(payload, null, 2) + "\n"], { type: "application/json;charset=utf-8" });
+    const url = URL.createObjectURL(blob);
+    const a = el("a");
+    a.href = url;
+    a.download = "bible-bowl-memory-aid-votes.json";
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
+  }
 
   // ---------- Answer normalization (fill-in) ----------
   function normalize(s) {
@@ -230,6 +257,8 @@
       const data = await res.json();
       state.all = Array.isArray(data) ? data : data.questions;
       if (!state.all || !state.all.length) throw new Error("No questions found.");
+      await loadReviewCandidates();
+      await loadVoteSink();
       buildSetup();
     } catch (err) {
       const e = $("load-error");
@@ -237,6 +266,27 @@
       e.textContent =
         "Could not load questions (" + err.message +
         "). If you opened this file directly, run a local server: `python3 -m http.server` then visit the localhost URL.";
+    }
+  }
+
+  async function loadReviewCandidates() {
+    try {
+      const res = await fetch("data/review-candidates.json", { cache: "no-cache" });
+      if (!res.ok) return;
+      const data = await res.json();
+      state.reviewCandidates = (data && data.questions) || {};
+    } catch (e) {
+      state.reviewCandidates = {};
+    }
+  }
+  async function loadVoteSink() {
+    try {
+      const res = await fetch("data/vote-sink.json", { cache: "no-cache" });
+      if (!res.ok) return;
+      const data = await res.json();
+      if (data && data.enabled && data.action && data.fields) state.voteSink = data;
+    } catch (e) {
+      state.voteSink = null;
     }
   }
 
@@ -277,6 +327,7 @@
     $("review-mastered").addEventListener("click", startReview);
     $("start-btn").addEventListener("click", startCustom);
     $("export-csv").addEventListener("click", exportAnki);
+    $("export-votes").addEventListener("click", exportAidVotes);
 
     // Advanced toggle
     $("toggle-advanced").addEventListener("click", () => openAdvanced(true));
@@ -295,6 +346,7 @@
   // Refresh the home-screen tracking UI (missed CTA + progress line).
   function refreshHome() {
     const due = dueQuestions().length;
+    $("export-votes").hidden = aidVotes.length === 0;
     $("missed-cta").hidden = due === 0;
     $("missed-count").textContent = due;
 
@@ -411,6 +463,8 @@
 
     $("feedback").hidden = true;
     $("memory-aid").hidden = true;
+    $("aid-review").hidden = true;
+    $("aid-review-saved").hidden = true;
     const submit = $("submit-btn");
     submit.hidden = false;
     submit.disabled = true;
@@ -503,6 +557,7 @@
         src.hidden = true;
       }
       aid.hidden = false;
+      renderAidReview(q);
     }
 
     const pl = $("passage-link");
@@ -512,6 +567,107 @@
     $("suggest-link").href = suggestUrl(q);
 
     $("next-btn").focus();
+  }
+
+  function latestReviewCandidate(q) {
+    const list = state.reviewCandidates[q.id] || [];
+    return list.length ? list[list.length - 1] : null;
+  }
+  function aidVoteFor(questionId) {
+    return aidVotes.find((v) => v.questionId === questionId);
+  }
+  function saveAidVote(vote) {
+    const i = aidVotes.findIndex((v) => v.questionId === vote.questionId);
+    if (i >= 0) aidVotes[i] = vote;
+    else aidVotes.push(vote);
+    saveAidVotes();
+    submitAidVote(vote);
+    $("export-votes").hidden = false;
+  }
+  function submitAidVote(vote) {
+    const sink = state.voteSink;
+    if (!sink || !sink.action || !sink.fields) return;
+    const values = {
+      questionId: vote.questionId,
+      reference: vote.reference,
+      choiceId: vote.choiceId,
+      currentCandidateId: vote.currentCandidateId,
+      alternateCandidateId: vote.alternateCandidateId,
+      chosenText: vote.chosenText,
+      mode: vote.mode,
+      answeredCorrectly: String(vote.answeredCorrectly),
+      votedAt: vote.votedAt,
+    };
+    const frameName = "aid-vote-sink-" + Date.now();
+    const iframe = el("iframe");
+    iframe.name = frameName;
+    iframe.hidden = true;
+    const form = el("form");
+    form.method = "POST";
+    form.action = sink.action;
+    form.target = frameName;
+    form.hidden = true;
+    Object.keys(values).forEach((key) => {
+      const field = sink.fields[key];
+      if (!field) return;
+      const input = el("input");
+      input.name = field;
+      input.value = values[key] || "";
+      form.appendChild(input);
+    });
+    document.body.appendChild(iframe);
+    document.body.appendChild(form);
+    form.submit();
+    setTimeout(() => {
+      form.remove();
+      iframe.remove();
+    }, 3000);
+  }
+  function renderAidReview(q) {
+    const alt = latestReviewCandidate(q);
+    if (!alt || !q.memoryAid || !q.memoryAid.text) return;
+
+    const box = $("aid-review");
+    const opts = $("aid-review-options");
+    const saved = $("aid-review-saved");
+    opts.innerHTML = "";
+    saved.hidden = true;
+
+    const choices = [
+      { id: "current", type: q.memoryAid.type, text: q.memoryAid.text, source: q.memoryAid.source || "" },
+      { id: alt.candidateId, type: alt.type, text: alt.text, source: alt.source || "" },
+    ];
+    const prior = aidVoteFor(q.id);
+
+    choices.forEach((choice) => {
+      const b = el("button", "aid-choice", "");
+      b.type = "button";
+      if (prior && prior.choiceId === choice.id) b.classList.add("selected");
+      const label = el("span", "aid-choice-label", AID_LABELS[choice.type] || "Memory aid");
+      const text = el("span", "aid-choice-text", choice.text);
+      b.appendChild(label);
+      b.appendChild(text);
+      if (choice.source) b.appendChild(el("span", "aid-choice-source", choice.source));
+      b.addEventListener("click", () => {
+        document.querySelectorAll(".aid-choice").forEach((x) => x.classList.remove("selected"));
+        b.classList.add("selected");
+        saveAidVote({
+          questionId: q.id,
+          reference: q.reference || "",
+          choiceId: choice.id,
+          currentCandidateId: "current",
+          alternateCandidateId: alt.candidateId,
+          chosenText: choice.text,
+          mode: state.mode,
+          answeredCorrectly: !state.missed.includes(q),
+          votedAt: new Date().toISOString(),
+        });
+        saved.hidden = false;
+      });
+      opts.appendChild(b);
+    });
+
+    box.hidden = false;
   }
 
   // ---------- Next ----------

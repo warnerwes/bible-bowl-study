@@ -40,6 +40,7 @@
 
         <div class="home-foot">
           <button type="button" id="toggle-advanced" class="link-btn" aria-expanded="false">Build a custom quiz ▾</button>
+          <button type="button" id="export-votes" class="link-btn" hidden>Export memory-aid votes</button>
           <span id="progress-line" class="muted" hidden></span>
         </div>
       </div>
@@ -124,6 +125,11 @@
             <span id="aid-badge" class="aid-badge"></span>
             <p id="aid-text"></p>
             <cite id="aid-source" class="aid-source" hidden></cite>
+          </div>
+          <div id="aid-review" class="aid-review" hidden>
+            <p class="aid-review-title">Which aid sticks better?</p>
+            <div id="aid-review-options" class="aid-review-options"></div>
+            <p id="aid-review-saved" class="muted" hidden>Saved.</p>
           </div>
           <a id="passage-link" class="passage-link" target="_blank" rel="noopener"></a>
           <a id="suggest-link" class="suggest-link" target="_blank" rel="noopener">⚐ Suggest a correction</a>

@@ -358,6 +358,51 @@ h2 { font-size: 1.45rem; margin-top: 0; line-height: 1.2; font-weight: 600; }
 .memory-aid.teaching { border-left-color: var(--aid-teaching); }
 .memory-aid.image { border-left-color: var(--aid-image); }
 
+.aid-review {
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  padding: 0.95rem 0;
+  margin: 0.2rem 0 1.2rem;
+}
+.aid-review-title {
+  margin: 0 0 0.65rem;
+  color: var(--muted);
+  font-weight: 700;
+}
+.aid-review-options {
+  display: grid;
+  gap: 0.65rem;
+}
+.aid-choice {
+  display: grid;
+  gap: 0.35rem;
+  width: 100%;
+  padding: 0.8rem 0.9rem;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.025);
+  color: var(--text);
+  cursor: pointer;
+  text-align: left;
+  font: inherit;
+}
+.aid-choice:hover,
+.aid-choice.selected {
+  border-color: var(--accent);
+  background: rgba(212, 164, 78, 0.08);
+}
+.aid-choice-label {
+  color: var(--accent);
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+.aid-choice-text { line-height: 1.35; }
+.aid-choice-source {
+  color: var(--muted);
+  font-size: 0.78rem;
+}
+
 /* ---------- Results ---------- */
 .result-score { font-family: var(--font-display); font-size: 2rem; text-align: center; margin: 1.2rem 0 2rem; }
 .result-score strong { color: var(--accent-strong); }

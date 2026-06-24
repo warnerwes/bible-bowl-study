@@ -1,0 +1,15 @@
+{
+  "enabled": true,
+  "action": "https://docs.google.com/forms/u/0/d/e/1FAIpQLSdLYUr4qHoZIwON1Me6gaxfcPSUHWST8ixdrpCZ6-u_Hcsa5A/formResponse",
+  "fields": {
+    "questionId": "entry.889917942",
+    "reference": "entry.2103332439",
+    "choiceId": "entry.969096514",
+    "currentCandidateId": "entry.697386830",
+    "alternateCandidateId": "entry.331601731",
+    "chosenText": "entry.346225025",
+    "mode": "entry.921941260",
+    "answeredCorrectly": "entry.339148333",
+    "votedAt": "entry.1972349958"
+  }
+}

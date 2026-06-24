@@ -1,0 +1,15 @@
+{
+  "enabled": false,
+  "action": "https://docs.google.com/forms/d/e/FORM_ID/formResponse",
+  "fields": {
+    "questionId": "entry.111111111",
+    "reference": "entry.222222222",
+    "choiceId": "entry.333333333",
+    "currentCandidateId": "entry.444444444",
+    "alternateCandidateId": "entry.555555555",
+    "chosenText": "entry.666666666",
+    "mode": "entry.777777777",
+    "answeredCorrectly": "entry.888888888",
+    "votedAt": "entry.999999999"
+  }
+}
