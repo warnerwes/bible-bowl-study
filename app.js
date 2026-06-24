@@ -381,6 +381,7 @@
         src.textContent = "— " + q.memoryAid.source;
         src.hidden = false;
       } else {
+        src.textContent = "";
         src.hidden = true;
       }
       aid.hidden = false;
