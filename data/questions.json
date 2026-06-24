@@ -532,8 +532,9 @@
       "behold, here i am"
     ],
     "memoryAid": {
-      "type": "mnemonic",
-      "text": "'Here I am' — not 'what do You want?' but the prophet's word of total readiness, the same answer Abraham, Samuel, and Isaiah give when God calls their names. Before he knows the command, Moses offers his whole self: I am present, I am Yours."
+      "type": "teaching",
+      "text": "'Here I am' (Hebrew hineni) is the called one's whole-self answer — the very word Abraham, Samuel, and Isaiah each give when God speaks their name. Moses says it before he hears a single command: not 'what do You want?' but 'I am present, I am Yours.'",
+      "source": "Genesis 22:1; 1 Samuel 3:4; Isaiah 6:8"
     }
   },
   {
@@ -2287,8 +2288,8 @@
       "False"
     ],
     "memoryAid": {
-      "type": "mnemonic",
-      "text": "Watch Pharaoh's offer keep shrinking: first only the men, now all the people but not the flocks. The livestock are his last leverage, the final claim by which he hopes to draw Israel back."
+      "type": "image",
+      "text": "Watch Pharaoh haggle like a man who refuses to release his hostages: first 'only the men may go,' now 'everyone — but the flocks stay behind.' Every concession still clutches something back; this time the livestock are the chain he hopes will drag Israel home."
     }
   },
   {
@@ -5085,7 +5086,7 @@
     ],
     "memoryAid": {
       "type": "mnemonic",
-      "text": "603,550 men passed the census, each laying down a half-shekel of ransom, which is precisely why the silver came to exactly 100 talents. The number of the redeemed becomes the number that builds God's dwelling: those whose lives were ransomed are the very silver that bears the tabernacle."
+      "text": "Anchor it to a number you already know: 603,550 = the 600,000 who marched out of Egypt (Ex 12:37) PLUS 3,550. 'Six hundred thousand, plus three-five-fifty.' The Exodus host, now counted to the man at Sinai."
     }
   },
   {
