@@ -277,6 +277,9 @@ h2 { font-size: 1.35rem; margin-top: 0; }
   font-style: italic;
   color: var(--muted);
 }
+/* Without this, the display:block above overrides the [hidden] attribute,
+   so a hidden citation would stay visible (leaking the previous question's). */
+.aid-source[hidden] { display: none; }
 .aid-badge {
   display: inline-block;
   font-size: 0.7rem;
