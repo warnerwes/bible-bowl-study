@@ -1960,16 +1960,14 @@
     "reference": "Exodus 9:9-10",
     "topic": "The Sixth Plague",
     "type": "fill-in",
-    "question": "The sixth plague caused ______ to break out on both humans and animals.",
+    "question": "In the sixth plague, Moses' furnace ashes caused ______ that broke out in sores on both man and beast.",
     "answer": "boils",
     "acceptableAnswers": [
-      "boils",
-      "sores",
-      "boils and sores"
+      "boils"
     ],
     "memoryAid": {
       "type": "mnemonic",
-      "text": "Six = Sores. The sixth plague boiled up as boils on man and beast alike; let the hard 's' of six and sores fasten the pair together."
+      "text": "Ashes up, boils down: the furnace soot Moses flings skyward settles as boils that break open into sores (LXX 'sore blains') — and they fall on man AND beast alike. Boils swell; sores break."
     }
   },
   {
@@ -1979,15 +1977,15 @@
     "reference": "Exodus 9:11",
     "topic": "The Sixth Plague",
     "type": "true-false",
-    "question": "The magicians of Egypt were able to stand before Moses during the plague of boils.",
-    "answer": "False",
+    "question": "During the sixth plague the magicians could not stand before Moses, because the sores had broken out on them as well.",
+    "answer": "True",
     "options": [
       "True",
       "False"
     ],
     "memoryAid": {
       "type": "teaching",
-      "text": "This is where the contest ends. Egypt's magicians had matched the early signs blow for blow, but now they cannot even stand before Moses — verse 11 notes the sores were on the sorcerers themselves. The supposed mediators of Egypt's gods are exposed as powerless flesh, erupting with the same boils as every slave and beast.",
+      "text": "Verse 11 turns the knife: the sorcerers who matched Moses' early signs cannot even stand before him now, for the sores were on the magicians themselves. Egypt's supposed mediators of the gods are exposed as powerless flesh, erupting with the same boils as every slave and beast.",
       "source": "St. Gregory of Nyssa, The Life of Moses"
     }
   },
@@ -2122,48 +2120,6 @@
       "type": "teaching",
       "text": "Pharaoh confessed with his mouth while his heart stayed stone, and the moment the hail ceased he sinned again. This is the sorrow of the world that fears the lash but not the Lord; godly grief changes the man, but worldly regret only wants the storm to stop.",
       "source": "St. Gregory of Nyssa, The Life of Moses"
-    }
-  },
-  {
-    "id": "ex09-014",
-    "chapter": 9,
-    "book": "Exodus",
-    "reference": "Exodus 9:11",
-    "topic": "The Sixth Plague",
-    "type": "multiple-choice",
-    "question": "During the sixth plague, why could the magicians (sorcerers) not stand before Moses?",
-    "answer": "The sores had broken out on them too",
-    "options": [
-      "The sores had broken out on them too",
-      "Pharaoh had dismissed them from court",
-      "They were terrified of Aaron's rod",
-      "They were keeping a sacred fast"
-    ],
-    "memoryAid": {
-      "type": "image",
-      "text": "The court sorcerers who once matched Moses sign-for-sign can't even stay on their feet — verse 11 says the sores were on the magicians themselves. Picture them doubled over, oozing with the same blains as every slave and ox in Egypt; their 'magic' is dripping off their own skin."
-    }
-  },
-  {
-    "id": "ex09-015",
-    "chapter": 9,
-    "book": "Exodus",
-    "reference": "Exodus 9:9",
-    "topic": "The Sixth Plague",
-    "type": "fill-in",
-    "question": "In the Septuagint, the furnace dust caused boils that break forth into ______ on both man and beast.",
-    "answer": "sores",
-    "acceptableAnswers": [
-      "sores",
-      "sore blains",
-      "blains",
-      "festering sores",
-      "open sores",
-      "ulcers"
-    ],
-    "memoryAid": {
-      "type": "mnemonic",
-      "text": "Boils BREAK into sores (LXX: 'sore blains breaking forth'). The boil is the swelling; the sore is the open wound. One plague, two words — boils to sores — and they fall on man and beast alike."
     }
   },
   {
