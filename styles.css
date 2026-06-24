@@ -183,6 +183,16 @@ h2 { font-size: 1.45rem; margin-top: 0; line-height: 1.2; font-weight: 600; }
 .primary-btn:hover:not(:disabled) { filter: brightness(1.06); }
 .primary-btn:active:not(:disabled) { transform: translateY(1px); }
 .primary-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+/* Ghost variant (drill + export buttons) — higher specificity than .primary-btn */
+.primary-btn.ghost-btn {
+  background: transparent;
+  color: var(--accent-strong);
+  border: 1px solid var(--accent);
+}
+.primary-btn.ghost-btn:hover:not(:disabled) { background: rgba(212, 160, 78, 0.12); filter: none; }
+
+.advanced-export { margin-top: 1.4rem; }
+.advanced-export .export-note { margin: 0.55rem 0 0; }
 
 .link-btn {
   background: none;
