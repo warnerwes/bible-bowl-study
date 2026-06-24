@@ -1,0 +1,5373 @@
+[
+  {
+    "id": "ex01-001",
+    "chapter": 1,
+    "book": "Exodus",
+    "reference": "Exodus 1:1-5",
+    "topic": "Israel Oppressed in Egypt",
+    "type": "fill-in",
+    "question": "How many total descendants of Jacob entered Egypt according to the OSB tradition?",
+    "answer": "75",
+    "acceptableAnswers": [
+      "75",
+      "seventy-five",
+      "seventy five"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "The OSB (Septuagint) counts 75, not the 70 of the Masoretic text. Remember 'SeptuagINT = 7 then 5': the Greek tradition Stephen quotes in Acts 7:14 gives 75 souls who went down into Egypt."
+    }
+  },
+  {
+    "id": "ex01-002",
+    "chapter": 1,
+    "book": "Exodus",
+    "reference": "Exodus 1:1-4",
+    "topic": "Israel Oppressed in Egypt",
+    "type": "multiple-choice",
+    "question": "Which of these was NOT named among the sons of Jacob who came into Egypt in this chapter?",
+    "answer": "Joseph",
+    "options": [
+      "Joseph",
+      "Reuben",
+      "Issachar",
+      "Naphtali"
+    ],
+    "memoryAid": {
+      "type": "teaching",
+      "text": "Joseph is not listed among those who 'came into' Egypt because he was already there, having gone before his brothers as a type of Christ who descends first into the place of exile and death to prepare deliverance for his people. The eleven are named as those who followed; Joseph is the forerunner."
+    }
+  },
+  {
+    "id": "ex01-003",
+    "chapter": 1,
+    "book": "Exodus",
+    "reference": "Exodus 1:8",
+    "topic": "Israel Oppressed in Egypt",
+    "type": "true-false",
+    "question": "A new king arose over Egypt who did not know Joseph.",
+    "answer": "True",
+    "options": [
+      "True",
+      "False"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "'New king, no clue' — a new Pharaoh who did NOT know Joseph. Forgetting the man who saved Egypt sets the whole oppression in motion."
+    }
+  },
+  {
+    "id": "ex01-004",
+    "chapter": 1,
+    "book": "Exodus",
+    "reference": "Exodus 1:11",
+    "topic": "Israel Oppressed in Egypt",
+    "type": "multiple-choice",
+    "question": "Which of the following was NOT one of the store cities the Israelites were forced to build?",
+    "answer": "Goshen",
+    "options": [
+      "Goshen",
+      "Pithom",
+      "On (Heliopolis)",
+      "Raamses"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "Store cities: 'POR' — Pithom, On, Raamses. Goshen was where Israel LIVED, not what they built. Don't confuse home with the work site."
+    }
+  },
+  {
+    "id": "ex01-005",
+    "chapter": 1,
+    "book": "Exodus",
+    "reference": "Exodus 1:11",
+    "topic": "Israel Oppressed in Egypt",
+    "type": "fill-in",
+    "question": "Name one of the three store cities the Israelites built for Pharaoh.",
+    "answer": "Pithom",
+    "acceptableAnswers": [
+      "pithom",
+      "on",
+      "heliopolis",
+      "raamses",
+      "rameses",
+      "ramses"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "Store cities: 'POR' — Pithom, On (Heliopolis), Raamses. Pour your labor into POR."
+    }
+  },
+  {
+    "id": "ex01-006",
+    "chapter": 1,
+    "book": "Exodus",
+    "reference": "Exodus 1:12",
+    "topic": "Israel Oppressed in Egypt",
+    "type": "fill-in",
+    "question": "Complete the verse: 'The more they afflicted them, the more they ___ and grew.'",
+    "answer": "multiplied",
+    "acceptableAnswers": [
+      "multiplied",
+      "multiply",
+      "increased"
+    ],
+    "memoryAid": {
+      "type": "teaching",
+      "text": "Affliction could not stop God's promise to multiply Abraham's seed; persecution only made Israel grow. The Fathers see here the Church under the martyrs: the blood of the persecuted becomes seed, and the harder the world presses, the more the people of God increase."
+    }
+  },
+  {
+    "id": "ex01-007",
+    "chapter": 1,
+    "book": "Exodus",
+    "reference": "Exodus 1:15",
+    "topic": "The Hebrew Midwives",
+    "type": "multiple-choice",
+    "question": "What were the names of the two Hebrew midwives?",
+    "answer": "Shiphrah and Puah",
+    "options": [
+      "Shiphrah and Puah",
+      "Jochebed and Miriam",
+      "Zipporah and Puah",
+      "Shiphrah and Rachel"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "'Shiphrah ships them, Puah pulls them' — two midwives who delivered babies and defied Pharaoh. Sounds like 'She-frah and Poo-ah.'"
+    }
+  },
+  {
+    "id": "ex01-008",
+    "chapter": 1,
+    "book": "Exodus",
+    "reference": "Exodus 1:19",
+    "topic": "The Hebrew Midwives",
+    "type": "true-false",
+    "question": "The midwives claimed the Hebrew women were too lively to wait for them to arrive in time.",
+    "answer": "True",
+    "options": [
+      "True",
+      "False"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "'Lively ladies, late midwives' — the Hebrew women delivered before the midwives could arrive. True."
+    }
+  },
+  {
+    "id": "ex01-009",
+    "chapter": 1,
+    "book": "Exodus",
+    "reference": "Exodus 1:21",
+    "topic": "The Hebrew Midwives",
+    "type": "fill-in",
+    "question": "Because the midwives feared God, He provided ___ for them.",
+    "answer": "households",
+    "acceptableAnswers": [
+      "households",
+      "houses",
+      "homes",
+      "a household"
+    ],
+    "memoryAid": {
+      "type": "teaching",
+      "text": "The midwives feared God more than Pharaoh and chose life over the king's command, so God built them houses — He gave them families of their own. This is the pattern of holy disobedience to ungodly authority: those who guard life are rewarded with life, fruitfulness given to those who refuse to shed innocent blood."
+    }
+  },
+  {
+    "id": "ex01-010",
+    "chapter": 1,
+    "book": "Exodus",
+    "reference": "Exodus 1:22",
+    "topic": "Israel Oppressed in Egypt",
+    "type": "fill-in",
+    "question": "Into what did Pharaoh command that every newborn Hebrew son be cast?",
+    "answer": "the river",
+    "acceptableAnswers": [
+      "the river",
+      "river",
+      "the nile",
+      "nile",
+      "the water"
+    ],
+    "memoryAid": {
+      "type": "image",
+      "text": "Picture the Nile turned into a drowning-pool for infants. The very river Egypt worshiped as life becomes a tomb — until one baby in a basket floats safely on it and undoes the whole decree."
+    }
+  },
+  {
+    "id": "ex02-001",
+    "chapter": 2,
+    "book": "Exodus",
+    "reference": "Exodus 2:2",
+    "topic": "Birth of Moses",
+    "type": "fill-in",
+    "question": "How long was the infant Moses hidden by his mother?",
+    "answer": "Three months",
+    "acceptableAnswers": [
+      "three months",
+      "3 months",
+      "three",
+      "3"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "'Hidden a trimester' — three months, the length of a pregnancy's first stage. Moses was kept secret as long as a hidden pregnancy before he could be hidden no longer."
+    }
+  },
+  {
+    "id": "ex02-002",
+    "chapter": 2,
+    "book": "Exodus",
+    "reference": "Exodus 2:3",
+    "topic": "Birth of Moses",
+    "type": "multiple-choice",
+    "question": "From what materials was the ark (basket) for baby Moses made?",
+    "answer": "Bulrushes and asphalt",
+    "options": [
+      "Bulrushes and asphalt",
+      "Gopher wood and pitch",
+      "Reeds and clay",
+      "Bulrushes and gold"
+    ],
+    "memoryAid": {
+      "type": "teaching",
+      "text": "Moses' little 'ark' of bulrushes and asphalt echoes Noah's ark sealed with pitch: both carry the one through whom God will save His people safely through deadly waters. The same Greek word for Noah's ark is used here, marking Moses as a new deliverer drawn through the flood of the Nile."
+    }
+  },
+  {
+    "id": "ex02-003",
+    "chapter": 2,
+    "book": "Exodus",
+    "reference": "Exodus 2:5",
+    "topic": "Moses Found by Pharaoh's Daughter",
+    "type": "multiple-choice",
+    "question": "Why did Pharaoh's daughter go down to the river?",
+    "answer": "To bathe",
+    "options": [
+      "To bathe",
+      "To draw water",
+      "To wash clothes",
+      "To worship the Nile"
+    ],
+    "memoryAid": {
+      "type": "image",
+      "text": "Picture the princess wading in to bathe and lifting a crying basket out of the reeds. The daughter of the man who decreed drowning becomes the one who pulls a Hebrew baby OUT of the water — God's irony in a single scene."
+    }
+  },
+  {
+    "id": "ex02-004",
+    "chapter": 2,
+    "book": "Exodus",
+    "reference": "Exodus 2:7-9",
+    "topic": "Moses Found by Pharaoh's Daughter",
+    "type": "fill-in",
+    "question": "Who was paid to nurse her own child, Moses?",
+    "answer": "Jochebed",
+    "acceptableAnswers": [
+      "jochebed",
+      "moses' mother",
+      "moses's mother",
+      "his mother",
+      "his own mother",
+      "the mother"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "'Jo-keb-ed got a paycheck' — Jochebed, Moses' own mother, was hired and PAID to nurse her own son. God turns Pharaoh's house into the funder of Israel's deliverer."
+    }
+  },
+  {
+    "id": "ex02-005",
+    "chapter": 2,
+    "book": "Exodus",
+    "reference": "Exodus 2:11",
+    "topic": "Moses Defends a Hebrew",
+    "type": "fill-in",
+    "question": "Moses went out to his brethren and saw their ___.",
+    "answer": "suffering",
+    "acceptableAnswers": [
+      "suffering",
+      "affliction",
+      "burdens",
+      "hardship"
+    ],
+    "memoryAid": {
+      "type": "teaching",
+      "text": "Though raised in Pharaoh's palace, Moses goes out to his brethren and identifies with their suffering rather than his privilege. Hebrews 11 praises this choice — to suffer with the people of God rather than enjoy sin's pleasures — as a foreshadowing of Christ, who leaves the Father's glory to share our affliction."
+    }
+  },
+  {
+    "id": "ex02-006",
+    "chapter": 2,
+    "book": "Exodus",
+    "reference": "Exodus 2:12",
+    "topic": "Moses Defends a Hebrew",
+    "type": "fill-in",
+    "question": "Where did Moses hide the Egyptian he had killed?",
+    "answer": "In the sand",
+    "acceptableAnswers": [
+      "in the sand",
+      "the sand",
+      "sand"
+    ],
+    "memoryAid": {
+      "type": "image",
+      "text": "Picture Moses frantically kicking sand over a body, glancing left and right. The desert that should hide the deed cannot — the buried secret surfaces the very next day in a Hebrew's accusing question."
+    }
+  },
+  {
+    "id": "ex02-007",
+    "chapter": 2,
+    "book": "Exodus",
+    "reference": "Exodus 2:15",
+    "topic": "Moses Flees to Midian",
+    "type": "multiple-choice",
+    "question": "To what land did Moses flee after Pharaoh sought to kill him?",
+    "answer": "Midian",
+    "options": [
+      "Midian",
+      "Canaan",
+      "Edom",
+      "Horeb"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "Moses runs to MIDian to hide in the MIDdle of nowhere. Midian = the wilderness exile where the shepherd-prophet is forged."
+    }
+  },
+  {
+    "id": "ex02-008",
+    "chapter": 2,
+    "book": "Exodus",
+    "reference": "Exodus 2:17",
+    "topic": "Moses in Midian",
+    "type": "true-false",
+    "question": "Moses helped his future wife's family by saving them from shepherds at the well.",
+    "answer": "True",
+    "options": [
+      "True",
+      "False"
+    ],
+    "memoryAid": {
+      "type": "image",
+      "text": "Picture Moses, fresh off the run, driving off bullying shepherds so seven sisters can water their flock. The man who defended one Hebrew now defends strangers — and waters a wife's family into his future."
+    }
+  },
+  {
+    "id": "ex02-009",
+    "chapter": 2,
+    "book": "Exodus",
+    "reference": "Exodus 2:18; 3:1",
+    "topic": "Moses' Father-in-Law",
+    "type": "multiple-choice",
+    "question": "By which two names is Moses' father-in-law known?",
+    "answer": "Jethro and Reuel (Raguel)",
+    "options": [
+      "Jethro and Reuel (Raguel)",
+      "Reuel and Hobab",
+      "Jethro and Laban",
+      "Raguel and Nahor"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "'JR' — Jethro/Reuel, two names for one priest of Midian. Reuel (Raguel) is the personal name; Jethro the title-name. Same man, two labels."
+    }
+  },
+  {
+    "id": "ex02-010",
+    "chapter": 2,
+    "book": "Exodus",
+    "reference": "Exodus 2:22",
+    "topic": "Moses' Firstborn Son",
+    "type": "fill-in",
+    "question": "What was the name of Moses' firstborn son?",
+    "answer": "Gershom",
+    "acceptableAnswers": [
+      "gershom",
+      "gershon"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "GERSHom = 'a stranger / sojourner there.' Hear 'GER' (Hebrew for stranger). Moses names his son for his own exile: 'I have been a stranger there.'"
+    }
+  },
+  {
+    "id": "ex02-011",
+    "chapter": 2,
+    "book": "Exodus",
+    "reference": "Exodus 2:22",
+    "topic": "Moses' Firstborn Son",
+    "type": "multiple-choice",
+    "question": "What does the name Gershom mean?",
+    "answer": "A stranger / sojourner there",
+    "options": [
+      "A stranger / sojourner there",
+      "God strengthens",
+      "Drawn out of water",
+      "The Lord remembers"
+    ],
+    "memoryAid": {
+      "type": "teaching",
+      "text": "Gershom means 'a stranger there,' for Moses said he had been a sojourner in a foreign land. The people of God live as sojourners and pilgrims on the earth, our true home being the Kingdom; Moses names his son to confess that this world is not our resting place."
+    }
+  },
+  {
+    "id": "ex02-012",
+    "chapter": 2,
+    "book": "Exodus",
+    "reference": "Exodus 2:24",
+    "topic": "God Remembers His Covenant",
+    "type": "true-false",
+    "question": "At the end of chapter 2, God remembered His covenant with Abraham, Isaac, and Jacob.",
+    "answer": "True",
+    "options": [
+      "True",
+      "False"
+    ],
+    "memoryAid": {
+      "type": "teaching",
+      "text": "God 'remembering' His covenant does not mean He forgot; in Scripture, to remember is to act on behalf of one's promise. The cries of Israel rise up, and God moves to fulfill the oath sworn to the patriarchs — the same faithfulness by which He remembers us in His Kingdom."
+    }
+  },
+  {
+    "id": "ex03-001",
+    "chapter": 3,
+    "book": "Exodus",
+    "reference": "Exodus 3:1",
+    "topic": "The Burning Bush",
+    "type": "multiple-choice",
+    "question": "By what name is the mountain of God called where Moses saw the burning bush?",
+    "answer": "Horeb (also called Sinai)",
+    "options": [
+      "Horeb (also called Sinai)",
+      "Nebo",
+      "Carmel",
+      "Tabor"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "'HOReb is where God said HELLO' to Moses — the mountain of God, also called Sinai. One mountain, two names."
+    }
+  },
+  {
+    "id": "ex03-002",
+    "chapter": 3,
+    "book": "Exodus",
+    "reference": "Exodus 3:2",
+    "topic": "The Burning Bush",
+    "type": "true-false",
+    "question": "The bush burned with fire but was not consumed.",
+    "answer": "True",
+    "options": [
+      "True",
+      "False"
+    ],
+    "memoryAid": {
+      "type": "teaching",
+      "text": "The bush that burns yet is not consumed is a great image of the Theotokos in Orthodox tradition: she contains the divine Fire in her womb without being destroyed. The Unburnt Bush foreshadows the Virgin who bears God and remains whole, and it reveals a God who dwells in fire that gives life rather than annihilates."
+    }
+  },
+  {
+    "id": "ex03-003",
+    "chapter": 3,
+    "book": "Exodus",
+    "reference": "Exodus 3:5",
+    "topic": "The Burning Bush",
+    "type": "true-false",
+    "question": "Moses removed his cloak because he was standing on holy ground.",
+    "answer": "False",
+    "options": [
+      "True",
+      "False"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "Not cloak — SANDALS. 'Holy ground, shoes off' — Moses removed his sandals, not his cloak. The feet that touch holy earth must be bare."
+    }
+  },
+  {
+    "id": "ex03-004",
+    "chapter": 3,
+    "book": "Exodus",
+    "reference": "Exodus 3:5",
+    "topic": "The Burning Bush",
+    "type": "fill-in",
+    "question": "What did God command Moses to remove because he stood on holy ground?",
+    "answer": "His sandals",
+    "acceptableAnswers": [
+      "his sandals",
+      "sandals",
+      "his shoes",
+      "shoes",
+      "sandal",
+      "his sandal"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "'Holy ground, shoes off.' Sandals come off the feet on holy ground — the same reverence the Church keeps before the holy places of God."
+    }
+  },
+  {
+    "id": "ex03-005",
+    "chapter": 3,
+    "book": "Exodus",
+    "reference": "Exodus 3:4",
+    "topic": "The Burning Bush",
+    "type": "fill-in",
+    "question": "What was Moses' first response when God called to him from the bush?",
+    "answer": "Here I am",
+    "acceptableAnswers": [
+      "here i am",
+      "here am i",
+      "here i am.",
+      "behold, here i am"
+    ],
+    "memoryAid": {
+      "type": "teaching",
+      "text": "'Here I am' is the prophet's answer of total availability — the same word Abraham, Samuel, and Isaiah give when God calls. It is the posture of the saint: not 'what do you want?' but 'I am present and ready,' a self-offering to the will of God."
+    }
+  },
+  {
+    "id": "ex03-006",
+    "chapter": 3,
+    "book": "Exodus",
+    "reference": "Exodus 3:6",
+    "topic": "The God of the Fathers",
+    "type": "multiple-choice",
+    "question": "God identified Himself to Moses as the God of which three patriarchs?",
+    "answer": "Abraham, Isaac, and Jacob",
+    "options": [
+      "Abraham, Isaac, and Jacob",
+      "Abraham, Isaac, and Joseph",
+      "Noah, Abraham, and Isaac",
+      "Abraham, Jacob, and Joseph"
+    ],
+    "memoryAid": {
+      "type": "teaching",
+      "text": "Christ Himself cites this title to prove the resurrection: God is not the God of the dead but of the living, so Abraham, Isaac, and Jacob live to Him. The covenant name binds the whole story of salvation from the patriarchs to the Exodus into one continuous act of God."
+    }
+  },
+  {
+    "id": "ex03-007",
+    "chapter": 3,
+    "book": "Exodus",
+    "reference": "Exodus 3:8",
+    "topic": "Land Flowing with Milk and Honey",
+    "type": "fill-in",
+    "question": "The Promised Land is described as a land flowing with milk and ___.",
+    "answer": "honey",
+    "acceptableAnswers": [
+      "honey"
+    ],
+    "memoryAid": {
+      "type": "image",
+      "text": "Picture rivers of milk and golden honey running over the hills — abundance you can wade through. The land of slavery's whips gives way to a land that drips with sweetness, the rest God prepares for His people."
+    }
+  },
+  {
+    "id": "ex03-008",
+    "chapter": 3,
+    "book": "Exodus",
+    "reference": "Exodus 3:8,17",
+    "topic": "Land Flowing with Milk and Honey",
+    "type": "multiple-choice",
+    "question": "Which of these peoples was NOT listed as dwelling in the Promised Land?",
+    "answer": "Philistines",
+    "options": [
+      "Philistines",
+      "Canaanites",
+      "Hittites",
+      "Jebusites"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "The seven nations: Canaanites, Hittites, Amorites, Perizzites, Girgashites, Hivites, Jebusites. 'CHAP GHJ' — no Philistines on that list."
+    }
+  },
+  {
+    "id": "ex03-009",
+    "chapter": 3,
+    "book": "Exodus",
+    "reference": "Exodus 3:8,17",
+    "topic": "Land Flowing with Milk and Honey",
+    "type": "fill-in",
+    "question": "Name one of the seven peoples dwelling in the land flowing with milk and honey.",
+    "answer": "Canaanites",
+    "acceptableAnswers": [
+      "canaanites",
+      "canaanite",
+      "hittites",
+      "hittite",
+      "amorites",
+      "amorite",
+      "perizzites",
+      "perizzite",
+      "girgashites",
+      "girgashite",
+      "hivites",
+      "hivite",
+      "jebusites",
+      "jebusite"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "Seven nations to dispossess: Canaanites, Hittites, Amorites, Perizzites, Girgashites, Hivites, Jebusites — 'CHAP GHJ.' Pick any of the seven."
+    }
+  },
+  {
+    "id": "ex03-010",
+    "chapter": 3,
+    "book": "Exodus",
+    "reference": "Exodus 3:11",
+    "topic": "Moses' Objection",
+    "type": "fill-in",
+    "question": "Complete Moses' question: 'Who am I that I should go to Pharaoh and bring the children of Israel out of ___?'",
+    "answer": "Egypt",
+    "acceptableAnswers": [
+      "egypt"
+    ],
+    "memoryAid": {
+      "type": "teaching",
+      "text": "'Who am I?' is the humility of the true prophet — not refusal of pride but awareness of his own smallness before the task. God's answer is not to flatter Moses but to promise 'I will be with you'; the worker is nothing, the One who sends is everything."
+    }
+  },
+  {
+    "id": "ex03-011",
+    "chapter": 3,
+    "book": "Exodus",
+    "reference": "Exodus 3:14",
+    "topic": "The Name of God",
+    "type": "fill-in",
+    "question": "By what name did God reveal Himself to Moses (OSB rendering)?",
+    "answer": "I AM THE EXISTING ONE",
+    "acceptableAnswers": [
+      "i am the existing one",
+      "the existing one",
+      "i am the existing one.",
+      "i am who i am"
+    ],
+    "memoryAid": {
+      "type": "teaching",
+      "text": "In the OSB/Septuagint, God names Himself 'I AM THE EXISTING ONE' — He alone truly IS, the source of all being, while creation only exists by participation in Him. This is why the Church writes 'HO ON' (The Existing One) in Christ's halo on every icon: Jesus is the same I AM who spoke from the bush."
+    }
+  },
+  {
+    "id": "ex03-012",
+    "chapter": 3,
+    "book": "Exodus",
+    "reference": "Exodus 3:14",
+    "topic": "The Name of God",
+    "type": "multiple-choice",
+    "question": "How does the OSB render the name God told Moses to give the children of Israel?",
+    "answer": "The Existing One sent me to you",
+    "options": [
+      "The Existing One sent me to you",
+      "The Lord of Hosts sent me",
+      "The Almighty sent me",
+      "He Who Was sent me"
+    ],
+    "memoryAid": {
+      "type": "teaching",
+      "text": "'The Existing One' is the messenger-form of the divine Name: the One who simply IS sends Moses. The Fathers see in this name the unchanging, self-existent God who depends on nothing — and who, in Christ, enters time to draw existing-but-dying humanity back into true life."
+    }
+  },
+  {
+    "id": "ex04-001",
+    "chapter": 4,
+    "book": "Exodus",
+    "reference": "Exodus 4",
+    "topic": "Moses' Objections",
+    "type": "multiple-choice",
+    "question": "How many times did Moses object or argue with the Lord before the Lord's anger was kindled?",
+    "answer": "Five",
+    "options": [
+      "Five",
+      "Three",
+      "Seven",
+      "Four"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "'Five fingers, five excuses' — Moses raised five objections, and the fifth is what angered the Lord. Count them off on one hand."
+    }
+  },
+  {
+    "id": "ex04-002",
+    "chapter": 4,
+    "book": "Exodus",
+    "reference": "Exodus 4:2-9",
+    "topic": "The Three Signs",
+    "type": "multiple-choice",
+    "question": "Which of these was NOT one of the three signs God gave Moses to perform?",
+    "answer": "Staff that blossoms with almonds",
+    "options": [
+      "Staff that blossoms with almonds",
+      "Rod that becomes a serpent",
+      "Hand that becomes leprous and is healed",
+      "Water that becomes blood"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "Three signs: Rod-to-serpent, Hand-to-leprous, Water-to-blood. The blossoming almond staff belongs to AARON later (Numbers 17), not to these three."
+    }
+  },
+  {
+    "id": "ex04-003",
+    "chapter": 4,
+    "book": "Exodus",
+    "reference": "Exodus 4:3",
+    "topic": "The Three Signs",
+    "type": "fill-in",
+    "question": "In the first sign, Moses' rod became a ___.",
+    "answer": "serpent",
+    "acceptableAnswers": [
+      "serpent",
+      "snake"
+    ],
+    "memoryAid": {
+      "type": "image",
+      "text": "Picture Moses dropping his shepherd's staff and leaping back as it hisses to life as a serpent. The tool of guiding sheep becomes the sign of power over Egypt — and over the serpent itself."
+    }
+  },
+  {
+    "id": "ex04-004",
+    "chapter": 4,
+    "book": "Exodus",
+    "reference": "Exodus 4:6",
+    "topic": "The Three Signs",
+    "type": "fill-in",
+    "question": "In the second sign, Moses' hand became ___ when he drew it from his bosom.",
+    "answer": "leprous",
+    "acceptableAnswers": [
+      "leprous",
+      "leprous as snow",
+      "white as snow",
+      "leprosy",
+      "covered with leprosy"
+    ],
+    "memoryAid": {
+      "type": "image",
+      "text": "Picture Moses pulling his hand out white and scaled with leprosy, then tucking it back and drawing it out whole. God shows He can strike and heal flesh in an instant — the same hand, sick then restored."
+    }
+  },
+  {
+    "id": "ex04-005",
+    "chapter": 4,
+    "book": "Exodus",
+    "reference": "Exodus 4:9",
+    "topic": "The Three Signs",
+    "type": "fill-in",
+    "question": "In the third sign, water from the river poured on dry land would become ___.",
+    "answer": "blood",
+    "acceptableAnswers": [
+      "blood"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "Sign three previews plague one: Nile water to BLOOD. 'Water-to-blood' is the dress rehearsal for the first plague that will strike Egypt's river."
+    }
+  },
+  {
+    "id": "ex04-006",
+    "chapter": 4,
+    "book": "Exodus",
+    "reference": "Exodus 4:10",
+    "topic": "Moses' Objections",
+    "type": "fill-in",
+    "question": "Complete Moses' complaint: 'I am weak in speech and slow of ___.'",
+    "answer": "tongue",
+    "acceptableAnswers": [
+      "tongue",
+      "of tongue"
+    ],
+    "memoryAid": {
+      "type": "teaching",
+      "text": "Moses pleads weakness of speech, yet God chooses the stammerer to confront the most powerful king on earth. God's strength is made perfect in weakness; He does not need eloquence but obedience, and He supplies Aaron's mouth so the glory remains His own."
+    }
+  },
+  {
+    "id": "ex04-007",
+    "chapter": 4,
+    "book": "Exodus",
+    "reference": "Exodus 4:14-16",
+    "topic": "Aaron the Spokesman",
+    "type": "multiple-choice",
+    "question": "Whom did God appoint to be Moses' spokesman before Pharaoh?",
+    "answer": "Aaron",
+    "options": [
+      "Aaron",
+      "Hur",
+      "Joshua",
+      "Jethro"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "'Aaron is the mouth, Moses is the message.' Aaron, the elder brother, speaks for slow-tongued Moses — A for Aaron, A for Articulate."
+    }
+  },
+  {
+    "id": "ex04-008",
+    "chapter": 4,
+    "book": "Exodus",
+    "reference": "Exodus 4:22",
+    "topic": "Israel God's Firstborn",
+    "type": "fill-in",
+    "question": "Complete God's words to Pharaoh: 'Israel is My ___ son.'",
+    "answer": "firstborn",
+    "acceptableAnswers": [
+      "firstborn",
+      "first-born",
+      "first born"
+    ],
+    "memoryAid": {
+      "type": "teaching",
+      "text": "God calls Israel His firstborn son, claiming the nation as His own child. This sets up the justice of the final plague — Egypt enslaved and tried to kill God's son, so the firstborn of Egypt answers for it — and it points to Christ, the true Firstborn Son who leads a new Israel out of bondage."
+    }
+  },
+  {
+    "id": "ex04-009",
+    "chapter": 4,
+    "book": "Exodus",
+    "reference": "Exodus 4:23",
+    "topic": "Threat Against Pharaoh's Firstborn",
+    "type": "fill-in",
+    "question": "Complete the warning to Pharaoh: 'If you refuse to let him go, indeed, I will kill your ___ son.'",
+    "answer": "firstborn",
+    "acceptableAnswers": [
+      "firstborn",
+      "first-born",
+      "first born"
+    ],
+    "memoryAid": {
+      "type": "teaching",
+      "text": "Already in chapter 4 God announces the final plague: refuse My firstborn his freedom, and your firstborn will die. Measure for measure runs through Exodus — Pharaoh drowned Hebrew sons, so judgment falls on Egypt's sons. The threat foreshadows the Passover, where only the blood of the lamb spares the firstborn."
+    }
+  },
+  {
+    "id": "ex04-010",
+    "chapter": 4,
+    "book": "Exodus",
+    "reference": "Exodus 4:24-26",
+    "topic": "Zipporah Circumcises Her Son",
+    "type": "multiple-choice",
+    "question": "Who circumcised her son after the Lord confronted Moses on the journey?",
+    "answer": "Zipporah",
+    "options": [
+      "Zipporah",
+      "Jochebed",
+      "Miriam",
+      "Puah"
+    ],
+    "memoryAid": {
+      "type": "teaching",
+      "text": "Zipporah's swift circumcision of her son saves Moses' life, showing that the deliverer cannot lead the covenant people while neglecting the sign of the covenant in his own house. Before Moses can demand Pharaoh obey God, his own family must bear the seal of the promise — the mark of belonging to the LORD."
+    }
+  },
+  {
+    "id": "ex04-011",
+    "chapter": 4,
+    "book": "Exodus",
+    "reference": "Exodus 4:24",
+    "topic": "Zipporah Circumcises Her Son",
+    "type": "true-false",
+    "question": "On the journey back to Egypt, the Lord met Moses and sought to kill him until Zipporah circumcised their son.",
+    "answer": "True",
+    "options": [
+      "True",
+      "False"
+    ],
+    "memoryAid": {
+      "type": "image",
+      "text": "Picture the terrifying night camp: the Lord confronts Moses, and Zipporah grabs a flint and circumcises their boy on the spot, touching Moses' feet with it. A shocking scene that burns in the lesson — the covenant sign cannot be skipped."
+    }
+  },
+  {
+    "id": "ex05-001",
+    "chapter": 5,
+    "book": "Exodus",
+    "reference": "Exodus 5:1",
+    "topic": "Pharaoh Rejects God's Command",
+    "type": "fill-in",
+    "question": "Moses and Aaron told Pharaoh: 'Let My people go that they may hold a ______ in the wilderness.'",
+    "answer": "feast",
+    "acceptableAnswers": [
+      "feast",
+      "a feast"
+    ],
+    "memoryAid": {
+      "type": "teaching",
+      "text": "The first demand is not merely for freedom but for worship: 'that they may hold a feast.' In the patristic reading, Israel is delivered out of Egypt for the express purpose of serving God. Liberation and liturgy are inseparable; the goal of the Exodus is the worshiping assembly, which prefigures the Church gathered around the true Paschal feast."
+    }
+  },
+  {
+    "id": "ex05-002",
+    "chapter": 5,
+    "book": "Exodus",
+    "reference": "Exodus 5:2",
+    "topic": "Pharaoh Rejects God's Command",
+    "type": "fill-in",
+    "question": "Pharaoh responded, 'Who is the ______, that I should obey His voice?'",
+    "answer": "Lord",
+    "acceptableAnswers": [
+      "lord",
+      "the lord"
+    ],
+    "memoryAid": {
+      "type": "teaching",
+      "text": "Pharaoh's question 'Who is the Lord?' is the defining posture of the prideful ruler who acknowledges no god above himself. In Egyptian theology Pharaoh was reckoned divine, so the plagues that follow are a direct contest revealing the LORD as the one true God. By the end, Egypt will know His name through judgment."
+    }
+  },
+  {
+    "id": "ex05-003",
+    "chapter": 5,
+    "book": "Exodus",
+    "reference": "Exodus 5",
+    "topic": "Pharaoh Rejects God's Command",
+    "type": "multiple-choice",
+    "question": "How did Pharaoh respond to the demand to let Israel go?",
+    "answer": "He increased the Israelites' labor",
+    "options": [
+      "He increased the Israelites' labor",
+      "He released the firstborn",
+      "He demanded a tribute of gold",
+      "He agreed and then immediately repented"
+    ],
+    "memoryAid": {
+      "type": "image",
+      "text": "Picture Pharaoh sneering and piling MORE bricks onto already-bent backs. The first response to God's word is not relief but a crushing increase of the load."
+    }
+  },
+  {
+    "id": "ex05-004",
+    "chapter": 5,
+    "book": "Exodus",
+    "reference": "Exodus 5:7-8",
+    "topic": "Pharaoh Rejects God's Command",
+    "type": "true-false",
+    "question": "Pharaoh ordered that the Israelites gather their own straw while keeping the same brick quota.",
+    "answer": "True",
+    "options": [
+      "True",
+      "False"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "'Same bricks, no straw, sore backs.' Same quota, but now they must find the straw themselves."
+    }
+  },
+  {
+    "id": "ex05-005",
+    "chapter": 5,
+    "book": "Exodus",
+    "reference": "Exodus 5:7",
+    "topic": "Pharaoh Rejects God's Command",
+    "type": "fill-in",
+    "question": "What building material were the Israelites suddenly required to gather for themselves while still meeting the same brick quota?",
+    "answer": "straw",
+    "acceptableAnswers": [
+      "straw"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "Straw for the bricks: 'No straw, same draw' — the quota is drawn up just as high as before."
+    }
+  },
+  {
+    "id": "ex05-006",
+    "chapter": 5,
+    "book": "Exodus",
+    "reference": "Exodus 5:14",
+    "topic": "Pharaoh Rejects God's Command",
+    "type": "multiple-choice",
+    "question": "Who were beaten when the brick quotas were not met?",
+    "answer": "The Israelite foremen",
+    "options": [
+      "The Israelite foremen",
+      "Moses and Aaron",
+      "The Egyptian magicians",
+      "Pharaoh's own taskmasters"
+    ],
+    "memoryAid": {
+      "type": "image",
+      "text": "See the Israelite foremen, caught in the middle, taking the lash for a quota no one could possibly meet without straw. The innocent middlemen bleed for Pharaoh's spite."
+    }
+  },
+  {
+    "id": "ex05-007",
+    "chapter": 5,
+    "book": "Exodus",
+    "reference": "Exodus 5",
+    "topic": "Pharaoh Rejects God's Command",
+    "type": "true-false",
+    "question": "In Chapter 5, conditions for Israel grew worse before deliverance began.",
+    "answer": "True",
+    "options": [
+      "True",
+      "False"
+    ],
+    "memoryAid": {
+      "type": "teaching",
+      "text": "A recurring pattern in salvation history: the darkness deepens just before the dawn. As the Cross precedes the Resurrection, so the worst affliction in Egypt comes right before God's mighty acts of deliverance. The increase of suffering is not abandonment but the threshold of redemption."
+    }
+  },
+  {
+    "id": "ex06-001",
+    "chapter": 6,
+    "book": "Exodus",
+    "reference": "Exodus 6:2",
+    "topic": "God's Promise of Deliverance",
+    "type": "fill-in",
+    "question": "God reaffirms His covenant identity to Moses with the declaration, 'I am the ______.'",
+    "answer": "Lord",
+    "acceptableAnswers": [
+      "lord",
+      "the lord"
+    ],
+    "memoryAid": {
+      "type": "teaching",
+      "text": "'I am the LORD' (the divine Name, YHWH) frames the whole chapter of promises. This is the same Name revealed at the burning bush, the 'I AM' to which Christ alludes in John's Gospel. The promises that follow are guaranteed not by circumstances but by the very Being of God who keeps covenant."
+    }
+  },
+  {
+    "id": "ex06-002",
+    "chapter": 6,
+    "book": "Exodus",
+    "reference": "Exodus 6:6-8",
+    "topic": "God's Promise of Deliverance",
+    "type": "multiple-choice",
+    "question": "How many major promises did God make to Israel in Exodus 6?",
+    "answer": "Seven",
+    "options": [
+      "Seven",
+      "Three",
+      "Five",
+      "Ten"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "Seven promises — the number of completeness and covenant. God's deliverance is whole and perfect, lacking nothing."
+    }
+  },
+  {
+    "id": "ex06-003",
+    "chapter": 6,
+    "book": "Exodus",
+    "reference": "Exodus 6:6",
+    "topic": "God's Promise of Deliverance",
+    "type": "multiple-choice",
+    "question": "Which of the following is NOT one of the seven promises God made in Exodus 6?",
+    "answer": "I will destroy all of Egypt's gods",
+    "options": [
+      "I will destroy all of Egypt's gods",
+      "I will bring you out",
+      "I will redeem you",
+      "I will give it to you as an inheritance"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "The seven 'I wills': bring OUT, rescue, redeem, take, be your God, bring IN, give as inheritance. Destroying Egypt's gods, though it happens, is not one of the seven covenant promises listed."
+    }
+  },
+  {
+    "id": "ex06-004",
+    "chapter": 6,
+    "book": "Exodus",
+    "reference": "Exodus 6:6",
+    "topic": "God's Promise of Deliverance",
+    "type": "fill-in",
+    "question": "In the seven promises, God says 'I will ______ you with an outstretched arm' — the act tied to the price of deliverance.",
+    "answer": "redeem",
+    "acceptableAnswers": [
+      "redeem"
+    ],
+    "memoryAid": {
+      "type": "teaching",
+      "text": "To 'redeem' means to buy back, to ransom. God's redemption of Israel from Egypt prefigures the greater Redemption accomplished by Christ, who ransoms humanity from bondage to sin and death by His own outstretched arms upon the Cross. The Exodus language of redemption runs straight to Pascha."
+    }
+  },
+  {
+    "id": "ex06-005",
+    "chapter": 6,
+    "book": "Exodus",
+    "reference": "Exodus 6:7",
+    "topic": "God's Promise of Deliverance",
+    "type": "true-false",
+    "question": "Among the seven promises, God said 'I will take you as My people, and I will be your God.'",
+    "answer": "True",
+    "options": [
+      "True",
+      "False"
+    ],
+    "memoryAid": {
+      "type": "teaching",
+      "text": "This is the heart of the covenant formula: 'I will be your God, and you shall be My people.' It echoes through Scripture to the very last pages of Revelation, where God dwells with His people. The Exodus is ultimately about communion, God claiming a people for Himself."
+    }
+  },
+  {
+    "id": "ex06-006",
+    "chapter": 6,
+    "book": "Exodus",
+    "reference": "Exodus 6:9",
+    "topic": "God's Promise of Deliverance",
+    "type": "multiple-choice",
+    "question": "Why did the Israelites not listen to Moses when he brought God's promises?",
+    "answer": "Because of discouragement and cruel bondage",
+    "options": [
+      "Because of discouragement and cruel bondage",
+      "Because they did not believe in God",
+      "Because Pharaoh forbade them",
+      "Because Moses spoke in a foreign tongue"
+    ],
+    "memoryAid": {
+      "type": "image",
+      "text": "Picture a worker so exhausted by the whip that even good news bounces off him. Crushing bondage had hollowed out their hope; their spirits were too broken to hear."
+    }
+  },
+  {
+    "id": "ex06-007",
+    "chapter": 6,
+    "book": "Exodus",
+    "reference": "Exodus 6:14-16",
+    "topic": "God's Promise of Deliverance",
+    "type": "multiple-choice",
+    "question": "The genealogy in Exodus 6 traces the lineage of which three sons of Israel?",
+    "answer": "Reuben, Simeon, and Levi",
+    "options": [
+      "Reuben, Simeon, and Levi",
+      "Judah, Levi, and Joseph",
+      "Reuben, Judah, and Benjamin",
+      "Levi, Dan, and Gad"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "First three sons in birth order: Reuben, Simeon, Levi. The list stops at Levi because the point is to establish the priestly line of Moses and Aaron."
+    }
+  },
+  {
+    "id": "ex06-008",
+    "chapter": 6,
+    "book": "Exodus",
+    "reference": "Exodus 6:16",
+    "topic": "God's Promise of Deliverance",
+    "type": "multiple-choice",
+    "question": "Which of the following was NOT one of the three sons of Levi?",
+    "answer": "Amram",
+    "options": [
+      "Amram",
+      "Gershon",
+      "Kohath",
+      "Merari"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "Levi's sons: Gershon, Kohath, Merari (G-K-M). Amram is a generation later — he is Kohath's son, not Levi's."
+    }
+  },
+  {
+    "id": "ex06-009",
+    "chapter": 6,
+    "book": "Exodus",
+    "reference": "Exodus 6:18",
+    "topic": "God's Promise of Deliverance",
+    "type": "fill-in",
+    "question": "Which son of Levi was the father of Amram (and thus ancestor of Moses and Aaron)?",
+    "answer": "Kohath",
+    "acceptableAnswers": [
+      "kohath"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "The priestly middle son: Kohath. 'Kohath the cornerstone' — through him comes Amram, then Moses and Aaron."
+    }
+  },
+  {
+    "id": "ex06-010",
+    "chapter": 6,
+    "book": "Exodus",
+    "reference": "Exodus 6:20",
+    "topic": "God's Promise of Deliverance",
+    "type": "multiple-choice",
+    "question": "Who was the father of Aaron, Moses, and Miriam?",
+    "answer": "Amram",
+    "options": [
+      "Amram",
+      "Kohath",
+      "Gershon",
+      "Merari"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "Amram + Jochebed = Aaron, Moses, Miriam. 'Amram's army of three.'"
+    }
+  },
+  {
+    "id": "ex06-011",
+    "chapter": 6,
+    "book": "Exodus",
+    "reference": "Exodus 6:20",
+    "topic": "God's Promise of Deliverance",
+    "type": "fill-in",
+    "question": "Who was the wife of Amram and mother of Aaron, Moses, and Miriam?",
+    "answer": "Jochebed",
+    "acceptableAnswers": [
+      "jochebed"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "Jochebed — her name contains a form of the divine Name (Yah). The mother of the deliverer carries God's Name; she is the one who hid Moses in the ark of bulrushes."
+    }
+  },
+  {
+    "id": "ex06-012",
+    "chapter": 6,
+    "book": "Exodus",
+    "reference": "Exodus 6:20",
+    "topic": "God's Promise of Deliverance",
+    "type": "multiple-choice",
+    "question": "Which of the following was NOT a child of Amram and Jochebed?",
+    "answer": "Elisheba",
+    "options": [
+      "Elisheba",
+      "Aaron",
+      "Moses",
+      "Miriam"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "Children: Aaron, Moses, Miriam (A-M-M). Elisheba is Aaron's WIFE, not a sibling."
+    }
+  },
+  {
+    "id": "ex06-013",
+    "chapter": 6,
+    "book": "Exodus",
+    "reference": "Exodus 6:23",
+    "topic": "God's Promise of Deliverance",
+    "type": "fill-in",
+    "question": "Who was the wife of Aaron?",
+    "answer": "Elisheba",
+    "acceptableAnswers": [
+      "elisheba"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "Elisheba is the Hebrew form of 'Elizabeth.' The high priest Aaron's wife shares a name with the mother of John the Baptist — a wife linked to the priestly line."
+    }
+  },
+  {
+    "id": "ex06-014",
+    "chapter": 6,
+    "book": "Exodus",
+    "reference": "Exodus 6:23",
+    "topic": "God's Promise of Deliverance",
+    "type": "multiple-choice",
+    "question": "Which of the following was NOT a son of Aaron?",
+    "answer": "Amram",
+    "options": [
+      "Amram",
+      "Nadab",
+      "Abihu",
+      "Eleazar"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "Aaron's four sons: Nadab, Abihu, Eleazar, Ithamar. Amram is Aaron's FATHER, not his son."
+    }
+  },
+  {
+    "id": "ex06-015",
+    "chapter": 6,
+    "book": "Exodus",
+    "reference": "Exodus 6:23",
+    "topic": "God's Promise of Deliverance",
+    "type": "multiple-choice",
+    "question": "How many sons did Aaron have, as listed in Exodus 6?",
+    "answer": "Four",
+    "options": [
+      "Four",
+      "Two",
+      "Three",
+      "Five"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "Four sons: Nadab, Abihu, Eleazar, Ithamar. 'NAEI' — say it like 'nay-eye.' Two would later perish offering strange fire; the priesthood continued through Eleazar and Ithamar."
+    }
+  },
+  {
+    "id": "ex06-016",
+    "chapter": 6,
+    "book": "Exodus",
+    "reference": "Exodus 6:23",
+    "topic": "God's Promise of Deliverance",
+    "type": "fill-in",
+    "question": "Name the two sons of Aaron whose names begin with vowels and through whom the priesthood continued.",
+    "answer": "Eleazar and Ithamar",
+    "acceptableAnswers": [
+      "eleazar and ithamar",
+      "eleazar, ithamar",
+      "ithamar and eleazar",
+      "eleazar ithamar"
+    ],
+    "memoryAid": {
+      "type": "teaching",
+      "text": "Nadab and Abihu died offering 'strange fire' before the Lord, so the Aaronic priesthood carried on through Eleazar and Ithamar. The continuity of the priesthood despite human failure foreshadows the unbroken priesthood fulfilled perfectly in Christ, the great High Priest."
+    }
+  },
+  {
+    "id": "ex07-001",
+    "chapter": 7,
+    "book": "Exodus",
+    "reference": "Exodus 7:3",
+    "topic": "Moses and Aaron Before Pharaoh",
+    "type": "fill-in",
+    "question": "God said, 'I will harden Pharaoh's heart and multiply My signs and My ______ in the land of Egypt.'",
+    "answer": "wonders",
+    "acceptableAnswers": [
+      "wonders"
+    ],
+    "memoryAid": {
+      "type": "teaching",
+      "text": "The hardening of Pharaoh's heart is a theme the Fathers treat carefully: God's persistent mercy is the very thing a hardened heart turns to its own condemnation. The same sun that softens wax hardens clay. Pharaoh's resistance becomes the stage on which God's 'signs and wonders' display His glory to all nations."
+    }
+  },
+  {
+    "id": "ex07-002",
+    "chapter": 7,
+    "book": "Exodus",
+    "reference": "Exodus 7:7",
+    "topic": "Moses and Aaron Before Pharaoh",
+    "type": "true-false",
+    "question": "Aaron was 83 years old when he and Moses stood before Pharaoh.",
+    "answer": "True",
+    "options": [
+      "True",
+      "False"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "Aaron is the elder: 'Aaron Ate 3 more' — A-8-3. Moses was 80, Aaron three years older at 83."
+    }
+  },
+  {
+    "id": "ex07-003",
+    "chapter": 7,
+    "book": "Exodus",
+    "reference": "Exodus 7:7",
+    "topic": "Moses and Aaron Before Pharaoh",
+    "type": "multiple-choice",
+    "question": "How old was Moses when he stood before Pharaoh?",
+    "answer": "80",
+    "options": [
+      "80",
+      "83",
+      "40",
+      "120"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "Moses' life splits into three 40s: 40 in Egypt, 40 in Midian, 40 leading Israel. He begins the Exodus at 80 — two forties down, one to go."
+    }
+  },
+  {
+    "id": "ex07-004",
+    "chapter": 7,
+    "book": "Exodus",
+    "reference": "Exodus 7:10",
+    "topic": "Moses and Aaron Before Pharaoh",
+    "type": "multiple-choice",
+    "question": "When Aaron cast down his rod before Pharaoh, what did it become?",
+    "answer": "A serpent",
+    "options": [
+      "A serpent",
+      "A river of blood",
+      "A pillar of fire",
+      "A swarm of locusts"
+    ],
+    "memoryAid": {
+      "type": "teaching",
+      "text": "The rod becoming a serpent and devouring the magicians' serpents shows God's authority over the very symbol of Egyptian royal power, the cobra worn on Pharaoh's crown. The serpent, emblem of the ancient deceiver, is overcome and swallowed up — a sign that the powers of Egypt and of the enemy are subject to God."
+    }
+  },
+  {
+    "id": "ex07-005",
+    "chapter": 7,
+    "book": "Exodus",
+    "reference": "Exodus 7:11",
+    "topic": "Moses and Aaron Before Pharaoh",
+    "type": "true-false",
+    "question": "The Egyptian magicians were able to replicate the sign of the rod becoming a serpent.",
+    "answer": "True",
+    "options": [
+      "True",
+      "False"
+    ],
+    "memoryAid": {
+      "type": "image",
+      "text": "Picture the court magicians smugly tossing down their own rods, each writhing into a snake — only to watch Aaron's serpent gulp them all down. They could copy the trick but not the power."
+    }
+  },
+  {
+    "id": "ex07-006",
+    "chapter": 7,
+    "book": "Exodus",
+    "reference": "Exodus 7:12",
+    "topic": "Moses and Aaron Before Pharaoh",
+    "type": "multiple-choice",
+    "question": "What happened after the magicians' rods also became serpents?",
+    "answer": "Aaron's rod swallowed up their rods",
+    "options": [
+      "Aaron's rod swallowed up their rods",
+      "The magicians' rods bit Aaron",
+      "All the serpents turned back into rods",
+      "Pharaoh fled the court"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "'Aaron's snake ate the fake snakes.' God's sign devours the counterfeit."
+    }
+  },
+  {
+    "id": "ex07-007",
+    "chapter": 7,
+    "book": "Exodus",
+    "reference": "Exodus 7:20",
+    "topic": "First Plague: Water to Blood",
+    "type": "multiple-choice",
+    "question": "What was the first plague God brought upon Egypt?",
+    "answer": "Water turned to blood",
+    "options": [
+      "Water turned to blood",
+      "Frogs",
+      "Lice/gnats",
+      "Swarms of flies"
+    ],
+    "memoryAid": {
+      "type": "teaching",
+      "text": "The Nile was worshiped by Egypt as a life-giving god. By turning its waters to blood, the LORD strikes at the heart of Egyptian idolatry, exposing the false god as lifeless and deadly. Each plague targets a power Egypt trusted, declaring there is no god but the LORD."
+    }
+  },
+  {
+    "id": "ex07-008",
+    "chapter": 7,
+    "book": "Exodus",
+    "reference": "Exodus 7:19",
+    "topic": "First Plague: Water to Blood",
+    "type": "multiple-choice",
+    "question": "Which of the following was NOT among the waters struck in the first plague?",
+    "answer": "The sea",
+    "options": [
+      "The sea",
+      "Streams",
+      "Canals",
+      "Ponds"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "Struck: Nile, Streams, Canals, Ponds, Reservoirs. The sea is not in the list — it was all of Egypt's fresh waters that turned to blood."
+    }
+  },
+  {
+    "id": "ex07-009",
+    "chapter": 7,
+    "book": "Exodus",
+    "reference": "Exodus 7:20-21",
+    "topic": "First Plague: Water to Blood",
+    "type": "multiple-choice",
+    "question": "Which of the following was NOT a result of the first plague?",
+    "answer": "The land was covered in darkness",
+    "options": [
+      "The land was covered in darkness",
+      "The fish died",
+      "The river stank",
+      "The Egyptians could not drink the water"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "Results of plague 1: fish died, river stank, no drinking water. Darkness comes much later, as the ninth plague."
+    }
+  },
+  {
+    "id": "ex07-010",
+    "chapter": 7,
+    "book": "Exodus",
+    "reference": "Exodus 7:25",
+    "topic": "First Plague: Water to Blood",
+    "type": "fill-in",
+    "question": "How many days did the first plague (water turned to blood) last?",
+    "answer": "seven",
+    "acceptableAnswers": [
+      "seven",
+      "7",
+      "seven days",
+      "7 days"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "Seven full days the Nile ran red. 'Seven days of dread by the river of red.'"
+    }
+  },
+  {
+    "id": "ex07-011",
+    "chapter": 7,
+    "book": "Exodus",
+    "reference": "Exodus 7:22",
+    "topic": "First Plague: Water to Blood",
+    "type": "true-false",
+    "question": "The Egyptian magicians were able to imitate the first plague.",
+    "answer": "True",
+    "options": [
+      "True",
+      "False"
+    ],
+    "memoryAid": {
+      "type": "image",
+      "text": "Picture the magicians turning a little dish of water red to save face — adding to the misery rather than relieving it. They could mimic the plague but never undo it."
+    }
+  },
+  {
+    "id": "ex08-001",
+    "chapter": 8,
+    "book": "Exodus",
+    "reference": "Exodus 8:2-6",
+    "topic": "Second Plague: Frogs",
+    "type": "multiple-choice",
+    "question": "What was the second plague God sent upon Egypt?",
+    "answer": "Frogs",
+    "options": [
+      "Frogs",
+      "Lice/gnats",
+      "Flies",
+      "Blood"
+    ],
+    "memoryAid": {
+      "type": "teaching",
+      "text": "The frog was associated with the Egyptian goddess Heqet, a deity of fertility and birth. By overwhelming the land with frogs, God again mocks the false gods of Egypt, turning a symbol of life into an unbearable plague. The judgment exposes the impotence of every idol."
+    }
+  },
+  {
+    "id": "ex08-002",
+    "chapter": 8,
+    "book": "Exodus",
+    "reference": "Exodus 8:6",
+    "topic": "Second Plague: Frogs",
+    "type": "fill-in",
+    "question": "Who stretched out his hand over the waters of Egypt to bring up the frogs?",
+    "answer": "Aaron",
+    "acceptableAnswers": [
+      "aaron"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "Aaron holds the rod and stretches his hand for the early plagues; Moses speaks, Aaron acts. 'Aaron's arm brings the swarm.'"
+    }
+  },
+  {
+    "id": "ex08-003",
+    "chapter": 8,
+    "book": "Exodus",
+    "reference": "Exodus 8:3",
+    "topic": "Second Plague: Frogs",
+    "type": "multiple-choice",
+    "question": "Which of the following places did the frogs NOT invade?",
+    "answer": "The temples of the gods",
+    "options": [
+      "The temples of the gods",
+      "Houses",
+      "Bedrooms",
+      "Kneading bowls"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "Frogs got into Houses, Bedrooms, Ovens, and Kneading bowls — even your bed and your bread. No relief anywhere a person lives or eats."
+    }
+  },
+  {
+    "id": "ex08-004",
+    "chapter": 8,
+    "book": "Exodus",
+    "reference": "Exodus 8:3",
+    "topic": "Second Plague: Frogs",
+    "type": "true-false",
+    "question": "The frogs entered the Egyptians' ovens and kneading bowls.",
+    "answer": "True",
+    "options": [
+      "True",
+      "False"
+    ],
+    "memoryAid": {
+      "type": "image",
+      "text": "Imagine reaching into your bread dough and pulling out a slimy frog. The plague invades the most intimate places: your bed, your oven, your supper."
+    }
+  },
+  {
+    "id": "ex08-005",
+    "chapter": 8,
+    "book": "Exodus",
+    "reference": "Exodus 8:7",
+    "topic": "Second Plague: Frogs",
+    "type": "true-false",
+    "question": "The magicians were able to bring frogs upon Egypt.",
+    "answer": "True",
+    "options": [
+      "True",
+      "False"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "The magicians could ADD frogs but never SUBTRACT them. They could imitate the plague but could not remove it — only God can deliver."
+    }
+  },
+  {
+    "id": "ex08-006",
+    "chapter": 8,
+    "book": "Exodus",
+    "reference": "Exodus 8:12-13",
+    "topic": "Second Plague: Frogs",
+    "type": "multiple-choice",
+    "question": "After Pharaoh asked for relief from the frogs, what happened?",
+    "answer": "Moses prayed and the frogs died",
+    "options": [
+      "Moses prayed and the frogs died",
+      "Aaron drove them into the sea",
+      "The frogs returned to the Nile alive",
+      "The magicians removed them"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "Only prayer ends the plague: Moses prays, frogs die. The magicians could start it, but only God through Moses could stop it."
+    }
+  },
+  {
+    "id": "ex08-007",
+    "chapter": 8,
+    "book": "Exodus",
+    "reference": "Exodus 8:14",
+    "topic": "Second Plague: Frogs",
+    "type": "fill-in",
+    "question": "After the frogs died, how were the dead frogs gathered?",
+    "answer": "into heaps",
+    "acceptableAnswers": [
+      "into heaps",
+      "heaps",
+      "in heaps",
+      "piles"
+    ],
+    "memoryAid": {
+      "type": "image",
+      "text": "Picture rotting frogs piled into stinking heaps across the land, the whole country reeking. Even the relief leaves a stench — a reminder of the cost of Pharaoh's stubbornness."
+    }
+  },
+  {
+    "id": "ex08-008",
+    "chapter": 8,
+    "book": "Exodus",
+    "reference": "Exodus 8:15",
+    "topic": "Second Plague: Frogs",
+    "type": "true-false",
+    "question": "Pharaoh kept his promise to let Israel go after the frogs were removed.",
+    "answer": "False",
+    "options": [
+      "True",
+      "False"
+    ],
+    "memoryAid": {
+      "type": "teaching",
+      "text": "The moment relief comes, Pharaoh hardens his heart again. This pattern of repentance under pressure followed by renewed rebellion when comfort returns is the very portrait of a heart that will not truly turn to God. The Fathers see in Pharaoh a warning against false, fear-driven repentance."
+    }
+  },
+  {
+    "id": "ex08-009",
+    "chapter": 8,
+    "book": "Exodus",
+    "reference": "Exodus 8:16-17",
+    "topic": "Third Plague: Lice/Gnats",
+    "type": "multiple-choice",
+    "question": "What was the third plague, brought when Aaron struck the dust of the earth?",
+    "answer": "Lice/gnats",
+    "options": [
+      "Lice/gnats",
+      "Frogs",
+      "Flies",
+      "Boils"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "Third plague rises from the dust: lice/gnats. 'Dust to dust to bugs' — Aaron strikes the ground and the very dust becomes biting insects."
+    }
+  },
+  {
+    "id": "ex08-010",
+    "chapter": 8,
+    "book": "Exodus",
+    "reference": "Exodus 8:17",
+    "topic": "Third Plague: Lice/Gnats",
+    "type": "fill-in",
+    "question": "From striking what did Aaron bring forth the lice/gnats of the third plague?",
+    "answer": "the dust of the earth",
+    "acceptableAnswers": [
+      "the dust of the earth",
+      "dust",
+      "the dust",
+      "dust of the earth"
+    ],
+    "memoryAid": {
+      "type": "teaching",
+      "text": "From the dust man was formed, and from the dust the plague now comes. The lowliest element, the dust under their feet, becomes an instrument of God's judgment. This is the plague the magicians could not reproduce, for life from dust belongs to the Creator alone."
+    }
+  },
+  {
+    "id": "ex08-011",
+    "chapter": 8,
+    "book": "Exodus",
+    "reference": "Exodus 8:18",
+    "topic": "Third Plague: Lice/Gnats",
+    "type": "true-false",
+    "question": "The magicians were able to duplicate the third plague of lice/gnats.",
+    "answer": "False",
+    "options": [
+      "True",
+      "False"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "Plague three breaks the streak: the magicians fail. 'Three and done' — they could fake blood and frogs, but the gnats stopped them cold."
+    }
+  },
+  {
+    "id": "ex08-012",
+    "chapter": 8,
+    "book": "Exodus",
+    "reference": "Exodus 8:19",
+    "topic": "Third Plague: Lice/Gnats",
+    "type": "fill-in",
+    "question": "Unable to duplicate the third plague, the magicians said to Pharaoh, 'This is the ______ of God.'",
+    "answer": "finger",
+    "acceptableAnswers": [
+      "finger",
+      "the finger of god",
+      "finger of god"
+    ],
+    "memoryAid": {
+      "type": "teaching",
+      "text": "'This is the finger of God' is the magicians' confession of defeat. Christ later says He casts out demons 'by the finger of God' (Luke 11:20), linking His power over evil to this very moment. The phrase points to the Holy Spirit, the immediate working of God's power that no human counterfeit can match."
+    }
+  },
+  {
+    "id": "ex08-013",
+    "chapter": 8,
+    "book": "Exodus",
+    "reference": "Exodus 8:21-24",
+    "topic": "Fourth Plague: Flies",
+    "type": "multiple-choice",
+    "question": "What was the fourth plague God sent upon Egypt?",
+    "answer": "Swarms of flies",
+    "options": [
+      "Swarms of flies",
+      "Lice/gnats",
+      "Locusts",
+      "Hail"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "Fourth plague: dog-flies / swarms of flies. 'Four for the flies that fill the skies.'"
+    }
+  },
+  {
+    "id": "ex08-014",
+    "chapter": 8,
+    "book": "Exodus",
+    "reference": "Exodus 8:22",
+    "topic": "Fourth Plague: Flies",
+    "type": "fill-in",
+    "question": "During the fourth plague, which region was spared from the swarms of flies?",
+    "answer": "Goshen",
+    "acceptableAnswers": [
+      "goshen",
+      "the land of goshen"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "Goshen is God's safe zone. 'Goshen = Go safe.' The land where Israel dwelt was kept untouched."
+    }
+  },
+  {
+    "id": "ex08-015",
+    "chapter": 8,
+    "book": "Exodus",
+    "reference": "Exodus 8:23",
+    "topic": "Fourth Plague: Flies",
+    "type": "true-false",
+    "question": "The fourth plague marks the first time God makes a clear separation between Israel and Egypt, protecting His people while the Egyptians suffered.",
+    "answer": "True",
+    "options": [
+      "True",
+      "False"
+    ],
+    "memoryAid": {
+      "type": "teaching",
+      "text": "Beginning with the flies, God 'sets apart' Goshen so that no plague touches Israel. This separation reveals that the plagues are not random natural disasters but targeted acts of God who knows and protects His own. It prefigures the protection of the faithful at Passover and the ultimate distinction between those marked as God's people and the world."
+    }
+  },
+  {
+    "id": "ex08-016",
+    "chapter": 8,
+    "book": "Exodus",
+    "reference": "Exodus 8:32",
+    "topic": "Fourth Plague: Flies",
+    "type": "true-false",
+    "question": "After the fourth plague, Pharaoh immediately allowed Israel to leave Egypt without conditions.",
+    "answer": "False",
+    "options": [
+      "True",
+      "False"
+    ],
+    "memoryAid": {
+      "type": "teaching",
+      "text": "Pharaoh offers compromises, suggesting Israel worship within Egypt or not go far, but then hardens his heart yet again. These half-measures mirror the temptations to compromise with the world rather than make a full departure. True deliverance requires a complete going-out, not a negotiated truce with Egypt."
+    }
+  },
+  {
+    "id": "ex08-017",
+    "chapter": 8,
+    "book": "Exodus",
+    "reference": "Exodus 8",
+    "topic": "Plagues 2-4",
+    "type": "multiple-choice",
+    "question": "Which of the following is the correct order of the second, third, and fourth plagues?",
+    "answer": "Frogs, lice/gnats, flies",
+    "options": [
+      "Frogs, lice/gnats, flies",
+      "Flies, frogs, lice/gnats",
+      "Lice/gnats, flies, frogs",
+      "Frogs, flies, lice/gnats"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "After blood (1): Frogs, Gnats, Flies — '1-2-3-4: Blood, Frogs, Gnats, Flies.' The magicians keep up through frogs, then fail at the gnats."
+    }
+  },
+  {
+    "id": "ex09-001",
+    "chapter": 9,
+    "book": "Exodus",
+    "reference": "Exodus 9",
+    "topic": "Fifth Plague: Livestock",
+    "type": "fill-in",
+    "question": "The fifth plague was a disease that struck Egypt's ______.",
+    "answer": "livestock",
+    "acceptableAnswers": [
+      "livestock",
+      "cattle",
+      "animals"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "Plague 5 = liveSTOCK, and the stock (the animals) took a hit. The fifth plague struck the herds."
+    }
+  },
+  {
+    "id": "ex09-002",
+    "chapter": 9,
+    "book": "Exodus",
+    "reference": "Exodus 9:3",
+    "topic": "Fifth Plague: Livestock",
+    "type": "multiple-choice",
+    "question": "Which of the following animals was NOT named among those struck by the fifth plague?",
+    "answer": "Goats",
+    "options": [
+      "Goats",
+      "Camels",
+      "Oxen",
+      "Donkeys"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "The named five: Horses, Donkeys, Camels, Oxen, Sheep — 'Happy Donkeys Carry Old Sheep.' Goats are not on the list."
+    }
+  },
+  {
+    "id": "ex09-003",
+    "chapter": 9,
+    "book": "Exodus",
+    "reference": "Exodus 9:6",
+    "topic": "Fifth Plague: Livestock",
+    "type": "true-false",
+    "question": "Israel's livestock died along with the livestock of Egypt.",
+    "answer": "False",
+    "options": [
+      "True",
+      "False"
+    ],
+    "memoryAid": {
+      "type": "teaching",
+      "text": "God draws a clear line of separation between His people and Egypt, just as He will at Passover. This protection of Israel's herds prefigures the Church preserved through the plagues of this world; the Lord knows His own and shields them while judgment falls on the powers that enslave."
+    }
+  },
+  {
+    "id": "ex09-004",
+    "chapter": 9,
+    "book": "Exodus",
+    "reference": "Exodus 9:9-10",
+    "topic": "Sixth Plague: Boils",
+    "type": "multiple-choice",
+    "question": "What did Moses toss into the air to bring about the sixth plague?",
+    "answer": "Ashes",
+    "options": [
+      "Ashes",
+      "Dust",
+      "Sand",
+      "Water"
+    ],
+    "memoryAid": {
+      "type": "image",
+      "text": "Picture Moses flinging a handful of furnace ashes skyward, the gray cloud drifting down over all Egypt and erupting into festering boils on every body it touches."
+    }
+  },
+  {
+    "id": "ex09-005",
+    "chapter": 9,
+    "book": "Exodus",
+    "reference": "Exodus 9:9-10",
+    "topic": "Sixth Plague: Boils",
+    "type": "fill-in",
+    "question": "The sixth plague caused ______ to break out on both humans and animals.",
+    "answer": "boils",
+    "acceptableAnswers": [
+      "boils",
+      "sores",
+      "boils and sores"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "Six = Sores. The sixth plague boiled up as boils on man and beast alike."
+    }
+  },
+  {
+    "id": "ex09-006",
+    "chapter": 9,
+    "book": "Exodus",
+    "reference": "Exodus 9:11",
+    "topic": "Sixth Plague: Boils",
+    "type": "true-false",
+    "question": "The magicians of Egypt were able to stand before Moses during the plague of boils.",
+    "answer": "False",
+    "options": [
+      "True",
+      "False"
+    ],
+    "memoryAid": {
+      "type": "teaching",
+      "text": "The magicians who once mimicked Moses are now themselves afflicted and cannot even stand. The wisdom and power of Egypt collapse before the living God, showing that the counterfeit signs of the world's sorcery have no answer to the judgment of the Lord."
+    }
+  },
+  {
+    "id": "ex09-007",
+    "chapter": 9,
+    "book": "Exodus",
+    "reference": "Exodus 9:23-24",
+    "topic": "Seventh Plague: Hail",
+    "type": "multiple-choice",
+    "question": "What unusual thing flashed within the hail of the seventh plague?",
+    "answer": "Fire",
+    "options": [
+      "Fire",
+      "Wind",
+      "Smoke",
+      "Lightning bolts shaped like serpents"
+    ],
+    "memoryAid": {
+      "type": "image",
+      "text": "Imagine ice and fire falling together — flaming hailstones streaking down, fire running along the ground amid the storm. A sky at war with itself."
+    }
+  },
+  {
+    "id": "ex09-008",
+    "chapter": 9,
+    "book": "Exodus",
+    "reference": "Exodus 9:31-32",
+    "topic": "Seventh Plague: Hail",
+    "type": "multiple-choice",
+    "question": "Which two crops were destroyed by the hail?",
+    "answer": "Flax and barley",
+    "options": [
+      "Flax and barley",
+      "Wheat and spelt",
+      "Barley and wheat",
+      "Spelt and flax"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "'Flax and Barley Bit the dust' — the early B-crops (Barley) and the Flax were ripe and ruined; wheat and spelt came later and survived."
+    }
+  },
+  {
+    "id": "ex09-009",
+    "chapter": 9,
+    "book": "Exodus",
+    "reference": "Exodus 9:32",
+    "topic": "Seventh Plague: Hail",
+    "type": "multiple-choice",
+    "question": "Which two crops survived the hail because they ripen later?",
+    "answer": "Wheat and spelt",
+    "options": [
+      "Wheat and spelt",
+      "Flax and barley",
+      "Barley and wheat",
+      "Flax and spelt"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "Wheat and Spelt were 'Late, so they Wait' — not yet grown up, they escaped the hail. Flax and barley, already ripe, were destroyed."
+    }
+  },
+  {
+    "id": "ex09-010",
+    "chapter": 9,
+    "book": "Exodus",
+    "reference": "Exodus 9:31-32",
+    "topic": "Seventh Plague: Hail",
+    "type": "true-false",
+    "question": "The wheat and spelt survived the hail.",
+    "answer": "True",
+    "options": [
+      "True",
+      "False"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "Wheat and spelt ripen later — they had not grown up, so the hail passed them by. 'Late equals safe.'"
+    }
+  },
+  {
+    "id": "ex09-011",
+    "chapter": 9,
+    "book": "Exodus",
+    "reference": "Exodus 9:20-21",
+    "topic": "Seventh Plague: Hail",
+    "type": "true-false",
+    "question": "Everyone in Egypt lost their servants and animals to the hail.",
+    "answer": "False",
+    "options": [
+      "True",
+      "False"
+    ],
+    "memoryAid": {
+      "type": "teaching",
+      "text": "Those among Pharaoh's servants who feared the word of the Lord brought their people and animals indoors and were spared. Even in Egypt, the fear of God preserves life, foreshadowing how heeding God's warning shelters the obedient from the coming judgment."
+    }
+  },
+  {
+    "id": "ex09-012",
+    "chapter": 9,
+    "book": "Exodus",
+    "reference": "Exodus 9:27",
+    "topic": "Pharaoh's Confession",
+    "type": "fill-in",
+    "question": "During the hail, Pharaoh confessed, 'I have ______ this time.'",
+    "answer": "sinned",
+    "acceptableAnswers": [
+      "sinned"
+    ],
+    "memoryAid": {
+      "type": "image",
+      "text": "Picture Pharaoh shouting 'I have sinned!' over the roar of the storm — but the moment the hail stops, his face hardens again. A confession made of melting ice."
+    }
+  },
+  {
+    "id": "ex09-013",
+    "chapter": 9,
+    "book": "Exodus",
+    "reference": "Exodus 9:34-35",
+    "topic": "Pharaoh's Confession",
+    "type": "true-false",
+    "question": "Pharaoh truly repented after confessing his sin during the hail.",
+    "answer": "False",
+    "options": [
+      "True",
+      "False"
+    ],
+    "memoryAid": {
+      "type": "teaching",
+      "text": "Pharaoh's words were not repentance but fear of consequence; once relief came, he hardened his heart again. The Fathers see in this the difference between godly sorrow that leads to change and worldly regret that only seeks escape from punishment."
+    }
+  },
+  {
+    "id": "ex10-001",
+    "chapter": 10,
+    "book": "Exodus",
+    "reference": "Exodus 10:4",
+    "topic": "Eighth Plague: Locusts",
+    "type": "fill-in",
+    "question": "The eighth plague brought a swarm of ______ upon Egypt.",
+    "answer": "locusts",
+    "acceptableAnswers": [
+      "locusts",
+      "locust"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "Eight = ATE. The locusts ate everything the hail had left. Plague eight is the plague that ate."
+    }
+  },
+  {
+    "id": "ex10-002",
+    "chapter": 10,
+    "book": "Exodus",
+    "reference": "Exodus 10:13",
+    "topic": "Eighth Plague: Locusts",
+    "type": "multiple-choice",
+    "question": "Which wind did God use to bring the locusts upon Egypt?",
+    "answer": "East wind",
+    "options": [
+      "East wind",
+      "West wind",
+      "North wind",
+      "South wind"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "Locusts came on the EAST wind — and they came to EAT. East brings the feast of locusts."
+    }
+  },
+  {
+    "id": "ex10-003",
+    "chapter": 10,
+    "book": "Exodus",
+    "reference": "Exodus 10:5",
+    "topic": "Eighth Plague: Locusts",
+    "type": "true-false",
+    "question": "The locusts ate everything that was left after the hail.",
+    "answer": "True",
+    "options": [
+      "True",
+      "False"
+    ],
+    "memoryAid": {
+      "type": "image",
+      "text": "Picture the wheat and spelt that survived the hail now stripped bare — a living green tide of insects devouring the last surviving stalk of Egypt."
+    }
+  },
+  {
+    "id": "ex10-004",
+    "chapter": 10,
+    "book": "Exodus",
+    "reference": "Exodus 10:7",
+    "topic": "Eighth Plague: Locusts",
+    "type": "fill-in",
+    "question": "Pharaoh's servants asked, 'How long shall this man be a ______ to us?'",
+    "answer": "snare",
+    "acceptableAnswers": [
+      "snare",
+      "trap"
+    ],
+    "memoryAid": {
+      "type": "image",
+      "text": "Picture Pharaoh's own court turning on him, pointing at Moses: 'This man is a trap we're caught in!' Even Egypt's officials see the snare before Pharaoh does."
+    }
+  },
+  {
+    "id": "ex10-005",
+    "chapter": 10,
+    "book": "Exodus",
+    "reference": "Exodus 10:11",
+    "topic": "Eighth Plague: Locusts",
+    "type": "true-false",
+    "question": "During the locust plague, Pharaoh offered to let everyone in Israel leave.",
+    "answer": "False",
+    "options": [
+      "True",
+      "False"
+    ],
+    "memoryAid": {
+      "type": "teaching",
+      "text": "Pharaoh tried to let only the men go, keeping families behind as hostages. His bargaining is the pattern of the enemy who offers partial freedom to keep a hold on God's people; true deliverance leaves no one in bondage."
+    }
+  },
+  {
+    "id": "ex10-006",
+    "chapter": 10,
+    "book": "Exodus",
+    "reference": "Exodus 10:22",
+    "topic": "Ninth Plague: Darkness",
+    "type": "fill-in",
+    "question": "The ninth plague covered Egypt in thick ______.",
+    "answer": "darkness",
+    "acceptableAnswers": [
+      "darkness"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "Nine = Night. The ninth plague turned Egypt into endless night for three days."
+    }
+  },
+  {
+    "id": "ex10-007",
+    "chapter": 10,
+    "book": "Exodus",
+    "reference": "Exodus 10:22",
+    "topic": "Ninth Plague: Darkness",
+    "type": "multiple-choice",
+    "question": "How long did the darkness cover the land of Egypt?",
+    "answer": "Three days",
+    "options": [
+      "Three days",
+      "Seven days",
+      "One day",
+      "Forty days"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "Three days of darkness — the same three days that will swallow up sea and tomb. Darkness for THREE, a number of burial and rising."
+    }
+  },
+  {
+    "id": "ex10-008",
+    "chapter": 10,
+    "book": "Exodus",
+    "reference": "Exodus 10:23",
+    "topic": "Ninth Plague: Darkness",
+    "type": "true-false",
+    "question": "The Israelites also sat in darkness like the Egyptians.",
+    "answer": "False",
+    "options": [
+      "True",
+      "False"
+    ],
+    "memoryAid": {
+      "type": "teaching",
+      "text": "While Egypt sat in palpable darkness, Israel had light in their dwellings. This is the great division between the children of light and the children of darkness; the same God who is darkness to those who resist Him is light to those who dwell with Him."
+    }
+  },
+  {
+    "id": "ex10-009",
+    "chapter": 10,
+    "book": "Exodus",
+    "reference": "Exodus 10:24",
+    "topic": "Ninth Plague: Darkness",
+    "type": "true-false",
+    "question": "After the darkness, Pharaoh offered to let everyone go except their livestock.",
+    "answer": "True",
+    "options": [
+      "True",
+      "False"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "Pharaoh keeps shrinking his offer: first only men, now everyone but the flocks. He wants to keep a claim — the livestock are his last leverage."
+    }
+  },
+  {
+    "id": "ex10-010",
+    "chapter": 10,
+    "book": "Exodus",
+    "reference": "Exodus 10:26",
+    "topic": "Moses' Response",
+    "type": "fill-in",
+    "question": "Moses replied that not one ______ of their livestock would be left behind.",
+    "answer": "hoof",
+    "acceptableAnswers": [
+      "hoof"
+    ],
+    "memoryAid": {
+      "type": "image",
+      "text": "Picture Moses planting his staff: 'Not one hoof stays behind!' Every animal is needed for sacrifice — God's people leave whole, taking everything with them."
+    }
+  },
+  {
+    "id": "ex11-001",
+    "chapter": 11,
+    "book": "Exodus",
+    "reference": "Exodus 11:1",
+    "topic": "Final Plague Announced",
+    "type": "true-false",
+    "question": "After the darkness, one final plague still remained for Egypt.",
+    "answer": "True",
+    "options": [
+      "True",
+      "False"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "Nine plagues down, ONE to go — the tenth and final blow, the death of the firstborn."
+    }
+  },
+  {
+    "id": "ex11-002",
+    "chapter": 11,
+    "book": "Exodus",
+    "reference": "Exodus 11:4",
+    "topic": "Death of the Firstborn Announced",
+    "type": "fill-in",
+    "question": "God declared that about ______ He would go out through the midst of Egypt.",
+    "answer": "midnight",
+    "acceptableAnswers": [
+      "midnight"
+    ],
+    "memoryAid": {
+      "type": "image",
+      "text": "Picture the deepest hour of the night, midnight, when the Lord Himself passes through Egypt. The darkest moment becomes the hour of deliverance — a foreshadow of the One who conquers death at the midnight of the world."
+    }
+  },
+  {
+    "id": "ex11-003",
+    "chapter": 11,
+    "book": "Exodus",
+    "reference": "Exodus 11",
+    "topic": "Death of the Firstborn Announced",
+    "type": "true-false",
+    "question": "Israel was told to leave Egypt immediately, before the final plague struck.",
+    "answer": "False",
+    "options": [
+      "True",
+      "False"
+    ],
+    "memoryAid": {
+      "type": "teaching",
+      "text": "Israel did not flee in panic; they waited for the Lord's instructions, which come in the next chapter as the Passover. Deliverance is ordered and liturgical, not chaotic; God prepares His people through the Passover meal before He leads them out."
+    }
+  },
+  {
+    "id": "ex11-004",
+    "chapter": 11,
+    "book": "Exodus",
+    "reference": "Exodus 11:2",
+    "topic": "Promise of Plunder",
+    "type": "multiple-choice",
+    "question": "Israel was promised they would leave Egypt carrying what?",
+    "answer": "Silver and gold",
+    "options": [
+      "Silver and gold",
+      "Bronze and iron",
+      "Grain and oil",
+      "Sheep and cattle"
+    ],
+    "memoryAid": {
+      "type": "teaching",
+      "text": "Israel leaves with the silver and gold of Egypt, wages for generations of slavery. The Fathers see this 'plunder' as the rightful taking of what was owed, and a type of how the Church takes what is good from the world and offers it back to God in the tabernacle and worship."
+    }
+  },
+  {
+    "id": "ex12-001",
+    "chapter": 12,
+    "book": "Exodus",
+    "reference": "Exodus 12:5",
+    "topic": "Passover Lamb",
+    "type": "multiple-choice",
+    "question": "What was required of the Passover lamb's condition?",
+    "answer": "Without blemish",
+    "options": [
+      "Without blemish",
+      "Newly born",
+      "The strongest of the flock",
+      "Marked with a brand"
+    ],
+    "memoryAid": {
+      "type": "teaching",
+      "text": "The lamb without blemish is the type of Christ, the spotless Lamb of God who takes away the sin of the world. Only the flawless can stand in the place of the firstborn, for only the sinless Christ can offer Himself for the life of all."
+    }
+  },
+  {
+    "id": "ex12-002",
+    "chapter": 12,
+    "book": "Exodus",
+    "reference": "Exodus 12:5",
+    "topic": "Passover Lamb",
+    "type": "multiple-choice",
+    "question": "What sex and age was the Passover lamb to be?",
+    "answer": "Male, one year old",
+    "options": [
+      "Male, one year old",
+      "Female, one year old",
+      "Male, two years old",
+      "Female, newly born"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "A MALE in his first YEAR, without blemish — 'a young male, in his prime, no flaw.' Three marks: male, year-old, perfect."
+    }
+  },
+  {
+    "id": "ex12-003",
+    "chapter": 12,
+    "book": "Exodus",
+    "reference": "Exodus 12:5",
+    "topic": "Passover Lamb",
+    "type": "true-false",
+    "question": "The Passover lamb was to be a female of the flock.",
+    "answer": "False",
+    "options": [
+      "True",
+      "False"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "The lamb was MALE — a type of Christ, the firstborn Son. Male, year-old, unblemished."
+    }
+  },
+  {
+    "id": "ex12-004",
+    "chapter": 12,
+    "book": "Exodus",
+    "reference": "Exodus 12:3,6",
+    "topic": "Passover",
+    "type": "multiple-choice",
+    "question": "On which day of the month was the Passover lamb to be set apart?",
+    "answer": "10th day",
+    "options": [
+      "10th day",
+      "14th day",
+      "1st day",
+      "7th day"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "'10 to inspect, 14 to perfect.' Set apart on the 10th, slain on the 14th — four days proving it without blemish."
+    }
+  },
+  {
+    "id": "ex12-005",
+    "chapter": 12,
+    "book": "Exodus",
+    "reference": "Exodus 12:6",
+    "topic": "Passover",
+    "type": "multiple-choice",
+    "question": "On which day of the month was the Passover lamb to be killed?",
+    "answer": "14th day",
+    "options": [
+      "14th day",
+      "10th day",
+      "7th day",
+      "15th day"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "'10 to inspect, 14 to perfect.' Set apart on the 10th, slain on the 14th."
+    }
+  },
+  {
+    "id": "ex12-006",
+    "chapter": 12,
+    "book": "Exodus",
+    "reference": "Exodus 12:7",
+    "topic": "Passover Blood",
+    "type": "multiple-choice",
+    "question": "Where was the blood of the Passover lamb to be applied?",
+    "answer": "Doorposts and lintel",
+    "options": [
+      "Doorposts and lintel",
+      "Threshold and lintel",
+      "Doorposts and threshold",
+      "Roof and doorposts"
+    ],
+    "memoryAid": {
+      "type": "image",
+      "text": "Picture the blood traced up the two side posts and across the top lintel — a doorway marked in the shape of a cross, the saving sign pointing up and out, never trampled below."
+    }
+  },
+  {
+    "id": "ex12-007",
+    "chapter": 12,
+    "book": "Exodus",
+    "reference": "Exodus 12:46",
+    "topic": "Passover Blood",
+    "type": "true-false",
+    "question": "The Passover blood was to be placed on the threshold of the door.",
+    "answer": "False",
+    "options": [
+      "True",
+      "False"
+    ],
+    "memoryAid": {
+      "type": "image",
+      "text": "Picture the blood on the two side posts and the lintel — never the threshold. You would never trample the saving blood underfoot; the cross-shape of doorway blood points up and out, never down to be stepped on."
+    }
+  },
+  {
+    "id": "ex12-008",
+    "chapter": 12,
+    "book": "Exodus",
+    "reference": "Exodus 12:8",
+    "topic": "Passover Meal",
+    "type": "multiple-choice",
+    "question": "Which three things made up the Passover meal?",
+    "answer": "Lamb roasted with fire, unleavened bread, and bitter herbs",
+    "options": [
+      "Lamb roasted with fire, unleavened bread, and bitter herbs",
+      "Boiled lamb, leavened bread, and sweet herbs",
+      "Roasted lamb, unleavened bread, and honey",
+      "Raw lamb, unleavened bread, and bitter herbs"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "Three for the meal: Roasted (by Fire), Flat bread (unleavened), Bitter herbs — 'Fire, Flat, and Bitter.' The fire of the cross, the sinless bread, the bitterness of bondage."
+    }
+  },
+  {
+    "id": "ex12-009",
+    "chapter": 12,
+    "book": "Exodus",
+    "reference": "Exodus 12:8",
+    "topic": "Passover Meal",
+    "type": "multiple-choice",
+    "question": "How was the Passover lamb to be cooked?",
+    "answer": "Roasted with fire",
+    "options": [
+      "Roasted with fire",
+      "Boiled in water",
+      "Eaten raw",
+      "Baked in an oven"
+    ],
+    "memoryAid": {
+      "type": "teaching",
+      "text": "The lamb was roasted whole with fire, not boiled or eaten raw. The Fathers see the fire as the suffering of the cross and the unbroken roasting as a sign that not a bone of Christ would be broken, the Lamb consumed entire by the fire of His Passion."
+    }
+  },
+  {
+    "id": "ex12-010",
+    "chapter": 12,
+    "book": "Exodus",
+    "reference": "Exodus 12:8",
+    "topic": "Passover Meal",
+    "type": "true-false",
+    "question": "The Passover bread was to be leavened.",
+    "answer": "False",
+    "options": [
+      "True",
+      "False"
+    ],
+    "memoryAid": {
+      "type": "teaching",
+      "text": "The bread was unleavened, for there was no time to let it rise and leaven is a symbol of corruption and sin. The Church eats the sincerity and truth of unleavened bread, for Christ our Passover is sacrificed for us, the bread without the leaven of malice."
+    }
+  },
+  {
+    "id": "ex12-011",
+    "chapter": 12,
+    "book": "Exodus",
+    "reference": "Exodus 12:8",
+    "topic": "Passover Meal",
+    "type": "fill-in",
+    "question": "Along with the lamb and unleavened bread, the meal included bitter ______.",
+    "answer": "herbs",
+    "acceptableAnswers": [
+      "herbs",
+      "herb"
+    ],
+    "memoryAid": {
+      "type": "teaching",
+      "text": "The bitter herbs recall the bitterness of slavery in Egypt. Even in the feast of deliverance, the people taste the bitterness from which they were saved, remembering that redemption is bought through suffering and remembered with sober gratitude."
+    }
+  },
+  {
+    "id": "ex12-012",
+    "chapter": 12,
+    "book": "Exodus",
+    "reference": "Exodus 12:11",
+    "topic": "Passover",
+    "type": "fill-in",
+    "question": "Of this feast God declared, 'It is the Lord's ______.'",
+    "answer": "passover",
+    "acceptableAnswers": [
+      "passover",
+      "pascha"
+    ],
+    "memoryAid": {
+      "type": "teaching",
+      "text": "Passover, or Pascha, means the 'passing over' of the destroyer. For the Church this is fulfilled in the Pascha of Christ, who by His own blood causes death to pass over us and passes us from death into life."
+    }
+  },
+  {
+    "id": "ex12-013",
+    "chapter": 12,
+    "book": "Exodus",
+    "reference": "Exodus 12:29",
+    "topic": "Tenth Plague: Death of the Firstborn",
+    "type": "multiple-choice",
+    "question": "Who died in the tenth and final plague?",
+    "answer": "Every firstborn in Egypt",
+    "options": [
+      "Every firstborn in Egypt",
+      "Every firstborn animal only",
+      "All of Pharaoh's soldiers",
+      "Every elder of Egypt"
+    ],
+    "memoryAid": {
+      "type": "image",
+      "text": "Picture a single cry rising from every Egyptian house at midnight — from the palace of Pharaoh to the prison cell, the firstborn of each home struck down. No house untouched but those marked with blood."
+    }
+  },
+  {
+    "id": "ex12-014",
+    "chapter": 12,
+    "book": "Exodus",
+    "reference": "Exodus 12:13",
+    "topic": "Tenth Plague: Death of the Firstborn",
+    "type": "multiple-choice",
+    "question": "Who was spared from the death of the firstborn?",
+    "answer": "Those protected by the blood",
+    "options": [
+      "Those protected by the blood",
+      "Those who fled Egypt",
+      "Those who fasted that night",
+      "Those who hid underground"
+    ],
+    "memoryAid": {
+      "type": "teaching",
+      "text": "Only the blood on the door saved the house, not effort or merit. So too only the blood of Christ shelters us from death; the destroyer passes over all who are marked by the Lamb, a salvation given by grace through the sign of sacrifice."
+    }
+  },
+  {
+    "id": "ex12-015",
+    "chapter": 12,
+    "book": "Exodus",
+    "reference": "Exodus 12:29",
+    "topic": "Tenth Plague: Death of the Firstborn",
+    "type": "true-false",
+    "question": "Pharaoh's own son died in the final plague.",
+    "answer": "True",
+    "options": [
+      "True",
+      "False"
+    ],
+    "memoryAid": {
+      "type": "image",
+      "text": "Even the throne was not spared — Pharaoh's firstborn, the heir of Egypt, lay dead. The hardest heart in Egypt finally felt the cost of resisting God."
+    }
+  },
+  {
+    "id": "ex12-016",
+    "chapter": 12,
+    "book": "Exodus",
+    "reference": "Exodus 12:40",
+    "topic": "Sojourning",
+    "type": "multiple-choice",
+    "question": "How many years did Israel sojourn in Egypt and Canaan?",
+    "answer": "430 years",
+    "options": [
+      "430 years",
+      "400 years",
+      "40 years",
+      "480 years"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "430 — 'four-three-oh, time to go.' The full span of sojourning before the Exodus night of deliverance."
+    }
+  },
+  {
+    "id": "ex12-017",
+    "chapter": 12,
+    "book": "Exodus",
+    "reference": "Exodus 12:37",
+    "topic": "The Exodus",
+    "type": "multiple-choice",
+    "question": "About how many men left Egypt, not counting women and children?",
+    "answer": "About 600,000",
+    "options": [
+      "About 600,000",
+      "About 60,000",
+      "About 6,000",
+      "About 1,000,000"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "600,000 men on foot — and that's before adding women and children. Think 'six hundred thousand, and many more besides.'"
+    }
+  },
+  {
+    "id": "ex12-018",
+    "chapter": 12,
+    "book": "Exodus",
+    "reference": "Exodus 12:37",
+    "topic": "The Exodus",
+    "type": "true-false",
+    "question": "The figure of about 600,000 leaving Egypt counted only the men, not the women and children.",
+    "answer": "True",
+    "options": [
+      "True",
+      "False"
+    ],
+    "memoryAid": {
+      "type": "image",
+      "text": "Picture 600,000 men marching — then realize the true crowd is many times larger once wives and children fill in around them. A whole nation pouring out of Egypt."
+    }
+  },
+  {
+    "id": "ex12-019",
+    "chapter": 12,
+    "book": "Exodus",
+    "reference": "Exodus 12:6",
+    "topic": "Passover",
+    "type": "true-false",
+    "question": "The Passover lamb was set apart on the 10th day and killed on the 14th day of the month.",
+    "answer": "True",
+    "options": [
+      "True",
+      "False"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "'10 to inspect, 14 to perfect.' Four days under inspection prove the lamb is without blemish before it is slain."
+    }
+  },
+  {
+    "id": "ex13-001",
+    "chapter": 13,
+    "book": "Exodus",
+    "reference": "Exodus 13",
+    "topic": "Consecration of the Firstborn",
+    "type": "true-false",
+    "question": "In Exodus 13, every firstborn belongs to God.",
+    "answer": "True",
+    "options": [
+      "True",
+      "False"
+    ],
+    "memoryAid": {
+      "type": "teaching",
+      "text": "Because the Lord spared Israel's firstborn at the Passover, every firstborn is consecrated to Him. The Fathers see in this a foreshadowing of Christ, the Firstborn of all creation and the Firstborn from the dead, who sanctifies humanity to God."
+    }
+  },
+  {
+    "id": "ex13-002",
+    "chapter": 13,
+    "book": "Exodus",
+    "reference": "Exodus 13",
+    "topic": "Feast of Unleavened Bread",
+    "type": "fill-in",
+    "question": "How many days did the Feast of Unleavened Bread last?",
+    "answer": "Seven days",
+    "acceptableAnswers": [
+      "seven",
+      "seven days",
+      "7",
+      "7 days"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "Seven days, a full and perfect week of unleavened bread — seven for completeness."
+    }
+  },
+  {
+    "id": "ex13-003",
+    "chapter": 13,
+    "book": "Exodus",
+    "reference": "Exodus 13",
+    "topic": "Route to Canaan",
+    "type": "true-false",
+    "question": "God led Israel by the shortest route to Canaan.",
+    "answer": "False",
+    "options": [
+      "True",
+      "False"
+    ],
+    "memoryAid": {
+      "type": "teaching",
+      "text": "God led Israel another way, away from the land of the Philistines, lest the people see war and lose heart and turn back to Egypt. God's longer road is His mercy, training a freed people before facing battle."
+    }
+  },
+  {
+    "id": "ex13-004",
+    "chapter": 13,
+    "book": "Exodus",
+    "reference": "Exodus 13",
+    "topic": "Pillar of Cloud and Fire",
+    "type": "multiple-choice",
+    "question": "By what did the Lord lead Israel during the day?",
+    "answer": "A pillar of cloud",
+    "options": [
+      "A pillar of cloud",
+      "A pillar of fire",
+      "A bright star",
+      "A flaming sword"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "Cloud for cover by day, fire for light by night — shade when the sun is up, flame when it is dark."
+    }
+  },
+  {
+    "id": "ex13-005",
+    "chapter": 13,
+    "book": "Exodus",
+    "reference": "Exodus 13",
+    "topic": "Pillar of Cloud and Fire",
+    "type": "multiple-choice",
+    "question": "By what did the Lord lead Israel during the night?",
+    "answer": "A pillar of fire",
+    "options": [
+      "A pillar of fire",
+      "A pillar of cloud",
+      "The moon",
+      "A burning bush"
+    ],
+    "memoryAid": {
+      "type": "teaching",
+      "text": "The pillar of cloud by day and fire by night is God's abiding guiding presence with His people. The Fathers see here the unfailing presence of God who leads His Church through the wilderness of this world toward the promised land."
+    }
+  },
+  {
+    "id": "ex13-006",
+    "chapter": 13,
+    "book": "Exodus",
+    "reference": "Exodus 13",
+    "topic": "Joseph's Bones",
+    "type": "fill-in",
+    "question": "What did Moses bring with him out of Egypt, fulfilling an ancient promise?",
+    "answer": "Joseph's bones",
+    "acceptableAnswers": [
+      "joseph's bones",
+      "the bones of joseph",
+      "bones of joseph",
+      "joseph's remains"
+    ],
+    "memoryAid": {
+      "type": "image",
+      "text": "Picture Moses carrying a centuries-old coffin out of Egypt on the night of flight — Joseph made them swear to carry his bones home, and now those bones ride to the promised land at last."
+    }
+  },
+  {
+    "id": "ex13-007",
+    "chapter": 13,
+    "book": "Exodus",
+    "reference": "Exodus 13",
+    "topic": "Joseph's Bones",
+    "type": "multiple-choice",
+    "question": "Whose promise was fulfilled when Moses carried bones out of Egypt?",
+    "answer": "Joseph's, that he would reach the promised land",
+    "options": [
+      "Joseph's, that he would reach the promised land",
+      "Abraham's, that he would be buried in Canaan",
+      "Jacob's, that he would see Egypt again",
+      "Levi's, that his tribe would serve the altar"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "Joseph's bones, Joseph's promise — the man who saved Egypt finally goes home to Canaan."
+    }
+  },
+  {
+    "id": "ex14-001",
+    "chapter": 14,
+    "book": "Exodus",
+    "reference": "Exodus 14",
+    "topic": "Camp by the Sea",
+    "type": "multiple-choice",
+    "question": "Where did Israel camp before the sea?",
+    "answer": "Opposite Baal Zephon, between Migdol and the sea",
+    "options": [
+      "Opposite Baal Zephon, between Migdol and the sea",
+      "At Elim among the springs and palms",
+      "In the Wilderness of Sin",
+      "At Marah by the bitter waters"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "Migdol on one side, the sea on the other, Baal Zephon ahead — boxed in, with nowhere to go but through the water."
+    }
+  },
+  {
+    "id": "ex14-002",
+    "chapter": 14,
+    "book": "Exodus",
+    "reference": "Exodus 14",
+    "topic": "Camp by the Sea",
+    "type": "fill-in",
+    "question": "Israel camped opposite Baal Zephon, between the sea and what fortified place?",
+    "answer": "Migdol",
+    "acceptableAnswers": [
+      "migdol",
+      "migdol tower"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "Migdol means 'tower' — a tower marks the trap that turns into deliverance."
+    }
+  },
+  {
+    "id": "ex14-003",
+    "chapter": 14,
+    "book": "Exodus",
+    "reference": "Exodus 14",
+    "topic": "Red Sea",
+    "type": "true-false",
+    "question": "Israel was confident when Pharaoh approached at the sea.",
+    "answer": "False",
+    "options": [
+      "True",
+      "False"
+    ],
+    "memoryAid": {
+      "type": "image",
+      "text": "Two million people pinned against the water, dust rising from Pharaoh's chariots behind them — they cried out in terror, not confidence."
+    }
+  },
+  {
+    "id": "ex14-004",
+    "chapter": 14,
+    "book": "Exodus",
+    "reference": "Exodus 14:14",
+    "topic": "Red Sea",
+    "type": "fill-in",
+    "question": "Complete the verse: 'The Lord will fight for you, and you shall hold your ____.'",
+    "answer": "peace",
+    "acceptableAnswers": [
+      "peace",
+      "your peace"
+    ],
+    "memoryAid": {
+      "type": "image",
+      "text": "Two million terrified people, sea ahead, chariots behind — and the command is to be still. Picture standing dead-calm with hooves thundering at your back: salvation is God's work, not yours."
+    }
+  },
+  {
+    "id": "ex14-005",
+    "chapter": 14,
+    "book": "Exodus",
+    "reference": "Exodus 14:21",
+    "topic": "Dividing the Sea",
+    "type": "multiple-choice",
+    "question": "According to the OSB, by what kind of wind was the sea divided?",
+    "answer": "A strong south wind",
+    "options": [
+      "A strong south wind",
+      "A strong east wind",
+      "A whirlwind from the north",
+      "A west wind"
+    ],
+    "memoryAid": {
+      "type": "teaching",
+      "text": "The OSB reads that a strong south wind drove back the sea (Ex 14:21). The Fathers see the crossing of the Red Sea as a type of Baptism: passing through the waters from slavery into freedom, Israel is delivered as we are delivered through the font."
+    }
+  },
+  {
+    "id": "ex14-006",
+    "chapter": 14,
+    "book": "Exodus",
+    "reference": "Exodus 14",
+    "topic": "Red Sea",
+    "type": "true-false",
+    "question": "The Egyptians crossed the sea safely behind Israel.",
+    "answer": "False",
+    "options": [
+      "True",
+      "False"
+    ],
+    "memoryAid": {
+      "type": "teaching",
+      "text": "The waters returned and covered Pharaoh's host so that not one remained. The Fathers see the drowning of the Egyptians as the destruction of sin and the demonic powers in the waters of Baptism, which Israel passes through unharmed."
+    }
+  },
+  {
+    "id": "ex14-007",
+    "chapter": 14,
+    "book": "Exodus",
+    "reference": "Exodus 14",
+    "topic": "Pharaoh's Army",
+    "type": "multiple-choice",
+    "question": "What happened to Pharaoh's army at the Red Sea?",
+    "answer": "The chariots and horsemen perished in the returning waters",
+    "options": [
+      "The chariots and horsemen perished in the returning waters",
+      "They turned back to Egypt unharmed",
+      "They crossed and pursued Israel into the wilderness",
+      "They were struck blind and wandered off"
+    ],
+    "memoryAid": {
+      "type": "image",
+      "text": "Picture chariot wheels jamming in the sea-floor mud as the walls of water collapse — horse and rider, chariot and charioteer, all swept under in an instant."
+    }
+  },
+  {
+    "id": "ex15-001",
+    "chapter": 15,
+    "book": "Exodus",
+    "reference": "Exodus 15:1",
+    "topic": "Song of Moses",
+    "type": "fill-in",
+    "question": "Complete the opening of the Song of Moses: 'Let us sing to the Lord, for he is very greatly glorified: horse and rider he has thrown into the ____.'",
+    "answer": "sea",
+    "acceptableAnswers": [
+      "sea",
+      "the sea"
+    ],
+    "memoryAid": {
+      "type": "teaching",
+      "text": "The Song of Moses is the first ode of the Church's canon of hymns, sung at the dawn of Israel's salvation. It celebrates the victory of God over the powers of Egypt, prefiguring the triumph of Christ over death."
+    }
+  },
+  {
+    "id": "ex15-002",
+    "chapter": 15,
+    "book": "Exodus",
+    "reference": "Exodus 15:2",
+    "topic": "Song of Moses",
+    "type": "fill-in",
+    "question": "Complete the verse: 'He was to me a helper and protector for salvation: this is my God, and I will ____ him.'",
+    "answer": "glorify",
+    "acceptableAnswers": [
+      "glorify",
+      "glorify him"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "Helper, Protector, Salvation — then 'glorify': God acts, and we respond with glory."
+    }
+  },
+  {
+    "id": "ex15-003",
+    "chapter": 15,
+    "book": "Exodus",
+    "reference": "Exodus 15:3",
+    "topic": "Song of Moses",
+    "type": "fill-in",
+    "question": "Complete the verse: 'The Lord bringing wars to nought, the Lord is his ____.'",
+    "answer": "name",
+    "acceptableAnswers": [
+      "name",
+      "his name"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "The Lord brings wars to nought — His very name spells the end of war."
+    }
+  },
+  {
+    "id": "ex15-004",
+    "chapter": 15,
+    "book": "Exodus",
+    "reference": "Exodus 15",
+    "topic": "Miriam",
+    "type": "multiple-choice",
+    "question": "What title is given to Miriam in the Song of Moses?",
+    "answer": "Prophetess",
+    "options": [
+      "Prophetess",
+      "Judge",
+      "Queen",
+      "Priestess"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "Miriam the prophetess — Moses' sister speaks and sings for God."
+    }
+  },
+  {
+    "id": "ex15-005",
+    "chapter": 15,
+    "book": "Exodus",
+    "reference": "Exodus 15",
+    "topic": "Miriam",
+    "type": "fill-in",
+    "question": "Miriam led the women with dance and what instrument?",
+    "answer": "Timbrels",
+    "acceptableAnswers": [
+      "timbrels",
+      "timbrel",
+      "tambourines",
+      "tambourine"
+    ],
+    "memoryAid": {
+      "type": "image",
+      "text": "Picture Miriam at the head of a line of women, timbrels ringing and feet dancing on the far shore while Egypt lies drowned behind them."
+    }
+  },
+  {
+    "id": "ex15-006",
+    "chapter": 15,
+    "book": "Exodus",
+    "reference": "Exodus 15",
+    "topic": "Bitter Waters of Marah",
+    "type": "true-false",
+    "question": "The people found fresh, sweet water when they arrived at Marah.",
+    "answer": "False",
+    "options": [
+      "True",
+      "False"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "Marah means 'bitter' — the name itself tells you the water could not be drunk."
+    }
+  },
+  {
+    "id": "ex15-007",
+    "chapter": 15,
+    "book": "Exodus",
+    "reference": "Exodus 15:25",
+    "topic": "Bitter Waters of Marah",
+    "type": "fill-in",
+    "question": "What did Moses cast into the bitter waters of Marah to make them sweet?",
+    "answer": "A tree",
+    "acceptableAnswers": [
+      "a tree",
+      "tree",
+      "wood",
+      "a piece of wood"
+    ],
+    "memoryAid": {
+      "type": "teaching",
+      "text": "The Fathers see the Cross at Marah: bitter water made sweet by a tree thrown in, as the bitterness of death is made sweet by the wood of the Cross."
+    }
+  },
+  {
+    "id": "ex15-008",
+    "chapter": 15,
+    "book": "Exodus",
+    "reference": "Exodus 15:26",
+    "topic": "The Lord Who Heals",
+    "type": "fill-in",
+    "question": "Complete the verse: 'I am the Lord thy God that ____ thee.'",
+    "answer": "heals",
+    "acceptableAnswers": [
+      "heals",
+      "heals thee",
+      "that heals thee"
+    ],
+    "memoryAid": {
+      "type": "teaching",
+      "text": "At Marah the Lord reveals Himself as the One who heals. The Fathers see Christ the Physician, who heals not only bodies but the bitterness of fallen human nature through the sweetening wood of the Cross."
+    }
+  },
+  {
+    "id": "ex15-009",
+    "chapter": 15,
+    "book": "Exodus",
+    "reference": "Exodus 15:27",
+    "topic": "Elim",
+    "type": "multiple-choice",
+    "question": "How many springs of water did Israel find at the oasis of Elim?",
+    "answer": "Twelve",
+    "options": [
+      "Twelve",
+      "Seven",
+      "Seventy",
+      "Forty"
+    ],
+    "memoryAid": {
+      "type": "teaching",
+      "text": "Twelve springs and seventy palm trees at Elim. The Fathers see in the twelve springs a type of the twelve Apostles and in the seventy palms the seventy disciples sent out by Christ — the oasis prefigures the Church's refreshment."
+    }
+  },
+  {
+    "id": "ex15-010",
+    "chapter": 15,
+    "book": "Exodus",
+    "reference": "Exodus 15:27",
+    "topic": "Elim",
+    "type": "multiple-choice",
+    "question": "How many palm trees were at the oasis of Elim?",
+    "answer": "Seventy",
+    "options": [
+      "Seventy",
+      "Twelve",
+      "Twelve hundred",
+      "Forty"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "Twelve springs, seventy palms — twelve like the Apostles, seventy like the disciples Christ sent out."
+    }
+  },
+  {
+    "id": "ex15-011",
+    "chapter": 15,
+    "book": "Exodus",
+    "reference": "Exodus 15:27",
+    "topic": "Elim",
+    "type": "fill-in",
+    "question": "At Elim Israel found twelve springs of water and how many palm trees?",
+    "answer": "Seventy",
+    "acceptableAnswers": [
+      "seventy",
+      "70"
+    ],
+    "memoryAid": {
+      "type": "image",
+      "text": "Picture a green island in the desert: twelve gushing springs and seventy palm trees swaying — a resting place after the bitterness of Marah."
+    }
+  },
+  {
+    "id": "ex16-001",
+    "chapter": 16,
+    "book": "Exodus",
+    "reference": "Exodus 16",
+    "topic": "Wilderness of Sin",
+    "type": "multiple-choice",
+    "question": "On what day did Israel come to the Wilderness of Sin?",
+    "answer": "The fifteenth day of the second month",
+    "options": [
+      "The fifteenth day of the second month",
+      "The first day of the first month",
+      "The fortieth day after the Passover",
+      "The seventh day of the third month"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "Fifteenth of the second month — exactly one month after leaving Egypt."
+    }
+  },
+  {
+    "id": "ex16-002",
+    "chapter": 16,
+    "book": "Exodus",
+    "reference": "Exodus 16",
+    "topic": "Wilderness of Sin",
+    "type": "true-false",
+    "question": "Israel reached the Wilderness of Sin about one month after leaving Egypt.",
+    "answer": "True",
+    "options": [
+      "True",
+      "False"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "Left Egypt on the fifteenth, hungry in the wilderness on the fifteenth a month later — one month to the day."
+    }
+  },
+  {
+    "id": "ex16-003",
+    "chapter": 16,
+    "book": "Exodus",
+    "reference": "Exodus 16",
+    "topic": "Journey from Elim",
+    "type": "fill-in",
+    "question": "Israel journeyed from Elim into which wilderness, where the manna was given?",
+    "answer": "The Wilderness of Sin",
+    "acceptableAnswers": [
+      "sin",
+      "wilderness of sin",
+      "the wilderness of sin"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "From Elim's springs to the Wilderness of Sin — the place-name 'Sin' is from Sinai, not the word for transgression."
+    }
+  },
+  {
+    "id": "ex16-004",
+    "chapter": 16,
+    "book": "Exodus",
+    "reference": "Exodus 16:3",
+    "topic": "The Complaint",
+    "type": "multiple-choice",
+    "question": "What did the people say they had sat beside in Egypt when they complained of hunger?",
+    "answer": "The flesh pots",
+    "options": [
+      "The flesh pots",
+      "The rivers of Goshen",
+      "The brick kilns",
+      "The wells of Pharaoh"
+    ],
+    "memoryAid": {
+      "type": "image",
+      "text": "Picture freed slaves longing for the steaming meat-pots of their captivity — they would rather have died full in Egypt than walk free and hungry in the desert."
+    }
+  },
+  {
+    "id": "ex16-005",
+    "chapter": 16,
+    "book": "Exodus",
+    "reference": "Exodus 16",
+    "topic": "The Complaint",
+    "type": "true-false",
+    "question": "In chapter 16 Israel went from singing God's praises to complaining about hunger.",
+    "answer": "True",
+    "options": [
+      "True",
+      "False"
+    ],
+    "memoryAid": {
+      "type": "teaching",
+      "text": "From the triumphant Song of the Sea to murmuring over bread, Israel reveals the fickleness of the human heart. The Fathers warn that the soul delivered from sin must still be fed daily, lest it grumble and look back to its old slavery."
+    }
+  },
+  {
+    "id": "ex16-006",
+    "chapter": 16,
+    "book": "Exodus",
+    "reference": "Exodus 16",
+    "topic": "Manna and Quail",
+    "type": "multiple-choice",
+    "question": "When did the manna appear each day?",
+    "answer": "In the morning",
+    "options": [
+      "In the morning",
+      "In the evening",
+      "At noon",
+      "At midnight"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "Bread in the morning, meat at night — manna with the dew, quail with the dusk."
+    }
+  },
+  {
+    "id": "ex16-007",
+    "chapter": 16,
+    "book": "Exodus",
+    "reference": "Exodus 16",
+    "topic": "Manna and Quail",
+    "type": "multiple-choice",
+    "question": "When did the quail appear?",
+    "answer": "In the evening",
+    "options": [
+      "In the evening",
+      "In the morning",
+      "At dawn",
+      "On the Sabbath"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "Quail in the evening, manna in the morning — flesh by night, bread by day."
+    }
+  },
+  {
+    "id": "ex16-008",
+    "chapter": 16,
+    "book": "Exodus",
+    "reference": "Exodus 16",
+    "topic": "Meaning of Manna",
+    "type": "fill-in",
+    "question": "What does the word 'manna' mean?",
+    "answer": "What is it?",
+    "acceptableAnswers": [
+      "what is it",
+      "what is it?",
+      "what is this",
+      "what is this?"
+    ],
+    "memoryAid": {
+      "type": "teaching",
+      "text": "Seeing the strange bread, Israel asked 'What is it?' — and that question became its name. The Fathers see the manna as a type of the Eucharist, Christ the Bread of Life come down from heaven, a mystery that surpasses understanding."
+    }
+  },
+  {
+    "id": "ex16-009",
+    "chapter": 16,
+    "book": "Exodus",
+    "reference": "Exodus 16",
+    "topic": "Storing Manna",
+    "type": "true-false",
+    "question": "Israel could store leftover manna for the next day without it spoiling.",
+    "answer": "False",
+    "options": [
+      "True",
+      "False"
+    ],
+    "memoryAid": {
+      "type": "teaching",
+      "text": "Manna kept overnight bred worms and stank, except the portion gathered before the Sabbath. The Fathers see a lesson in daily dependence on God, echoed in 'give us this day our daily bread' and in the daily reception of Christ the living Bread."
+    }
+  },
+  {
+    "id": "ex16-010",
+    "chapter": 16,
+    "book": "Exodus",
+    "reference": "Exodus 16",
+    "topic": "Sabbath Portion",
+    "type": "multiple-choice",
+    "question": "How much manna did Israel gather on the sixth day?",
+    "answer": "A double amount",
+    "options": [
+      "A double amount",
+      "Half the usual amount",
+      "No manna at all",
+      "The same as every other day"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "Sixth day, double portion — gather twice so you can rest on the seventh."
+    }
+  },
+  {
+    "id": "ex16-011",
+    "chapter": 16,
+    "book": "Exodus",
+    "reference": "Exodus 16:8",
+    "topic": "Flesh and Bread",
+    "type": "multiple-choice",
+    "question": "According to Exodus 16:8, against whom was Israel's murmuring truly directed?",
+    "answer": "Against God",
+    "options": [
+      "Against God",
+      "Against Moses",
+      "Against Aaron",
+      "Against Pharaoh"
+    ],
+    "memoryAid": {
+      "type": "teaching",
+      "text": "Moses tells the people their grumbling is not against him and Aaron but against the Lord. The Fathers teach that complaint against God's providence is a deep spiritual danger, for it doubts the very God who fed them with bread from heaven."
+    }
+  },
+  {
+    "id": "ex16-012",
+    "chapter": 16,
+    "book": "Exodus",
+    "reference": "Exodus 16:8",
+    "topic": "Flesh and Bread",
+    "type": "fill-in",
+    "question": "According to Exodus 16:8, the Lord gives flesh in the evening and what in the morning?",
+    "answer": "Bread",
+    "acceptableAnswers": [
+      "bread",
+      "manna"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "Flesh in the evening, bread in the morning — evening meat, morning bread."
+    }
+  },
+  {
+    "id": "ex16-013",
+    "chapter": 16,
+    "book": "Exodus",
+    "reference": "Exodus 16:16",
+    "topic": "Measure of Manna",
+    "type": "fill-in",
+    "question": "How much manna was each person to gather according to Exodus 16:16?",
+    "answer": "A homer",
+    "acceptableAnswers": [
+      "a homer",
+      "homer",
+      "one homer",
+      "a homer each",
+      "a homer for each person"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "A homer for each head — one measure per person, no more, no less."
+    }
+  },
+  {
+    "id": "ex16-014",
+    "chapter": 16,
+    "book": "Exodus",
+    "reference": "Exodus 16:31",
+    "topic": "Taste of Manna",
+    "type": "multiple-choice",
+    "question": "According to Exodus 16:31, what was the taste of the manna like?",
+    "answer": "A wafer with honey",
+    "options": [
+      "A wafer with honey",
+      "Roasted grain",
+      "Unleavened bread with oil",
+      "Bitter herbs"
+    ],
+    "memoryAid": {
+      "type": "teaching",
+      "text": "White like coriander seed and tasting like a wafer made with honey, the manna prefigures the sweetness of the Eucharist. The Fathers see Christ the Bread of Life, whose taste is the sweetness of communion with God."
+    }
+  },
+  {
+    "id": "ex16-015",
+    "chapter": 16,
+    "book": "Exodus",
+    "reference": "Exodus 16:31",
+    "topic": "Appearance of Manna",
+    "type": "fill-in",
+    "question": "Manna was white and like the seed of what plant in appearance?",
+    "answer": "Coriander",
+    "acceptableAnswers": [
+      "coriander",
+      "coriander seed",
+      "white coriander seed"
+    ],
+    "memoryAid": {
+      "type": "image",
+      "text": "Picture the desert floor at dawn dusted with tiny white seeds like coriander, glittering with the morning dew — bread from heaven scattered on the ground."
+    }
+  },
+  {
+    "id": "ex16-016",
+    "chapter": 16,
+    "book": "Exodus",
+    "reference": "Exodus 16",
+    "topic": "Duration of Manna",
+    "type": "multiple-choice",
+    "question": "For how many years did Israel eat manna?",
+    "answer": "Forty years",
+    "options": [
+      "Forty years",
+      "Seven years",
+      "Twelve years",
+      "Four hundred years"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "Forty years of wandering, forty years of manna — bread from heaven the whole way."
+    }
+  },
+  {
+    "id": "ex16-017",
+    "chapter": 16,
+    "book": "Exodus",
+    "reference": "Exodus 16",
+    "topic": "Manna",
+    "type": "true-false",
+    "question": "Israel ate manna for forty years until they reached the borders of Canaan.",
+    "answer": "True",
+    "options": [
+      "True",
+      "False"
+    ],
+    "memoryAid": {
+      "type": "teaching",
+      "text": "Manna fed Israel for forty years until they entered the promised land. The Fathers see the Eucharist as the manna of the new Israel, sustaining the Church through her pilgrimage until she enters the Kingdom."
+    }
+  },
+  {
+    "id": "ex16-018",
+    "chapter": 16,
+    "book": "Exodus",
+    "reference": "Exodus 16",
+    "topic": "Manna and Quail",
+    "type": "multiple-choice",
+    "question": "Which of these is NOT something that happened in the Wilderness of Sin?",
+    "answer": "Water flowed from a struck rock",
+    "options": [
+      "Water flowed from a struck rock",
+      "Manna appeared in the morning",
+      "Quail appeared in the evening",
+      "A double portion was gathered on the sixth day"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "Chapter 16 is bread and quail; the rock that gives water comes later, in chapter 17."
+    }
+  },
+  {
+    "id": "ex17-001",
+    "chapter": 17,
+    "book": "Exodus",
+    "reference": "Exodus 17:1-6",
+    "topic": "Water from the Rock",
+    "type": "fill-in",
+    "question": "At what place did Israel camp when there was no water, leading to the water from the rock?",
+    "answer": "Rephidim",
+    "acceptableAnswers": [
+      "rephidim"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "Rephidim sounds like 'refill-dim' — the people's faith was dim, but God refilled them with water from the rock."
+    }
+  },
+  {
+    "id": "ex17-002",
+    "chapter": 17,
+    "book": "Exodus",
+    "reference": "Exodus 17:6",
+    "topic": "Water from the Rock",
+    "type": "true-false",
+    "question": "Moses struck the rock to bring forth water.",
+    "answer": "True",
+    "options": [
+      "True",
+      "False"
+    ],
+    "memoryAid": {
+      "type": "teaching",
+      "text": "The rock struck at Horeb gives water to a thirsting people. St. Paul declares, 'that Rock was Christ' (1 Cor 10:4). The struck Rock prefigures Christ struck on the Cross, from whose pierced side flow the living waters of Baptism and the Spirit."
+    }
+  },
+  {
+    "id": "ex17-003",
+    "chapter": 17,
+    "book": "Exodus",
+    "reference": "Exodus 17:6",
+    "topic": "Water from the Rock",
+    "type": "multiple-choice",
+    "question": "At which mountain did God tell Moses he would stand on the rock to bring forth water?",
+    "answer": "Horeb",
+    "options": [
+      "Horeb",
+      "Sinai",
+      "Nebo",
+      "Carmel"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "Horeb = 'H2O-reb' — the place water poured from the rock."
+    }
+  },
+  {
+    "id": "ex17-004",
+    "chapter": 17,
+    "book": "Exodus",
+    "reference": "Exodus 17:7",
+    "topic": "Massah and Meribah",
+    "type": "fill-in",
+    "question": "What two names did Moses give the place where the people tested the Lord?",
+    "answer": "Massah and Meribah",
+    "acceptableAnswers": [
+      "massah and meribah",
+      "massah meribah",
+      "meribah and massah"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "Massah = 'Mass test' (Testing); Meribah = 'Merry brawl' (Contention). The people tested God and quarreled with Moses."
+    }
+  },
+  {
+    "id": "ex17-005",
+    "chapter": 17,
+    "book": "Exodus",
+    "reference": "Exodus 17:7",
+    "topic": "Massah and Meribah",
+    "type": "multiple-choice",
+    "question": "What do the names Massah and Meribah mean?",
+    "answer": "Testing and contention",
+    "options": [
+      "Testing and contention",
+      "Refuge and rest",
+      "Bitter and sweet",
+      "Mercy and judgment"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "MaSSah = teSt; meRibah = quaRrel (contention). Two M's for two murmurings."
+    }
+  },
+  {
+    "id": "ex17-006",
+    "chapter": 17,
+    "book": "Exodus",
+    "reference": "Exodus 17:9",
+    "topic": "Battle with Amalek",
+    "type": "fill-in",
+    "question": "Who led Israel's army into battle against Amalek?",
+    "answer": "Joshua",
+    "acceptableAnswers": [
+      "joshua"
+    ],
+    "memoryAid": {
+      "type": "teaching",
+      "text": "Joshua (Hebrew Yehoshua) bears the same name as Jesus (Yeshua). The one who leads Israel's warfare against Amalek shares the Savior's name, foreshadowing Christ who leads His people in victory over the enemy."
+    }
+  },
+  {
+    "id": "ex17-007",
+    "chapter": 17,
+    "book": "Exodus",
+    "reference": "Exodus 17:11",
+    "topic": "Battle with Amalek",
+    "type": "fill-in",
+    "question": "What happened to the battle whenever Moses raised his hands?",
+    "answer": "Israel prevailed",
+    "acceptableAnswers": [
+      "israel prevailed",
+      "israel won",
+      "israel was winning"
+    ],
+    "memoryAid": {
+      "type": "teaching",
+      "text": "Moses on the hill with arms outstretched is a living image of the Cross: while his arms form the cross-shape, Amalek falls. Aaron and Hur holding up his tiring arms show that victory comes only through the Cross, upheld by the Church."
+    }
+  },
+  {
+    "id": "ex17-008",
+    "chapter": 17,
+    "book": "Exodus",
+    "reference": "Exodus 17:10",
+    "topic": "Battle with Amalek",
+    "type": "multiple-choice",
+    "question": "Who went up to the top of the hill with Moses during the battle with Amalek?",
+    "answer": "Aaron and Hur",
+    "options": [
+      "Aaron and Hur",
+      "Joshua and Caleb",
+      "Aaron and Joshua",
+      "Hur and Eleazar"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "Two men, two arms: Aaron held one, Hur held the other. 'A' and 'H' bracket Moses like bookends."
+    }
+  },
+  {
+    "id": "ex17-009",
+    "chapter": 17,
+    "book": "Exodus",
+    "reference": "Exodus 17:12",
+    "topic": "Battle with Amalek",
+    "type": "fill-in",
+    "question": "How did Aaron and Hur help Moses keep his hands raised?",
+    "answer": "They put a stone under him and held up his hands",
+    "acceptableAnswers": [
+      "they put a stone under him and held up his hands",
+      "put a stone under him and held his hands",
+      "sat him on a stone and held up his hands",
+      "held up his hands"
+    ],
+    "memoryAid": {
+      "type": "teaching",
+      "text": "Aaron and Hur uphold the arms of Moses so the cross-form never drops until sunset. So the Church sustains the victory of the Cross through prayer and intercession, never letting the saving sign fall."
+    }
+  },
+  {
+    "id": "ex17-010",
+    "chapter": 17,
+    "book": "Exodus",
+    "reference": "Exodus 17:15",
+    "topic": "Altar of Moses",
+    "type": "fill-in",
+    "question": "What name did Moses give the altar he built after defeating Amalek?",
+    "answer": "The Lord My Refuge",
+    "acceptableAnswers": [
+      "the lord my refuge",
+      "lord my refuge",
+      "the lord is my refuge"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "After the battle, Moses names the altar for safety: 'The Lord My Refuge' — God is the fortress to which the victor runs."
+    }
+  },
+  {
+    "id": "ex18-001",
+    "chapter": 18,
+    "book": "Exodus",
+    "reference": "Exodus 18:1-5",
+    "topic": "Jethro Visits",
+    "type": "fill-in",
+    "question": "Who came to visit Moses in the wilderness, bringing his wife and sons?",
+    "answer": "Jethro",
+    "acceptableAnswers": [
+      "jethro"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "Jethro = Moses' father-in-law, the priest of Midian. 'J' for the wise judge-advisor who joins the camp."
+    }
+  },
+  {
+    "id": "ex18-002",
+    "chapter": 18,
+    "book": "Exodus",
+    "reference": "Exodus 18:1",
+    "topic": "Jethro Visits",
+    "type": "true-false",
+    "question": "Jethro was an Egyptian priest.",
+    "answer": "False",
+    "options": [
+      "True",
+      "False"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "Jethro was a priest of MIDIAN, not Egypt. Moses fled Egypt TO Midian, so its priest could not be Egyptian."
+    }
+  },
+  {
+    "id": "ex18-003",
+    "chapter": 18,
+    "book": "Exodus",
+    "reference": "Exodus 18:1",
+    "topic": "Jethro Visits",
+    "type": "multiple-choice",
+    "question": "Of what land was Jethro a priest?",
+    "answer": "Midian",
+    "options": [
+      "Midian",
+      "Egypt",
+      "Moab",
+      "Canaan"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "MIDIAN is where Moses 'hid in' after fleeing Egypt; Jethro is its priest."
+    }
+  },
+  {
+    "id": "ex18-004",
+    "chapter": 18,
+    "book": "Exodus",
+    "reference": "Exodus 18:3-4",
+    "topic": "Moses' Sons",
+    "type": "fill-in",
+    "question": "What were the names of Moses' two sons?",
+    "answer": "Gershom and Eliezer",
+    "acceptableAnswers": [
+      "gershom and eliezer",
+      "gershom eliezer",
+      "eliezer and gershom"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "Gershom = 'a sojourner' (a stranger there); Eliezer = 'God is my help'. Two sons: a stranger helped by God."
+    }
+  },
+  {
+    "id": "ex18-005",
+    "chapter": 18,
+    "book": "Exodus",
+    "reference": "Exodus 18:3",
+    "topic": "Moses' Sons",
+    "type": "multiple-choice",
+    "question": "What does the name of Moses' son Gershom mean?",
+    "answer": "A sojourner (stranger there)",
+    "options": [
+      "A sojourner (stranger there)",
+      "God is my help",
+      "Drawn out of water",
+      "Laughter"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "GerSHOM = 'a stranger SHOWing up there'. Moses said, 'I have been a sojourner in a foreign land.'"
+    }
+  },
+  {
+    "id": "ex18-006",
+    "chapter": 18,
+    "book": "Exodus",
+    "reference": "Exodus 18:4",
+    "topic": "Moses' Sons",
+    "type": "multiple-choice",
+    "question": "What does the name of Moses' son Eliezer mean?",
+    "answer": "God is my help",
+    "options": [
+      "God is my help",
+      "A sojourner",
+      "Son of my sorrow",
+      "Gift of God"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "ELI-ezer: 'Eli' = my God, and He is my helper. 'God is my help.'"
+    }
+  },
+  {
+    "id": "ex18-007",
+    "chapter": 18,
+    "book": "Exodus",
+    "reference": "Exodus 18:21-22",
+    "topic": "Jethro's Advice",
+    "type": "fill-in",
+    "question": "Jethro advised Moses to appoint rulers over groups of what four sizes?",
+    "answer": "Thousands, hundreds, fifties, and tens",
+    "acceptableAnswers": [
+      "thousands hundreds fifties and tens",
+      "thousands, hundreds, fifties, and tens",
+      "thousands hundreds fifties tens"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "Count down by tiers: 1000, 100, 50, 10. Big to small leadership ladder."
+    }
+  },
+  {
+    "id": "ex18-008",
+    "chapter": 18,
+    "book": "Exodus",
+    "reference": "Exodus 18:22",
+    "topic": "Jethro's Advice",
+    "type": "multiple-choice",
+    "question": "Why did Jethro advise Moses to appoint judges over the people?",
+    "answer": "To share the burden of leadership",
+    "options": [
+      "To share the burden of leadership",
+      "To raise an army for war",
+      "To collect taxes for the tabernacle",
+      "To choose a successor for Moses"
+    ],
+    "memoryAid": {
+      "type": "teaching",
+      "text": "Jethro's counsel to share leadership prefigures the ordered hierarchy of the Church, where bishops appoint presbyters and deacons so the burden of ministry is shared and the whole body is served."
+    }
+  },
+  {
+    "id": "ex19-001",
+    "chapter": 19,
+    "book": "Exodus",
+    "reference": "Exodus 19:1",
+    "topic": "Arrival at Sinai",
+    "type": "fill-in",
+    "question": "In which month after leaving Egypt did Israel arrive at the wilderness of Sinai?",
+    "answer": "The third month",
+    "acceptableAnswers": [
+      "third month",
+      "the third month",
+      "third",
+      "3rd month"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "Three months out of Egypt to reach Sinai — count 1, 2, 3 to the mountain of God."
+    }
+  },
+  {
+    "id": "ex19-002",
+    "chapter": 19,
+    "book": "Exodus",
+    "reference": "Exodus 19:4",
+    "topic": "Eagles' Wings",
+    "type": "fill-in",
+    "question": "God said He bore Israel out of Egypt on what?",
+    "answer": "Eagles' wings",
+    "acceptableAnswers": [
+      "eagles wings",
+      "eagles' wings",
+      "eagle's wings",
+      "eagle wings"
+    ],
+    "memoryAid": {
+      "type": "teaching",
+      "text": "'I bore you on eagles' wings, and brought you unto Myself.' The eagle bears its young aloft; so God lifts His people out of bondage and carries them to Himself. The image speaks of divine deliverance drawing us up into communion with God."
+    }
+  },
+  {
+    "id": "ex19-003",
+    "chapter": 19,
+    "book": "Exodus",
+    "reference": "Exodus 19:6",
+    "topic": "Kingdom of Priests",
+    "type": "multiple-choice",
+    "question": "According to Exodus 19:6, God said Israel would be to Him a royal priesthood and what kind of nation?",
+    "answer": "A holy nation",
+    "options": [
+      "A holy nation",
+      "A mighty nation",
+      "A great nation",
+      "A chosen nation"
+    ],
+    "memoryAid": {
+      "type": "teaching",
+      "text": "'A royal priesthood and a holy nation' — St. Peter applies these very words to the Church (1 Pet 2:9). What was spoken to Israel at Sinai is fulfilled in the baptized people of God, a priestly and holy people in Christ."
+    }
+  },
+  {
+    "id": "ex19-004",
+    "chapter": 19,
+    "book": "Exodus",
+    "reference": "Exodus 19:5-6",
+    "topic": "Kingdom of Priests",
+    "type": "multiple-choice",
+    "question": "Which of the following did God NOT call Israel at Sinai?",
+    "answer": "A conquering army",
+    "options": [
+      "A conquering army",
+      "A special treasure",
+      "A kingdom of priests",
+      "A holy nation"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "Treasure, Priests, Holy nation — all about belonging to God, not warfare. The odd one out is the 'army'."
+    }
+  },
+  {
+    "id": "ex19-005",
+    "chapter": 19,
+    "book": "Exodus",
+    "reference": "Exodus 19:5",
+    "topic": "Special Treasure",
+    "type": "fill-in",
+    "question": "God said Israel would be His special what, above all peoples?",
+    "answer": "Treasure",
+    "acceptableAnswers": [
+      "treasure",
+      "special treasure",
+      "peculiar treasure"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "Out of all the earth, God picks one 'treasure chest' people. Israel is the buried treasure He chose."
+    }
+  },
+  {
+    "id": "ex19-006",
+    "chapter": 19,
+    "book": "Exodus",
+    "reference": "Exodus 19:12-13",
+    "topic": "Boundaries at Sinai",
+    "type": "true-false",
+    "question": "At Mount Sinai everyone could freely approach and touch the mountain.",
+    "answer": "False",
+    "options": [
+      "True",
+      "False"
+    ],
+    "memoryAid": {
+      "type": "teaching",
+      "text": "Boundaries were set; the people could not even touch the base of the mountain on pain of death. The holiness of God demands reverent distance — a foreshadowing of the veil and the awe due to the Holy, until Christ opens the way of access to God."
+    }
+  },
+  {
+    "id": "ex19-007",
+    "chapter": 19,
+    "book": "Exodus",
+    "reference": "Exodus 19:16-18",
+    "topic": "Signs on Sinai",
+    "type": "multiple-choice",
+    "question": "Which of the following was NOT among the signs that appeared on Mount Sinai?",
+    "answer": "Falling hail",
+    "options": [
+      "Falling hail",
+      "Thunder and lightning",
+      "A thick cloud and smoke",
+      "A trumpet blast"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "Sinai's signs: Thunder, Lightning, Cloud, Trumpet, Smoke, Earthquake. Hail belonged to the plagues of Egypt, not the mountain."
+    }
+  },
+  {
+    "id": "ex19-008",
+    "chapter": 19,
+    "book": "Exodus",
+    "reference": "Exodus 19:16",
+    "topic": "Signs on Sinai",
+    "type": "multiple-choice",
+    "question": "What loud sound, besides thunder, signaled God's presence on Sinai?",
+    "answer": "A trumpet blast",
+    "options": [
+      "A trumpet blast",
+      "A roaring lion",
+      "A choir of angels",
+      "A clap of cymbals"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "The exceedingly loud TRUMPET on Sinai announces God's coming — the same trumpet that will sound at the Last Day."
+    }
+  },
+  {
+    "id": "ex19-009",
+    "chapter": 19,
+    "book": "Exodus",
+    "reference": "Exodus 19:18",
+    "topic": "Signs on Sinai",
+    "type": "true-false",
+    "question": "The whole mountain quaked greatly when the Lord descended on Sinai.",
+    "answer": "True",
+    "options": [
+      "True",
+      "False"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "Fire, smoke, and a quaking mountain — Sinai shakes because the Lord Himself comes down upon it."
+    }
+  },
+  {
+    "id": "ex20-001",
+    "chapter": 20,
+    "book": "Exodus",
+    "reference": "Exodus 20:3",
+    "topic": "Ten Commandments",
+    "type": "multiple-choice",
+    "question": "What is the first commandment?",
+    "answer": "You shall have no other gods before Me",
+    "options": [
+      "You shall have no other gods before Me",
+      "You shall not make idols",
+      "Honor your father and mother",
+      "Keep the Sabbath holy"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "The Ten march in order: God first (1-4 about God), then neighbor (5-10). Commandment 1 clears the throne of every rival."
+    }
+  },
+  {
+    "id": "ex20-002",
+    "chapter": 20,
+    "book": "Exodus",
+    "reference": "Exodus 20:4",
+    "topic": "Ten Commandments",
+    "type": "multiple-choice",
+    "question": "What is the second commandment?",
+    "answer": "You shall not make idols (graven images)",
+    "options": [
+      "You shall not make idols (graven images)",
+      "You shall have no other gods before Me",
+      "You shall not steal",
+      "You shall not covet"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "After 'no other gods' (1) comes 'no idols' (2): first forbid false gods, then forbid false images of the true God."
+    }
+  },
+  {
+    "id": "ex20-003",
+    "chapter": 20,
+    "book": "Exodus",
+    "reference": "Exodus 20:7",
+    "topic": "Ten Commandments",
+    "type": "multiple-choice",
+    "question": "What is the third commandment?",
+    "answer": "You shall not take the name of the Lord your God in vain",
+    "options": [
+      "You shall not take the name of the Lord your God in vain",
+      "You shall not make idols",
+      "Keep the Sabbath holy",
+      "You shall not bear false witness"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "Three is for the holy Name on your tongue: don't speak God's name emptily. (3 = three letters in the vain word? Just keep the Name reverent.)"
+    }
+  },
+  {
+    "id": "ex20-004",
+    "chapter": 20,
+    "book": "Exodus",
+    "reference": "Exodus 20:8",
+    "topic": "Ten Commandments",
+    "type": "multiple-choice",
+    "question": "What is the fourth commandment?",
+    "answer": "Remember the Sabbath day, to keep it holy",
+    "options": [
+      "Remember the Sabbath day, to keep it holy",
+      "Honor your father and mother",
+      "You shall not take God's name in vain",
+      "You shall not murder"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "Four is for rest: the Sabbath is the fourth and final 'God-ward' commandment, closing the first table before we turn to neighbor."
+    }
+  },
+  {
+    "id": "ex20-005",
+    "chapter": 20,
+    "book": "Exodus",
+    "reference": "Exodus 20:12",
+    "topic": "Ten Commandments",
+    "type": "multiple-choice",
+    "question": "What is the fifth commandment?",
+    "answer": "Honor your father and your mother",
+    "options": [
+      "Honor your father and your mother",
+      "Keep the Sabbath holy",
+      "You shall not murder",
+      "You shall not steal"
+    ],
+    "memoryAid": {
+      "type": "teaching",
+      "text": "The fifth commandment opens the second table (duties to neighbor) and is the first with a promise: 'that your days may be long.' Honoring parents is the foundation of all honor toward those God sets over us."
+    }
+  },
+  {
+    "id": "ex20-006",
+    "chapter": 20,
+    "book": "Exodus",
+    "reference": "Exodus 20:13",
+    "topic": "Ten Commandments",
+    "type": "multiple-choice",
+    "question": "What is the sixth commandment?",
+    "answer": "You shall not murder",
+    "options": [
+      "You shall not murder",
+      "You shall not commit adultery",
+      "You shall not steal",
+      "Honor your father and mother"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "Six, seven, eight: Murder, Adultery, Steal. Three short 'shall nots' guarding life, marriage, and property in order."
+    }
+  },
+  {
+    "id": "ex20-007",
+    "chapter": 20,
+    "book": "Exodus",
+    "reference": "Exodus 20:14",
+    "topic": "Ten Commandments",
+    "type": "multiple-choice",
+    "question": "What is the seventh commandment?",
+    "answer": "You shall not commit adultery",
+    "options": [
+      "You shall not commit adultery",
+      "You shall not murder",
+      "You shall not bear false witness",
+      "You shall not covet"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "Six-Seven-Eight = Murder-Adultery-Steal. Seven sits in the middle, guarding the marriage bed."
+    }
+  },
+  {
+    "id": "ex20-008",
+    "chapter": 20,
+    "book": "Exodus",
+    "reference": "Exodus 20:15",
+    "topic": "Ten Commandments",
+    "type": "multiple-choice",
+    "question": "What is the eighth commandment?",
+    "answer": "You shall not steal",
+    "options": [
+      "You shall not steal",
+      "You shall not murder",
+      "You shall not commit adultery",
+      "You shall not bear false witness"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "Six-Seven-Eight = Murder-Adultery-Steal. Eight closes the trio, guarding your neighbor's goods."
+    }
+  },
+  {
+    "id": "ex20-009",
+    "chapter": 20,
+    "book": "Exodus",
+    "reference": "Exodus 20:16",
+    "topic": "Ten Commandments",
+    "type": "multiple-choice",
+    "question": "What is the ninth commandment?",
+    "answer": "You shall not bear false witness against your neighbor",
+    "options": [
+      "You shall not bear false witness against your neighbor",
+      "You shall not steal",
+      "You shall not covet",
+      "You shall not commit adultery"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "Nine guards the tongue in court: no false witness. After protecting life, marriage, and goods, the ninth protects your neighbor's good name."
+    }
+  },
+  {
+    "id": "ex20-010",
+    "chapter": 20,
+    "book": "Exodus",
+    "reference": "Exodus 20:17",
+    "topic": "Ten Commandments",
+    "type": "multiple-choice",
+    "question": "What is the tenth commandment?",
+    "answer": "You shall not covet",
+    "options": [
+      "You shall not covet",
+      "You shall not steal",
+      "You shall not bear false witness",
+      "You shall not murder"
+    ],
+    "memoryAid": {
+      "type": "teaching",
+      "text": "The tenth commandment alone reaches into the heart and its desires, not just outward deeds. It reveals that the Law aims at inward purity, preparing us for Christ who teaches that sin begins in the heart."
+    }
+  },
+  {
+    "id": "ex20-011",
+    "chapter": 20,
+    "book": "Exodus",
+    "reference": "Exodus 20:13",
+    "topic": "Ten Commandments",
+    "type": "multiple-choice",
+    "question": "Which commandment is 'You shall not murder'?",
+    "answer": "The sixth",
+    "options": [
+      "The sixth",
+      "The fifth",
+      "The seventh",
+      "The eighth"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "Murder, Adultery, Steal = 6, 7, 8. Murder leads off the trio at number six."
+    }
+  },
+  {
+    "id": "ex20-012",
+    "chapter": 20,
+    "book": "Exodus",
+    "reference": "Exodus 20:8",
+    "topic": "Ten Commandments",
+    "type": "multiple-choice",
+    "question": "Which commandment concerns keeping the Sabbath?",
+    "answer": "The fourth",
+    "options": [
+      "The fourth",
+      "The third",
+      "The fifth",
+      "The second"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "Sabbath rest closes the first four 'God-ward' commands — it is number four."
+    }
+  },
+  {
+    "id": "ex20-013",
+    "chapter": 20,
+    "book": "Exodus",
+    "reference": "Exodus 20:12",
+    "topic": "Ten Commandments",
+    "type": "multiple-choice",
+    "question": "Which commandment tells us to honor our father and mother?",
+    "answer": "The fifth",
+    "options": [
+      "The fifth",
+      "The fourth",
+      "The sixth",
+      "The third"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "Honoring parents bridges the two tables — it is the fifth, first of the 'neighbor' commands."
+    }
+  },
+  {
+    "id": "ex20-014",
+    "chapter": 20,
+    "book": "Exodus",
+    "reference": "Exodus 20:7",
+    "topic": "Ten Commandments",
+    "type": "fill-in",
+    "question": "The third commandment forbids taking what in vain?",
+    "answer": "The name of the Lord your God",
+    "acceptableAnswers": [
+      "the name of the lord",
+      "the name of the lord your god",
+      "god's name",
+      "the lord's name",
+      "the name of god"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "Number three is for the Name: keep the Lord's name holy, never empty on your lips."
+    }
+  },
+  {
+    "id": "ex20-015",
+    "chapter": 20,
+    "book": "Exodus",
+    "reference": "Exodus 20:17",
+    "topic": "Ten Commandments",
+    "type": "true-false",
+    "question": "The tenth commandment forbids coveting your neighbor's possessions.",
+    "answer": "True",
+    "options": [
+      "True",
+      "False"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "Last but reaching deepest: the tenth, 'do not covet,' targets the desires of the heart."
+    }
+  },
+  {
+    "id": "ex20-016",
+    "chapter": 20,
+    "book": "Exodus",
+    "reference": "Exodus 20:19",
+    "topic": "The People's Fear",
+    "type": "true-false",
+    "question": "The people asked God to keep speaking to them directly from the mountain.",
+    "answer": "False",
+    "options": [
+      "True",
+      "False"
+    ],
+    "memoryAid": {
+      "type": "teaching",
+      "text": "Terrified, the people begged Moses to speak to them instead of God, lest they die. The Law given in fear and distance points ahead to the New Covenant, where God draws near in Christ, the Mediator who lets us approach without terror."
+    }
+  },
+  {
+    "id": "ex20-017",
+    "chapter": 20,
+    "book": "Exodus",
+    "reference": "Exodus 20:19",
+    "topic": "The People's Fear",
+    "type": "multiple-choice",
+    "question": "Frightened by God's voice, whom did the people ask to speak to them instead?",
+    "answer": "Moses",
+    "options": [
+      "Moses",
+      "Aaron",
+      "Joshua",
+      "Jethro"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "Moses the mediator stands between God and the trembling people — they ask him to be the go-between."
+    }
+  },
+  {
+    "id": "ex20-018",
+    "chapter": 20,
+    "book": "Exodus",
+    "reference": "Exodus 20:25",
+    "topic": "Altar Instructions",
+    "type": "true-false",
+    "question": "God commanded that the altar be built of carved (hewn) stones.",
+    "answer": "False",
+    "options": [
+      "True",
+      "False"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "No tool, no carving: if you lift a chisel to the altar stones, you 'profane' them. Natural stones only."
+    }
+  },
+  {
+    "id": "ex20-019",
+    "chapter": 20,
+    "book": "Exodus",
+    "reference": "Exodus 20:26",
+    "topic": "Altar Instructions",
+    "type": "multiple-choice",
+    "question": "What did God forbid in the construction of the altar's approach?",
+    "answer": "Steps up to the altar",
+    "options": [
+      "Steps up to the altar",
+      "A wooden frame",
+      "A bronze covering",
+      "A surrounding curtain"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "No carved stones and no steps — keep the altar plain and the approach humble. 'No steps' to keep modesty at the altar."
+    }
+  },
+  {
+    "id": "ex32-001",
+    "chapter": 32,
+    "book": "Exodus",
+    "reference": "Exodus 32",
+    "topic": "Golden Calf",
+    "type": "fill-in",
+    "question": "On what mountain was Moses when the people made the golden calf?",
+    "answer": "Mount Sinai / Mount Horeb",
+    "acceptableAnswers": [
+      "mount sinai",
+      "sinai",
+      "mount horeb",
+      "horeb"
+    ],
+    "memoryAid": {
+      "type": "teaching",
+      "text": "Sinai is also called Horeb, the mountain of God where Moses first met the burning bush. While Moses ascends to receive the Law of life, the people below fashion an idol of death. The pattern recurs in salvation history: the true Mediator goes up to God while the people fall away, until Christ the new Moses ascends and does not fail."
+    }
+  },
+  {
+    "id": "ex32-002",
+    "chapter": 32,
+    "book": "Exodus",
+    "reference": "Exodus 32",
+    "topic": "Golden Calf",
+    "type": "fill-in",
+    "question": "Who was on the mountain with Moses, having gone up partway?",
+    "answer": "Joshua",
+    "acceptableAnswers": [
+      "joshua",
+      "joshua son of nun",
+      "joshua the son of nun"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "Joshua (Yeshua) is the Hebrew form of the name Jesus. The one who goes up the mountain with the lawgiver bears the very name of the Savior, foreshadowing the One who leads the people into the Promised Land."
+    }
+  },
+  {
+    "id": "ex32-003",
+    "chapter": 32,
+    "book": "Exodus",
+    "reference": "Exodus 32:1",
+    "topic": "Golden Calf",
+    "type": "multiple-choice",
+    "question": "What did the people ask Aaron to do?",
+    "answer": "Make gods to go before them",
+    "options": [
+      "Make gods to go before them",
+      "Send messengers to find Moses",
+      "Return to Egypt at once",
+      "Build an altar to the Lord"
+    ],
+    "memoryAid": {
+      "type": "teaching",
+      "text": "The people demand a god they can see and control, rejecting the unseen God who led them by cloud and fire. This is the root of idolatry: the refusal to wait on the living God. The Church Fathers see in this impatience the same restlessness that the Eucharist heals, where Christ Himself goes before His people."
+    }
+  },
+  {
+    "id": "ex32-004",
+    "chapter": 32,
+    "book": "Exodus",
+    "reference": "Exodus 32:2-3",
+    "topic": "Golden Calf",
+    "type": "multiple-choice",
+    "question": "What material did the people use to make the golden calf?",
+    "answer": "Gold earrings",
+    "options": [
+      "Gold earrings",
+      "Bronze mirrors",
+      "Silver coins",
+      "Melted idols from Egypt"
+    ],
+    "memoryAid": {
+      "type": "image",
+      "text": "Picture the people tearing the gold rings from their own ears and their children's ears, throwing their family treasure into the fire to forge a dead calf. The same ears that should have listened to God's voice surrendered their gold to make a mute idol."
+    }
+  },
+  {
+    "id": "ex32-005",
+    "chapter": 32,
+    "book": "Exodus",
+    "reference": "Exodus 32:4",
+    "topic": "Golden Calf",
+    "type": "true-false",
+    "question": "Aaron opposed the people and refused to make the calf.",
+    "answer": "False",
+    "options": [
+      "True",
+      "False"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "Aaron AIDED, he did not avoid. He collected the gold and fashioned the calf himself. Remember: the high priest fell, so the people fell with him."
+    }
+  },
+  {
+    "id": "ex32-006",
+    "chapter": 32,
+    "book": "Exodus",
+    "reference": "Exodus 32:24",
+    "topic": "Golden Calf",
+    "type": "fill-in",
+    "question": "What excuse did Aaron give Moses for the calf?",
+    "answer": "I cast the gold into the fire, and this calf came out",
+    "acceptableAnswers": [
+      "i cast it into the fire and this calf came out",
+      "i threw the gold in the fire and out came this calf",
+      "the calf came out of the fire",
+      "i cast it into the fire and out came this calf"
+    ],
+    "memoryAid": {
+      "type": "image",
+      "text": "Aaron shrugs and claims the calf just walked out of the furnace on its own, as if the fire gave birth to a golden cow. The absurd excuse exposes how sin always blames the circumstances instead of the will."
+    }
+  },
+  {
+    "id": "ex32-007",
+    "chapter": 32,
+    "book": "Exodus",
+    "reference": "Exodus 32:26",
+    "topic": "Golden Calf",
+    "type": "multiple-choice",
+    "question": "Which group stood with Moses when he called, 'Who is on the Lord's side'?",
+    "answer": "The sons of Levi",
+    "options": [
+      "The sons of Levi",
+      "The sons of Judah",
+      "The sons of Joseph",
+      "The elders of Israel"
+    ],
+    "memoryAid": {
+      "type": "teaching",
+      "text": "The tribe of Levi rallies to the Lord and is set apart for priestly service because of their zeal. Their willingness to stand against even their own kin becomes the basis of their consecration. The Fathers see here that true priesthood is born of zeal for God's holiness."
+    }
+  },
+  {
+    "id": "ex32-008",
+    "chapter": 32,
+    "book": "Exodus",
+    "reference": "Exodus 32:28",
+    "topic": "Golden Calf",
+    "type": "multiple-choice",
+    "question": "About how many men died after the golden calf incident?",
+    "answer": "About 3,000",
+    "options": [
+      "About 3,000",
+      "About 600",
+      "About 600,000",
+      "About 70"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "Calf-craze cost 3,000. Contrast Pentecost (Acts 2:41): when the Spirit came on the Church, about 3,000 were ADDED. The Law without the Spirit kills 3,000; the Spirit gives life to 3,000."
+    }
+  },
+  {
+    "id": "ex32-009",
+    "chapter": 32,
+    "book": "Exodus",
+    "reference": "Exodus 32",
+    "topic": "Summary Numbers",
+    "type": "multiple-choice",
+    "question": "About how many descendants of Jacob entered Egypt?",
+    "answer": "75",
+    "options": [
+      "75",
+      "70",
+      "12",
+      "430"
+    ],
+    "memoryAid": {
+      "type": "teaching",
+      "text": "Seventy-five souls entered Egypt according to the Septuagint and Acts 7:14, the tradition the Orthodox Study Bible follows. A small remnant goes down into Egypt and comes out a vast nation, a pattern of death and resurrection, of the few becoming many through God's promise."
+    }
+  },
+  {
+    "id": "ex32-012",
+    "chapter": 32,
+    "book": "Exodus",
+    "reference": "Exodus 32",
+    "topic": "Summary Numbers",
+    "type": "multiple-choice",
+    "question": "How old was Aaron when he stood before Pharaoh?",
+    "answer": "83",
+    "options": [
+      "83",
+      "80",
+      "40",
+      "120"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "Aaron is 83, three years older than Moses (80). The high priest is the elder brother, yet he serves the prophet's word."
+    }
+  },
+  {
+    "id": "ex32-013",
+    "chapter": 32,
+    "book": "Exodus",
+    "reference": "Exodus 32",
+    "topic": "Summary Numbers",
+    "type": "multiple-choice",
+    "question": "How many days did the plague of darkness last?",
+    "answer": "3 days",
+    "options": [
+      "3 days",
+      "3 months",
+      "7 days",
+      "40 days"
+    ],
+    "memoryAid": {
+      "type": "teaching",
+      "text": "Three days of darkness so thick it could be felt. The three days of darkness over Egypt foreshadow the three days Christ lay in the tomb, the darkness before the dawn of deliverance and resurrection."
+    }
+  },
+  {
+    "id": "ex32-014",
+    "chapter": 32,
+    "book": "Exodus",
+    "reference": "Exodus 32",
+    "topic": "Summary Numbers",
+    "type": "multiple-choice",
+    "question": "How long did Israel dwell in Egypt?",
+    "answer": "430 years",
+    "options": [
+      "430 years",
+      "400 years",
+      "40 years",
+      "215 years"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "430 years in Egypt (Ex 12:40). On the very day the 430 years ended, the Lord brought them out. God keeps His appointed times to the very day."
+    }
+  },
+  {
+    "id": "ex32-015",
+    "chapter": 32,
+    "book": "Exodus",
+    "reference": "Exodus 32",
+    "topic": "Summary Numbers",
+    "type": "multiple-choice",
+    "question": "About how many men left Egypt in the Exodus?",
+    "answer": "About 600,000",
+    "options": [
+      "About 600,000",
+      "About 3,000",
+      "About 75",
+      "About 603,550"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "About 600,000 men on foot left Egypt, besides women and children. From 75 souls to 600,000 men: the seed of Abraham multiplied beyond counting, as God promised."
+    }
+  },
+  {
+    "id": "ex32-016",
+    "chapter": 32,
+    "book": "Exodus",
+    "reference": "Exodus 32",
+    "topic": "Summary Numbers",
+    "type": "multiple-choice",
+    "question": "How many springs of water were at Elim?",
+    "answer": "12",
+    "options": [
+      "12",
+      "70",
+      "7",
+      "40"
+    ],
+    "memoryAid": {
+      "type": "teaching",
+      "text": "Twelve springs at Elim, one for each tribe of Israel, and a type of the twelve apostles, the wells of living water for the new Israel. The number twelve marks the fullness of God's people."
+    }
+  },
+  {
+    "id": "ex32-017",
+    "chapter": 32,
+    "book": "Exodus",
+    "reference": "Exodus 32",
+    "topic": "Summary Numbers",
+    "type": "multiple-choice",
+    "question": "How many palm trees were at Elim?",
+    "answer": "70",
+    "options": [
+      "70",
+      "12",
+      "75",
+      "40"
+    ],
+    "memoryAid": {
+      "type": "teaching",
+      "text": "Seventy palm trees at Elim, recalling the seventy elders and prefiguring the seventy disciples Christ sent out to the nations (Luke 10). Twelve springs for the tribes, seventy palms for the nations: Israel and the world both find rest at the oasis."
+    }
+  },
+  {
+    "id": "ex32-019",
+    "chapter": 32,
+    "book": "Exodus",
+    "reference": "Exodus 32",
+    "topic": "Summary Numbers",
+    "type": "multiple-choice",
+    "question": "How many days and nights was Moses on Mount Sinai?",
+    "answer": "40 days, 40 nights",
+    "options": [
+      "40 days, 40 nights",
+      "3 days, 3 nights",
+      "40 years",
+      "430 days"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "Forty days and forty nights on Sinai, the number of testing and preparation. Forty for Moses, forty for Elijah, forty for Christ in the wilderness: the mountain of God demands the full forty."
+    }
+  },
+  {
+    "id": "ex32-020",
+    "chapter": 32,
+    "book": "Exodus",
+    "reference": "Exodus 32",
+    "topic": "Summary Numbers",
+    "type": "fill-in",
+    "question": "The twelve springs and seventy palm trees were located at what place?",
+    "answer": "Elim",
+    "acceptableAnswers": [
+      "elim"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "Elim, the oasis of 12 springs and 70 palms. Remember Elim by its abundance: twelve and seventy, tribes and nations, all finding water and shade."
+    }
+  },
+  {
+    "id": "ex33-001",
+    "chapter": 33,
+    "book": "Exodus",
+    "reference": "Exodus 33:7",
+    "topic": "Tent of Meeting",
+    "type": "multiple-choice",
+    "question": "Where was the tent of meeting (tabernacle of testimony) placed?",
+    "answer": "Outside the camp",
+    "options": [
+      "Outside the camp",
+      "In the center of the camp",
+      "On Mount Sinai",
+      "At the entrance to the camp"
+    ],
+    "memoryAid": {
+      "type": "teaching",
+      "text": "After the golden calf, the tent of meeting is pitched outside the camp, signifying the breach between a sinful people and the holy God. To seek the Lord one had to go OUT, away from the corrupted multitude. This anticipates Christ, who suffered outside the gate (Heb 13:12), that He might sanctify the people."
+    }
+  },
+  {
+    "id": "ex33-002",
+    "chapter": 33,
+    "book": "Exodus",
+    "reference": "Exodus 33:8-10",
+    "topic": "Tent of Meeting",
+    "type": "true-false",
+    "question": "Everyone entered the tent of meeting together with Moses.",
+    "answer": "False",
+    "options": [
+      "True",
+      "False"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "Moses went IN, the people stayed AFAR. Only the mediator entered while the people worshiped from the doors of their tents. One man stands between God and the multitude, as Christ does for us."
+    }
+  },
+  {
+    "id": "ex33-003",
+    "chapter": 33,
+    "book": "Exodus",
+    "reference": "Exodus 33:11",
+    "topic": "Tent of Meeting",
+    "type": "fill-in",
+    "question": "Which young man remained in the tent of meeting?",
+    "answer": "Joshua, son of Nun",
+    "acceptableAnswers": [
+      "joshua",
+      "joshua son of nun",
+      "joshua the son of nun"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "Joshua stays in the tent, never departing from the place of God's presence. The bearer of the name Jesus is the one who dwells where God dwells."
+    }
+  },
+  {
+    "id": "ex33-004",
+    "chapter": 33,
+    "book": "Exodus",
+    "reference": "Exodus 33:18",
+    "topic": "God's Glory",
+    "type": "fill-in",
+    "question": "What did Moses request of God, saying 'Show me Your...'?",
+    "answer": "Glory",
+    "acceptableAnswers": [
+      "glory",
+      "your glory",
+      "show me your glory"
+    ],
+    "memoryAid": {
+      "type": "teaching",
+      "text": "Moses asks to see God's glory, the deepest longing of the soul for God Himself. The Fathers, especially St. Gregory of Nyssa, see Moses' ascent as the model of endless growth into God: the more we behold, the more we desire. This longing is fulfilled in Christ, in whom the glory of God shines in the face of a man."
+    }
+  },
+  {
+    "id": "ex33-005",
+    "chapter": 33,
+    "book": "Exodus",
+    "reference": "Exodus 33:20",
+    "topic": "God's Glory",
+    "type": "true-false",
+    "question": "Moses was permitted to see God's face directly.",
+    "answer": "False",
+    "options": [
+      "True",
+      "False"
+    ],
+    "memoryAid": {
+      "type": "teaching",
+      "text": "No man may see God's face and live (Ex 33:20). The unveiled glory of God would consume mortal flesh. Yet in the Incarnation, God grants what was impossible to Moses: in Christ we behold the glory of God in a human face (2 Cor 4:6), and live."
+    }
+  },
+  {
+    "id": "ex33-006",
+    "chapter": 33,
+    "book": "Exodus",
+    "reference": "Exodus 33:23",
+    "topic": "God's Glory",
+    "type": "multiple-choice",
+    "question": "What was Moses permitted to see as the Lord passed by?",
+    "answer": "God's back parts / glory passing by",
+    "options": [
+      "God's back parts / glory passing by",
+      "God's face shining like the sun",
+      "A burning bush",
+      "An angel of the Lord"
+    ],
+    "memoryAid": {
+      "type": "image",
+      "text": "Hidden in the cleft of the rock and covered by God's own hand, Moses is allowed only to glimpse God's back as He passes. The Fathers say the rock that shelters him is Christ, and to see God's 'back' is to follow after Him, for we know God by following where He has gone."
+    }
+  },
+  {
+    "id": "ex34-001",
+    "chapter": 34,
+    "book": "Exodus",
+    "reference": "Exodus 34:1-4",
+    "topic": "Covenant Renewed",
+    "type": "multiple-choice",
+    "question": "How many new stone tablets did Moses cut for the renewed covenant?",
+    "answer": "Two",
+    "options": [
+      "Two",
+      "One",
+      "Ten",
+      "Twelve"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "Two tablets, twice given. The first set Moses broke; the second he carved himself at God's command. Two tablets, two tables of the Law: love of God and love of neighbor."
+    }
+  },
+  {
+    "id": "ex34-002",
+    "chapter": 34,
+    "book": "Exodus",
+    "reference": "Exodus 34:28",
+    "topic": "Covenant Renewed",
+    "type": "fill-in",
+    "question": "How many days and nights was Moses on the mountain renewing the covenant?",
+    "answer": "40 days and 40 nights",
+    "acceptableAnswers": [
+      "40 days and 40 nights",
+      "forty days and forty nights",
+      "40",
+      "forty"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "Forty: the number of testing and preparation. Forty days for Moses, forty days of rain in the flood, forty years in the wilderness, forty days of Christ's fast. Forty always precedes a covenant or a new beginning."
+    }
+  },
+  {
+    "id": "ex34-003",
+    "chapter": 34,
+    "book": "Exodus",
+    "reference": "Exodus 34:28",
+    "topic": "Covenant Renewed",
+    "type": "true-false",
+    "question": "Moses ate bread and drank water during the forty days on the mountain.",
+    "answer": "False",
+    "options": [
+      "True",
+      "False"
+    ],
+    "memoryAid": {
+      "type": "teaching",
+      "text": "Moses neither ate bread nor drank water for forty days, sustained by the presence of God alone. This total fast prefigures Christ's forty-day fast and is the pattern for the Church's own Great Fast of Lent. Man does not live by bread alone, but by the word of God."
+    }
+  },
+  {
+    "id": "ex34-004",
+    "chapter": 34,
+    "book": "Exodus",
+    "reference": "Exodus 34:29-30",
+    "topic": "Moses' Shining Face",
+    "type": "multiple-choice",
+    "question": "What happened to Moses' face after he spoke with God?",
+    "answer": "It shone / radiated",
+    "options": [
+      "It shone / radiated",
+      "It was scarred by fire",
+      "It turned pale with fear",
+      "It was covered in dust"
+    ],
+    "memoryAid": {
+      "type": "teaching",
+      "text": "Moses' face shone with reflected glory from speaking with God, yet that glory faded and had to be veiled. St. Paul contrasts this in 2 Corinthians 3: the glory of the old covenant was fading and veiled, but in Christ we behold the unveiled and abiding glory, being transformed from glory to glory."
+    }
+  },
+  {
+    "id": "ex34-005",
+    "chapter": 34,
+    "book": "Exodus",
+    "reference": "Exodus 34:33-35",
+    "topic": "Moses' Veil",
+    "type": "multiple-choice",
+    "question": "Why did Moses put a veil over his face?",
+    "answer": "Because the people feared to approach him",
+    "options": [
+      "Because the people feared to approach him",
+      "To hide his identity from enemies",
+      "To protect his eyes from the sun",
+      "Because God commanded him to hide the tablets"
+    ],
+    "memoryAid": {
+      "type": "teaching",
+      "text": "The people were afraid of the divine glory shining on Moses, so he veiled it. St. Paul reads the veil as the obscurity that still lies over the old covenant when read apart from Christ. When one turns to the Lord, the veil is taken away, and we behold His glory with unveiled face."
+    }
+  },
+  {
+    "id": "ex38-001",
+    "chapter": 38,
+    "book": "Exodus",
+    "reference": "Exodus 38:1-2",
+    "topic": "Bronze Altar",
+    "type": "multiple-choice",
+    "question": "Of what material was the altar of burnt offering made?",
+    "answer": "Acacia wood overlaid with bronze",
+    "options": [
+      "Acacia wood overlaid with bronze",
+      "Solid gold",
+      "Stone and clay",
+      "Cedar overlaid with silver"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "Acacia wood (incorruptible) plus bronze (judgment by fire). The altar where sacrifice is consumed is wood that cannot rot, sheathed in the metal of fiery judgment, prefiguring the Cross that cannot be corrupted."
+    }
+  },
+  {
+    "id": "ex38-002",
+    "chapter": 38,
+    "book": "Exodus",
+    "reference": "Exodus 38:8",
+    "topic": "Bronze Laver",
+    "type": "fill-in",
+    "question": "The bronze laver was made from the mirrors of which women?",
+    "answer": "The women who served/fasted at the tabernacle entrance",
+    "acceptableAnswers": [
+      "the women who served at the tabernacle entrance",
+      "women who fasted",
+      "the serving women",
+      "women at the door of the tabernacle"
+    ],
+    "memoryAid": {
+      "type": "image",
+      "text": "The women melted down the very mirrors they used to admire themselves, and from that vanity-glass came the basin where the priests washed clean. Their surrendered self-regard literally became the means of purification."
+    }
+  },
+  {
+    "id": "ex38-003",
+    "chapter": 38,
+    "book": "Exodus",
+    "reference": "Exodus 38:9-13",
+    "topic": "Tabernacle Court",
+    "type": "multiple-choice",
+    "question": "What was the length of the tabernacle court?",
+    "answer": "100 cubits",
+    "options": [
+      "100 cubits",
+      "50 cubits",
+      "30 cubits",
+      "10 cubits"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "The court is 100 long by 50 wide, a perfect 2-to-1 rectangle. Picture a hundred-cubit hall, twice as long as it is wide."
+    }
+  },
+  {
+    "id": "ex38-004",
+    "chapter": 38,
+    "book": "Exodus",
+    "reference": "Exodus 38:9-13",
+    "topic": "Tabernacle Court",
+    "type": "multiple-choice",
+    "question": "What was the width of the tabernacle court?",
+    "answer": "50 cubits",
+    "options": [
+      "50 cubits",
+      "100 cubits",
+      "25 cubits",
+      "75 cubits"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "Width 50, length 100. The width is exactly half the length, a 2-to-1 ratio for the sacred enclosure."
+    }
+  },
+  {
+    "id": "ex38-005",
+    "chapter": 38,
+    "book": "Exodus",
+    "reference": "Exodus 38",
+    "topic": "Tabernacle Materials",
+    "type": "true-false",
+    "question": "The tabernacle used silver for every single furnishing.",
+    "answer": "False",
+    "options": [
+      "True",
+      "False"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "Three metals, not one: Gold, Silver, Bronze (G-S-B). Gold for the holiest things, silver for the bases, bronze for the courtyard. The glory decreases as you move outward from God's presence."
+    }
+  },
+  {
+    "id": "ex39-001",
+    "chapter": 39,
+    "book": "Exodus",
+    "reference": "Exodus 39",
+    "topic": "Materials Collected",
+    "type": "multiple-choice",
+    "question": "How much gold was collected and used for the holy vessels?",
+    "answer": "29 talents, 720 shekels",
+    "options": [
+      "29 talents, 720 shekels",
+      "100 talents, 1775 shekels",
+      "70 talents, 1500 shekels",
+      "12 talents, 300 shekels"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "Gold = 29 talents, 720 shekels. Gold is the least by weight but the most precious, reserved for the vessels that minister directly before God."
+    }
+  },
+  {
+    "id": "ex39-002",
+    "chapter": 39,
+    "book": "Exodus",
+    "reference": "Exodus 39",
+    "topic": "Materials Collected",
+    "type": "multiple-choice",
+    "question": "How much silver was collected for the tabernacle?",
+    "answer": "100 talents, 1775 shekels",
+    "options": [
+      "100 talents, 1775 shekels",
+      "29 talents, 720 shekels",
+      "70 talents, 1500 shekels",
+      "603 talents, 550 shekels"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "Silver = 100 talents, 1775 shekels. The silver came from the census 'ransom' of each man, so it equals the largest count, 100 full talents."
+    }
+  },
+  {
+    "id": "ex39-003",
+    "chapter": 39,
+    "book": "Exodus",
+    "reference": "Exodus 39",
+    "topic": "Materials Collected",
+    "type": "multiple-choice",
+    "question": "How much brass/bronze was collected for the tabernacle?",
+    "answer": "70 talents, 1500 shekels",
+    "options": [
+      "70 talents, 1500 shekels",
+      "29 talents, 720 shekels",
+      "100 talents, 1775 shekels",
+      "40 talents, 1000 shekels"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "Bronze = 70 talents, 1500 shekels, used for bases, pins, and altar vessels. Seventy talents, like the seventy elders and seventy nations: bronze is the metal of the outer court and the wider world."
+    }
+  },
+  {
+    "id": "ex39-004",
+    "chapter": 39,
+    "book": "Exodus",
+    "reference": "Exodus 39:1",
+    "topic": "Priestly Garments",
+    "type": "multiple-choice",
+    "question": "The blue, purple, and scarlet materials were used to make what?",
+    "answer": "Garments for Aaron",
+    "options": [
+      "Garments for Aaron",
+      "The veil of the tent only",
+      "Coverings for the ark",
+      "Banners for the tribes"
+    ],
+    "memoryAid": {
+      "type": "teaching",
+      "text": "The colors blue, purple, and scarlet adorn the high priest, the same colors that veil the holy place. The high priest wears the colors of heaven, royalty, and blood, for he mediates between God and the people. Christ our High Priest fulfills all this in His own person."
+    }
+  },
+  {
+    "id": "ex39-005",
+    "chapter": 39,
+    "book": "Exodus",
+    "reference": "Exodus 39",
+    "topic": "Census",
+    "type": "fill-in",
+    "question": "How many men aged twenty and upward passed the survey/census?",
+    "answer": "603,550",
+    "acceptableAnswers": [
+      "603550",
+      "603,550",
+      "six hundred three thousand five hundred fifty"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "603,550 passed the census. Each contributed a half-shekel of silver, which is why the silver totaled exactly 100 talents. The number redeemed becomes the number that builds the dwelling of God."
+    }
+  },
+  {
+    "id": "ex39-006",
+    "chapter": 39,
+    "book": "Exodus",
+    "reference": "Exodus 39",
+    "topic": "Materials Collected",
+    "type": "multiple-choice",
+    "question": "Which of the following was NOT among the metals collected for the tabernacle?",
+    "answer": "Iron",
+    "options": [
+      "Iron",
+      "Gold",
+      "Silver",
+      "Bronze/brass"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "Three metals only: Gold, Silver, Bronze. Iron, the metal of weapons and war, has no place in the dwelling of the God of peace."
+    }
+  },
+  {
+    "id": "ex40-001",
+    "chapter": 40,
+    "book": "Exodus",
+    "reference": "Exodus 40:2,17",
+    "topic": "Tabernacle Erected",
+    "type": "multiple-choice",
+    "question": "On what date was the tabernacle erected?",
+    "answer": "The first day of the first month of the second year",
+    "options": [
+      "The first day of the first month of the second year",
+      "The tenth day of the seventh month",
+      "The fifteenth day of the first month",
+      "The first day of the third year"
+    ],
+    "memoryAid": {
+      "type": "teaching",
+      "text": "The tabernacle rose on the first day of the first month, exactly one year after the Exodus began. A new creation: as the first day saw light, so the first day of the year sees God come to dwell among His people. The ordering of sacred time marks the ordering of the world around God's presence."
+    }
+  },
+  {
+    "id": "ex40-002",
+    "chapter": 40,
+    "book": "Exodus",
+    "reference": "Exodus 40",
+    "topic": "Tabernacle Erected",
+    "type": "fill-in",
+    "question": "About how long had the Israelites been out of Egypt when the tabernacle was erected?",
+    "answer": "One year",
+    "acceptableAnswers": [
+      "one year",
+      "1 year",
+      "a year",
+      "the second year"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "One year out of Egypt, and God comes to dwell. It took a year of wandering, law, and even the calf, before the people were ready for God to tabernacle among them."
+    }
+  },
+  {
+    "id": "ex40-003",
+    "chapter": 40,
+    "book": "Exodus",
+    "reference": "Exodus 40:18-33",
+    "topic": "Order of Events",
+    "type": "multiple-choice",
+    "question": "What was the FIRST step in setting up the tabernacle?",
+    "answer": "The tabernacle was erected",
+    "options": [
+      "The tabernacle was erected",
+      "The priests were washed",
+      "The anointing was performed",
+      "The furnishings were placed"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "Order: Erect, Furnish, Wash, Anoint. First the house, then its contents, then the cleansing of the priests, then the anointing that consecrates. Structure before service."
+    }
+  },
+  {
+    "id": "ex40-004",
+    "chapter": 40,
+    "book": "Exodus",
+    "reference": "Exodus 40:18-33",
+    "topic": "Order of Events",
+    "type": "multiple-choice",
+    "question": "What was the LAST of these steps in consecrating the tabernacle and priesthood?",
+    "answer": "The anointing was performed",
+    "options": [
+      "The anointing was performed",
+      "The tabernacle was erected",
+      "The furnishings were placed",
+      "The priests were washed"
+    ],
+    "memoryAid": {
+      "type": "teaching",
+      "text": "Anointing comes last, sealing the priests for service. The anointing oil is the type of the Holy Spirit; the very word Christ (Messiah) means 'Anointed One.' What is last in the order is the crown of the whole: consecration by the Spirit."
+    }
+  },
+  {
+    "id": "ex40-005",
+    "chapter": 40,
+    "book": "Exodus",
+    "reference": "Exodus 40:34-35",
+    "topic": "Glory Fills Tabernacle",
+    "type": "fill-in",
+    "question": "What filled the tabernacle when it was completed?",
+    "answer": "The glory of the Lord",
+    "acceptableAnswers": [
+      "the glory of the lord",
+      "the glory of god",
+      "god's glory",
+      "the glory"
+    ],
+    "memoryAid": {
+      "type": "teaching",
+      "text": "The glory of the Lord filled the tabernacle, the same glory that will fill the Temple and that finally dwells bodily in Christ. The tabernacle filled with glory is the goal of the whole book of Exodus: God comes to dwell with His people. 'The Word became flesh and tabernacled among us' (John 1:14)."
+    }
+  },
+  {
+    "id": "ex40-006",
+    "chapter": 40,
+    "book": "Exodus",
+    "reference": "Exodus 40:35",
+    "topic": "Glory Fills Tabernacle",
+    "type": "true-false",
+    "question": "Moses was able to enter the tabernacle after God's glory filled it.",
+    "answer": "False",
+    "options": [
+      "True",
+      "False"
+    ],
+    "memoryAid": {
+      "type": "teaching",
+      "text": "Moses could not enter because the glory of the Lord filled the tent. Even the great mediator is barred when the fullness of glory descends. This shows that no creature can stand in the unmediated presence of God, until Christ opens the way for us to enter the true Holy of Holies."
+    }
+  },
+  {
+    "id": "ex40-007",
+    "chapter": 40,
+    "book": "Exodus",
+    "reference": "Exodus 40:36-37",
+    "topic": "The Guiding Cloud",
+    "type": "multiple-choice",
+    "question": "What was the function of the cloud over the tabernacle?",
+    "answer": "It guided Israel's journeys",
+    "options": [
+      "It guided Israel's journeys",
+      "It provided rain for the camp",
+      "It marked the place of sacrifice",
+      "It hid the camp from enemies"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "Cloud UP, move out. Cloud DOWN, stay in town. When the cloud ascended, Israel traveled; when it rested, they stayed. God's presence sets the pace of the pilgrim people."
+    }
+  },
+  {
+    "id": "ex40-008",
+    "chapter": 40,
+    "book": "Exodus",
+    "reference": "Exodus 40:36-37",
+    "topic": "The Guiding Cloud",
+    "type": "true-false",
+    "question": "Israel traveled even when the cloud remained resting over the tabernacle.",
+    "answer": "False",
+    "options": [
+      "True",
+      "False"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "They moved ONLY when the cloud lifted. To march without the cloud would be to journey without God. The Christian life moves only when the presence of God leads."
+    }
+  },
+  {
+    "id": "ex40-009",
+    "chapter": 40,
+    "book": "Exodus",
+    "reference": "Exodus 40:36-38",
+    "topic": "The Guiding Cloud",
+    "type": "multiple-choice",
+    "question": "When the cloud ascended from the tabernacle, what did Israel do?",
+    "answer": "They set out on their journey",
+    "options": [
+      "They set out on their journey",
+      "They remained encamped",
+      "They offered sacrifices",
+      "They feared and hid"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "Cloud rises, camp rises. Ascended cloud means 'move along'; descended cloud means 'stay put.' The lifting of the cloud is the marching order."
+    }
+  }
+]

@@ -1,0 +1,941 @@
+[
+  {
+    "id": "ex32-001",
+    "chapter": 32,
+    "book": "Exodus",
+    "reference": "Exodus 32",
+    "topic": "Golden Calf",
+    "type": "fill-in",
+    "question": "On what mountain was Moses when the people made the golden calf?",
+    "answer": "Mount Sinai / Mount Horeb",
+    "acceptableAnswers": [
+      "mount sinai",
+      "sinai",
+      "mount horeb",
+      "horeb"
+    ],
+    "memoryAid": {
+      "type": "teaching",
+      "text": "Sinai is also called Horeb, the mountain of God where Moses first met the burning bush. While Moses ascends to receive the Law of life, the people below fashion an idol of death. The pattern recurs in salvation history: the true Mediator goes up to God while the people fall away, until Christ the new Moses ascends and does not fail."
+    }
+  },
+  {
+    "id": "ex32-002",
+    "chapter": 32,
+    "book": "Exodus",
+    "reference": "Exodus 32",
+    "topic": "Golden Calf",
+    "type": "fill-in",
+    "question": "Who was on the mountain with Moses, having gone up partway?",
+    "answer": "Joshua",
+    "acceptableAnswers": [
+      "joshua",
+      "joshua son of nun",
+      "joshua the son of nun"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "Joshua (Yeshua) is the Hebrew form of the name Jesus. The one who goes up the mountain with the lawgiver bears the very name of the Savior, foreshadowing the One who leads the people into the Promised Land."
+    }
+  },
+  {
+    "id": "ex32-003",
+    "chapter": 32,
+    "book": "Exodus",
+    "reference": "Exodus 32:1",
+    "topic": "Golden Calf",
+    "type": "multiple-choice",
+    "question": "What did the people ask Aaron to do?",
+    "answer": "Make gods to go before them",
+    "options": [
+      "Make gods to go before them",
+      "Send messengers to find Moses",
+      "Return to Egypt at once",
+      "Build an altar to the Lord"
+    ],
+    "memoryAid": {
+      "type": "teaching",
+      "text": "The people demand a god they can see and control, rejecting the unseen God who led them by cloud and fire. This is the root of idolatry: the refusal to wait on the living God. The Church Fathers see in this impatience the same restlessness that the Eucharist heals, where Christ Himself goes before His people."
+    }
+  },
+  {
+    "id": "ex32-004",
+    "chapter": 32,
+    "book": "Exodus",
+    "reference": "Exodus 32:2-3",
+    "topic": "Golden Calf",
+    "type": "multiple-choice",
+    "question": "What material did the people use to make the golden calf?",
+    "answer": "Gold earrings",
+    "options": [
+      "Gold earrings",
+      "Bronze mirrors",
+      "Silver coins",
+      "Melted idols from Egypt"
+    ],
+    "memoryAid": {
+      "type": "image",
+      "text": "Picture the people tearing the gold rings from their own ears and their children's ears, throwing their family treasure into the fire to forge a dead calf. The same ears that should have listened to God's voice surrendered their gold to make a mute idol."
+    }
+  },
+  {
+    "id": "ex32-005",
+    "chapter": 32,
+    "book": "Exodus",
+    "reference": "Exodus 32:4",
+    "topic": "Golden Calf",
+    "type": "true-false",
+    "question": "Aaron opposed the people and refused to make the calf.",
+    "answer": "False",
+    "options": [
+      "True",
+      "False"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "Aaron AIDED, he did not avoid. He collected the gold and fashioned the calf himself. Remember: the high priest fell, so the people fell with him."
+    }
+  },
+  {
+    "id": "ex32-006",
+    "chapter": 32,
+    "book": "Exodus",
+    "reference": "Exodus 32:24",
+    "topic": "Golden Calf",
+    "type": "fill-in",
+    "question": "What excuse did Aaron give Moses for the calf?",
+    "answer": "I cast the gold into the fire, and this calf came out",
+    "acceptableAnswers": [
+      "i cast it into the fire and this calf came out",
+      "i threw the gold in the fire and out came this calf",
+      "the calf came out of the fire",
+      "i cast it into the fire and out came this calf"
+    ],
+    "memoryAid": {
+      "type": "image",
+      "text": "Aaron shrugs and claims the calf just walked out of the furnace on its own, as if the fire gave birth to a golden cow. The absurd excuse exposes how sin always blames the circumstances instead of the will."
+    }
+  },
+  {
+    "id": "ex32-007",
+    "chapter": 32,
+    "book": "Exodus",
+    "reference": "Exodus 32:26",
+    "topic": "Golden Calf",
+    "type": "multiple-choice",
+    "question": "Which group stood with Moses when he called, 'Who is on the Lord's side'?",
+    "answer": "The sons of Levi",
+    "options": [
+      "The sons of Levi",
+      "The sons of Judah",
+      "The sons of Joseph",
+      "The elders of Israel"
+    ],
+    "memoryAid": {
+      "type": "teaching",
+      "text": "The tribe of Levi rallies to the Lord and is set apart for priestly service because of their zeal. Their willingness to stand against even their own kin becomes the basis of their consecration. The Fathers see here that true priesthood is born of zeal for God's holiness."
+    }
+  },
+  {
+    "id": "ex32-008",
+    "chapter": 32,
+    "book": "Exodus",
+    "reference": "Exodus 32:28",
+    "topic": "Golden Calf",
+    "type": "multiple-choice",
+    "question": "About how many men died after the golden calf incident?",
+    "answer": "About 3,000",
+    "options": [
+      "About 3,000",
+      "About 600",
+      "About 600,000",
+      "About 70"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "Calf-craze cost 3,000. Contrast Pentecost (Acts 2:41): when the Spirit came on the Church, about 3,000 were ADDED. The Law without the Spirit kills 3,000; the Spirit gives life to 3,000."
+    }
+  },
+  {
+    "id": "ex33-001",
+    "chapter": 33,
+    "book": "Exodus",
+    "reference": "Exodus 33:7",
+    "topic": "Tent of Meeting",
+    "type": "multiple-choice",
+    "question": "Where was the tent of meeting (tabernacle of testimony) placed?",
+    "answer": "Outside the camp",
+    "options": [
+      "Outside the camp",
+      "In the center of the camp",
+      "On Mount Sinai",
+      "At the entrance to the camp"
+    ],
+    "memoryAid": {
+      "type": "teaching",
+      "text": "After the golden calf, the tent of meeting is pitched outside the camp, signifying the breach between a sinful people and the holy God. To seek the Lord one had to go OUT, away from the corrupted multitude. This anticipates Christ, who suffered outside the gate (Heb 13:12), that He might sanctify the people."
+    }
+  },
+  {
+    "id": "ex33-002",
+    "chapter": 33,
+    "book": "Exodus",
+    "reference": "Exodus 33:8-10",
+    "topic": "Tent of Meeting",
+    "type": "true-false",
+    "question": "Everyone entered the tent of meeting together with Moses.",
+    "answer": "False",
+    "options": [
+      "True",
+      "False"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "Moses went IN, the people stayed AFAR. Only the mediator entered while the people worshiped from the doors of their tents. One man stands between God and the multitude, as Christ does for us."
+    }
+  },
+  {
+    "id": "ex33-003",
+    "chapter": 33,
+    "book": "Exodus",
+    "reference": "Exodus 33:11",
+    "topic": "Tent of Meeting",
+    "type": "fill-in",
+    "question": "Which young man remained in the tent of meeting?",
+    "answer": "Joshua, son of Nun",
+    "acceptableAnswers": [
+      "joshua",
+      "joshua son of nun",
+      "joshua the son of nun"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "Joshua stays in the tent, never departing from the place of God's presence. The bearer of the name Jesus is the one who dwells where God dwells."
+    }
+  },
+  {
+    "id": "ex33-004",
+    "chapter": 33,
+    "book": "Exodus",
+    "reference": "Exodus 33:18",
+    "topic": "God's Glory",
+    "type": "fill-in",
+    "question": "What did Moses request of God, saying 'Show me Your...'?",
+    "answer": "Glory",
+    "acceptableAnswers": [
+      "glory",
+      "your glory",
+      "show me your glory"
+    ],
+    "memoryAid": {
+      "type": "teaching",
+      "text": "Moses asks to see God's glory, the deepest longing of the soul for God Himself. The Fathers, especially St. Gregory of Nyssa, see Moses' ascent as the model of endless growth into God: the more we behold, the more we desire. This longing is fulfilled in Christ, in whom the glory of God shines in the face of a man."
+    }
+  },
+  {
+    "id": "ex33-005",
+    "chapter": 33,
+    "book": "Exodus",
+    "reference": "Exodus 33:20",
+    "topic": "God's Glory",
+    "type": "true-false",
+    "question": "Moses was permitted to see God's face directly.",
+    "answer": "False",
+    "options": [
+      "True",
+      "False"
+    ],
+    "memoryAid": {
+      "type": "teaching",
+      "text": "No man may see God's face and live (Ex 33:20). The unveiled glory of God would consume mortal flesh. Yet in the Incarnation, God grants what was impossible to Moses: in Christ we behold the glory of God in a human face (2 Cor 4:6), and live."
+    }
+  },
+  {
+    "id": "ex33-006",
+    "chapter": 33,
+    "book": "Exodus",
+    "reference": "Exodus 33:23",
+    "topic": "God's Glory",
+    "type": "multiple-choice",
+    "question": "What was Moses permitted to see as the Lord passed by?",
+    "answer": "God's back parts / glory passing by",
+    "options": [
+      "God's back parts / glory passing by",
+      "God's face shining like the sun",
+      "A burning bush",
+      "An angel of the Lord"
+    ],
+    "memoryAid": {
+      "type": "image",
+      "text": "Hidden in the cleft of the rock and covered by God's own hand, Moses is allowed only to glimpse God's back as He passes. The Fathers say the rock that shelters him is Christ, and to see God's 'back' is to follow after Him, for we know God by following where He has gone."
+    }
+  },
+  {
+    "id": "ex34-001",
+    "chapter": 34,
+    "book": "Exodus",
+    "reference": "Exodus 34:1-4",
+    "topic": "Covenant Renewed",
+    "type": "multiple-choice",
+    "question": "How many new stone tablets did Moses cut for the renewed covenant?",
+    "answer": "Two",
+    "options": [
+      "Two",
+      "One",
+      "Ten",
+      "Twelve"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "Two tablets, twice given. The first set Moses broke; the second he carved himself at God's command. Two tablets, two tables of the Law: love of God and love of neighbor."
+    }
+  },
+  {
+    "id": "ex34-002",
+    "chapter": 34,
+    "book": "Exodus",
+    "reference": "Exodus 34:28",
+    "topic": "Covenant Renewed",
+    "type": "fill-in",
+    "question": "How many days and nights was Moses on the mountain renewing the covenant?",
+    "answer": "40 days and 40 nights",
+    "acceptableAnswers": [
+      "40 days and 40 nights",
+      "forty days and forty nights",
+      "40",
+      "forty"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "Forty: the number of testing and preparation. Forty days for Moses, forty days of rain in the flood, forty years in the wilderness, forty days of Christ's fast. Forty always precedes a covenant or a new beginning."
+    }
+  },
+  {
+    "id": "ex34-003",
+    "chapter": 34,
+    "book": "Exodus",
+    "reference": "Exodus 34:28",
+    "topic": "Covenant Renewed",
+    "type": "true-false",
+    "question": "Moses ate bread and drank water during the forty days on the mountain.",
+    "answer": "False",
+    "options": [
+      "True",
+      "False"
+    ],
+    "memoryAid": {
+      "type": "teaching",
+      "text": "Moses neither ate bread nor drank water for forty days, sustained by the presence of God alone. This total fast prefigures Christ's forty-day fast and is the pattern for the Church's own Great Fast of Lent. Man does not live by bread alone, but by the word of God."
+    }
+  },
+  {
+    "id": "ex34-004",
+    "chapter": 34,
+    "book": "Exodus",
+    "reference": "Exodus 34:29-30",
+    "topic": "Moses' Shining Face",
+    "type": "multiple-choice",
+    "question": "What happened to Moses' face after he spoke with God?",
+    "answer": "It shone / radiated",
+    "options": [
+      "It shone / radiated",
+      "It was scarred by fire",
+      "It turned pale with fear",
+      "It was covered in dust"
+    ],
+    "memoryAid": {
+      "type": "teaching",
+      "text": "Moses' face shone with reflected glory from speaking with God, yet that glory faded and had to be veiled. St. Paul contrasts this in 2 Corinthians 3: the glory of the old covenant was fading and veiled, but in Christ we behold the unveiled and abiding glory, being transformed from glory to glory."
+    }
+  },
+  {
+    "id": "ex34-005",
+    "chapter": 34,
+    "book": "Exodus",
+    "reference": "Exodus 34:33-35",
+    "topic": "Moses' Veil",
+    "type": "multiple-choice",
+    "question": "Why did Moses put a veil over his face?",
+    "answer": "Because the people feared to approach him",
+    "options": [
+      "Because the people feared to approach him",
+      "To hide his identity from enemies",
+      "To protect his eyes from the sun",
+      "Because God commanded him to hide the tablets"
+    ],
+    "memoryAid": {
+      "type": "teaching",
+      "text": "The people were afraid of the divine glory shining on Moses, so he veiled it. St. Paul reads the veil as the obscurity that still lies over the old covenant when read apart from Christ. When one turns to the Lord, the veil is taken away, and we behold His glory with unveiled face."
+    }
+  },
+  {
+    "id": "ex38-001",
+    "chapter": 38,
+    "book": "Exodus",
+    "reference": "Exodus 38:1-2",
+    "topic": "Bronze Altar",
+    "type": "multiple-choice",
+    "question": "Of what material was the altar of burnt offering made?",
+    "answer": "Acacia wood overlaid with bronze",
+    "options": [
+      "Acacia wood overlaid with bronze",
+      "Solid gold",
+      "Stone and clay",
+      "Cedar overlaid with silver"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "Acacia wood (incorruptible) plus bronze (judgment by fire). The altar where sacrifice is consumed is wood that cannot rot, sheathed in the metal of fiery judgment, prefiguring the Cross that cannot be corrupted."
+    }
+  },
+  {
+    "id": "ex38-002",
+    "chapter": 38,
+    "book": "Exodus",
+    "reference": "Exodus 38:8",
+    "topic": "Bronze Laver",
+    "type": "fill-in",
+    "question": "The bronze laver was made from the mirrors of which women?",
+    "answer": "The women who served/fasted at the tabernacle entrance",
+    "acceptableAnswers": [
+      "the women who served at the tabernacle entrance",
+      "women who fasted",
+      "the serving women",
+      "women at the door of the tabernacle"
+    ],
+    "memoryAid": {
+      "type": "image",
+      "text": "The women melted down the very mirrors they used to admire themselves, and from that vanity-glass came the basin where the priests washed clean. Their surrendered self-regard literally became the means of purification."
+    }
+  },
+  {
+    "id": "ex38-003",
+    "chapter": 38,
+    "book": "Exodus",
+    "reference": "Exodus 38:9-13",
+    "topic": "Tabernacle Court",
+    "type": "multiple-choice",
+    "question": "What was the length of the tabernacle court?",
+    "answer": "100 cubits",
+    "options": [
+      "100 cubits",
+      "50 cubits",
+      "30 cubits",
+      "10 cubits"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "The court is 100 long by 50 wide, a perfect 2-to-1 rectangle. Picture a hundred-cubit hall, twice as long as it is wide."
+    }
+  },
+  {
+    "id": "ex38-004",
+    "chapter": 38,
+    "book": "Exodus",
+    "reference": "Exodus 38:9-13",
+    "topic": "Tabernacle Court",
+    "type": "multiple-choice",
+    "question": "What was the width of the tabernacle court?",
+    "answer": "50 cubits",
+    "options": [
+      "50 cubits",
+      "100 cubits",
+      "25 cubits",
+      "75 cubits"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "Width 50, length 100. The width is exactly half the length, a 2-to-1 ratio for the sacred enclosure."
+    }
+  },
+  {
+    "id": "ex38-005",
+    "chapter": 38,
+    "book": "Exodus",
+    "reference": "Exodus 38",
+    "topic": "Tabernacle Materials",
+    "type": "true-false",
+    "question": "The tabernacle used silver for every single furnishing.",
+    "answer": "False",
+    "options": [
+      "True",
+      "False"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "Three metals, not one: Gold, Silver, Bronze (G-S-B). Gold for the holiest things, silver for the bases, bronze for the courtyard. The glory decreases as you move outward from God's presence."
+    }
+  },
+  {
+    "id": "ex39-001",
+    "chapter": 39,
+    "book": "Exodus",
+    "reference": "Exodus 39",
+    "topic": "Materials Collected",
+    "type": "multiple-choice",
+    "question": "How much gold was collected and used for the holy vessels?",
+    "answer": "29 talents, 720 shekels",
+    "options": [
+      "29 talents, 720 shekels",
+      "100 talents, 1775 shekels",
+      "70 talents, 1500 shekels",
+      "12 talents, 300 shekels"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "Gold = 29 talents, 720 shekels. Gold is the least by weight but the most precious, reserved for the vessels that minister directly before God."
+    }
+  },
+  {
+    "id": "ex39-002",
+    "chapter": 39,
+    "book": "Exodus",
+    "reference": "Exodus 39",
+    "topic": "Materials Collected",
+    "type": "multiple-choice",
+    "question": "How much silver was collected for the tabernacle?",
+    "answer": "100 talents, 1775 shekels",
+    "options": [
+      "100 talents, 1775 shekels",
+      "29 talents, 720 shekels",
+      "70 talents, 1500 shekels",
+      "603 talents, 550 shekels"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "Silver = 100 talents, 1775 shekels. The silver came from the census 'ransom' of each man, so it equals the largest count, 100 full talents."
+    }
+  },
+  {
+    "id": "ex39-003",
+    "chapter": 39,
+    "book": "Exodus",
+    "reference": "Exodus 39",
+    "topic": "Materials Collected",
+    "type": "multiple-choice",
+    "question": "How much brass/bronze was collected for the tabernacle?",
+    "answer": "70 talents, 1500 shekels",
+    "options": [
+      "70 talents, 1500 shekels",
+      "29 talents, 720 shekels",
+      "100 talents, 1775 shekels",
+      "40 talents, 1000 shekels"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "Bronze = 70 talents, 1500 shekels, used for bases, pins, and altar vessels. Seventy talents, like the seventy elders and seventy nations: bronze is the metal of the outer court and the wider world."
+    }
+  },
+  {
+    "id": "ex39-004",
+    "chapter": 39,
+    "book": "Exodus",
+    "reference": "Exodus 39:1",
+    "topic": "Priestly Garments",
+    "type": "multiple-choice",
+    "question": "The blue, purple, and scarlet materials were used to make what?",
+    "answer": "Garments for Aaron",
+    "options": [
+      "Garments for Aaron",
+      "The veil of the tent only",
+      "Coverings for the ark",
+      "Banners for the tribes"
+    ],
+    "memoryAid": {
+      "type": "teaching",
+      "text": "The colors blue, purple, and scarlet adorn the high priest, the same colors that veil the holy place. The high priest wears the colors of heaven, royalty, and blood, for he mediates between God and the people. Christ our High Priest fulfills all this in His own person."
+    }
+  },
+  {
+    "id": "ex39-005",
+    "chapter": 39,
+    "book": "Exodus",
+    "reference": "Exodus 39",
+    "topic": "Census",
+    "type": "fill-in",
+    "question": "How many men aged twenty and upward passed the survey/census?",
+    "answer": "603,550",
+    "acceptableAnswers": [
+      "603550",
+      "603,550",
+      "six hundred three thousand five hundred fifty"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "603,550 passed the census. Each contributed a half-shekel of silver, which is why the silver totaled exactly 100 talents. The number redeemed becomes the number that builds the dwelling of God."
+    }
+  },
+  {
+    "id": "ex39-006",
+    "chapter": 39,
+    "book": "Exodus",
+    "reference": "Exodus 39",
+    "topic": "Materials Collected",
+    "type": "multiple-choice",
+    "question": "Which of the following was NOT among the metals collected for the tabernacle?",
+    "answer": "Iron",
+    "options": [
+      "Iron",
+      "Gold",
+      "Silver",
+      "Bronze/brass"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "Three metals only: Gold, Silver, Bronze. Iron, the metal of weapons and war, has no place in the dwelling of the God of peace."
+    }
+  },
+  {
+    "id": "ex40-001",
+    "chapter": 40,
+    "book": "Exodus",
+    "reference": "Exodus 40:2,17",
+    "topic": "Tabernacle Erected",
+    "type": "multiple-choice",
+    "question": "On what date was the tabernacle erected?",
+    "answer": "The first day of the first month of the second year",
+    "options": [
+      "The first day of the first month of the second year",
+      "The tenth day of the seventh month",
+      "The fifteenth day of the first month",
+      "The first day of the third year"
+    ],
+    "memoryAid": {
+      "type": "teaching",
+      "text": "The tabernacle rose on the first day of the first month, exactly one year after the Exodus began. A new creation: as the first day saw light, so the first day of the year sees God come to dwell among His people. The ordering of sacred time marks the ordering of the world around God's presence."
+    }
+  },
+  {
+    "id": "ex40-002",
+    "chapter": 40,
+    "book": "Exodus",
+    "reference": "Exodus 40",
+    "topic": "Tabernacle Erected",
+    "type": "fill-in",
+    "question": "About how long had the Israelites been out of Egypt when the tabernacle was erected?",
+    "answer": "One year",
+    "acceptableAnswers": [
+      "one year",
+      "1 year",
+      "a year",
+      "the second year"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "One year out of Egypt, and God comes to dwell. It took a year of wandering, law, and even the calf, before the people were ready for God to tabernacle among them."
+    }
+  },
+  {
+    "id": "ex40-003",
+    "chapter": 40,
+    "book": "Exodus",
+    "reference": "Exodus 40:18-33",
+    "topic": "Order of Events",
+    "type": "multiple-choice",
+    "question": "What was the FIRST step in setting up the tabernacle?",
+    "answer": "The tabernacle was erected",
+    "options": [
+      "The tabernacle was erected",
+      "The priests were washed",
+      "The anointing was performed",
+      "The furnishings were placed"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "Order: Erect, Furnish, Wash, Anoint. First the house, then its contents, then the cleansing of the priests, then the anointing that consecrates. Structure before service."
+    }
+  },
+  {
+    "id": "ex40-004",
+    "chapter": 40,
+    "book": "Exodus",
+    "reference": "Exodus 40:18-33",
+    "topic": "Order of Events",
+    "type": "multiple-choice",
+    "question": "What was the LAST of these steps in consecrating the tabernacle and priesthood?",
+    "answer": "The anointing was performed",
+    "options": [
+      "The anointing was performed",
+      "The tabernacle was erected",
+      "The furnishings were placed",
+      "The priests were washed"
+    ],
+    "memoryAid": {
+      "type": "teaching",
+      "text": "Anointing comes last, sealing the priests for service. The anointing oil is the type of the Holy Spirit; the very word Christ (Messiah) means 'Anointed One.' What is last in the order is the crown of the whole: consecration by the Spirit."
+    }
+  },
+  {
+    "id": "ex40-005",
+    "chapter": 40,
+    "book": "Exodus",
+    "reference": "Exodus 40:34-35",
+    "topic": "Glory Fills Tabernacle",
+    "type": "fill-in",
+    "question": "What filled the tabernacle when it was completed?",
+    "answer": "The glory of the Lord",
+    "acceptableAnswers": [
+      "the glory of the lord",
+      "the glory of god",
+      "god's glory",
+      "the glory"
+    ],
+    "memoryAid": {
+      "type": "teaching",
+      "text": "The glory of the Lord filled the tabernacle, the same glory that will fill the Temple and that finally dwells bodily in Christ. The tabernacle filled with glory is the goal of the whole book of Exodus: God comes to dwell with His people. 'The Word became flesh and tabernacled among us' (John 1:14)."
+    }
+  },
+  {
+    "id": "ex40-006",
+    "chapter": 40,
+    "book": "Exodus",
+    "reference": "Exodus 40:35",
+    "topic": "Glory Fills Tabernacle",
+    "type": "true-false",
+    "question": "Moses was able to enter the tabernacle after God's glory filled it.",
+    "answer": "False",
+    "options": [
+      "True",
+      "False"
+    ],
+    "memoryAid": {
+      "type": "teaching",
+      "text": "Moses could not enter because the glory of the Lord filled the tent. Even the great mediator is barred when the fullness of glory descends. This shows that no creature can stand in the unmediated presence of God, until Christ opens the way for us to enter the true Holy of Holies."
+    }
+  },
+  {
+    "id": "ex40-007",
+    "chapter": 40,
+    "book": "Exodus",
+    "reference": "Exodus 40:36-37",
+    "topic": "The Guiding Cloud",
+    "type": "multiple-choice",
+    "question": "What was the function of the cloud over the tabernacle?",
+    "answer": "It guided Israel's journeys",
+    "options": [
+      "It guided Israel's journeys",
+      "It provided rain for the camp",
+      "It marked the place of sacrifice",
+      "It hid the camp from enemies"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "Cloud UP, move out. Cloud DOWN, stay in town. When the cloud ascended, Israel traveled; when it rested, they stayed. God's presence sets the pace of the pilgrim people."
+    }
+  },
+  {
+    "id": "ex40-008",
+    "chapter": 40,
+    "book": "Exodus",
+    "reference": "Exodus 40:36-37",
+    "topic": "The Guiding Cloud",
+    "type": "true-false",
+    "question": "Israel traveled even when the cloud remained resting over the tabernacle.",
+    "answer": "False",
+    "options": [
+      "True",
+      "False"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "They moved ONLY when the cloud lifted. To march without the cloud would be to journey without God. The Christian life moves only when the presence of God leads."
+    }
+  },
+  {
+    "id": "ex40-009",
+    "chapter": 40,
+    "book": "Exodus",
+    "reference": "Exodus 40:36-38",
+    "topic": "The Guiding Cloud",
+    "type": "multiple-choice",
+    "question": "When the cloud ascended from the tabernacle, what did Israel do?",
+    "answer": "They set out on their journey",
+    "options": [
+      "They set out on their journey",
+      "They remained encamped",
+      "They offered sacrifices",
+      "They feared and hid"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "Cloud rises, camp rises. Ascended cloud means 'move along'; descended cloud means 'stay put.' The lifting of the cloud is the marching order."
+    }
+  },
+  {
+    "id": "ex32-009",
+    "chapter": 32,
+    "book": "Exodus",
+    "reference": "Exodus 32",
+    "topic": "Summary Numbers",
+    "type": "multiple-choice",
+    "question": "About how many descendants of Jacob entered Egypt?",
+    "answer": "75",
+    "options": [
+      "75",
+      "70",
+      "12",
+      "430"
+    ],
+    "memoryAid": {
+      "type": "teaching",
+      "text": "Seventy-five souls entered Egypt according to the Septuagint and Acts 7:14, the tradition the Orthodox Study Bible follows. A small remnant goes down into Egypt and comes out a vast nation, a pattern of death and resurrection, of the few becoming many through God's promise."
+    }
+  },
+  {
+    "id": "ex32-012",
+    "chapter": 32,
+    "book": "Exodus",
+    "reference": "Exodus 32",
+    "topic": "Summary Numbers",
+    "type": "multiple-choice",
+    "question": "How old was Aaron when he stood before Pharaoh?",
+    "answer": "83",
+    "options": [
+      "83",
+      "80",
+      "40",
+      "120"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "Aaron is 83, three years older than Moses (80). The high priest is the elder brother, yet he serves the prophet's word."
+    }
+  },
+  {
+    "id": "ex32-013",
+    "chapter": 32,
+    "book": "Exodus",
+    "reference": "Exodus 32",
+    "topic": "Summary Numbers",
+    "type": "multiple-choice",
+    "question": "How many days did the plague of darkness last?",
+    "answer": "3 days",
+    "options": [
+      "3 days",
+      "3 months",
+      "7 days",
+      "40 days"
+    ],
+    "memoryAid": {
+      "type": "teaching",
+      "text": "Three days of darkness so thick it could be felt. The three days of darkness over Egypt foreshadow the three days Christ lay in the tomb, the darkness before the dawn of deliverance and resurrection."
+    }
+  },
+  {
+    "id": "ex32-014",
+    "chapter": 32,
+    "book": "Exodus",
+    "reference": "Exodus 32",
+    "topic": "Summary Numbers",
+    "type": "multiple-choice",
+    "question": "How long did Israel dwell in Egypt?",
+    "answer": "430 years",
+    "options": [
+      "430 years",
+      "400 years",
+      "40 years",
+      "215 years"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "430 years in Egypt (Ex 12:40). On the very day the 430 years ended, the Lord brought them out. God keeps His appointed times to the very day."
+    }
+  },
+  {
+    "id": "ex32-015",
+    "chapter": 32,
+    "book": "Exodus",
+    "reference": "Exodus 32",
+    "topic": "Summary Numbers",
+    "type": "multiple-choice",
+    "question": "About how many men left Egypt in the Exodus?",
+    "answer": "About 600,000",
+    "options": [
+      "About 600,000",
+      "About 3,000",
+      "About 75",
+      "About 603,550"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "About 600,000 men on foot left Egypt, besides women and children. From 75 souls to 600,000 men: the seed of Abraham multiplied beyond counting, as God promised."
+    }
+  },
+  {
+    "id": "ex32-016",
+    "chapter": 32,
+    "book": "Exodus",
+    "reference": "Exodus 32",
+    "topic": "Summary Numbers",
+    "type": "multiple-choice",
+    "question": "How many springs of water were at Elim?",
+    "answer": "12",
+    "options": [
+      "12",
+      "70",
+      "7",
+      "40"
+    ],
+    "memoryAid": {
+      "type": "teaching",
+      "text": "Twelve springs at Elim, one for each tribe of Israel, and a type of the twelve apostles, the wells of living water for the new Israel. The number twelve marks the fullness of God's people."
+    }
+  },
+  {
+    "id": "ex32-017",
+    "chapter": 32,
+    "book": "Exodus",
+    "reference": "Exodus 32",
+    "topic": "Summary Numbers",
+    "type": "multiple-choice",
+    "question": "How many palm trees were at Elim?",
+    "answer": "70",
+    "options": [
+      "70",
+      "12",
+      "75",
+      "40"
+    ],
+    "memoryAid": {
+      "type": "teaching",
+      "text": "Seventy palm trees at Elim, recalling the seventy elders and prefiguring the seventy disciples Christ sent out to the nations (Luke 10). Twelve springs for the tribes, seventy palms for the nations: Israel and the world both find rest at the oasis."
+    }
+  },
+  {
+    "id": "ex32-019",
+    "chapter": 32,
+    "book": "Exodus",
+    "reference": "Exodus 32",
+    "topic": "Summary Numbers",
+    "type": "multiple-choice",
+    "question": "How many days and nights was Moses on Mount Sinai?",
+    "answer": "40 days, 40 nights",
+    "options": [
+      "40 days, 40 nights",
+      "3 days, 3 nights",
+      "40 years",
+      "430 days"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "Forty days and forty nights on Sinai, the number of testing and preparation. Forty for Moses, forty for Elijah, forty for Christ in the wilderness: the mountain of God demands the full forty."
+    }
+  },
+  {
+    "id": "ex32-020",
+    "chapter": 32,
+    "book": "Exodus",
+    "reference": "Exodus 32",
+    "topic": "Summary Numbers",
+    "type": "fill-in",
+    "question": "The twelve springs and seventy palm trees were located at what place?",
+    "answer": "Elim",
+    "acceptableAnswers": [
+      "elim"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "Elim, the oasis of 12 springs and 70 palms. Remember Elim by its abundance: twelve and seventy, tribes and nations, all finding water and shade."
+    }
+  }
+]

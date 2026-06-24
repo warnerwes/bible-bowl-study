@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Bible Bowl Study — Exodus</title>
+  <meta name="description" content="Quiz yourself on the Book of Exodus with mnemonics, teachings, and vivid memory aids." />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="site-header">
+    <h1>Bible Bowl Study</h1>
+    <p class="subtitle">The Book of Exodus</p>
+  </header>
+
+  <main id="app">
+    <!-- ===================== SETUP SCREEN ===================== -->
+    <section id="setup" class="screen">
+      <h2>Build your quiz</h2>
+
+      <div class="field">
+        <div class="field-label-row">
+          <label class="field-label">Chapters</label>
+          <div class="field-actions">
+            <button type="button" class="link-btn" data-select="all">All</button>
+            <button type="button" class="link-btn" data-select="none">None</button>
+          </div>
+        </div>
+        <div id="chapter-list" class="chip-grid" aria-label="Choose chapters"></div>
+      </div>
+
+      <div class="field">
+        <label class="field-label">Question types</label>
+        <div id="type-list" class="chip-grid">
+          <label class="chip"><input type="checkbox" value="multiple-choice" checked /><span>Multiple choice</span></label>
+          <label class="chip"><input type="checkbox" value="true-false" checked /><span>True / False</span></label>
+          <label class="chip"><input type="checkbox" value="fill-in" checked /><span>Fill in / Type in</span></label>
+        </div>
+      </div>
+
+      <div class="field">
+        <label class="field-label" for="count">How many questions?</label>
+        <select id="count" class="select">
+          <option value="10">10</option>
+          <option value="20" selected>20</option>
+          <option value="30">30</option>
+          <option value="0">All available</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label class="chip standalone"><input type="checkbox" id="show-aid-always" /><span>Always show the memory aid (even when correct)</span></label>
+      </div>
+
+      <p id="setup-summary" class="muted"></p>
+      <button id="start-btn" class="primary-btn">Start quiz</button>
+      <p id="load-error" class="error" hidden></p>
+    </section>
+
+    <!-- ===================== QUIZ SCREEN ===================== -->
+    <section id="quiz" class="screen" hidden>
+      <div class="quiz-top">
+        <div class="progress">
+          <div id="progress-bar" class="progress-bar"></div>
+        </div>
+        <div class="quiz-meta">
+          <span id="q-position">1 / 20</span>
+          <span id="q-score" class="score">Score: 0</span>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="q-tags">
+          <span id="q-ref" class="tag tag-ref"></span>
+          <span id="q-topic" class="tag"></span>
+          <span id="q-type" class="tag tag-type"></span>
+        </div>
+        <h2 id="q-text" class="q-text"></h2>
+
+        <form id="answer-form">
+          <div id="answer-area"></div>
+          <button id="submit-btn" type="submit" class="primary-btn" disabled>Check answer</button>
+        </form>
+
+        <div id="feedback" class="feedback" hidden>
+          <div id="feedback-verdict" class="verdict"></div>
+          <p id="feedback-answer" class="correct-answer"></p>
+          <div id="memory-aid" class="memory-aid" hidden>
+            <span id="aid-badge" class="aid-badge"></span>
+            <p id="aid-text"></p>
+          </div>
+          <button id="next-btn" type="button" class="primary-btn">Next</button>
+        </div>
+      </div>
+
+      <button id="quit-btn" class="link-btn quit">End quiz</button>
+    </section>
+
+    <!-- ===================== RESULTS SCREEN ===================== -->
+    <section id="results" class="screen" hidden>
+      <h2>Results</h2>
+      <p id="result-score" class="result-score"></p>
+      <div id="missed-review"></div>
+      <button id="restart-btn" class="primary-btn">New quiz</button>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p class="muted">Memory aids draw on Orthodox/patristic tradition and the Orthodox Study Bible.</p>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
