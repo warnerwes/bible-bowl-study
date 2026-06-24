@@ -124,6 +124,61 @@
     return `https://biblehub.com/sep/${book}/${q.chapter}.htm`;
   }
 
+  // ---------- Anki CSV export ----------
+  function csvField(s) {
+    return '"' + String(s == null ? "" : s).replace(/"/g, '""') + '"';
+  }
+  function ankiFront(q) {
+    let f = q.question;
+    if (q.type === "multiple-choice" && Array.isArray(q.options)) {
+      f += "<br><br>" + q.options.join("<br>");
+    } else if (q.type === "true-false") {
+      f += "<br><br>True or false?";
+    }
+    return f;
+  }
+  function ankiBack(q) {
+    let b = "<b>" + q.answer + "</b>";
+    b += '<br><span style="color:#888">(' + scriptureRef(q) + ")</span>";
+    if (q.memoryAid && q.memoryAid.text) {
+      const label = AID_LABELS[q.memoryAid.type] || "Memory aid";
+      b += "<br><br><i>" + label + ":</i> " + q.memoryAid.text;
+      if (q.memoryAid.source) b += "<br>— " + q.memoryAid.source;
+    }
+    return b;
+  }
+  function ankiTags(q) {
+    return "BibleBowl Exodus::Ch" + q.chapter + " " + q.type;
+  }
+  // Anki text-import format: leading #-directives set the note type, deck,
+  // separator, HTML handling, and tags column; one note per row after.
+  function buildAnkiCsv(qs) {
+    const out = [
+      "#separator:Comma",
+      "#html:true",
+      "#notetype:Basic",
+      "#deck:Bible Bowl - Exodus",
+      "#tags column:3",
+    ];
+    qs.forEach((q) => {
+      out.push([csvField(ankiFront(q)), csvField(ankiBack(q)), csvField(ankiTags(q))].join(","));
+    });
+    return out.join("\n") + "\n";
+  }
+  function exportAnki() {
+    const qs = pool();
+    if (!qs.length) return;
+    const blob = new Blob([buildAnkiCsv(qs)], { type: "text/csv;charset=utf-8" });
+    const url = URL.createObjectURL(blob);
+    const a = el("a");
+    a.href = url;
+    a.download = "bible-bowl-exodus-anki.csv";
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
+  }
+
   // ---------- Answer normalization (fill-in) ----------
   function normalize(s) {
     return String(s)
@@ -200,6 +255,7 @@
     $("quick-start").addEventListener("click", startQuick);
     $("drill-missed").addEventListener("click", startDrill);
     $("start-btn").addEventListener("click", startCustom);
+    $("export-csv").addEventListener("click", exportAnki);
 
     // Advanced toggle
     $("toggle-advanced").addEventListener("click", () => openAdvanced(true));
@@ -257,6 +313,7 @@
     const n = pool().length;
     $("setup-summary").textContent = n + " question" + (n === 1 ? "" : "s") + " match your selection.";
     $("start-btn").disabled = n === 0;
+    $("export-csv").disabled = n === 0;
   }
 
   // ---------- Start a quiz ----------
