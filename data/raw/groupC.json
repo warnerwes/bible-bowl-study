@@ -33,7 +33,7 @@
     "question": "Israel's livestock died along with the livestock of Egypt.",
     "answer": "False",
     "options": ["True", "False"],
-    "memoryAid": { "type": "teaching", "text": "God draws a clear line of separation between His people and Egypt, just as He will at Passover. This protection of Israel's herds prefigures the Church preserved through the plagues of this world; the Lord knows His own and shields them while judgment falls on the powers that enslave." }
+    "memoryAid": { "type": "teaching", "text": "God draws a clear line of separation between His people and Egypt, just as He will at Passover. The plagues fall as judgment on Egypt while the Lord shields His own, prefiguring the Church preserved through the plagues of this world.", "source": "St. Gregory of Nyssa, The Life of Moses" }
   },
   {
     "id": "ex09-004",
@@ -69,7 +69,7 @@
     "question": "The magicians of Egypt were able to stand before Moses during the plague of boils.",
     "answer": "False",
     "options": ["True", "False"],
-    "memoryAid": { "type": "teaching", "text": "The magicians who once mimicked Moses are now themselves afflicted and cannot even stand. The wisdom and power of Egypt collapse before the living God, showing that the counterfeit signs of the world's sorcery have no answer to the judgment of the Lord." }
+    "memoryAid": { "type": "teaching", "text": "The magicians who once mimicked Moses are now themselves afflicted by the boils and cannot even stand before him. The wisdom and power of Egypt collapse before the living God, for the counterfeit signs of Egypt's sorcery have no answer to the judgment of the Lord.", "source": "St. Gregory of Nyssa, The Life of Moses" }
   },
   {
     "id": "ex09-007",
@@ -129,7 +129,7 @@
     "question": "Everyone in Egypt lost their servants and animals to the hail.",
     "answer": "False",
     "options": ["True", "False"],
-    "memoryAid": { "type": "teaching", "text": "Those among Pharaoh's servants who feared the word of the Lord brought their people and animals indoors and were spared. Even in Egypt, the fear of God preserves life, foreshadowing how heeding God's warning shelters the obedient from the coming judgment." }
+    "memoryAid": { "type": "teaching", "text": "Those among Pharaoh's servants who feared the word of the Lord brought their people and animals indoors and were spared the hail. Even in Egypt the fear of God preserves life, foreshadowing how heeding God's warning shelters the obedient from the coming judgment.", "source": "St. Gregory of Nyssa, The Life of Moses" }
   },
   {
     "id": "ex09-012",
@@ -153,7 +153,7 @@
     "question": "Pharaoh truly repented after confessing his sin during the hail.",
     "answer": "False",
     "options": ["True", "False"],
-    "memoryAid": { "type": "teaching", "text": "Pharaoh's words were not repentance but fear of consequence; once relief came, he hardened his heart again. The Fathers see in this the difference between godly sorrow that leads to change and worldly regret that only seeks escape from punishment." }
+    "memoryAid": { "type": "teaching", "text": "Pharaoh's words were not repentance but fear of consequence; once relief came, he hardened his heart again. This shows the difference between godly sorrow that leads to change and worldly regret that only seeks escape from punishment.", "source": "St. Gregory of Nyssa, The Life of Moses" }
   },
   {
     "id": "ex10-001",
@@ -213,7 +213,7 @@
     "question": "During the locust plague, Pharaoh offered to let everyone in Israel leave.",
     "answer": "False",
     "options": ["True", "False"],
-    "memoryAid": { "type": "teaching", "text": "Pharaoh tried to let only the men go, keeping families behind as hostages. His bargaining is the pattern of the enemy who offers partial freedom to keep a hold on God's people; true deliverance leaves no one in bondage." }
+    "memoryAid": { "type": "teaching", "text": "Pharaoh tried to let only the men go, keeping families behind as hostages. His bargaining is the pattern of the enemy who offers partial freedom to keep a hold on God's people; true deliverance leaves no one in bondage.", "source": "St. Gregory of Nyssa, The Life of Moses" }
   },
   {
     "id": "ex10-006",
@@ -249,7 +249,7 @@
     "question": "The Israelites also sat in darkness like the Egyptians.",
     "answer": "False",
     "options": ["True", "False"],
-    "memoryAid": { "type": "teaching", "text": "While Egypt sat in palpable darkness, Israel had light in their dwellings. This is the great division between the children of light and the children of darkness; the same God who is darkness to those who resist Him is light to those who dwell with Him." }
+    "memoryAid": { "type": "teaching", "text": "While Egypt sat in three days of palpable darkness, Israel had light in their dwellings. This is the great division between the children of light and the children of darkness; the same God who is darkness to those who resist Him is light to those who dwell with Him.", "source": "St. Gregory of Nyssa, The Life of Moses" }
   },
   {
     "id": "ex10-009",
@@ -309,7 +309,7 @@
     "question": "Israel was told to leave Egypt immediately, before the final plague struck.",
     "answer": "False",
     "options": ["True", "False"],
-    "memoryAid": { "type": "teaching", "text": "Israel did not flee in panic; they waited for the Lord's instructions, which come in the next chapter as the Passover. Deliverance is ordered and liturgical, not chaotic; God prepares His people through the Passover meal before He leads them out." }
+    "memoryAid": { "type": "teaching", "text": "Israel did not flee in panic; they waited for the Lord's instructions, which come in the next chapter as the Passover. Deliverance is ordered, not chaotic; God prepares His people through the Passover before He leads them out.", "source": "St. Gregory of Nyssa, The Life of Moses" }
   },
   {
     "id": "ex11-004",
@@ -321,7 +321,7 @@
     "question": "Israel was promised they would leave Egypt carrying what?",
     "answer": "Silver and gold",
     "options": ["Silver and gold", "Bronze and iron", "Grain and oil", "Sheep and cattle"],
-    "memoryAid": { "type": "teaching", "text": "Israel leaves with the silver and gold of Egypt, wages for generations of slavery. The Fathers see this 'plunder' as the rightful taking of what was owed, and a type of how the Church takes what is good from the world and offers it back to God in the tabernacle and worship." }
+    "memoryAid": { "type": "image", "text": "Picture Israel walking out of Egypt with arms full of silver and gold — wages at last for generations of slavery. The same gold will later be offered back to God in the tabernacle and its worship." }
   },
   {
     "id": "ex12-001",
@@ -333,7 +333,7 @@
     "question": "What was required of the Passover lamb's condition?",
     "answer": "Without blemish",
     "options": ["Without blemish", "Newly born", "The strongest of the flock", "Marked with a brand"],
-    "memoryAid": { "type": "teaching", "text": "The lamb without blemish is the type of Christ, the spotless Lamb of God who takes away the sin of the world. Only the flawless can stand in the place of the firstborn, for only the sinless Christ can offer Himself for the life of all." }
+    "memoryAid": { "type": "teaching", "text": "The lamb without blemish is the type of Christ, the spotless Lamb of God who takes away the sin of the world. Only the flawless can stand in the place of the firstborn, for only the sinless Christ can offer Himself for the life of all.", "source": "Melito of Sardis, On Pascha" }
   },
   {
     "id": "ex12-002",
@@ -429,7 +429,7 @@
     "question": "How was the Passover lamb to be cooked?",
     "answer": "Roasted with fire",
     "options": ["Roasted with fire", "Boiled in water", "Eaten raw", "Baked in an oven"],
-    "memoryAid": { "type": "teaching", "text": "The lamb was roasted whole with fire, not boiled or eaten raw. The Fathers see the fire as the suffering of the cross and the unbroken roasting as a sign that not a bone of Christ would be broken, the Lamb consumed entire by the fire of His Passion." }
+    "memoryAid": { "type": "teaching", "text": "The lamb was roasted whole with fire, not boiled or eaten raw. The roasted lamb was spitted in the form of a cross, a type of the crucified Christ, the Lamb consumed entire by the fire of His Passion.", "source": "St. Justin Martyr, Dialogue with Trypho, ch. 111" }
   },
   {
     "id": "ex12-010",
@@ -441,7 +441,7 @@
     "question": "The Passover bread was to be leavened.",
     "answer": "False",
     "options": ["True", "False"],
-    "memoryAid": { "type": "teaching", "text": "The bread was unleavened, for there was no time to let it rise and leaven is a symbol of corruption and sin. The Church eats the sincerity and truth of unleavened bread, for Christ our Passover is sacrificed for us, the bread without the leaven of malice." }
+    "memoryAid": { "type": "teaching", "text": "The bread was unleavened, for there was no time to let it rise and leaven is a symbol of corruption and sin. The Church keeps the feast with the unleavened bread of sincerity and truth, for Christ our Passover is sacrificed for us, the bread without the leaven of malice.", "source": "1 Corinthians 5:7-8" }
   },
   {
     "id": "ex12-011",
@@ -453,7 +453,7 @@
     "question": "Along with the lamb and unleavened bread, the meal included bitter ______.",
     "answer": "herbs",
     "acceptableAnswers": ["herbs", "herb"],
-    "memoryAid": { "type": "teaching", "text": "The bitter herbs recall the bitterness of slavery in Egypt. Even in the feast of deliverance, the people taste the bitterness from which they were saved, remembering that redemption is bought through suffering and remembered with sober gratitude." }
+    "memoryAid": { "type": "teaching", "text": "The bitter herbs recall the bitterness of slavery in Egypt, eaten alongside the unleavened bread of the feast. So the Church keeps the feast not with the old leaven of malice and wickedness, but with the unleavened bread of sincerity and truth, remembering the bondage from which Christ our Passover has redeemed us.", "source": "1 Corinthians 5:7-8" }
   },
   {
     "id": "ex12-012",
@@ -465,7 +465,7 @@
     "question": "Of this feast God declared, 'It is the Lord's ______.'",
     "answer": "passover",
     "acceptableAnswers": ["passover", "pascha"],
-    "memoryAid": { "type": "teaching", "text": "Passover, or Pascha, means the 'passing over' of the destroyer. For the Church this is fulfilled in the Pascha of Christ, who by His own blood causes death to pass over us and passes us from death into life." }
+    "memoryAid": { "type": "teaching", "text": "Passover, or Pascha, means the 'passing over' of the destroyer. For the Church this is fulfilled in the Pascha of Christ the slain Lamb, who by His own blood causes death to pass over us and passes us from death into life.", "source": "Melito of Sardis, On Pascha" }
   },
   {
     "id": "ex12-013",
@@ -489,7 +489,7 @@
     "question": "Who was spared from the death of the firstborn?",
     "answer": "Those protected by the blood",
     "options": ["Those protected by the blood", "Those who fled Egypt", "Those who fasted that night", "Those who hid underground"],
-    "memoryAid": { "type": "teaching", "text": "Only the blood on the door saved the house, not effort or merit. So too only the blood of Christ shelters us from death; the destroyer passes over all who are marked by the Lamb, a salvation given by grace through the sign of sacrifice." }
+    "memoryAid": { "type": "teaching", "text": "Only the blood on the door saved the house, not effort or merit. So too only the blood of Christ shelters us from death; the destroyer passes over all who are marked by the Lamb, a salvation given by grace through the sign of sacrifice.", "source": "Melito of Sardis, On Pascha" }
   },
   {
     "id": "ex12-015",

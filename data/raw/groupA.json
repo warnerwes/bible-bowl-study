@@ -21,7 +21,7 @@
     "question": "Which of these was NOT named among the sons of Jacob who came into Egypt in this chapter?",
     "answer": "Joseph",
     "options": ["Joseph", "Reuben", "Issachar", "Naphtali"],
-    "memoryAid": { "type": "teaching", "text": "Joseph is not listed among those who 'came into' Egypt because he was already there, having gone before his brothers as a type of Christ who descends first into the place of exile and death to prepare deliverance for his people. The eleven are named as those who followed; Joseph is the forerunner." }
+    "memoryAid": { "type": "image", "text": "Joseph is not listed among those who 'came into' Egypt because he was already there, having gone before his brothers. Picture the eleven arriving as travelers while Joseph stands waiting inside the gate — the one who went down first to prepare a place for his people." }
   },
   {
     "id": "ex01-003",
@@ -69,7 +69,7 @@
     "question": "Complete the verse: 'The more they afflicted them, the more they ___ and grew.'",
     "answer": "multiplied",
     "acceptableAnswers": ["multiplied", "multiply", "increased"],
-    "memoryAid": { "type": "teaching", "text": "Affliction could not stop God's promise to multiply Abraham's seed; persecution only made Israel grow. The Fathers see here the Church under the martyrs: the blood of the persecuted becomes seed, and the harder the world presses, the more the people of God increase." }
+    "memoryAid": { "type": "image", "text": "Picture Egypt pressing down harder and harder, and Israel only swelling larger under the weight. Affliction could not stop God's promise to multiply Abraham's seed; the harder the world presses, the more the people of God increase." }
   },
   {
     "id": "ex01-007",
@@ -105,7 +105,7 @@
     "question": "Because the midwives feared God, He provided ___ for them.",
     "answer": "households",
     "acceptableAnswers": ["households", "houses", "homes", "a household"],
-    "memoryAid": { "type": "teaching", "text": "The midwives feared God more than Pharaoh and chose life over the king's command, so God built them houses — He gave them families of their own. This is the pattern of holy disobedience to ungodly authority: those who guard life are rewarded with life, fruitfulness given to those who refuse to shed innocent blood." }
+    "memoryAid": { "type": "image", "text": "Shiphrah and Puah feared God more than Pharaoh and chose life over the king's command, so God built them houses — He gave them families of their own. Picture two midwives who would not kill, blessed with households full of children: those who guard life are rewarded with life." }
   },
   {
     "id": "ex01-010",
@@ -141,7 +141,7 @@
     "question": "From what materials was the ark (basket) for baby Moses made?",
     "answer": "Bulrushes and asphalt",
     "options": ["Bulrushes and asphalt", "Gopher wood and pitch", "Reeds and clay", "Bulrushes and gold"],
-    "memoryAid": { "type": "teaching", "text": "Moses' little 'ark' of bulrushes and asphalt echoes Noah's ark sealed with pitch: both carry the one through whom God will save His people safely through deadly waters. The same Greek word for Noah's ark is used here, marking Moses as a new deliverer drawn through the flood of the Nile." }
+    "memoryAid": { "type": "image", "text": "Picture Moses' little 'ark' of bulrushes sealed with asphalt floating on the Nile, echoing Noah's ark sealed with pitch: both carry the one through whom God will save His people safely through deadly waters. A tiny deliverer drawn through the flood." }
   },
   {
     "id": "ex02-003",
@@ -177,7 +177,7 @@
     "question": "Moses went out to his brethren and saw their ___.",
     "answer": "suffering",
     "acceptableAnswers": ["suffering", "affliction", "burdens", "hardship"],
-    "memoryAid": { "type": "teaching", "text": "Though raised in Pharaoh's palace, Moses goes out to his brethren and identifies with their suffering rather than his privilege. Hebrews 11 praises this choice — to suffer with the people of God rather than enjoy sin's pleasures — as a foreshadowing of Christ, who leaves the Father's glory to share our affliction." }
+    "memoryAid": { "type": "image", "text": "Though raised in Pharaoh's palace, Moses goes out to his brethren and identifies with their suffering rather than his privilege. Picture the prince setting down his comforts to stand among slaves — choosing to suffer with the people of God rather than enjoy the pleasures of the court." }
   },
   {
     "id": "ex02-006",
@@ -249,7 +249,7 @@
     "question": "What does the name Gershom mean?",
     "answer": "A stranger / sojourner there",
     "options": ["A stranger / sojourner there", "God strengthens", "Drawn out of water", "The Lord remembers"],
-    "memoryAid": { "type": "teaching", "text": "Gershom means 'a stranger there,' for Moses said he had been a sojourner in a foreign land. The people of God live as sojourners and pilgrims on the earth, our true home being the Kingdom; Moses names his son to confess that this world is not our resting place." }
+    "memoryAid": { "type": "mnemonic", "text": "GERShom = 'a stranger there.' Hear 'GER' (Hebrew for stranger). Moses said he had been a sojourner in a foreign land, and names his son to confess that this world is not his resting place." }
   },
   {
     "id": "ex02-012",
@@ -261,7 +261,7 @@
     "question": "At the end of chapter 2, God remembered His covenant with Abraham, Isaac, and Jacob.",
     "answer": "True",
     "options": ["True", "False"],
-    "memoryAid": { "type": "teaching", "text": "God 'remembering' His covenant does not mean He forgot; in Scripture, to remember is to act on behalf of one's promise. The cries of Israel rise up, and God moves to fulfill the oath sworn to the patriarchs — the same faithfulness by which He remembers us in His Kingdom." }
+    "memoryAid": { "type": "image", "text": "God 'remembering' His covenant does not mean He forgot. Picture the cries of Israel rising like smoke and the Lord rising to act: in Scripture, to remember is to move on behalf of one's promise, fulfilling the oath sworn to the patriarchs." }
   },
   {
     "id": "ex03-001",
@@ -285,7 +285,7 @@
     "question": "The bush burned with fire but was not consumed.",
     "answer": "True",
     "options": ["True", "False"],
-    "memoryAid": { "type": "teaching", "text": "The bush that burns yet is not consumed is a great image of the Theotokos in Orthodox tradition: she contains the divine Fire in her womb without being destroyed. The Unburnt Bush foreshadows the Virgin who bears God and remains whole, and it reveals a God who dwells in fire that gives life rather than annihilates." }
+    "memoryAid": { "type": "teaching", "text": "The bush that burns yet is not consumed is a great image of the Theotokos in Orthodox tradition: she contains the divine Fire in her womb without being destroyed. The Unburnt Bush foreshadows the Ever-Virgin who bears God and remains whole, dwelling in fire that gives life rather than annihilates.", "source": "St. Gregory of Nyssa, The Life of Moses; Orthodox hymnography (the icon of the Unburnt Bush)" }
   },
   {
     "id": "ex03-003",
@@ -321,7 +321,7 @@
     "question": "What was Moses' first response when God called to him from the bush?",
     "answer": "Here I am",
     "acceptableAnswers": ["here i am", "here am i", "here i am.", "behold, here i am"],
-    "memoryAid": { "type": "teaching", "text": "'Here I am' is the prophet's answer of total availability — the same word Abraham, Samuel, and Isaiah give when God calls. It is the posture of the saint: not 'what do you want?' but 'I am present and ready,' a self-offering to the will of God." }
+    "memoryAid": { "type": "mnemonic", "text": "'Here I am' is the prophet's answer of total availability — the same words Abraham, Samuel, and Isaiah give when God calls. Not 'what do you want?' but 'I am present and ready.'" }
   },
   {
     "id": "ex03-006",
@@ -333,7 +333,7 @@
     "question": "God identified Himself to Moses as the God of which three patriarchs?",
     "answer": "Abraham, Isaac, and Jacob",
     "options": ["Abraham, Isaac, and Jacob", "Abraham, Isaac, and Joseph", "Noah, Abraham, and Isaac", "Abraham, Jacob, and Joseph"],
-    "memoryAid": { "type": "teaching", "text": "Christ Himself cites this title to prove the resurrection: God is not the God of the dead but of the living, so Abraham, Isaac, and Jacob live to Him. The covenant name binds the whole story of salvation from the patriarchs to the Exodus into one continuous act of God." }
+    "memoryAid": { "type": "mnemonic", "text": "'God of Abraham, Isaac, and Jacob' — the covenant title in order, A-I-J. This name binds the whole story of salvation from the patriarchs to the Exodus into one continuous act of God." }
   },
   {
     "id": "ex03-007",
@@ -381,7 +381,7 @@
     "question": "Complete Moses' question: 'Who am I that I should go to Pharaoh and bring the children of Israel out of ___?'",
     "answer": "Egypt",
     "acceptableAnswers": ["egypt"],
-    "memoryAid": { "type": "teaching", "text": "'Who am I?' is the humility of the true prophet — not refusal of pride but awareness of his own smallness before the task. God's answer is not to flatter Moses but to promise 'I will be with you'; the worker is nothing, the One who sends is everything." }
+    "memoryAid": { "type": "mnemonic", "text": "'Who am I?' meets 'I will be with you.' Moses' question of smallness is answered not with flattery but with God's presence — the worker is nothing, the One who sends is everything." }
   },
   {
     "id": "ex03-011",
@@ -392,8 +392,8 @@
     "type": "fill-in",
     "question": "By what name did God reveal Himself to Moses (OSB rendering)?",
     "answer": "I AM THE EXISTING ONE",
-    "acceptableAnswers": ["i am the existing one", "the existing one", "i am the existing one.", "i am who i am"],
-    "memoryAid": { "type": "teaching", "text": "In the OSB/Septuagint, God names Himself 'I AM THE EXISTING ONE' — He alone truly IS, the source of all being, while creation only exists by participation in Him. This is why the Church writes 'HO ON' (The Existing One) in Christ's halo on every icon: Jesus is the same I AM who spoke from the bush." }
+    "acceptableAnswers": ["i am the existing one", "the existing one", "i am the existing one."],
+    "memoryAid": { "type": "teaching", "text": "In the OSB/Septuagint, God names Himself 'I AM THE EXISTING ONE' — He alone truly IS, the source of all being, while creation only exists by participation in Him. This is why the Church writes 'HO ON' (The Existing One) in Christ's halo on every icon: Jesus is the same I AM who spoke from the bush, who said 'Before Abraham was, I AM.'", "source": "John 8:58; Fr. Stephen De Young, The Religion of the Apostles (Ancient Faith, 2021)" }
   },
   {
     "id": "ex03-012",
@@ -405,7 +405,7 @@
     "question": "How does the OSB render the name God told Moses to give the children of Israel?",
     "answer": "The Existing One sent me to you",
     "options": ["The Existing One sent me to you", "The Lord of Hosts sent me", "The Almighty sent me", "He Who Was sent me"],
-    "memoryAid": { "type": "teaching", "text": "'The Existing One' is the messenger-form of the divine Name: the One who simply IS sends Moses. The Fathers see in this name the unchanging, self-existent God who depends on nothing — and who, in Christ, enters time to draw existing-but-dying humanity back into true life." }
+    "memoryAid": { "type": "teaching", "text": "'The Existing One' is the messenger-form of the divine Name: the One who simply IS sends Moses. This same self-existent God, who depends on nothing, is the One who declares in the Gospel 'Before Abraham was, I AM' — the divine Name spoken by Christ.", "source": "John 8:58; Fr. Stephen De Young, The Whole Counsel of God (Ancient Faith, 2021)" }
   },
   {
     "id": "ex04-001",
@@ -477,7 +477,7 @@
     "question": "Complete Moses' complaint: 'I am weak in speech and slow of ___.'",
     "answer": "tongue",
     "acceptableAnswers": ["tongue", "of tongue"],
-    "memoryAid": { "type": "teaching", "text": "Moses pleads weakness of speech, yet God chooses the stammerer to confront the most powerful king on earth. God's strength is made perfect in weakness; He does not need eloquence but obedience, and He supplies Aaron's mouth so the glory remains His own." }
+    "memoryAid": { "type": "mnemonic", "text": "'Slow of tongue, but sent.' Moses pleads weakness of speech, yet God chooses the stammerer to confront the most powerful king on earth — and supplies Aaron's mouth so the glory remains His own." }
   },
   {
     "id": "ex04-007",
@@ -501,7 +501,7 @@
     "question": "Complete God's words to Pharaoh: 'Israel is My ___ son.'",
     "answer": "firstborn",
     "acceptableAnswers": ["firstborn", "first-born", "first born"],
-    "memoryAid": { "type": "teaching", "text": "God calls Israel His firstborn son, claiming the nation as His own child. This sets up the justice of the final plague — Egypt enslaved and tried to kill God's son, so the firstborn of Egypt answers for it — and it points to Christ, the true Firstborn Son who leads a new Israel out of bondage." }
+    "memoryAid": { "type": "teaching", "text": "God calls Israel His firstborn son, claiming the nation as His own child and inheritance. This sets up the justice of the final plague — Egypt enslaved and tried to kill God's son, so the firstborn of Egypt answers for it — drawing on the deep biblical theme of firstborn status and inheritance among the nations.", "source": "Fr. Stephen De Young, The Whole Counsel of God (Ancient Faith, 2021)" }
   },
   {
     "id": "ex04-009",
@@ -513,7 +513,7 @@
     "question": "Complete the warning to Pharaoh: 'If you refuse to let him go, indeed, I will kill your ___ son.'",
     "answer": "firstborn",
     "acceptableAnswers": ["firstborn", "first-born", "first born"],
-    "memoryAid": { "type": "teaching", "text": "Already in chapter 4 God announces the final plague: refuse My firstborn his freedom, and your firstborn will die. Measure for measure runs through Exodus — Pharaoh drowned Hebrew sons, so judgment falls on Egypt's sons. The threat foreshadows the Passover, where only the blood of the lamb spares the firstborn." }
+    "memoryAid": { "type": "teaching", "text": "Already in chapter 4 God announces the final plague: refuse My firstborn his freedom, and your firstborn will die. The threat foreshadows the Passover, where only the blood of the lamb — the type of Christ — spares the firstborn, the same lamb of which no bone would be broken.", "source": "John 19:36; Melito of Sardis, On Pascha; Fr. Stephen De Young, The Whole Counsel of God (Ancient Faith, 2021)" }
   },
   {
     "id": "ex04-010",
@@ -525,7 +525,7 @@
     "question": "Who circumcised her son after the Lord confronted Moses on the journey?",
     "answer": "Zipporah",
     "options": ["Zipporah", "Jochebed", "Miriam", "Puah"],
-    "memoryAid": { "type": "teaching", "text": "Zipporah's swift circumcision of her son saves Moses' life, showing that the deliverer cannot lead the covenant people while neglecting the sign of the covenant in his own house. Before Moses can demand Pharaoh obey God, his own family must bear the seal of the promise — the mark of belonging to the LORD." }
+    "memoryAid": { "type": "image", "text": "Picture Zipporah's swift circumcision of her son saving Moses' life. The deliverer cannot lead the covenant people while neglecting the sign of the covenant in his own house — before Moses can demand Pharaoh obey God, his own family must bear the seal of the promise." }
   },
   {
     "id": "ex04-011",

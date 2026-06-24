@@ -41,7 +41,8 @@ Each question in `data/questions.json` (and the `data/raw/*.json` sources) is:
   "acceptableAnswers": ["10th", "tenth day"],                // fill-in only (lowercase)
   "memoryAid": {
     "type": "mnemonic",            // "mnemonic" | "teaching" | "image"
-    "text": "'10 to inspect, 14 to perfect.' ..."
+    "text": "'10 to inspect, 14 to perfect.' ...",
+    "source": "St. Gregory of Nyssa, The Life of Moses"  // REQUIRED for "teaching"
   }
 }
 ```
@@ -49,8 +50,13 @@ Each question in `data/questions.json` (and the `data/raw/*.json` sources) is:
 **Memory aid types**
 - `mnemonic` — an acronym, rhyme, number trick, or word association.
 - `teaching` — a short expository teaching on the fact's significance in the
-  Orthodox/patristic tradition (typology, salvation-history meaning).
+  Orthodox/patristic tradition (typology, salvation-history meaning). **Must
+  carry a `source`** citing a Church Father, Scripture, or Fr. Stephen De Young.
 - `image` — an emotional, shocking, or weird mental picture that burns it in.
+
+**Terminology** — all wording follows the **Septuagint / Orthodox Study Bible**
+(e.g. God's name "I AM THE EXISTING ONE", 75 souls into Egypt, the "south wind"
+that divides the Red Sea, the fourth plague of "dog-flies").
 
 ## Run it locally
 

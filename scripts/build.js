@@ -55,6 +55,12 @@ function validate(q, file) {
     if (typeof q.memoryAid.text !== "string" || q.memoryAid.text.trim().length < 10) {
       fail(file, id, "memoryAid.text too short or missing");
     }
+    // Teaching aids make theological claims and MUST cite a source.
+    if (q.memoryAid.type === "teaching") {
+      if (typeof q.memoryAid.source !== "string" || q.memoryAid.source.trim().length < 4) {
+        fail(file, id, "teaching memoryAid must include a non-empty source citation");
+      }
+    }
   }
 }
 

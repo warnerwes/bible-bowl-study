@@ -9,7 +9,7 @@
     "question": "In Exodus 13, every firstborn belongs to God.",
     "answer": "True",
     "options": ["True", "False"],
-    "memoryAid": { "type": "teaching", "text": "Because the Lord spared Israel's firstborn at the Passover, every firstborn is consecrated to Him. The Fathers see in this a foreshadowing of Christ, the Firstborn of all creation and the Firstborn from the dead, who sanctifies humanity to God." }
+    "memoryAid": { "type": "teaching", "text": "Because the Lord spared Israel's firstborn at the Passover, every firstborn is consecrated to Him, set apart and given to God.", "source": "Fr. Stephen De Young, The Whole Counsel of God (Ancient Faith, 2021)" }
   },
   {
     "id": "ex13-002",
@@ -33,7 +33,7 @@
     "question": "God led Israel by the shortest route to Canaan.",
     "answer": "False",
     "options": ["True", "False"],
-    "memoryAid": { "type": "teaching", "text": "God led Israel another way, away from the land of the Philistines, lest the people see war and lose heart and turn back to Egypt. God's longer road is His mercy, training a freed people before facing battle." }
+    "memoryAid": { "type": "image", "text": "Picture God steering the people away from the coastal road of the Philistines, lest they see war, lose heart, and turn back to Egypt — the longer desert road keeps a freed but untested people from running home." }
   },
   {
     "id": "ex13-004",
@@ -57,7 +57,7 @@
     "question": "By what did the Lord lead Israel during the night?",
     "answer": "A pillar of fire",
     "options": ["A pillar of fire", "A pillar of cloud", "The moon", "A burning bush"],
-    "memoryAid": { "type": "teaching", "text": "The pillar of cloud by day and fire by night is God's abiding guiding presence with His people. The Fathers see here the unfailing presence of God who leads His Church through the wilderness of this world toward the promised land." }
+    "memoryAid": { "type": "teaching", "text": "The pillar of cloud by day and fire by night is the glory and presence of the Lord, guiding His people through the wilderness.", "source": "Fr. Stephen De Young, The Whole Counsel of God (Ancient Faith, 2021)" }
   },
   {
     "id": "ex13-006",
@@ -141,7 +141,7 @@
     "question": "According to the OSB, by what kind of wind was the sea divided?",
     "answer": "A strong south wind",
     "options": ["A strong south wind", "A strong east wind", "A whirlwind from the north", "A west wind"],
-    "memoryAid": { "type": "teaching", "text": "The OSB reads that a strong south wind drove back the sea (Ex 14:21). The Fathers see the crossing of the Red Sea as a type of Baptism: passing through the waters from slavery into freedom, Israel is delivered as we are delivered through the font." }
+    "memoryAid": { "type": "teaching", "text": "The OSB reads that a strong south wind (LXX) drove back the sea. The crossing of the Red Sea is a type of Baptism: Israel passes through the waters from slavery into freedom, baptized into Moses in the cloud and in the sea, as we are delivered through the font.", "source": "1 Cor 10:1-2; Theodoret of Cyrus, Questions on Exodus" }
   },
   {
     "id": "ex14-006",
@@ -153,7 +153,7 @@
     "question": "The Egyptians crossed the sea safely behind Israel.",
     "answer": "False",
     "options": ["True", "False"],
-    "memoryAid": { "type": "teaching", "text": "The waters returned and covered Pharaoh's host so that not one remained. The Fathers see the drowning of the Egyptians as the destruction of sin and the demonic powers in the waters of Baptism, which Israel passes through unharmed." }
+    "memoryAid": { "type": "teaching", "text": "The waters returned and covered Pharaoh's host so that not one remained. The drowning of the Egyptians figures the baptismal laver: the Egyptians are the sins drowned, Pharaoh is the devil, and Israel passes through unharmed.", "source": "Theodoret of Cyrus, Questions on Exodus" }
   },
   {
     "id": "ex14-007",
@@ -177,7 +177,7 @@
     "question": "Complete the opening of the Song of Moses: 'Let us sing to the Lord, for he is very greatly glorified: horse and rider he has thrown into the ____.'",
     "answer": "sea",
     "acceptableAnswers": ["sea", "the sea"],
-    "memoryAid": { "type": "teaching", "text": "The Song of Moses is the first ode of the Church's canon of hymns, sung at the dawn of Israel's salvation. It celebrates the victory of God over the powers of Egypt, prefiguring the triumph of Christ over death." }
+    "memoryAid": { "type": "teaching", "text": "The Song of Moses celebrates the victory of God over the powers of Egypt at the dawn of Israel's salvation, and is sung in the Church as the first of the biblical odes.", "source": "Fr. Stephen De Young, The Whole Counsel of God (Ancient Faith, 2021)" }
   },
   {
     "id": "ex15-002",
@@ -249,7 +249,7 @@
     "question": "What did Moses cast into the bitter waters of Marah to make them sweet?",
     "answer": "A tree",
     "acceptableAnswers": ["a tree", "tree", "wood", "a piece of wood"],
-    "memoryAid": { "type": "teaching", "text": "The Fathers see the Cross at Marah: bitter water made sweet by a tree thrown in, as the bitterness of death is made sweet by the wood of the Cross." }
+    "memoryAid": { "type": "teaching", "text": "The Fathers see the Cross at Marah: bitter water made sweet by a tree cast in, as the bitterness of death is sweetened by the wood of the Cross.", "source": "St. Gregory of Nyssa, The Life of Moses" }
   },
   {
     "id": "ex15-008",
@@ -261,7 +261,7 @@
     "question": "Complete the verse: 'I am the Lord thy God that ____ thee.'",
     "answer": "heals",
     "acceptableAnswers": ["heals", "heals thee", "that heals thee"],
-    "memoryAid": { "type": "teaching", "text": "At Marah the Lord reveals Himself as the One who heals. The Fathers see Christ the Physician, who heals not only bodies but the bitterness of fallen human nature through the sweetening wood of the Cross." }
+    "memoryAid": { "type": "teaching", "text": "At Marah the Lord reveals Himself as the One who heals, sweetening the bitter water by the wood — which the Fathers read as the wood of the Cross that heals the bitterness of fallen human nature.", "source": "St. Gregory of Nyssa, The Life of Moses" }
   },
   {
     "id": "ex15-009",
@@ -273,7 +273,7 @@
     "question": "How many springs of water did Israel find at the oasis of Elim?",
     "answer": "Twelve",
     "options": ["Twelve", "Seven", "Seventy", "Forty"],
-    "memoryAid": { "type": "teaching", "text": "Twelve springs and seventy palm trees at Elim. The Fathers see in the twelve springs a type of the twelve Apostles and in the seventy palms the seventy disciples sent out by Christ — the oasis prefigures the Church's refreshment." }
+    "memoryAid": { "type": "mnemonic", "text": "Twelve springs and seventy palm trees at Elim — twelve like the Apostles, seventy like the disciples Christ sent out, an oasis of refreshment after Marah." }
   },
   {
     "id": "ex15-010",
@@ -357,7 +357,7 @@
     "question": "In chapter 16 Israel went from singing God's praises to complaining about hunger.",
     "answer": "True",
     "options": ["True", "False"],
-    "memoryAid": { "type": "teaching", "text": "From the triumphant Song of the Sea to murmuring over bread, Israel reveals the fickleness of the human heart. The Fathers warn that the soul delivered from sin must still be fed daily, lest it grumble and look back to its old slavery." }
+    "memoryAid": { "type": "image", "text": "Picture the same crowd that sang in triumph on the far shore now grumbling over empty stomachs only weeks later — from the Song of the Sea to murmuring over bread, the fickleness of the human heart laid bare." }
   },
   {
     "id": "ex16-006",
@@ -393,7 +393,7 @@
     "question": "What does the word 'manna' mean?",
     "answer": "What is it?",
     "acceptableAnswers": ["what is it", "what is it?", "what is this", "what is this?"],
-    "memoryAid": { "type": "teaching", "text": "Seeing the strange bread, Israel asked 'What is it?' — and that question became its name. The Fathers see the manna as a type of the Eucharist, Christ the Bread of Life come down from heaven, a mystery that surpasses understanding." }
+    "memoryAid": { "type": "teaching", "text": "Seeing the strange bread, Israel asked 'What is it?' — and that question became its name. Christ takes up this manna as a sign of Himself, the true bread from heaven, the Bread of Life.", "source": "John 6:31-35" }
   },
   {
     "id": "ex16-009",
@@ -405,7 +405,7 @@
     "question": "Israel could store leftover manna for the next day without it spoiling.",
     "answer": "False",
     "options": ["True", "False"],
-    "memoryAid": { "type": "teaching", "text": "Manna kept overnight bred worms and stank, except the portion gathered before the Sabbath. The Fathers see a lesson in daily dependence on God, echoed in 'give us this day our daily bread' and in the daily reception of Christ the living Bread." }
+    "memoryAid": { "type": "mnemonic", "text": "Manna hoarded overnight bred worms and stank — except the Sabbath portion. Gather fresh each day: it teaches daily dependence, 'give us this day our daily bread.'" }
   },
   {
     "id": "ex16-010",
@@ -429,7 +429,7 @@
     "question": "According to Exodus 16:8, against whom was Israel's murmuring truly directed?",
     "answer": "Against God",
     "options": ["Against God", "Against Moses", "Against Aaron", "Against Pharaoh"],
-    "memoryAid": { "type": "teaching", "text": "Moses tells the people their grumbling is not against him and Aaron but against the Lord. The Fathers teach that complaint against God's providence is a deep spiritual danger, for it doubts the very God who fed them with bread from heaven." }
+    "memoryAid": { "type": "image", "text": "Picture the people shaking their fists at Moses and Aaron, while Moses answers that the complaint sails right past them — their murmuring is aimed at the Lord who fed them with bread from heaven." }
   },
   {
     "id": "ex16-012",
@@ -465,7 +465,7 @@
     "question": "According to Exodus 16:31, what was the taste of the manna like?",
     "answer": "A wafer with honey",
     "options": ["A wafer with honey", "Roasted grain", "Unleavened bread with oil", "Bitter herbs"],
-    "memoryAid": { "type": "teaching", "text": "White like coriander seed and tasting like a wafer made with honey, the manna prefigures the sweetness of the Eucharist. The Fathers see Christ the Bread of Life, whose taste is the sweetness of communion with God." }
+    "memoryAid": { "type": "teaching", "text": "White like coriander seed and tasting like a wafer made with honey, the manna points to Christ the Bread of Life, the true bread come down from heaven.", "source": "John 6:31-51" }
   },
   {
     "id": "ex16-015",
@@ -501,7 +501,7 @@
     "question": "Israel ate manna for forty years until they reached the borders of Canaan.",
     "answer": "True",
     "options": ["True", "False"],
-    "memoryAid": { "type": "teaching", "text": "Manna fed Israel for forty years until they entered the promised land. The Fathers see the Eucharist as the manna of the new Israel, sustaining the Church through her pilgrimage until she enters the Kingdom." }
+    "memoryAid": { "type": "teaching", "text": "Manna fed Israel for forty years until they entered the promised land — the same spiritual food the Apostle recalls, fulfilled in Christ the Bread of Life who sustains the new Israel on her pilgrimage.", "source": "1 Cor 10:3; John 6:31-51" }
   },
   {
     "id": "ex16-018",

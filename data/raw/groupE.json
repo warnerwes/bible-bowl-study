@@ -21,7 +21,7 @@
     "question": "Moses struck the rock to bring forth water.",
     "answer": "True",
     "options": ["True", "False"],
-    "memoryAid": { "type": "teaching", "text": "The rock struck at Horeb gives water to a thirsting people. St. Paul declares, 'that Rock was Christ' (1 Cor 10:4). The struck Rock prefigures Christ struck on the Cross, from whose pierced side flow the living waters of Baptism and the Spirit." }
+    "memoryAid": { "type": "teaching", "text": "The rock struck at Rephidim (Horeb) gives water to a thirsting people. St. Paul declares, 'that Rock was Christ' (1 Cor 10:4). The struck Rock prefigures Christ, from whom flow the living waters of the Spirit.", "source": "1 Corinthians 10:1-4" }
   },
   {
     "id": "ex17-003",
@@ -69,7 +69,7 @@
     "question": "Who led Israel's army into battle against Amalek?",
     "answer": "Joshua",
     "acceptableAnswers": ["joshua"],
-    "memoryAid": { "type": "teaching", "text": "Joshua (Hebrew Yehoshua) bears the same name as Jesus (Yeshua). The one who leads Israel's warfare against Amalek shares the Savior's name, foreshadowing Christ who leads His people in victory over the enemy." }
+    "memoryAid": { "type": "mnemonic", "text": "JOSHUA leads the fight below while Moses prays above. 'J' for the general on the ground; Moses holds the staff on the hill." }
   },
   {
     "id": "ex17-007",
@@ -81,7 +81,7 @@
     "question": "What happened to the battle whenever Moses raised his hands?",
     "answer": "Israel prevailed",
     "acceptableAnswers": ["israel prevailed", "israel won", "israel was winning"],
-    "memoryAid": { "type": "teaching", "text": "Moses on the hill with arms outstretched is a living image of the Cross: while his arms form the cross-shape, Amalek falls. Aaron and Hur holding up his tiring arms show that victory comes only through the Cross, upheld by the Church." }
+    "memoryAid": { "type": "teaching", "text": "Moses on the hill with arms outstretched is a living image of the Cross: while his hands are raised, Israel prevails and Amalek falls. Aaron and Hur holding up his tiring hands show that victory comes through the form of the Cross.", "source": "St. Justin Martyr, Dialogue with Trypho, ch. 90" }
   },
   {
     "id": "ex17-008",
@@ -105,7 +105,7 @@
     "question": "How did Aaron and Hur help Moses keep his hands raised?",
     "answer": "They put a stone under him and held up his hands",
     "acceptableAnswers": ["they put a stone under him and held up his hands", "put a stone under him and held his hands", "sat him on a stone and held up his hands", "held up his hands"],
-    "memoryAid": { "type": "teaching", "text": "Aaron and Hur uphold the arms of Moses so the cross-form never drops until sunset. So the Church sustains the victory of the Cross through prayer and intercession, never letting the saving sign fall." }
+    "memoryAid": { "type": "teaching", "text": "Aaron and Hur uphold the hands of Moses so the cross-form never drops until sunset. The outstretched hands held up by two men are the very form of the Cross by which Joshua (Jesus) defeats Amalek.", "source": "St. Justin Martyr, Dialogue with Trypho, ch. 90" }
   },
   {
     "id": "ex17-010",
@@ -213,7 +213,7 @@
     "question": "Why did Jethro advise Moses to appoint judges over the people?",
     "answer": "To share the burden of leadership",
     "options": ["To share the burden of leadership", "To raise an army for war", "To collect taxes for the tabernacle", "To choose a successor for Moses"],
-    "memoryAid": { "type": "teaching", "text": "Jethro's counsel to share leadership prefigures the ordered hierarchy of the Church, where bishops appoint presbyters and deacons so the burden of ministry is shared and the whole body is served." }
+    "memoryAid": { "type": "mnemonic", "text": "One man cannot carry all the cases. Jethro's fix: SHARE the load by appointing judges over thousands, hundreds, fifties, and tens." }
   },
   {
     "id": "ex19-001",
@@ -237,7 +237,7 @@
     "question": "God said He bore Israel out of Egypt on what?",
     "answer": "Eagles' wings",
     "acceptableAnswers": ["eagles wings", "eagles' wings", "eagle's wings", "eagle wings"],
-    "memoryAid": { "type": "teaching", "text": "'I bore you on eagles' wings, and brought you unto Myself.' The eagle bears its young aloft; so God lifts His people out of bondage and carries them to Himself. The image speaks of divine deliverance drawing us up into communion with God." }
+    "memoryAid": { "type": "image", "text": "Picture a great eagle lifting Israel up out of Egypt and carrying them home to God: 'I bore you on eagles' wings, and brought you unto Myself.'" }
   },
   {
     "id": "ex19-003",
@@ -249,7 +249,7 @@
     "question": "According to Exodus 19:6, God said Israel would be to Him a royal priesthood and what kind of nation?",
     "answer": "A holy nation",
     "options": ["A holy nation", "A mighty nation", "A great nation", "A chosen nation"],
-    "memoryAid": { "type": "teaching", "text": "'A royal priesthood and a holy nation' — St. Peter applies these very words to the Church (1 Pet 2:9). What was spoken to Israel at Sinai is fulfilled in the baptized people of God, a priestly and holy people in Christ." }
+    "memoryAid": { "type": "teaching", "text": "'A royal priesthood and a holy nation' — St. Peter applies these very words to the Church. What was spoken to Israel at Sinai is taken up for the people of God, 'a royal priesthood, a holy nation.'", "source": "1 Peter 2:9 (cf. Exodus 19:6)" }
   },
   {
     "id": "ex19-004",
@@ -285,7 +285,7 @@
     "question": "At Mount Sinai everyone could freely approach and touch the mountain.",
     "answer": "False",
     "options": ["True", "False"],
-    "memoryAid": { "type": "teaching", "text": "Boundaries were set; the people could not even touch the base of the mountain on pain of death. The holiness of God demands reverent distance — a foreshadowing of the veil and the awe due to the Holy, until Christ opens the way of access to God." }
+    "memoryAid": { "type": "teaching", "text": "Boundaries were set so the people could not touch the mountain on pain of death. Hebrews recalls this dread, untouchable mountain and contrasts it with the heavenly Jerusalem to which believers now come.", "source": "Hebrews 12:18-24" }
   },
   {
     "id": "ex19-007",
@@ -381,7 +381,7 @@
     "question": "What is the fifth commandment?",
     "answer": "Honor your father and your mother",
     "options": ["Honor your father and your mother", "Keep the Sabbath holy", "You shall not murder", "You shall not steal"],
-    "memoryAid": { "type": "teaching", "text": "The fifth commandment opens the second table (duties to neighbor) and is the first with a promise: 'that your days may be long.' Honoring parents is the foundation of all honor toward those God sets over us." }
+    "memoryAid": { "type": "mnemonic", "text": "Five opens the 'neighbor' table: honor father and mother, the first command that bridges from God to the people around us." }
   },
   {
     "id": "ex20-006",
@@ -441,7 +441,7 @@
     "question": "What is the tenth commandment?",
     "answer": "You shall not covet",
     "options": ["You shall not covet", "You shall not steal", "You shall not bear false witness", "You shall not murder"],
-    "memoryAid": { "type": "teaching", "text": "The tenth commandment alone reaches into the heart and its desires, not just outward deeds. It reveals that the Law aims at inward purity, preparing us for Christ who teaches that sin begins in the heart." }
+    "memoryAid": { "type": "teaching", "text": "The tenth commandment reaches into the heart and its desires, not just outward deeds. St. Paul says he would not have known coveting except that the Law said, 'You shall not covet,' showing the Law exposes inward sin.", "source": "Romans 7:7" }
   },
   {
     "id": "ex20-011",
@@ -513,7 +513,7 @@
     "question": "The people asked God to keep speaking to them directly from the mountain.",
     "answer": "False",
     "options": ["True", "False"],
-    "memoryAid": { "type": "teaching", "text": "Terrified, the people begged Moses to speak to them instead of God, lest they die. The Law given in fear and distance points ahead to the New Covenant, where God draws near in Christ, the Mediator who lets us approach without terror." }
+    "memoryAid": { "type": "teaching", "text": "Terrified, the people begged Moses to speak to them instead of God, lest they die. Hebrews recalls how they could not endure the voice at Sinai, and sets that terror against the heavenly Jerusalem believers now approach.", "source": "Hebrews 12:18-24" }
   },
   {
     "id": "ex20-017",

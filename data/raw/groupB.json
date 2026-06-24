@@ -9,7 +9,7 @@
     "question": "Moses and Aaron told Pharaoh: 'Let My people go that they may hold a ______ in the wilderness.'",
     "answer": "feast",
     "acceptableAnswers": ["feast", "a feast"],
-    "memoryAid": { "type": "teaching", "text": "The first demand is not merely for freedom but for worship: 'that they may hold a feast.' In the patristic reading, Israel is delivered out of Egypt for the express purpose of serving God. Liberation and liturgy are inseparable; the goal of the Exodus is the worshiping assembly, which prefigures the Church gathered around the true Paschal feast." }
+    "memoryAid": { "type": "image", "text": "Hear the demand: not merely 'let them go' but 'let them go that they may hold a feast.' Picture Israel leaving Egypt not just to be free but to gather and worship — the goal is the feast, the assembly around God." }
   },
   {
     "id": "ex05-002",
@@ -21,7 +21,7 @@
     "question": "Pharaoh responded, 'Who is the ______, that I should obey His voice?'",
     "answer": "Lord",
     "acceptableAnswers": ["lord", "the lord"],
-    "memoryAid": { "type": "teaching", "text": "Pharaoh's question 'Who is the Lord?' is the defining posture of the prideful ruler who acknowledges no god above himself. In Egyptian theology Pharaoh was reckoned divine, so the plagues that follow are a direct contest revealing the LORD as the one true God. By the end, Egypt will know His name through judgment." }
+    "memoryAid": { "type": "teaching", "text": "Pharaoh's question 'Who is the Lord?' is the defining posture of the prideful ruler who acknowledges no god above himself. In Egyptian theology Pharaoh was reckoned divine, so the plagues that follow are a direct contest in which the LORD executes judgment against the gods of Egypt (Ex 12:12), revealing Himself as the one true God. By the end, Egypt will know His name through judgment.", "source": "Fr. Stephen De Young, God Is a Man of War (Ancient Faith, 2021)" }
   },
   {
     "id": "ex05-003",
@@ -81,7 +81,7 @@
     "question": "In Chapter 5, conditions for Israel grew worse before deliverance began.",
     "answer": "True",
     "options": ["True", "False"],
-    "memoryAid": { "type": "teaching", "text": "A recurring pattern in salvation history: the darkness deepens just before the dawn. As the Cross precedes the Resurrection, so the worst affliction in Egypt comes right before God's mighty acts of deliverance. The increase of suffering is not abandonment but the threshold of redemption." }
+    "memoryAid": { "type": "image", "text": "Picture the night at its darkest moment right before dawn breaks. So in Egypt: the affliction grows worst right before God's mighty acts of deliverance begin. The increase of suffering is the threshold of redemption, not abandonment." }
   },
   {
     "id": "ex06-001",
@@ -93,7 +93,7 @@
     "question": "God reaffirms His covenant identity to Moses with the declaration, 'I am the ______.'",
     "answer": "Lord",
     "acceptableAnswers": ["lord", "the lord"],
-    "memoryAid": { "type": "teaching", "text": "'I am the LORD' (the divine Name, YHWH) frames the whole chapter of promises. This is the same Name revealed at the burning bush, the 'I AM' to which Christ alludes in John's Gospel. The promises that follow are guaranteed not by circumstances but by the very Being of God who keeps covenant." }
+    "memoryAid": { "type": "teaching", "text": "'I am the LORD' (the divine Name) frames the whole chapter of promises. This is the same Name revealed at the burning bush, the 'I AM' that Christ takes upon Himself when He says, 'Before Abraham was, I AM.' The promises that follow are guaranteed not by circumstances but by the very Being of God who keeps covenant.", "source": "John 8:58" }
   },
   {
     "id": "ex06-002",
@@ -129,7 +129,7 @@
     "question": "In the seven promises, God says 'I will ______ you with an outstretched arm' — the act tied to the price of deliverance.",
     "answer": "redeem",
     "acceptableAnswers": ["redeem"],
-    "memoryAid": { "type": "teaching", "text": "To 'redeem' means to buy back, to ransom. God's redemption of Israel from Egypt prefigures the greater Redemption accomplished by Christ, who ransoms humanity from bondage to sin and death by His own outstretched arms upon the Cross. The Exodus language of redemption runs straight to Pascha." }
+    "memoryAid": { "type": "teaching", "text": "To 'redeem' means to buy back, to ransom. It stands among the seven 'I will' promises by which God binds Himself to deliver and claim Israel. God's redemption of Israel from Egypt prefigures the greater Redemption accomplished by Christ, who ransoms humanity from bondage to sin and death. The Exodus language of redemption runs straight to Pascha.", "source": "Fr. Stephen De Young, The Whole Counsel of God (Ancient Faith, 2021)" }
   },
   {
     "id": "ex06-005",
@@ -141,7 +141,7 @@
     "question": "Among the seven promises, God said 'I will take you as My people, and I will be your God.'",
     "answer": "True",
     "options": ["True", "False"],
-    "memoryAid": { "type": "teaching", "text": "This is the heart of the covenant formula: 'I will be your God, and you shall be My people.' It echoes through Scripture to the very last pages of Revelation, where God dwells with His people. The Exodus is ultimately about communion, God claiming a people for Himself." }
+    "memoryAid": { "type": "teaching", "text": "This is the heart of the covenant formula and one of the seven 'I will' promises: 'I will take you as My people, and I will be your God.' It echoes through Scripture to the very last pages of Revelation, where God dwells with His people. The Exodus is ultimately about communion, God claiming a people for Himself.", "source": "Fr. Stephen De Young, The Whole Counsel of God (Ancient Faith, 2021)" }
   },
   {
     "id": "ex06-006",
@@ -273,7 +273,7 @@
     "question": "Name the two sons of Aaron whose names begin with vowels and through whom the priesthood continued.",
     "answer": "Eleazar and Ithamar",
     "acceptableAnswers": ["eleazar and ithamar", "eleazar, ithamar", "ithamar and eleazar", "eleazar ithamar"],
-    "memoryAid": { "type": "teaching", "text": "Nadab and Abihu died offering 'strange fire' before the Lord, so the Aaronic priesthood carried on through Eleazar and Ithamar. The continuity of the priesthood despite human failure foreshadows the unbroken priesthood fulfilled perfectly in Christ, the great High Priest." }
+    "memoryAid": { "type": "image", "text": "Picture Aaron's four sons in line: the two elder, Nadab and Abihu, will fall offering 'strange fire' before the Lord. The priesthood carries on through the two who remain, Eleazar and Ithamar — the vowel-named pair through whom the line continues." }
   },
   {
     "id": "ex07-001",
@@ -285,7 +285,7 @@
     "question": "God said, 'I will harden Pharaoh's heart and multiply My signs and My ______ in the land of Egypt.'",
     "answer": "wonders",
     "acceptableAnswers": ["wonders"],
-    "memoryAid": { "type": "teaching", "text": "The hardening of Pharaoh's heart is a theme the Fathers treat carefully: God's persistent mercy is the very thing a hardened heart turns to its own condemnation. The same sun that softens wax hardens clay. Pharaoh's resistance becomes the stage on which God's 'signs and wonders' display His glory to all nations." }
+    "memoryAid": { "type": "teaching", "text": "The hardening of Pharaoh's heart is a theme to treat carefully: God's persistent mercy is the very thing a hardened heart turns to its own condemnation. The same sun that softens wax hardens clay. Pharaoh's resistance becomes the stage on which God's 'signs and wonders' display His glory to all nations.", "source": "Fr. Stephen De Young, The Whole Counsel of God (Ancient Faith, 2021)" }
   },
   {
     "id": "ex07-002",
@@ -321,7 +321,7 @@
     "question": "When Aaron cast down his rod before Pharaoh, what did it become?",
     "answer": "A serpent",
     "options": ["A serpent", "A river of blood", "A pillar of fire", "A swarm of locusts"],
-    "memoryAid": { "type": "teaching", "text": "The rod becoming a serpent and devouring the magicians' serpents shows God's authority over the very symbol of Egyptian royal power, the cobra worn on Pharaoh's crown. The serpent, emblem of the ancient deceiver, is overcome and swallowed up — a sign that the powers of Egypt and of the enemy are subject to God." }
+    "memoryAid": { "type": "image", "text": "Picture Aaron's rod becoming a serpent and devouring the magicians' serpents — God's sign overpowering the very symbol of Egyptian royal power, the cobra worn on Pharaoh's crown. The serpent, emblem of the ancient deceiver, is swallowed up: the powers of Egypt are subject to God." }
   },
   {
     "id": "ex07-005",
@@ -356,8 +356,8 @@
     "type": "multiple-choice",
     "question": "What was the first plague God brought upon Egypt?",
     "answer": "Water turned to blood",
-    "options": ["Water turned to blood", "Frogs", "Lice/gnats", "Swarms of flies"],
-    "memoryAid": { "type": "teaching", "text": "The Nile was worshiped by Egypt as a life-giving god. By turning its waters to blood, the LORD strikes at the heart of Egyptian idolatry, exposing the false god as lifeless and deadly. Each plague targets a power Egypt trusted, declaring there is no god but the LORD." }
+    "options": ["Water turned to blood", "Frogs", "Lice/gnats", "Dog-flies (swarms of flies)"],
+    "memoryAid": { "type": "teaching", "text": "The Nile was worshiped by Egypt as a life-giving god. By turning its waters to blood, the LORD strikes at the heart of Egyptian idolatry, executing judgment against the gods of Egypt (Ex 12:12). Each plague targets a power Egypt trusted, declaring there is no god but the LORD.", "source": "Fr. Stephen De Young, God Is a Man of War (Ancient Faith, 2021)" }
   },
   {
     "id": "ex07-008",
@@ -416,8 +416,8 @@
     "type": "multiple-choice",
     "question": "What was the second plague God sent upon Egypt?",
     "answer": "Frogs",
-    "options": ["Frogs", "Lice/gnats", "Flies", "Blood"],
-    "memoryAid": { "type": "teaching", "text": "The frog was associated with the Egyptian goddess Heqet, a deity of fertility and birth. By overwhelming the land with frogs, God again mocks the false gods of Egypt, turning a symbol of life into an unbearable plague. The judgment exposes the impotence of every idol." }
+    "options": ["Frogs", "Lice/gnats", "Dog-flies", "Blood"],
+    "memoryAid": { "type": "teaching", "text": "The frog was associated with the Egyptian goddess Heqet, a deity of fertility and birth. By overwhelming the land with frogs, God again executes judgment against the gods of Egypt (Ex 12:12), turning a symbol of life into an unbearable plague. The judgment exposes the impotence of every idol.", "source": "Fr. Stephen De Young, God Is a Man of War (Ancient Faith, 2021)" }
   },
   {
     "id": "ex08-002",
@@ -501,7 +501,7 @@
     "question": "Pharaoh kept his promise to let Israel go after the frogs were removed.",
     "answer": "False",
     "options": ["True", "False"],
-    "memoryAid": { "type": "teaching", "text": "The moment relief comes, Pharaoh hardens his heart again. This pattern of repentance under pressure followed by renewed rebellion when comfort returns is the very portrait of a heart that will not truly turn to God. The Fathers see in Pharaoh a warning against false, fear-driven repentance." }
+    "memoryAid": { "type": "teaching", "text": "The moment relief comes, Pharaoh hardens his heart again. This pattern of repentance under pressure followed by renewed rebellion when comfort returns is the very portrait of a heart that will not truly turn to God — a warning against false, fear-driven repentance.", "source": "Fr. Stephen De Young, The Whole Counsel of God (Ancient Faith, 2021)" }
   },
   {
     "id": "ex08-009",
@@ -512,7 +512,7 @@
     "type": "multiple-choice",
     "question": "What was the third plague, brought when Aaron struck the dust of the earth?",
     "answer": "Lice/gnats",
-    "options": ["Lice/gnats", "Frogs", "Flies", "Boils"],
+    "options": ["Lice/gnats", "Frogs", "Dog-flies", "Boils"],
     "memoryAid": { "type": "mnemonic", "text": "Third plague rises from the dust: lice/gnats. 'Dust to dust to bugs' — Aaron strikes the ground and the very dust becomes biting insects." }
   },
   {
@@ -525,7 +525,7 @@
     "question": "From striking what did Aaron bring forth the lice/gnats of the third plague?",
     "answer": "the dust of the earth",
     "acceptableAnswers": ["the dust of the earth", "dust", "the dust", "dust of the earth"],
-    "memoryAid": { "type": "teaching", "text": "From the dust man was formed, and from the dust the plague now comes. The lowliest element, the dust under their feet, becomes an instrument of God's judgment. This is the plague the magicians could not reproduce, for life from dust belongs to the Creator alone." }
+    "memoryAid": { "type": "teaching", "text": "From the dust man was formed, and from the dust the plague of gnats now comes. The lowliest element, the dust under their feet, becomes an instrument of God's judgment. This is the plague the magicians could not reproduce, confessing 'This is the finger of God,' for life from dust belongs to the Creator alone.", "source": "Fr. Stephen De Young, The Whole Counsel of God (Ancient Faith, 2021)" }
   },
   {
     "id": "ex08-011",
@@ -549,7 +549,7 @@
     "question": "Unable to duplicate the third plague, the magicians said to Pharaoh, 'This is the ______ of God.'",
     "answer": "finger",
     "acceptableAnswers": ["finger", "the finger of god", "finger of god"],
-    "memoryAid": { "type": "teaching", "text": "'This is the finger of God' is the magicians' confession of defeat. Christ later says He casts out demons 'by the finger of God' (Luke 11:20), linking His power over evil to this very moment. The phrase points to the Holy Spirit, the immediate working of God's power that no human counterfeit can match." }
+    "memoryAid": { "type": "teaching", "text": "'This is the finger of God' is the magicians' confession of defeat: they could imitate the blood and the frogs, but not the gnats. The phrase points to the immediate working of God's power that no human counterfeit can match.", "source": "Fr. Stephen De Young, The Whole Counsel of God (Ancient Faith, 2021)" }
   },
   {
     "id": "ex08-013",
@@ -559,8 +559,8 @@
     "topic": "Fourth Plague: Flies",
     "type": "multiple-choice",
     "question": "What was the fourth plague God sent upon Egypt?",
-    "answer": "Swarms of flies",
-    "options": ["Swarms of flies", "Lice/gnats", "Locusts", "Hail"],
+    "answer": "Dog-flies (swarms of flies)",
+    "options": ["Dog-flies (swarms of flies)", "Lice/gnats", "Locusts", "Hail"],
     "memoryAid": { "type": "mnemonic", "text": "Fourth plague: dog-flies / swarms of flies. 'Four for the flies that fill the skies.'" }
   },
   {
@@ -570,7 +570,7 @@
     "reference": "Exodus 8:22",
     "topic": "Fourth Plague: Flies",
     "type": "fill-in",
-    "question": "During the fourth plague, which region was spared from the swarms of flies?",
+    "question": "During the fourth plague, which region was spared from the dog-flies (swarms of flies)?",
     "answer": "Goshen",
     "acceptableAnswers": ["goshen", "the land of goshen"],
     "memoryAid": { "type": "mnemonic", "text": "Goshen is God's safe zone. 'Goshen = Go safe.' The land where Israel dwelt was kept untouched." }
@@ -585,7 +585,7 @@
     "question": "The fourth plague marks the first time God makes a clear separation between Israel and Egypt, protecting His people while the Egyptians suffered.",
     "answer": "True",
     "options": ["True", "False"],
-    "memoryAid": { "type": "teaching", "text": "Beginning with the flies, God 'sets apart' Goshen so that no plague touches Israel. This separation reveals that the plagues are not random natural disasters but targeted acts of God who knows and protects His own. It prefigures the protection of the faithful at Passover and the ultimate distinction between those marked as God's people and the world." }
+    "memoryAid": { "type": "image", "text": "Picture a clear line drawn across the land: dog-flies swarm everywhere in Egypt, but Goshen, where Israel dwells, stays untouched. Beginning with the flies, God 'sets apart' His people — a sign that the plagues are targeted acts of the God who knows and protects His own." }
   },
   {
     "id": "ex08-016",
@@ -597,7 +597,7 @@
     "question": "After the fourth plague, Pharaoh immediately allowed Israel to leave Egypt without conditions.",
     "answer": "False",
     "options": ["True", "False"],
-    "memoryAid": { "type": "teaching", "text": "Pharaoh offers compromises, suggesting Israel worship within Egypt or not go far, but then hardens his heart yet again. These half-measures mirror the temptations to compromise with the world rather than make a full departure. True deliverance requires a complete going-out, not a negotiated truce with Egypt." }
+    "memoryAid": { "type": "image", "text": "Picture Pharaoh bargaining: worship inside Egypt, or do not go far. Each offer is a half-measure, a leash kept on Israel — and then he hardens his heart yet again. True deliverance is a complete going-out, not a negotiated truce with Egypt." }
   },
   {
     "id": "ex08-017",
@@ -607,8 +607,8 @@
     "topic": "Plagues 2-4",
     "type": "multiple-choice",
     "question": "Which of the following is the correct order of the second, third, and fourth plagues?",
-    "answer": "Frogs, lice/gnats, flies",
-    "options": ["Frogs, lice/gnats, flies", "Flies, frogs, lice/gnats", "Lice/gnats, flies, frogs", "Frogs, flies, lice/gnats"],
+    "answer": "Frogs, lice/gnats, dog-flies",
+    "options": ["Frogs, lice/gnats, dog-flies", "Dog-flies, frogs, lice/gnats", "Lice/gnats, dog-flies, frogs", "Frogs, dog-flies, lice/gnats"],
     "memoryAid": { "type": "mnemonic", "text": "After blood (1): Frogs, Gnats, Flies — '1-2-3-4: Blood, Frogs, Gnats, Flies.' The magicians keep up through frogs, then fail at the gnats." }
   }
 ]

@@ -250,6 +250,13 @@
       $("aid-badge").textContent = AID_LABELS[type] || type;
       $("aid-badge").className = "aid-badge " + type;
       $("aid-text").textContent = q.memoryAid.text;
+      const src = $("aid-source");
+      if (q.memoryAid.source) {
+        src.textContent = "— " + q.memoryAid.source;
+        src.hidden = false;
+      } else {
+        src.hidden = true;
+      }
       aid.hidden = false;
     }
 
@@ -294,6 +301,7 @@
         const badge = el("span", "aid-badge " + type, AID_LABELS[type] || type);
         item.appendChild(badge);
         item.appendChild(el("p", "aid-body", q.memoryAid.text));
+        if (q.memoryAid.source) item.appendChild(el("cite", "aid-source", "— " + q.memoryAid.source));
       }
       review.appendChild(item);
     });
