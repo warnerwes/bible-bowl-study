@@ -287,6 +287,20 @@ h2 { font-size: 1.45rem; margin-top: 0; line-height: 1.2; font-weight: 600; }
 .correct-answer { margin: 0 0 1rem; }
 .correct-answer strong { color: var(--accent-strong); }
 
+/* Read-in-context scripture link (revealed after answering) */
+.passage-link {
+  display: block;
+  width: fit-content;
+  margin-bottom: 0.8rem;
+  color: var(--accent);
+  font-size: 0.95rem;
+  font-weight: 500;
+  text-decoration: none;
+  border-bottom: 1px solid var(--border-gold);
+  padding-bottom: 1px;
+}
+.passage-link:hover { color: var(--accent-strong); border-bottom-color: var(--accent); }
+
 /* Suggest-a-correction link */
 .suggest-link {
   display: inline-block;
