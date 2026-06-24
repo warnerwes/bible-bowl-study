@@ -64,6 +64,10 @@ function validate(q, file) {
       if (typeof q.memoryAid.source !== "string" || q.memoryAid.source.trim().length < 4) {
         fail(file, id, "teaching memoryAid must include a non-empty source citation");
       }
+    } else if (q.memoryAid.source !== undefined && q.memoryAid.source !== "") {
+      // Images and mnemonics are memory devices, not claims — they must NOT
+      // carry a citation (a citation on a non-teaching aid is a misattribution).
+      fail(file, id, `${q.memoryAid.type} memoryAid must not carry a source (citations belong only on teaching aids)`);
     }
   }
 }
