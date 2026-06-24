@@ -644,8 +644,10 @@
       b.type = "button";
       if (prior && prior.choiceId === choice.id) b.classList.add("selected");
       const label = el("span", "aid-choice-label", AID_LABELS[choice.type] || "Memory aid");
+      const stateLabel = el("span", "aid-choice-state", "Selected");
       const text = el("span", "aid-choice-text", choice.text);
       b.appendChild(label);
+      b.appendChild(stateLabel);
       b.appendChild(text);
       if (choice.source) b.appendChild(el("span", "aid-choice-source", choice.source));
       b.addEventListener("click", () => {
