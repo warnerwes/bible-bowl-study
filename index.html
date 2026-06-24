@@ -16,44 +16,66 @@
   <main id="app">
     <!-- ===================== SETUP SCREEN ===================== -->
     <section id="setup" class="screen">
-      <h2>Build your quiz</h2>
 
-      <div class="field">
-        <div class="field-label-row">
-          <label class="field-label">Chapters</label>
-          <div class="field-actions">
-            <button type="button" class="link-btn" data-select="all">All</button>
-            <button type="button" class="link-btn" data-select="none">None</button>
+      <!-- ---------- Home (simple "Go") ---------- -->
+      <div id="home">
+        <h2>Ready to study?</h2>
+        <p class="lead">Quiz yourself on the Book of Exodus. Miss one and you'll get a memory aid — a mnemonic, teaching, or vivid image — to make it stick.</p>
+
+        <button id="quick-start" class="primary-btn big-btn">Start studying</button>
+        <p class="under-btn muted">All <span id="total-count">…</span> questions, shuffled. Ones you miss come back more often.</p>
+
+        <div id="missed-cta" hidden>
+          <button id="drill-missed" class="primary-btn ghost-btn">Drill my missed questions (<span id="missed-count">0</span>)</button>
+        </div>
+
+        <label class="chip standalone aid-toggle"><input type="checkbox" id="show-aid-always" /><span>Always show the memory aid (even when correct)</span></label>
+
+        <div class="home-foot">
+          <button type="button" id="toggle-advanced" class="link-btn" aria-expanded="false">Build a custom quiz ▾</button>
+          <span id="progress-line" class="muted" hidden></span>
+        </div>
+      </div>
+
+      <!-- ---------- Advanced (custom builder) ---------- -->
+      <div id="advanced" hidden>
+        <h2>Build a custom quiz</h2>
+
+        <div class="field">
+          <div class="field-label-row">
+            <label class="field-label">Chapters</label>
+            <div class="field-actions">
+              <button type="button" class="link-btn" data-select="all">All</button>
+              <button type="button" class="link-btn" data-select="none">None</button>
+            </div>
+          </div>
+          <div id="chapter-list" class="chip-grid" aria-label="Choose chapters"></div>
+        </div>
+
+        <div class="field">
+          <label class="field-label">Question types</label>
+          <div id="type-list" class="chip-grid">
+            <label class="chip"><input type="checkbox" value="multiple-choice" checked /><span>Multiple choice</span></label>
+            <label class="chip"><input type="checkbox" value="true-false" checked /><span>True / False</span></label>
+            <label class="chip"><input type="checkbox" value="fill-in" checked /><span>Fill in / Type in</span></label>
           </div>
         </div>
-        <div id="chapter-list" class="chip-grid" aria-label="Choose chapters"></div>
-      </div>
 
-      <div class="field">
-        <label class="field-label">Question types</label>
-        <div id="type-list" class="chip-grid">
-          <label class="chip"><input type="checkbox" value="multiple-choice" checked /><span>Multiple choice</span></label>
-          <label class="chip"><input type="checkbox" value="true-false" checked /><span>True / False</span></label>
-          <label class="chip"><input type="checkbox" value="fill-in" checked /><span>Fill in / Type in</span></label>
+        <div class="field">
+          <label class="field-label" for="count">How many questions?</label>
+          <select id="count" class="select">
+            <option value="10">10</option>
+            <option value="20" selected>20</option>
+            <option value="30">30</option>
+            <option value="0">All available</option>
+          </select>
         </div>
+
+        <p id="setup-summary" class="muted"></p>
+        <button id="start-btn" class="primary-btn">Start custom quiz</button>
+        <button type="button" id="close-advanced" class="link-btn">← Back</button>
       </div>
 
-      <div class="field">
-        <label class="field-label" for="count">How many questions?</label>
-        <select id="count" class="select">
-          <option value="10">10</option>
-          <option value="20" selected>20</option>
-          <option value="30">30</option>
-          <option value="0">All available</option>
-        </select>
-      </div>
-
-      <div class="field">
-        <label class="chip standalone"><input type="checkbox" id="show-aid-always" /><span>Always show the memory aid (even when correct)</span></label>
-      </div>
-
-      <p id="setup-summary" class="muted"></p>
-      <button id="start-btn" class="primary-btn">Start quiz</button>
       <p id="load-error" class="error" hidden></p>
     </section>
 
@@ -90,6 +112,7 @@
             <p id="aid-text"></p>
             <cite id="aid-source" class="aid-source" hidden></cite>
           </div>
+          <a id="suggest-link" class="suggest-link" target="_blank" rel="noopener">⚐ Suggest a correction</a>
           <button id="next-btn" type="button" class="primary-btn">Next</button>
         </div>
       </div>
