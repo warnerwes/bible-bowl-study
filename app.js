@@ -485,7 +485,11 @@
       area.appendChild(input);
       setTimeout(() => input.focus(), 30);
     } else {
-      const opts = q.type === "true-false" ? ["True", "False"] : (q.options || []);
+      const opts = (q.type === "true-false" ? ["True", "False"] : (q.options || [])).slice();
+      for (let i = opts.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [opts[i], opts[j]] = [opts[j], opts[i]];
+      }
       opts.forEach((opt) => {
         const b = el("button", "option-btn", opt);
         b.type = "button";
