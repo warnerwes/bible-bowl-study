@@ -3,121 +3,198 @@
     "id": "ex13-001",
     "chapter": 13,
     "book": "Exodus",
-    "reference": "Exodus 13",
+    "reference": "Exodus 13:2",
     "topic": "Consecration of the Firstborn",
     "type": "true-false",
     "question": "In Exodus 13, every firstborn belongs to God.",
     "answer": "True",
-    "options": ["True", "False"],
-    "memoryAid": { "type": "teaching", "text": "Because the Lord spared Israel's firstborn at the Passover, every firstborn is consecrated to Him, set apart and given to God.", "source": "Fr. Stephen De Young, The Whole Counsel of God (Ancient Faith, 2021)" }
+    "options": [
+      "True",
+      "False"
+    ],
+    "memoryAid": {
+      "type": "teaching",
+      "text": "In the ancient world the firstborn son was the heir who carried the father's name; on Passover night the destroyer passed over Israel's firstborn, so God now claims that place by right of redemption. Every firstborn becomes a living receipt of the ransom: where the lamb's blood once stood, a whole life is owed back. The One God spared, God owns.",
+      "source": "St. Cyril of Alexandria, Glaphyra on Exodus"
+    }
   },
   {
     "id": "ex13-002",
     "chapter": 13,
     "book": "Exodus",
-    "reference": "Exodus 13",
+    "reference": "Exodus 13:6-7",
     "topic": "Feast of Unleavened Bread",
     "type": "fill-in",
     "question": "How many days did the Feast of Unleavened Bread last?",
     "answer": "Seven days",
-    "acceptableAnswers": ["seven", "seven days", "7", "7 days"],
-    "memoryAid": { "type": "mnemonic", "text": "Seven days, a full and perfect week of unleavened bread — seven for completeness." }
+    "acceptableAnswers": [
+      "seven",
+      "seven days",
+      "7",
+      "7 days"
+    ],
+    "memoryAid": {
+      "type": "teaching",
+      "text": "Seven days, the span of a creation week — a whole cycle of time must pass before the soul is wholly purged of Egypt's leaven, the old life puffing itself up. As the Apostle says, keep the feast not with the old leaven of malice but with the unleavened bread of sincerity and truth.",
+      "source": "1 Cor 5:7-8"
+    }
   },
   {
     "id": "ex13-003",
     "chapter": 13,
     "book": "Exodus",
-    "reference": "Exodus 13",
+    "reference": "Exodus 13:17",
     "topic": "Route to Canaan",
     "type": "true-false",
     "question": "God led Israel by the shortest route to Canaan.",
     "answer": "False",
-    "options": ["True", "False"],
-    "memoryAid": { "type": "image", "text": "Picture God steering the people away from the coastal road of the Philistines, lest they see war, lose heart, and turn back to Egypt — the longer desert road keeps a freed but untested people from running home." }
+    "options": [
+      "True",
+      "False"
+    ],
+    "memoryAid": {
+      "type": "teaching",
+      "text": "The Philistine coast road was the fast lane to Canaan, but it ran straight through fortified war-country. A nation of just-freed slaves would see armies and bolt back to the flesh-pots; so the Man of War leads them the long way round, training them in the desert before He ever lets them fight.",
+      "source": "Fr. Stephen De Young, God Is a Man of War (Ancient Faith, 2021)"
+    }
   },
   {
     "id": "ex13-004",
     "chapter": 13,
     "book": "Exodus",
-    "reference": "Exodus 13",
-    "topic": "Pillar of Cloud and Fire",
+    "reference": "Exodus 13:21",
+    "topic": "Leading Israel",
     "type": "multiple-choice",
     "question": "By what did the Lord lead Israel during the day?",
     "answer": "A pillar of cloud",
-    "options": ["A pillar of cloud", "A pillar of fire", "A bright star", "A flaming sword"],
-    "memoryAid": { "type": "mnemonic", "text": "Cloud for cover by day, fire for light by night — shade when the sun is up, flame when it is dark." }
+    "options": [
+      "A pillar of cloud",
+      "A pillar of fire",
+      "A bright star",
+      "A flaming sword"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "Cloud for cover by DAY, fire for light by NIGHT — shade when the sun blazes, flame when it is dark. The same Presence meets you in whatever the hour lacks: darkness needs no shade, so the pillar burns."
+    }
   },
   {
     "id": "ex13-005",
     "chapter": 13,
     "book": "Exodus",
-    "reference": "Exodus 13",
-    "topic": "Pillar of Cloud and Fire",
+    "reference": "Exodus 13:21",
+    "topic": "Leading Israel",
     "type": "multiple-choice",
     "question": "By what did the Lord lead Israel during the night?",
     "answer": "A pillar of fire",
-    "options": ["A pillar of fire", "A pillar of cloud", "The moon", "A burning bush"],
-    "memoryAid": { "type": "teaching", "text": "The pillar of cloud by day and fire by night is the glory and presence of the Lord, guiding His people through the wilderness.", "source": "Fr. Stephen De Young, The Whole Counsel of God (Ancient Faith, 2021)" }
+    "options": [
+      "A pillar of fire",
+      "A pillar of cloud",
+      "The moon",
+      "A burning bush"
+    ],
+    "memoryAid": {
+      "type": "teaching",
+      "text": "By night the pillar is fire — the same Presence that burned in the Bush and would settle on Sinai, the Glory of the Lord traveling at the head of His host. Remember it by opposites: when the world is dark, the column burns, for the Light shines precisely where there is no other light.",
+      "source": "Fr. Stephen De Young, God Is a Man of War (Ancient Faith, 2021)"
+    }
   },
   {
     "id": "ex13-006",
     "chapter": 13,
     "book": "Exodus",
-    "reference": "Exodus 13",
-    "topic": "Joseph's Bones",
+    "reference": "Exodus 13:19",
+    "topic": "Carried Out of Egypt",
     "type": "fill-in",
     "question": "What did Moses bring with him out of Egypt, fulfilling an ancient promise?",
     "answer": "Joseph's bones",
-    "acceptableAnswers": ["joseph's bones", "the bones of joseph", "bones of joseph", "joseph's remains"],
-    "memoryAid": { "type": "image", "text": "Picture Moses carrying a centuries-old coffin out of Egypt on the night of flight — Joseph made them swear to carry his bones home, and now those bones ride to the promised land at last." }
+    "acceptableAnswers": [
+      "joseph's bones",
+      "the bones of joseph",
+      "bones of joseph",
+      "joseph's remains"
+    ],
+    "memoryAid": {
+      "type": "image",
+      "text": "On the most chaotic night in Israel's history, picture Moses hauling a centuries-old mummy-coffin out of Egypt. Joseph had made them swear it four hundred years before — 'carry up my bones' — and now the man who once went down in chains leads the march to freedom, riding toward the inheritance he never stopped believing in."
+    }
   },
   {
     "id": "ex13-007",
     "chapter": 13,
     "book": "Exodus",
-    "reference": "Exodus 13",
-    "topic": "Joseph's Bones",
+    "reference": "Exodus 13:19",
+    "topic": "Carried Out of Egypt",
     "type": "multiple-choice",
     "question": "Whose promise was fulfilled when Moses carried bones out of Egypt?",
     "answer": "Joseph's, that he would reach the promised land",
-    "options": ["Joseph's, that he would reach the promised land", "Abraham's, that he would be buried in Canaan", "Jacob's, that he would see Egypt again", "Levi's, that his tribe would serve the altar"],
-    "memoryAid": { "type": "mnemonic", "text": "Joseph's bones, Joseph's promise — the man who saved Egypt finally goes home to Canaan." }
+    "options": [
+      "Joseph's, that he would reach the promised land",
+      "Abraham's, that he would be buried in Canaan",
+      "Jacob's, that he would see Egypt again",
+      "Levi's, that his tribe would serve the altar"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "Joseph's bones, Joseph's oath — not Abraham, not Jacob, not Levi. The man who saved Egypt from famine bet his very remains on the promise; bind the bones to the name and the name to the promise: Joseph's remains, Joseph's vow, Joseph going home to Canaan."
+    }
   },
   {
     "id": "ex14-001",
     "chapter": 14,
     "book": "Exodus",
-    "reference": "Exodus 14",
+    "reference": "Exodus 14:2",
     "topic": "Camp by the Sea",
     "type": "multiple-choice",
     "question": "Where did Israel camp before the sea?",
     "answer": "Opposite Baal Zephon, between Migdol and the sea",
-    "options": ["Opposite Baal Zephon, between Migdol and the sea", "At Elim among the springs and palms", "In the Wilderness of Sin", "At Marah by the bitter waters"],
-    "memoryAid": { "type": "mnemonic", "text": "Migdol on one side, the sea on the other, Baal Zephon ahead — boxed in, with nowhere to go but through the water." }
+    "options": [
+      "Opposite Baal Zephon, between Migdol and the sea",
+      "At Elim among the springs and palms",
+      "In the Wilderness of Sin",
+      "At Marah by the bitter waters"
+    ],
+    "memoryAid": {
+      "type": "teaching",
+      "text": "Notice the place they're pinned against: Baal Zephon, 'lord of the north,' a shrine to the Canaanite storm-god who supposedly ruled the sea. Migdol behind, the deep ahead, a rival sea-deity's temple looking on — YHWH deliberately corners Israel at the idol's doorstep, then splits that very sea to show whose hand commands the waters.",
+      "source": "Fr. Stephen De Young, The Religion of the Apostles (Ancient Faith, 2021)"
+    }
   },
   {
     "id": "ex14-002",
     "chapter": 14,
     "book": "Exodus",
-    "reference": "Exodus 14",
+    "reference": "Exodus 14:2",
     "topic": "Camp by the Sea",
     "type": "fill-in",
     "question": "Israel camped opposite Baal Zephon, between the sea and what fortified place?",
     "answer": "Migdol",
-    "acceptableAnswers": ["migdol", "migdol tower"],
-    "memoryAid": { "type": "mnemonic", "text": "Migdol means 'tower' — a tower marks the trap that turns into deliverance." }
+    "acceptableAnswers": [
+      "migdol",
+      "migdol tower"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "MIGDOL means 'tower' — an Egyptian frontier fortress. Fix the trap by its watchtower: a tower on one side, the deep on the other, a sea-god's shrine ahead. The fortress that pens them in marks the very spot where the sea becomes a road."
+    }
   },
   {
     "id": "ex14-003",
     "chapter": 14,
     "book": "Exodus",
-    "reference": "Exodus 14",
+    "reference": "Exodus 14:10",
     "topic": "Red Sea",
     "type": "true-false",
     "question": "Israel was confident when Pharaoh approached at the sea.",
     "answer": "False",
-    "options": ["True", "False"],
-    "memoryAid": { "type": "image", "text": "Two million people pinned against the water, dust rising from Pharaoh's chariots behind them — they cried out in terror, not confidence." }
+    "options": [
+      "True",
+      "False"
+    ],
+    "memoryAid": {
+      "type": "image",
+      "text": "Two million people pinned against the water, dust rising from Pharaoh's chariots behind — and they cry out in terror, not confidence, accusing Moses of dragging them out to die. It is the first murmuring, the same fear that will keep that whole generation out of the land: a freed slave still thinks like a slave."
+    }
   },
   {
     "id": "ex14-004",
@@ -128,8 +205,15 @@
     "type": "fill-in",
     "question": "Complete the verse: 'The Lord will fight for you, and you shall hold your ____.'",
     "answer": "peace",
-    "acceptableAnswers": ["peace", "your peace"],
-    "memoryAid": { "type": "image", "text": "Two million terrified people, sea ahead, chariots behind — and the command is to be still. Picture standing dead-calm with hooves thundering at your back: salvation is God's work, not yours." }
+    "acceptableAnswers": [
+      "peace",
+      "your peace"
+    ],
+    "memoryAid": {
+      "type": "teaching",
+      "text": "'Hold your peace' is a soldier's command to a terrified levy: stand still, the Captain fights. This is holy war where Israel does not lift a sword — the Lord is a Man of War, and the only thing the army must do is stop screaming and watch Him divide the waters. Stillness here is not idleness but faith.",
+      "source": "Fr. Stephen De Young, God Is a Man of War (Ancient Faith, 2021)"
+    }
   },
   {
     "id": "ex14-005",
@@ -140,32 +224,56 @@
     "type": "multiple-choice",
     "question": "According to the OSB, by what kind of wind was the sea divided?",
     "answer": "A strong south wind",
-    "options": ["A strong south wind", "A strong east wind", "A whirlwind from the north", "A west wind"],
-    "memoryAid": { "type": "teaching", "text": "The OSB reads that a strong south wind (LXX) drove back the sea. The crossing of the Red Sea is a type of Baptism: Israel passes through the waters from slavery into freedom, baptized into Moses in the cloud and in the sea, as we are delivered through the font.", "source": "1 Cor 10:1-2; Theodoret of Cyrus, Questions on Exodus" }
+    "options": [
+      "A strong south wind",
+      "A strong east wind",
+      "A whirlwind from the north",
+      "A west wind"
+    ],
+    "memoryAid": {
+      "type": "teaching",
+      "text": "Mind the Septuagint: a strong SOUTH wind drove back the sea, where Hebrew-based Bibles read 'east.' That wind is the Spirit-breath of God brooding over the waters as at creation, and Paul reads the whole crossing as our Baptism — our fathers were baptized into Moses in the cloud and in the sea, delivered through the font from slavery into life.",
+      "source": "1 Cor 10:1-2"
+    }
   },
   {
     "id": "ex14-006",
     "chapter": 14,
     "book": "Exodus",
-    "reference": "Exodus 14",
+    "reference": "Exodus 14:27-28",
     "topic": "Red Sea",
     "type": "true-false",
     "question": "The Egyptians crossed the sea safely behind Israel.",
     "answer": "False",
-    "options": ["True", "False"],
-    "memoryAid": { "type": "teaching", "text": "The waters returned and covered Pharaoh's host so that not one remained. The drowning of the Egyptians figures the baptismal laver: the Egyptians are the sins drowned, Pharaoh is the devil, and Israel passes through unharmed.", "source": "Theodoret of Cyrus, Questions on Exodus" }
+    "options": [
+      "True",
+      "False"
+    ],
+    "memoryAid": {
+      "type": "teaching",
+      "text": "Not one Egyptian crossed: the same water that is a wall for Israel is a grave for Egypt. So the font itself is twofold — life to the one passing through, death to the sin and the Pharaoh-devil that pursue. What saves the new man drowns the old.",
+      "source": "Theodoret of Cyrus, Questions on Exodus"
+    }
   },
   {
     "id": "ex14-007",
     "chapter": 14,
     "book": "Exodus",
-    "reference": "Exodus 14",
+    "reference": "Exodus 14:28",
     "topic": "Pharaoh's Army",
     "type": "multiple-choice",
     "question": "What happened to Pharaoh's army at the Red Sea?",
     "answer": "The chariots and horsemen perished in the returning waters",
-    "options": ["The chariots and horsemen perished in the returning waters", "They turned back to Egypt unharmed", "They crossed and pursued Israel into the wilderness", "They were struck blind and wandered off"],
-    "memoryAid": { "type": "image", "text": "Picture chariot wheels jamming in the sea-floor mud as the walls of water collapse — horse and rider, chariot and charioteer, all swept under in an instant." }
+    "options": [
+      "The chariots and horsemen perished in the returning waters",
+      "They turned back to Egypt unharmed",
+      "They crossed and pursued Israel into the wilderness",
+      "They were struck blind and wandered off"
+    ],
+    "memoryAid": {
+      "type": "image",
+      "text": "Egypt's chariot corps was the tank division of the Bronze Age, the height of imperial war-tech. Picture the wheels miring in the sea-floor mud as the walls of water collapse — horse and rider, chariot and charioteer swept under in an instant, the strongest army on earth unmade without Israel landing a single blow."
+    }
   },
   {
     "id": "ex15-001",
@@ -176,8 +284,15 @@
     "type": "fill-in",
     "question": "Complete the opening of the Song of Moses: 'Let us sing to the Lord, for he is very greatly glorified: horse and rider he has thrown into the ____.'",
     "answer": "sea",
-    "acceptableAnswers": ["sea", "the sea"],
-    "memoryAid": { "type": "teaching", "text": "The Song of Moses celebrates the victory of God over the powers of Egypt at the dawn of Israel's salvation, and is sung in the Church as the first of the biblical odes.", "source": "Fr. Stephen De Young, The Whole Counsel of God (Ancient Faith, 2021)" }
+    "acceptableAnswers": [
+      "sea",
+      "the sea"
+    ],
+    "memoryAid": {
+      "type": "teaching",
+      "text": "'Horse and rider He has thrown into the SEA' — a war-hymn, the oldest victory song in Scripture, sung over a drowned army. The Church makes it the First Ode of every canon: we sing Moses' battle-song because the Red Sea is our Baptism and Pharaoh is the enemy we just watched drown. The soul brought through the water does not argue; it sings.",
+      "source": "1 Cor 10:1-2"
+    }
   },
   {
     "id": "ex15-002",
@@ -188,8 +303,14 @@
     "type": "fill-in",
     "question": "Complete the verse: 'He was to me a helper and protector for salvation: this is my God, and I will ____ him.'",
     "answer": "glorify",
-    "acceptableAnswers": ["glorify", "glorify him"],
-    "memoryAid": { "type": "mnemonic", "text": "Helper, Protector, Salvation — then 'glorify': God acts, and we respond with glory." }
+    "acceptableAnswers": [
+      "glorify",
+      "glorify him"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "Helper, Protector, Salvation — God's three acts — then the soul's one answer: 'I will GLORIFY Him.' Theology before doxology: He does all the saving, we do the glorifying. Let the cascade carry you to the verb."
+    }
   },
   {
     "id": "ex15-003",
@@ -200,44 +321,73 @@
     "type": "fill-in",
     "question": "Complete the verse: 'The Lord bringing wars to nought, the Lord is his ____.'",
     "answer": "name",
-    "acceptableAnswers": ["name", "his name"],
-    "memoryAid": { "type": "mnemonic", "text": "The Lord brings wars to nought — His very name spells the end of war." }
+    "acceptableAnswers": [
+      "name",
+      "his name"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "'The Lord bringing wars to nought, the Lord is His NAME.' What He does (ends wars) is who He is. To know the Name is to know the One who ends battles by winning them — tie the deed to the title and 'name' is the answer."
+    }
   },
   {
     "id": "ex15-004",
     "chapter": 15,
     "book": "Exodus",
-    "reference": "Exodus 15",
+    "reference": "Exodus 15:20",
     "topic": "Miriam",
     "type": "multiple-choice",
     "question": "What title is given to Miriam in the Song of Moses?",
     "answer": "Prophetess",
-    "options": ["Prophetess", "Judge", "Queen", "Priestess"],
-    "memoryAid": { "type": "mnemonic", "text": "Miriam the prophetess — Moses' sister speaks and sings for God." }
+    "options": [
+      "Prophetess",
+      "Judge",
+      "Queen",
+      "Priestess"
+    ],
+    "memoryAid": {
+      "type": "teaching",
+      "text": "Miriam is called 'prophetess' — the first woman in Scripture to bear the title, taking the timbrel not as queen or priestess but because the Spirit gives her the song. She stands in a line of singing prophetesses, Deborah and Hannah, that runs to the Theotokos, whose Magnificat answers Miriam's timbrel across the Red Sea of history.",
+      "source": "Fr. Stephen De Young, The Whole Counsel of God (Ancient Faith, 2021)"
+    }
   },
   {
     "id": "ex15-005",
     "chapter": 15,
     "book": "Exodus",
-    "reference": "Exodus 15",
+    "reference": "Exodus 15:20",
     "topic": "Miriam",
     "type": "fill-in",
     "question": "Miriam led the women with dance and what instrument?",
     "answer": "Timbrels",
-    "acceptableAnswers": ["timbrels", "timbrel", "tambourines", "tambourine"],
-    "memoryAid": { "type": "image", "text": "Picture Miriam at the head of a line of women, timbrels ringing and feet dancing on the far shore while Egypt lies drowned behind them." }
+    "acceptableAnswers": [
+      "timbrels",
+      "timbrel",
+      "tambourines",
+      "tambourine"
+    ],
+    "memoryAid": {
+      "type": "image",
+      "text": "Picture Miriam at the head of a line of women, timbrels ringing and feet dancing on the dry far shore while Egypt floats face-down behind them. The drum and the dance are liturgical, not casual — this is the first thanksgiving service of the redeemed, music born the instant the danger drowned."
+    }
   },
   {
     "id": "ex15-006",
     "chapter": 15,
     "book": "Exodus",
-    "reference": "Exodus 15",
+    "reference": "Exodus 15:23",
     "topic": "Bitter Waters of Marah",
     "type": "true-false",
     "question": "The people found fresh, sweet water when they arrived at Marah.",
     "answer": "False",
-    "options": ["True", "False"],
-    "memoryAid": { "type": "mnemonic", "text": "Marah means 'bitter' — the name itself tells you the water could not be drunk." }
+    "options": [
+      "True",
+      "False"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "MARAH is the very word 'bitter' — the place is named for what the tongue tasted. The name is the answer: no sweet water here, only bitterness waiting for the wood."
+    }
   },
   {
     "id": "ex15-007",
@@ -248,20 +398,37 @@
     "type": "fill-in",
     "question": "What did Moses cast into the bitter waters of Marah to make them sweet?",
     "answer": "A tree",
-    "acceptableAnswers": ["a tree", "tree", "wood", "a piece of wood"],
-    "memoryAid": { "type": "teaching", "text": "The Fathers see the Cross at Marah: bitter water made sweet by a tree cast in, as the bitterness of death is sweetened by the wood of the Cross.", "source": "St. Gregory of Nyssa, The Life of Moses" }
+    "acceptableAnswers": [
+      "a tree",
+      "tree",
+      "wood",
+      "a piece of wood"
+    ],
+    "memoryAid": {
+      "type": "teaching",
+      "text": "The wood cast into the bitter water is the Cross cast into the bitterness of our mortal life: what was undrinkable becomes sweet the moment the tree is plunged in. Death's bitterness is not removed but transfigured by the wood, as wood lifted up heals the world.",
+      "source": "St. Gregory of Nyssa, The Life of Moses"
+    }
   },
   {
     "id": "ex15-008",
     "chapter": 15,
     "book": "Exodus",
     "reference": "Exodus 15:26",
-    "topic": "The Lord Who Heals",
+    "topic": "At Marah",
     "type": "fill-in",
     "question": "Complete the verse: 'I am the Lord thy God that ____ thee.'",
     "answer": "heals",
-    "acceptableAnswers": ["heals", "heals thee", "that heals thee"],
-    "memoryAid": { "type": "teaching", "text": "At Marah the Lord reveals Himself as the One who heals, sweetening the bitter water by the wood — which the Fathers read as the wood of the Cross that heals the bitterness of fallen human nature.", "source": "St. Gregory of Nyssa, The Life of Moses" }
+    "acceptableAnswers": [
+      "heals",
+      "heals thee",
+      "that heals thee"
+    ],
+    "memoryAid": {
+      "type": "teaching",
+      "text": "The Lord who heals reveals Himself at the very spot where He heals — Marah, the bitter, made sweet by wood. Read the title through the type: the Physician's medicine is the Cross plunged into our embittered nature, and only there does He name Himself 'the Lord that heals thee.'",
+      "source": "St. Gregory of Nyssa, The Life of Moses"
+    }
   },
   {
     "id": "ex15-009",
@@ -272,8 +439,17 @@
     "type": "multiple-choice",
     "question": "How many springs of water did Israel find at the oasis of Elim?",
     "answer": "Twelve",
-    "options": ["Twelve", "Seven", "Seventy", "Forty"],
-    "memoryAid": { "type": "mnemonic", "text": "Twelve springs and seventy palm trees at Elim — twelve like the Apostles, seventy like the disciples Christ sent out, an oasis of refreshment after Marah." }
+    "options": [
+      "Twelve",
+      "Seven",
+      "Seventy",
+      "Forty"
+    ],
+    "memoryAid": {
+      "type": "teaching",
+      "text": "Twelve springs for twelve tribes that will become twelve Apostles — fountains enough that each may drink from its own. After the bitter wood of Marah, the soul is led to twelve springs and seventy palms: the Church prefigured as an oasis, water that no longer needs healing.",
+      "source": "St. Cyril of Alexandria, Glaphyra on Exodus"
+    }
   },
   {
     "id": "ex15-010",
@@ -284,8 +460,16 @@
     "type": "multiple-choice",
     "question": "How many palm trees were at the oasis of Elim?",
     "answer": "Seventy",
-    "options": ["Seventy", "Twelve", "Twelve hundred", "Forty"],
-    "memoryAid": { "type": "mnemonic", "text": "Twelve springs, seventy palms — twelve like the Apostles, seventy like the disciples Christ sent out." }
+    "options": [
+      "Seventy",
+      "Twelve",
+      "Twelve hundred",
+      "Forty"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "Seventy palms over twelve springs — seventy like the disciples Christ appointed and sent ahead two by two, twelve like the Apostles. Fix SEVENTY to the trees that give shade and rest after Marah's bitterness, and the whole apostolic Church appears at the oasis."
+    }
   },
   {
     "id": "ex15-011",
@@ -296,44 +480,71 @@
     "type": "fill-in",
     "question": "At Elim Israel found twelve springs of water and how many palm trees?",
     "answer": "Seventy",
-    "acceptableAnswers": ["seventy", "70"],
-    "memoryAid": { "type": "image", "text": "Picture a green island in the desert: twelve gushing springs and seventy palm trees swaying — a resting place after the bitterness of Marah." }
+    "acceptableAnswers": [
+      "seventy",
+      "70"
+    ],
+    "memoryAid": {
+      "type": "image",
+      "text": "Picture a green island in the waste: twelve springs gushing and seventy palms swaying for shade, a resting place after the bitterness of Marah. The springs you drink (twelve) and the palms that shelter you (seventy) — fix seventy to the trees."
+    }
   },
   {
     "id": "ex16-001",
     "chapter": 16,
     "book": "Exodus",
-    "reference": "Exodus 16",
+    "reference": "Exodus 16:1",
     "topic": "Wilderness of Sin",
     "type": "multiple-choice",
     "question": "On what day did Israel come to the Wilderness of Sin?",
     "answer": "The fifteenth day of the second month",
-    "options": ["The fifteenth day of the second month", "The first day of the first month", "The fortieth day after the Passover", "The seventh day of the third month"],
-    "memoryAid": { "type": "mnemonic", "text": "Fifteenth of the second month — exactly one month after leaving Egypt." }
+    "options": [
+      "The fifteenth day of the second month",
+      "The first day of the first month",
+      "The fortieth day after the Passover",
+      "The seventh day of the third month"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "The FIFTEENTH of the SECOND month — one month to the day since they left Egypt on the fifteenth of the first. Count by fifteens: the Passover's provisions run dry exactly one moon-cycle into freedom."
+    }
   },
   {
     "id": "ex16-002",
     "chapter": 16,
     "book": "Exodus",
-    "reference": "Exodus 16",
+    "reference": "Exodus 16:1",
     "topic": "Wilderness of Sin",
     "type": "true-false",
     "question": "Israel reached the Wilderness of Sin about one month after leaving Egypt.",
     "answer": "True",
-    "options": ["True", "False"],
-    "memoryAid": { "type": "mnemonic", "text": "Left Egypt on the fifteenth, hungry in the wilderness on the fifteenth a month later — one month to the day." }
+    "options": [
+      "True",
+      "False"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "Out on the fifteenth, hungry on the fifteenth a month later — one month to the day. The number that frees them is the number that finds them empty; count by fifteens and you cannot miss it."
+    }
   },
   {
     "id": "ex16-003",
     "chapter": 16,
     "book": "Exodus",
-    "reference": "Exodus 16",
+    "reference": "Exodus 16:1",
     "topic": "Journey from Elim",
     "type": "fill-in",
     "question": "Israel journeyed from Elim into which wilderness, where the manna was given?",
     "answer": "The Wilderness of Sin",
-    "acceptableAnswers": ["sin", "wilderness of sin", "the wilderness of sin"],
-    "memoryAid": { "type": "mnemonic", "text": "From Elim's springs to the Wilderness of Sin — the place-name 'Sin' is from Sinai, not the word for transgression." }
+    "acceptableAnswers": [
+      "sin",
+      "wilderness of sin",
+      "the wilderness of sin"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "From Elim's springs to the Wilderness of SIN — beware the trap in the name: this 'Sin' is tied to SINAI, the holy mountain it lies near, not the word for transgression. The manna falls in the desert named for the mountain."
+    }
   },
   {
     "id": "ex16-004",
@@ -344,80 +555,135 @@
     "type": "multiple-choice",
     "question": "What did the people say they had sat beside in Egypt when they complained of hunger?",
     "answer": "The flesh pots",
-    "options": ["The flesh pots", "The rivers of Goshen", "The brick kilns", "The wells of Pharaoh"],
-    "memoryAid": { "type": "image", "text": "Picture freed slaves longing for the steaming meat-pots of their captivity — they would rather have died full in Egypt than walk free and hungry in the desert." }
+    "options": [
+      "The flesh pots",
+      "The rivers of Goshen",
+      "The brick kilns",
+      "The wells of Pharaoh"
+    ],
+    "memoryAid": {
+      "type": "teaching",
+      "text": "They sigh for the 'flesh-pots' — the very cauldrons of their slavery — saying they'd rather have died full as slaves than walk free and hungry. This is Egypt's deepest chain: not the whip but the memory of its meat, the belly that begs to go back. The soul half-freed still craves the savory pots of its old bondage.",
+      "source": "St. Gregory of Nyssa, The Life of Moses"
+    }
   },
   {
     "id": "ex16-005",
     "chapter": 16,
     "book": "Exodus",
-    "reference": "Exodus 16",
+    "reference": "Exodus 16:2-3",
     "topic": "The Complaint",
     "type": "true-false",
     "question": "In chapter 16 Israel went from singing God's praises to complaining about hunger.",
     "answer": "True",
-    "options": ["True", "False"],
-    "memoryAid": { "type": "image", "text": "Picture the same crowd that sang in triumph on the far shore now grumbling over empty stomachs only weeks later — from the Song of the Sea to murmuring over bread, the fickleness of the human heart laid bare." }
+    "options": [
+      "True",
+      "False"
+    ],
+    "memoryAid": {
+      "type": "teaching",
+      "text": "Weeks earlier this crowd sang 'horse and rider He has thrown into the sea'; now the same throats grumble over an empty supper. From the Song of the Sea to murmuring over bread is the whole arc of the human heart — the warning Paul hands the Church not to crave again what God delivered us from.",
+      "source": "1 Cor 10:1-6"
+    }
   },
   {
     "id": "ex16-006",
     "chapter": 16,
     "book": "Exodus",
-    "reference": "Exodus 16",
+    "reference": "Exodus 16:13-15",
     "topic": "Manna and Quail",
     "type": "multiple-choice",
     "question": "When did the manna appear each day?",
     "answer": "In the morning",
-    "options": ["In the morning", "In the evening", "At noon", "At midnight"],
-    "memoryAid": { "type": "mnemonic", "text": "Bread in the morning, meat at night — manna with the dew, quail with the dusk." }
+    "options": [
+      "In the morning",
+      "In the evening",
+      "At noon",
+      "At midnight"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "Bread with the MORNING dew, meat with the EVENING dusk — God runs a two-shift kitchen in the desert. Manna comes with the rising light, quail with the falling: tie bread to dawn."
+    }
   },
   {
     "id": "ex16-007",
     "chapter": 16,
     "book": "Exodus",
-    "reference": "Exodus 16",
+    "reference": "Exodus 16:13",
     "topic": "Manna and Quail",
     "type": "multiple-choice",
     "question": "When did the quail appear?",
     "answer": "In the evening",
-    "options": ["In the evening", "In the morning", "At dawn", "On the Sabbath"],
-    "memoryAid": { "type": "mnemonic", "text": "Quail in the evening, manna in the morning — flesh by night, bread by day." }
+    "options": [
+      "In the evening",
+      "In the morning",
+      "At dawn",
+      "On the Sabbath"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "Quail at EVENING, manna at morning — flesh by night, bread by day. The dusk brings meat to the camp, so fasten quail to the falling of the sun."
+    }
   },
   {
     "id": "ex16-008",
     "chapter": 16,
     "book": "Exodus",
-    "reference": "Exodus 16",
+    "reference": "Exodus 16:15",
     "topic": "Meaning of Manna",
     "type": "fill-in",
     "question": "What does the word 'manna' mean?",
     "answer": "What is it?",
-    "acceptableAnswers": ["what is it", "what is it?", "what is this", "what is this?"],
-    "memoryAid": { "type": "teaching", "text": "Seeing the strange bread, Israel asked 'What is it?' — and that question became its name. Christ takes up this manna as a sign of Himself, the true bread from heaven, the Bread of Life.", "source": "John 6:31-35" }
+    "acceptableAnswers": [
+      "what is it",
+      "what is it?",
+      "what is this",
+      "what is this?"
+    ],
+    "memoryAid": {
+      "type": "teaching",
+      "text": "'Manna' is literally the bewildered question 'What is it?' — Israel names the bread after its own confusion, for the heavenly food outruns every category the mind can name. The question is not fully answered until Christ stands in John 6 and says 'I am the bread of life': the manna stays a question until the Word makes Himself the reply.",
+      "source": "John 6:31-35"
+    }
   },
   {
     "id": "ex16-009",
     "chapter": 16,
     "book": "Exodus",
-    "reference": "Exodus 16",
+    "reference": "Exodus 16:19-20",
     "topic": "Storing Manna",
     "type": "true-false",
     "question": "Israel could store leftover manna for the next day without it spoiling.",
     "answer": "False",
-    "options": ["True", "False"],
-    "memoryAid": { "type": "mnemonic", "text": "Manna hoarded overnight bred worms and stank — except the Sabbath portion. Gather fresh each day: it teaches daily dependence, 'give us this day our daily bread.'" }
+    "options": [
+      "True",
+      "False"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "Hoarded manna breeds WORMS and stinks by morning — only the Sabbath portion keeps. You cannot stockpile this bread; gather it fresh each dawn. The whole catechism in a food: 'give us this day our daily bread.'"
+    }
   },
   {
     "id": "ex16-010",
     "chapter": 16,
     "book": "Exodus",
-    "reference": "Exodus 16",
+    "reference": "Exodus 16:22",
     "topic": "Sabbath Portion",
     "type": "multiple-choice",
     "question": "How much manna did Israel gather on the sixth day?",
     "answer": "A double amount",
-    "options": ["A double amount", "Half the usual amount", "No manna at all", "The same as every other day"],
-    "memoryAid": { "type": "mnemonic", "text": "Sixth day, double portion — gather twice so you can rest on the seventh." }
+    "options": [
+      "A double amount",
+      "Half the usual amount",
+      "No manna at all",
+      "The same as every other day"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "Sixth day, DOUBLE portion — gather twice so the seventh can be wholly rest. The Sabbath is baked into the manna before Sinai ever legislates it: rest is something God lays up in advance."
+    }
   },
   {
     "id": "ex16-011",
@@ -428,20 +694,34 @@
     "type": "multiple-choice",
     "question": "According to Exodus 16:8, against whom was Israel's murmuring truly directed?",
     "answer": "Against God",
-    "options": ["Against God", "Against Moses", "Against Aaron", "Against Pharaoh"],
-    "memoryAid": { "type": "image", "text": "Picture the people shaking their fists at Moses and Aaron, while Moses answers that the complaint sails right past them — their murmuring is aimed at the Lord who fed them with bread from heaven." }
+    "options": [
+      "Against God",
+      "Against Moses",
+      "Against Aaron",
+      "Against Pharaoh"
+    ],
+    "memoryAid": {
+      "type": "image",
+      "text": "Picture the people shaking their fists at Moses and Aaron — but Moses turns the fists aside: 'your murmurings are not against us but against the Lord.' To despise the gift is to despise the Giver; the complaint sails past the stewards and strikes the King who sent the bread."
+    }
   },
   {
     "id": "ex16-012",
     "chapter": 16,
     "book": "Exodus",
     "reference": "Exodus 16:8",
-    "topic": "Flesh and Bread",
+    "topic": "Food in the Wilderness",
     "type": "fill-in",
     "question": "According to Exodus 16:8, the Lord gives flesh in the evening and what in the morning?",
     "answer": "Bread",
-    "acceptableAnswers": ["bread", "manna"],
-    "memoryAid": { "type": "mnemonic", "text": "Flesh in the evening, bread in the morning — evening meat, morning bread." }
+    "acceptableAnswers": [
+      "bread",
+      "manna"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "Flesh in the EVENING, bread in the MORNING — evening meat, morning bread. The verse pairs them precisely so Israel knows both came from the Lord, not from luck or the land."
+    }
   },
   {
     "id": "ex16-013",
@@ -452,8 +732,18 @@
     "type": "fill-in",
     "question": "How much manna was each person to gather according to Exodus 16:16?",
     "answer": "A homer",
-    "acceptableAnswers": ["a homer", "homer", "one homer", "a homer each", "a homer for each person"],
-    "memoryAid": { "type": "mnemonic", "text": "A homer for each head — one measure per person, no more, no less." }
+    "acceptableAnswers": [
+      "a homer",
+      "homer",
+      "one homer",
+      "a homer each",
+      "a homer for each person"
+    ],
+    "memoryAid": {
+      "type": "teaching",
+      "text": "A homer for each head — and when they measured it, he who gathered much had nothing over, and he who gathered little had no lack. Paul lifts that very line into the law of the Church's charity: equal bread, no hoarding, that there might be equality. Greed gains nothing; need wants nothing.",
+      "source": "2 Cor 8:15"
+    }
   },
   {
     "id": "ex16-014",
@@ -464,8 +754,17 @@
     "type": "multiple-choice",
     "question": "According to Exodus 16:31, what was the taste of the manna like?",
     "answer": "A wafer with honey",
-    "options": ["A wafer with honey", "Roasted grain", "Unleavened bread with oil", "Bitter herbs"],
-    "memoryAid": { "type": "teaching", "text": "White like coriander seed and tasting like a wafer made with honey, the manna points to Christ the Bread of Life, the true bread come down from heaven.", "source": "John 6:31-51" }
+    "options": [
+      "A wafer with honey",
+      "Roasted grain",
+      "Unleavened bread with oil",
+      "Bitter herbs"
+    ],
+    "memoryAid": {
+      "type": "teaching",
+      "text": "White like coriander seed, sweet as a wafer made with honey — the desert tasting honey from the sky. The sweetness is a hint of what it signifies: Christ the Bread of Life, the true bread come down from heaven, sweeter than any honeycomb to the soul that eats Him.",
+      "source": "John 6:31-51"
+    }
   },
   {
     "id": "ex16-015",
@@ -476,43 +775,74 @@
     "type": "fill-in",
     "question": "Manna was white and like the seed of what plant in appearance?",
     "answer": "Coriander",
-    "acceptableAnswers": ["coriander", "coriander seed", "white coriander seed"],
-    "memoryAid": { "type": "image", "text": "Picture the desert floor at dawn dusted with tiny white seeds like coriander, glittering with the morning dew — bread from heaven scattered on the ground." }
+    "acceptableAnswers": [
+      "coriander",
+      "coriander seed",
+      "white coriander seed"
+    ],
+    "memoryAid": {
+      "type": "image",
+      "text": "Picture the desert floor at dawn dusted white like coriander seed, each tiny pale grain glistening with dew — bread from heaven sown like seed on the ground for the gathering. Small, white, round: the very look of manna."
+    }
   },
   {
     "id": "ex16-016",
     "chapter": 16,
     "book": "Exodus",
-    "reference": "Exodus 16",
+    "reference": "Exodus 16:35",
     "topic": "Duration of Manna",
     "type": "multiple-choice",
     "question": "For how many years did Israel eat manna?",
     "answer": "Forty years",
-    "options": ["Forty years", "Seven years", "Twelve years", "Four hundred years"],
-    "memoryAid": { "type": "mnemonic", "text": "Forty years of wandering, forty years of manna — bread from heaven the whole way." }
+    "options": [
+      "Forty years",
+      "Seven years",
+      "Twelve years",
+      "Four hundred years"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "FORTY years of wandering, FORTY years of manna — bread from heaven the whole pilgrimage long, never failing till the Land. Forty is the number of testing, and every single day of it God set a table in the wilderness: forty matched to forty."
+    }
   },
   {
     "id": "ex16-017",
     "chapter": 16,
     "book": "Exodus",
-    "reference": "Exodus 16",
+    "reference": "Exodus 16:35",
     "topic": "Manna",
     "type": "true-false",
     "question": "Israel ate manna for forty years until they reached the borders of Canaan.",
     "answer": "True",
-    "options": ["True", "False"],
-    "memoryAid": { "type": "teaching", "text": "Manna fed Israel for forty years until they entered the promised land — the same spiritual food the Apostle recalls, fulfilled in Christ the Bread of Life who sustains the new Israel on her pilgrimage.", "source": "1 Cor 10:3; John 6:31-51" }
+    "options": [
+      "True",
+      "False"
+    ],
+    "memoryAid": {
+      "type": "teaching",
+      "text": "The manna runs the full forty years, ceasing only at Canaan's border when the land could feed them. Paul calls it 'the same spiritual food,' a type fulfilled in Christ the Bread of Life who sustains the new Israel on her own pilgrimage, the provision lasting exactly as long as the journey home.",
+      "source": "1 Cor 10:3; John 6:31-51"
+    }
   },
   {
     "id": "ex16-018",
     "chapter": 16,
     "book": "Exodus",
-    "reference": "Exodus 16",
+    "reference": "Exodus 16:1-15",
     "topic": "Manna and Quail",
     "type": "multiple-choice",
     "question": "Which of these is NOT something that happened in the Wilderness of Sin?",
     "answer": "Water flowed from a struck rock",
-    "options": ["Water flowed from a struck rock", "Manna appeared in the morning", "Quail appeared in the evening", "A double portion was gathered on the sixth day"],
-    "memoryAid": { "type": "mnemonic", "text": "Chapter 16 is bread and quail; the rock that gives water comes later, in chapter 17." }
+    "options": [
+      "Water flowed from a struck rock",
+      "Manna appeared in the morning",
+      "Quail appeared in the evening",
+      "A double portion was gathered on the sixth day"
+    ],
+    "memoryAid": {
+      "type": "teaching",
+      "text": "Chapter 16 is bread-and-quail country; the water from the struck rock is the NEXT episode, chapter 17 at Massah and Meribah. Sort it by element — here it falls from the sky, there it flows from the stone — and don't merge the two desert miracles, for Paul says the Rock that followed them was Christ.",
+      "source": "1 Cor 10:4"
+    }
   }
 ]

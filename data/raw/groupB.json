@@ -8,8 +8,15 @@
     "type": "fill-in",
     "question": "Moses and Aaron told Pharaoh: 'Let My people go that they may hold a ______ in the wilderness.'",
     "answer": "feast",
-    "acceptableAnswers": ["feast", "a feast"],
-    "memoryAid": { "type": "image", "text": "Hear the demand: not merely 'let them go' but 'let them go that they may hold a feast.' Picture Israel leaving Egypt not just to be free but to gather and worship — the goal is the feast, the assembly around God." }
+    "acceptableAnswers": [
+      "feast",
+      "a feast"
+    ],
+    "memoryAid": {
+      "type": "teaching",
+      "text": "God does not say merely 'let them go' but 'let them go that they may hold a feast unto Me.' Freedom from Egypt is for the sake of worship; liberty's whole end is the festal assembly gathered around the Lord. And the true Feast is Christ our Pascha, sacrificed for us, that we may keep the feast not with old leaven but with sincerity and truth.",
+      "source": "1 Cor 5:7-8"
+    }
   },
   {
     "id": "ex05-002",
@@ -20,20 +27,35 @@
     "type": "fill-in",
     "question": "Pharaoh responded, 'Who is the ______, that I should obey His voice?'",
     "answer": "Lord",
-    "acceptableAnswers": ["lord", "the lord"],
-    "memoryAid": { "type": "teaching", "text": "Pharaoh's question 'Who is the Lord?' is the defining posture of the prideful ruler who acknowledges no god above himself. In Egyptian theology Pharaoh was reckoned divine, so the plagues that follow are a direct contest in which the LORD executes judgment against the gods of Egypt (Ex 12:12), revealing Himself as the one true God. By the end, Egypt will know His name through judgment.", "source": "Fr. Stephen De Young, God Is a Man of War (Ancient Faith, 2021)" }
+    "acceptableAnswers": [
+      "lord",
+      "the lord"
+    ],
+    "memoryAid": {
+      "type": "teaching",
+      "text": "Pharaoh's 'Who is the Lord?' is not ignorance but a throne-claim: as a god-king he recognizes no name above his own. The whole plague cycle is the LORD answering that question by judgment against the gods of Egypt (Ex 12:12), so that by the end Egypt will know the very Name it pretended not to know.",
+      "source": "Fr. Stephen De Young, God Is a Man of War (Ancient Faith, 2021)"
+    }
   },
   {
     "id": "ex05-003",
     "chapter": 5,
     "book": "Exodus",
-    "reference": "Exodus 5",
+    "reference": "Exodus 5:6-9",
     "topic": "Pharaoh Rejects God's Command",
     "type": "multiple-choice",
     "question": "How did Pharaoh respond to the demand to let Israel go?",
     "answer": "He increased the Israelites' labor",
-    "options": ["He increased the Israelites' labor", "He released the firstborn", "He demanded a tribute of gold", "He agreed and then immediately repented"],
-    "memoryAid": { "type": "image", "text": "Picture Pharaoh sneering and piling MORE bricks onto already-bent backs. The first response to God's word is not relief but a crushing increase of the load." }
+    "options": [
+      "He increased the Israelites' labor",
+      "He released the firstborn",
+      "He demanded a tribute of gold",
+      "He agreed and then immediately repented"
+    ],
+    "memoryAid": {
+      "type": "image",
+      "text": "Watch the law of the ascent: the moment God says 'let them go,' the tyrant does not loosen his grip but tightens it, piling MORE bricks onto already-bent backs. The squeeze grows heaviest precisely because liberation is now on the table. The pressure after the first 'let go' is not God's abandonment but the enemy's rage at losing his slave."
+    }
   },
   {
     "id": "ex05-004",
@@ -44,8 +66,14 @@
     "type": "true-false",
     "question": "Pharaoh ordered that the Israelites gather their own straw while keeping the same brick quota.",
     "answer": "True",
-    "options": ["True", "False"],
-    "memoryAid": { "type": "mnemonic", "text": "'Same bricks, no straw, sore backs.' Same quota, but now they must find the straw themselves." }
+    "options": [
+      "True",
+      "False"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "Hold the three S's: Same bricks, Stripped straw, Striped backs. Pharaoh keeps the quota high but strips away the means — and the cruelty is engineered to make Israel blame Moses instead of Pharaoh."
+    }
   },
   {
     "id": "ex05-005",
@@ -56,8 +84,13 @@
     "type": "fill-in",
     "question": "What building material were the Israelites suddenly required to gather for themselves while still meeting the same brick quota?",
     "answer": "straw",
-    "acceptableAnswers": ["straw"],
-    "memoryAid": { "type": "mnemonic", "text": "Straw for the bricks: 'No straw, same draw' — the quota is drawn up just as high as before." }
+    "acceptableAnswers": [
+      "straw"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "Straw is the binding that holds the brick together; pull it and the work crumbles, yet the count stays full. 'Snatch the straw, keep the law' — the means removed, the quota unchanged."
+    }
   },
   {
     "id": "ex05-006",
@@ -68,20 +101,34 @@
     "type": "multiple-choice",
     "question": "Who were beaten when the brick quotas were not met?",
     "answer": "The Israelite foremen",
-    "options": ["The Israelite foremen", "Moses and Aaron", "The Egyptian magicians", "Pharaoh's own taskmasters"],
-    "memoryAid": { "type": "image", "text": "See the Israelite foremen, caught in the middle, taking the lash for a quota no one could possibly meet without straw. The innocent middlemen bleed for Pharaoh's spite." }
+    "options": [
+      "The Israelite foremen",
+      "Moses and Aaron",
+      "The Egyptian magicians",
+      "Pharaoh's own taskmasters"
+    ],
+    "memoryAid": {
+      "type": "image",
+      "text": "See the Israelite foremen crushed in the middle, taking the lash from Egyptians for a quota Egypt itself made impossible. In their bruised backs, bearing stripes for another's hardness, glimpse faintly the One who would later bear the stripes that were not His own."
+    }
   },
   {
     "id": "ex05-007",
     "chapter": 5,
     "book": "Exodus",
-    "reference": "Exodus 5",
+    "reference": "Exodus 5:22-23",
     "topic": "Pharaoh Rejects God's Command",
     "type": "true-false",
     "question": "In Chapter 5, conditions for Israel grew worse before deliverance began.",
     "answer": "True",
-    "options": ["True", "False"],
-    "memoryAid": { "type": "image", "text": "Picture the night at its darkest moment right before dawn breaks. So in Egypt: the affliction grows worst right before God's mighty acts of deliverance begin. The increase of suffering is the threshold of redemption, not abandonment." }
+    "options": [
+      "True",
+      "False"
+    ],
+    "memoryAid": {
+      "type": "image",
+      "text": "Picture the night at its blackest right before dawn breaks. Chapter 5 ends in the dark on purpose: in the soul's exodus the affliction grows heaviest at the very threshold of deliverance. The deepening groan is not God's absence but the eve of His outstretched arm."
+    }
   },
   {
     "id": "ex06-001",
@@ -92,8 +139,15 @@
     "type": "fill-in",
     "question": "God reaffirms His covenant identity to Moses with the declaration, 'I am the ______.'",
     "answer": "Lord",
-    "acceptableAnswers": ["lord", "the lord"],
-    "memoryAid": { "type": "teaching", "text": "'I am the LORD' (the divine Name) frames the whole chapter of promises. This is the same Name revealed at the burning bush, the 'I AM' that Christ takes upon Himself when He says, 'Before Abraham was, I AM.' The promises that follow are guaranteed not by circumstances but by the very Being of God who keeps covenant.", "source": "John 8:58" }
+    "acceptableAnswers": [
+      "lord",
+      "the lord"
+    ],
+    "memoryAid": {
+      "type": "teaching",
+      "text": "'I am the LORD' is the divine Name (I AM THE EXISTING ONE) that anchors every promise that follows — the same self-naming spoken from the Bush. When Christ says 'Before Abraham was, I AM,' He claims this very Name. The God who simply IS cannot fail to keep covenant, for He stakes deliverance on His own eternal Being.",
+      "source": "John 8:58"
+    }
   },
   {
     "id": "ex06-002",
@@ -104,8 +158,16 @@
     "type": "multiple-choice",
     "question": "How many major promises did God make to Israel in Exodus 6?",
     "answer": "Seven",
-    "options": ["Seven", "Three", "Five", "Ten"],
-    "memoryAid": { "type": "mnemonic", "text": "Seven promises — the number of completeness and covenant. God's deliverance is whole and perfect, lacking nothing." }
+    "options": [
+      "Seven",
+      "Three",
+      "Five",
+      "Ten"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "Count the 'I wills' and you get SEVEN — the number of the finished work, of rest attained. God does not promise deliverance by halves; the covenant is whole, lacking nothing, as the seven days of creation lacked nothing."
+    }
   },
   {
     "id": "ex06-003",
@@ -116,8 +178,16 @@
     "type": "multiple-choice",
     "question": "Which of the following is NOT one of the seven promises God made in Exodus 6?",
     "answer": "I will destroy all of Egypt's gods",
-    "options": ["I will destroy all of Egypt's gods", "I will bring you out", "I will redeem you", "I will give it to you as an inheritance"],
-    "memoryAid": { "type": "mnemonic", "text": "The seven 'I wills': bring OUT, rescue, redeem, take, be your God, bring IN, give as inheritance. Destroying Egypt's gods, though it happens, is not one of the seven covenant promises listed." }
+    "options": [
+      "I will destroy all of Egypt's gods",
+      "I will bring you out",
+      "I will redeem you",
+      "I will give it to you as an inheritance"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "Sort by the question: is this a gift TO me, or a blow to my captor? The seven 'I wills' are all gifts FOR Israel — bring OUT, rescue, redeem, take, be your God, bring IN, give inheritance. Destroying Egypt's gods is judgment done TO Egypt, real but never among the seven."
+    }
   },
   {
     "id": "ex06-004",
@@ -128,8 +198,14 @@
     "type": "fill-in",
     "question": "In the seven promises, God says 'I will ______ you with an outstretched arm' — the act tied to the price of deliverance.",
     "answer": "redeem",
-    "acceptableAnswers": ["redeem"],
-    "memoryAid": { "type": "teaching", "text": "To 'redeem' means to buy back, to ransom. It stands among the seven 'I will' promises by which God binds Himself to deliver and claim Israel. God's redemption of Israel from Egypt prefigures the greater Redemption accomplished by Christ, who ransoms humanity from bondage to sin and death. The Exodus language of redemption runs straight to Pascha.", "source": "Fr. Stephen De Young, The Whole Counsel of God (Ancient Faith, 2021)" }
+    "acceptableAnswers": [
+      "redeem"
+    ],
+    "memoryAid": {
+      "type": "teaching",
+      "text": "'Redeem' (ga'al) is kinsman-language — to buy back a relative out of slavery, the duty of the near-kinsman. God calls Himself Israel's Redeemer, their next-of-kin, which is exactly what the Word becomes in the flesh: our kinsman who ransoms us with His own blood. This Exodus word runs straight to Pascha.",
+      "source": "Fr. Stephen De Young, The Whole Counsel of God (Ancient Faith, 2021)"
+    }
   },
   {
     "id": "ex06-005",
@@ -140,8 +216,15 @@
     "type": "true-false",
     "question": "Among the seven promises, God said 'I will take you as My people, and I will be your God.'",
     "answer": "True",
-    "options": ["True", "False"],
-    "memoryAid": { "type": "teaching", "text": "This is the heart of the covenant formula and one of the seven 'I will' promises: 'I will take you as My people, and I will be your God.' It echoes through Scripture to the very last pages of Revelation, where God dwells with His people. The Exodus is ultimately about communion, God claiming a people for Himself.", "source": "Fr. Stephen De Young, The Whole Counsel of God (Ancient Faith, 2021)" }
+    "options": [
+      "True",
+      "False"
+    ],
+    "memoryAid": {
+      "type": "teaching",
+      "text": "'I will take you as My people, and I will be your God' is the marriage-formula of the covenant, the heart of all the promises. It opens here at the Exodus and closes at the wedding of the Lamb, where God dwells with His people. The whole Exodus aims not at a land but at communion; everything else is for the sake of this one vow.",
+      "source": "Fr. Stephen De Young, The Whole Counsel of God (Ancient Faith, 2021)"
+    }
   },
   {
     "id": "ex06-006",
@@ -152,8 +235,16 @@
     "type": "multiple-choice",
     "question": "Why did the Israelites not listen to Moses when he brought God's promises?",
     "answer": "Because of discouragement and cruel bondage",
-    "options": ["Because of discouragement and cruel bondage", "Because they did not believe in God", "Because Pharaoh forbade them", "Because Moses spoke in a foreign tongue"],
-    "memoryAid": { "type": "image", "text": "Picture a worker so exhausted by the whip that even good news bounces off him. Crushing bondage had hollowed out their hope; their spirits were too broken to hear." }
+    "options": [
+      "Because of discouragement and cruel bondage",
+      "Because they did not believe in God",
+      "Because Pharaoh forbade them",
+      "Because Moses spoke in a foreign tongue"
+    ],
+    "memoryAid": {
+      "type": "image",
+      "text": "They did not refuse the good news; they could not receive it. The text calls it 'shortness of spirit' — the breath knocked out of them by hard labor. Picture a worker so winded by the whip that hope itself cannot lodge in his lungs. Cruel bondage, not unbelief, stopped their ears."
+    }
   },
   {
     "id": "ex06-007",
@@ -164,8 +255,16 @@
     "type": "multiple-choice",
     "question": "The genealogy in Exodus 6 traces the lineage of which three sons of Israel?",
     "answer": "Reuben, Simeon, and Levi",
-    "options": ["Reuben, Simeon, and Levi", "Judah, Levi, and Joseph", "Reuben, Judah, and Benjamin", "Levi, Dan, and Gad"],
-    "memoryAid": { "type": "mnemonic", "text": "First three sons in birth order: Reuben, Simeon, Levi. The list stops at Levi because the point is to establish the priestly line of Moses and Aaron." }
+    "options": [
+      "Reuben, Simeon, and Levi",
+      "Judah, Levi, and Joseph",
+      "Reuben, Judah, and Benjamin",
+      "Levi, Dan, and Gad"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "The genealogy marches Reuben, Simeon, Levi — then stops dead at Levi. It is no full family tree but a zoom lens, racing past the first two sons to plant the camera on Levi, because the whole point is to certify the priestly bloodline of Moses and Aaron. Count to three and rest at Levi."
+    }
   },
   {
     "id": "ex06-008",
@@ -176,8 +275,16 @@
     "type": "multiple-choice",
     "question": "Which of the following was NOT one of the three sons of Levi?",
     "answer": "Amram",
-    "options": ["Amram", "Gershon", "Kohath", "Merari"],
-    "memoryAid": { "type": "mnemonic", "text": "Levi's sons: Gershon, Kohath, Merari (G-K-M). Amram is a generation later — he is Kohath's son, not Levi's." }
+    "options": [
+      "Amram",
+      "Gershon",
+      "Kohath",
+      "Merari"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "Levi's three sons march in order Gershon, Kohath, Merari — hold 'G-K-M,' the three Levitical clans who carry the Tabernacle. Amram belongs to the next rung of the ladder, son of Kohath, not of Levi; he is a grandson where the question asks for sons."
+    }
   },
   {
     "id": "ex06-009",
@@ -188,8 +295,13 @@
     "type": "fill-in",
     "question": "Which son of Levi was the father of Amram (and thus ancestor of Moses and Aaron)?",
     "answer": "Kohath",
-    "acceptableAnswers": ["kohath"],
-    "memoryAid": { "type": "mnemonic", "text": "The priestly middle son: Kohath. 'Kohath the cornerstone' — through him comes Amram, then Moses and Aaron." }
+    "acceptableAnswers": [
+      "kohath"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "Kohath is the hinge of the holy line — Levi, then Kohath, then Amram, then Aaron and Moses. His clan will one day bear the Ark itself on their shoulders. Remember 'Kohath the conduit,' the channel through which prophet and priest will come."
+    }
   },
   {
     "id": "ex06-010",
@@ -200,8 +312,16 @@
     "type": "multiple-choice",
     "question": "Who was the father of Aaron, Moses, and Miriam?",
     "answer": "Amram",
-    "options": ["Amram", "Kohath", "Gershon", "Merari"],
-    "memoryAid": { "type": "mnemonic", "text": "Amram + Jochebed = Aaron, Moses, Miriam. 'Amram's army of three.'" }
+    "options": [
+      "Amram",
+      "Kohath",
+      "Gershon",
+      "Merari"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "One father, three deliverers: Amram begets Aaron the priest, Moses the prophet, and Miriam the prophetess who leads the women in song. 'Amram's army of three' — one household supplying Israel's whole command."
+    }
   },
   {
     "id": "ex06-011",
@@ -212,8 +332,13 @@
     "type": "fill-in",
     "question": "Who was the wife of Amram and mother of Aaron, Moses, and Miriam?",
     "answer": "Jochebed",
-    "acceptableAnswers": ["jochebed"],
-    "memoryAid": { "type": "mnemonic", "text": "Jochebed — her name contains a form of the divine Name (Yah). The mother of the deliverer carries God's Name; she is the one who hid Moses in the ark of bulrushes." }
+    "acceptableAnswers": [
+      "jochebed"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "Hear the divine Name hiding in hers: JO-chebed carries the theophoric 'Yo-/Yah' — Jochebed means 'the LORD is glory.' She is the one mother whose very name bears God's Name, fitting for the woman who bore and hid the deliverer. Jochebed = God's-Name-mother."
+    }
   },
   {
     "id": "ex06-012",
@@ -224,8 +349,16 @@
     "type": "multiple-choice",
     "question": "Which of the following was NOT a child of Amram and Jochebed?",
     "answer": "Elisheba",
-    "options": ["Elisheba", "Aaron", "Moses", "Miriam"],
-    "memoryAid": { "type": "mnemonic", "text": "Children: Aaron, Moses, Miriam (A-M-M). Elisheba is Aaron's WIFE, not a sibling." }
+    "options": [
+      "Elisheba",
+      "Aaron",
+      "Moses",
+      "Miriam"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "The three of one womb are Aaron, Moses, Miriam (A-M-M). Elisheba enters the house by marriage as Aaron's WIFE, not Jochebed's daughter; watch for the test that swaps a daughter-in-law for a sister."
+    }
   },
   {
     "id": "ex06-013",
@@ -236,8 +369,14 @@
     "type": "fill-in",
     "question": "Who was the wife of Aaron?",
     "answer": "Elisheba",
-    "acceptableAnswers": ["elisheba"],
-    "memoryAid": { "type": "mnemonic", "text": "Elisheba is the Hebrew form of 'Elizabeth.' The high priest Aaron's wife shares a name with the mother of John the Baptist — a wife linked to the priestly line." }
+    "acceptableAnswers": [
+      "elisheba"
+    ],
+    "memoryAid": {
+      "type": "teaching",
+      "text": "Elisheba IS Elizabeth. The wife of the first high priest bears the name that will one day belong to the mother of the Forerunner (herself of Aaron's daughters, Lk 1:5) — a name woven twice into the priesthood, binding the old covenant priestly line to the herald of the new.",
+      "source": "Luke 1:5"
+    }
   },
   {
     "id": "ex06-014",
@@ -248,8 +387,16 @@
     "type": "multiple-choice",
     "question": "Which of the following was NOT a son of Aaron?",
     "answer": "Amram",
-    "options": ["Amram", "Nadab", "Abihu", "Eleazar"],
-    "memoryAid": { "type": "mnemonic", "text": "Aaron's four sons: Nadab, Abihu, Eleazar, Ithamar. Amram is Aaron's FATHER, not his son." }
+    "options": [
+      "Amram",
+      "Nadab",
+      "Abihu",
+      "Eleazar"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "Aaron's four sons are Nadab, Abihu, Eleazar, Ithamar. Amram cannot be among them, for he stands a generation above as Aaron's father; the line runs Amram down to Aaron, never up. He is root, not branch."
+    }
   },
   {
     "id": "ex06-015",
@@ -260,8 +407,16 @@
     "type": "multiple-choice",
     "question": "How many sons did Aaron have, as listed in Exodus 6?",
     "answer": "Four",
-    "options": ["Four", "Two", "Three", "Five"],
-    "memoryAid": { "type": "mnemonic", "text": "Four sons: Nadab, Abihu, Eleazar, Ithamar. 'NAEI' — say it like 'nay-eye.' Two would later perish offering strange fire; the priesthood continued through Eleazar and Ithamar." }
+    "options": [
+      "Four",
+      "Two",
+      "Three",
+      "Five"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "Four sons stand at the altar: Nadab, Abihu, Eleazar, Ithamar. A tragedy in two halves — two will fall consumed for offering strange fire, and the line survives through the other two. Four given, two faithful, the priesthood preserved by mercy."
+    }
   },
   {
     "id": "ex06-016",
@@ -272,8 +427,16 @@
     "type": "fill-in",
     "question": "Name the two sons of Aaron whose names begin with vowels and through whom the priesthood continued.",
     "answer": "Eleazar and Ithamar",
-    "acceptableAnswers": ["eleazar and ithamar", "eleazar, ithamar", "ithamar and eleazar", "eleazar ithamar"],
-    "memoryAid": { "type": "image", "text": "Picture Aaron's four sons in line: the two elder, Nadab and Abihu, will fall offering 'strange fire' before the Lord. The priesthood carries on through the two who remain, Eleazar and Ithamar — the vowel-named pair through whom the line continues." }
+    "acceptableAnswers": [
+      "eleazar and ithamar",
+      "eleazar, ithamar",
+      "ithamar and eleazar",
+      "eleazar ithamar"
+    ],
+    "memoryAid": {
+      "type": "image",
+      "text": "Picture the four sons in line: the two elder, Nadab and Abihu, fall consumed for offering strange fire before the Lord. The priesthood carries on through the two who remain, Eleazar and Ithamar — both names opening with a vowel. The vowel-pair endures where the consonant-pair falls."
+    }
   },
   {
     "id": "ex07-001",
@@ -284,8 +447,14 @@
     "type": "fill-in",
     "question": "God said, 'I will harden Pharaoh's heart and multiply My signs and My ______ in the land of Egypt.'",
     "answer": "wonders",
-    "acceptableAnswers": ["wonders"],
-    "memoryAid": { "type": "teaching", "text": "The hardening of Pharaoh's heart is a theme to treat carefully: God's persistent mercy is the very thing a hardened heart turns to its own condemnation. The same sun that softens wax hardens clay. Pharaoh's resistance becomes the stage on which God's 'signs and wonders' display His glory to all nations.", "source": "Fr. Stephen De Young, The Whole Counsel of God (Ancient Faith, 2021)" }
+    "acceptableAnswers": [
+      "wonders"
+    ],
+    "memoryAid": {
+      "type": "teaching",
+      "text": "The hardening cuts both ways: the text says Pharaoh hardens his own heart, and God hardens it — the same divine pressure that softens a yielding heart only bakes a defiant one harder, as the selfsame sun melts wax but bakes clay to stone. The 'wonders' multiply because Pharaoh keeps choosing the furnace, making his resistance a theater of God's glory before all nations.",
+      "source": "Fr. Stephen De Young, The Whole Counsel of God (Ancient Faith, 2021)"
+    }
   },
   {
     "id": "ex07-002",
@@ -296,8 +465,14 @@
     "type": "true-false",
     "question": "Aaron was 83 years old when he and Moses stood before Pharaoh.",
     "answer": "True",
-    "options": ["True", "False"],
-    "memoryAid": { "type": "mnemonic", "text": "Aaron is the elder: 'Aaron Ate 3 more' — A-8-3. Moses was 80, Aaron three years older at 83." }
+    "options": [
+      "True",
+      "False"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "'Aaron Ate 3 more' — A-8-3. The elder brother is three years past 80. The mouth that speaks for God is the younger; the hand that lifts the rod is older."
+    }
   },
   {
     "id": "ex07-003",
@@ -308,8 +483,16 @@
     "type": "multiple-choice",
     "question": "How old was Moses when he stood before Pharaoh?",
     "answer": "80",
-    "options": ["80", "83", "40", "120"],
-    "memoryAid": { "type": "mnemonic", "text": "Moses' life splits into three 40s: 40 in Egypt, 40 in Midian, 40 leading Israel. He begins the Exodus at 80 — two forties down, one to go." }
+    "options": [
+      "80",
+      "83",
+      "40",
+      "120"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "Moses' life is three forties: 40 a prince in Egypt, 40 a shepherd in Midian, 40 a shepherd of Israel. He stands before Pharaoh at 80 — two ages spent, the last and greatest just beginning."
+    }
   },
   {
     "id": "ex07-004",
@@ -320,8 +503,16 @@
     "type": "multiple-choice",
     "question": "When Aaron cast down his rod before Pharaoh, what did it become?",
     "answer": "A serpent",
-    "options": ["A serpent", "A river of blood", "A pillar of fire", "A swarm of locusts"],
-    "memoryAid": { "type": "image", "text": "Picture Aaron's rod becoming a serpent and devouring the magicians' serpents — God's sign overpowering the very symbol of Egyptian royal power, the cobra worn on Pharaoh's crown. The serpent, emblem of the ancient deceiver, is swallowed up: the powers of Egypt are subject to God." }
+    "options": [
+      "A serpent",
+      "A river of blood",
+      "A pillar of fire",
+      "A swarm of locusts"
+    ],
+    "memoryAid": {
+      "type": "image",
+      "text": "The rod becomes a serpent — and the serpent, the rearing cobra, is the very emblem upon Pharaoh's crown. God lets the symbol of Egyptian sovereignty and of the ancient deceiver rise up only to be swallowed whole, showing the powers of Egypt and the serpent of old already subject to Him."
+    }
   },
   {
     "id": "ex07-005",
@@ -332,283 +523,458 @@
     "type": "true-false",
     "question": "The Egyptian magicians were able to replicate the sign of the rod becoming a serpent.",
     "answer": "True",
-    "options": ["True", "False"],
-    "memoryAid": { "type": "image", "text": "Picture the court magicians smugly tossing down their own rods, each writhing into a snake — only to watch Aaron's serpent gulp them all down. They could copy the trick but not the power." }
+    "options": [
+      "True",
+      "False"
+    ],
+    "memoryAid": {
+      "type": "image",
+      "text": "Picture the court sorcerers smugly tossing down their rods, each writhing into a snake by their secret arts — real powers, not sleight of hand — only to watch Aaron's serpent gulp them all down. They could mimic the marvel but never master it."
+    }
   },
   {
     "id": "ex07-006",
     "chapter": 7,
     "book": "Exodus",
     "reference": "Exodus 7:12",
-    "topic": "Moses and Aaron Before Pharaoh",
+    "topic": "Before Pharaoh",
     "type": "multiple-choice",
     "question": "What happened after the magicians' rods also became serpents?",
     "answer": "Aaron's rod swallowed up their rods",
-    "options": ["Aaron's rod swallowed up their rods", "The magicians' rods bit Aaron", "All the serpents turned back into rods", "Pharaoh fled the court"],
-    "memoryAid": { "type": "mnemonic", "text": "'Aaron's snake ate the fake snakes.' God's sign devours the counterfeit." }
+    "options": [
+      "Aaron's rod swallowed up their rods",
+      "The magicians' rods bit Aaron",
+      "All the serpents turned back into rods",
+      "Pharaoh fled the court"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "'Aaron's snake ate the fake snakes.' The first confrontation sets the whole pattern: Egypt's powers produce a counterfeit, but God's true sign devours it whole — a preview of every plague duel to come."
+    }
   },
   {
     "id": "ex07-007",
     "chapter": 7,
     "book": "Exodus",
     "reference": "Exodus 7:20",
-    "topic": "First Plague: Water to Blood",
+    "topic": "The First Plague",
     "type": "multiple-choice",
     "question": "What was the first plague God brought upon Egypt?",
     "answer": "Water turned to blood",
-    "options": ["Water turned to blood", "Frogs", "Lice/gnats", "Dog-flies (swarms of flies)"],
-    "memoryAid": { "type": "teaching", "text": "The Nile was worshiped by Egypt as a life-giving god. By turning its waters to blood, the LORD strikes at the heart of Egyptian idolatry, executing judgment against the gods of Egypt (Ex 12:12). Each plague targets a power Egypt trusted, declaring there is no god but the LORD.", "source": "Fr. Stephen De Young, God Is a Man of War (Ancient Faith, 2021)" }
+    "options": [
+      "Water turned to blood",
+      "Frogs",
+      "Lice/gnats",
+      "Dog-flies (swarms of flies)"
+    ],
+    "memoryAid": {
+      "type": "teaching",
+      "text": "Egypt called the Nile a god (Hapi) and drank life from its flood; God turns that very river to blood, judging the idol at the fountain of its life. The opening blow lands squarely on Egypt's chief deity (Ex 12:12), and the 'god' of Egypt bleeds — each plague toppling a trusted god in turn.",
+      "source": "Fr. Stephen De Young, God Is a Man of War (Ancient Faith, 2021)"
+    }
   },
   {
     "id": "ex07-008",
     "chapter": 7,
     "book": "Exodus",
     "reference": "Exodus 7:19",
-    "topic": "First Plague: Water to Blood",
+    "topic": "The First Plague",
     "type": "multiple-choice",
     "question": "Which of the following was NOT among the waters struck in the first plague?",
     "answer": "The sea",
-    "options": ["The sea", "Streams", "Canals", "Ponds"],
-    "memoryAid": { "type": "mnemonic", "text": "Struck: Nile, Streams, Canals, Ponds, Reservoirs. The sea is not in the list — it was all of Egypt's fresh waters that turned to blood." }
+    "options": [
+      "The sea",
+      "Streams",
+      "Canals",
+      "Ponds"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "Struck: Nile, Streams, Canals, Ponds, Reservoirs — every fresh water Egypt drank, even what was already drawn into vessels. The sea is NOT in the list; the salt water no one drinks is spared, kept for a later and greater drowning."
+    }
   },
   {
     "id": "ex07-009",
     "chapter": 7,
     "book": "Exodus",
     "reference": "Exodus 7:20-21",
-    "topic": "First Plague: Water to Blood",
+    "topic": "The First Plague",
     "type": "multiple-choice",
     "question": "Which of the following was NOT a result of the first plague?",
     "answer": "The land was covered in darkness",
-    "options": ["The land was covered in darkness", "The fish died", "The river stank", "The Egyptians could not drink the water"],
-    "memoryAid": { "type": "mnemonic", "text": "Results of plague 1: fish died, river stank, no drinking water. Darkness comes much later, as the ninth plague." }
+    "options": [
+      "The land was covered in darkness",
+      "The fish died",
+      "The river stank",
+      "The Egyptians could not drink the water"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "Results of plague one: fish die, river stinks, no man can drink — all flowing from the bloodied water. Darkness is a different blow entirely, the NINTH plague, far down the road; keep blood by the river and darkness over the land apart."
+    }
   },
   {
     "id": "ex07-010",
     "chapter": 7,
     "book": "Exodus",
     "reference": "Exodus 7:25",
-    "topic": "First Plague: Water to Blood",
+    "topic": "The First Plague",
     "type": "fill-in",
     "question": "How many days did the first plague (water turned to blood) last?",
     "answer": "seven",
-    "acceptableAnswers": ["seven", "7", "seven days", "7 days"],
-    "memoryAid": { "type": "mnemonic", "text": "Seven full days the Nile ran red. 'Seven days of dread by the river of red.'" }
+    "acceptableAnswers": [
+      "seven",
+      "7",
+      "seven days",
+      "7 days"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "Seven full days the Nile ran red — a complete week-long humiliation of Egypt's river-god before the next blow even begins. 'Seven days of dread by the river of red.'"
+    }
   },
   {
     "id": "ex07-011",
     "chapter": 7,
     "book": "Exodus",
     "reference": "Exodus 7:22",
-    "topic": "First Plague: Water to Blood",
+    "topic": "The First Plague",
     "type": "true-false",
     "question": "The Egyptian magicians were able to imitate the first plague.",
     "answer": "True",
-    "options": ["True", "False"],
-    "memoryAid": { "type": "image", "text": "Picture the magicians turning a little dish of water red to save face — adding to the misery rather than relieving it. They could mimic the plague but never undo it." }
+    "options": [
+      "True",
+      "False"
+    ],
+    "memoryAid": {
+      "type": "image",
+      "text": "Picture the magicians turning a little dish of water red to save face — and so deepening Egypt's misery, not relieving it. The counterfeit can multiply the curse but cannot make one drop clean again. They add to the plague and call it power."
+    }
   },
   {
     "id": "ex08-001",
     "chapter": 8,
     "book": "Exodus",
     "reference": "Exodus 8:2-6",
-    "topic": "Second Plague: Frogs",
+    "topic": "The Second Plague",
     "type": "multiple-choice",
     "question": "What was the second plague God sent upon Egypt?",
     "answer": "Frogs",
-    "options": ["Frogs", "Lice/gnats", "Dog-flies", "Blood"],
-    "memoryAid": { "type": "teaching", "text": "The frog was associated with the Egyptian goddess Heqet, a deity of fertility and birth. By overwhelming the land with frogs, God again executes judgment against the gods of Egypt (Ex 12:12), turning a symbol of life into an unbearable plague. The judgment exposes the impotence of every idol.", "source": "Fr. Stephen De Young, God Is a Man of War (Ancient Faith, 2021)" }
+    "options": [
+      "Frogs",
+      "Lice/gnats",
+      "Dog-flies",
+      "Blood"
+    ],
+    "memoryAid": {
+      "type": "teaching",
+      "text": "The frog was sacred to Heqet, the frog-headed goddess of birth and fertility. God buries Egypt under her own emblem (Ex 12:12) — the symbol of teeming life becomes a teeming horror, so the fertility-goddess is shown powerless to control the very creature that represents her. Every idol is unmasked as powerless.",
+      "source": "Fr. Stephen De Young, God Is a Man of War (Ancient Faith, 2021)"
+    }
   },
   {
     "id": "ex08-002",
     "chapter": 8,
     "book": "Exodus",
     "reference": "Exodus 8:6",
-    "topic": "Second Plague: Frogs",
+    "topic": "The Second Plague",
     "type": "fill-in",
     "question": "Who stretched out his hand over the waters of Egypt to bring up the frogs?",
     "answer": "Aaron",
-    "acceptableAnswers": ["aaron"],
-    "memoryAid": { "type": "mnemonic", "text": "Aaron holds the rod and stretches his hand for the early plagues; Moses speaks, Aaron acts. 'Aaron's arm brings the swarm.'" }
+    "acceptableAnswers": [
+      "aaron"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "In the early plagues Moses speaks and Aaron acts: it is Aaron's hand and rod stretched over the waters that summon the frogs. 'Aaron's arm brings the swarm' — the prophet's word, the priest's outstretched hand."
+    }
   },
   {
     "id": "ex08-003",
     "chapter": 8,
     "book": "Exodus",
     "reference": "Exodus 8:3",
-    "topic": "Second Plague: Frogs",
+    "topic": "The Second Plague",
     "type": "multiple-choice",
     "question": "Which of the following places did the frogs NOT invade?",
     "answer": "The temples of the gods",
-    "options": ["The temples of the gods", "Houses", "Bedrooms", "Kneading bowls"],
-    "memoryAid": { "type": "mnemonic", "text": "Frogs got into Houses, Bedrooms, Ovens, and Kneading bowls — even your bed and your bread. No relief anywhere a person lives or eats." }
+    "options": [
+      "The temples of the gods",
+      "Houses",
+      "Bedrooms",
+      "Kneading bowls"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "Frogs invaded Houses, Bedrooms, Ovens, Kneading bowls — your bed and your bread defiled, no clean corner left. The temples of the gods are NOT named as a refuge; the idols cannot even keep the frogs out of their own house."
+    }
   },
   {
     "id": "ex08-004",
     "chapter": 8,
     "book": "Exodus",
     "reference": "Exodus 8:3",
-    "topic": "Second Plague: Frogs",
+    "topic": "The Second Plague",
     "type": "true-false",
     "question": "The frogs entered the Egyptians' ovens and kneading bowls.",
     "answer": "True",
-    "options": ["True", "False"],
-    "memoryAid": { "type": "image", "text": "Imagine reaching into your bread dough and pulling out a slimy frog. The plague invades the most intimate places: your bed, your oven, your supper." }
+    "options": [
+      "True",
+      "False"
+    ],
+    "memoryAid": {
+      "type": "image",
+      "text": "Reach into the bread dough and draw out a cold, slick frog; lie down and find your bed alive. The plague seizes the most intimate places of life, the oven and the bedchamber, leaving no private corner unbesieged."
+    }
   },
   {
     "id": "ex08-005",
     "chapter": 8,
     "book": "Exodus",
     "reference": "Exodus 8:7",
-    "topic": "Second Plague: Frogs",
+    "topic": "The Second Plague",
     "type": "true-false",
     "question": "The magicians were able to bring frogs upon Egypt.",
     "answer": "True",
-    "options": ["True", "False"],
-    "memoryAid": { "type": "mnemonic", "text": "The magicians could ADD frogs but never SUBTRACT them. They could imitate the plague but could not remove it — only God can deliver." }
+    "options": [
+      "True",
+      "False"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "The magicians could ADD frogs but never SUBTRACT a single one — a one-way power. They prove they can imitate the plague and thereby only deepen the torment; the taking-away, salvation itself, belongs to God alone."
+    }
   },
   {
     "id": "ex08-006",
     "chapter": 8,
     "book": "Exodus",
     "reference": "Exodus 8:12-13",
-    "topic": "Second Plague: Frogs",
+    "topic": "The Second Plague",
     "type": "multiple-choice",
     "question": "After Pharaoh asked for relief from the frogs, what happened?",
     "answer": "Moses prayed and the frogs died",
-    "options": ["Moses prayed and the frogs died", "Aaron drove them into the sea", "The frogs returned to the Nile alive", "The magicians removed them"],
-    "memoryAid": { "type": "mnemonic", "text": "Only prayer ends the plague: Moses prays, frogs die. The magicians could start it, but only God through Moses could stop it." }
+    "options": [
+      "Moses prayed and the frogs died",
+      "Aaron drove them into the sea",
+      "The frogs returned to the Nile alive",
+      "The magicians removed them"
+    ],
+    "memoryAid": {
+      "type": "image",
+      "text": "Watch the tell: Pharaoh begs Moses to pray, because even Pharaoh knows the magicians who conjured frogs cannot banish them. Moses prays, and the frogs die. The enemy can begin a torment, but deliverance comes by prayer alone, from God's hand only."
+    }
   },
   {
     "id": "ex08-007",
     "chapter": 8,
     "book": "Exodus",
     "reference": "Exodus 8:14",
-    "topic": "Second Plague: Frogs",
+    "topic": "The Second Plague",
     "type": "fill-in",
     "question": "After the frogs died, how were the dead frogs gathered?",
     "answer": "into heaps",
-    "acceptableAnswers": ["into heaps", "heaps", "in heaps", "piles"],
-    "memoryAid": { "type": "image", "text": "Picture rotting frogs piled into stinking heaps across the land, the whole country reeking. Even the relief leaves a stench — a reminder of the cost of Pharaoh's stubbornness." }
+    "acceptableAnswers": [
+      "into heaps",
+      "heaps",
+      "in heaps",
+      "piles"
+    ],
+    "memoryAid": {
+      "type": "image",
+      "text": "Picture the dead frogs gathered into reeking heaps across the whole land, the country stinking of yesterday's plague. Even the relief leaves a stench: Pharaoh's delay turns deliverance into a mound of rot — the cost of a hardened heart lingers in the air."
+    }
   },
   {
     "id": "ex08-008",
     "chapter": 8,
     "book": "Exodus",
     "reference": "Exodus 8:15",
-    "topic": "Second Plague: Frogs",
+    "topic": "The Second Plague",
     "type": "true-false",
     "question": "Pharaoh kept his promise to let Israel go after the frogs were removed.",
     "answer": "False",
-    "options": ["True", "False"],
-    "memoryAid": { "type": "teaching", "text": "The moment relief comes, Pharaoh hardens his heart again. This pattern of repentance under pressure followed by renewed rebellion when comfort returns is the very portrait of a heart that will not truly turn to God — a warning against false, fear-driven repentance.", "source": "Fr. Stephen De Young, The Whole Counsel of God (Ancient Faith, 2021)" }
+    "options": [
+      "True",
+      "False"
+    ],
+    "memoryAid": {
+      "type": "teaching",
+      "text": "The instant the frogs die, Pharaoh forgets his vow — repentance that lasts only as long as the pain. Here is the very portrait of false turning: fear cries out under the lash and rebels the moment comfort returns. Beware repentance that breathes only in affliction and never reaches the will.",
+      "source": "Fr. Stephen De Young, The Whole Counsel of God (Ancient Faith, 2021)"
+    }
   },
   {
     "id": "ex08-009",
     "chapter": 8,
     "book": "Exodus",
     "reference": "Exodus 8:16-17",
-    "topic": "Third Plague: Lice/Gnats",
+    "topic": "The Third Plague",
     "type": "multiple-choice",
     "question": "What was the third plague, brought when Aaron struck the dust of the earth?",
     "answer": "Lice/gnats",
-    "options": ["Lice/gnats", "Frogs", "Dog-flies", "Boils"],
-    "memoryAid": { "type": "mnemonic", "text": "Third plague rises from the dust: lice/gnats. 'Dust to dust to bugs' — Aaron strikes the ground and the very dust becomes biting insects." }
+    "options": [
+      "Lice/gnats",
+      "Frogs",
+      "Dog-flies",
+      "Boils"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "Aaron strikes the dust and the very ground breeds biting gnats — the lowliest element rising against the proud. 'Dust to dust to bugs': the third plague is born from the earth itself, not from the sky."
+    }
   },
   {
     "id": "ex08-010",
     "chapter": 8,
     "book": "Exodus",
     "reference": "Exodus 8:17",
-    "topic": "Third Plague: Lice/Gnats",
+    "topic": "The Third Plague",
     "type": "fill-in",
     "question": "From striking what did Aaron bring forth the lice/gnats of the third plague?",
     "answer": "the dust of the earth",
-    "acceptableAnswers": ["the dust of the earth", "dust", "the dust", "dust of the earth"],
-    "memoryAid": { "type": "teaching", "text": "From the dust man was formed, and from the dust the plague of gnats now comes. The lowliest element, the dust under their feet, becomes an instrument of God's judgment. This is the plague the magicians could not reproduce, confessing 'This is the finger of God,' for life from dust belongs to the Creator alone.", "source": "Fr. Stephen De Young, The Whole Counsel of God (Ancient Faith, 2021)" }
+    "acceptableAnswers": [
+      "the dust of the earth",
+      "dust",
+      "the dust",
+      "dust of the earth"
+    ],
+    "memoryAid": {
+      "type": "teaching",
+      "text": "From the dust man was first formed, and from the dust the gnats now swarm — to bring life from dust is the Creator's own signature. That is exactly why the magicians fail here and confess 'the finger of God': they can mimic transformation but cannot create life from earth. The dust obeys only Him who first shaped it.",
+      "source": "Fr. Stephen De Young, The Whole Counsel of God (Ancient Faith, 2021)"
+    }
   },
   {
     "id": "ex08-011",
     "chapter": 8,
     "book": "Exodus",
     "reference": "Exodus 8:18",
-    "topic": "Third Plague: Lice/Gnats",
+    "topic": "The Third Plague",
     "type": "true-false",
     "question": "The magicians were able to duplicate the third plague of lice/gnats.",
     "answer": "False",
-    "options": ["True", "False"],
-    "memoryAid": { "type": "mnemonic", "text": "Plague three breaks the streak: the magicians fail. 'Three and done' — they could fake blood and frogs, but the gnats stopped them cold." }
+    "options": [
+      "True",
+      "False"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "At the third plague the imitators fail at last. 'Three and done' — they could counterfeit blood and frogs, but the gnats stop them cold, and even they must name the finger of God."
+    }
   },
   {
     "id": "ex08-012",
     "chapter": 8,
     "book": "Exodus",
     "reference": "Exodus 8:19",
-    "topic": "Third Plague: Lice/Gnats",
+    "topic": "The Third Plague",
     "type": "fill-in",
     "question": "Unable to duplicate the third plague, the magicians said to Pharaoh, 'This is the ______ of God.'",
     "answer": "finger",
-    "acceptableAnswers": ["finger", "the finger of god", "finger of god"],
-    "memoryAid": { "type": "teaching", "text": "'This is the finger of God' is the magicians' confession of defeat: they could imitate the blood and the frogs, but not the gnats. The phrase points to the immediate working of God's power that no human counterfeit can match.", "source": "Fr. Stephen De Young, The Whole Counsel of God (Ancient Faith, 2021)" }
+    "acceptableAnswers": [
+      "finger",
+      "the finger of god",
+      "finger of god"
+    ],
+    "memoryAid": {
+      "type": "teaching",
+      "text": "'This is the finger of God' is the magicians' surrender, spoken by the enemy's own priests when their arts collapse at the gnats. That same finger will write the Law on Sinai's tablets, and Christ will cast out demons 'by the finger of God' (Lk 11:20) — where human counterfeit ends, the immediate touch of God begins.",
+      "source": "Fr. Stephen De Young, The Whole Counsel of God (Ancient Faith, 2021)"
+    }
   },
   {
     "id": "ex08-013",
     "chapter": 8,
     "book": "Exodus",
     "reference": "Exodus 8:21-24",
-    "topic": "Fourth Plague: Flies",
+    "topic": "The Fourth Plague",
     "type": "multiple-choice",
     "question": "What was the fourth plague God sent upon Egypt?",
     "answer": "Dog-flies (swarms of flies)",
-    "options": ["Dog-flies (swarms of flies)", "Lice/gnats", "Locusts", "Hail"],
-    "memoryAid": { "type": "mnemonic", "text": "Fourth plague: dog-flies / swarms of flies. 'Four for the flies that fill the skies.'" }
+    "options": [
+      "Dog-flies (swarms of flies)",
+      "Lice/gnats",
+      "Locusts",
+      "Hail"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "After blood, frogs, and gnats comes the fourth: swarms of dog-flies filling the air. 'Four for the flies that fill the skies' — the fourth blow that darkens Egypt's sky with wings."
+    }
   },
   {
     "id": "ex08-014",
     "chapter": 8,
     "book": "Exodus",
     "reference": "Exodus 8:22",
-    "topic": "Fourth Plague: Flies",
+    "topic": "The Fourth Plague",
     "type": "fill-in",
     "question": "During the fourth plague, which region was spared from the dog-flies (swarms of flies)?",
     "answer": "Goshen",
-    "acceptableAnswers": ["goshen", "the land of goshen"],
-    "memoryAid": { "type": "mnemonic", "text": "Goshen is God's safe zone. 'Goshen = Go safe.' The land where Israel dwelt was kept untouched." }
+    "acceptableAnswers": [
+      "goshen",
+      "the land of goshen"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "'Goshen = Go safe.' The dwelling of the people of God is the one place the dog-flies cannot enter; while all Egypt is blackened with swarms, Israel's land is sealed off untouched."
+    }
   },
   {
     "id": "ex08-015",
     "chapter": 8,
     "book": "Exodus",
     "reference": "Exodus 8:23",
-    "topic": "Fourth Plague: Flies",
+    "topic": "The Fourth Plague",
     "type": "true-false",
     "question": "The fourth plague marks the first time God makes a clear separation between Israel and Egypt, protecting His people while the Egyptians suffered.",
     "answer": "True",
-    "options": ["True", "False"],
-    "memoryAid": { "type": "image", "text": "Picture a clear line drawn across the land: dog-flies swarm everywhere in Egypt, but Goshen, where Israel dwells, stays untouched. Beginning with the flies, God 'sets apart' His people — a sign that the plagues are targeted acts of the God who knows and protects His own." }
+    "options": [
+      "True",
+      "False"
+    ],
+    "memoryAid": {
+      "type": "image",
+      "text": "Picture a clear line drawn across the land: dog-flies swarm everywhere in Egypt, but Goshen, where Israel dwells, stays untouched. Beginning with the flies, God 'sets apart' His own — the plagues are no blind calamity but the targeted acts of the Shepherd who knows His sheep by name, a foretaste of the Passover separation to come."
+    }
   },
   {
     "id": "ex08-016",
     "chapter": 8,
     "book": "Exodus",
     "reference": "Exodus 8:32",
-    "topic": "Fourth Plague: Flies",
+    "topic": "The Fourth Plague",
     "type": "true-false",
     "question": "After the fourth plague, Pharaoh immediately allowed Israel to leave Egypt without conditions.",
     "answer": "False",
-    "options": ["True", "False"],
-    "memoryAid": { "type": "image", "text": "Picture Pharaoh bargaining: worship inside Egypt, or do not go far. Each offer is a half-measure, a leash kept on Israel — and then he hardens his heart yet again. True deliverance is a complete going-out, not a negotiated truce with Egypt." }
+    "options": [
+      "True",
+      "False"
+    ],
+    "memoryAid": {
+      "type": "image",
+      "text": "Watch Pharaoh negotiate: worship inside Egypt, or 'do not go far.' Every offer keeps a leash on Israel, a half-deliverance keeping them within reach of bondage — and then he hardens his heart again. The Exodus rejects the half-measure: true going-out is complete, never a managed truce with Egypt."
+    }
   },
   {
     "id": "ex08-017",
     "chapter": 8,
     "book": "Exodus",
-    "reference": "Exodus 8",
+    "reference": "Exodus 8:1-24",
     "topic": "Plagues 2-4",
     "type": "multiple-choice",
     "question": "Which of the following is the correct order of the second, third, and fourth plagues?",
     "answer": "Frogs, lice/gnats, dog-flies",
-    "options": ["Frogs, lice/gnats, dog-flies", "Dog-flies, frogs, lice/gnats", "Lice/gnats, dog-flies, frogs", "Frogs, dog-flies, lice/gnats"],
-    "memoryAid": { "type": "mnemonic", "text": "After blood (1): Frogs, Gnats, Flies — '1-2-3-4: Blood, Frogs, Gnats, Flies.' The magicians keep up through frogs, then fail at the gnats." }
+    "options": [
+      "Frogs, lice/gnats, dog-flies",
+      "Dog-flies, frogs, lice/gnats",
+      "Lice/gnats, dog-flies, frogs",
+      "Frogs, dog-flies, lice/gnats"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "After blood (1): Frogs, Gnats, Flies — '1-2-3-4: Blood, Frogs, Gnats, Flies.' The hinge to remember is the gnats: the magicians keep pace through the frogs, then break at the gnats, so the order also marks where Egypt's counterfeit power dies."
+    }
   }
 ]
