@@ -3,7 +3,7 @@
     "id": "ex32-001",
     "chapter": 32,
     "book": "Exodus",
-    "reference": "Exodus 32",
+    "reference": "Exodus 32:1",
     "topic": "Golden Calf",
     "type": "fill-in",
     "question": "On what mountain was Moses when the people made the golden calf?",
@@ -23,7 +23,7 @@
     "id": "ex32-002",
     "chapter": 32,
     "book": "Exodus",
-    "reference": "Exodus 32",
+    "reference": "Exodus 32:17",
     "topic": "Golden Calf",
     "type": "fill-in",
     "question": "Who was on the mountain with Moses, having gone up partway?",
@@ -475,7 +475,7 @@
     "id": "ex39-001",
     "chapter": 39,
     "book": "Exodus",
-    "reference": "Exodus 39",
+    "reference": "Exodus 39 (LXX)",
     "topic": "Materials Collected",
     "type": "multiple-choice",
     "question": "How much gold was collected and used for the holy vessels?",
@@ -495,7 +495,7 @@
     "id": "ex39-002",
     "chapter": 39,
     "book": "Exodus",
-    "reference": "Exodus 39",
+    "reference": "Exodus 39 (LXX)",
     "topic": "Materials Collected",
     "type": "multiple-choice",
     "question": "How much silver was collected for the tabernacle?",
@@ -515,7 +515,7 @@
     "id": "ex39-003",
     "chapter": 39,
     "book": "Exodus",
-    "reference": "Exodus 39",
+    "reference": "Exodus 39 (LXX)",
     "topic": "Materials Collected",
     "type": "multiple-choice",
     "question": "How much brass/bronze was collected for the tabernacle?",
@@ -555,7 +555,7 @@
     "id": "ex39-005",
     "chapter": 39,
     "book": "Exodus",
-    "reference": "Exodus 39",
+    "reference": "Exodus 39 (LXX)",
     "topic": "Census",
     "type": "fill-in",
     "question": "How many men aged twenty and upward passed the survey/census?",
@@ -574,7 +574,7 @@
     "id": "ex39-006",
     "chapter": 39,
     "book": "Exodus",
-    "reference": "Exodus 39",
+    "reference": "Exodus 39 (LXX)",
     "topic": "Materials Collected",
     "type": "multiple-choice",
     "question": "Which of the following was NOT among the metals collected for the tabernacle?",
@@ -614,7 +614,7 @@
     "id": "ex40-002",
     "chapter": 40,
     "book": "Exodus",
-    "reference": "Exodus 40",
+    "reference": "Exodus 40:2,17",
     "topic": "Tabernacle Erected",
     "type": "fill-in",
     "question": "About how long had the Israelites been out of Egypt when the tabernacle was erected?",
@@ -766,183 +766,6 @@
     "memoryAid": {
       "type": "mnemonic",
       "text": "Cloud rises, camp rises. Ascended cloud means 'move along'; descended cloud means 'stay put.' The lifting of the cloud is the marching order."
-    }
-  },
-  {
-    "id": "ex32-009",
-    "chapter": 32,
-    "book": "Exodus",
-    "reference": "Exodus 32",
-    "topic": "Summary Numbers",
-    "type": "multiple-choice",
-    "question": "About how many descendants of Jacob entered Egypt?",
-    "answer": "75",
-    "options": [
-      "75",
-      "70",
-      "12",
-      "430"
-    ],
-    "memoryAid": {
-      "type": "mnemonic",
-      "text": "Seventy-FIVE souls entered Egypt, the number the Septuagint and the Orthodox Study Bible follow (cf. Acts 7:14). Remember 75, not 70: the Greek tradition counts the fuller household of Jacob. From 75 to a vast nation."
-    }
-  },
-  {
-    "id": "ex32-012",
-    "chapter": 32,
-    "book": "Exodus",
-    "reference": "Exodus 32",
-    "topic": "Summary Numbers",
-    "type": "multiple-choice",
-    "question": "How old was Aaron when he stood before Pharaoh?",
-    "answer": "83",
-    "options": [
-      "83",
-      "80",
-      "40",
-      "120"
-    ],
-    "memoryAid": {
-      "type": "mnemonic",
-      "text": "Aaron is 83, three years older than Moses (80). The high priest is the elder brother, yet he serves the prophet's word."
-    }
-  },
-  {
-    "id": "ex32-013",
-    "chapter": 32,
-    "book": "Exodus",
-    "reference": "Exodus 32",
-    "topic": "Summary Numbers",
-    "type": "multiple-choice",
-    "question": "How many days did the plague of darkness last?",
-    "answer": "3 days",
-    "options": [
-      "3 days",
-      "3 months",
-      "7 days",
-      "40 days"
-    ],
-    "memoryAid": {
-      "type": "mnemonic",
-      "text": "THREE days of darkness, so thick it could be felt. Remember three: three days of darkness over Egypt, the darkness before the dawn of deliverance."
-    }
-  },
-  {
-    "id": "ex32-014",
-    "chapter": 32,
-    "book": "Exodus",
-    "reference": "Exodus 32",
-    "topic": "Summary Numbers",
-    "type": "multiple-choice",
-    "question": "How long did Israel dwell in Egypt?",
-    "answer": "430 years",
-    "options": [
-      "430 years",
-      "400 years",
-      "40 years",
-      "215 years"
-    ],
-    "memoryAid": {
-      "type": "mnemonic",
-      "text": "430 years in Egypt (Ex 12:40). On the very day the 430 years ended, the Lord brought them out. God keeps His appointed times to the very day."
-    }
-  },
-  {
-    "id": "ex32-015",
-    "chapter": 32,
-    "book": "Exodus",
-    "reference": "Exodus 32",
-    "topic": "Summary Numbers",
-    "type": "multiple-choice",
-    "question": "About how many men left Egypt in the Exodus?",
-    "answer": "About 600,000",
-    "options": [
-      "About 600,000",
-      "About 3,000",
-      "About 75",
-      "About 603,550"
-    ],
-    "memoryAid": {
-      "type": "mnemonic",
-      "text": "About 600,000 men on foot left Egypt, besides women and children. From 75 souls to 600,000 men: the seed of Abraham multiplied beyond counting, as God promised."
-    }
-  },
-  {
-    "id": "ex32-016",
-    "chapter": 32,
-    "book": "Exodus",
-    "reference": "Exodus 32",
-    "topic": "Summary Numbers",
-    "type": "multiple-choice",
-    "question": "How many springs of water were at Elim?",
-    "answer": "12",
-    "options": [
-      "12",
-      "70",
-      "7",
-      "40"
-    ],
-    "memoryAid": {
-      "type": "mnemonic",
-      "text": "TWELVE springs at Elim, one for each tribe of Israel. Twelve springs, twelve tribes: remember the springs by the tribes. (And seventy palms for the seventy elders.)"
-    }
-  },
-  {
-    "id": "ex32-017",
-    "chapter": 32,
-    "book": "Exodus",
-    "reference": "Exodus 32",
-    "topic": "Summary Numbers",
-    "type": "multiple-choice",
-    "question": "How many palm trees were at Elim?",
-    "answer": "70",
-    "options": [
-      "70",
-      "12",
-      "75",
-      "40"
-    ],
-    "memoryAid": {
-      "type": "mnemonic",
-      "text": "SEVENTY palm trees at Elim, recalling the seventy elders of Israel. Twelve springs for the tribes, seventy palms for the elders: 12 and 70 mark the oasis of Elim."
-    }
-  },
-  {
-    "id": "ex32-019",
-    "chapter": 32,
-    "book": "Exodus",
-    "reference": "Exodus 32",
-    "topic": "Summary Numbers",
-    "type": "multiple-choice",
-    "question": "How many days and nights was Moses on Mount Sinai?",
-    "answer": "40 days, 40 nights",
-    "options": [
-      "40 days, 40 nights",
-      "3 days, 3 nights",
-      "40 years",
-      "430 days"
-    ],
-    "memoryAid": {
-      "type": "mnemonic",
-      "text": "Forty days and forty nights on Sinai, the number of testing and preparation. Forty for Moses, forty for Elijah, forty for Christ in the wilderness: the mountain of God demands the full forty."
-    }
-  },
-  {
-    "id": "ex32-020",
-    "chapter": 32,
-    "book": "Exodus",
-    "reference": "Exodus 32",
-    "topic": "Summary Numbers",
-    "type": "fill-in",
-    "question": "The twelve springs and seventy palm trees were located at what place?",
-    "answer": "Elim",
-    "acceptableAnswers": [
-      "elim"
-    ],
-    "memoryAid": {
-      "type": "mnemonic",
-      "text": "Elim, the oasis of 12 springs and 70 palms. Remember Elim by its abundance: twelve and seventy, tribes and nations, all finding water and shade."
     }
   }
 ]

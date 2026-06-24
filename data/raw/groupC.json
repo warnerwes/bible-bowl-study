@@ -3,13 +3,20 @@
     "id": "ex09-001",
     "chapter": 9,
     "book": "Exodus",
-    "reference": "Exodus 9",
+    "reference": "Exodus 9:3-6",
     "topic": "Fifth Plague: Livestock",
     "type": "fill-in",
     "question": "The fifth plague was a disease that struck Egypt's ______.",
     "answer": "livestock",
-    "acceptableAnswers": ["livestock", "cattle", "animals"],
-    "memoryAid": { "type": "mnemonic", "text": "Plague 5 = liveSTOCK, and the stock (the animals) took a hit. The fifth plague struck the herds." }
+    "acceptableAnswers": [
+      "livestock",
+      "cattle",
+      "animals"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "Plague 5 = liveSTOCK, and the stock (the animals) took a hit. The fifth plague struck the herds."
+    }
   },
   {
     "id": "ex09-002",
@@ -20,8 +27,16 @@
     "type": "multiple-choice",
     "question": "Which of the following animals was NOT named among those struck by the fifth plague?",
     "answer": "Goats",
-    "options": ["Goats", "Camels", "Oxen", "Donkeys"],
-    "memoryAid": { "type": "mnemonic", "text": "The named five: Horses, Donkeys, Camels, Oxen, Sheep — 'Happy Donkeys Carry Old Sheep.' Goats are not on the list." }
+    "options": [
+      "Goats",
+      "Camels",
+      "Oxen",
+      "Donkeys"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "The named five: Horses, Donkeys, Camels, Oxen, Sheep — 'Happy Donkeys Carry Old Sheep.' Goats are not on the list."
+    }
   },
   {
     "id": "ex09-003",
@@ -32,8 +47,15 @@
     "type": "true-false",
     "question": "Israel's livestock died along with the livestock of Egypt.",
     "answer": "False",
-    "options": ["True", "False"],
-    "memoryAid": { "type": "teaching", "text": "God draws a clear line of separation between His people and Egypt, just as He will at Passover. The plagues fall as judgment on Egypt while the Lord shields His own, prefiguring the Church preserved through the plagues of this world.", "source": "St. Gregory of Nyssa, The Life of Moses" }
+    "options": [
+      "True",
+      "False"
+    ],
+    "memoryAid": {
+      "type": "teaching",
+      "text": "God draws a clear line of separation between His people and Egypt, just as He will at Passover. The plagues fall as judgment on Egypt while the Lord shields His own, prefiguring the Church preserved through the plagues of this world.",
+      "source": "St. Gregory of Nyssa, The Life of Moses"
+    }
   },
   {
     "id": "ex09-004",
@@ -44,8 +66,16 @@
     "type": "multiple-choice",
     "question": "What did Moses toss into the air to bring about the sixth plague?",
     "answer": "Ashes",
-    "options": ["Ashes", "Dust", "Sand", "Water"],
-    "memoryAid": { "type": "image", "text": "Picture Moses flinging a handful of furnace ashes skyward, the gray cloud drifting down over all Egypt and erupting into festering boils on every body it touches." }
+    "options": [
+      "Ashes",
+      "Dust",
+      "Sand",
+      "Water"
+    ],
+    "memoryAid": {
+      "type": "image",
+      "text": "Picture Moses flinging a handful of furnace ashes skyward, the gray cloud drifting down over all Egypt and erupting into festering boils on every body it touches."
+    }
   },
   {
     "id": "ex09-005",
@@ -56,8 +86,15 @@
     "type": "fill-in",
     "question": "The sixth plague caused ______ to break out on both humans and animals.",
     "answer": "boils",
-    "acceptableAnswers": ["boils", "sores", "boils and sores"],
-    "memoryAid": { "type": "mnemonic", "text": "Six = Sores. The sixth plague boiled up as boils on man and beast alike." }
+    "acceptableAnswers": [
+      "boils",
+      "sores",
+      "boils and sores"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "Six = Sores. The sixth plague boiled up as boils on man and beast alike."
+    }
   },
   {
     "id": "ex09-006",
@@ -68,8 +105,15 @@
     "type": "true-false",
     "question": "The magicians of Egypt were able to stand before Moses during the plague of boils.",
     "answer": "False",
-    "options": ["True", "False"],
-    "memoryAid": { "type": "teaching", "text": "The magicians who once mimicked Moses are now themselves afflicted by the boils and cannot even stand before him. The wisdom and power of Egypt collapse before the living God, for the counterfeit signs of Egypt's sorcery have no answer to the judgment of the Lord.", "source": "St. Gregory of Nyssa, The Life of Moses" }
+    "options": [
+      "True",
+      "False"
+    ],
+    "memoryAid": {
+      "type": "teaching",
+      "text": "The magicians who once mimicked Moses are now themselves afflicted by the boils and cannot even stand before him. The wisdom and power of Egypt collapse before the living God, for the counterfeit signs of Egypt's sorcery have no answer to the judgment of the Lord.",
+      "source": "St. Gregory of Nyssa, The Life of Moses"
+    }
   },
   {
     "id": "ex09-007",
@@ -80,8 +124,16 @@
     "type": "multiple-choice",
     "question": "What unusual thing flashed within the hail of the seventh plague?",
     "answer": "Fire",
-    "options": ["Fire", "Wind", "Smoke", "Lightning bolts shaped like serpents"],
-    "memoryAid": { "type": "image", "text": "Imagine ice and fire falling together — flaming hailstones streaking down, fire running along the ground amid the storm. A sky at war with itself." }
+    "options": [
+      "Fire",
+      "Wind",
+      "Smoke",
+      "Lightning bolts shaped like serpents"
+    ],
+    "memoryAid": {
+      "type": "image",
+      "text": "Imagine ice and fire falling together — flaming hailstones streaking down, fire running along the ground amid the storm. A sky at war with itself."
+    }
   },
   {
     "id": "ex09-008",
@@ -92,8 +144,16 @@
     "type": "multiple-choice",
     "question": "Which two crops were destroyed by the hail?",
     "answer": "Flax and barley",
-    "options": ["Flax and barley", "Wheat and spelt", "Barley and wheat", "Spelt and flax"],
-    "memoryAid": { "type": "mnemonic", "text": "'Flax and Barley Bit the dust' — the early B-crops (Barley) and the Flax were ripe and ruined; wheat and spelt came later and survived." }
+    "options": [
+      "Flax and barley",
+      "Wheat and spelt",
+      "Barley and wheat",
+      "Spelt and flax"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "'Flax and Barley Bit the dust' — the early B-crops (Barley) and the Flax were ripe and ruined; wheat and spelt came later and survived."
+    }
   },
   {
     "id": "ex09-009",
@@ -104,8 +164,16 @@
     "type": "multiple-choice",
     "question": "Which two crops survived the hail because they ripen later?",
     "answer": "Wheat and spelt",
-    "options": ["Wheat and spelt", "Flax and barley", "Barley and wheat", "Flax and spelt"],
-    "memoryAid": { "type": "mnemonic", "text": "Wheat and Spelt were 'Late, so they Wait' — not yet grown up, they escaped the hail. Flax and barley, already ripe, were destroyed." }
+    "options": [
+      "Wheat and spelt",
+      "Flax and barley",
+      "Barley and wheat",
+      "Flax and spelt"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "Wheat and Spelt were 'Late, so they Wait' — not yet grown up, they escaped the hail. Flax and barley, already ripe, were destroyed."
+    }
   },
   {
     "id": "ex09-010",
@@ -116,8 +184,14 @@
     "type": "true-false",
     "question": "The wheat and spelt survived the hail.",
     "answer": "True",
-    "options": ["True", "False"],
-    "memoryAid": { "type": "mnemonic", "text": "Wheat and spelt ripen later — they had not grown up, so the hail passed them by. 'Late equals safe.'" }
+    "options": [
+      "True",
+      "False"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "Wheat and spelt ripen later — they had not grown up, so the hail passed them by. 'Late equals safe.'"
+    }
   },
   {
     "id": "ex09-011",
@@ -128,8 +202,15 @@
     "type": "true-false",
     "question": "Everyone in Egypt lost their servants and animals to the hail.",
     "answer": "False",
-    "options": ["True", "False"],
-    "memoryAid": { "type": "teaching", "text": "Those among Pharaoh's servants who feared the word of the Lord brought their people and animals indoors and were spared the hail. Even in Egypt the fear of God preserves life, foreshadowing how heeding God's warning shelters the obedient from the coming judgment.", "source": "St. Gregory of Nyssa, The Life of Moses" }
+    "options": [
+      "True",
+      "False"
+    ],
+    "memoryAid": {
+      "type": "teaching",
+      "text": "Those among Pharaoh's servants who feared the word of the Lord brought their people and animals indoors and were spared the hail. Even in Egypt the fear of God preserves life, foreshadowing how heeding God's warning shelters the obedient from the coming judgment.",
+      "source": "St. Gregory of Nyssa, The Life of Moses"
+    }
   },
   {
     "id": "ex09-012",
@@ -140,8 +221,13 @@
     "type": "fill-in",
     "question": "During the hail, Pharaoh confessed, 'I have ______ this time.'",
     "answer": "sinned",
-    "acceptableAnswers": ["sinned"],
-    "memoryAid": { "type": "image", "text": "Picture Pharaoh shouting 'I have sinned!' over the roar of the storm — but the moment the hail stops, his face hardens again. A confession made of melting ice." }
+    "acceptableAnswers": [
+      "sinned"
+    ],
+    "memoryAid": {
+      "type": "image",
+      "text": "Picture Pharaoh shouting 'I have sinned!' over the roar of the storm — but the moment the hail stops, his face hardens again. A confession made of melting ice."
+    }
   },
   {
     "id": "ex09-013",
@@ -152,8 +238,15 @@
     "type": "true-false",
     "question": "Pharaoh truly repented after confessing his sin during the hail.",
     "answer": "False",
-    "options": ["True", "False"],
-    "memoryAid": { "type": "teaching", "text": "Pharaoh's words were not repentance but fear of consequence; once relief came, he hardened his heart again. This shows the difference between godly sorrow that leads to change and worldly regret that only seeks escape from punishment.", "source": "St. Gregory of Nyssa, The Life of Moses" }
+    "options": [
+      "True",
+      "False"
+    ],
+    "memoryAid": {
+      "type": "teaching",
+      "text": "Pharaoh's words were not repentance but fear of consequence; once relief came, he hardened his heart again. This shows the difference between godly sorrow that leads to change and worldly regret that only seeks escape from punishment.",
+      "source": "St. Gregory of Nyssa, The Life of Moses"
+    }
   },
   {
     "id": "ex10-001",
@@ -164,8 +257,14 @@
     "type": "fill-in",
     "question": "The eighth plague brought a swarm of ______ upon Egypt.",
     "answer": "locusts",
-    "acceptableAnswers": ["locusts", "locust"],
-    "memoryAid": { "type": "mnemonic", "text": "Eight = ATE. The locusts ate everything the hail had left. Plague eight is the plague that ate." }
+    "acceptableAnswers": [
+      "locusts",
+      "locust"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "Eight = ATE. The locusts ate everything the hail had left. Plague eight is the plague that ate."
+    }
   },
   {
     "id": "ex10-002",
@@ -176,8 +275,16 @@
     "type": "multiple-choice",
     "question": "Which wind did God use to bring the locusts upon Egypt?",
     "answer": "East wind",
-    "options": ["East wind", "West wind", "North wind", "South wind"],
-    "memoryAid": { "type": "mnemonic", "text": "Locusts came on the EAST wind — and they came to EAT. East brings the feast of locusts." }
+    "options": [
+      "East wind",
+      "West wind",
+      "North wind",
+      "South wind"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "Locusts came on the EAST wind — and they came to EAT. East brings the feast of locusts."
+    }
   },
   {
     "id": "ex10-003",
@@ -188,8 +295,14 @@
     "type": "true-false",
     "question": "The locusts ate everything that was left after the hail.",
     "answer": "True",
-    "options": ["True", "False"],
-    "memoryAid": { "type": "image", "text": "Picture the wheat and spelt that survived the hail now stripped bare — a living green tide of insects devouring the last surviving stalk of Egypt." }
+    "options": [
+      "True",
+      "False"
+    ],
+    "memoryAid": {
+      "type": "image",
+      "text": "Picture the wheat and spelt that survived the hail now stripped bare — a living green tide of insects devouring the last surviving stalk of Egypt."
+    }
   },
   {
     "id": "ex10-004",
@@ -200,8 +313,14 @@
     "type": "fill-in",
     "question": "Pharaoh's servants asked, 'How long shall this man be a ______ to us?'",
     "answer": "snare",
-    "acceptableAnswers": ["snare", "trap"],
-    "memoryAid": { "type": "image", "text": "Picture Pharaoh's own court turning on him, pointing at Moses: 'This man is a trap we're caught in!' Even Egypt's officials see the snare before Pharaoh does." }
+    "acceptableAnswers": [
+      "snare",
+      "trap"
+    ],
+    "memoryAid": {
+      "type": "image",
+      "text": "Picture Pharaoh's own court turning on him, pointing at Moses: 'This man is a trap we're caught in!' Even Egypt's officials see the snare before Pharaoh does."
+    }
   },
   {
     "id": "ex10-005",
@@ -212,8 +331,15 @@
     "type": "true-false",
     "question": "During the locust plague, Pharaoh offered to let everyone in Israel leave.",
     "answer": "False",
-    "options": ["True", "False"],
-    "memoryAid": { "type": "teaching", "text": "Pharaoh tried to let only the men go, keeping families behind as hostages. His bargaining is the pattern of the enemy who offers partial freedom to keep a hold on God's people; true deliverance leaves no one in bondage.", "source": "St. Gregory of Nyssa, The Life of Moses" }
+    "options": [
+      "True",
+      "False"
+    ],
+    "memoryAid": {
+      "type": "teaching",
+      "text": "Pharaoh tried to let only the men go, keeping families behind as hostages. His bargaining is the pattern of the enemy who offers partial freedom to keep a hold on God's people; true deliverance leaves no one in bondage.",
+      "source": "St. Gregory of Nyssa, The Life of Moses"
+    }
   },
   {
     "id": "ex10-006",
@@ -224,8 +350,13 @@
     "type": "fill-in",
     "question": "The ninth plague covered Egypt in thick ______.",
     "answer": "darkness",
-    "acceptableAnswers": ["darkness"],
-    "memoryAid": { "type": "mnemonic", "text": "Nine = Night. The ninth plague turned Egypt into endless night for three days." }
+    "acceptableAnswers": [
+      "darkness"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "Nine = Night. The ninth plague turned Egypt into endless night for three days."
+    }
   },
   {
     "id": "ex10-007",
@@ -236,8 +367,16 @@
     "type": "multiple-choice",
     "question": "How long did the darkness cover the land of Egypt?",
     "answer": "Three days",
-    "options": ["Three days", "Seven days", "One day", "Forty days"],
-    "memoryAid": { "type": "mnemonic", "text": "Three days of darkness — the same three days that will swallow up sea and tomb. Darkness for THREE, a number of burial and rising." }
+    "options": [
+      "Three days",
+      "Seven days",
+      "One day",
+      "Forty days"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "Three days of darkness — the same three days that will swallow up sea and tomb. Darkness for THREE, a number of burial and rising."
+    }
   },
   {
     "id": "ex10-008",
@@ -248,8 +387,15 @@
     "type": "true-false",
     "question": "The Israelites also sat in darkness like the Egyptians.",
     "answer": "False",
-    "options": ["True", "False"],
-    "memoryAid": { "type": "teaching", "text": "While Egypt sat in three days of palpable darkness, Israel had light in their dwellings. This is the great division between the children of light and the children of darkness; the same God who is darkness to those who resist Him is light to those who dwell with Him.", "source": "St. Gregory of Nyssa, The Life of Moses" }
+    "options": [
+      "True",
+      "False"
+    ],
+    "memoryAid": {
+      "type": "teaching",
+      "text": "While Egypt sat in three days of palpable darkness, Israel had light in their dwellings. This is the great division between the children of light and the children of darkness; the same God who is darkness to those who resist Him is light to those who dwell with Him.",
+      "source": "St. Gregory of Nyssa, The Life of Moses"
+    }
   },
   {
     "id": "ex10-009",
@@ -260,8 +406,14 @@
     "type": "true-false",
     "question": "After the darkness, Pharaoh offered to let everyone go except their livestock.",
     "answer": "True",
-    "options": ["True", "False"],
-    "memoryAid": { "type": "mnemonic", "text": "Pharaoh keeps shrinking his offer: first only men, now everyone but the flocks. He wants to keep a claim — the livestock are his last leverage." }
+    "options": [
+      "True",
+      "False"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "Pharaoh keeps shrinking his offer: first only men, now everyone but the flocks. He wants to keep a claim — the livestock are his last leverage."
+    }
   },
   {
     "id": "ex10-010",
@@ -272,8 +424,13 @@
     "type": "fill-in",
     "question": "Moses replied that not one ______ of their livestock would be left behind.",
     "answer": "hoof",
-    "acceptableAnswers": ["hoof"],
-    "memoryAid": { "type": "image", "text": "Picture Moses planting his staff: 'Not one hoof stays behind!' Every animal is needed for sacrifice — God's people leave whole, taking everything with them." }
+    "acceptableAnswers": [
+      "hoof"
+    ],
+    "memoryAid": {
+      "type": "image",
+      "text": "Picture Moses planting his staff: 'Not one hoof stays behind!' Every animal is needed for sacrifice — God's people leave whole, taking everything with them."
+    }
   },
   {
     "id": "ex11-001",
@@ -284,8 +441,14 @@
     "type": "true-false",
     "question": "After the darkness, one final plague still remained for Egypt.",
     "answer": "True",
-    "options": ["True", "False"],
-    "memoryAid": { "type": "mnemonic", "text": "Nine plagues down, ONE to go — the tenth and final blow, the death of the firstborn." }
+    "options": [
+      "True",
+      "False"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "Nine plagues down, ONE to go — the tenth and final blow, the death of the firstborn."
+    }
   },
   {
     "id": "ex11-002",
@@ -296,20 +459,32 @@
     "type": "fill-in",
     "question": "God declared that about ______ He would go out through the midst of Egypt.",
     "answer": "midnight",
-    "acceptableAnswers": ["midnight"],
-    "memoryAid": { "type": "image", "text": "Picture the deepest hour of the night, midnight, when the Lord Himself passes through Egypt. The darkest moment becomes the hour of deliverance — a foreshadow of the One who conquers death at the midnight of the world." }
+    "acceptableAnswers": [
+      "midnight"
+    ],
+    "memoryAid": {
+      "type": "image",
+      "text": "Picture the deepest hour of the night, midnight, when the Lord Himself passes through Egypt. The darkest moment becomes the hour of deliverance — a foreshadow of the One who conquers death at the midnight of the world."
+    }
   },
   {
     "id": "ex11-003",
     "chapter": 11,
     "book": "Exodus",
-    "reference": "Exodus 11",
+    "reference": "Exodus 11:1-10",
     "topic": "Death of the Firstborn Announced",
     "type": "true-false",
     "question": "Israel was told to leave Egypt immediately, before the final plague struck.",
     "answer": "False",
-    "options": ["True", "False"],
-    "memoryAid": { "type": "teaching", "text": "Israel did not flee in panic; they waited for the Lord's instructions, which come in the next chapter as the Passover. Deliverance is ordered, not chaotic; God prepares His people through the Passover before He leads them out.", "source": "St. Gregory of Nyssa, The Life of Moses" }
+    "options": [
+      "True",
+      "False"
+    ],
+    "memoryAid": {
+      "type": "teaching",
+      "text": "Israel did not flee in panic; they waited for the Lord's instructions, which come in the next chapter as the Passover. Deliverance is ordered, not chaotic; God prepares His people through the Passover before He leads them out.",
+      "source": "St. Gregory of Nyssa, The Life of Moses"
+    }
   },
   {
     "id": "ex11-004",
@@ -320,8 +495,16 @@
     "type": "multiple-choice",
     "question": "Israel was promised they would leave Egypt carrying what?",
     "answer": "Silver and gold",
-    "options": ["Silver and gold", "Bronze and iron", "Grain and oil", "Sheep and cattle"],
-    "memoryAid": { "type": "image", "text": "Picture Israel walking out of Egypt with arms full of silver and gold — wages at last for generations of slavery. The same gold will later be offered back to God in the tabernacle and its worship." }
+    "options": [
+      "Silver and gold",
+      "Bronze and iron",
+      "Grain and oil",
+      "Sheep and cattle"
+    ],
+    "memoryAid": {
+      "type": "image",
+      "text": "Picture Israel walking out of Egypt with arms full of silver and gold — wages at last for generations of slavery. The same gold will later be offered back to God in the tabernacle and its worship."
+    }
   },
   {
     "id": "ex12-001",
@@ -332,8 +515,17 @@
     "type": "multiple-choice",
     "question": "What was required of the Passover lamb's condition?",
     "answer": "Without blemish",
-    "options": ["Without blemish", "Newly born", "The strongest of the flock", "Marked with a brand"],
-    "memoryAid": { "type": "teaching", "text": "The lamb without blemish is the type of Christ, the spotless Lamb of God who takes away the sin of the world. Only the flawless can stand in the place of the firstborn, for only the sinless Christ can offer Himself for the life of all.", "source": "Melito of Sardis, On Pascha" }
+    "options": [
+      "Without blemish",
+      "Newly born",
+      "The strongest of the flock",
+      "Marked with a brand"
+    ],
+    "memoryAid": {
+      "type": "teaching",
+      "text": "The lamb without blemish is the type of Christ, the spotless Lamb of God who takes away the sin of the world. Only the flawless can stand in the place of the firstborn, for only the sinless Christ can offer Himself for the life of all.",
+      "source": "Melito of Sardis, On Pascha"
+    }
   },
   {
     "id": "ex12-002",
@@ -344,8 +536,16 @@
     "type": "multiple-choice",
     "question": "What sex and age was the Passover lamb to be?",
     "answer": "Male, one year old",
-    "options": ["Male, one year old", "Female, one year old", "Male, two years old", "Female, newly born"],
-    "memoryAid": { "type": "mnemonic", "text": "A MALE in his first YEAR, without blemish — 'a young male, in his prime, no flaw.' Three marks: male, year-old, perfect." }
+    "options": [
+      "Male, one year old",
+      "Female, one year old",
+      "Male, two years old",
+      "Female, newly born"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "A MALE in his first YEAR, without blemish — 'a young male, in his prime, no flaw.' Three marks: male, year-old, perfect."
+    }
   },
   {
     "id": "ex12-003",
@@ -356,8 +556,14 @@
     "type": "true-false",
     "question": "The Passover lamb was to be a female of the flock.",
     "answer": "False",
-    "options": ["True", "False"],
-    "memoryAid": { "type": "mnemonic", "text": "The lamb was MALE — a type of Christ, the firstborn Son. Male, year-old, unblemished." }
+    "options": [
+      "True",
+      "False"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "The lamb was MALE — a type of Christ, the firstborn Son. Male, year-old, unblemished."
+    }
   },
   {
     "id": "ex12-004",
@@ -368,8 +574,16 @@
     "type": "multiple-choice",
     "question": "On which day of the month was the Passover lamb to be set apart?",
     "answer": "10th day",
-    "options": ["10th day", "14th day", "1st day", "7th day"],
-    "memoryAid": { "type": "mnemonic", "text": "'10 to inspect, 14 to perfect.' Set apart on the 10th, slain on the 14th — four days proving it without blemish." }
+    "options": [
+      "10th day",
+      "14th day",
+      "1st day",
+      "7th day"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "'10 to inspect, 14 to perfect.' Set apart on the 10th, slain on the 14th — four days proving it without blemish."
+    }
   },
   {
     "id": "ex12-005",
@@ -380,8 +594,16 @@
     "type": "multiple-choice",
     "question": "On which day of the month was the Passover lamb to be killed?",
     "answer": "14th day",
-    "options": ["14th day", "10th day", "7th day", "15th day"],
-    "memoryAid": { "type": "mnemonic", "text": "'10 to inspect, 14 to perfect.' Set apart on the 10th, slain on the 14th." }
+    "options": [
+      "14th day",
+      "10th day",
+      "7th day",
+      "15th day"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "'10 to inspect, 14 to perfect.' Set apart on the 10th, slain on the 14th."
+    }
   },
   {
     "id": "ex12-006",
@@ -392,8 +614,16 @@
     "type": "multiple-choice",
     "question": "Where was the blood of the Passover lamb to be applied?",
     "answer": "Doorposts and lintel",
-    "options": ["Doorposts and lintel", "Threshold and lintel", "Doorposts and threshold", "Roof and doorposts"],
-    "memoryAid": { "type": "image", "text": "Picture the blood traced up the two side posts and across the top lintel — a doorway marked in the shape of a cross, the saving sign pointing up and out, never trampled below." }
+    "options": [
+      "Doorposts and lintel",
+      "Threshold and lintel",
+      "Doorposts and threshold",
+      "Roof and doorposts"
+    ],
+    "memoryAid": {
+      "type": "image",
+      "text": "Picture the blood traced up the two side posts and across the top lintel — a doorway marked in the shape of a cross, the saving sign pointing up and out, never trampled below."
+    }
   },
   {
     "id": "ex12-007",
@@ -404,8 +634,14 @@
     "type": "true-false",
     "question": "The Passover blood was to be placed on the threshold of the door.",
     "answer": "False",
-    "options": ["True", "False"],
-    "memoryAid": { "type": "image", "text": "Picture the blood on the two side posts and the lintel — never the threshold. You would never trample the saving blood underfoot; the cross-shape of doorway blood points up and out, never down to be stepped on." }
+    "options": [
+      "True",
+      "False"
+    ],
+    "memoryAid": {
+      "type": "image",
+      "text": "Picture the blood on the two side posts and the lintel — never the threshold. You would never trample the saving blood underfoot; the cross-shape of doorway blood points up and out, never down to be stepped on."
+    }
   },
   {
     "id": "ex12-008",
@@ -416,8 +652,16 @@
     "type": "multiple-choice",
     "question": "Which three things made up the Passover meal?",
     "answer": "Lamb roasted with fire, unleavened bread, and bitter herbs",
-    "options": ["Lamb roasted with fire, unleavened bread, and bitter herbs", "Boiled lamb, leavened bread, and sweet herbs", "Roasted lamb, unleavened bread, and honey", "Raw lamb, unleavened bread, and bitter herbs"],
-    "memoryAid": { "type": "mnemonic", "text": "Three for the meal: Roasted (by Fire), Flat bread (unleavened), Bitter herbs — 'Fire, Flat, and Bitter.' The fire of the cross, the sinless bread, the bitterness of bondage." }
+    "options": [
+      "Lamb roasted with fire, unleavened bread, and bitter herbs",
+      "Boiled lamb, leavened bread, and sweet herbs",
+      "Roasted lamb, unleavened bread, and honey",
+      "Raw lamb, unleavened bread, and bitter herbs"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "Three for the meal: Roasted (by Fire), Flat bread (unleavened), Bitter herbs — 'Fire, Flat, and Bitter.' The fire of the cross, the sinless bread, the bitterness of bondage."
+    }
   },
   {
     "id": "ex12-009",
@@ -428,8 +672,17 @@
     "type": "multiple-choice",
     "question": "How was the Passover lamb to be cooked?",
     "answer": "Roasted with fire",
-    "options": ["Roasted with fire", "Boiled in water", "Eaten raw", "Baked in an oven"],
-    "memoryAid": { "type": "teaching", "text": "The lamb was roasted whole with fire, not boiled or eaten raw. The roasted lamb was spitted in the form of a cross, a type of the crucified Christ, the Lamb consumed entire by the fire of His Passion.", "source": "St. Justin Martyr, Dialogue with Trypho, ch. 111" }
+    "options": [
+      "Roasted with fire",
+      "Boiled in water",
+      "Eaten raw",
+      "Baked in an oven"
+    ],
+    "memoryAid": {
+      "type": "teaching",
+      "text": "The lamb was roasted whole with fire, not boiled or eaten raw. The roasted lamb was spitted in the form of a cross, a type of the crucified Christ, the Lamb consumed entire by the fire of His Passion.",
+      "source": "St. Justin Martyr, Dialogue with Trypho, ch. 111"
+    }
   },
   {
     "id": "ex12-010",
@@ -440,8 +693,15 @@
     "type": "true-false",
     "question": "The Passover bread was to be leavened.",
     "answer": "False",
-    "options": ["True", "False"],
-    "memoryAid": { "type": "teaching", "text": "The bread was unleavened, for there was no time to let it rise and leaven is a symbol of corruption and sin. The Church keeps the feast with the unleavened bread of sincerity and truth, for Christ our Passover is sacrificed for us, the bread without the leaven of malice.", "source": "1 Corinthians 5:7-8" }
+    "options": [
+      "True",
+      "False"
+    ],
+    "memoryAid": {
+      "type": "teaching",
+      "text": "The bread was unleavened, for there was no time to let it rise and leaven is a symbol of corruption and sin. The Church keeps the feast with the unleavened bread of sincerity and truth, for Christ our Passover is sacrificed for us, the bread without the leaven of malice.",
+      "source": "1 Corinthians 5:7-8"
+    }
   },
   {
     "id": "ex12-011",
@@ -452,8 +712,15 @@
     "type": "fill-in",
     "question": "Along with the lamb and unleavened bread, the meal included bitter ______.",
     "answer": "herbs",
-    "acceptableAnswers": ["herbs", "herb"],
-    "memoryAid": { "type": "teaching", "text": "The bitter herbs recall the bitterness of slavery in Egypt, eaten alongside the unleavened bread of the feast. So the Church keeps the feast not with the old leaven of malice and wickedness, but with the unleavened bread of sincerity and truth, remembering the bondage from which Christ our Passover has redeemed us.", "source": "1 Corinthians 5:7-8" }
+    "acceptableAnswers": [
+      "herbs",
+      "herb"
+    ],
+    "memoryAid": {
+      "type": "teaching",
+      "text": "The bitter herbs recall the bitterness of slavery in Egypt, eaten alongside the unleavened bread of the feast. So the Church keeps the feast not with the old leaven of malice and wickedness, but with the unleavened bread of sincerity and truth, remembering the bondage from which Christ our Passover has redeemed us.",
+      "source": "1 Corinthians 5:7-8"
+    }
   },
   {
     "id": "ex12-012",
@@ -464,8 +731,15 @@
     "type": "fill-in",
     "question": "Of this feast God declared, 'It is the Lord's ______.'",
     "answer": "passover",
-    "acceptableAnswers": ["passover", "pascha"],
-    "memoryAid": { "type": "teaching", "text": "Passover, or Pascha, means the 'passing over' of the destroyer. For the Church this is fulfilled in the Pascha of Christ the slain Lamb, who by His own blood causes death to pass over us and passes us from death into life.", "source": "Melito of Sardis, On Pascha" }
+    "acceptableAnswers": [
+      "passover",
+      "pascha"
+    ],
+    "memoryAid": {
+      "type": "teaching",
+      "text": "Passover, or Pascha, means the 'passing over' of the destroyer. For the Church this is fulfilled in the Pascha of Christ the slain Lamb, who by His own blood causes death to pass over us and passes us from death into life.",
+      "source": "Melito of Sardis, On Pascha"
+    }
   },
   {
     "id": "ex12-013",
@@ -476,8 +750,16 @@
     "type": "multiple-choice",
     "question": "Who died in the tenth and final plague?",
     "answer": "Every firstborn in Egypt",
-    "options": ["Every firstborn in Egypt", "Every firstborn animal only", "All of Pharaoh's soldiers", "Every elder of Egypt"],
-    "memoryAid": { "type": "image", "text": "Picture a single cry rising from every Egyptian house at midnight — from the palace of Pharaoh to the prison cell, the firstborn of each home struck down. No house untouched but those marked with blood." }
+    "options": [
+      "Every firstborn in Egypt",
+      "Every firstborn animal only",
+      "All of Pharaoh's soldiers",
+      "Every elder of Egypt"
+    ],
+    "memoryAid": {
+      "type": "image",
+      "text": "Picture a single cry rising from every Egyptian house at midnight — from the palace of Pharaoh to the prison cell, the firstborn of each home struck down. No house untouched but those marked with blood."
+    }
   },
   {
     "id": "ex12-014",
@@ -488,8 +770,17 @@
     "type": "multiple-choice",
     "question": "Who was spared from the death of the firstborn?",
     "answer": "Those protected by the blood",
-    "options": ["Those protected by the blood", "Those who fled Egypt", "Those who fasted that night", "Those who hid underground"],
-    "memoryAid": { "type": "teaching", "text": "Only the blood on the door saved the house, not effort or merit. So too only the blood of Christ shelters us from death; the destroyer passes over all who are marked by the Lamb, a salvation given by grace through the sign of sacrifice.", "source": "Melito of Sardis, On Pascha" }
+    "options": [
+      "Those protected by the blood",
+      "Those who fled Egypt",
+      "Those who fasted that night",
+      "Those who hid underground"
+    ],
+    "memoryAid": {
+      "type": "teaching",
+      "text": "Only the blood on the door saved the house, not effort or merit. So too only the blood of Christ shelters us from death; the destroyer passes over all who are marked by the Lamb, a salvation given by grace through the sign of sacrifice.",
+      "source": "Melito of Sardis, On Pascha"
+    }
   },
   {
     "id": "ex12-015",
@@ -500,8 +791,14 @@
     "type": "true-false",
     "question": "Pharaoh's own son died in the final plague.",
     "answer": "True",
-    "options": ["True", "False"],
-    "memoryAid": { "type": "image", "text": "Even the throne was not spared — Pharaoh's firstborn, the heir of Egypt, lay dead. The hardest heart in Egypt finally felt the cost of resisting God." }
+    "options": [
+      "True",
+      "False"
+    ],
+    "memoryAid": {
+      "type": "image",
+      "text": "Even the throne was not spared — Pharaoh's firstborn, the heir of Egypt, lay dead. The hardest heart in Egypt finally felt the cost of resisting God."
+    }
   },
   {
     "id": "ex12-016",
@@ -512,8 +809,16 @@
     "type": "multiple-choice",
     "question": "How many years did Israel sojourn in Egypt and Canaan?",
     "answer": "430 years",
-    "options": ["430 years", "400 years", "40 years", "480 years"],
-    "memoryAid": { "type": "mnemonic", "text": "430 — 'four-three-oh, time to go.' The full span of sojourning before the Exodus night of deliverance." }
+    "options": [
+      "430 years",
+      "400 years",
+      "40 years",
+      "480 years"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "430 — 'four-three-oh, time to go.' The full span of sojourning before the Exodus night of deliverance."
+    }
   },
   {
     "id": "ex12-017",
@@ -524,8 +829,16 @@
     "type": "multiple-choice",
     "question": "About how many men left Egypt, not counting women and children?",
     "answer": "About 600,000",
-    "options": ["About 600,000", "About 60,000", "About 6,000", "About 1,000,000"],
-    "memoryAid": { "type": "mnemonic", "text": "600,000 men on foot — and that's before adding women and children. Think 'six hundred thousand, and many more besides.'" }
+    "options": [
+      "About 600,000",
+      "About 60,000",
+      "About 6,000",
+      "About 1,000,000"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "600,000 men on foot — and that's before adding women and children. Think 'six hundred thousand, and many more besides.'"
+    }
   },
   {
     "id": "ex12-018",
@@ -536,8 +849,14 @@
     "type": "true-false",
     "question": "The figure of about 600,000 leaving Egypt counted only the men, not the women and children.",
     "answer": "True",
-    "options": ["True", "False"],
-    "memoryAid": { "type": "image", "text": "Picture 600,000 men marching — then realize the true crowd is many times larger once wives and children fill in around them. A whole nation pouring out of Egypt." }
+    "options": [
+      "True",
+      "False"
+    ],
+    "memoryAid": {
+      "type": "image",
+      "text": "Picture 600,000 men marching — then realize the true crowd is many times larger once wives and children fill in around them. A whole nation pouring out of Egypt."
+    }
   },
   {
     "id": "ex12-019",
@@ -548,7 +867,13 @@
     "type": "true-false",
     "question": "The Passover lamb was set apart on the 10th day and killed on the 14th day of the month.",
     "answer": "True",
-    "options": ["True", "False"],
-    "memoryAid": { "type": "mnemonic", "text": "'10 to inspect, 14 to perfect.' Four days under inspection prove the lamb is without blemish before it is slain." }
+    "options": [
+      "True",
+      "False"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "'10 to inspect, 14 to perfect.' Four days under inspection prove the lamb is without blemish before it is slain."
+    }
   }
 ]

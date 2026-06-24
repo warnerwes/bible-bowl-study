@@ -29,6 +29,10 @@ function validate(q, file) {
 
   if (typeof q.chapter !== "number") fail(file, id, "chapter must be a number");
   if (typeof q.question !== "string" || !q.question.trim()) fail(file, id, "missing question text");
+  // Every question is rooted in Scripture and must cite a reference.
+  if (typeof q.reference !== "string" || !/Exodus\s+\d+/i.test(q.reference)) {
+    fail(file, id, "missing/invalid Scripture reference (expected e.g. 'Exodus 12:3')");
+  }
   if (!TYPES.has(q.type)) fail(file, id, `invalid type: ${q.type}`);
   if (typeof q.answer !== "string" || !q.answer.trim()) fail(file, id, "missing answer");
 

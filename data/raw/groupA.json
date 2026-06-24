@@ -8,8 +8,15 @@
     "type": "fill-in",
     "question": "How many total descendants of Jacob entered Egypt according to the OSB tradition?",
     "answer": "75",
-    "acceptableAnswers": ["75", "seventy-five", "seventy five"],
-    "memoryAid": { "type": "mnemonic", "text": "The OSB (Septuagint) counts 75, not the 70 of the Masoretic text. Remember 'SeptuagINT = 7 then 5': the Greek tradition Stephen quotes in Acts 7:14 gives 75 souls who went down into Egypt." }
+    "acceptableAnswers": [
+      "75",
+      "seventy-five",
+      "seventy five"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "The OSB (Septuagint) counts 75, not the 70 of the Masoretic text. Remember 'SeptuagINT = 7 then 5': the Greek tradition Stephen quotes in Acts 7:14 gives 75 souls who went down into Egypt."
+    }
   },
   {
     "id": "ex01-002",
@@ -20,8 +27,16 @@
     "type": "multiple-choice",
     "question": "Which of these was NOT named among the sons of Jacob who came into Egypt in this chapter?",
     "answer": "Joseph",
-    "options": ["Joseph", "Reuben", "Issachar", "Naphtali"],
-    "memoryAid": { "type": "image", "text": "Joseph is not listed among those who 'came into' Egypt because he was already there, having gone before his brothers. Picture the eleven arriving as travelers while Joseph stands waiting inside the gate — the one who went down first to prepare a place for his people." }
+    "options": [
+      "Joseph",
+      "Reuben",
+      "Issachar",
+      "Naphtali"
+    ],
+    "memoryAid": {
+      "type": "image",
+      "text": "Joseph is not listed among those who 'came into' Egypt because he was already there, having gone before his brothers. Picture the eleven arriving as travelers while Joseph stands waiting inside the gate — the one who went down first to prepare a place for his people."
+    }
   },
   {
     "id": "ex01-003",
@@ -32,8 +47,14 @@
     "type": "true-false",
     "question": "A new king arose over Egypt who did not know Joseph.",
     "answer": "True",
-    "options": ["True", "False"],
-    "memoryAid": { "type": "mnemonic", "text": "'New king, no clue' — a new Pharaoh who did NOT know Joseph. Forgetting the man who saved Egypt sets the whole oppression in motion." }
+    "options": [
+      "True",
+      "False"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "'New king, no clue' — a new Pharaoh who did NOT know Joseph. Forgetting the man who saved Egypt sets the whole oppression in motion."
+    }
   },
   {
     "id": "ex01-004",
@@ -44,8 +65,16 @@
     "type": "multiple-choice",
     "question": "Which of the following was NOT one of the store cities the Israelites were forced to build?",
     "answer": "Goshen",
-    "options": ["Goshen", "Pithom", "On (Heliopolis)", "Raamses"],
-    "memoryAid": { "type": "mnemonic", "text": "Store cities: 'POR' — Pithom, On, Raamses. Goshen was where Israel LIVED, not what they built. Don't confuse home with the work site." }
+    "options": [
+      "Goshen",
+      "Pithom",
+      "On (Heliopolis)",
+      "Raamses"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "Store cities: 'POR' — Pithom, On, Raamses. Goshen was where Israel LIVED, not what they built. Don't confuse home with the work site."
+    }
   },
   {
     "id": "ex01-005",
@@ -56,8 +85,18 @@
     "type": "fill-in",
     "question": "Name one of the three store cities the Israelites built for Pharaoh.",
     "answer": "Pithom",
-    "acceptableAnswers": ["pithom", "on", "heliopolis", "raamses", "rameses", "ramses"],
-    "memoryAid": { "type": "mnemonic", "text": "Store cities: 'POR' — Pithom, On (Heliopolis), Raamses. Pour your labor into POR." }
+    "acceptableAnswers": [
+      "pithom",
+      "on",
+      "heliopolis",
+      "raamses",
+      "rameses",
+      "ramses"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "Store cities: 'POR' — Pithom, On (Heliopolis), Raamses. Pour your labor into POR."
+    }
   },
   {
     "id": "ex01-006",
@@ -68,8 +107,15 @@
     "type": "fill-in",
     "question": "Complete the verse: 'The more they afflicted them, the more they ___ and grew.'",
     "answer": "multiplied",
-    "acceptableAnswers": ["multiplied", "multiply", "increased"],
-    "memoryAid": { "type": "image", "text": "Picture Egypt pressing down harder and harder, and Israel only swelling larger under the weight. Affliction could not stop God's promise to multiply Abraham's seed; the harder the world presses, the more the people of God increase." }
+    "acceptableAnswers": [
+      "multiplied",
+      "multiply",
+      "increased"
+    ],
+    "memoryAid": {
+      "type": "image",
+      "text": "Picture Egypt pressing down harder and harder, and Israel only swelling larger under the weight. Affliction could not stop God's promise to multiply Abraham's seed; the harder the world presses, the more the people of God increase."
+    }
   },
   {
     "id": "ex01-007",
@@ -80,8 +126,16 @@
     "type": "multiple-choice",
     "question": "What were the names of the two Hebrew midwives?",
     "answer": "Shiphrah and Puah",
-    "options": ["Shiphrah and Puah", "Jochebed and Miriam", "Zipporah and Puah", "Shiphrah and Rachel"],
-    "memoryAid": { "type": "mnemonic", "text": "'Shiphrah ships them, Puah pulls them' — two midwives who delivered babies and defied Pharaoh. Sounds like 'She-frah and Poo-ah.'" }
+    "options": [
+      "Shiphrah and Puah",
+      "Jochebed and Miriam",
+      "Zipporah and Puah",
+      "Shiphrah and Rachel"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "'Shiphrah ships them, Puah pulls them' — two midwives who delivered babies and defied Pharaoh. Sounds like 'She-frah and Poo-ah.'"
+    }
   },
   {
     "id": "ex01-008",
@@ -92,8 +146,14 @@
     "type": "true-false",
     "question": "The midwives claimed the Hebrew women were too lively to wait for them to arrive in time.",
     "answer": "True",
-    "options": ["True", "False"],
-    "memoryAid": { "type": "mnemonic", "text": "'Lively ladies, late midwives' — the Hebrew women delivered before the midwives could arrive. True." }
+    "options": [
+      "True",
+      "False"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "'Lively ladies, late midwives' — the Hebrew women delivered before the midwives could arrive. True."
+    }
   },
   {
     "id": "ex01-009",
@@ -104,8 +164,16 @@
     "type": "fill-in",
     "question": "Because the midwives feared God, He provided ___ for them.",
     "answer": "households",
-    "acceptableAnswers": ["households", "houses", "homes", "a household"],
-    "memoryAid": { "type": "image", "text": "Shiphrah and Puah feared God more than Pharaoh and chose life over the king's command, so God built them houses — He gave them families of their own. Picture two midwives who would not kill, blessed with households full of children: those who guard life are rewarded with life." }
+    "acceptableAnswers": [
+      "households",
+      "houses",
+      "homes",
+      "a household"
+    ],
+    "memoryAid": {
+      "type": "image",
+      "text": "Shiphrah and Puah feared God more than Pharaoh and chose life over the king's command, so God built them houses — He gave them families of their own. Picture two midwives who would not kill, blessed with households full of children: those who guard life are rewarded with life."
+    }
   },
   {
     "id": "ex01-010",
@@ -116,8 +184,17 @@
     "type": "fill-in",
     "question": "Into what did Pharaoh command that every newborn Hebrew son be cast?",
     "answer": "the river",
-    "acceptableAnswers": ["the river", "river", "the nile", "nile", "the water"],
-    "memoryAid": { "type": "image", "text": "Picture the Nile turned into a drowning-pool for infants. The very river Egypt worshiped as life becomes a tomb — until one baby in a basket floats safely on it and undoes the whole decree." }
+    "acceptableAnswers": [
+      "the river",
+      "river",
+      "the nile",
+      "nile",
+      "the water"
+    ],
+    "memoryAid": {
+      "type": "image",
+      "text": "Picture the Nile turned into a drowning-pool for infants. The very river Egypt worshiped as life becomes a tomb — until one baby in a basket floats safely on it and undoes the whole decree."
+    }
   },
   {
     "id": "ex02-001",
@@ -128,8 +205,16 @@
     "type": "fill-in",
     "question": "How long was the infant Moses hidden by his mother?",
     "answer": "Three months",
-    "acceptableAnswers": ["three months", "3 months", "three", "3"],
-    "memoryAid": { "type": "mnemonic", "text": "'Hidden a trimester' — three months, the length of a pregnancy's first stage. Moses was kept secret as long as a hidden pregnancy before he could be hidden no longer." }
+    "acceptableAnswers": [
+      "three months",
+      "3 months",
+      "three",
+      "3"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "'Hidden a trimester' — three months, the length of a pregnancy's first stage. Moses was kept secret as long as a hidden pregnancy before he could be hidden no longer."
+    }
   },
   {
     "id": "ex02-002",
@@ -140,8 +225,16 @@
     "type": "multiple-choice",
     "question": "From what materials was the ark (basket) for baby Moses made?",
     "answer": "Bulrushes and asphalt",
-    "options": ["Bulrushes and asphalt", "Gopher wood and pitch", "Reeds and clay", "Bulrushes and gold"],
-    "memoryAid": { "type": "image", "text": "Picture Moses' little 'ark' of bulrushes sealed with asphalt floating on the Nile, echoing Noah's ark sealed with pitch: both carry the one through whom God will save His people safely through deadly waters. A tiny deliverer drawn through the flood." }
+    "options": [
+      "Bulrushes and asphalt",
+      "Gopher wood and pitch",
+      "Reeds and clay",
+      "Bulrushes and gold"
+    ],
+    "memoryAid": {
+      "type": "image",
+      "text": "Picture Moses' little 'ark' of bulrushes sealed with asphalt floating on the Nile, echoing Noah's ark sealed with pitch: both carry the one through whom God will save His people safely through deadly waters. A tiny deliverer drawn through the flood."
+    }
   },
   {
     "id": "ex02-003",
@@ -152,8 +245,16 @@
     "type": "multiple-choice",
     "question": "Why did Pharaoh's daughter go down to the river?",
     "answer": "To bathe",
-    "options": ["To bathe", "To draw water", "To wash clothes", "To worship the Nile"],
-    "memoryAid": { "type": "image", "text": "Picture the princess wading in to bathe and lifting a crying basket out of the reeds. The daughter of the man who decreed drowning becomes the one who pulls a Hebrew baby OUT of the water — God's irony in a single scene." }
+    "options": [
+      "To bathe",
+      "To draw water",
+      "To wash clothes",
+      "To worship the Nile"
+    ],
+    "memoryAid": {
+      "type": "image",
+      "text": "Picture the princess wading in to bathe and lifting a crying basket out of the reeds. The daughter of the man who decreed drowning becomes the one who pulls a Hebrew baby OUT of the water — God's irony in a single scene."
+    }
   },
   {
     "id": "ex02-004",
@@ -164,8 +265,18 @@
     "type": "fill-in",
     "question": "Who was paid to nurse her own child, Moses?",
     "answer": "Jochebed",
-    "acceptableAnswers": ["jochebed", "moses' mother", "moses's mother", "his mother", "his own mother", "the mother"],
-    "memoryAid": { "type": "mnemonic", "text": "'Jo-keb-ed got a paycheck' — Jochebed, Moses' own mother, was hired and PAID to nurse her own son. God turns Pharaoh's house into the funder of Israel's deliverer." }
+    "acceptableAnswers": [
+      "jochebed",
+      "moses' mother",
+      "moses's mother",
+      "his mother",
+      "his own mother",
+      "the mother"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "'Jo-keb-ed got a paycheck' — Jochebed, Moses' own mother, was hired and PAID to nurse her own son. God turns Pharaoh's house into the funder of Israel's deliverer."
+    }
   },
   {
     "id": "ex02-005",
@@ -176,8 +287,16 @@
     "type": "fill-in",
     "question": "Moses went out to his brethren and saw their ___.",
     "answer": "suffering",
-    "acceptableAnswers": ["suffering", "affliction", "burdens", "hardship"],
-    "memoryAid": { "type": "image", "text": "Though raised in Pharaoh's palace, Moses goes out to his brethren and identifies with their suffering rather than his privilege. Picture the prince setting down his comforts to stand among slaves — choosing to suffer with the people of God rather than enjoy the pleasures of the court." }
+    "acceptableAnswers": [
+      "suffering",
+      "affliction",
+      "burdens",
+      "hardship"
+    ],
+    "memoryAid": {
+      "type": "image",
+      "text": "Though raised in Pharaoh's palace, Moses goes out to his brethren and identifies with their suffering rather than his privilege. Picture the prince setting down his comforts to stand among slaves — choosing to suffer with the people of God rather than enjoy the pleasures of the court."
+    }
   },
   {
     "id": "ex02-006",
@@ -188,8 +307,15 @@
     "type": "fill-in",
     "question": "Where did Moses hide the Egyptian he had killed?",
     "answer": "In the sand",
-    "acceptableAnswers": ["in the sand", "the sand", "sand"],
-    "memoryAid": { "type": "image", "text": "Picture Moses frantically kicking sand over a body, glancing left and right. The desert that should hide the deed cannot — the buried secret surfaces the very next day in a Hebrew's accusing question." }
+    "acceptableAnswers": [
+      "in the sand",
+      "the sand",
+      "sand"
+    ],
+    "memoryAid": {
+      "type": "image",
+      "text": "Picture Moses frantically kicking sand over a body, glancing left and right. The desert that should hide the deed cannot — the buried secret surfaces the very next day in a Hebrew's accusing question."
+    }
   },
   {
     "id": "ex02-007",
@@ -200,8 +326,16 @@
     "type": "multiple-choice",
     "question": "To what land did Moses flee after Pharaoh sought to kill him?",
     "answer": "Midian",
-    "options": ["Midian", "Canaan", "Edom", "Horeb"],
-    "memoryAid": { "type": "mnemonic", "text": "Moses runs to MIDian to hide in the MIDdle of nowhere. Midian = the wilderness exile where the shepherd-prophet is forged." }
+    "options": [
+      "Midian",
+      "Canaan",
+      "Edom",
+      "Horeb"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "Moses runs to MIDian to hide in the MIDdle of nowhere. Midian = the wilderness exile where the shepherd-prophet is forged."
+    }
   },
   {
     "id": "ex02-008",
@@ -212,8 +346,14 @@
     "type": "true-false",
     "question": "Moses helped his future wife's family by saving them from shepherds at the well.",
     "answer": "True",
-    "options": ["True", "False"],
-    "memoryAid": { "type": "image", "text": "Picture Moses, fresh off the run, driving off bullying shepherds so seven sisters can water their flock. The man who defended one Hebrew now defends strangers — and waters a wife's family into his future." }
+    "options": [
+      "True",
+      "False"
+    ],
+    "memoryAid": {
+      "type": "image",
+      "text": "Picture Moses, fresh off the run, driving off bullying shepherds so seven sisters can water their flock. The man who defended one Hebrew now defends strangers — and waters a wife's family into his future."
+    }
   },
   {
     "id": "ex02-009",
@@ -224,8 +364,16 @@
     "type": "multiple-choice",
     "question": "By which two names is Moses' father-in-law known?",
     "answer": "Jethro and Reuel (Raguel)",
-    "options": ["Jethro and Reuel (Raguel)", "Reuel and Hobab", "Jethro and Laban", "Raguel and Nahor"],
-    "memoryAid": { "type": "mnemonic", "text": "'JR' — Jethro/Reuel, two names for one priest of Midian. Reuel (Raguel) is the personal name; Jethro the title-name. Same man, two labels." }
+    "options": [
+      "Jethro and Reuel (Raguel)",
+      "Reuel and Hobab",
+      "Jethro and Laban",
+      "Raguel and Nahor"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "'JR' — Jethro/Reuel, two names for one priest of Midian. Reuel (Raguel) is the personal name; Jethro the title-name. Same man, two labels."
+    }
   },
   {
     "id": "ex02-010",
@@ -236,8 +384,14 @@
     "type": "fill-in",
     "question": "What was the name of Moses' firstborn son?",
     "answer": "Gershom",
-    "acceptableAnswers": ["gershom", "gershon"],
-    "memoryAid": { "type": "mnemonic", "text": "GERSHom = 'a stranger / sojourner there.' Hear 'GER' (Hebrew for stranger). Moses names his son for his own exile: 'I have been a stranger there.'" }
+    "acceptableAnswers": [
+      "gershom",
+      "gershon"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "GERSHom = 'a stranger / sojourner there.' Hear 'GER' (Hebrew for stranger). Moses names his son for his own exile: 'I have been a stranger there.'"
+    }
   },
   {
     "id": "ex02-011",
@@ -248,8 +402,16 @@
     "type": "multiple-choice",
     "question": "What does the name Gershom mean?",
     "answer": "A stranger / sojourner there",
-    "options": ["A stranger / sojourner there", "God strengthens", "Drawn out of water", "The Lord remembers"],
-    "memoryAid": { "type": "mnemonic", "text": "GERShom = 'a stranger there.' Hear 'GER' (Hebrew for stranger). Moses said he had been a sojourner in a foreign land, and names his son to confess that this world is not his resting place." }
+    "options": [
+      "A stranger / sojourner there",
+      "God strengthens",
+      "Drawn out of water",
+      "The Lord remembers"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "GERShom = 'a stranger there.' Hear 'GER' (Hebrew for stranger). Moses said he had been a sojourner in a foreign land, and names his son to confess that this world is not his resting place."
+    }
   },
   {
     "id": "ex02-012",
@@ -260,8 +422,14 @@
     "type": "true-false",
     "question": "At the end of chapter 2, God remembered His covenant with Abraham, Isaac, and Jacob.",
     "answer": "True",
-    "options": ["True", "False"],
-    "memoryAid": { "type": "image", "text": "God 'remembering' His covenant does not mean He forgot. Picture the cries of Israel rising like smoke and the Lord rising to act: in Scripture, to remember is to move on behalf of one's promise, fulfilling the oath sworn to the patriarchs." }
+    "options": [
+      "True",
+      "False"
+    ],
+    "memoryAid": {
+      "type": "image",
+      "text": "God 'remembering' His covenant does not mean He forgot. Picture the cries of Israel rising like smoke and the Lord rising to act: in Scripture, to remember is to move on behalf of one's promise, fulfilling the oath sworn to the patriarchs."
+    }
   },
   {
     "id": "ex03-001",
@@ -272,8 +440,16 @@
     "type": "multiple-choice",
     "question": "By what name is the mountain of God called where Moses saw the burning bush?",
     "answer": "Horeb (also called Sinai)",
-    "options": ["Horeb (also called Sinai)", "Nebo", "Carmel", "Tabor"],
-    "memoryAid": { "type": "mnemonic", "text": "'HOReb is where God said HELLO' to Moses — the mountain of God, also called Sinai. One mountain, two names." }
+    "options": [
+      "Horeb (also called Sinai)",
+      "Nebo",
+      "Carmel",
+      "Tabor"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "'HOReb is where God said HELLO' to Moses — the mountain of God, also called Sinai. One mountain, two names."
+    }
   },
   {
     "id": "ex03-002",
@@ -284,8 +460,15 @@
     "type": "true-false",
     "question": "The bush burned with fire but was not consumed.",
     "answer": "True",
-    "options": ["True", "False"],
-    "memoryAid": { "type": "teaching", "text": "The bush that burns yet is not consumed is a great image of the Theotokos in Orthodox tradition: she contains the divine Fire in her womb without being destroyed. The Unburnt Bush foreshadows the Ever-Virgin who bears God and remains whole, dwelling in fire that gives life rather than annihilates.", "source": "St. Gregory of Nyssa, The Life of Moses; Orthodox hymnography (the icon of the Unburnt Bush)" }
+    "options": [
+      "True",
+      "False"
+    ],
+    "memoryAid": {
+      "type": "teaching",
+      "text": "The bush that burns yet is not consumed is a great image of the Theotokos in Orthodox tradition: she contains the divine Fire in her womb without being destroyed. The Unburnt Bush foreshadows the Ever-Virgin who bears God and remains whole, dwelling in fire that gives life rather than annihilates.",
+      "source": "St. Gregory of Nyssa, The Life of Moses; Orthodox hymnography (the icon of the Unburnt Bush)"
+    }
   },
   {
     "id": "ex03-003",
@@ -296,8 +479,14 @@
     "type": "true-false",
     "question": "Moses removed his cloak because he was standing on holy ground.",
     "answer": "False",
-    "options": ["True", "False"],
-    "memoryAid": { "type": "mnemonic", "text": "Not cloak — SANDALS. 'Holy ground, shoes off' — Moses removed his sandals, not his cloak. The feet that touch holy earth must be bare." }
+    "options": [
+      "True",
+      "False"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "Not cloak — SANDALS. 'Holy ground, shoes off' — Moses removed his sandals, not his cloak. The feet that touch holy earth must be bare."
+    }
   },
   {
     "id": "ex03-004",
@@ -308,8 +497,18 @@
     "type": "fill-in",
     "question": "What did God command Moses to remove because he stood on holy ground?",
     "answer": "His sandals",
-    "acceptableAnswers": ["his sandals", "sandals", "his shoes", "shoes", "sandal", "his sandal"],
-    "memoryAid": { "type": "mnemonic", "text": "'Holy ground, shoes off.' Sandals come off the feet on holy ground — the same reverence the Church keeps before the holy places of God." }
+    "acceptableAnswers": [
+      "his sandals",
+      "sandals",
+      "his shoes",
+      "shoes",
+      "sandal",
+      "his sandal"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "'Holy ground, shoes off.' Sandals come off the feet on holy ground — the same reverence the Church keeps before the holy places of God."
+    }
   },
   {
     "id": "ex03-005",
@@ -320,8 +519,16 @@
     "type": "fill-in",
     "question": "What was Moses' first response when God called to him from the bush?",
     "answer": "Here I am",
-    "acceptableAnswers": ["here i am", "here am i", "here i am.", "behold, here i am"],
-    "memoryAid": { "type": "mnemonic", "text": "'Here I am' is the prophet's answer of total availability — the same words Abraham, Samuel, and Isaiah give when God calls. Not 'what do you want?' but 'I am present and ready.'" }
+    "acceptableAnswers": [
+      "here i am",
+      "here am i",
+      "here i am.",
+      "behold, here i am"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "'Here I am' is the prophet's answer of total availability — the same words Abraham, Samuel, and Isaiah give when God calls. Not 'what do you want?' but 'I am present and ready.'"
+    }
   },
   {
     "id": "ex03-006",
@@ -332,8 +539,16 @@
     "type": "multiple-choice",
     "question": "God identified Himself to Moses as the God of which three patriarchs?",
     "answer": "Abraham, Isaac, and Jacob",
-    "options": ["Abraham, Isaac, and Jacob", "Abraham, Isaac, and Joseph", "Noah, Abraham, and Isaac", "Abraham, Jacob, and Joseph"],
-    "memoryAid": { "type": "mnemonic", "text": "'God of Abraham, Isaac, and Jacob' — the covenant title in order, A-I-J. This name binds the whole story of salvation from the patriarchs to the Exodus into one continuous act of God." }
+    "options": [
+      "Abraham, Isaac, and Jacob",
+      "Abraham, Isaac, and Joseph",
+      "Noah, Abraham, and Isaac",
+      "Abraham, Jacob, and Joseph"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "'God of Abraham, Isaac, and Jacob' — the covenant title in order, A-I-J. This name binds the whole story of salvation from the patriarchs to the Exodus into one continuous act of God."
+    }
   },
   {
     "id": "ex03-007",
@@ -344,8 +559,13 @@
     "type": "fill-in",
     "question": "The Promised Land is described as a land flowing with milk and ___.",
     "answer": "honey",
-    "acceptableAnswers": ["honey"],
-    "memoryAid": { "type": "image", "text": "Picture rivers of milk and golden honey running over the hills — abundance you can wade through. The land of slavery's whips gives way to a land that drips with sweetness, the rest God prepares for His people." }
+    "acceptableAnswers": [
+      "honey"
+    ],
+    "memoryAid": {
+      "type": "image",
+      "text": "Picture rivers of milk and golden honey running over the hills — abundance you can wade through. The land of slavery's whips gives way to a land that drips with sweetness, the rest God prepares for His people."
+    }
   },
   {
     "id": "ex03-008",
@@ -356,8 +576,16 @@
     "type": "multiple-choice",
     "question": "Which of these peoples was NOT listed as dwelling in the Promised Land?",
     "answer": "Philistines",
-    "options": ["Philistines", "Canaanites", "Hittites", "Jebusites"],
-    "memoryAid": { "type": "mnemonic", "text": "The seven nations: Canaanites, Hittites, Amorites, Perizzites, Girgashites, Hivites, Jebusites. 'CHAP GHJ' — no Philistines on that list." }
+    "options": [
+      "Philistines",
+      "Canaanites",
+      "Hittites",
+      "Jebusites"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "The seven nations: Canaanites, Hittites, Amorites, Perizzites, Girgashites, Hivites, Jebusites. 'CHAP GHJ' — no Philistines on that list."
+    }
   },
   {
     "id": "ex03-009",
@@ -368,8 +596,26 @@
     "type": "fill-in",
     "question": "Name one of the seven peoples dwelling in the land flowing with milk and honey.",
     "answer": "Canaanites",
-    "acceptableAnswers": ["canaanites", "canaanite", "hittites", "hittite", "amorites", "amorite", "perizzites", "perizzite", "girgashites", "girgashite", "hivites", "hivite", "jebusites", "jebusite"],
-    "memoryAid": { "type": "mnemonic", "text": "Seven nations to dispossess: Canaanites, Hittites, Amorites, Perizzites, Girgashites, Hivites, Jebusites — 'CHAP GHJ.' Pick any of the seven." }
+    "acceptableAnswers": [
+      "canaanites",
+      "canaanite",
+      "hittites",
+      "hittite",
+      "amorites",
+      "amorite",
+      "perizzites",
+      "perizzite",
+      "girgashites",
+      "girgashite",
+      "hivites",
+      "hivite",
+      "jebusites",
+      "jebusite"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "Seven nations to dispossess: Canaanites, Hittites, Amorites, Perizzites, Girgashites, Hivites, Jebusites — 'CHAP GHJ.' Pick any of the seven."
+    }
   },
   {
     "id": "ex03-010",
@@ -380,8 +626,13 @@
     "type": "fill-in",
     "question": "Complete Moses' question: 'Who am I that I should go to Pharaoh and bring the children of Israel out of ___?'",
     "answer": "Egypt",
-    "acceptableAnswers": ["egypt"],
-    "memoryAid": { "type": "mnemonic", "text": "'Who am I?' meets 'I will be with you.' Moses' question of smallness is answered not with flattery but with God's presence — the worker is nothing, the One who sends is everything." }
+    "acceptableAnswers": [
+      "egypt"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "'Who am I?' meets 'I will be with you.' Moses' question of smallness is answered not with flattery but with God's presence — the worker is nothing, the One who sends is everything."
+    }
   },
   {
     "id": "ex03-011",
@@ -392,8 +643,16 @@
     "type": "fill-in",
     "question": "By what name did God reveal Himself to Moses (OSB rendering)?",
     "answer": "I AM THE EXISTING ONE",
-    "acceptableAnswers": ["i am the existing one", "the existing one", "i am the existing one."],
-    "memoryAid": { "type": "teaching", "text": "In the OSB/Septuagint, God names Himself 'I AM THE EXISTING ONE' — He alone truly IS, the source of all being, while creation only exists by participation in Him. This is why the Church writes 'HO ON' (The Existing One) in Christ's halo on every icon: Jesus is the same I AM who spoke from the bush, who said 'Before Abraham was, I AM.'", "source": "John 8:58; Fr. Stephen De Young, The Religion of the Apostles (Ancient Faith, 2021)" }
+    "acceptableAnswers": [
+      "i am the existing one",
+      "the existing one",
+      "i am the existing one."
+    ],
+    "memoryAid": {
+      "type": "teaching",
+      "text": "In the OSB/Septuagint, God names Himself 'I AM THE EXISTING ONE' — He alone truly IS, the source of all being, while creation only exists by participation in Him. This is why the Church writes 'HO ON' (The Existing One) in Christ's halo on every icon: Jesus is the same I AM who spoke from the bush, who said 'Before Abraham was, I AM.'",
+      "source": "John 8:58; Fr. Stephen De Young, The Religion of the Apostles (Ancient Faith, 2021)"
+    }
   },
   {
     "id": "ex03-012",
@@ -404,20 +663,37 @@
     "type": "multiple-choice",
     "question": "How does the OSB render the name God told Moses to give the children of Israel?",
     "answer": "The Existing One sent me to you",
-    "options": ["The Existing One sent me to you", "The Lord of Hosts sent me", "The Almighty sent me", "He Who Was sent me"],
-    "memoryAid": { "type": "teaching", "text": "'The Existing One' is the messenger-form of the divine Name: the One who simply IS sends Moses. This same self-existent God, who depends on nothing, is the One who declares in the Gospel 'Before Abraham was, I AM' — the divine Name spoken by Christ.", "source": "John 8:58; Fr. Stephen De Young, The Whole Counsel of God (Ancient Faith, 2021)" }
+    "options": [
+      "The Existing One sent me to you",
+      "The Lord of Hosts sent me",
+      "The Almighty sent me",
+      "He Who Was sent me"
+    ],
+    "memoryAid": {
+      "type": "teaching",
+      "text": "'The Existing One' is the messenger-form of the divine Name: the One who simply IS sends Moses. This same self-existent God, who depends on nothing, is the One who declares in the Gospel 'Before Abraham was, I AM' — the divine Name spoken by Christ.",
+      "source": "John 8:58; Fr. Stephen De Young, The Whole Counsel of God (Ancient Faith, 2021)"
+    }
   },
   {
     "id": "ex04-001",
     "chapter": 4,
     "book": "Exodus",
-    "reference": "Exodus 4",
+    "reference": "Exodus 4:13-14",
     "topic": "Moses' Objections",
     "type": "multiple-choice",
     "question": "How many times did Moses object or argue with the Lord before the Lord's anger was kindled?",
     "answer": "Five",
-    "options": ["Five", "Three", "Seven", "Four"],
-    "memoryAid": { "type": "mnemonic", "text": "'Five fingers, five excuses' — Moses raised five objections, and the fifth is what angered the Lord. Count them off on one hand." }
+    "options": [
+      "Five",
+      "Three",
+      "Seven",
+      "Four"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "'Five fingers, five excuses' — Moses raised five objections, and the fifth is what angered the Lord. Count them off on one hand."
+    }
   },
   {
     "id": "ex04-002",
@@ -428,8 +704,16 @@
     "type": "multiple-choice",
     "question": "Which of these was NOT one of the three signs God gave Moses to perform?",
     "answer": "Staff that blossoms with almonds",
-    "options": ["Staff that blossoms with almonds", "Rod that becomes a serpent", "Hand that becomes leprous and is healed", "Water that becomes blood"],
-    "memoryAid": { "type": "mnemonic", "text": "Three signs: Rod-to-serpent, Hand-to-leprous, Water-to-blood. The blossoming almond staff belongs to AARON later (Numbers 17), not to these three." }
+    "options": [
+      "Staff that blossoms with almonds",
+      "Rod that becomes a serpent",
+      "Hand that becomes leprous and is healed",
+      "Water that becomes blood"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "Three signs: Rod-to-serpent, Hand-to-leprous, Water-to-blood. The blossoming almond staff belongs to AARON later (Numbers 17), not to these three."
+    }
   },
   {
     "id": "ex04-003",
@@ -440,8 +724,14 @@
     "type": "fill-in",
     "question": "In the first sign, Moses' rod became a ___.",
     "answer": "serpent",
-    "acceptableAnswers": ["serpent", "snake"],
-    "memoryAid": { "type": "image", "text": "Picture Moses dropping his shepherd's staff and leaping back as it hisses to life as a serpent. The tool of guiding sheep becomes the sign of power over Egypt — and over the serpent itself." }
+    "acceptableAnswers": [
+      "serpent",
+      "snake"
+    ],
+    "memoryAid": {
+      "type": "image",
+      "text": "Picture Moses dropping his shepherd's staff and leaping back as it hisses to life as a serpent. The tool of guiding sheep becomes the sign of power over Egypt — and over the serpent itself."
+    }
   },
   {
     "id": "ex04-004",
@@ -452,8 +742,17 @@
     "type": "fill-in",
     "question": "In the second sign, Moses' hand became ___ when he drew it from his bosom.",
     "answer": "leprous",
-    "acceptableAnswers": ["leprous", "leprous as snow", "white as snow", "leprosy", "covered with leprosy"],
-    "memoryAid": { "type": "image", "text": "Picture Moses pulling his hand out white and scaled with leprosy, then tucking it back and drawing it out whole. God shows He can strike and heal flesh in an instant — the same hand, sick then restored." }
+    "acceptableAnswers": [
+      "leprous",
+      "leprous as snow",
+      "white as snow",
+      "leprosy",
+      "covered with leprosy"
+    ],
+    "memoryAid": {
+      "type": "image",
+      "text": "Picture Moses pulling his hand out white and scaled with leprosy, then tucking it back and drawing it out whole. God shows He can strike and heal flesh in an instant — the same hand, sick then restored."
+    }
   },
   {
     "id": "ex04-005",
@@ -464,8 +763,13 @@
     "type": "fill-in",
     "question": "In the third sign, water from the river poured on dry land would become ___.",
     "answer": "blood",
-    "acceptableAnswers": ["blood"],
-    "memoryAid": { "type": "mnemonic", "text": "Sign three previews plague one: Nile water to BLOOD. 'Water-to-blood' is the dress rehearsal for the first plague that will strike Egypt's river." }
+    "acceptableAnswers": [
+      "blood"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "Sign three previews plague one: Nile water to BLOOD. 'Water-to-blood' is the dress rehearsal for the first plague that will strike Egypt's river."
+    }
   },
   {
     "id": "ex04-006",
@@ -476,8 +780,14 @@
     "type": "fill-in",
     "question": "Complete Moses' complaint: 'I am weak in speech and slow of ___.'",
     "answer": "tongue",
-    "acceptableAnswers": ["tongue", "of tongue"],
-    "memoryAid": { "type": "mnemonic", "text": "'Slow of tongue, but sent.' Moses pleads weakness of speech, yet God chooses the stammerer to confront the most powerful king on earth — and supplies Aaron's mouth so the glory remains His own." }
+    "acceptableAnswers": [
+      "tongue",
+      "of tongue"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "'Slow of tongue, but sent.' Moses pleads weakness of speech, yet God chooses the stammerer to confront the most powerful king on earth — and supplies Aaron's mouth so the glory remains His own."
+    }
   },
   {
     "id": "ex04-007",
@@ -488,8 +798,16 @@
     "type": "multiple-choice",
     "question": "Whom did God appoint to be Moses' spokesman before Pharaoh?",
     "answer": "Aaron",
-    "options": ["Aaron", "Hur", "Joshua", "Jethro"],
-    "memoryAid": { "type": "mnemonic", "text": "'Aaron is the mouth, Moses is the message.' Aaron, the elder brother, speaks for slow-tongued Moses — A for Aaron, A for Articulate." }
+    "options": [
+      "Aaron",
+      "Hur",
+      "Joshua",
+      "Jethro"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "'Aaron is the mouth, Moses is the message.' Aaron, the elder brother, speaks for slow-tongued Moses — A for Aaron, A for Articulate."
+    }
   },
   {
     "id": "ex04-008",
@@ -500,8 +818,16 @@
     "type": "fill-in",
     "question": "Complete God's words to Pharaoh: 'Israel is My ___ son.'",
     "answer": "firstborn",
-    "acceptableAnswers": ["firstborn", "first-born", "first born"],
-    "memoryAid": { "type": "teaching", "text": "God calls Israel His firstborn son, claiming the nation as His own child and inheritance. This sets up the justice of the final plague — Egypt enslaved and tried to kill God's son, so the firstborn of Egypt answers for it — drawing on the deep biblical theme of firstborn status and inheritance among the nations.", "source": "Fr. Stephen De Young, The Whole Counsel of God (Ancient Faith, 2021)" }
+    "acceptableAnswers": [
+      "firstborn",
+      "first-born",
+      "first born"
+    ],
+    "memoryAid": {
+      "type": "teaching",
+      "text": "God calls Israel His firstborn son, claiming the nation as His own child and inheritance. This sets up the justice of the final plague — Egypt enslaved and tried to kill God's son, so the firstborn of Egypt answers for it — drawing on the deep biblical theme of firstborn status and inheritance among the nations.",
+      "source": "Fr. Stephen De Young, The Whole Counsel of God (Ancient Faith, 2021)"
+    }
   },
   {
     "id": "ex04-009",
@@ -512,8 +838,16 @@
     "type": "fill-in",
     "question": "Complete the warning to Pharaoh: 'If you refuse to let him go, indeed, I will kill your ___ son.'",
     "answer": "firstborn",
-    "acceptableAnswers": ["firstborn", "first-born", "first born"],
-    "memoryAid": { "type": "teaching", "text": "Already in chapter 4 God announces the final plague: refuse My firstborn his freedom, and your firstborn will die. The threat foreshadows the Passover, where only the blood of the lamb — the type of Christ — spares the firstborn, the same lamb of which no bone would be broken.", "source": "John 19:36; Melito of Sardis, On Pascha; Fr. Stephen De Young, The Whole Counsel of God (Ancient Faith, 2021)" }
+    "acceptableAnswers": [
+      "firstborn",
+      "first-born",
+      "first born"
+    ],
+    "memoryAid": {
+      "type": "teaching",
+      "text": "Already in chapter 4 God announces the final plague: refuse My firstborn his freedom, and your firstborn will die. The threat foreshadows the Passover, where only the blood of the lamb — the type of Christ — spares the firstborn, the same lamb of which no bone would be broken.",
+      "source": "John 19:36; Melito of Sardis, On Pascha; Fr. Stephen De Young, The Whole Counsel of God (Ancient Faith, 2021)"
+    }
   },
   {
     "id": "ex04-010",
@@ -524,8 +858,16 @@
     "type": "multiple-choice",
     "question": "Who circumcised her son after the Lord confronted Moses on the journey?",
     "answer": "Zipporah",
-    "options": ["Zipporah", "Jochebed", "Miriam", "Puah"],
-    "memoryAid": { "type": "image", "text": "Picture Zipporah's swift circumcision of her son saving Moses' life. The deliverer cannot lead the covenant people while neglecting the sign of the covenant in his own house — before Moses can demand Pharaoh obey God, his own family must bear the seal of the promise." }
+    "options": [
+      "Zipporah",
+      "Jochebed",
+      "Miriam",
+      "Puah"
+    ],
+    "memoryAid": {
+      "type": "image",
+      "text": "Picture Zipporah's swift circumcision of her son saving Moses' life. The deliverer cannot lead the covenant people while neglecting the sign of the covenant in his own house — before Moses can demand Pharaoh obey God, his own family must bear the seal of the promise."
+    }
   },
   {
     "id": "ex04-011",
@@ -536,7 +878,13 @@
     "type": "true-false",
     "question": "On the journey back to Egypt, the Lord met Moses and sought to kill him until Zipporah circumcised their son.",
     "answer": "True",
-    "options": ["True", "False"],
-    "memoryAid": { "type": "image", "text": "Picture the terrifying night camp: the Lord confronts Moses, and Zipporah grabs a flint and circumcises their boy on the spot, touching Moses' feet with it. A shocking scene that burns in the lesson — the covenant sign cannot be skipped." }
+    "options": [
+      "True",
+      "False"
+    ],
+    "memoryAid": {
+      "type": "image",
+      "text": "Picture the terrifying night camp: the Lord confronts Moses, and Zipporah grabs a flint and circumcises their boy on the spot, touching Moses' feet with it. A shocking scene that burns in the lesson — the covenant sign cannot be skipped."
+    }
   }
 ]
