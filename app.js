@@ -70,10 +70,20 @@
     stats[q.id] = s;
     saveStats();
   }
-  // "Due" = missed at least once and not yet re-mastered (2 corrects in a row).
+  const MASTERY_STREAK = 3; // correct answers in a row to "master" a question
+
+  // Mastered once answered correctly MASTERY_STREAK times in a row.
+  function isMastered(q) {
+    const s = stats[q.id];
+    return !!s && s.streak >= MASTERY_STREAK;
+  }
+  function masteredQuestions() {
+    return state.all.filter(isMastered);
+  }
+  // "Due" = missed at least once and not yet mastered (stays in the drill pool).
   function isDue(q) {
     const s = stats[q.id];
-    return !!s && s.wrong > 0 && s.streak < 2;
+    return !!s && s.wrong > 0 && s.streak < MASTERY_STREAK;
   }
   function dueQuestions() {
     return state.all.filter(isDue);
@@ -81,11 +91,11 @@
   // Higher weight => tends to appear earlier in a shuffle.
   function weightFor(q) {
     const s = stats[q.id];
-    if (!s) return 1.5;                 // unseen: slight edge over mastered
-    if (s.streak >= 2) return 0.5;      // mastered: show rarely
+    if (!s) return 1.5;                          // unseen: slight edge over mastered
+    if (s.streak >= MASTERY_STREAK) return 0.35; // mastered: show rarely
     let w = 1;
-    if (isDue(q)) w += 3;               // currently due for review
-    w += Math.min(s.wrong, 3);          // missed a lot => more often
+    if (isDue(q)) w += 3;                        // currently due for review
+    w += Math.min(s.wrong, 3);                   // missed a lot => more often
     return w;
   }
   // Weighted shuffle (Efraimidis–Spirakis): key = U^(1/weight), sort desc.
@@ -277,23 +287,38 @@
     $("missed-cta").hidden = due === 0;
     $("missed-count").textContent = due;
 
+    const mastered = masteredQuestions().length;
     const seen = Object.keys(stats).length;
     const line = $("progress-line");
-    if (seen > 0) {
-      line.hidden = false;
-      line.textContent = `Seen ${seen} of ${state.all.length} · ${due} due for review · `;
-      const reset = el("button", "link-btn", "Reset progress");
-      reset.type = "button";
-      reset.addEventListener("click", resetProgress);
-      line.appendChild(reset);
-    } else {
-      line.hidden = true;
+    line.innerHTML = "";
+    if (seen === 0) { line.hidden = true; return; }
+    line.hidden = false;
+    line.append(`Seen ${seen} of ${state.all.length}  ·  ${due} to review  ·  ${mastered} mastered`);
+    if (mastered > 0) {
+      line.append("  ·  ");
+      const rm = el("button", "link-btn", "Reset mastered");
+      rm.type = "button";
+      rm.addEventListener("click", resetMastered);
+      line.appendChild(rm);
     }
+    line.append("  ·  ");
+    const rp = el("button", "link-btn", "Reset all");
+    rp.type = "button";
+    rp.addEventListener("click", resetProgress);
+    line.appendChild(rp);
   }
 
   function resetProgress() {
     if (!window.confirm("Reset all saved progress on this device? This can't be undone.")) return;
     stats = {};
+    saveStats();
+    refreshHome();
+  }
+  function resetMastered() {
+    const ids = masteredQuestions().map((q) => q.id);
+    if (!ids.length) return;
+    if (!window.confirm("Reset " + ids.length + " mastered question" + (ids.length === 1 ? "" : "s") + " back into study?")) return;
+    ids.forEach((id) => { delete stats[id]; });
     saveStats();
     refreshHome();
   }
