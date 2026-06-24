@@ -39,7 +39,6 @@
     pendingAidVote: null,
     answered: false,  // whether current question has been checked
     selected: null,   // selected option for MC/TF
-    showAidAlways: false,
     mode: "quick",
   };
 
@@ -419,7 +418,6 @@
     state.score = 0;
     state.missed = [];
     state.mode = mode;
-    state.showAidAlways = $("show-aid-always").checked;
     show("quiz");
     renderQuestion();
   }
@@ -466,6 +464,7 @@
     $("memory-aid").hidden = true;
     $("aid-review").hidden = true;
     $("aid-review-saved").hidden = true;
+    $("study-guide-toggle").hidden = true;
     state.pendingAidVote = null;
     const submit = $("submit-btn");
     submit.hidden = false;
@@ -542,33 +541,55 @@
     ans.append("Answer: ");
     ans.appendChild(el("strong", null, q.answer));
 
-    // Memory aid: always on miss; on correct only if toggled.
-    if (q.memoryAid && (!correct || state.showAidAlways)) {
-      const aid = $("memory-aid");
-      const type = q.memoryAid.type || "mnemonic";
-      aid.className = "memory-aid " + type;
-      $("aid-badge").textContent = AID_LABELS[type] || type;
-      $("aid-badge").className = "aid-badge " + type;
-      $("aid-text").textContent = q.memoryAid.text;
-      const src = $("aid-source");
-      if (q.memoryAid.source) {
-        src.textContent = "— " + q.memoryAid.source;
-        src.hidden = false;
-      } else {
-        src.textContent = "";
-        src.hidden = true;
-      }
-      aid.hidden = false;
-      renderAidReview(q);
-    }
-
     const pl = $("passage-link");
     pl.href = septuagintUrl(q);
     pl.textContent = "Read " + scriptureRef(q) + " in context ↗";
 
+    const studyToggle = $("study-guide-toggle");
+    if (q.memoryAid && q.memoryAid.text) {
+      studyToggle.hidden = false;
+      setStudyGuideVisible(q, !correct);
+    } else {
+      setStudyGuideVisible(q, false);
+      studyToggle.hidden = true;
+    }
+
     $("suggest-link").href = suggestUrl(q);
 
     $("next-btn").focus();
+  }
+
+  function setStudyGuideVisible(q, visible) {
+    const aid = $("memory-aid");
+    const review = $("aid-review");
+    const toggle = $("study-guide-toggle");
+    aid.hidden = !visible;
+    toggle.textContent = visible ? "Hide study guide" : "Show study guide";
+    toggle.setAttribute("aria-expanded", String(visible));
+    if (!q.memoryAid || !q.memoryAid.text) {
+      review.hidden = true;
+      return;
+    }
+    renderMemoryAid(q);
+    if (visible) renderAidReview(q);
+    else review.hidden = true;
+  }
+
+  function renderMemoryAid(q) {
+    const aid = $("memory-aid");
+    const type = q.memoryAid.type || "mnemonic";
+    aid.className = "memory-aid " + type;
+    $("aid-badge").textContent = AID_LABELS[type] || type;
+    $("aid-badge").className = "aid-badge " + type;
+    $("aid-text").textContent = q.memoryAid.text;
+    const src = $("aid-source");
+    if (q.memoryAid.source) {
+      src.textContent = "— " + q.memoryAid.source;
+      src.hidden = false;
+    } else {
+      src.textContent = "";
+      src.hidden = true;
+    }
   }
 
   function latestReviewCandidate(q) {
@@ -681,6 +702,12 @@
   }
 
   // ---------- Next ----------
+  $("study-guide-toggle").addEventListener("click", () => {
+    const q = state.quiz[state.index];
+    if (!q) return;
+    setStudyGuideVisible(q, $("memory-aid").hidden);
+  });
+
   $("next-btn").addEventListener("click", () => {
     commitPendingAidVote();
     state.index++;
