@@ -36,6 +36,7 @@
     missed: [],       // questions answered wrong this session
     reviewCandidates: {},
     voteSink: null,
+    pendingAidVote: null,
     answered: false,  // whether current question has been checked
     selected: null,   // selected option for MC/TF
     showAidAlways: false,
@@ -465,6 +466,7 @@
     $("memory-aid").hidden = true;
     $("aid-review").hidden = true;
     $("aid-review-saved").hidden = true;
+    state.pendingAidVote = null;
     const submit = $("submit-btn");
     submit.hidden = false;
     submit.disabled = true;
@@ -584,6 +586,11 @@
     submitAidVote(vote);
     $("export-votes").hidden = false;
   }
+  function commitPendingAidVote() {
+    if (!state.pendingAidVote) return;
+    saveAidVote(state.pendingAidVote);
+    state.pendingAidVote = null;
+  }
   function submitAidVote(vote) {
     const sink = state.voteSink;
     if (!sink || !sink.action || !sink.fields) return;
@@ -653,7 +660,7 @@
       b.addEventListener("click", () => {
         document.querySelectorAll(".aid-choice").forEach((x) => x.classList.remove("selected"));
         b.classList.add("selected");
-        saveAidVote({
+        state.pendingAidVote = {
           questionId: q.id,
           reference: q.reference || "",
           choiceId: choice.id,
@@ -663,7 +670,8 @@
           mode: state.mode,
           answeredCorrectly: !state.missed.includes(q),
           votedAt: new Date().toISOString(),
-        });
+        };
+        saved.textContent = "Will save on Next.";
         saved.hidden = false;
       });
       opts.appendChild(b);
@@ -674,6 +682,7 @@
 
   // ---------- Next ----------
   $("next-btn").addEventListener("click", () => {
+    commitPendingAidVote();
     state.index++;
     if (state.index >= state.quiz.length) showResults();
     else renderQuestion();
