@@ -464,6 +464,8 @@
     $("memory-aid").hidden = true;
     $("aid-review").hidden = true;
     $("aid-review-saved").hidden = true;
+    $("custom-aid-box").hidden = true;
+    $("custom-aid-text").value = "";
     $("study-guide-toggle").hidden = true;
     state.pendingAidVote = null;
     const submit = $("submit-btn");
@@ -571,8 +573,7 @@
       return;
     }
     renderMemoryAid(q);
-    if (visible) renderAidReview(q);
-    else review.hidden = true;
+    visible ? renderAidReview(q) : (review.hidden = true);
   }
 
   function renderMemoryAid(q) {
@@ -583,13 +584,8 @@
     $("aid-badge").className = "aid-badge " + type;
     $("aid-text").textContent = q.memoryAid.text;
     const src = $("aid-source");
-    if (q.memoryAid.source) {
-      src.textContent = "— " + q.memoryAid.source;
-      src.hidden = false;
-    } else {
-      src.textContent = "";
-      src.hidden = true;
-    }
+    src.textContent = q.memoryAid.source ? "— " + q.memoryAid.source : "";
+    src.hidden = !q.memoryAid.source;
   }
 
   function latestReviewCandidate(q) {
@@ -653,7 +649,7 @@
   }
   function renderAidReview(q) {
     const alt = latestReviewCandidate(q);
-    if (!alt || !q.memoryAid || !q.memoryAid.text) return;
+    if (!q.memoryAid || !q.memoryAid.text) return;
 
     const box = $("aid-review");
     const opts = $("aid-review-options");
@@ -661,10 +657,10 @@
     opts.innerHTML = "";
     saved.hidden = true;
 
-    const choices = [
+    const choices = alt ? [
       { id: "current", type: q.memoryAid.type, text: q.memoryAid.text, source: q.memoryAid.source || "" },
       { id: alt.candidateId, type: alt.type, text: alt.text, source: alt.source || "" },
-    ];
+    ] : [{ id: "current", type: q.memoryAid.type, text: q.memoryAid.text, source: q.memoryAid.source || "" }];
     const prior = aidVoteFor(q.id);
 
     choices.forEach((choice) => {
@@ -686,7 +682,7 @@
           reference: q.reference || "",
           choiceId: choice.id,
           currentCandidateId: "current",
-          alternateCandidateId: alt.candidateId,
+          alternateCandidateId: alt ? alt.candidateId : "",
           chosenText: choice.text,
           mode: state.mode,
           answeredCorrectly: !state.missed.includes(q),
@@ -701,12 +697,40 @@
     box.hidden = false;
   }
 
+  function saveCustomAid() {
+    const q = state.quiz[state.index];
+    if (!q) return;
+    const text = $("custom-aid-text").value.trim();
+    if (!text) return;
+    const alt = latestReviewCandidate(q);
+    state.pendingAidVote = {
+      questionId: q.id,
+      reference: q.reference || "",
+      choiceId: "custom",
+      currentCandidateId: "current",
+      alternateCandidateId: alt ? alt.candidateId : "",
+      chosenText: text,
+      mode: state.mode,
+      answeredCorrectly: !state.missed.includes(q),
+      votedAt: new Date().toISOString(),
+    };
+    document.querySelectorAll(".aid-choice").forEach((x) => x.classList.remove("selected"));
+    $("aid-review-saved").textContent = "Will save your suggestion on Next.";
+    $("aid-review-saved").hidden = false;
+  }
+
   // ---------- Next ----------
   $("study-guide-toggle").addEventListener("click", () => {
     const q = state.quiz[state.index];
     if (!q) return;
     setStudyGuideVisible(q, $("memory-aid").hidden);
   });
+  $("custom-aid-toggle").addEventListener("click", () => {
+    const box = $("custom-aid-box");
+    box.hidden = !box.hidden;
+    if (!box.hidden) $("custom-aid-text").focus();
+  });
+  $("custom-aid-save").addEventListener("click", saveCustomAid);
 
   $("next-btn").addEventListener("click", () => {
     commitPendingAidVote();
