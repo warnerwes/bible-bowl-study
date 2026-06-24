@@ -342,7 +342,11 @@
     const n = pool().length;
     $("setup-summary").textContent = n + " question" + (n === 1 ? "" : "s") + " match your selection.";
     $("start-btn").disabled = n === 0;
-    $("export-csv").disabled = n === 0;
+    const exp = $("export-csv");
+    exp.disabled = n === 0;
+    exp.textContent = n > 0
+      ? "⬇ Export " + n + " question" + (n === 1 ? "" : "s") + " to Anki (CSV)"
+      : "⬇ Export to Anki (CSV)";
   }
 
   // ---------- Start a quiz ----------
