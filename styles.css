@@ -475,3 +475,48 @@ h2 { font-size: 1.45rem; margin-top: 0; line-height: 1.2; font-weight: 600; }
   .q-text { font-size: 1.15rem; }
   main { padding: 1rem 0.85rem 2.5rem; }
 }
+
+/* ---------- Celebration (correct + mastery) ---------- */
+.confetti-layer {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 9998;
+}
+.confetti-piece {
+  position: fixed;
+  top: 0;
+  left: 0;
+  border-radius: 1px;
+  will-change: transform, opacity;
+}
+.verdict.pop { animation: verdict-pop 0.45s ease; }
+@keyframes verdict-pop {
+  0% { transform: scale(0.82); }
+  55% { transform: scale(1.14); }
+  100% { transform: scale(1); }
+}
+.mastered-flash {
+  position: fixed;
+  left: 50%;
+  top: 22%;
+  transform: translate(-50%, -8px) scale(0.9);
+  z-index: 9999;
+  pointer-events: none;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 2rem;
+  letter-spacing: 0.02em;
+  color: #1c1408;
+  background: linear-gradient(180deg, var(--accent-strong), var(--accent));
+  padding: 0.5rem 1.5rem;
+  border-radius: 999px;
+  box-shadow: 0 12px 34px -12px rgba(0, 0, 0, 0.65);
+  opacity: 0;
+  transition: opacity 0.3s ease, transform 0.3s cubic-bezier(.2, .8, .3, 1);
+}
+.mastered-flash.show { opacity: 1; transform: translate(-50%, 0) scale(1); }
+@media (prefers-reduced-motion: reduce) {
+  .verdict.pop { animation: none; }
+}

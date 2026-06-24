@@ -54,6 +54,94 @@
     ["setup", "quiz", "results"].forEach((s) => ($(s).hidden = s !== screen));
   }
 
+  // ---------- Celebration effects (dependency-free confetti) ----------
+  const PREFERS_REDUCED_MOTION =
+    typeof window.matchMedia === "function" &&
+    window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const CONFETTI_COLORS = ["#d4a04e", "#e6c074", "#5fae86", "#6aa9e0", "#b48ad6", "#e08a5a", "#f2ead8"];
+
+  function popVerdict() {
+    if (PREFERS_REDUCED_MOTION) return;
+    const v = $("feedback-verdict");
+    v.classList.remove("pop");
+    void v.offsetWidth; // reflow so the animation can restart
+    v.classList.add("pop");
+  }
+  function makeConfettiLayer(lifespanMs) {
+    const layer = el("div", "confetti-layer");
+    document.body.appendChild(layer);
+    setTimeout(() => layer.remove(), lifespanMs);
+    return layer;
+  }
+  function addPiece(layer, x, y) {
+    const p = el("div", "confetti-piece");
+    p.style.background = CONFETTI_COLORS[Math.floor(Math.random() * CONFETTI_COLORS.length)];
+    const w = 6 + Math.random() * 6;
+    p.style.width = w + "px";
+    p.style.height = w * 0.45 + "px";
+    p.style.left = x + "px";
+    p.style.top = y + "px";
+    layer.appendChild(p);
+    return p;
+  }
+  // Small burst radiating from the verdict — the "slight" celebration on a correct answer.
+  function celebrateCorrect() {
+    popVerdict();
+    if (PREFERS_REDUCED_MOTION) return;
+    const r = $("feedback-verdict").getBoundingClientRect();
+    const cx = r.left + r.width / 2;
+    const cy = r.top + r.height / 2;
+    const layer = makeConfettiLayer(1500);
+    for (let i = 0; i < 16; i++) {
+      const p = addPiece(layer, cx, cy);
+      const ang = Math.random() * Math.PI * 2;
+      const dist = 30 + Math.random() * 70;
+      const dx = Math.cos(ang) * dist;
+      const dy = Math.sin(ang) * dist + 50 + Math.random() * 70; // bias downward (gravity)
+      const rot = Math.random() * 540 - 270;
+      p.animate(
+        [
+          { transform: "translate(0,0) rotate(0deg)", opacity: 1 },
+          { transform: `translate(${dx}px, ${dy}px) rotate(${rot}deg)`, opacity: 0 },
+        ],
+        { duration: 800 + Math.random() * 500, easing: "cubic-bezier(.2,.7,.3,1)" }
+      ).onfinish = () => p.remove();
+    }
+  }
+  // Full-screen drop from the top + a "Mastered!" flourish — fires at 3 in a row.
+  function celebrateMastery() {
+    popVerdict();
+    flashMastered();
+    if (PREFERS_REDUCED_MOTION) return;
+    const W = window.innerWidth;
+    const H = window.innerHeight;
+    const layer = makeConfettiLayer(4200);
+    for (let i = 0; i < 140; i++) {
+      const p = addPiece(layer, Math.random() * W, -16);
+      const dx = (Math.random() - 0.5) * 180;
+      const rot = Math.random() * 1080 - 540;
+      const delay = Math.random() * 450;
+      const dur = 2000 + Math.random() * 1300;
+      p.animate(
+        [
+          { transform: "translate(0,0) rotate(0deg)", opacity: 1 },
+          { transform: `translate(${dx * 0.4}px, ${H * 0.55}px) rotate(${rot * 0.5}deg)`, opacity: 1, offset: 0.6 },
+          { transform: `translate(${dx}px, ${H + 40}px) rotate(${rot}deg)`, opacity: 0 },
+        ],
+        { duration: dur, delay: delay, easing: "cubic-bezier(.25,.6,.4,1)" }
+      ).onfinish = () => p.remove();
+    }
+  }
+  function flashMastered() {
+    const b = el("div", "mastered-flash", "✦ Mastered!");
+    document.body.appendChild(b);
+    requestAnimationFrame(() => b.classList.add("show"));
+    setTimeout(() => {
+      b.classList.remove("show");
+      setTimeout(() => b.remove(), 450);
+    }, 2200);
+  }
+
   // ---------- Progress tracking (localStorage) ----------
   // stats[id] = { wrong, right, streak, seen } — streak = consecutive corrects.
   let stats = {};
@@ -527,8 +615,16 @@
     state.answered = true;
     if (correct) state.score++;
     else state.missed.push(q);
-    if (state.mode !== "review") recordResult(q, correct);
+    let newlyMastered = false;
+    if (state.mode !== "review") {
+      recordResult(q, correct);
+      newlyMastered = correct && !!stats[q.id] && stats[q.id].streak === MASTERY_STREAK;
+    }
     showFeedback(q, correct);
+    if (correct) {
+      if (newlyMastered) celebrateMastery();
+      else celebrateCorrect();
+    }
   });
 
   function showFeedback(q, correct) {
