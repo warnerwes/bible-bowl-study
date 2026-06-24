@@ -1,8 +1,20 @@
 /* Bible Bowl Study — Exodus quiz engine (framework-free).
-   Loads data/questions.json and runs a configurable quiz with memory aids. */
+   Loads data/questions.json and runs a configurable quiz with memory aids.
+
+   Three ways to start:
+     - Quick   : every question, shuffled (the main path).
+     - Drill   : only questions you've previously missed.
+     - Custom  : pick chapters / types / count (advanced).
+
+   Per-device progress is saved in localStorage: questions you miss are
+   weighted to resurface sooner, and a question leaves the "due" pool once
+   you answer it correctly twice in a row. No account or server required. */
 
 (() => {
   "use strict";
+
+  const REPO = "warnerwes/bible-bowl-study";
+  const STORAGE_KEY = "bbs:stats:v1";
 
   const TYPE_LABELS = {
     "multiple-choice": "Multiple choice",
@@ -20,10 +32,11 @@
     quiz: [],         // current quiz subset (ordered)
     index: 0,
     score: 0,
-    missed: [],       // questions answered wrong
+    missed: [],       // questions answered wrong this session
     answered: false,  // whether current question has been checked
     selected: null,   // selected option for MC/TF
     showAidAlways: false,
+    mode: "quick",
   };
 
   // ---------- DOM helpers ----------
@@ -36,6 +49,68 @@
   };
   function show(screen) {
     ["setup", "quiz", "results"].forEach((s) => ($(s).hidden = s !== screen));
+  }
+
+  // ---------- Progress tracking (localStorage) ----------
+  // stats[id] = { wrong, right, streak, seen } — streak = consecutive corrects.
+  let stats = {};
+  function loadStats() {
+    try { stats = JSON.parse(localStorage.getItem(STORAGE_KEY)) || {}; }
+    catch (e) { stats = {}; }
+  }
+  function saveStats() {
+    try { localStorage.setItem(STORAGE_KEY, JSON.stringify(stats)); }
+    catch (e) { /* private mode / storage disabled — tracking just won't persist */ }
+  }
+  function recordResult(q, correct) {
+    const s = stats[q.id] || { wrong: 0, right: 0, streak: 0, seen: 0 };
+    s.seen += 1;
+    if (correct) { s.right += 1; s.streak += 1; }
+    else { s.wrong += 1; s.streak = 0; }
+    stats[q.id] = s;
+    saveStats();
+  }
+  // "Due" = missed at least once and not yet re-mastered (2 corrects in a row).
+  function isDue(q) {
+    const s = stats[q.id];
+    return !!s && s.wrong > 0 && s.streak < 2;
+  }
+  function dueQuestions() {
+    return state.all.filter(isDue);
+  }
+  // Higher weight => tends to appear earlier in a shuffle.
+  function weightFor(q) {
+    const s = stats[q.id];
+    if (!s) return 1.5;                 // unseen: slight edge over mastered
+    if (s.streak >= 2) return 0.5;      // mastered: show rarely
+    let w = 1;
+    if (isDue(q)) w += 3;               // currently due for review
+    w += Math.min(s.wrong, 3);          // missed a lot => more often
+    return w;
+  }
+  // Weighted shuffle (Efraimidis–Spirakis): key = U^(1/weight), sort desc.
+  function weightedOrder(arr) {
+    return arr
+      .map((q) => ({ q, k: Math.pow(Math.random(), 1 / Math.max(weightFor(q), 0.01)) }))
+      .sort((a, b) => b.k - a.k)
+      .map((x) => x.q);
+  }
+
+  // ---------- Suggest-a-correction link (pre-filled GitHub issue) ----------
+  function suggestUrl(q) {
+    const title = `[Revision] ${q.id} — ${q.reference || ("Exodus " + q.chapter)}`;
+    const body = [
+      `**Question ID:** ${q.id}`,
+      `**Reference:** ${q.reference || "(none)"}`,
+      `**Type:** ${q.type}`,
+      "",
+      `**Question:** ${q.question}`,
+      `**Current answer:** ${q.answer}`,
+      "",
+      "**Suggested change / issue:**",
+      "_Describe the correction here._",
+    ].join("\n");
+    return `https://github.com/${REPO}/issues/new?title=${encodeURIComponent(title)}&body=${encodeURIComponent(body)}`;
   }
 
   // ---------- Answer normalization (fill-in) ----------
@@ -62,6 +137,7 @@
 
   // ---------- Load data ----------
   async function load() {
+    loadStats();
     try {
       const res = await fetch("data/questions.json", { cache: "no-cache" });
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
@@ -78,8 +154,10 @@
     }
   }
 
-  // ---------- Setup screen ----------
+  // ---------- Setup / home screen ----------
   function buildSetup() {
+    $("total-count").textContent = state.all.length;
+
     const chapters = [...new Set(state.all.map((q) => q.chapter))].sort((a, b) => a - b);
     const list = $("chapter-list");
     list.innerHTML = "";
@@ -107,8 +185,50 @@
       });
     });
 
-    $("start-btn").addEventListener("click", startQuiz);
+    // Mode launchers
+    $("quick-start").addEventListener("click", startQuick);
+    $("drill-missed").addEventListener("click", startDrill);
+    $("start-btn").addEventListener("click", startCustom);
+
+    // Advanced toggle
+    $("toggle-advanced").addEventListener("click", () => openAdvanced(true));
+    $("close-advanced").addEventListener("click", () => openAdvanced(false));
+
+    refreshHome();
     updateSummary();
+  }
+
+  function openAdvanced(open) {
+    $("home").hidden = open;
+    $("advanced").hidden = !open;
+    $("toggle-advanced").setAttribute("aria-expanded", String(open));
+  }
+
+  // Refresh the home-screen tracking UI (missed CTA + progress line).
+  function refreshHome() {
+    const due = dueQuestions().length;
+    $("missed-cta").hidden = due === 0;
+    $("missed-count").textContent = due;
+
+    const seen = Object.keys(stats).length;
+    const line = $("progress-line");
+    if (seen > 0) {
+      line.hidden = false;
+      line.textContent = `Seen ${seen} of ${state.all.length} · ${due} due for review · `;
+      const reset = el("button", "link-btn", "Reset progress");
+      reset.type = "button";
+      reset.addEventListener("click", resetProgress);
+      line.appendChild(reset);
+    } else {
+      line.hidden = true;
+    }
+  }
+
+  function resetProgress() {
+    if (!window.confirm("Reset all saved progress on this device? This can't be undone.")) return;
+    stats = {};
+    saveStats();
+    refreshHome();
   }
 
   function selectedChapters() {
@@ -128,26 +248,31 @@
     $("start-btn").disabled = n === 0;
   }
 
-  // ---------- Start ----------
-  function shuffle(arr) {
-    const a = arr.slice();
-    for (let i = a.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [a[i], a[j]] = [a[j], a[i]];
-    }
-    return a;
-  }
-
-  function startQuiz() {
-    const available = shuffle(pool());
-    const requested = Number($("count").value);
-    state.quiz = requested > 0 ? available.slice(0, requested) : available;
+  // ---------- Start a quiz ----------
+  function launch(questions, mode) {
+    state.quiz = questions;
     state.index = 0;
     state.score = 0;
     state.missed = [];
+    state.mode = mode;
     state.showAidAlways = $("show-aid-always").checked;
     show("quiz");
     renderQuestion();
+  }
+  function startQuick() {
+    launch(weightedOrder(state.all), "quick");
+  }
+  function startDrill() {
+    const due = dueQuestions();
+    if (!due.length) return;
+    launch(weightedOrder(due), "drill");
+  }
+  function startCustom() {
+    const requested = Number($("count").value);
+    let qs = weightedOrder(pool());
+    if (requested > 0) qs = qs.slice(0, requested);
+    if (!qs.length) return;
+    launch(qs, "custom");
   }
 
   // ---------- Render a question ----------
@@ -223,6 +348,7 @@
     state.answered = true;
     if (correct) state.score++;
     else state.missed.push(q);
+    recordResult(q, correct);
     showFeedback(q, correct);
   });
 
@@ -260,6 +386,8 @@
       aid.hidden = false;
     }
 
+    $("suggest-link").href = suggestUrl(q);
+
     $("next-btn").focus();
   }
 
@@ -271,7 +399,11 @@
   });
 
   $("quit-btn").addEventListener("click", showResults);
-  $("restart-btn").addEventListener("click", () => show("setup"));
+  $("restart-btn").addEventListener("click", () => {
+    openAdvanced(false);
+    refreshHome();
+    show("setup");
+  });
 
   // ---------- Results ----------
   function showResults() {
@@ -303,6 +435,11 @@
         item.appendChild(el("p", "aid-body", q.memoryAid.text));
         if (q.memoryAid.source) item.appendChild(el("cite", "aid-source", "— " + q.memoryAid.source));
       }
+      const suggest = el("a", "suggest-link", "⚐ Suggest a correction");
+      suggest.href = suggestUrl(q);
+      suggest.target = "_blank";
+      suggest.rel = "noopener";
+      item.appendChild(suggest);
       review.appendChild(item);
     });
   }
