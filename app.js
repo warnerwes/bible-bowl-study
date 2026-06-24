@@ -406,7 +406,6 @@
 
   // ---------- Setup / home screen ----------
   function buildSetup() {
-    $("total-count").textContent = state.all.length;
 
     const chapters = [...new Set(state.all.map((q) => q.chapter))].sort((a, b) => a - b);
     const list = $("chapter-list");
@@ -467,6 +466,11 @@
     const mastered = masteredQuestions().length;
     $("mastered-cta").hidden = mastered === 0;
     $("mastered-count").textContent = mastered;
+
+    const remaining = state.all.length - mastered;
+    $("quick-note").textContent = mastered > 0
+      ? `${remaining} of ${state.all.length} left to master (${mastered} set aside), shuffled. Missed ones come back first.`
+      : `All ${state.all.length} questions, shuffled. Ones you miss come back more often.`;
 
     const seen = Object.keys(stats).length;
     const line = $("progress-line");
@@ -536,7 +540,9 @@
     renderQuestion();
   }
   function startQuick() {
-    launch(weightedOrder(state.all), "quick");
+    // Set mastered questions aside; fall back to everything once all are mastered.
+    const pool = state.all.filter((q) => !isMastered(q));
+    launch(weightedOrder(pool.length ? pool : state.all), "quick");
   }
   function startDrill() {
     const due = dueQuestions();
