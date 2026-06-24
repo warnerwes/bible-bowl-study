@@ -84,29 +84,47 @@
     layer.appendChild(p);
     return p;
   }
-  // Small burst radiating from the verdict — the "slight" celebration on a correct answer.
-  function celebrateCorrect() {
-    popVerdict();
-    if (PREFERS_REDUCED_MOTION) return;
-    const r = $("feedback-verdict").getBoundingClientRect();
-    const cx = r.left + r.width / 2;
-    const cy = r.top + r.height / 2;
-    const layer = makeConfettiLayer(1500);
-    for (let i = 0; i < 16; i++) {
-      const p = addPiece(layer, cx, cy);
-      const ang = Math.random() * Math.PI * 2;
-      const dist = 30 + Math.random() * 70;
-      const dx = Math.cos(ang) * dist;
-      const dy = Math.sin(ang) * dist + 50 + Math.random() * 70; // bias downward (gravity)
-      const rot = Math.random() * 540 - 270;
-      p.animate(
-        [
-          { transform: "translate(0,0) rotate(0deg)", opacity: 1 },
-          { transform: `translate(${dx}px, ${dy}px) rotate(${rot}deg)`, opacity: 0 },
-        ],
-        { duration: 800 + Math.random() * 500, easing: "cubic-bezier(.2,.7,.3,1)" }
-      ).onfinish = () => p.remove();
+  // Mastery progress toward MASTERY_STREAK correct-in-a-row — shown after each
+  // answer in place of a per-correct celebration. `reset` = a streak was just
+  // broken by a wrong answer (so we show "Streak reset" rather than "0 of 3").
+  function renderMasteryProgress(q, reset) {
+    const wrap = $("mastery-progress");
+    if (state.mode === "review") { wrap.hidden = true; return; }
+    const total = MASTERY_STREAK;
+    const s = stats[q.id] || { streak: 0 };
+    const streak = Math.min(s.streak || 0, total);
+    const mastered = (s.streak || 0) >= total;
+
+    const track = $("mp-track");
+    track.innerHTML = "";
+    const segs = [];
+    for (let i = 0; i < total; i++) {
+      const seg = el("span", "mp-seg");
+      track.appendChild(seg);
+      segs.push(seg);
     }
+
+    const label = $("mp-label");
+    if (mastered) {
+      wrap.className = "mastery-progress mastered";
+      label.textContent = "✦ Mastered";
+    } else if (reset) {
+      wrap.className = "mastery-progress reset";
+      label.textContent = "Streak reset · 0 of " + total + " in a row";
+    } else {
+      wrap.className = "mastery-progress";
+      label.textContent = streak + " of " + total + " correct in a row";
+    }
+    wrap.setAttribute("aria-valuenow", String(streak));
+    wrap.hidden = false;
+
+    // Fill the segments (newest one pulses). Under reduced-motion, paint at once.
+    const paint = () => {
+      segs.forEach((seg, i) => { if (i < streak) seg.classList.add("filled"); });
+      if (!PREFERS_REDUCED_MOTION && streak > 0 && !reset) segs[streak - 1].classList.add("pump");
+    };
+    if (PREFERS_REDUCED_MOTION) paint();
+    else requestAnimationFrame(() => requestAnimationFrame(paint));
   }
   // Full-screen drop from the top + a "Mastered!" flourish — fires at 3 in a row.
   function celebrateMastery() {
@@ -133,7 +151,15 @@
     }
   }
   function flashMastered() {
-    const b = el("div", "mastered-flash", "✦ Mastered!");
+    const b = el("div", "mastered-flash");
+    // Inline SVG star renders crisply and on-theme (a glyph rendered as a clunky
+    // black diamond in the display serif).
+    b.innerHTML =
+      '<svg class="mf-star" viewBox="0 0 24 24" aria-hidden="true">' +
+      '<path d="M12 1.7l2.3 7.1 7.5.1-6 4.5 2.2 7.2-6-4.4-6 4.4 2.2-7.2-6-4.5 7.5-.1z"/>' +
+      "</svg>" +
+      '<span class="mf-title">Mastered</span>' +
+      '<span class="mf-sub">' + MASTERY_STREAK + " correct in a row</span>";
     document.body.appendChild(b);
     requestAnimationFrame(() => b.classList.add("show"));
     setTimeout(() => {
@@ -616,15 +642,16 @@
     if (correct) state.score++;
     else state.missed.push(q);
     let newlyMastered = false;
+    let streakReset = false;
     if (state.mode !== "review") {
+      const prevStreak = stats[q.id] ? (stats[q.id].streak || 0) : 0;
       recordResult(q, correct);
       newlyMastered = correct && !!stats[q.id] && stats[q.id].streak === MASTERY_STREAK;
+      streakReset = !correct && prevStreak > 0;
     }
     showFeedback(q, correct);
-    if (correct) {
-      if (newlyMastered) celebrateMastery();
-      else celebrateCorrect();
-    }
+    renderMasteryProgress(q, streakReset);
+    if (correct && newlyMastered) celebrateMastery();
   });
 
   function showFeedback(q, correct) {

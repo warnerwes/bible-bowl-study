@@ -500,23 +500,87 @@ h2 { font-size: 1.45rem; margin-top: 0; line-height: 1.2; font-weight: 600; }
 .mastered-flash {
   position: fixed;
   left: 50%;
-  top: 22%;
-  transform: translate(-50%, -8px) scale(0.9);
+  top: 38%;
+  transform: translate(-50%, 10px) scale(0.94);
   z-index: 9999;
   pointer-events: none;
-  font-family: var(--font-display);
-  font-weight: 700;
-  font-size: 2rem;
-  letter-spacing: 0.02em;
-  color: #1c1408;
-  background: linear-gradient(180deg, var(--accent-strong), var(--accent));
-  padding: 0.5rem 1.5rem;
-  border-radius: 999px;
-  box-shadow: 0 12px 34px -12px rgba(0, 0, 0, 0.65);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.1rem;
+  padding: 1.1rem 2.1rem 1rem;
+  background: rgba(18, 22, 28, 0.94);
+  border: 1px solid var(--border-gold);
+  border-radius: 16px;
+  box-shadow: 0 26px 70px -24px rgba(0, 0, 0, 0.85);
   opacity: 0;
-  transition: opacity 0.3s ease, transform 0.3s cubic-bezier(.2, .8, .3, 1);
+  transition: opacity 0.35s ease, transform 0.35s cubic-bezier(.2, .8, .3, 1);
 }
 .mastered-flash.show { opacity: 1; transform: translate(-50%, 0) scale(1); }
+.mf-star {
+  width: 30px;
+  height: 30px;
+  margin-bottom: 0.3rem;
+  fill: var(--accent-strong);
+  filter: drop-shadow(0 0 9px rgba(212, 160, 78, 0.55));
+}
+.mf-title {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 2.3rem;
+  line-height: 1;
+  letter-spacing: 0.04em;
+  color: var(--accent-strong);
+}
+.mf-sub {
+  margin-top: 0.35rem;
+  font-family: system-ui, sans-serif;
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: var(--muted);
+}
+
+/* ---------- Mastery progress bar (after each answer) ---------- */
+.mastery-progress {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  margin: 0 0 1.15rem;
+}
+.mp-track { display: flex; gap: 6px; }
+.mp-seg {
+  width: 38px;
+  height: 7px;
+  border-radius: 999px;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  transform-origin: center;
+  transition: background 0.4s ease, border-color 0.4s ease;
+}
+.mp-seg.filled {
+  background: linear-gradient(90deg, var(--accent), var(--accent-strong));
+  border-color: transparent;
+}
+.mp-seg.pump { animation: mp-pump 0.45s ease; }
+@keyframes mp-pump {
+  0% { transform: scaleY(1); }
+  45% { transform: scaleY(2); }
+  100% { transform: scaleY(1); }
+}
+.mp-label {
+  font-size: 0.85rem;
+  font-family: system-ui, sans-serif;
+  color: var(--muted);
+}
+.mastery-progress.mastered .mp-label { color: var(--accent-strong); font-weight: 600; }
+
+@media (max-width: 480px) {
+  .mp-seg { width: 32px; }
+  .mf-title { font-size: 2rem; }
+}
 @media (prefers-reduced-motion: reduce) {
   .verdict.pop { animation: none; }
+  .mp-seg { transition: none; }
+  .mp-seg.pump { animation: none; }
 }
