@@ -17,8 +17,8 @@ const GROUPS = [
   { f: 'F', scope: 'Exodus 32-34, 38-40' },
 ]
 
-const RAW = (g) => `/home/user/bible-bowl-study/data/raw/group${g}.json`
-const OUT = (g) => `/home/user/bible-bowl-study/tmp-upgrades/group${g}.json`
+const RAW = (g) => `/home/user/bible-bowl-study/data/raw/group${g.f}.json`
+const OUT = (g) => `/home/user/bible-bowl-study/tmp-upgrades/group${g.f}.json`
 
 // Verified, real sources. Reviewers may cite ONLY from genuine works like these
 // (or leave the citation empty). Never invent quotes, page numbers, or works.
