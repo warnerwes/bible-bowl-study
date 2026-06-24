@@ -8,8 +8,13 @@
     "type": "fill-in",
     "question": "At what place did Israel camp when there was no water, leading to the water from the rock?",
     "answer": "Rephidim",
-    "acceptableAnswers": ["rephidim"],
-    "memoryAid": { "type": "mnemonic", "text": "Rephidim sounds like 'refill-dim' — the people's faith was dim, but God refilled them with water from the rock." }
+    "acceptableAnswers": [
+      "rephidim"
+    ],
+    "memoryAid": {
+      "type": "image",
+      "text": "Rephidim means 'resting-places' — yet there the people found no rest, only dry throats and a quarrel. Picture them slumping down at a campsite named 'Rest' and finding not a drop of water, until God splits open the Rock. The place called Rest gave no rest until the Rock was struck."
+    }
   },
   {
     "id": "ex17-002",
@@ -20,8 +25,15 @@
     "type": "true-false",
     "question": "Moses struck the rock to bring forth water.",
     "answer": "True",
-    "options": ["True", "False"],
-    "memoryAid": { "type": "teaching", "text": "The rock struck at Rephidim (Horeb) gives water to a thirsting people. St. Paul declares, 'that Rock was Christ' (1 Cor 10:4). The struck Rock prefigures Christ, from whom flow the living waters of the Spirit.", "source": "1 Corinthians 10:1-4" }
+    "options": [
+      "True",
+      "False"
+    ],
+    "memoryAid": {
+      "type": "teaching",
+      "text": "The Rock yields nothing until it is smitten. Moses strikes it once, and a river gushes for a whole thirsting nation. St. Paul says plainly, 'that Rock was Christ' — the Rock struck so that living water flows is the Crucified, smitten on the Cross, from whose pierced side blood and water pour.",
+      "source": "1 Corinthians 10:1-4"
+    }
   },
   {
     "id": "ex17-003",
@@ -32,20 +44,36 @@
     "type": "multiple-choice",
     "question": "At which mountain did God tell Moses he would stand on the rock to bring forth water?",
     "answer": "Horeb",
-    "options": ["Horeb", "Sinai", "Nebo", "Carmel"],
-    "memoryAid": { "type": "mnemonic", "text": "Horeb = 'H2O-reb' — the place water poured from the rock." }
+    "options": [
+      "Horeb",
+      "Sinai",
+      "Nebo",
+      "Carmel"
+    ],
+    "memoryAid": {
+      "type": "teaching",
+      "text": "Horeb is the very mountain of the burning bush and the Law — the mountain of God. So the water flows from the rock at the same place where God revealed His Name in fire: the mount of revelation is also the mount of provision. Where God once appeared in flame, He now appears in water.",
+      "source": "St. Gregory of Nyssa, The Life of Moses"
+    }
   },
   {
     "id": "ex17-004",
     "chapter": 17,
     "book": "Exodus",
     "reference": "Exodus 17:7",
-    "topic": "Massah and Meribah",
+    "topic": "Water in the Desert",
     "type": "fill-in",
     "question": "What two names did Moses give the place where the people tested the Lord?",
     "answer": "Massah and Meribah",
-    "acceptableAnswers": ["massah and meribah", "massah meribah", "meribah and massah"],
-    "memoryAid": { "type": "mnemonic", "text": "Massah = 'Mass test' (Testing); Meribah = 'Merry brawl' (Contention). The people tested God and quarreled with Moses." }
+    "acceptableAnswers": [
+      "massah and meribah",
+      "massah meribah",
+      "meribah and massah"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "One place, two indictments, two M's: Massah the Mistrust (Testing — they put God on trial) and Meribah the Murmuring (Contention — they quarreled as if He had failed them). Massah = Mass-test; Meribah = Merry brawl."
+    }
   },
   {
     "id": "ex17-005",
@@ -56,8 +84,16 @@
     "type": "multiple-choice",
     "question": "What do the names Massah and Meribah mean?",
     "answer": "Testing and contention",
-    "options": ["Testing and contention", "Refuge and rest", "Bitter and sweet", "Mercy and judgment"],
-    "memoryAid": { "type": "mnemonic", "text": "MaSSah = teSt; meRibah = quaRrel (contention). Two M's for two murmurings." }
+    "options": [
+      "Testing and contention",
+      "Refuge and rest",
+      "Bitter and sweet",
+      "Mercy and judgment"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "MaSSah = teSt; meRibah = quaRRel. The double letters fix both meanings at once: Testing and Contention, the twin sins of the wilderness heart."
+    }
   },
   {
     "id": "ex17-006",
@@ -68,8 +104,14 @@
     "type": "fill-in",
     "question": "Who led Israel's army into battle against Amalek?",
     "answer": "Joshua",
-    "acceptableAnswers": ["joshua"],
-    "memoryAid": { "type": "mnemonic", "text": "JOSHUA leads the fight below while Moses prays above. 'J' for the general on the ground; Moses holds the staff on the hill." }
+    "acceptableAnswers": [
+      "joshua"
+    ],
+    "memoryAid": {
+      "type": "teaching",
+      "text": "Joshua — Iesous in the Greek — bears the very name of the Saviour, 'the Lord saves.' It is he, not Moses, who descends to wage war on Amalek: the Law (Moses) lifts the cross-form on the height while Jesus conquers our enemy in the field. The name on the battle-standard is already the Name above every name.",
+      "source": "St. Justin Martyr, Dialogue with Trypho, ch. 90"
+    }
   },
   {
     "id": "ex17-007",
@@ -80,8 +122,16 @@
     "type": "fill-in",
     "question": "What happened to the battle whenever Moses raised his hands?",
     "answer": "Israel prevailed",
-    "acceptableAnswers": ["israel prevailed", "israel won", "israel was winning"],
-    "memoryAid": { "type": "teaching", "text": "Moses on the hill with arms outstretched is a living image of the Cross: while his hands are raised, Israel prevails and Amalek falls. Aaron and Hur holding up his tiring hands show that victory comes through the form of the Cross.", "source": "St. Justin Martyr, Dialogue with Trypho, ch. 90" }
+    "acceptableAnswers": [
+      "israel prevailed",
+      "israel won",
+      "israel was winning"
+    ],
+    "memoryAid": {
+      "type": "teaching",
+      "text": "The battle is won not by the sword below but by the shape of the arms above: while Moses holds the form of the Cross, Israel prevails; let his hands drop, and Amalek surges. Justin Martyr saw it plainly — victory hangs upon the Cross, not the spear.",
+      "source": "St. Justin Martyr, Dialogue with Trypho, ch. 90"
+    }
   },
   {
     "id": "ex17-008",
@@ -92,8 +142,16 @@
     "type": "multiple-choice",
     "question": "Who went up to the top of the hill with Moses during the battle with Amalek?",
     "answer": "Aaron and Hur",
-    "options": ["Aaron and Hur", "Joshua and Caleb", "Aaron and Joshua", "Hur and Eleazar"],
-    "memoryAid": { "type": "mnemonic", "text": "Two men, two arms: Aaron held one, Hur held the other. 'A' and 'H' bracket Moses like bookends." }
+    "options": [
+      "Aaron and Hur",
+      "Joshua and Caleb",
+      "Aaron and Joshua",
+      "Hur and Eleazar"
+    ],
+    "memoryAid": {
+      "type": "image",
+      "text": "Picture Moses crucified in posture on the hilltop, arms flung wide, with Aaron the priest bracing one arm and Hur the other — priesthood and people flanking him left and right, as the Lord would one day hang between two others on the hill of His passion. Two men, two arms, one unbroken Cross until sunset."
+    }
   },
   {
     "id": "ex17-009",
@@ -104,8 +162,17 @@
     "type": "fill-in",
     "question": "How did Aaron and Hur help Moses keep his hands raised?",
     "answer": "They put a stone under him and held up his hands",
-    "acceptableAnswers": ["they put a stone under him and held up his hands", "put a stone under him and held his hands", "sat him on a stone and held up his hands", "held up his hands"],
-    "memoryAid": { "type": "teaching", "text": "Aaron and Hur uphold the hands of Moses so the cross-form never drops until sunset. The outstretched hands held up by two men are the very form of the Cross by which Joshua (Jesus) defeats Amalek.", "source": "St. Justin Martyr, Dialogue with Trypho, ch. 90" }
+    "acceptableAnswers": [
+      "they put a stone under him and held up his hands",
+      "put a stone under him and held his hands",
+      "sat him on a stone and held up his hands",
+      "held up his hands"
+    ],
+    "memoryAid": {
+      "type": "teaching",
+      "text": "They seat Moses on a stone and brace each arm until the sun sets, so the figure of the Cross never drops for an instant all day long. It takes three men to keep the Cross raised — the Body upholding the form by which Joshua (Jesus) conquers. Perseverance in the Cross unto the very end wins the war.",
+      "source": "St. Justin Martyr, Dialogue with Trypho, ch. 90"
+    }
   },
   {
     "id": "ex17-010",
@@ -116,20 +183,33 @@
     "type": "fill-in",
     "question": "What name did Moses give the altar he built after defeating Amalek?",
     "answer": "The Lord My Refuge",
-    "acceptableAnswers": ["the lord my refuge", "lord my refuge", "the lord is my refuge"],
-    "memoryAid": { "type": "mnemonic", "text": "After the battle, Moses names the altar for safety: 'The Lord My Refuge' — God is the fortress to which the victor runs." }
+    "acceptableAnswers": [
+      "the lord my refuge",
+      "lord my refuge",
+      "the lord is my refuge"
+    ],
+    "memoryAid": {
+      "type": "image",
+      "text": "Moses' arms, held up by Aaron and Hur, were Israel's living battle-standard high on the hill; when the fight was won he planted an altar and named it after the true standard — 'The Lord My Refuge.' Picture the raised arms becoming the flagpole the whole army rallies to: the God who fought through those hands is Himself the banner of His host."
+    }
   },
   {
     "id": "ex18-001",
     "chapter": 18,
     "book": "Exodus",
     "reference": "Exodus 18:1-5",
-    "topic": "Jethro Visits",
+    "topic": "A Visitor in the Camp",
     "type": "fill-in",
     "question": "Who came to visit Moses in the wilderness, bringing his wife and sons?",
     "answer": "Jethro",
-    "acceptableAnswers": ["jethro"],
-    "memoryAid": { "type": "mnemonic", "text": "Jethro = Moses' father-in-law, the priest of Midian. 'J' for the wise judge-advisor who joins the camp." }
+    "acceptableAnswers": [
+      "jethro"
+    ],
+    "memoryAid": {
+      "type": "teaching",
+      "text": "Jethro the Gentile priest of Midian comes to the camp, hears all the Lord has done, and confesses, 'Now I know the Lord is greater than all gods.' A pagan priest acknowledging the God of Israel — the firstfruits of the nations beginning to stream toward the mountain, even before the Law is given.",
+      "source": "Fr. Stephen De Young, The Religion of the Apostles"
+    }
   },
   {
     "id": "ex18-002",
@@ -140,8 +220,14 @@
     "type": "true-false",
     "question": "Jethro was an Egyptian priest.",
     "answer": "False",
-    "options": ["True", "False"],
-    "memoryAid": { "type": "mnemonic", "text": "Jethro was a priest of MIDIAN, not Egypt. Moses fled Egypt TO Midian, so its priest could not be Egyptian." }
+    "options": [
+      "True",
+      "False"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "Egypt is the house of bondage Moses fled FROM; Midian the land he fled TO. A priest of Egypt would serve the very gods God shattered in the plagues — so Jethro, who blesses the Lord, must belong to Midian, never to Pharaoh's house. Flee-from versus flee-to."
+    }
   },
   {
     "id": "ex18-003",
@@ -152,8 +238,16 @@
     "type": "multiple-choice",
     "question": "Of what land was Jethro a priest?",
     "answer": "Midian",
-    "options": ["Midian", "Egypt", "Moab", "Canaan"],
-    "memoryAid": { "type": "mnemonic", "text": "MIDIAN is where Moses 'hid in' after fleeing Egypt; Jethro is its priest." }
+    "options": [
+      "Midian",
+      "Egypt",
+      "Moab",
+      "Canaan"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "MIDIAN is where Moses 'hid in' after Pharaoh sought his life; its priest is Jethro. The sound-link hid-in / Midian holds the answer fast."
+    }
   },
   {
     "id": "ex18-004",
@@ -164,8 +258,15 @@
     "type": "fill-in",
     "question": "What were the names of Moses' two sons?",
     "answer": "Gershom and Eliezer",
-    "acceptableAnswers": ["gershom and eliezer", "gershom eliezer", "eliezer and gershom"],
-    "memoryAid": { "type": "mnemonic", "text": "Gershom = 'a sojourner' (a stranger there); Eliezer = 'God is my help'. Two sons: a stranger helped by God." }
+    "acceptableAnswers": [
+      "gershom and eliezer",
+      "gershom eliezer",
+      "eliezer and gershom"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "Two names, one confession of the exile's life: Gershom, 'a stranger there,' names the sojourning; Eliezer, 'God is my help,' names the deliverance. Together the sons preach Moses' whole story — a stranger in a strange land whom God rescued."
+    }
   },
   {
     "id": "ex18-005",
@@ -176,8 +277,16 @@
     "type": "multiple-choice",
     "question": "What does the name of Moses' son Gershom mean?",
     "answer": "A sojourner (stranger there)",
-    "options": ["A sojourner (stranger there)", "God is my help", "Drawn out of water", "Laughter"],
-    "memoryAid": { "type": "mnemonic", "text": "GerSHOM = 'a stranger SHOWing up there'. Moses said, 'I have been a sojourner in a foreign land.'" }
+    "options": [
+      "A sojourner (stranger there)",
+      "God is my help",
+      "Drawn out of water",
+      "Laughter"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "GerSHOM = 'a stranger SHOWing up there.' Moses named him saying, 'I have been a sojourner in a foreign land' — the name is the pilgrim's own confession."
+    }
   },
   {
     "id": "ex18-006",
@@ -188,8 +297,16 @@
     "type": "multiple-choice",
     "question": "What does the name of Moses' son Eliezer mean?",
     "answer": "God is my help",
-    "options": ["God is my help", "A sojourner", "Son of my sorrow", "Gift of God"],
-    "memoryAid": { "type": "mnemonic", "text": "ELI-ezer: 'Eli' = my God, and He is my helper. 'God is my help.'" }
+    "options": [
+      "God is my help",
+      "A sojourner",
+      "Son of my sorrow",
+      "Gift of God"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "ELI-ezer: 'Eli' is my God, and 'ezer' is help — 'God is my help.' Split the name and the meaning falls out: a thanksgiving for rescue from Pharaoh's sword, turned into a child."
+    }
   },
   {
     "id": "ex18-007",
@@ -200,8 +317,15 @@
     "type": "fill-in",
     "question": "Jethro advised Moses to appoint rulers over groups of what four sizes?",
     "answer": "Thousands, hundreds, fifties, and tens",
-    "acceptableAnswers": ["thousands hundreds fifties and tens", "thousands, hundreds, fifties, and tens", "thousands hundreds fifties tens"],
-    "memoryAid": { "type": "mnemonic", "text": "Count down by tiers: 1000, 100, 50, 10. Big to small leadership ladder." }
+    "acceptableAnswers": [
+      "thousands hundreds fifties and tens",
+      "thousands, hundreds, fifties, and tens",
+      "thousands hundreds fifties tens"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "Descend the ladder by tens: thousands, hundreds, fifties, tens — 1000, 100, 50, 10. The counting-down image fixes the four ranks in order, the people of God mustered into divisions for the journey ahead."
+    }
   },
   {
     "id": "ex18-008",
@@ -212,8 +336,16 @@
     "type": "multiple-choice",
     "question": "Why did Jethro advise Moses to appoint judges over the people?",
     "answer": "To share the burden of leadership",
-    "options": ["To share the burden of leadership", "To raise an army for war", "To collect taxes for the tabernacle", "To choose a successor for Moses"],
-    "memoryAid": { "type": "mnemonic", "text": "One man cannot carry all the cases. Jethro's fix: SHARE the load by appointing judges over thousands, hundreds, fifties, and tens." }
+    "options": [
+      "To share the burden of leadership",
+      "To raise an army for war",
+      "To collect taxes for the tabernacle",
+      "To choose a successor for Moses"
+    ],
+    "memoryAid": {
+      "type": "image",
+      "text": "Picture Moses as a single judgment-seat with a line of complainants stretching to the horizon, the meekest man on earth wearing thin under the whole multitude. Jethro's fix: SHARE the load before the shepherd is consumed — divide the burden among many heads so no one man is worn away."
+    }
   },
   {
     "id": "ex19-001",
@@ -224,20 +356,37 @@
     "type": "fill-in",
     "question": "In which month after leaving Egypt did Israel arrive at the wilderness of Sinai?",
     "answer": "The third month",
-    "acceptableAnswers": ["third month", "the third month", "third", "3rd month"],
-    "memoryAid": { "type": "mnemonic", "text": "Three months out of Egypt to reach Sinai — count 1, 2, 3 to the mountain of God." }
+    "acceptableAnswers": [
+      "third month",
+      "the third month",
+      "third",
+      "3rd month"
+    ],
+    "memoryAid": {
+      "type": "teaching",
+      "text": "The third month — and Jewish tradition counts from here to the giving of the Law at the festival that becomes Pentecost, fifty days from Passover. Sinai and Pentecost rhyme: the Law written on stone in fire and smoke foreshadows the Spirit written on hearts in tongues of fire.",
+      "source": "Acts 2:41"
+    }
   },
   {
     "id": "ex19-002",
     "chapter": 19,
     "book": "Exodus",
     "reference": "Exodus 19:4",
-    "topic": "Eagles' Wings",
+    "topic": "Borne to God",
     "type": "fill-in",
     "question": "God said He bore Israel out of Egypt on what?",
     "answer": "Eagles' wings",
-    "acceptableAnswers": ["eagles wings", "eagles' wings", "eagle's wings", "eagle wings"],
-    "memoryAid": { "type": "image", "text": "Picture a great eagle lifting Israel up out of Egypt and carrying them home to God: 'I bore you on eagles' wings, and brought you unto Myself.'" }
+    "acceptableAnswers": [
+      "eagles wings",
+      "eagles' wings",
+      "eagle's wings",
+      "eagle wings"
+    ],
+    "memoryAid": {
+      "type": "image",
+      "text": "The eagle does not carry its young in its talons below but stirs them onto its own back, putting itself between them and the hunter's arrow so every blow strikes the eagle first. Picture God carrying Israel where the danger hits Him, and the destination is not Canaan but Himself: 'I bore you on eagles' wings, and brought you unto Myself.'"
+    }
   },
   {
     "id": "ex19-003",
@@ -248,8 +397,17 @@
     "type": "multiple-choice",
     "question": "According to Exodus 19:6, God said Israel would be to Him a royal priesthood and what kind of nation?",
     "answer": "A holy nation",
-    "options": ["A holy nation", "A mighty nation", "A great nation", "A chosen nation"],
-    "memoryAid": { "type": "teaching", "text": "'A royal priesthood and a holy nation' — St. Peter applies these very words to the Church. What was spoken to Israel at Sinai is taken up for the people of God, 'a royal priesthood, a holy nation.'", "source": "1 Peter 2:9 (cf. Exodus 19:6)" }
+    "options": [
+      "A holy nation",
+      "A mighty nation",
+      "A great nation",
+      "A chosen nation"
+    ],
+    "memoryAid": {
+      "type": "teaching",
+      "text": "'A royal priesthood and a holy nation' — St. Peter lifts these exact Sinai words and lays them on the Church. What Israel was called to be at the foot of the mountain, the baptized now are in Christ: a people of priest-kings, the true holy nation set apart unto Him.",
+      "source": "1 Peter 2:9"
+    }
   },
   {
     "id": "ex19-004",
@@ -260,20 +418,35 @@
     "type": "multiple-choice",
     "question": "Which of the following did God NOT call Israel at Sinai?",
     "answer": "A conquering army",
-    "options": ["A conquering army", "A special treasure", "A kingdom of priests", "A holy nation"],
-    "memoryAid": { "type": "mnemonic", "text": "Treasure, Priests, Holy nation — all about belonging to God, not warfare. The odd one out is the 'army'." }
+    "options": [
+      "A conquering army",
+      "A special treasure",
+      "A kingdom of priests",
+      "A holy nation"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "Israel's three Sinai titles are all belonging, never battle: Treasure, Priests, Holy nation — 'T-P-H.' Any choice that sounds like conquest, army, or war is the impostor; God's people are called to priesthood, not plunder."
+    }
   },
   {
     "id": "ex19-005",
     "chapter": 19,
     "book": "Exodus",
     "reference": "Exodus 19:5",
-    "topic": "Special Treasure",
+    "topic": "Israel Set Apart",
     "type": "fill-in",
     "question": "God said Israel would be His special what, above all peoples?",
     "answer": "Treasure",
-    "acceptableAnswers": ["treasure", "special treasure", "peculiar treasure"],
-    "memoryAid": { "type": "mnemonic", "text": "Out of all the earth, God picks one 'treasure chest' people. Israel is the buried treasure He chose." }
+    "acceptableAnswers": [
+      "treasure",
+      "special treasure",
+      "peculiar treasure"
+    ],
+    "memoryAid": {
+      "type": "image",
+      "text": "The whole earth is God's, yet from all its peoples He reaches in and lifts out one as a king lifts a single jewel from his private hoard — His 'peculiar treasure above all peoples.' Hold the contrast: He owns everything, yet sets His heart on this one buried treasure."
+    }
   },
   {
     "id": "ex19-006",
@@ -284,8 +457,15 @@
     "type": "true-false",
     "question": "At Mount Sinai everyone could freely approach and touch the mountain.",
     "answer": "False",
-    "options": ["True", "False"],
-    "memoryAid": { "type": "teaching", "text": "Boundaries were set so the people could not touch the mountain on pain of death. Hebrews recalls this dread, untouchable mountain and contrasts it with the heavenly Jerusalem to which believers now come.", "source": "Hebrews 12:18-24" }
+    "options": [
+      "True",
+      "False"
+    ],
+    "memoryAid": {
+      "type": "teaching",
+      "text": "The mountain is so charged with God's presence that to touch it is death — even a straying beast must be stoned, not touched by human hand. Hebrews sets this untouchable, blazing, trembling Sinai against Mount Zion, the heavenly city believers now 'come to' with boldness through the blood of Christ. Two mountains, two covenants.",
+      "source": "Hebrews 12:18-24"
+    }
   },
   {
     "id": "ex19-007",
@@ -296,8 +476,16 @@
     "type": "multiple-choice",
     "question": "Which of the following was NOT among the signs that appeared on Mount Sinai?",
     "answer": "Falling hail",
-    "options": ["Falling hail", "Thunder and lightning", "A thick cloud and smoke", "A trumpet blast"],
-    "memoryAid": { "type": "mnemonic", "text": "Sinai's signs: Thunder, Lightning, Cloud, Trumpet, Smoke, Earthquake. Hail belonged to the plagues of Egypt, not the mountain." }
+    "options": [
+      "Falling hail",
+      "Thunder and lightning",
+      "A thick cloud and smoke",
+      "A trumpet blast"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "Sinai's signs are theophany: Thunder, Lightning, Cloud, Smoke, Trumpet, Quake — the God who descends in fire. But hail was the seventh PLAGUE, a weapon hurled AT Egypt. Hail strikes enemies; these signs announce the King's arrival. Sift the plague out of the mountain."
+    }
   },
   {
     "id": "ex19-008",
@@ -308,8 +496,16 @@
     "type": "multiple-choice",
     "question": "What loud sound, besides thunder, signaled God's presence on Sinai?",
     "answer": "A trumpet blast",
-    "options": ["A trumpet blast", "A roaring lion", "A choir of angels", "A clap of cymbals"],
-    "memoryAid": { "type": "mnemonic", "text": "The exceedingly loud TRUMPET on Sinai announces God's coming — the same trumpet that will sound at the Last Day." }
+    "options": [
+      "A trumpet blast",
+      "A roaring lion",
+      "A choir of angels",
+      "A clap of cymbals"
+    ],
+    "memoryAid": {
+      "type": "image",
+      "text": "A trumpet blast on Sinai growing 'louder and louder' — yet no human hand is at the mouthpiece. This is the heavenly shofar, the herald of God's descent, the same swelling blast Scripture sets at the last and great Day. Hear the King who comes in the trumpet that no man blows."
+    }
   },
   {
     "id": "ex19-009",
@@ -320,8 +516,14 @@
     "type": "true-false",
     "question": "The whole mountain quaked greatly when the Lord descended on Sinai.",
     "answer": "True",
-    "options": ["True", "False"],
-    "memoryAid": { "type": "mnemonic", "text": "Fire, smoke, and a quaking mountain — Sinai shakes because the Lord Himself comes down upon it." }
+    "options": [
+      "True",
+      "False"
+    ],
+    "memoryAid": {
+      "type": "image",
+      "text": "The Lord descends in fire like a furnace, and the whole mountain shudders like a man before his King — not an earthquake near God but the earth itself trembling beneath His feet. Picture the rock heaving because matter cannot hold its place when the Maker treads upon it."
+    }
   },
   {
     "id": "ex20-001",
@@ -332,8 +534,16 @@
     "type": "multiple-choice",
     "question": "What is the first commandment?",
     "answer": "You shall have no other gods before Me",
-    "options": ["You shall have no other gods before Me", "You shall not make idols", "Honor your father and mother", "Keep the Sabbath holy"],
-    "memoryAid": { "type": "mnemonic", "text": "The Ten march in order: God first (1-4 about God), then neighbor (5-10). Commandment 1 clears the throne of every rival." }
+    "options": [
+      "You shall have no other gods before Me",
+      "You shall not make idols",
+      "Honor your father and mother",
+      "Keep the Sabbath holy"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "The Ten march in order: God-ward first (1-4), neighbor second (5-10). The First Word clears the throne of the heart of every rival before any other duty is named — 'no other gods before Me,' for all else follows from this."
+    }
   },
   {
     "id": "ex20-002",
@@ -344,8 +554,16 @@
     "type": "multiple-choice",
     "question": "What is the second commandment?",
     "answer": "You shall not make idols (graven images)",
-    "options": ["You shall not make idols (graven images)", "You shall have no other gods before Me", "You shall not steal", "You shall not covet"],
-    "memoryAid": { "type": "mnemonic", "text": "After 'no other gods' (1) comes 'no idols' (2): first forbid false gods, then forbid false images of the true God." }
+    "options": [
+      "You shall not make idols (graven images)",
+      "You shall have no other gods before Me",
+      "You shall not steal",
+      "You shall not covet"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "Inward to outward: first the heart is purged of false gods (1), then the eye is forbidden to fashion false images of the true God (2). No rival deity, and no idol of wood or stone dragging the worship of the invisible God down into matter."
+    }
   },
   {
     "id": "ex20-003",
@@ -356,8 +574,17 @@
     "type": "multiple-choice",
     "question": "What is the third commandment?",
     "answer": "You shall not take the name of the Lord your God in vain",
-    "options": ["You shall not take the name of the Lord your God in vain", "You shall not make idols", "Keep the Sabbath holy", "You shall not bear false witness"],
-    "memoryAid": { "type": "mnemonic", "text": "Three is for the holy Name on your tongue: don't speak God's name emptily. (3 = three letters in the vain word? Just keep the Name reverent.)" }
+    "options": [
+      "You shall not take the name of the Lord your God in vain",
+      "You shall not make idols",
+      "Keep the Sabbath holy",
+      "You shall not bear false witness"
+    ],
+    "memoryAid": {
+      "type": "teaching",
+      "text": "The Third Word guards the Name itself — the very Name 'I AM THE EXISTING ONE,' revealed at the Bush, which the Son claimed as His own: 'Before Abraham was, I AM.' To carry that Name emptily on the lips, swearing by it and breaking faith, is to profane the Name of Being Himself.",
+      "source": "John 8:58"
+    }
   },
   {
     "id": "ex20-004",
@@ -368,8 +595,16 @@
     "type": "multiple-choice",
     "question": "What is the fourth commandment?",
     "answer": "Remember the Sabbath day, to keep it holy",
-    "options": ["Remember the Sabbath day, to keep it holy", "Honor your father and mother", "You shall not take God's name in vain", "You shall not murder"],
-    "memoryAid": { "type": "mnemonic", "text": "Four is for rest: the Sabbath is the fourth and final 'God-ward' commandment, closing the first table before we turn to neighbor." }
+    "options": [
+      "Remember the Sabbath day, to keep it holy",
+      "Honor your father and mother",
+      "You shall not take God's name in vain",
+      "You shall not murder"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "Four is for rest: the Sabbath is the fourth and last God-ward command, the seal that closes the first table before we turn to neighbor. Count the duties toward God and rest closes them at number four."
+    }
   },
   {
     "id": "ex20-005",
@@ -380,8 +615,16 @@
     "type": "multiple-choice",
     "question": "What is the fifth commandment?",
     "answer": "Honor your father and your mother",
-    "options": ["Honor your father and your mother", "Keep the Sabbath holy", "You shall not murder", "You shall not steal"],
-    "memoryAid": { "type": "mnemonic", "text": "Five opens the 'neighbor' table: honor father and mother, the first command that bridges from God to the people around us." }
+    "options": [
+      "Honor your father and your mother",
+      "Keep the Sabbath holy",
+      "You shall not murder",
+      "You shall not steal"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "Five is the hinge between the two tables: honoring father and mother is the first step from love of God to love of neighbor — your parents the nearest image of God's own authority, and the only command bearing a promise of long life."
+    }
   },
   {
     "id": "ex20-006",
@@ -392,8 +635,16 @@
     "type": "multiple-choice",
     "question": "What is the sixth commandment?",
     "answer": "You shall not murder",
-    "options": ["You shall not murder", "You shall not commit adultery", "You shall not steal", "Honor your father and mother"],
-    "memoryAid": { "type": "mnemonic", "text": "Six, seven, eight: Murder, Adultery, Steal. Three short 'shall nots' guarding life, marriage, and property in order." }
+    "options": [
+      "You shall not murder",
+      "You shall not commit adultery",
+      "You shall not steal",
+      "Honor your father and mother"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "Six, seven, eight: Murder, Adultery, Steal — three short 'shall nots' guarding life, marriage, and goods in turn. Murder leads off at six, hedging the gift of life, for man is made in God's image."
+    }
   },
   {
     "id": "ex20-007",
@@ -404,8 +655,16 @@
     "type": "multiple-choice",
     "question": "What is the seventh commandment?",
     "answer": "You shall not commit adultery",
-    "options": ["You shall not commit adultery", "You shall not murder", "You shall not bear false witness", "You shall not covet"],
-    "memoryAid": { "type": "mnemonic", "text": "Six-Seven-Eight = Murder-Adultery-Steal. Seven sits in the middle, guarding the marriage bed." }
+    "options": [
+      "You shall not commit adultery",
+      "You shall not murder",
+      "You shall not bear false witness",
+      "You shall not covet"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "Six-Seven-Eight = Murder-Adultery-Steal. Seven sits in the middle, guarding the marriage bed — that one-flesh union which itself images Christ and the Church."
+    }
   },
   {
     "id": "ex20-008",
@@ -416,8 +675,16 @@
     "type": "multiple-choice",
     "question": "What is the eighth commandment?",
     "answer": "You shall not steal",
-    "options": ["You shall not steal", "You shall not murder", "You shall not commit adultery", "You shall not bear false witness"],
-    "memoryAid": { "type": "mnemonic", "text": "Six-Seven-Eight = Murder-Adultery-Steal. Eight closes the trio, guarding your neighbor's goods." }
+    "options": [
+      "You shall not steal",
+      "You shall not murder",
+      "You shall not commit adultery",
+      "You shall not bear false witness"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "Six-Seven-Eight = Murder-Adultery-Steal. Eight closes the trio, fencing your neighbor's goods — having guarded his life and his marriage, the Law now guards what is his."
+    }
   },
   {
     "id": "ex20-009",
@@ -428,8 +695,16 @@
     "type": "multiple-choice",
     "question": "What is the ninth commandment?",
     "answer": "You shall not bear false witness against your neighbor",
-    "options": ["You shall not bear false witness against your neighbor", "You shall not steal", "You shall not covet", "You shall not commit adultery"],
-    "memoryAid": { "type": "mnemonic", "text": "Nine guards the tongue in court: no false witness. After protecting life, marriage, and goods, the ninth protects your neighbor's good name." }
+    "options": [
+      "You shall not bear false witness against your neighbor",
+      "You shall not steal",
+      "You shall not covet",
+      "You shall not commit adultery"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "Nine guards the courtroom: after life, marriage, and goods, the ninth protects your neighbor's good name from the lying tongue — for the false witness slays with words as surely as the sword slays with iron."
+    }
   },
   {
     "id": "ex20-010",
@@ -440,8 +715,17 @@
     "type": "multiple-choice",
     "question": "What is the tenth commandment?",
     "answer": "You shall not covet",
-    "options": ["You shall not covet", "You shall not steal", "You shall not bear false witness", "You shall not murder"],
-    "memoryAid": { "type": "teaching", "text": "The tenth commandment reaches into the heart and its desires, not just outward deeds. St. Paul says he would not have known coveting except that the Law said, 'You shall not covet,' showing the Law exposes inward sin.", "source": "Romans 7:7" }
+    "options": [
+      "You shall not covet",
+      "You shall not steal",
+      "You shall not bear false witness",
+      "You shall not murder"
+    ],
+    "memoryAid": {
+      "type": "teaching",
+      "text": "The first nine restrain the hand and the tongue, but the Tenth reaches inward to the desire itself, where no earthly court can reach. As St. Paul confessed, 'I had not known coveting except the Law had said, You shall not covet' — the last word unmasks the hidden root from which all the rest grow.",
+      "source": "Romans 7:7"
+    }
   },
   {
     "id": "ex20-011",
@@ -452,8 +736,16 @@
     "type": "multiple-choice",
     "question": "Which commandment is 'You shall not murder'?",
     "answer": "The sixth",
-    "options": ["The sixth", "The fifth", "The seventh", "The eighth"],
-    "memoryAid": { "type": "mnemonic", "text": "Murder, Adultery, Steal = 6, 7, 8. Murder leads off the trio at number six." }
+    "options": [
+      "The sixth",
+      "The fifth",
+      "The seventh",
+      "The eighth"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "Murder, Adultery, Steal = 6, 7, 8 — life, marriage, property in that order. Murder leads off the trio at number six, the first sin against the neighbor."
+    }
   },
   {
     "id": "ex20-012",
@@ -464,8 +756,16 @@
     "type": "multiple-choice",
     "question": "Which commandment concerns keeping the Sabbath?",
     "answer": "The fourth",
-    "options": ["The fourth", "The third", "The fifth", "The second"],
-    "memoryAid": { "type": "mnemonic", "text": "Sabbath rest closes the first four 'God-ward' commands — it is number four." }
+    "options": [
+      "The fourth",
+      "The third",
+      "The fifth",
+      "The second"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "Sabbath rest is number four, the seal closing the first four God-ward commands before the turn to neighbor — and the longest commandment, given a whole paragraph where 'do not murder' gets two words."
+    }
   },
   {
     "id": "ex20-013",
@@ -476,8 +776,16 @@
     "type": "multiple-choice",
     "question": "Which commandment tells us to honor our father and mother?",
     "answer": "The fifth",
-    "options": ["The fifth", "The fourth", "The sixth", "The third"],
-    "memoryAid": { "type": "mnemonic", "text": "Honoring parents bridges the two tables — it is the fifth, first of the 'neighbor' commands." }
+    "options": [
+      "The fifth",
+      "The fourth",
+      "The sixth",
+      "The third"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "Honoring father and mother is the fifth — the bridge from the table of God to the table of neighbor, the first neighbor you ever meet, and the first command bearing a promise. Five is the hinge."
+    }
   },
   {
     "id": "ex20-014",
@@ -488,8 +796,18 @@
     "type": "fill-in",
     "question": "The third commandment forbids taking what in vain?",
     "answer": "The name of the Lord your God",
-    "acceptableAnswers": ["the name of the lord", "the name of the lord your god", "god's name", "the lord's name", "the name of god"],
-    "memoryAid": { "type": "mnemonic", "text": "Number three is for the Name: keep the Lord's name holy, never empty on your lips." }
+    "acceptableAnswers": [
+      "the name of the lord",
+      "the name of the lord your god",
+      "god's name",
+      "the lord's name",
+      "the name of god"
+    ],
+    "memoryAid": {
+      "type": "teaching",
+      "text": "The Third Word forbids bearing in vain 'the Name of the Lord your God' — the Name 'I AM THE EXISTING ONE' uttered at the Bush, so holy Israel would not pronounce it, which Jesus took onto His own lips: 'Before Abraham was, I AM.' Bind three to that revealed Name.",
+      "source": "John 8:58"
+    }
   },
   {
     "id": "ex20-015",
@@ -500,8 +818,14 @@
     "type": "true-false",
     "question": "The tenth commandment forbids coveting your neighbor's possessions.",
     "answer": "True",
-    "options": ["True", "False"],
-    "memoryAid": { "type": "mnemonic", "text": "Last but reaching deepest: the tenth, 'do not covet,' targets the desires of the heart." }
+    "options": [
+      "True",
+      "False"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "Last but reaching deepest: the tenth alone forbids not a deed but a desire — 'do not covet' your neighbor's goods. It reaches past the hand to the heart, where the Law ends by pointing inward."
+    }
   },
   {
     "id": "ex20-016",
@@ -512,8 +836,15 @@
     "type": "true-false",
     "question": "The people asked God to keep speaking to them directly from the mountain.",
     "answer": "False",
-    "options": ["True", "False"],
-    "memoryAid": { "type": "teaching", "text": "Terrified, the people begged Moses to speak to them instead of God, lest they die. Hebrews recalls how they could not endure the voice at Sinai, and sets that terror against the heavenly Jerusalem believers now approach.", "source": "Hebrews 12:18-24" }
+    "options": [
+      "True",
+      "False"
+    ],
+    "memoryAid": {
+      "type": "teaching",
+      "text": "Trembling before the voice and the fire, the people beg, 'Let not God speak with us, lest we die,' and ask Moses to stand between. Hebrews recalls that they could not endure the voice at Sinai, and sets that dread against our bold approach to the heavenly city through the one Mediator, Jesus.",
+      "source": "Hebrews 12:18-24"
+    }
   },
   {
     "id": "ex20-017",
@@ -524,8 +855,17 @@
     "type": "multiple-choice",
     "question": "Frightened by God's voice, whom did the people ask to speak to them instead?",
     "answer": "Moses",
-    "options": ["Moses", "Aaron", "Joshua", "Jethro"],
-    "memoryAid": { "type": "mnemonic", "text": "Moses the mediator stands between God and the trembling people — they ask him to be the go-between." }
+    "options": [
+      "Moses",
+      "Aaron",
+      "Joshua",
+      "Jethro"
+    ],
+    "memoryAid": {
+      "type": "teaching",
+      "text": "The terrified people will not face the voice directly; they cry to Moses, 'Speak you to us, and let not God speak.' In that moment Moses becomes mediator between God and Israel — a shadow of the one true Mediator, Christ, who alone bears the voice of God to us and our trembling to God.",
+      "source": "Hebrews 12:18-24"
+    }
   },
   {
     "id": "ex20-018",
@@ -536,19 +876,33 @@
     "type": "true-false",
     "question": "God commanded that the altar be built of carved (hewn) stones.",
     "answer": "False",
-    "options": ["True", "False"],
-    "memoryAid": { "type": "mnemonic", "text": "No tool, no carving: if you lift a chisel to the altar stones, you 'profane' them. Natural stones only." }
+    "options": [
+      "True",
+      "False"
+    ],
+    "memoryAid": {
+      "type": "image",
+      "text": "Lift a chisel to the altar stones and you PROFANE them — for the iron tool is the same metal that forges the sword. Picture the place of atonement recoiling from the implement of war: the altar must stay raw as God made it, owing nothing to the craft or violence of man's hand."
+    }
   },
   {
     "id": "ex20-019",
     "chapter": 20,
     "book": "Exodus",
     "reference": "Exodus 20:26",
-    "topic": "Altar Instructions",
+    "topic": "Worship Instructions",
     "type": "multiple-choice",
     "question": "What did God forbid in the construction of the altar's approach?",
     "answer": "Steps up to the altar",
-    "options": ["Steps up to the altar", "A wooden frame", "A bronze covering", "A surrounding curtain"],
-    "memoryAid": { "type": "mnemonic", "text": "No carved stones and no steps — keep the altar plain and the approach humble. 'No steps' to keep modesty at the altar." }
+    "options": [
+      "Steps up to the altar",
+      "A wooden frame",
+      "A bronze covering",
+      "A surrounding curtain"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "No carved stones, no steps: plain stone, low approach. Steps are forbidden 'lest your nakedness be uncovered upon it' — pair the two and remember man brings neither his craft nor his pride before God, covering nakedness as in Eden."
+    }
   }
 ]
