@@ -456,14 +456,58 @@
     $("toggle-advanced").setAttribute("aria-expanded", String(open));
   }
 
-  function openBreakdown(open) {
-    if (open) { show("setup"); renderBreakdown(); }
+  // Unified Progress view: overall stats + per-chapter breakdown + resets.
+  function openProgress(open) {
+    if (open) { show("setup"); renderProgress(); }
     $("home").hidden = open;
-    $("breakdown").hidden = !open;
+    $("progress-view").hidden = !open;
   }
 
-  // Per-chapter mastery + accuracy breakdown.
-  function renderBreakdown() {
+  function renderProgress() {
+    const total = state.all.length;
+    const seen = Object.keys(stats).length;
+    const due = dueQuestions().length;
+    const mastered = masteredQuestions().length;
+    const entries = Object.values(stats);
+    const totalRight = entries.reduce((a, s) => a + (s.right || 0), 0);
+    const totalWrong = entries.reduce((a, s) => a + (s.wrong || 0), 0);
+    const answers = totalRight + totalWrong;
+    const accuracy = answers ? Math.round((totalRight / answers) * 100) : 0;
+
+    const box = $("progress-stats");
+    box.innerHTML = "";
+    const grid = el("div", "stat-grid");
+    const tile = (num, label) => {
+      const t = el("div", "stat");
+      t.appendChild(el("span", "stat-num", num));
+      t.appendChild(el("span", "stat-label", label));
+      return t;
+    };
+    grid.appendChild(tile(`${mastered}/${total}`, "Mastered"));
+    grid.appendChild(tile(`${seen}/${total}`, "Seen"));
+    grid.appendChild(tile(String(due), "To review"));
+    grid.appendChild(tile(`${accuracy}%`, "Accuracy"));
+    box.appendChild(grid);
+    box.appendChild(el("p", "ps-caption", `${totalRight} correct of ${answers} answered`));
+
+    fillChapterBreakdown();
+
+    const actions = $("progress-actions");
+    actions.innerHTML = "";
+    if (mastered > 0) {
+      const rm = el("button", "link-btn", "Reset mastered");
+      rm.type = "button";
+      rm.addEventListener("click", resetMastered);
+      actions.appendChild(rm);
+    }
+    const rp = el("button", "link-btn", "Reset all");
+    rp.type = "button";
+    rp.addEventListener("click", resetProgress);
+    actions.appendChild(rp);
+  }
+
+  // Per-chapter mastery + accuracy rows (into #breakdown-list).
+  function fillChapterBreakdown() {
     const listEl = $("breakdown-list");
     listEl.innerHTML = "";
     const chapters = [...new Set(state.all.map((q) => q.chapter))].sort((a, b) => a - b);
@@ -511,64 +555,19 @@
       ? `${remaining} of ${state.all.length} left to master (${mastered} set aside), shuffled. Missed ones come back first.`
       : `All ${state.all.length} questions, shuffled. Ones you miss come back more often.`;
 
-    renderProgressSummary($("progress-summary"));
+    $("view-progress").hidden = Object.keys(stats).length === 0;
   }
 
-  // Build the "Your progress" card into a target element (home + results).
-  function renderProgressSummary(ps) {
-    ps.innerHTML = "";
-    const seen = Object.keys(stats).length;
-    if (seen === 0) { ps.hidden = true; return; }
-    ps.hidden = false;
-
-    const total = state.all.length;
-    const due = dueQuestions().length;
-    const mastered = masteredQuestions().length;
-    const entries = Object.values(stats);
-    const totalRight = entries.reduce((a, s) => a + (s.right || 0), 0);
-    const totalWrong = entries.reduce((a, s) => a + (s.wrong || 0), 0);
-    const answers = totalRight + totalWrong;
-    const accuracy = answers ? Math.round((totalRight / answers) * 100) : 0;
-
-    ps.appendChild(el("h3", "ps-title", "Your progress"));
-    const grid = el("div", "stat-grid");
-    const tile = (num, label) => {
-      const t = el("div", "stat");
-      t.appendChild(el("span", "stat-num", num));
-      t.appendChild(el("span", "stat-label", label));
-      return t;
-    };
-    grid.appendChild(tile(`${mastered}/${total}`, "Mastered"));
-    grid.appendChild(tile(`${seen}/${total}`, "Seen"));
-    grid.appendChild(tile(String(due), "To review"));
-    grid.appendChild(tile(`${accuracy}%`, "Accuracy"));
-    ps.appendChild(grid);
-    ps.appendChild(el("p", "ps-caption", `${totalRight} correct of ${answers} answered`));
-
-    const more = el("button", "link-btn ps-more", "View chapter breakdown →");
-    more.type = "button";
-    more.addEventListener("click", () => openBreakdown(true));
-    ps.appendChild(more);
-
-    const actions = el("div", "ps-actions");
-    if (mastered > 0) {
-      const rm = el("button", "link-btn", "Reset mastered");
-      rm.type = "button";
-      rm.addEventListener("click", resetMastered);
-      actions.appendChild(rm);
-    }
-    const rp = el("button", "link-btn", "Reset all");
-    rp.type = "button";
-    rp.addEventListener("click", resetProgress);
-    actions.appendChild(rp);
-    ps.appendChild(actions);
+  // After a reset, refresh the home CTAs and the Progress view if it's open.
+  function refreshAfterReset() {
+    refreshHome();
+    if (!$("progress-view").hidden) renderProgress();
   }
-
   function resetProgress() {
     if (!window.confirm("Reset all saved progress on this device? This can't be undone.")) return;
     stats = {};
     saveStats();
-    refreshHome();
+    refreshAfterReset();
   }
   function resetMastered() {
     const ids = masteredQuestions().map((q) => q.id);
@@ -576,7 +575,7 @@
     if (!window.confirm("Reset " + ids.length + " mastered question" + (ids.length === 1 ? "" : "s") + " back into study?")) return;
     ids.forEach((id) => { delete stats[id]; });
     saveStats();
-    refreshHome();
+    refreshAfterReset();
   }
 
   function selectedChapters() {
@@ -945,23 +944,15 @@
   });
 
   $("quit-btn").addEventListener("click", showResults);
-  $("close-breakdown").addEventListener("click", () => openBreakdown(false));
+  $("view-progress").addEventListener("click", () => openProgress(true));
+  $("close-progress").addEventListener("click", () => openProgress(false));
+  $("show-progress-btn").addEventListener("click", () => openProgress(true));
 
   $("restart-btn").addEventListener("click", () => {
     openAdvanced(false);
-    $("breakdown").hidden = true;
+    $("progress-view").hidden = true;
     refreshHome();
     show("setup");
-  });
-
-  $("show-progress-btn").addEventListener("click", () => {
-    const sum = $("results-summary");
-    const spb = $("show-progress-btn");
-    const opening = sum.hidden;
-    if (opening) renderProgressSummary(sum);
-    sum.hidden = !opening;
-    spb.textContent = opening ? "Hide progress" : "See my progress";
-    spb.setAttribute("aria-expanded", String(opening));
   });
 
   // ---------- Results ----------
@@ -972,11 +963,6 @@
     const pct = total ? Math.round((state.score / total) * 100) : 0;
     $("result-score").innerHTML =
       "You scored <strong>" + state.score + " / " + total + "</strong> (" + pct + "%)";
-
-    // Reset the collapsible progress summary each time results are shown.
-    $("results-summary").hidden = true;
-    $("show-progress-btn").textContent = "See my progress";
-    $("show-progress-btn").setAttribute("aria-expanded", "false");
 
     const review = $("missed-review");
     review.innerHTML = "";

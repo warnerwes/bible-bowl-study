@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Spectral:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="styles.css?v=16" />
+  <link rel="stylesheet" href="styles.css?v=17" />
 </head>
 <body>
   <header class="site-header">
@@ -39,7 +39,7 @@
         <div class="home-foot">
           <button type="button" id="toggle-advanced" class="link-btn" aria-expanded="false">Build a custom quiz ▾</button>
           <button type="button" id="export-votes" class="link-btn" hidden>Export memory-aid votes</button>
-          <div id="progress-summary" class="progress-summary" hidden></div>
+          <button type="button" id="view-progress" class="link-btn" hidden>View my progress →</button>
         </div>
       </div>
 
@@ -88,12 +88,15 @@
         <button type="button" id="close-advanced" class="link-btn">← Back</button>
       </div>
 
-      <!-- ---------- Chapter breakdown ---------- -->
-      <div id="breakdown" hidden>
-        <h2>Chapter breakdown</h2>
-        <p class="muted breakdown-legend">Bar = mastered share of the chapter · % = your accuracy</p>
+      <!-- ---------- Progress (stats + chapter breakdown) ---------- -->
+      <div id="progress-view" hidden>
+        <h2>Your progress</h2>
+        <div id="progress-stats" class="progress-stats"></div>
+        <h3 class="progress-section-title">By chapter</h3>
+        <p class="muted breakdown-legend">Bar = mastered share · % = your accuracy</p>
         <div id="breakdown-list" class="breakdown-list"></div>
-        <button type="button" id="close-breakdown" class="link-btn">← Back</button>
+        <div id="progress-actions" class="ps-actions"></div>
+        <button type="button" id="close-progress" class="link-btn">← Back</button>
       </div>
 
       <p id="load-error" class="error" hidden></p>
@@ -164,7 +167,6 @@
         <button id="restart-btn" class="primary-btn">New quiz</button>
         <button id="show-progress-btn" type="button" class="primary-btn ghost-btn" aria-expanded="false">See my progress</button>
       </div>
-      <div id="results-summary" class="progress-summary" hidden></div>
       <div id="missed-review"></div>
     </section>
   </main>
@@ -173,6 +175,6 @@
     <p class="muted">Memory aids draw on Orthodox/patristic tradition and the Orthodox Study Bible.</p>
   </footer>
 
-  <script src="app.js?v=16"></script>
+  <script src="app.js?v=17"></script>
 </body>
 </html>
