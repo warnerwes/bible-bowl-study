@@ -530,7 +530,9 @@ h2 { font-size: 1.45rem; margin-top: 0; line-height: 1.2; font-weight: 600; }
 .custom-aid-box[hidden] { display: none; }
 
 /* ---------- Results ---------- */
-.result-score { font-family: var(--font-display); font-size: 2rem; text-align: center; margin: 1.2rem 0 2rem; }
+.result-score { font-family: var(--font-display); font-size: 2rem; text-align: center; margin: 1.2rem 0 1.4rem; }
+.results-actions { display: flex; flex-wrap: wrap; gap: 0.7rem; justify-content: center; margin-bottom: 1.4rem; }
+#results-summary { margin: 0 auto 1.6rem; }
 .result-score strong { color: var(--accent-strong); }
 #missed-review h3 { font-size: 1.05rem; color: var(--muted); }
 .missed-item {
