@@ -456,6 +456,45 @@
     $("toggle-advanced").setAttribute("aria-expanded", String(open));
   }
 
+  function openBreakdown(open) {
+    $("home").hidden = open;
+    $("breakdown").hidden = !open;
+    if (open) renderBreakdown();
+  }
+
+  // Per-chapter mastery + accuracy breakdown.
+  function renderBreakdown() {
+    const listEl = $("breakdown-list");
+    listEl.innerHTML = "";
+    const chapters = [...new Set(state.all.map((q) => q.chapter))].sort((a, b) => a - b);
+    chapters.forEach((ch) => {
+      const qs = state.all.filter((q) => q.chapter === ch);
+      const total = qs.length;
+      let mastered = 0, right = 0, wrong = 0;
+      qs.forEach((q) => {
+        const s = stats[q.id];
+        if (!s) return;
+        right += s.right || 0;
+        wrong += s.wrong || 0;
+        if ((s.streak || 0) >= MASTERY_STREAK) mastered++;
+      });
+      const answers = right + wrong;
+      const acc = answers ? Math.round((right / answers) * 100) : null;
+      const pct = total ? Math.round((mastered / total) * 100) : 0;
+
+      const row = el("div", "chap-row");
+      row.appendChild(el("span", "chap-name", "Ch " + ch));
+      const bar = el("div", "chap-bar");
+      const fill = el("div", "chap-fill");
+      fill.style.width = pct + "%";
+      if (mastered === total) fill.classList.add("done");
+      bar.appendChild(fill);
+      row.appendChild(bar);
+      row.appendChild(el("span", "chap-stat", `${mastered}/${total}` + (acc === null ? " · —" : ` · ${acc}%`)));
+      listEl.appendChild(row);
+    });
+  }
+
   // Refresh the home-screen tracking UI (missed CTA + progress line).
   function refreshHome() {
     const due = dueQuestions().length;
@@ -499,6 +538,11 @@
     grid.appendChild(tile(`${accuracy}%`, "Accuracy"));
     ps.appendChild(grid);
     ps.appendChild(el("p", "ps-caption", `${totalRight} correct of ${answers} answered`));
+
+    const more = el("button", "link-btn ps-more", "View chapter breakdown →");
+    more.type = "button";
+    more.addEventListener("click", () => openBreakdown(true));
+    ps.appendChild(more);
 
     const actions = el("div", "ps-actions");
     if (mastered > 0) {
@@ -895,8 +939,11 @@
   });
 
   $("quit-btn").addEventListener("click", showResults);
+  $("close-breakdown").addEventListener("click", () => openBreakdown(false));
+
   $("restart-btn").addEventListener("click", () => {
     openAdvanced(false);
+    $("breakdown").hidden = true;
     refreshHome();
     show("setup");
   });

@@ -149,7 +149,46 @@ h2 { font-size: 1.45rem; margin-top: 0; line-height: 1.2; font-weight: 600; }
   font-family: system-ui, sans-serif;
 }
 .ps-caption { margin: 0.8rem 0 0; color: var(--muted); font-size: 0.85rem; }
+.ps-more { display: inline-block; margin-top: 0.7rem; }
 .ps-actions { display: flex; gap: 1.1rem; justify-content: center; margin-top: 0.7rem; }
+
+/* ---------- Chapter breakdown ---------- */
+#breakdown h2 { text-align: left; }
+.breakdown-legend { margin: 0 0 1.1rem; }
+.breakdown-list { display: flex; flex-direction: column; gap: 0.5rem; }
+.chap-row {
+  display: grid;
+  grid-template-columns: 3.2rem 1fr auto;
+  align-items: center;
+  gap: 0.75rem;
+}
+.chap-name {
+  font-size: 0.85rem;
+  color: var(--muted);
+  font-family: system-ui, sans-serif;
+}
+.chap-bar {
+  height: 8px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 999px;
+  overflow: hidden;
+}
+.chap-fill {
+  height: 100%;
+  width: 0;
+  background: linear-gradient(90deg, var(--accent), var(--accent-strong));
+  border-radius: 999px;
+}
+.chap-fill.done { background: var(--correct); }
+.chap-stat {
+  font-size: 0.82rem;
+  color: var(--text);
+  font-family: system-ui, sans-serif;
+  white-space: nowrap;
+  min-width: 5.5rem;
+  text-align: right;
+}
+#close-breakdown { display: block; margin-top: 1.4rem; }
 
 /* ---------- Advanced builder ---------- */
 #advanced h2 { text-align: left; }
