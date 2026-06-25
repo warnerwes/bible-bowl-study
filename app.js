@@ -457,9 +457,9 @@
   }
 
   function openBreakdown(open) {
+    if (open) { show("setup"); renderBreakdown(); }
     $("home").hidden = open;
     $("breakdown").hidden = !open;
-    if (open) renderBreakdown();
   }
 
   // Per-chapter mastery + accuracy breakdown.
@@ -511,13 +511,19 @@
       ? `${remaining} of ${state.all.length} left to master (${mastered} set aside), shuffled. Missed ones come back first.`
       : `All ${state.all.length} questions, shuffled. Ones you miss come back more often.`;
 
-    const seen = Object.keys(stats).length;
-    const ps = $("progress-summary");
+    renderProgressSummary($("progress-summary"));
+  }
+
+  // Build the "Your progress" card into a target element (home + results).
+  function renderProgressSummary(ps) {
     ps.innerHTML = "";
+    const seen = Object.keys(stats).length;
     if (seen === 0) { ps.hidden = true; return; }
     ps.hidden = false;
 
     const total = state.all.length;
+    const due = dueQuestions().length;
+    const mastered = masteredQuestions().length;
     const entries = Object.values(stats);
     const totalRight = entries.reduce((a, s) => a + (s.right || 0), 0);
     const totalWrong = entries.reduce((a, s) => a + (s.wrong || 0), 0);
@@ -948,6 +954,16 @@
     show("setup");
   });
 
+  $("show-progress-btn").addEventListener("click", () => {
+    const sum = $("results-summary");
+    const spb = $("show-progress-btn");
+    const opening = sum.hidden;
+    if (opening) renderProgressSummary(sum);
+    sum.hidden = !opening;
+    spb.textContent = opening ? "Hide progress" : "See my progress";
+    spb.setAttribute("aria-expanded", String(opening));
+  });
+
   // ---------- Results ----------
   function showResults() {
     show("results");
@@ -956,6 +972,11 @@
     const pct = total ? Math.round((state.score / total) * 100) : 0;
     $("result-score").innerHTML =
       "You scored <strong>" + state.score + " / " + total + "</strong> (" + pct + "%)";
+
+    // Reset the collapsible progress summary each time results are shown.
+    $("results-summary").hidden = true;
+    $("show-progress-btn").textContent = "See my progress";
+    $("show-progress-btn").setAttribute("aria-expanded", "false");
 
     const review = $("missed-review");
     review.innerHTML = "";
