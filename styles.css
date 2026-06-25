@@ -153,7 +153,9 @@ h2 { font-size: 1.45rem; margin-top: 0; line-height: 1.2; font-weight: 600; }
 .ps-actions { display: flex; gap: 1.1rem; justify-content: center; margin-top: 0.7rem; }
 
 /* ---------- Chapter breakdown ---------- */
-#breakdown h2 { text-align: left; }
+#progress-view h2 { text-align: left; }
+.progress-stats { max-width: 22rem; margin: 0 auto 1.7rem; text-align: center; }
+.progress-section-title { font-family: var(--font-display); font-size: 1.2rem; font-weight: 600; margin: 0 0 0.25rem; }
 .breakdown-legend { margin: 0 0 1.1rem; }
 .breakdown-list { display: flex; flex-direction: column; gap: 0.5rem; }
 .chap-row {
@@ -188,7 +190,8 @@ h2 { font-size: 1.45rem; margin-top: 0; line-height: 1.2; font-weight: 600; }
   min-width: 5.5rem;
   text-align: right;
 }
-#close-breakdown { display: block; margin-top: 1.4rem; }
+#progress-actions { margin-top: 1.5rem; }
+#close-progress { display: block; margin-top: 1.3rem; }
 
 /* ---------- Advanced builder ---------- */
 #advanced h2 { text-align: left; }
