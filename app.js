@@ -552,8 +552,8 @@
 
     const remaining = state.all.length - mastered;
     $("quick-note").textContent = mastered > 0
-      ? `${remaining} of ${state.all.length} left to master (${mastered} set aside), shuffled. Missed ones come back first.`
-      : `All ${state.all.length} questions, shuffled. Ones you miss come back more often.`;
+      ? `${remaining} of ${state.all.length} left to master · missed ones return first`
+      : `All ${state.all.length} questions, shuffled`;
 
     $("view-progress").hidden = Object.keys(stats).length === 0;
   }
@@ -853,18 +853,20 @@
   }
   function renderAidReview(q) {
     const alt = latestReviewCandidate(q);
-    if (!q.memoryAid || !q.memoryAid.text) return;
-
     const box = $("aid-review");
+    // The A/B vote only makes sense when there's an alternate to compare —
+    // otherwise hide it to keep the after-answer screen uncluttered.
+    if (!q.memoryAid || !q.memoryAid.text || !alt) { box.hidden = true; return; }
+
     const opts = $("aid-review-options");
     const saved = $("aid-review-saved");
     opts.innerHTML = "";
     saved.hidden = true;
 
-    const choices = alt ? [
+    const choices = [
       { id: "current", type: q.memoryAid.type, text: q.memoryAid.text, source: q.memoryAid.source || "" },
       { id: alt.candidateId, type: alt.type, text: alt.text, source: alt.source || "" },
-    ] : [{ id: "current", type: q.memoryAid.type, text: q.memoryAid.text, source: q.memoryAid.source || "" }];
+    ];
     const prior = aidVoteFor(q.id);
 
     choices.forEach((choice) => {
