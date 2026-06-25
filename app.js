@@ -473,23 +473,45 @@
       : `All ${state.all.length} questions, shuffled. Ones you miss come back more often.`;
 
     const seen = Object.keys(stats).length;
-    const line = $("progress-line");
-    line.innerHTML = "";
-    if (seen === 0) { line.hidden = true; return; }
-    line.hidden = false;
-    line.append(`Seen ${seen} of ${state.all.length}  ·  ${due} to review  ·  ${mastered} mastered`);
+    const ps = $("progress-summary");
+    ps.innerHTML = "";
+    if (seen === 0) { ps.hidden = true; return; }
+    ps.hidden = false;
+
+    const total = state.all.length;
+    const entries = Object.values(stats);
+    const totalRight = entries.reduce((a, s) => a + (s.right || 0), 0);
+    const totalWrong = entries.reduce((a, s) => a + (s.wrong || 0), 0);
+    const answers = totalRight + totalWrong;
+    const accuracy = answers ? Math.round((totalRight / answers) * 100) : 0;
+
+    ps.appendChild(el("h3", "ps-title", "Your progress"));
+    const grid = el("div", "stat-grid");
+    const tile = (num, label) => {
+      const t = el("div", "stat");
+      t.appendChild(el("span", "stat-num", num));
+      t.appendChild(el("span", "stat-label", label));
+      return t;
+    };
+    grid.appendChild(tile(`${mastered}/${total}`, "Mastered"));
+    grid.appendChild(tile(`${seen}/${total}`, "Seen"));
+    grid.appendChild(tile(String(due), "To review"));
+    grid.appendChild(tile(`${accuracy}%`, "Accuracy"));
+    ps.appendChild(grid);
+    ps.appendChild(el("p", "ps-caption", `${totalRight} correct of ${answers} answered`));
+
+    const actions = el("div", "ps-actions");
     if (mastered > 0) {
-      line.append("  ·  ");
       const rm = el("button", "link-btn", "Reset mastered");
       rm.type = "button";
       rm.addEventListener("click", resetMastered);
-      line.appendChild(rm);
+      actions.appendChild(rm);
     }
-    line.append("  ·  ");
     const rp = el("button", "link-btn", "Reset all");
     rp.type = "button";
     rp.addEventListener("click", resetProgress);
-    line.appendChild(rp);
+    actions.appendChild(rp);
+    ps.appendChild(actions);
   }
 
   function resetProgress() {

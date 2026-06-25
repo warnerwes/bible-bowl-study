@@ -111,7 +111,45 @@ h2 { font-size: 1.45rem; margin-top: 0; line-height: 1.2; font-weight: 600; }
   border-top: 1px solid var(--border);
   padding-top: 1.25rem;
 }
-#progress-line { font-size: 0.85rem; }
+/* Progress summary card */
+.progress-summary { width: 100%; max-width: 22rem; text-align: center; margin-top: 0.4rem; }
+.ps-title {
+  font-family: var(--font-display);
+  font-size: 1.3rem;
+  font-weight: 600;
+  margin: 0 0 0.8rem;
+  color: var(--text);
+}
+.stat-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.6rem;
+}
+.stat {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  background: var(--surface);
+  border: 1px solid var(--border-gold);
+  border-radius: 12px;
+  padding: 0.75rem 0.5rem;
+}
+.stat-num {
+  font-family: var(--font-display);
+  font-size: 1.55rem;
+  font-weight: 600;
+  line-height: 1.1;
+  color: var(--accent-strong);
+}
+.stat-label {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.09em;
+  color: var(--muted);
+  font-family: system-ui, sans-serif;
+}
+.ps-caption { margin: 0.8rem 0 0; color: var(--muted); font-size: 0.85rem; }
+.ps-actions { display: flex; gap: 1.1rem; justify-content: center; margin-top: 0.7rem; }
 
 /* ---------- Advanced builder ---------- */
 #advanced h2 { text-align: left; }
