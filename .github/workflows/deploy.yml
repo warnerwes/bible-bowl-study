@@ -37,7 +37,7 @@ jobs:
         run: |
           mkdir -p _site
           cp index.html styles.css app.js manifest.webmanifest sw.js _site/
-          cp icon-192.png icon-512.png icon-maskable-512.png apple-touch-icon.png _site/
+          cp icon-192.png icon-512.png icon-maskable-512.png apple-touch-icon.png favicon.png _site/
           mkdir -p _site/data
           cp data/questions.json _site/data/
           if [ -f data/review-candidates.json ]; then cp data/review-candidates.json _site/data/; fi
