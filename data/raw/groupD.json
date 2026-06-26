@@ -475,19 +475,21 @@
     "id": "ex15-011",
     "chapter": 15,
     "book": "Exodus",
-    "reference": "Exodus 15:27",
+    "reference": "Exodus 15:22",
     "topic": "Elim",
-    "type": "fill-in",
-    "question": "At Elim Israel found twelve springs of water and how many palm trees?",
-    "answer": "Seventy",
-    "acceptableAnswers": [
-      "seventy",
-      "70"
-    ],
+    "type": "multiple-choice",
+    "question": "How many days did Israel travel in the wilderness without finding water, before reaching the bitter springs of Marah?",
+    "answer": "Three days",
     "memoryAid": {
       "type": "image",
-      "text": "Picture a green island in the waste: twelve springs gushing and seventy palms swaying for shade, a resting place after the bitterness of Marah. The springs you drink (twelve) and the palms that shelter you (seventy) — fix seventy to the trees."
-    }
+      "text": "Three waterless days under the desert sun — then at last, water! — but it is bitter. Picture the crushing letdown at Marah: relief curdling into a groan. Three days parched makes the bitter spring sting all the more."
+    },
+    "options": [
+      "Three days",
+      "One day",
+      "Seven days",
+      "Forty days"
+    ]
   },
   {
     "id": "ex16-001",
@@ -554,16 +556,16 @@
     "topic": "The Complaint",
     "type": "multiple-choice",
     "question": "What did the people say they had sat beside in Egypt when they complained of hunger?",
-    "answer": "The flesh pots",
+    "answer": "The pots of meat",
     "options": [
-      "The flesh pots",
+      "The pots of meat",
       "The rivers of Goshen",
       "The brick kilns",
       "The wells of Pharaoh"
     ],
     "memoryAid": {
       "type": "teaching",
-      "text": "They sigh for the 'flesh-pots' — the very cauldrons of their slavery — saying they'd rather have died full as slaves than walk free and hungry. This is Egypt's deepest chain: not the whip but the memory of its meat, the belly that begs to go back. The soul half-freed still craves the savory pots of its old bondage.",
+      "text": "They sigh for the 'pots of meat' — the very cauldrons of their slavery — saying they'd rather have died full as slaves than walk free and hungry. This is Egypt's deepest chain: not the whip but the memory of its meat, the belly that begs to go back. The soul half-freed still craves the savory pots of its old bondage.",
       "source": "St. Gregory of Nyssa, The Life of Moses"
     }
   },
@@ -712,7 +714,7 @@
     "reference": "Exodus 16:8",
     "topic": "Food in the Wilderness",
     "type": "fill-in",
-    "question": "According to Exodus 16:8, the Lord gives flesh in the evening and what in the morning?",
+    "question": "According to Exodus 16:8, the Lord gives meat in the evening and what in the morning?",
     "answer": "Bread",
     "acceptableAnswers": [
       "bread",
@@ -720,7 +722,7 @@
     ],
     "memoryAid": {
       "type": "mnemonic",
-      "text": "Flesh in the EVENING, bread in the MORNING — evening meat, morning bread. The verse pairs them precisely so Israel knows both came from the Lord, not from luck or the land."
+      "text": "Meat in the EVENING, bread in the MORNING — evening meat, morning bread. The verse pairs them precisely so Israel knows both came from the Lord, not from luck or the land."
     }
   },
   {
@@ -811,17 +813,19 @@
     "book": "Exodus",
     "reference": "Exodus 16:35",
     "topic": "Manna",
-    "type": "true-false",
-    "question": "Israel ate manna for forty years until they reached the borders of Canaan.",
-    "answer": "True",
+    "type": "multiple-choice",
+    "question": "Israel ate manna until they reached the border of which land?",
+    "answer": "Canaan",
     "options": [
-      "True",
-      "False"
+      "Canaan",
+      "Midian",
+      "Egypt",
+      "Edom"
     ],
     "memoryAid": {
       "type": "teaching",
-      "text": "The manna runs the full forty years, ceasing only at Canaan's border when the land could feed them. Paul calls it 'the same spiritual food,' a type fulfilled in Christ the Bread of Life who sustains the new Israel on her own pilgrimage, the provision lasting exactly as long as the journey home.",
-      "source": "1 Cor 10:3; John 6:31-51"
+      "text": "The manna fell forty years and stopped the very day Israel ate the produce of the promised land (Josh 5:12) — wilderness bread giving way to the bread of the inheritance. God's provision lasts exactly as long as the journey, not a day longer.",
+      "source": "Joshua 5:12"
     }
   },
   {
