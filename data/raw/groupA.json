@@ -402,20 +402,21 @@
     "id": "ex02-011",
     "chapter": 2,
     "book": "Exodus",
-    "reference": "Exodus 2:22",
+    "reference": "Exodus 2:11",
     "topic": "Moses' Firstborn Son",
     "type": "multiple-choice",
-    "question": "What does the name Gershom mean?",
-    "answer": "A stranger / sojourner there",
+    "question": "When Moses killed an Egyptian, whom had the Egyptian been beating?",
+    "answer": "A Hebrew (one of Moses' own people)",
     "options": [
-      "A stranger / sojourner there",
-      "God strengthens",
-      "Drawn out of water",
-      "The Lord remembers"
+      "A Hebrew (one of Moses' own people)",
+      "Another Egyptian",
+      "A Midianite shepherd",
+      "One of Pharaoh's guards"
     ],
     "memoryAid": {
-      "type": "mnemonic",
-      "text": "GERshom = 'a stranger there' — hear the 'GER,' the sojourner with no inheritance in the land. By his son's name Moses confesses that this world is not his resting place — a fitting name for the man who will lead a whole nation of sojourners."
+      "type": "teaching",
+      "text": "Raised as Pharaoh's grandson, Moses strikes for the slave, not the master. By faith he refused to be called the son of Pharaoh's daughter, choosing to suffer with God's people rather than enjoy Egypt's privilege — his first recorded act already shows which side he is on.",
+      "source": "Hebrews 11:24-26"
     }
   },
   {

@@ -811,7 +811,7 @@
     "reference": "Exodus 8:12-13",
     "topic": "The Third Plague",
     "type": "multiple-choice",
-    "question": "What was the third plague, brought when Aaron struck the dust of the earth?",
+    "question": "What was the third plague God sent upon Egypt?",
     "answer": "Lice/gnats",
     "options": [
       "Lice/gnats",
@@ -821,7 +821,7 @@
     ],
     "memoryAid": {
       "type": "mnemonic",
-      "text": "Aaron strikes the dust and the very ground breeds biting gnats — the lowliest element rising against the proud. 'Dust to dust to bugs': the third plague is born from the earth itself, not from the sky."
+      "text": "Run the order B-F-G: Blood, Frogs, Gnats. The third plague — gnats/lice — is the first the magicians cannot copy, the line where they cry 'the finger of God.'"
     }
   },
   {
@@ -831,13 +831,15 @@
     "reference": "Exodus 8:13",
     "topic": "The Third Plague",
     "type": "fill-in",
-    "question": "From striking what did Aaron bring forth the lice/gnats of the third plague?",
+    "question": "What did Aaron strike to bring forth the third plague?",
     "answer": "the dust of the earth",
     "acceptableAnswers": [
       "the dust of the earth",
       "dust",
       "the dust",
-      "dust of the earth"
+      "dust of the earth",
+      "dust of the ground",
+      "the dust of the ground"
     ],
     "memoryAid": {
       "type": "teaching",
