@@ -314,22 +314,19 @@
     "book": "Exodus",
     "reference": "Exodus 18:21-22",
     "topic": "Jethro's Advice",
-    "type": "fill-in",
+    "type": "multiple-choice",
     "question": "Jethro advised Moses to appoint rulers over groups of what four sizes?",
     "answer": "Thousands, hundreds, fifties, and tens",
-    "acceptableAnswers": [
-      "thousands hundreds fifties and tens",
-      "thousands, hundreds, fifties, and tens",
-      "thousands hundreds fifties tens",
-      "1000 100 50 10",
-      "1000, 100, 50, 10",
-      "1,000 100 50 10",
-      "1000s 100s 50s 10s"
-    ],
     "memoryAid": {
       "type": "mnemonic",
       "text": "Descend the ladder by tens: thousands, hundreds, fifties, tens — 1000, 100, 50, 10. The counting-down image fixes the four ranks in order, the people of God mustered into divisions for the journey ahead."
-    }
+    },
+    "options": [
+      "Thousands, hundreds, fifties, and tens",
+      "Thousands, hundreds, twenties, and tens",
+      "Hundreds, fifties, twenties, and tens",
+      "Thousands, hundreds, fifties, and fives"
+    ]
   },
   {
     "id": "ex18-008",
