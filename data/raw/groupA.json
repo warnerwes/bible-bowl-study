@@ -290,16 +290,17 @@
     "topic": "Moses Defends a Hebrew",
     "type": "fill-in",
     "question": "Moses went out to his brethren and saw their ___.",
-    "answer": "suffering",
+    "answer": "burdens",
     "acceptableAnswers": [
+      "burdens",
+      "their burdens",
       "suffering",
       "affliction",
-      "burdens",
       "hardship"
     ],
     "memoryAid": {
       "type": "teaching",
-      "text": "Reared amid the pleasures of the court, Moses goes out and chooses to see his brethren's suffering rather than enjoy his own ease. This is the soul's first ascent: to lay down comfort and take up the affliction of God's people, esteeming reproach with them greater than the treasures of Egypt — prefiguring the greater Deliverer who, being rich, became poor for our sake.",
+      "text": "Reared amid the pleasures of the court, Moses goes out and chooses to see his brethren's burdens rather than enjoy his own ease. This is the soul's first ascent: to lay down comfort and take up the affliction of God's people, esteeming reproach with them greater than the treasures of Egypt — prefiguring the greater Deliverer who, being rich, became poor for our sake.",
       "source": "St. Gregory of Nyssa, The Life of Moses"
     }
   },
