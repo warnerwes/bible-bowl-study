@@ -320,7 +320,11 @@
     "acceptableAnswers": [
       "thousands hundreds fifties and tens",
       "thousands, hundreds, fifties, and tens",
-      "thousands hundreds fifties tens"
+      "thousands hundreds fifties tens",
+      "1000 100 50 10",
+      "1000, 100, 50, 10",
+      "1,000 100 50 10",
+      "1000s 100s 50s 10s"
     ],
     "memoryAid": {
       "type": "mnemonic",
