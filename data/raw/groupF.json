@@ -105,13 +105,15 @@
     "reference": "Exodus 32:24",
     "topic": "Aaron's Excuse",
     "type": "fill-in",
-    "question": "What excuse did Aaron give Moses for the calf?",
-    "answer": "I cast the gold into the fire, and this calf came out",
+    "question": "Complete Aaron's excuse for the golden calf: \"I cast it into the fire, and out came this ____.\"",
+    "answer": "calf",
     "acceptableAnswers": [
-      "i cast it into the fire and this calf came out",
-      "i threw the gold in the fire and out came this calf",
-      "the calf came out of the fire",
-      "i cast it into the fire and out came this calf"
+      "calf",
+      "the calf",
+      "this calf",
+      "a calf",
+      "cow",
+      "this cow"
     ],
     "memoryAid": {
       "type": "image",
