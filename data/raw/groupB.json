@@ -429,9 +429,9 @@
     "answer": "Eleazar and Ithamar",
     "acceptableAnswers": [
       "eleazar and ithamar",
-      "eleazar, ithamar",
       "ithamar and eleazar",
-      "eleazar ithamar"
+      "eleazar ithamar",
+      "ithamar eleazar"
     ],
     "memoryAid": {
       "type": "image",
