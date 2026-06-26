@@ -344,11 +344,21 @@
   function normalize(s) {
     return String(s)
       .toLowerCase()
-      .trim()
-      .replace(/[.,!;:'"’”“()]/g, "")
-      .replace(/\b(the|a|an)\b/g, " ")
+      .replace(/['’`]/g, "")             // drop apostrophes: "lord's" -> "lords"
+      .replace(/[^a-z0-9]+/g, " ")        // any other punctuation -> a separator space
+      .replace(/\b(the|a|an)\b/g, " ")    // ignore articles
       .replace(/\s+/g, " ")
       .trim();
+  }
+  // Order-independent key: the significant words, sorted. Connectors like "and"
+  // are dropped, so "Ithamar Eleazar" matches "Eleazar and Ithamar" and
+  // "1000,100,50,10" matches "1000 100 50 10".
+  function answerKey(s) {
+    return normalize(s)
+      .split(" ")
+      .filter((w) => w && w !== "and")
+      .sort()
+      .join(" ");
   }
   function fillInIsCorrect(input, q) {
     const guess = normalize(input);
@@ -356,9 +366,12 @@
     const accepted = (q.acceptableAnswers && q.acceptableAnswers.length)
       ? q.acceptableAnswers
       : [q.answer];
+    const guessKey = answerKey(input);
     return accepted.some((a) => {
       const na = normalize(a);
-      return na === guess || (na.length > 3 && (na.includes(guess) || guess.includes(na)));
+      if (na === guess) return true;
+      if (na.length > 3 && (na.includes(guess) || guess.includes(na))) return true;
+      return guessKey.length > 0 && answerKey(a) === guessKey; // same words, any order
     });
   }
 
