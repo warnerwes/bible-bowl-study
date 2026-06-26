@@ -43,16 +43,16 @@
     "topic": "Water from the Rock",
     "type": "multiple-choice",
     "question": "At which mountain did God tell Moses he would stand on the rock to bring forth water?",
-    "answer": "Horeb",
+    "answer": "Horeb (also called Sinai)",
     "options": [
-      "Horeb",
-      "Sinai",
+      "Horeb (also called Sinai)",
       "Nebo",
-      "Carmel"
+      "Carmel",
+      "Tabor"
     ],
     "memoryAid": {
       "type": "teaching",
-      "text": "Horeb is the very mountain of the burning bush and the Law — the mountain of God. So the water flows from the rock at the same place where God revealed His Name in fire: the mount of revelation is also the mount of provision. Where God once appeared in flame, He now appears in water.",
+      "text": "Horeb and Sinai are two names for one mountain — the mount of God, of the burning bush and the Law. The water flows from the rock at that same mount of revelation: where God appeared in fire and gave the Law, He now gives water from the rock. The mount of revelation is also the mount of provision.",
       "source": "St. Gregory of Nyssa, The Life of Moses"
     }
   },
