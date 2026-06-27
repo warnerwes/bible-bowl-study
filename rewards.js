@@ -56,7 +56,7 @@
       ref: "Exodus 16:4,13",
       quote: "Then the Lord said to Moses, 'Behold, I will rain bread from heaven for you'… and in the morning the dew lay round about the camp.",
       desc: "Bread from heaven each dawn — Israel named it manna, 'What is it?' Quail covered the camp at evening. The question is not fully answered until Christ stands in the wilderness and says, 'I am the bread of life.'",
-      tip: "Move your jar through the manna on the ground. One jar per day — two on the sixth day. Extra breeds worms. On the Sabbath, rest at your tent.",
+      tip: "Hold Gather to fill the bar, then tap Tent. One jar most days — two on day six. Day seven: rest.",
       color: "#f1c40f"
     },
     {
@@ -68,7 +68,7 @@
       ref: "Exodus 17:6",
       quote: "Behold, I will stand before you there on the rock in Horeb; and you shall strike the rock, and water will come out of it for the people to drink.",
       desc: "At Rephidim the rock is smitten once and a river flows for a thirsting nation. St. Paul says plainly, 'that Rock was Christ' — smitten on the Cross so living water pours for the whole people.",
-      tip: "First witness the quarrel at Massah and Meribah, then strike the rock at Horeb once with the staff.",
+      tip: "Massah and Meribah — tap the rock once to strike it with the staff.",
       color: "#e67e22"
     },
     {
@@ -80,7 +80,7 @@
       ref: "Exodus 19:18",
       quote: "Now Mount Sinai was completely in smoke, because the Lord descended upon it in fire. Its smoke ascended like the smoke of a furnace, and the whole mountain quaked greatly.",
       desc: "God descends upon Sinai in fire and cloud to give the Law. The mountain trembles beneath His feet, and the trumpet blast grows ever louder — the herald of the King who comes, not with Moses alone but with myriads of angels.",
-      tip: "Stay below the boundary — the Lord descends in fire and the trumpet sounds; do not go up the mountain.",
+      tip: "Do not touch the mountain — fire and lightning guard it. Watch the storm from below.",
       color: "#9b59b6"
     },
     {
