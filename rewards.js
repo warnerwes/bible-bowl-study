@@ -114,7 +114,7 @@
   window.BibleBowlScenes.WONDER_RULES = {
     red_sea: { captionStart: "Lift the rod", progress: "The Lord drives back the sea", captionDone: "Dry land through the sea" },
     marah: { captionStart: "Cast the tree", progress: "The bitter water is healed", captionDone: "The Lord who heals you" },
-    elim: { captionStart: "Find the springs", progress: "12 springs · 70 palms", captionDone: "They camped by the waters" },
+    elim: { captionStart: "Find the twelve springs", progress: "12 springs", captionDone: "They camped by the waters" },
     manna: { captionStart: "Wait for the dew to lift", progress: "Gather today's portion", captionDay6: "Day 6: gather double", captionSabbath: "Sabbath: no manna today", captionDone: "Bread from heaven" },
     rephidim: { captionStart: "Massah · Meribah", progress: "Strike the rock once", captionDone: "Water from the rock" },
     sinai: { captionStart: "Set bounds around Sinai", progress: "Stand back and wait", captionDone: "The Lord descends in fire" },

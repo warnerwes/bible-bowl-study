@@ -6,6 +6,8 @@
   },
   "scripts": {
     "test:wonders": "node scripts/test-wonders-mobile.mjs",
-    "test:wonders-mobile": "node scripts/test-wonders-mobile.mjs"
+    "test:wonders-mobile": "node scripts/test-wonders-mobile.mjs",
+    "test:labs": "node scripts/test-memory-labs.mjs",
+    "test:rewards": "node scripts/test-wonders-mobile.mjs && node scripts/test-memory-labs.mjs"
   }
 }

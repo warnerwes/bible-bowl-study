@@ -167,15 +167,15 @@ function wonderTests() {
         s = await page.evaluate(() => window.BibleBowlQA.state());
       }
       const fill = s.custom.jarFill || 0;
-      const pending = s.custom.pendingJar;
+      const carried = s.custom.jarsCarried || 0;
       const phase = s.custom.mannaPhase;
       if (phase === "quail" || phase === "dew") {
         return { issues: ["manna did not reach gather phase"], note: `phase=${phase}` };
       }
-      if (fill < 0.15 && !pending) {
+      if (fill < 0.15 && !carried) {
         return { issues: ["jar scoop / progress did not move"], note: `phase=${phase}, fill=${fill}` };
       }
-      return { note: `phase=${phase}, ${pending ? "jar full" : `fill=${fill.toFixed(2)}`}` };
+      return { note: `phase=${phase}, ${carried ? `${carried} carried` : `fill=${fill.toFixed(2)}`}` };
     },
     rephidim: async (page, box) => {
       const x = box.x + box.width * 0.5;

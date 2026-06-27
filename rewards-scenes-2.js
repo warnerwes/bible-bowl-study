@@ -196,13 +196,16 @@
 
     ctx.save();
     ctx.translate(staffX, staffY);
-    ctx.rotate(-0.4);
-    ctx.fillStyle = "#8a6d3b";
-    ctx.fillRect(-3, -staffLen, 6, staffLen * 2);
-    ctx.beginPath();
-    ctx.arc(0, -staffLen, 9, Math.PI, Math.PI * 2.2);
+    ctx.rotate(-0.38);
     ctx.strokeStyle = "#8a6d3b";
-    ctx.lineWidth = 5;
+    ctx.lineWidth = 5.5;
+    ctx.lineCap = "round";
+    ctx.lineJoin = "round";
+    ctx.beginPath();
+    ctx.moveTo(0, staffLen * 0.68);
+    ctx.lineTo(0, -staffLen * 0.78);
+    ctx.bezierCurveTo(2, -staffLen * 0.96, 14, -staffLen, 16, -staffLen * 0.74);
+    ctx.bezierCurveTo(18, -staffLen * 0.5, 10, -staffLen * 0.4, 0, -staffLen * 0.44);
     ctx.stroke();
     ctx.restore();
   };
@@ -273,6 +276,104 @@
       }
     }
     return inside;
+  }
+
+  function drawSinaiMountain(ctx, w, h, peakX, peakY, baseW, isNight) {
+    ctx.fillStyle = isNight ? "#120b1f" : "#1a1f28";
+    ctx.beginPath();
+    ctx.moveTo(peakX - baseW / 2, h);
+    ctx.lineTo(peakX, peakY);
+    ctx.lineTo(peakX + baseW / 2, h);
+    ctx.closePath();
+    ctx.fill();
+
+    ctx.fillStyle = isNight ? "#090412" : "#11141b";
+    ctx.beginPath();
+    ctx.moveTo(peakX, peakY);
+    ctx.lineTo(peakX + baseW * 0.05, h * 0.85);
+    ctx.lineTo(peakX - baseW * 0.05, h * 0.75);
+    ctx.lineTo(peakX + baseW * 0.1, h);
+    ctx.lineTo(peakX + baseW / 2, h);
+    ctx.closePath();
+    ctx.fill();
+
+    ctx.save();
+    ctx.fillStyle = isNight ? "rgba(74, 52, 94, 0.25)" : "rgba(100, 110, 120, 0.4)";
+    ctx.beginPath();
+    ctx.arc(peakX, peakY - 15, 50, 0, Math.PI * 2);
+    ctx.arc(peakX - 42, peakY - 10, 42, 0, Math.PI * 2);
+    ctx.arc(peakX + 42, peakY - 10, 42, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.restore();
+  }
+
+  function drawBoundaryRingLayer(ctx, stones, peakX, peakY, layer, boundsSet) {
+    if (!stones.length) return;
+    const sorted = sortBoundaryRing(stones, peakX, peakY);
+    const edgeBehind = (a, b) => (a.x + b.x) / 2 < peakX;
+    const stoneBehind = (s) => s.x < peakX - 4;
+
+    if (boundsSet && sorted.length >= 3) {
+      ctx.strokeStyle = "rgba(212, 160, 78, 0.85)";
+      ctx.lineWidth = 2.5;
+      ctx.setLineDash([8, 6]);
+      for (let i = 0; i < sorted.length; i++) {
+        const a = sorted[i];
+        const b = sorted[(i + 1) % sorted.length];
+        const behind = edgeBehind(a, b);
+        if (layer === "behind" && !behind) continue;
+        if (layer === "front" && behind) continue;
+        ctx.beginPath();
+        ctx.moveTo(a.x, a.y);
+        ctx.lineTo(b.x, b.y);
+        ctx.stroke();
+      }
+      ctx.setLineDash([]);
+    }
+
+    sorted.forEach((s) => {
+      const behind = stoneBehind(s);
+      if (layer === "behind" && !behind) return;
+      if (layer === "front" && behind) return;
+      ctx.fillStyle = "#6b5a48";
+      ctx.beginPath();
+      ctx.ellipse(s.x, s.y + 4, 10, 5, 0, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.fillStyle = "#8a7560";
+      ctx.beginPath();
+      ctx.arc(s.x, s.y, 9, 0, Math.PI * 2);
+      ctx.fill();
+    });
+  }
+
+  function drawSinaiLightning(ctx, w, h, customWonderState) {
+    if (!customWonderState.lightning || customWonderState.lightningTime <= 0) return;
+    customWonderState.lightningTime--;
+
+    const flash = customWonderState.lightningTime / 14;
+    ctx.fillStyle = `rgba(255, 255, 255, ${flash * 0.12})`;
+    ctx.fillRect(0, 0, w, h);
+
+    ctx.strokeStyle = `rgba(220, 240, 255, ${flash * 0.95})`;
+    ctx.shadowColor = "#66aaff";
+    ctx.shadowBlur = 18;
+    ctx.lineWidth = 3.5;
+    ctx.beginPath();
+    customWonderState.lightning.forEach((pt, idx) => {
+      if (idx === 0) ctx.moveTo(pt.x, pt.y); else ctx.lineTo(pt.x, pt.y);
+    });
+    ctx.stroke();
+
+    ctx.lineWidth = 1.5;
+    ctx.strokeStyle = "#ffffff";
+    ctx.stroke();
+
+    ctx.shadowColor = "transparent";
+    ctx.shadowBlur = 0;
+
+    if (customWonderState.lightningTime <= 0) {
+      customWonderState.lightning = null;
+    }
   }
 
   // ---------------- WONDER 6: SINAI ----------------
@@ -435,87 +536,9 @@
       }
     }
 
-    if (customWonderState.lightning && customWonderState.lightningTime > 0) {
-      customWonderState.lightningTime--;
-
-      const flash = customWonderState.lightningTime / 14;
-      ctx.fillStyle = `rgba(255, 255, 255, ${flash * 0.12})`;
-      ctx.fillRect(0, 0, w, h);
-
-      ctx.strokeStyle = `rgba(220, 240, 255, ${flash * 0.95})`;
-      ctx.shadowColor = "#66aaff";
-      ctx.shadowBlur = 18;
-      ctx.lineWidth = 3.5;
-      ctx.beginPath();
-      customWonderState.lightning.forEach((pt, idx) => {
-        if (idx === 0) ctx.moveTo(pt.x, pt.y); else ctx.lineTo(pt.x, pt.y);
-      });
-      ctx.stroke();
-
-      ctx.lineWidth = 1.5;
-      ctx.strokeStyle = "#ffffff";
-      ctx.stroke();
-
-      ctx.shadowColor = "transparent";
-      ctx.shadowBlur = 0;
-
-      if (customWonderState.lightningTime <= 0) {
-        customWonderState.lightning = null;
-      }
-    }
-
-    ctx.fillStyle = isNight ? "#120b1f" : "#1a1f28";
-    ctx.beginPath();
-    ctx.moveTo(peakX - baseW / 2, h);
-    ctx.lineTo(peakX, peakY);
-    ctx.lineTo(peakX + baseW / 2, h);
-    ctx.closePath();
-    ctx.fill();
-
-    ctx.fillStyle = isNight ? "#090412" : "#11141b";
-    ctx.beginPath();
-    ctx.moveTo(peakX, peakY);
-    ctx.lineTo(peakX + baseW * 0.05, h * 0.85);
-    ctx.lineTo(peakX - baseW * 0.05, h * 0.75);
-    ctx.lineTo(peakX + baseW * 0.1, h);
-    ctx.lineTo(peakX + baseW / 2, h);
-    ctx.closePath();
-    ctx.fill();
-
-    ctx.save();
-    ctx.fillStyle = isNight ? "rgba(74, 52, 94, 0.25)" : "rgba(100, 110, 120, 0.4)";
-    ctx.beginPath();
-    ctx.arc(peakX, peakY - 15, 50, 0, Math.PI * 2);
-    ctx.arc(peakX - 42, peakY - 10, 42, 0, Math.PI * 2);
-    ctx.arc(peakX + 42, peakY - 10, 42, 0, Math.PI * 2);
-    ctx.fill();
-    ctx.restore();
-
-    if (stones.length > 0) {
-      const sorted = sortBoundaryRing(stones, peakX, peakY);
-      if (boundsSet) {
-        ctx.strokeStyle = "rgba(212, 160, 78, 0.85)";
-        ctx.lineWidth = 2.5;
-        ctx.setLineDash([8, 6]);
-        ctx.beginPath();
-        sorted.forEach((s, idx) => {
-          if (idx === 0) ctx.moveTo(s.x, s.y); else ctx.lineTo(s.x, s.y);
-        });
-        ctx.closePath();
-        ctx.stroke();
-        ctx.setLineDash([]);
-      }
-      sorted.forEach((s) => {
-        ctx.fillStyle = "#6b5a48";
-        ctx.beginPath();
-        ctx.ellipse(s.x, s.y + 4, 10, 5, 0, 0, Math.PI * 2);
-        ctx.fill();
-        ctx.fillStyle = "#8a7560";
-        ctx.beginPath();
-        ctx.arc(s.x, s.y, 9, 0, Math.PI * 2);
-        ctx.fill();
-      });
-    }
+    drawBoundaryRingLayer(ctx, stones, peakX, peakY, "behind", boundsSet);
+    drawSinaiMountain(ctx, w, h, peakX, peakY, baseW, isNight);
+    drawBoundaryRingLayer(ctx, stones, peakX, peakY, "front", boundsSet);
 
     if (phase === "bounds" && stones.length < 6) {
       const next = template[stones.length];
@@ -539,6 +562,8 @@
       ctx.fillStyle = `rgba(180, 40, 40, ${0.06 + customWonderState.warnFlash * 0.012})`;
       ctx.fillRect(0, 0, w, h);
     }
+
+    drawSinaiLightning(ctx, w, h, customWonderState);
   };
 
   function generateLightningPath(x1, y1, x2, y2) {
