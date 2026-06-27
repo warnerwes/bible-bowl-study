@@ -6,6 +6,31 @@
 
   window.BibleBowlScenes = window.BibleBowlScenes || {};
 
+  function sceneScale(w, h) {
+    return Math.min(w / 390, h / 260, 1.35);
+  }
+
+  window.BibleBowlScenes.drawCaption = (ctx, w, text) => {
+    ctx.save();
+    ctx.fillStyle = "rgba(236, 230, 216, 0.82)";
+    ctx.font = "600 11px Spectral, Georgia, serif";
+    ctx.textAlign = "center";
+    ctx.fillText(text, w / 2, 20);
+    ctx.restore();
+  };
+
+  window.BibleBowlScenes.drawTapRing = (ctx, x, y, rx, ry, canvasTime) => {
+    ctx.save();
+    ctx.strokeStyle = `rgba(212, 160, 78, ${0.22 + Math.sin(canvasTime * 0.08) * 0.14})`;
+    ctx.lineWidth = 2;
+    ctx.setLineDash([5, 5]);
+    ctx.beginPath();
+    ctx.ellipse(x, y, rx, ry, 0, 0, Math.PI * 2);
+    ctx.stroke();
+    ctx.setLineDash([]);
+    ctx.restore();
+  };
+
   // Setup initial particles for the active scene
   window.BibleBowlScenes.setupParticles = (id, w, h, particles, customWonderState) => {
     if (id === "red_sea") {
@@ -31,20 +56,22 @@
         });
       }
     } else if (id === "marah") {
-      // Stagnant green water particles
-      for (let i = 0; i < 180; i++) {
+      const poolY = h * 0.56;
+      customWonderState.poolY = poolY;
+      for (let i = 0; i < 120; i++) {
         particles.push({
           x: Math.random() * w,
-          y: Math.random() * h,
-          vx: (Math.random() - 0.5) * 0.4,
-          vy: (Math.random() - 0.5) * 0.4,
-          r: Math.random() * 6 + 2,
+          y: poolY + Math.random() * (h - poolY - 8),
+          vx: (Math.random() - 0.5) * 0.35,
+          vy: (Math.random() - 0.5) * 0.25,
+          r: Math.random() * 5 + 2,
           type: "bitter",
-          baseColor: { h: Math.random() * 40 + 75, s: 40, l: 30 }
+          baseColor: { h: Math.random() * 35 + 72, s: 38, l: 28 }
         });
       }
       customWonderState.sweetened = false;
       customWonderState.rippleRadius = 0;
+      customWonderState.casting = false;
     } else if (id === "elim") {
       customWonderState.springs = [];
       customWonderState.palms = [];
@@ -87,25 +114,44 @@
 
   // ---------------- WONDER 1: RED SEA ----------------
   window.BibleBowlScenes.red_sea = (w, h, ctx, canvasTime, mouse, particles) => {
-    // Draw sand road in center
-    ctx.fillStyle = "rgba(212, 160, 78, 0.05)";
-    ctx.fillRect(w * 0.28, 0, w * 0.44, h);
+    window.BibleBowlScenes.drawCaption(ctx, w, "Walls of water · dry path in the center");
 
-    const onWaterWall = mouse.down && (mouse.x < w * 0.28 || mouse.x > w * 0.72);
+    ctx.fillStyle = "rgba(52, 152, 219, 0.12)";
+    ctx.fillRect(0, 0, w * 0.28, h);
+    ctx.fillRect(w * 0.72, 0, w * 0.28, h);
+
+    ctx.fillStyle = "rgba(212, 160, 78, 0.2)";
+    ctx.fillRect(w * 0.28, 0, w * 0.44, h);
+    ctx.strokeStyle = "rgba(236, 230, 216, 0.15)";
+    ctx.setLineDash([8, 10]);
+    ctx.beginPath();
+    ctx.moveTo(w * 0.5, 8);
+    ctx.lineTo(w * 0.5, h - 8);
+    ctx.stroke();
+    ctx.setLineDash([]);
+
+    ctx.fillStyle = "rgba(236, 230, 216, 0.45)";
+    ctx.font = "600 9px Spectral, Georgia, serif";
+    ctx.textAlign = "center";
+    ctx.fillText("DRY PATH", w / 2, h * 0.48);
+    ctx.font = "500 8px Spectral, Georgia, serif";
+    ctx.fillStyle = "rgba(127, 212, 255, 0.55)";
+    ctx.fillText("SEA", w * 0.14, h * 0.48);
+    ctx.fillText("SEA", w * 0.86, h * 0.48);
+
+    const onWaterWall = (mouse.x < w * 0.28 || mouse.x > w * 0.72) &&
+      (mouse.down || Math.hypot(mouse.x - mouse.px, mouse.y - mouse.py) > 2);
     if (onWaterWall && canvasTime % 28 === 0 && Math.random() > 0.45) {
-      if (typeof window.BibleBowlPlaySound === "function") {
-        window.BibleBowlPlaySound("water");
-      }
+      if (typeof window.BibleBowlPlaySound === "function") window.BibleBowlPlaySound("water");
     }
 
-    // Draw footprints/dust if mouse is down or dragging in center
     if (mouse.x > w * 0.28 && mouse.x < w * 0.72) {
       if (mouse.x !== mouse.px || mouse.y !== mouse.py) {
         particles.push({
-          x: mouse.x + (Math.random() - 0.5) * 15,
-          y: mouse.y + (Math.random() - 0.5) * 15,
-          vx: (Math.random() - 0.5) * 0.5,
-          vy: -Math.random() * 0.5,
+          x: mouse.x + (Math.random() - 0.5) * 12,
+          y: mouse.y + (Math.random() - 0.5) * 12,
+          vx: (Math.random() - 0.5) * 0.4,
+          vy: -Math.random() * 0.4,
           r: Math.random() * 2 + 1,
           alpha: 1,
           type: "dust"
@@ -191,17 +237,39 @@
 
   // ---------------- WONDER 2: MARAH ----------------
   window.BibleBowlScenes.marah = (w, h, ctx, canvasTime, mouse, particles, customWonderState) => {
+    const poolY = customWonderState.poolY || h * 0.56;
     const branchX = mouse.x;
     const branchY = mouse.y;
+    const inPool = branchY > poolY + 8 && branchX > w * 0.08 && branchX < w * 0.92;
 
-    if (!customWonderState.sweetened && branchY > h * 0.45 && mouse.down) {
+    window.BibleBowlScenes.drawCaption(ctx, w, "Bitter spring of Marah");
+
+    ctx.fillStyle = "#121810";
+    ctx.fillRect(0, 0, w, poolY);
+    ctx.fillStyle = customWonderState.sweetened ? "#153040" : "#243018";
+    ctx.fillRect(0, poolY, w, h - poolY);
+    ctx.fillStyle = customWonderState.sweetened ? "rgba(52, 152, 219, 0.35)" : "rgba(90, 110, 45, 0.45)";
+    ctx.beginPath();
+    ctx.ellipse(w / 2, poolY + (h - poolY) * 0.42, w * 0.38, (h - poolY) * 0.34, 0, 0, Math.PI * 2);
+    ctx.fill();
+
+    ctx.fillStyle = "rgba(236, 230, 216, 0.55)";
+    ctx.font = "600 10px Spectral, Georgia, serif";
+    ctx.textAlign = "center";
+    ctx.fillText(customWonderState.sweetened ? "Waters made sweet" : "Tap the bitter pool", w / 2, poolY + 18);
+
+    if (!customWonderState.sweetened && inPool && mouse.down && !customWonderState.casting) {
+      customWonderState.casting = true;
       customWonderState.sweetened = true;
       customWonderState.rippleRadius = 10;
       customWonderState.rippleX = branchX;
       customWonderState.rippleY = branchY;
-      if (typeof window.BibleBowlPlaySound === "function") {
-        window.BibleBowlPlaySound("water");
-      }
+      if (typeof window.BibleBowlPlaySound === "function") window.BibleBowlPlaySound("water");
+    }
+    if (!mouse.down) customWonderState.casting = false;
+
+    if (!customWonderState.sweetened && !inPool) {
+      window.BibleBowlScenes.drawTapRing(ctx, w / 2, poolY + (h - poolY) * 0.42, w * 0.22, (h - poolY) * 0.18, canvasTime);
     }
 
     if (customWonderState.sweetened && customWonderState.rippleRadius < w * 1.5) {
@@ -256,15 +324,19 @@
 
     ctx.save();
     ctx.translate(branchX, branchY);
-    ctx.rotate(0.3);
+    ctx.rotate(0.35);
     ctx.fillStyle = "#5c4033";
-    ctx.fillRect(-25, -4, 50, 8);
+    ctx.fillRect(-22, -3, 44, 7);
     ctx.fillStyle = "#27ae60";
     ctx.beginPath();
-    ctx.arc(15, -6, 8, 0, Math.PI * 2);
-    ctx.arc(-15, -6, 7, 0, Math.PI * 2);
-    ctx.arc(0, 6, 8, 0, Math.PI * 2);
+    ctx.arc(12, -5, 7, 0, Math.PI * 2);
+    ctx.arc(-12, -5, 6, 0, Math.PI * 2);
+    ctx.arc(0, 5, 7, 0, Math.PI * 2);
     ctx.fill();
+    ctx.fillStyle = "rgba(236, 230, 216, 0.7)";
+    ctx.font = "600 8px Spectral, Georgia, serif";
+    ctx.textAlign = "left";
+    ctx.fillText("Branch", 18, -10);
     ctx.restore();
   };
 
@@ -336,9 +408,7 @@
     ctx.fillRect(0, groundY, w, h - groundY);
 
     ctx.fillStyle = "rgba(212, 160, 78, 0.12)";
-    ctx.font = "600 11px Spectral, Georgia, serif";
-    ctx.textAlign = "center";
-    ctx.fillText("12 wells of water · seventy palm trees", w / 2, 22);
+    window.BibleBowlScenes.drawCaption(ctx, w, "12 wells of water · seventy palm trees");
 
     springs.forEach((sp, idx) => {
       const nearWell = Math.hypot(mouse.x - sp.x, mouse.y - sp.y) < 34;
@@ -434,7 +504,12 @@
 
   // ---------------- WONDER 4: MANNA ----------------
   window.BibleBowlScenes.manna = (w, h, ctx, canvasTime, mouse, particles, customWonderState) => {
-    if (Math.random() < 0.15) {
+    window.BibleBowlScenes.drawCaption(ctx, w, "Bread from heaven · quails at evening");
+
+    ctx.fillStyle = "rgba(255,255,255,0.03)";
+    ctx.fillRect(0, h * 0.72, w, h * 0.28);
+
+    if (Math.random() < 0.12) {
       particles.push({
         x: Math.random() * w,
         y: -10,
@@ -478,13 +553,13 @@
         const dy = mouse.y - p.y;
         const dist = Math.hypot(dx, dy);
 
-        if (mouse.down && dist < 120) {
-          const force = (120 - dist) / 120;
+        if (dist < 55 || (mouse.down && dist < 120)) {
+          const pull = dist < 55 ? 0.45 : (120 - dist) / 120;
           const angle = Math.atan2(dy, dx);
-          p.vx += Math.cos(angle) * force * 0.3;
-          p.vy += Math.sin(angle) * force * 0.3;
+          p.vx += Math.cos(angle) * pull * 0.35;
+          p.vy += Math.sin(angle) * pull * 0.35;
 
-          if (dist < 15) {
+          if (dist < 18) {
             for (let s = 0; s < 5; s++) {
               particles.push({
                 x: p.x,

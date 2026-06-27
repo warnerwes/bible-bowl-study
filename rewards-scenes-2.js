@@ -11,11 +11,14 @@
     const rock = customWonderState.rock;
     if (!rock) return;
 
+    window.BibleBowlScenes.drawCaption(ctx, w, "Strike the rock at Horeb");
+
     const staffX = mouse.x;
     const staffY = mouse.y;
     const groundY = h * 0.9;
     const rockCenterX = rock.x;
     const rockCenterY = rock.y - rock.h * 0.5;
+    const staffLen = Math.min(h * 0.38, 88);
 
     ctx.fillStyle = "#1a1510";
     ctx.fillRect(0, groundY, w, h - groundY);
@@ -173,11 +176,11 @@
     ctx.translate(staffX, staffY);
     ctx.rotate(-0.4);
     ctx.fillStyle = "#8a6d3b";
-    ctx.fillRect(-3, -70, 6, 140);
+    ctx.fillRect(-3, -staffLen, 6, staffLen * 2);
     ctx.beginPath();
-    ctx.arc(0, -70, 10, Math.PI, Math.PI * 2.2);
+    ctx.arc(0, -staffLen, 9, Math.PI, Math.PI * 2.2);
     ctx.strokeStyle = "#8a6d3b";
-    ctx.lineWidth = 6;
+    ctx.lineWidth = 5;
     ctx.stroke();
     ctx.restore();
   };
@@ -186,8 +189,10 @@
   window.BibleBowlScenes.sinai = (w, h, ctx, canvasTime, mouse, particles, customWonderState) => {
     const isNight = customWonderState.mode === "night";
     const peakX = w / 2;
-    const peakY = h * 0.65;
-    const baseW = w * 0.7;
+    const peakY = h * 0.62;
+    const baseW = w * 0.78;
+
+    window.BibleBowlScenes.drawCaption(ctx, w, isNight ? "Sinai in fire and smoke" : "Sinai in cloud and thunder");
 
     if (Math.random() < (isNight ? 0.3 : 0.1)) {
       particles.push({
@@ -318,11 +323,15 @@
     ctx.save();
     ctx.fillStyle = isNight ? "rgba(74, 52, 94, 0.25)" : "rgba(100, 110, 120, 0.4)";
     ctx.beginPath();
-    ctx.arc(peakX, peakY - 15, 60, 0, Math.PI*2);
-    ctx.arc(peakX - 50, peakY - 10, 50, 0, Math.PI*2);
-    ctx.arc(peakX + 50, peakY - 10, 50, 0, Math.PI*2);
+    ctx.arc(peakX, peakY - 15, 50, 0, Math.PI * 2);
+    ctx.arc(peakX - 42, peakY - 10, 42, 0, Math.PI * 2);
+    ctx.arc(peakX + 42, peakY - 10, 42, 0, Math.PI * 2);
     ctx.fill();
     ctx.restore();
+
+    if (!customWonderState.lightningActive) {
+      window.BibleBowlScenes.drawTapRing(ctx, peakX, peakY + 10, baseW * 0.18, h * 0.12, canvasTime);
+    }
   };
 
   function generateLightningPath(x1, y1, x2, y2) {
@@ -343,10 +352,14 @@
   // ---------------- WONDER 7: GOLDEN CALF ----------------
   window.BibleBowlScenes.golden_calf = (w, h, ctx, canvasTime, mouse, particles, customWonderState) => {
     const calf = customWonderState.calf;
+    if (!calf) return;
+
+    const scale = Math.min(w / 360, h / 260, 1.15);
+    window.BibleBowlScenes.drawCaption(ctx, w, "The golden calf · tap to break it");
 
     if (mouse.down && !calf.broken) {
       const d = Math.hypot(mouse.x - calf.x, mouse.y - calf.y);
-      if (d < calf.w * 0.6) {
+      if (d < Math.max(calf.w * 0.55, 42)) {
         calf.broken = true;
         if (typeof window.BibleBowlPlaySound === "function") {
           window.BibleBowlPlaySound("shatter");
@@ -428,8 +441,10 @@
     }
 
     if (!calf.broken) {
+      window.BibleBowlScenes.drawTapRing(ctx, calf.x, calf.y, 52 * scale, 38 * scale, canvasTime);
       ctx.save();
       ctx.translate(calf.x, calf.y);
+      ctx.scale(scale, scale);
       ctx.shadowColor = "#e67e22";
       ctx.shadowBlur = 20;
       ctx.fillStyle = "#f1c40f";
@@ -466,13 +481,17 @@
       ctx.restore();
     } else {
       ctx.fillStyle = "#5e4b3c";
-      ctx.fillRect(calf.x - 45, calf.y + 42, 90, 8);
+      ctx.fillRect(calf.x - 45 * scale, calf.y + 42 * scale, 90 * scale, 8);
     }
   };
 
   // ---------------- WONDER 8: GLORY ----------------
   window.BibleBowlScenes.glory = (w, h, ctx, canvasTime, mouse, particles, customWonderState) => {
     const tabernacle = customWonderState.tabernacle;
+    if (!tabernacle) return;
+
+    window.BibleBowlScenes.drawCaption(ctx, w, "Glory fills the tabernacle");
+
     const dx = mouse.x - tabernacle.x;
     const dy = mouse.y - tabernacle.y;
     const baseAngle = Math.atan2(dy, dx);

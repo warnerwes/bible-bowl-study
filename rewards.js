@@ -19,7 +19,7 @@
       ref: "Exodus 14:21-22",
       quote: "And the Lord caused the sea to go back by a strong east wind all that night, and made the sea dry land, and the waters were divided.",
       desc: "Escape from Egypt. God parts the Red Sea, forming towering walls of water so Israel can pass through on dry ground.",
-      tip: "Drag on the left or right to disturb the water walls; drag in the center to leave footsteps of light on the dry path.",
+      tip: "Drag the sea walls or walk the dry path through the center.",
       color: "#3498db"
     },
     {
@@ -31,7 +31,7 @@
       ref: "Exodus 15:23,25",
       quote: "They could not drink the waters of Marah, for they were bitter... and the Lord showed him a tree; which when he cast into the waters, the waters were made sweet.",
       desc: "Bitter water made sweet. Moses casts a wood branch into the bitter spring of Marah, purifying it for the thirsty Israelites.",
-      tip: "Drag the green branch (mouse cursor) down into the murky green water to sweeten it and turn it crystal blue.",
+      tip: "Drag the branch to the bitter pool and tap to cast it in.",
       color: "#2ecc71"
     },
     {
@@ -55,7 +55,7 @@
       ref: "Exodus 16:4,13",
       quote: "Then said the Lord unto Moses, Behold, I will rain bread from heaven for you... and in the morning the dew lay round about the host.",
       desc: "Bread from Heaven. Manna falls each morning like hoarfrost, and quails cover the camp in the evening to feed the people.",
-      tip: "Move the cursor to create a gentle wind pulling the manna. Click to create a burst of light that gathers them into stardust.",
+      tip: "Move near the falling bread to gather it. Tap and hold for a stronger pull.",
       color: "#f1c40f"
     },
     {
@@ -67,7 +67,7 @@
       ref: "Exodus 17:6",
       quote: "Behold, I will stand before thee there upon the rock in Horeb; and thou shalt smite the rock, and there shall come water out of it.",
       desc: "Water from the Rock. Moses strikes the rock at Horeb with his staff, and fresh water gushes forth to quench the people's thirst.",
-      tip: "Tap the glowing rock to strike it with Moses' staff and release the water.",
+      tip: "Tap the glowing rock to strike it and release the water.",
       color: "#e67e22"
     },
     {
@@ -79,7 +79,7 @@
       ref: "Exodus 19:18",
       quote: "And mount Sinai was altogether on a smoke, because the Lord descended upon it in fire... and the whole mount quaked greatly.",
       desc: "The Covenant & Commandments. God descends upon Mount Sinai in fire and thick cloud, giving the Ten Commandments.",
-      tip: "Hover/drag to summon silent lightning bolts that arc from the sky to the mount. Toggle between Day (Cloud) and Night (Fire).",
+      tip: "Tap the mountain to call lightning. Toggle cloud or fire above.",
       color: "#9b59b6"
     },
     {
@@ -91,7 +91,7 @@
       ref: "Exodus 32:20",
       quote: "And he took the calf which they had made, and burnt it in the fire, and ground it to powder, and strawed it upon the water.",
       desc: "Israel's Great Failure & Repentance. The people construct a golden calf, which Moses breaks and grinds into ash.",
-      tip: "Move the cursor to sweep away the chaotic gold glitter of revelry. Click on the golden calf to shatter it into falling gray ashes.",
+      tip: "Tap the golden calf to shatter it. Sweep the glitter away.",
       color: "#e74c3c"
     },
     {
@@ -103,7 +103,7 @@
       ref: "Exodus 40:34",
       quote: "Then a cloud covered the tent of the congregation, and the glory of the Lord filled the tabernacle.",
       desc: "The Shekinah Glory. The Tabernacle is finished, and God's glory descends, filling it with a radiant, cloud-like divine light.",
-      tip: "Move the cursor to rotate the golden rays of divine light. Click to emit expanding rings of rainbow covenant promise.",
+      tip: "Tap the scene to send rings of covenant light. Move to turn the rays.",
       color: "#f39c12"
     }
   ];
@@ -383,7 +383,7 @@
         <div class="rewards-card">
           <div id="rewards-scene" class="rewards-scene">
             <canvas id="rewards-canvas" class="rewards-canvas"></canvas>
-            <p id="rewards-scene-hint" class="rewards-scene-hint">Drag or tap the scene to interact</p>
+            <p id="rewards-scene-hint" class="rewards-scene-hint">Tap or drag to interact</p>
           </div>
           <div id="rewards-hud" class="rewards-panel">
             <header class="rewards-panel-head">
@@ -441,7 +441,22 @@
       if (typeof ResizeObserver !== "undefined") {
         new ResizeObserver(() => {
           if (!currentActiveWonder) return;
+          const prevW = canvas.width;
+          const prevH = canvas.height;
           resizeCanvas();
+          if (canvas.width !== prevW || canvas.height !== prevH) {
+            particles = [];
+            const sinaiMode = customWonderState.mode;
+            customWonderState = {};
+            if (currentActiveWonder.id === "sinai" && sinaiMode) {
+              customWonderState.mode = sinaiMode;
+            }
+            if (window.BibleBowlScenes && typeof window.BibleBowlScenes.setupParticles === "function") {
+              window.BibleBowlScenes.setupParticles(
+                currentActiveWonder.id, canvas.width, canvas.height, particles, customWonderState
+              );
+            }
+          }
         }).observe(scene);
       } else {
         window.addEventListener("resize", resizeCanvas);
@@ -643,6 +658,8 @@
     if (window.BibleBowlScenes && typeof window.BibleBowlScenes[currentActiveWonder.id] === "function") {
       window.BibleBowlScenes[currentActiveWonder.id](w, h, ctx, canvasTime, mouse, particles, customWonderState);
     }
+
+    if (particles.length > 450) particles.splice(0, particles.length - 450);
 
     animationFrameId = requestAnimationFrame(tick);
   }
