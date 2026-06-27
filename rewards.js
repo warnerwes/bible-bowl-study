@@ -56,7 +56,7 @@
       ref: "Exodus 16:4,13",
       quote: "Then the Lord said to Moses, 'Behold, I will rain bread from heaven for you'… and in the morning the dew lay round about the camp.",
       desc: "Bread from heaven each dawn — Israel named it manna, 'What is it?' Quail covered the camp at evening. The question is not fully answered until Christ stands in the wilderness and says, 'I am the bread of life.'",
-      tip: "Scoop manna with your jar. Bar shows progress. Tap TENT when full. Day 6: two jars.",
+      tip: "Scoop manna at dawn. Tap TENT when full. Day 6: two jars same day — then quail at night eat the rest.",
       color: "#f1c40f"
     },
     {
