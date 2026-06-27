@@ -20,7 +20,7 @@
       ref: "Exodus 14:21-22",
       quote: "And Moses stretched out his hand over the sea; and the Lord drove back the sea with a strong south wind all that night and made the sea dry land, and the waters were divided.",
       desc: "In the Septuagint and OSB a strong south wind — not an east wind — drives the sea back. St. Paul reads the crossing as our Baptism: Israel was baptized into Moses in the cloud and in the sea, delivered from Pharaoh into life.",
-      tip: "Waters cover the path at first. Tap each sea wall five times to part them, then walk through.",
+      tip: "Hold your hand over the sea — Moses stretched out his hand, and a strong south wind parted the waters.",
       color: "#3498db"
     },
     {
@@ -32,7 +32,7 @@
       ref: "Exodus 15:23,25",
       quote: "They could not drink the waters of Marah, for they were bitter… and the Lord showed him a tree, and he cast it into the water, and the water became sweet.",
       desc: "Marah means bitter. St. Gregory of Nyssa reads the tree cast into bitter water as the Cross plunged into the bitterness of our life — what was undrinkable becomes sweet, and there God names Himself the Lord who heals you.",
-      tip: "Drag the branch into the bitter pool and sweep it through the water until it is cast in.",
+      tip: "Drag the tree into the bitter pool and release to cast it in, as Moses did at Marah.",
       color: "#2ecc71"
     },
     {
@@ -56,7 +56,7 @@
       ref: "Exodus 16:4,13",
       quote: "Then the Lord said to Moses, 'Behold, I will rain bread from heaven for you'… and in the morning the dew lay round about the camp.",
       desc: "Bread from heaven each dawn — Israel named it manna, 'What is it?' Quail covered the camp at evening. The question is not fully answered until Christ stands in the wilderness and says, 'I am the bread of life.'",
-      tip: "Move close to each flake of manna and gather every one before dawn.",
+      tip: "Move your jar through the manna on the ground. One jar per day — two on the sixth day. Extra breeds worms. On the Sabbath, rest at your tent.",
       color: "#f1c40f"
     },
     {
@@ -68,7 +68,7 @@
       ref: "Exodus 17:6",
       quote: "Behold, I will stand before you there on the rock in Horeb; and you shall strike the rock, and water will come out of it for the people to drink.",
       desc: "At Rephidim the rock is smitten once and a river flows for a thirsting nation. St. Paul says plainly, 'that Rock was Christ' — smitten on the Cross so living water pours for the whole people.",
-      tip: "Touch the rock once with the staff — Moses smote it but once.",
+      tip: "First witness the quarrel at Massah and Meribah, then strike the rock at Horeb once with the staff.",
       color: "#e67e22"
     },
     {
@@ -80,7 +80,7 @@
       ref: "Exodus 19:18",
       quote: "Now Mount Sinai was completely in smoke, because the Lord descended upon it in fire. Its smoke ascended like the smoke of a furnace, and the whole mountain quaked greatly.",
       desc: "God descends upon Sinai in fire and cloud to give the Law. The mountain trembles beneath His feet, and the trumpet blast grows ever louder — the herald of the King who comes, not with Moses alone but with myriads of angels.",
-      tip: "Tap the mountain to call lightning. Toggle cloud or fire above.",
+      tip: "Stay below the boundary — the Lord descends in fire and the trumpet sounds; do not go up the mountain.",
       color: "#9b59b6"
     },
     {
@@ -92,7 +92,7 @@
       ref: "Exodus 32:20",
       quote: "He took the calf which they had made, burned it in the fire, ground it to powder, scattered it on the water, and made the children of Israel drink it.",
       desc: "While Moses received the Law on the mountain, Israel made a calf below. Moses grinds the idol to dust and pours it on the water they must drink — judgment on idolatry. Three thousand fall by the sword; at Pentecost three thousand are added to life.",
-      tip: "Tap the golden calf to shatter it. Sweep the glitter away.",
+      tip: "Break the calf, grind it to powder, scatter it on the water, and make Israel drink — as Moses did.",
       color: "#e74c3c"
     },
     {
@@ -104,7 +104,7 @@
       ref: "Exodus 40:34",
       quote: "Then the cloud covered the tabernacle of testimony, and the glory of the Lord filled the tabernacle.",
       desc: "The whole book of Exodus drives toward this: God comes to dwell with His people. St. John deliberately echoes it — 'the Word became flesh and tabernacled among us, and we beheld His glory' — the cloud-filled tent foreshadowing the Incarnation.",
-      tip: "Tap the scene to send rings of covenant light. Move to turn the rays.",
+      tip: "Stand outside the tabernacle — Moses could not enter when the glory filled it. Hold and behold.",
       color: "#f39c12"
     }
   ];

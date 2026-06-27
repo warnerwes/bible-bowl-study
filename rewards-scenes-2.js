@@ -11,6 +11,7 @@
     const rock = customWonderState.rock;
     if (!rock) return;
 
+    const phase = customWonderState.phase || "contention";
     const staffX = mouse.x;
     const staffY = mouse.y;
     const groundY = h * 0.9;
@@ -19,9 +20,36 @@
     const staffLen = Math.min(h * 0.38, 88);
     const crackY = rock.y - rock.h;
 
-    window.BibleBowlScenes.drawCaption(ctx, w, "Strike the rock at Horeb");
+    if (phase === "contention") {
+      window.BibleBowlScenes.drawCaption(ctx, w, "Rephidim — the people quarreled");
+      window.BibleBowlScenes.drawProgress(ctx, w, "Massah (testing) · Meribah (quarreling)");
+      ctx.fillStyle = "#1a1510";
+      ctx.fillRect(0, groundY, w, h - groundY);
+      ctx.fillStyle = "rgba(212, 160, 78, 0.12)";
+      ctx.font = "600 13px Spectral, Georgia, serif";
+      ctx.textAlign = "center";
+      ctx.fillText("Massah", w * 0.28, h * 0.35);
+      ctx.fillText("Meribah", w * 0.72, h * 0.35);
+      ctx.font = "500 10px Spectral, Georgia, serif";
+      ctx.fillStyle = "rgba(236, 230, 216, 0.65)";
+      ctx.fillText("They tested the Lord and quarreled over water", w / 2, h * 0.48);
+      ctx.fillText("Hold here — Moses will strike the rock at Horeb", w / 2, h * 0.58);
+      if (mouse.down && Math.hypot(mouse.x - w / 2, mouse.y - h * 0.55) < 80) {
+        customWonderState.contentionHold = (customWonderState.contentionHold || 0) + 1;
+        if (customWonderState.contentionHold > 50) {
+          customWonderState.phase = "strike";
+          customWonderState.contentionHold = 0;
+        }
+      } else {
+        customWonderState.contentionHold = Math.max(0, (customWonderState.contentionHold || 0) - 2);
+      }
+      window.BibleBowlScenes.drawTapRing(ctx, w / 2, h * 0.55, 50, 28, canvasTime);
+      return;
+    }
+
+    window.BibleBowlScenes.drawCaption(ctx, w, "Strike the rock at Horeb once");
     window.BibleBowlScenes.drawProgress(ctx, w,
-      rock.struck ? "Water from the rock" : "Smite the rock once with the staff");
+      rock.struck ? "Massah · Meribah — water from the rock" : "Smite the rock once with the staff");
 
     ctx.fillStyle = "#1a1510";
     ctx.fillRect(0, groundY, w, h - groundY);
@@ -173,6 +201,8 @@
       ctx.restore();
     }
 
+    if (rock.struck) customWonderState.complete = true;
+
     ctx.save();
     ctx.translate(staffX, staffY);
     ctx.rotate(-0.4);
@@ -193,9 +223,27 @@
     const peakY = h * 0.62;
     const baseW = w * 0.78;
 
-    window.BibleBowlScenes.drawCaption(ctx, w, isNight ? "Sinai in fire and smoke" : "Sinai in cloud and thunder");
+    const boundaryY = h * 0.74;
+    const belowBoundary = mouse.y > boundaryY;
 
-    if (Math.random() < (isNight ? 0.3 : 0.1)) {
+    window.BibleBowlScenes.drawCaption(ctx, w, isNight ? "Sinai in fire and smoke" : "Sinai — do not go up the mountain");
+    window.BibleBowlScenes.drawProgress(ctx, w,
+      belowBoundary ? "The trumpet grows louder · the whole mount quakes" : "Stay below the boundary");
+
+    ctx.strokeStyle = "rgba(212, 160, 78, 0.55)";
+    ctx.setLineDash([8, 6]);
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.moveTo(0, boundaryY);
+    ctx.lineTo(w, boundaryY);
+    ctx.stroke();
+    ctx.setLineDash([]);
+    ctx.fillStyle = "rgba(212, 160, 78, 0.75)";
+    ctx.font = "500 9px Spectral, Georgia, serif";
+    ctx.textAlign = "center";
+    ctx.fillText("Do not break through to gaze — the Lord descends in fire", w / 2, boundaryY - 8);
+
+    if (Math.random() < (isNight ? 0.25 : 0.12)) {
       particles.push({
         x: peakX + (Math.random() - 0.5) * 80,
         y: peakY - 10,
@@ -207,29 +255,20 @@
       });
     }
 
-    if (mouse.down && !customWonderState.lightningActive) {
-      customWonderState.lightningActive = true;
-      customWonderState.lightning = generateLightningPath(Math.random() * w, 0, mouse.x, mouse.y);
-      customWonderState.lightningTime = 12;
-
-      if (typeof window.BibleBowlPlaySound === "function") {
-        window.BibleBowlPlaySound("thunder");
-      }
-
-      for (let s = 0; s < 25; s++) {
-        particles.push({
-          x: mouse.x,
-          y: mouse.y,
-          vx: (Math.random() - 0.5) * 6,
-          vy: (Math.random() - 0.5) * 6,
-          r: Math.random() * 2.5 + 1,
-          alpha: 1,
-          type: "lightning_spark"
-        });
-      }
+    if (belowBoundary) {
+      customWonderState.boundaryHold = (customWonderState.boundaryHold || 0) + 1;
+      if (customWonderState.boundaryHold > 120) customWonderState.complete = true;
+    } else {
+      customWonderState.boundaryHold = Math.max(0, (customWonderState.boundaryHold || 0) - 2);
     }
-    if (!mouse.down) {
-      customWonderState.lightningActive = false;
+
+    if (belowBoundary && canvasTime % 90 === 0 && typeof window.BibleBowlPlaySound === "function") {
+      window.BibleBowlPlaySound("thunder");
+    }
+
+    if (canvasTime % 120 === 0 && belowBoundary) {
+      customWonderState.lightning = generateLightningPath(peakX + (Math.random() - 0.5) * 40, 0, peakX, peakY);
+      customWonderState.lightningTime = 10;
     }
 
     for (let i = particles.length - 1; i >= 0; i--) {
@@ -330,8 +369,8 @@
     ctx.fill();
     ctx.restore();
 
-    if (!customWonderState.lightningActive) {
-      window.BibleBowlScenes.drawTapRing(ctx, peakX, peakY + 10, baseW * 0.18, h * 0.12, canvasTime);
+    if (!belowBoundary) {
+      window.BibleBowlScenes.drawTapRing(ctx, w / 2, boundaryY + 24, w * 0.35, 18, canvasTime);
     }
   };
 
@@ -356,16 +395,23 @@
     if (!calf) return;
 
     const scale = Math.min(w / 360, h / 260, 1.15);
-    window.BibleBowlScenes.drawCaption(ctx, w, "The golden calf · tap to break it");
+    const phase = customWonderState.calfPhase || "idol";
+    window.BibleBowlScenes.drawCaption(ctx, w, "The golden calf");
+    window.BibleBowlScenes.drawProgress(ctx, w,
+      phase === "idol" ? "Break the calf Moses burned and ground to powder"
+        : phase === "grind" ? "Grind the gold to powder"
+        : phase === "water" ? "Scatter it on the water — make Israel drink"
+        : "Judgment on idolatry complete");
 
-    if (mouse.down && !calf.broken) {
+    if (phase === "idol" && mouse.down && !calf.broken) {
       const d = Math.hypot(mouse.x - calf.x, mouse.y - calf.y);
       if (d < Math.max(calf.w * 0.55, 42)) {
         calf.broken = true;
+        customWonderState.calfPhase = "grind";
         if (typeof window.BibleBowlPlaySound === "function") {
           window.BibleBowlPlaySound("shatter");
         }
-        for (let idx=0; idx<40; idx++) {
+        for (let idx = 0; idx < 40; idx++) {
           particles.push({
             x: calf.x,
             y: calf.y,
@@ -376,6 +422,53 @@
             type: "golden_shard"
           });
         }
+      }
+    }
+
+    if (phase === "grind" && mouse.down) {
+      customWonderState.grindProgress = (customWonderState.grindProgress || 0) +
+        Math.hypot(mouse.x - mouse.px, mouse.y - mouse.py);
+      if (canvasTime % 3 === 0) {
+        particles.push({
+          x: mouse.x, y: mouse.y,
+          vx: (Math.random() - 0.5) * 1.5,
+          vy: Math.random() * 0.8,
+          r: 1.5, alpha: 0.9, type: "ash"
+        });
+      }
+      if (customWonderState.grindProgress > 90) {
+        customWonderState.calfPhase = "water";
+      }
+    }
+
+    if (phase === "grind") {
+      const gp = Math.min(1, (customWonderState.grindProgress || 0) / 90);
+      ctx.fillStyle = `rgba(180, 160, 90, ${0.15 + gp * 0.25})`;
+      ctx.fillRect(calf.x - 60 * scale, calf.y + 20 * scale, 120 * scale, 24 * scale);
+    }
+
+    const waterY = h * 0.86;
+    if (phase === "water" || phase === "done") {
+      ctx.fillStyle = "rgba(52, 152, 219, 0.28)";
+      ctx.fillRect(0, waterY, w, h - waterY);
+      ctx.fillStyle = "rgba(236,230,216,0.6)";
+      ctx.font = "500 9px Spectral, Georgia, serif";
+      ctx.textAlign = "center";
+      ctx.fillText("Water for Israel to drink", w / 2, waterY + 16);
+    }
+    if (phase === "water" && mouse.down && mouse.y > waterY - 12) {
+      customWonderState.waterScatter = (customWonderState.waterScatter || 0) + 1;
+      if (canvasTime % 4 === 0) {
+        particles.push({
+          x: mouse.x, y: waterY,
+          vx: (Math.random() - 0.5) * 2,
+          vy: Math.random() * 0.5,
+          r: 2, alpha: 0.8, type: "ash"
+        });
+      }
+      if (customWonderState.waterScatter > 35) {
+        customWonderState.calfPhase = "done";
+        customWonderState.complete = true;
       }
     }
 
@@ -491,7 +584,27 @@
     const tabernacle = customWonderState.tabernacle;
     if (!tabernacle) return;
 
-    window.BibleBowlScenes.drawCaption(ctx, w, "Glory fills the tabernacle");
+    const tabCX = tabernacle.x;
+    const tabCY = tabernacle.y - 20;
+    const insideTabernacle = Math.hypot(mouse.x - tabCX, mouse.y - tabCY) < tabernacle.w * 0.38;
+    const witnessing = !insideTabernacle && mouse.y > tabernacle.y - 10;
+
+    window.BibleBowlScenes.drawCaption(ctx, w, "The glory of the Lord filled the tabernacle");
+    window.BibleBowlScenes.drawProgress(ctx, w,
+      insideTabernacle
+        ? "Moses could not enter — the cloud had filled it"
+        : witnessing
+          ? "Stand outside and behold the glory"
+          : "Move outside the tent to witness");
+
+    if (witnessing && mouse.down) {
+      customWonderState.witnessHold = (customWonderState.witnessHold || 0) + 1;
+    } else {
+      customWonderState.witnessHold = Math.max(0, (customWonderState.witnessHold || 0) - 1);
+    }
+    if ((customWonderState.witnessHold || 0) > 55) {
+      customWonderState.complete = true;
+    }
 
     const dx = mouse.x - tabernacle.x;
     const dy = mouse.y - tabernacle.y;
@@ -537,7 +650,7 @@
       });
     }
 
-    if (mouse.down && !customWonderState.rippling) {
+    if (witnessing && mouse.down && !customWonderState.rippling) {
       customWonderState.rippling = true;
       customWonderState.ripples.push({
         x: mouse.x,
@@ -549,8 +662,14 @@
         window.BibleBowlPlaySound("glory");
       }
     }
-    if (!mouse.down) {
-      customWonderState.rippling = false;
+    if (!mouse.down) customWonderState.rippling = false;
+
+    if (insideTabernacle) {
+      ctx.fillStyle = "rgba(255, 200, 80, 0.12)";
+      ctx.fillRect(0, 0, w, h);
+      window.BibleBowlScenes.drawTapRing(ctx, tabCX, tabCY, tabernacle.w * 0.42, 28, canvasTime);
+    } else if (!witnessing) {
+      window.BibleBowlScenes.drawTapRing(ctx, w / 2, h * 0.88, w * 0.3, 16, canvasTime);
     }
 
     for (let idx = customWonderState.ripples.length - 1; idx >= 0; idx--) {
@@ -651,6 +770,8 @@
         struck: false
       };
       customWonderState.striking = false;
+      customWonderState.phase = "contention";
+      customWonderState.contentionHold = 0;
     } else if (id === "golden_calf") {
       customWonderState.calf = {
         x: w * 0.5,
@@ -658,6 +779,9 @@
         w: Math.min(w * 0.34, 110),
         broken: false
       };
+      customWonderState.calfPhase = "idol";
+      customWonderState.grindProgress = 0;
+      customWonderState.waterScatter = 0;
       for (let i = 0; i < 80; i++) {
         particles.push({
           angle: Math.random() * Math.PI * 2,
