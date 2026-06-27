@@ -119,145 +119,202 @@
 
   // Web Audio Synthesizer State
   let audioCtx = null;
+  let audioBus = null;
   let isMuted = false;
+  let soundLast = {};
+  let chimeIdx = 0;
+  let waterVariant = 0;
+
+  const SOUND_GAPS = {
+    chime: 180,
+    water: 280,
+    smite: 650,
+    thunder: 550,
+    shatter: 800,
+    glory: 450,
+    unlock: 0,
+  };
+
+  const PENTATONIC = [523.25, 587.33, 659.25, 783.99, 880.00, 987.77, 1174.66];
 
   function initAudio() {
     if (!audioCtx) {
       audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-      isMuted = localStorage.getItem("bbs:muted") !== "false"; // Unmuted by default
+      const comp = audioCtx.createDynamicsCompressor();
+      comp.threshold.value = -20;
+      comp.knee.value = 10;
+      comp.ratio.value = 3;
+      comp.attack.value = 0.004;
+      comp.release.value = 0.14;
+      audioBus = audioCtx.createGain();
+      audioBus.gain.value = 0.62;
+      comp.connect(audioBus);
+      audioBus.connect(audioCtx.destination);
+      audioCtx._bbsComp = comp;
     }
+  }
+
+  function bus() {
+    return audioCtx._bbsComp;
+  }
+
+  function canPlay(type) {
+    const gap = SOUND_GAPS[type] ?? 120;
+    if (!gap) return true;
+    const now = performance.now();
+    if (soundLast[type] && now - soundLast[type] < gap) return false;
+    soundLast[type] = now;
+    return true;
+  }
+
+  function tone(freq, opts = {}) {
+    const {
+      type = "sine",
+      attack = 0.015,
+      decay = 0.45,
+      volume = 0.07,
+      detune = 0,
+      delay = 0,
+      sweepTo = null,
+    } = opts;
+    const t0 = audioCtx.currentTime + delay;
+    const osc = audioCtx.createOscillator();
+    const gain = audioCtx.createGain();
+    osc.type = type;
+    osc.frequency.setValueAtTime(freq, t0);
+    if (sweepTo) osc.frequency.exponentialRampToValueAtTime(Math.max(20, sweepTo), t0 + decay * 0.7);
+    if (detune) osc.detune.value = detune;
+    gain.gain.setValueAtTime(0.0001, t0);
+    gain.gain.linearRampToValueAtTime(volume, t0 + attack);
+    gain.gain.exponentialRampToValueAtTime(0.0001, t0 + attack + decay);
+    osc.connect(gain);
+    gain.connect(bus());
+    osc.start(t0);
+    osc.stop(t0 + attack + decay + 0.08);
+  }
+
+  function noiseBurst(opts = {}) {
+    const {
+      duration = 0.35,
+      volume = 0.05,
+      filterType = "bandpass",
+      freq = 700,
+      q = 1.1,
+      freqEnd = null,
+      delay = 0,
+    } = opts;
+    const t0 = audioCtx.currentTime + delay;
+    const bufferSize = Math.max(1, Math.floor(audioCtx.sampleRate * duration));
+    const buffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
+    const data = buffer.getChannelData(0);
+    for (let i = 0; i < bufferSize; i++) {
+      const env = 1 - i / bufferSize;
+      data[i] = (Math.random() * 2 - 1) * env;
+    }
+    const src = audioCtx.createBufferSource();
+    src.buffer = buffer;
+    const filter = audioCtx.createBiquadFilter();
+    const gain = audioCtx.createGain();
+    filter.type = filterType;
+    filter.frequency.setValueAtTime(freq, t0);
+    filter.Q.value = q;
+    if (freqEnd) filter.frequency.exponentialRampToValueAtTime(Math.max(40, freqEnd), t0 + duration);
+    gain.gain.setValueAtTime(volume, t0);
+    gain.gain.exponentialRampToValueAtTime(0.0001, t0 + duration);
+    src.connect(filter);
+    filter.connect(gain);
+    gain.connect(bus());
+    src.start(t0);
+    src.stop(t0 + duration + 0.02);
+  }
+
+  function playUnlock() {
+    const base = 261.63;
+    const chord = [0, 4, 7, 12, 16, 19];
+    chord.forEach((semi, i) => {
+      const f = base * Math.pow(2, semi / 12);
+      tone(f, { volume: 0.055, decay: 1.1, attack: 0.03, delay: i * 0.1, type: "triangle" });
+      tone(f * 2, { volume: 0.018, decay: 0.7, attack: 0.04, delay: i * 0.1 + 0.02, type: "sine" });
+    });
+    noiseBurst({ duration: 0.5, volume: 0.012, filterType: "highpass", freq: 1200, freqEnd: 800, delay: 0.35 });
+  }
+
+  function playWater() {
+    waterVariant = (waterVariant + 1) % 3;
+    if (waterVariant === 0) {
+      noiseBurst({ duration: 0.42, volume: 0.045, filterType: "bandpass", freq: 520, freqEnd: 180, q: 0.9 });
+      tone(180, { volume: 0.035, decay: 0.25, attack: 0.005, type: "sine", sweepTo: 90 });
+      tone(420, { volume: 0.012, decay: 0.18, attack: 0.01, type: "triangle" });
+    } else if (waterVariant === 1) {
+      noiseBurst({ duration: 0.22, volume: 0.028, filterType: "highpass", freq: 900, freqEnd: 400, q: 0.8 });
+      tone(660 + Math.random() * 80, { volume: 0.022, decay: 0.35, attack: 0.008, type: "sine" });
+      tone(330, { volume: 0.015, decay: 0.2, delay: 0.04, type: "triangle", sweepTo: 220 });
+    } else {
+      tone(392, { volume: 0.02, decay: 0.15, attack: 0.004, type: "sine" });
+      tone(523, { volume: 0.016, decay: 0.2, delay: 0.05, type: "sine" });
+      noiseBurst({ duration: 0.18, volume: 0.02, filterType: "bandpass", freq: 1100, freqEnd: 600, delay: 0.03 });
+    }
+  }
+
+  function playChime() {
+    const freq = PENTATONIC[chimeIdx % PENTATONIC.length];
+    chimeIdx += 1 + Math.floor(Math.random() * 2);
+    tone(freq, { volume: 0.034, decay: 0.75, attack: 0.008, type: "sine" });
+    tone(freq * 2.01, { volume: 0.012, decay: 0.45, attack: 0.01, type: "triangle", detune: 4 });
+    tone(freq * 0.5, { volume: 0.008, decay: 0.3, attack: 0.015, type: "sine", delay: 0.03 });
+  }
+
+  function playSmite() {
+    tone(95, { volume: 0.12, decay: 0.35, attack: 0.002, type: "triangle", sweepTo: 42 });
+    tone(180, { volume: 0.05, decay: 0.12, attack: 0.001, type: "square", sweepTo: 70 });
+    noiseBurst({ duration: 0.16, volume: 0.04, filterType: "lowpass", freq: 420, freqEnd: 120, q: 0.7 });
+    tone(520, { volume: 0.015, decay: 0.55, attack: 0.02, delay: 0.08, type: "sine" });
+  }
+
+  function playThunder() {
+    noiseBurst({ duration: 1.1, volume: 0.09, filterType: "lowpass", freq: 180, freqEnd: 55, q: 0.5 });
+    noiseBurst({ duration: 0.55, volume: 0.05, filterType: "bandpass", freq: 90, freqEnd: 40, q: 0.8, delay: 0.12 });
+    tone(58, { volume: 0.07, decay: 0.9, attack: 0.04, type: "sine", sweepTo: 38 });
+    tone(110, { volume: 0.025, decay: 0.35, attack: 0.06, delay: 0.18, type: "triangle" });
+  }
+
+  function playShatter() {
+    const shards = [880, 1174, 1568, 2093];
+    shards.forEach((f, i) => {
+      tone(f, { volume: 0.022, decay: 0.14 + i * 0.03, attack: 0.001, type: "triangle", delay: i * 0.025 });
+      tone(f * 1.5, { volume: 0.01, decay: 0.1, attack: 0.001, type: "sine", delay: i * 0.025 + 0.01 });
+    });
+    noiseBurst({ duration: 0.28, volume: 0.035, filterType: "highpass", freq: 1400, freqEnd: 500, delay: 0.05 });
+    tone(220, { volume: 0.04, decay: 0.4, attack: 0.003, type: "triangle", sweepTo: 80, delay: 0.04 });
+  }
+
+  function playGlory() {
+    const roots = [196, 246.94, 293.66];
+    roots.forEach((f, i) => {
+      tone(f, { volume: 0.028, decay: 1.4, attack: 0.08, delay: i * 0.07, type: "sine" });
+      tone(f * 1.5, { volume: 0.014, decay: 1.0, attack: 0.1, delay: i * 0.07 + 0.04, type: "triangle" });
+      tone(f * 2, { volume: 0.008, decay: 0.8, attack: 0.12, delay: i * 0.07 + 0.08, type: "sine" });
+    });
+    noiseBurst({ duration: 0.7, volume: 0.015, filterType: "highpass", freq: 900, freqEnd: 1600, delay: 0.2 });
   }
 
   function playSound(type) {
     initAudio();
     if (isMuted || !audioCtx) return;
-    
+    if (!canPlay(type)) return;
+
     if (audioCtx.state === "suspended") {
       audioCtx.resume();
     }
 
     try {
-      const now = audioCtx.currentTime;
-
-      if (type === "unlock") {
-        // Harmonious major arpeggio chime (C4 - E4 - G4 - C5)
-        const notes = [261.63, 329.63, 392.00, 523.25];
-        notes.forEach((freq, idx) => {
-          const osc = audioCtx.createOscillator();
-          const gain = audioCtx.createGain();
-          osc.connect(gain);
-          gain.connect(audioCtx.destination);
-          osc.type = "sine";
-          osc.frequency.setValueAtTime(freq, now + idx * 0.12);
-          gain.gain.setValueAtTime(0, now + idx * 0.12);
-          gain.gain.linearRampToValueAtTime(0.12, now + idx * 0.12 + 0.05);
-          gain.gain.exponentialRampToValueAtTime(0.001, now + idx * 0.12 + 0.6);
-          osc.start(now + idx * 0.12);
-          osc.stop(now + idx * 0.12 + 0.65);
-        });
-      } else if (type === "water") {
-        // Water splash noise synth
-        const bufferSize = audioCtx.sampleRate * 0.35;
-        const buffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
-        const data = buffer.getChannelData(0);
-        for (let i = 0; i < bufferSize; i++) data[i] = Math.random() * 2 - 1;
-
-        const noise = audioCtx.createBufferSource();
-        noise.buffer = buffer;
-        const filter = audioCtx.createBiquadFilter();
-        const gain = audioCtx.createGain();
-        
-        filter.type = "bandpass";
-        filter.frequency.setValueAtTime(700, now);
-        filter.Q.setValueAtTime(1.5, now);
-        
-        noise.connect(filter);
-        filter.connect(gain);
-        gain.connect(audioCtx.destination);
-        
-        gain.gain.setValueAtTime(0.08, now);
-        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.35);
-        
-        noise.start(now);
-        noise.stop(now + 0.35);
-      } else if (type === "chime") {
-        // Gentle manna collect chime
-        const osc = audioCtx.createOscillator();
-        const gain = audioCtx.createGain();
-        osc.connect(gain);
-        gain.connect(audioCtx.destination);
-        osc.type = "sine";
-        osc.frequency.setValueAtTime(1200 + Math.random() * 400, now);
-        gain.gain.setValueAtTime(0.04, now);
-        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.25);
-        osc.start(now);
-        osc.stop(now + 0.25);
-      } else if (type === "smite") {
-        // Low frequency staff strike
-        const osc = audioCtx.createOscillator();
-        const gain = audioCtx.createGain();
-        osc.connect(gain);
-        gain.connect(audioCtx.destination);
-        osc.type = "triangle";
-        osc.frequency.setValueAtTime(100, now);
-        osc.frequency.exponentialRampToValueAtTime(30, now + 0.15);
-        gain.gain.setValueAtTime(0.2, now);
-        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.18);
-        osc.start(now);
-        osc.stop(now + 0.18);
-      } else if (type === "thunder") {
-        // Deep thunder rumble modulation
-        const bufferSize = audioCtx.sampleRate * 0.7;
-        const buffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
-        const data = buffer.getChannelData(0);
-        for (let i = 0; i < bufferSize; i++) data[i] = Math.random() * 2 - 1;
-
-        const noise = audioCtx.createBufferSource();
-        noise.buffer = buffer;
-        const filter = audioCtx.createBiquadFilter();
-        const gain = audioCtx.createGain();
-        
-        filter.type = "lowpass";
-        filter.frequency.setValueAtTime(90, now);
-        
-        noise.connect(filter);
-        filter.connect(gain);
-        gain.connect(audioCtx.destination);
-        
-        gain.gain.setValueAtTime(0.25, now);
-        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.7);
-        
-        noise.start(now);
-        noise.stop(now + 0.7);
-      } else if (type === "shatter") {
-        // Idol break sound
-        const freqs = [600, 900, 1300];
-        freqs.forEach(f => {
-          const osc = audioCtx.createOscillator();
-          const gain = audioCtx.createGain();
-          osc.connect(gain);
-          gain.connect(audioCtx.destination);
-          osc.type = "triangle";
-          osc.frequency.setValueAtTime(f, now);
-          gain.gain.setValueAtTime(0.03, now);
-          gain.gain.exponentialRampToValueAtTime(0.001, now + 0.12);
-          osc.start(now);
-          osc.stop(now + 0.12);
-        });
-      } else if (type === "glory") {
-        // Transcendent sine sweep
-        const osc = audioCtx.createOscillator();
-        const gain = audioCtx.createGain();
-        osc.connect(gain);
-        gain.connect(audioCtx.destination);
-        osc.type = "sine";
-        osc.frequency.setValueAtTime(250, now);
-        osc.frequency.exponentialRampToValueAtTime(750, now + 0.5);
-        gain.gain.setValueAtTime(0.08, now);
-        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.6);
-        osc.start(now);
-        osc.stop(now + 0.6);
-      }
+      if (type === "unlock") playUnlock();
+      else if (type === "water") playWater();
+      else if (type === "chime") playChime();
+      else if (type === "smite") playSmite();
+      else if (type === "thunder") playThunder();
+      else if (type === "shatter") playShatter();
+      else if (type === "glory") playGlory();
     } catch (e) {
       console.warn("Audio synthesis error:", e);
     }

@@ -80,6 +80,13 @@
     ctx.fillStyle = "rgba(212, 160, 78, 0.05)";
     ctx.fillRect(w * 0.28, 0, w * 0.44, h);
 
+    const onWaterWall = mouse.down && (mouse.x < w * 0.28 || mouse.x > w * 0.72);
+    if (onWaterWall && canvasTime % 28 === 0 && Math.random() > 0.45) {
+      if (typeof window.BibleBowlPlaySound === "function") {
+        window.BibleBowlPlaySound("water");
+      }
+    }
+
     // Draw footprints/dust if mouse is down or dragging in center
     if (mouse.x > w * 0.28 && mouse.x < w * 0.72) {
       if (mouse.x !== mouse.px || mouse.y !== mouse.py) {
@@ -120,12 +127,6 @@
         const angle = Math.atan2(p.y - mouse.y, p.x - mouse.x);
         p.vx += Math.cos(angle) * 0.4;
         p.vy += Math.sin(angle) * 0.4;
-
-        if (canvasTime % 18 === 0 && Math.random() > 0.6) {
-          if (typeof window.BibleBowlPlaySound === "function") {
-            window.BibleBowlPlaySound("water");
-          }
-        }
       }
 
       p.vx *= 0.95;
@@ -279,7 +280,7 @@
         });
       }
 
-      if (isNearMouse && Math.random() > 0.96) {
+      if (isNearMouse && canvasTime % 40 === 0 && Math.random() > 0.55) {
         if (typeof window.BibleBowlPlaySound === "function") {
           window.BibleBowlPlaySound("water");
         }
@@ -453,7 +454,7 @@
                 type: "sparkle"
               });
             }
-            if (typeof window.BibleBowlPlaySound === "function") {
+            if (canvasTime % 6 === 0 && typeof window.BibleBowlPlaySound === "function") {
               window.BibleBowlPlaySound("chime");
             }
             particles.splice(i, 1);
