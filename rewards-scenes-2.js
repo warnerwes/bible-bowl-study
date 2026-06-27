@@ -214,24 +214,65 @@
     return Math.abs(x - peakX) < halfW;
   }
 
-  function boundaryYAtX(stones, x, peakX, peakY) {
-    if (!stones.length) return peakY;
-    const sorted = stones.slice().sort((a, b) =>
+  function sinaiMountainMetrics(w, h) {
+    return {
+      peakX: w / 2,
+      peakY: h * 0.62,
+      baseW: w * 0.78,
+      leftBase: { x: w / 2 - (w * 0.78) / 2, y: h },
+      rightBase: { x: w / 2 + (w * 0.78) / 2, y: h },
+      peak: { x: w / 2, y: h * 0.62 }
+    };
+  }
+
+  function outwardBoundaryPoint(base, peak, t, margin, w, h) {
+    const x = base.x + (peak.x - base.x) * t;
+    const y = base.y + (peak.y - base.y) * t;
+    const cx = w / 2;
+    const cy = (peak.y + h * 2) / 3;
+    let nx = x - cx;
+    let ny = y - cy;
+    const len = Math.hypot(nx, ny) || 1;
+    nx = (nx / len) * margin;
+    ny = (ny / len) * margin;
+    return { x: x + nx, y: y + ny };
+  }
+
+  function computeSinaiBoundaryRing(w, h) {
+    const m = sinaiMountainMetrics(w, h);
+    const margin = Math.max(14, Math.min(w, h) * 0.028);
+    return [
+      { x: m.leftBase.x - margin, y: h - margin },
+      outwardBoundaryPoint(m.leftBase, m.peak, 0.32, margin, w, h),
+      outwardBoundaryPoint(m.leftBase, m.peak, 0.58, margin, w, h),
+      outwardBoundaryPoint(m.rightBase, m.peak, 0.58, margin, w, h),
+      outwardBoundaryPoint(m.rightBase, m.peak, 0.32, margin, w, h),
+      { x: m.rightBase.x + margin, y: h - margin }
+    ];
+  }
+
+  window.BibleBowlScenes.getSinaiBoundaryTemplate = computeSinaiBoundaryRing;
+
+  function sortBoundaryRing(stones, peakX, peakY) {
+    return stones.slice().sort((a, b) =>
       Math.atan2(a.y - peakY, a.x - peakX) - Math.atan2(b.y - peakY, b.x - peakX));
-    let best = null;
-    for (let i = 0; i < sorted.length; i++) {
-      const a = sorted[i];
-      const b = sorted[(i + 1) % sorted.length];
-      const minX = Math.min(a.x, b.x);
-      const maxX = Math.max(a.x, b.x);
-      if (x >= minX - 2 && x <= maxX + 2) {
-        const t = maxX === minX ? 0.5 : (x - minX) / (maxX - minX);
-        const y = a.y + (b.y - a.y) * t;
-        if (!best || y < best) best = y;
+  }
+
+  function pointInBoundaryRing(x, y, stones, peakX, peakY) {
+    if (stones.length < 3) return false;
+    const ring = sortBoundaryRing(stones, peakX, peakY);
+    let inside = false;
+    for (let i = 0, j = ring.length - 1; i < ring.length; j = i++) {
+      const xi = ring[i].x;
+      const yi = ring[i].y;
+      const xj = ring[j].x;
+      const yj = ring[j].y;
+      if (((yi > y) !== (yj > y)) &&
+          (x < (xj - xi) * (y - yi) / (yj - yi) + xi)) {
+        inside = !inside;
       }
     }
-    if (best !== null) return best;
-    return sorted.reduce((sum, s) => sum + s.y, 0) / sorted.length;
+    return inside;
   }
 
   // ---------------- WONDER 6: SINAI ----------------
@@ -242,11 +283,14 @@
     const baseW = w * 0.78;
     const phase = customWonderState.sinaiPhase || "bounds";
     const stones = customWonderState.boundaryStones || [];
+    const template = customWonderState.boundaryTemplate ||
+      computeSinaiBoundaryRing(w, h);
+    customWonderState.boundaryTemplate = template;
     const boundsSet = stones.length >= 6;
     const onMountain = pointOnMountain(mouse.x, mouse.y, w, h, peakX, peakY, baseW);
-    const boundaryY = boundsSet ? boundaryYAtX(stones, mouse.x, peakX, peakY) : h;
-    const inSafeZone = boundsSet && phase === "wait" && mouse.y > boundaryY + 14;
-    const crossedBoundary = boundsSet && mouse.y < boundaryY + 6;
+    const insideBounds = boundsSet &&
+      pointInBoundaryRing(mouse.x, mouse.y, stones, peakX, peakY);
+    const inSafeZone = boundsSet && phase === "wait" && !insideBounds && mouse.y > h * 0.76;
 
     const caption = phase === "bounds" ? "Set bounds around Sinai" : "The Lord descends in fire";
     window.BibleBowlScenes.drawCaption(ctx, w, caption);
@@ -255,10 +299,14 @@
     let progressText;
     if (phase === "bounds") {
       progressText = stones.length < 6
-        ? `Set bounds around Sinai (${stones.length}/6)`
-        : "Set bounds around Sinai";
+        ? `Tap each marker around Sinai (${stones.length}/6)`
+        : "Bounds set · stand back";
+    } else if (trumpetMeter > 40) {
+      progressText = "The trumpet grows louder";
+    } else if (trumpetMeter > 20) {
+      progressText = "The third day · stand back";
     } else {
-      progressText = trumpetMeter > 40 ? "The trumpet grows louder" : "Stand back and wait";
+      progressText = "Stand back and wait";
     }
     window.BibleBowlScenes.drawProgress(ctx, w, progressText);
 
@@ -267,11 +315,21 @@
     }
 
     if (phase === "bounds" && stones.length < 6 && mouse.down && !customWonderState.placingLock) {
-      const inZone = mouse.y > peakY + 24 && mouse.y < h - 16 &&
-        Math.abs(mouse.x - peakX) < baseW / 2 + 36;
-      const tooClose = stones.some((s) => Math.hypot(s.x - mouse.x, s.y - mouse.y) < 28);
-      if (inZone && !tooClose) {
-        stones.push({ x: mouse.x, y: mouse.y });
+      const uiScale = window.BibleBowlScenes.uiScale ? window.BibleBowlScenes.uiScale(w) : 1;
+      const snapR = Math.max(44, 38 * uiScale);
+      let best = null;
+      let bestDist = snapR;
+      template.forEach((pt) => {
+        const placed = stones.some((s) => Math.hypot(s.x - pt.x, s.y - pt.y) < 10);
+        if (placed) return;
+        const d = Math.hypot(mouse.x - pt.x, mouse.y - pt.y);
+        if (d < bestDist) {
+          bestDist = d;
+          best = pt;
+        }
+      });
+      if (best) {
+        stones.push({ x: best.x, y: best.y });
         customWonderState.placingLock = true;
         if (typeof window.BibleBowlPlaySound === "function") window.BibleBowlPlaySound("thunder");
       }
@@ -281,7 +339,7 @@
       customWonderState.sinaiPhase = "wait";
     }
 
-    if (phase === "wait" && boundsSet && (onMountain || crossedBoundary)) {
+    if (phase === "wait" && boundsSet && (insideBounds || (onMountain && mouse.y < h * 0.76))) {
       customWonderState.warnCooldown = (customWonderState.warnCooldown || 0) - 1;
       if (customWonderState.warnCooldown <= 0) {
         customWonderState.warnCooldown = 50;
@@ -434,11 +492,10 @@
     ctx.restore();
 
     if (stones.length > 0) {
-      const sorted = stones.slice().sort((a, b) =>
-        Math.atan2(a.y - peakY, a.x - peakX) - Math.atan2(b.y - peakY, b.x - peakX));
+      const sorted = sortBoundaryRing(stones, peakX, peakY);
       if (boundsSet) {
-        ctx.strokeStyle = "rgba(212, 160, 78, 0.75)";
-        ctx.lineWidth = 2;
+        ctx.strokeStyle = "rgba(212, 160, 78, 0.85)";
+        ctx.lineWidth = 2.5;
         ctx.setLineDash([8, 6]);
         ctx.beginPath();
         sorted.forEach((s, idx) => {
@@ -461,7 +518,17 @@
     }
 
     if (phase === "bounds" && stones.length < 6) {
-      window.BibleBowlScenes.drawTapRing(ctx, mouse.x, mouse.y, 22, 18, canvasTime);
+      const next = template[stones.length];
+      if (next) {
+        window.BibleBowlScenes.drawTapRing(ctx, next.x, next.y, 28, 20, canvasTime);
+        ctx.fillStyle = "rgba(212, 160, 78, 0.75)";
+        ctx.font = "700 11px Spectral, Georgia, serif";
+        ctx.textAlign = "center";
+        ctx.fillText(String(stones.length + 1), next.x, next.y - 22);
+      }
+      if (Math.hypot(mouse.x - (next?.x || 0), mouse.y - (next?.y || 0)) < 44) {
+        window.BibleBowlScenes.drawTapRing(ctx, mouse.x, mouse.y, 22, 18, canvasTime);
+      }
     } else if (phase === "wait" && inSafeZone) {
       window.BibleBowlScenes.drawTapRing(ctx, mouse.x, mouse.y, 26, 20, canvasTime);
     } else if (phase === "wait") {
@@ -992,6 +1059,7 @@
       if (!customWonderState.mode) customWonderState.mode = "night";
       customWonderState.sinaiPhase = "bounds";
       customWonderState.boundaryStones = [];
+      customWonderState.boundaryTemplate = computeSinaiBoundaryRing(w, h);
       customWonderState.trumpetMeter = 0;
       customWonderState.warnCount = 0;
       customWonderState.warnFlash = 0;

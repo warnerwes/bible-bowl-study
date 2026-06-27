@@ -186,13 +186,16 @@ function wonderTests() {
       return { note: "rock struck" };
     },
     sinai: async (page, box) => {
-      const meta = await page.evaluate(() => window.BibleBowlQA.state());
-      const stoneY = meta.canvas.h * 0.78;
+      const template = await page.evaluate(() => {
+        const s = window.BibleBowlQA.state();
+        return window.BibleBowlScenes.getSinaiBoundaryTemplate(s.canvas.w, s.canvas.h);
+      });
       for (let i = 0; i < 6; i++) {
-        const x = meta.canvas.w * (0.1 + i * 0.16);
-        await tapCanvas(page, x, stoneY, 400);
+        const pt = template[i];
+        await tapCanvas(page, pt.x, pt.y, 450);
         await page.waitForTimeout(180);
       }
+      const meta = await page.evaluate(() => window.BibleBowlQA.state());
       await tapCanvas(page, meta.canvas.w / 2, meta.canvas.h * 0.9, box.width > 500 ? 2800 : 2000);
       const s = await page.evaluate(() => window.BibleBowlQA.state());
       const stones = (s.custom.boundaryStones || []).length;
