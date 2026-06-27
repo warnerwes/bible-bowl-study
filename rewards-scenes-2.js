@@ -20,18 +20,9 @@
     const crackY = rock.y - rock.h;
     const onRock = Math.hypot(staffX - rockCenterX, staffY - rockCenterY) < Math.max(rock.w * 0.5, 52);
 
-    window.BibleBowlScenes.drawCaption(ctx, w, "Massah · Meribah — Rephidim");
+    window.BibleBowlScenes.drawCaption(ctx, w, "Massah · Meribah");
     window.BibleBowlScenes.drawProgress(ctx, w,
-      rock.struck
-        ? "Water from the rock at Horeb"
-        : onRock
-          ? "Tap the rock once with the staff"
-          : "They quarreled — Moses struck the rock once");
-
-    ctx.fillStyle = "rgba(236, 230, 216, 0.45)";
-    ctx.font = "500 9px Spectral, Georgia, serif";
-    ctx.textAlign = "center";
-    ctx.fillText("Testing · Quarreling over water", w / 2, 52);
+      rock.struck ? "Water from the rock" : "Tap rock once with staff");
 
     ctx.fillStyle = "#1a1510";
     ctx.fillRect(0, groundY, w, h - groundY);
@@ -215,13 +206,9 @@
     const onMountain = pointOnMountain(mouse.x, mouse.y, w, h, peakX, peakY, baseW);
     const touching = onMountain && mouse.down;
 
-    window.BibleBowlScenes.drawCaption(ctx, w, isNight ? "Sinai — do not touch" : "Sinai — do not touch the mountain");
+    window.BibleBowlScenes.drawCaption(ctx, w, "Sinai");
     window.BibleBowlScenes.drawProgress(ctx, w,
-      touching
-        ? "So dangerous — the Lord descends in fire!"
-        : customWonderState.zapFlash
-          ? "Lightning — stay back from the mountain"
-          : "Fire, smoke, thunder · watch from afar");
+      touching ? "Lightning!" : "Do not touch the mountain");
 
     if (Math.random() < (isNight ? 0.28 : 0.14)) {
       particles.push({
@@ -362,10 +349,11 @@
     ctx.fill();
     ctx.restore();
 
-    ctx.fillStyle = "rgba(236, 230, 216, 0.55)";
-    ctx.font = "600 10px Spectral, Georgia, serif";
+    const sScale = window.BibleBowlScenes.uiScale ? window.BibleBowlScenes.uiScale(w) : 1;
+    ctx.fillStyle = "rgba(236, 230, 216, 0.85)";
+    ctx.font = `800 ${Math.round(15 * sScale)}px Spectral, Georgia, serif`;
     ctx.textAlign = "center";
-    ctx.fillText("Do not touch", peakX, peakY + 18);
+    ctx.fillText("DO NOT TOUCH", peakX, peakY + 22);
 
     if (onMountain) {
       window.BibleBowlScenes.drawTapRing(ctx, mouse.x, mouse.y, 28, 20, canvasTime);

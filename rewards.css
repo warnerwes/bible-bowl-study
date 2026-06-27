@@ -351,10 +351,10 @@ body:has(#rewards-next-bar) {
   bottom: 0.75rem;
   transform: translateX(-50%);
   margin: 0;
-  padding: 0.35rem 0.65rem;
+  padding: 0.45rem 0.85rem;
   border-radius: 999px;
-  font-size: 0.68rem;
-  font-weight: 500;
+  font-size: 0.88rem;
+  font-weight: 600;
   letter-spacing: 0.02em;
   color: #f3e8cf;
   background: rgba(8, 10, 14, 0.55);
@@ -477,7 +477,7 @@ body:has(#rewards-next-bar) {
 }
 
 .rewards-hud-tip {
-  font-size: 0.78rem;
+  font-size: 0.95rem;
   color: var(--accent-strong);
   background: rgba(212, 160, 78, 0.1);
   border: 1px solid rgba(212, 160, 78, 0.2);

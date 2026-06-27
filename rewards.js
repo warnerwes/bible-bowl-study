@@ -56,7 +56,7 @@
       ref: "Exodus 16:4,13",
       quote: "Then the Lord said to Moses, 'Behold, I will rain bread from heaven for you'… and in the morning the dew lay round about the camp.",
       desc: "Bread from heaven each dawn — Israel named it manna, 'What is it?' Quail covered the camp at evening. The question is not fully answered until Christ stands in the wilderness and says, 'I am the bread of life.'",
-      tip: "Hold Gather to fill the bar, then tap Tent. One jar most days — two on day six. Day seven: rest.",
+      tip: "Scoop manna with your jar. Bar shows progress. Tap TENT when full. Day 6: two jars.",
       color: "#f1c40f"
     },
     {
@@ -80,7 +80,7 @@
       ref: "Exodus 19:18",
       quote: "Now Mount Sinai was completely in smoke, because the Lord descended upon it in fire. Its smoke ascended like the smoke of a furnace, and the whole mountain quaked greatly.",
       desc: "God descends upon Sinai in fire and cloud to give the Law. The mountain trembles beneath His feet, and the trumpet blast grows ever louder — the herald of the King who comes, not with Moses alone but with myriads of angels.",
-      tip: "Do not touch the mountain — fire and lightning guard it. Watch the storm from below.",
+      tip: "Do not touch Sinai — lightning strikes if you do.",
       color: "#9b59b6"
     },
     {
