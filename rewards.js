@@ -115,6 +115,7 @@
   let canvasTime = 0;
   let particles = [];
   let customWonderState = {}; // for extra custom toggles (like Sinai Day/Night)
+  let totalQuestions = 0;    // filled in by bbs:stats-updated event detail
 
   // Web Audio Synthesizer State
   let audioCtx = null;
@@ -287,8 +288,7 @@
     try {
       const stats = JSON.parse(localStorage.getItem(STORAGE_KEY)) || {};
       const mastered = Object.values(stats).filter(s => s && s.streak >= 3).length;
-      const totalCountSpan = document.getElementById("total-count");
-      const total = totalCountSpan ? parseInt(totalCountSpan.textContent, 10) || 1 : 1;
+      const total = totalQuestions || 1;
       return total > 0 ? (mastered / total) * 100 : 0;
     } catch (e) {
       return 0;
@@ -378,7 +378,27 @@
       canvas.addEventListener("touchend", () => mouse.down = false);
     }
 
-    updateTrophies();
+    // Trophy shelf is built; trophies render once app.js fires bbs:stats-updated.
+    // Render locked placeholders now so the shelf isn't empty while loading.
+    renderLockedShelf();
+  }
+
+  // Render all trophies as locked while waiting for the real total to arrive
+  function renderLockedShelf() {
+    const grid = document.getElementById("trophy-grid");
+    if (!grid) return;
+    grid.innerHTML = "";
+    WONDERS.forEach(w => {
+      const item = document.createElement("div");
+      item.className = "trophy-item locked";
+      item.innerHTML = `
+        <span class="trophy-icon">🔒</span>
+        <span class="trophy-label">${w.label}</span>
+        <span class="trophy-chapter">${w.chapter}</span>
+        <span class="trophy-tooltip">🔒 Locked: Master ${w.pct}% to witness the ${w.label}</span>
+      `;
+      grid.appendChild(item);
+    });
   }
 
   // Update trophies on the shelf based on stats
@@ -602,10 +622,13 @@
   }
 
   // Event listener for progress changes
-  window.addEventListener("bbs:stats-updated", () => {
+  window.addEventListener("bbs:stats-updated", (e) => {
+    if (e.detail && e.detail.total) totalQuestions = e.detail.total;
     updateTrophies();
   });
 
+  // init() sets up the shelf & modal but does NOT call updateTrophies() —
+  // that fires only after app.js dispatches bbs:stats-updated with the real total.
   if (document.readyState === "loading") {
     document.addEventListener("DOMContentLoaded", init);
   } else {

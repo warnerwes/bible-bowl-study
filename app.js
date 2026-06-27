@@ -179,7 +179,7 @@
   function saveStats() {
     try {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(stats));
-      window.dispatchEvent(new CustomEvent("bbs:stats-updated"));
+      window.dispatchEvent(new CustomEvent("bbs:stats-updated", { detail: { total: state.all.length } }));
     } catch (e) {}
   }
   function saveAidVotes() {
@@ -460,6 +460,8 @@
 
     refreshHome();
     updateSummary();
+    // Notify rewards system that questions are loaded and mastery can be calculated.
+    window.dispatchEvent(new CustomEvent("bbs:stats-updated", { detail: { total: state.all.length } }));
   }
 
   function openAdvanced(open) {
