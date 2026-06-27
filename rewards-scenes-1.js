@@ -947,12 +947,13 @@
     const rotten = customWonderState.rotten;
     const tentX = customWonderState.tentX || w * 0.84;
     const tentY = customWonderState.tentY || h * 0.78;
+    const uiScale = window.BibleBowlScenes.uiScale(w);
     const fingerX = mouse.x;
     const fingerY = mouse.y;
     const jarX = fingerX;
-    const jarY = Math.max(120, Math.min(h - 100, fingerY - 72));
-    const jarRadius = 34;
-    const uiScale = window.BibleBowlScenes.uiScale(w);
+    const jarY = Math.max(120, Math.min(h - 24, fingerY - 48));
+    const jarDrawY = Math.max(120, Math.min(h - 24, fingerY - 16));
+    const jarRadius = 36;
     const btnY = h - Math.round(40 * uiScale);
     const btnW = Math.round(140 * uiScale);
     const btnH = Math.round(42 * uiScale);
@@ -1032,7 +1033,7 @@
             ? "Jar 1 full · tap TENT"
             : "Jar full · tap TENT")
           : weekDay === 6 && jarsStored === 1
-            ? "Second jar · less manna left"
+            ? "Day 6: second jar · same manna"
             : "Scoop manna with your jar";
     window.BibleBowlScenes.drawCaption(ctx, w, mannaDayCaption(weekDay));
     window.BibleBowlScenes.drawProgress(ctx, w, hint);
@@ -1051,7 +1052,9 @@
       customWonderState.meltDeadline = 0;
       customWonderState.jarFill = 0;
       jarFill = 0;
-      spawnMannaFlakes(w, h, particles, { sparse: true });
+      if (!(weekDay === 6 && jarsStored >= 1)) {
+        spawnMannaFlakes(w, h, particles, { sparse: true });
+      }
     }
 
     for (let i = particles.length - 1; i >= 0; i--) {
@@ -1095,7 +1098,6 @@
         customWonderState.meltTriggered = false;
         customWonderState.meltDeadline = canvasTime + 600;
         customWonderState.meltFlash = 0;
-        spawnMannaFlakes(w, h, particles, { sparse: true });
       }
     }
     if (!mouse.down) customWonderState.tentPressed = false;
@@ -1108,7 +1110,7 @@
     }
 
     drawMannaTentTarget(ctx, w, tentX, tentY, jarsStored, pendingJar, canvasTime);
-    drawMannaJar(ctx, jarX, jarY, pendingJar ? 1 : jarFill, rotten, 1.35);
+    drawMannaJar(ctx, jarX, jarDrawY, pendingJar ? 1 : jarFill, rotten, 1.35);
 
     if (mouse.down || mouse.x > 0) {
       ctx.fillStyle = "rgba(212, 160, 78, 0.35)";
