@@ -919,4 +919,27 @@
     init();
   }
 
+  if (new URLSearchParams(location.search).get("qa") === "1") {
+    window.BibleBowlQA = {
+      wonders: WONDERS.map((w) => w.id),
+      open(id) {
+        const w = WONDERS.find((x) => x.id === id);
+        if (w) openModal(w, false);
+      },
+      close() {
+        closeModal();
+      },
+      state() {
+        return {
+          wonder: currentActiveWonder ? currentActiveWonder.id : null,
+          custom: JSON.parse(JSON.stringify(customWonderState)),
+          canvas: canvas ? { w: canvas.width, h: canvas.height } : null,
+          uiScale: window.BibleBowlScenes && window.BibleBowlScenes.uiScale
+            ? window.BibleBowlScenes.uiScale(canvas ? canvas.width : 390)
+            : 1
+        };
+      }
+    };
+  }
+
 })();

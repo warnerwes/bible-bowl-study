@@ -18,7 +18,7 @@
     const rockCenterY = rock.y - rock.h * 0.5;
     const staffLen = Math.min(h * 0.38, 88);
     const crackY = rock.y - rock.h;
-    const onRock = Math.hypot(staffX - rockCenterX, staffY - rockCenterY) < Math.max(rock.w * 0.5, 52);
+    const onRock = Math.hypot(staffX - rockCenterX, staffY - rockCenterY) < Math.max(rock.w * 0.62, 68);
 
     window.BibleBowlScenes.drawCaption(ctx, w, "Massah · Meribah");
     window.BibleBowlScenes.drawProgress(ctx, w,
@@ -33,8 +33,7 @@
       window.BibleBowlScenes.drawTapRing(ctx, rockCenterX, rockCenterY, rock.w * 0.36, rock.h * 0.4, canvasTime);
     }
 
-    if (mouse.down && !customWonderState.striking && !rock.struck && onRock) {
-      customWonderState.striking = true;
+    if (mouse.down && !rock.struck && onRock) {
       rock.struck = true;
       rock.cracked = true;
       if (typeof window.BibleBowlPlaySound === "function") {
@@ -389,32 +388,30 @@
 
     const scale = Math.min(w / 360, h / 260, 1.15);
     const phase = customWonderState.calfPhase || "idol";
-    window.BibleBowlScenes.drawCaption(ctx, w, "The golden calf");
+    window.BibleBowlScenes.drawCaption(ctx, w, "Golden calf");
     window.BibleBowlScenes.drawProgress(ctx, w,
-      phase === "idol" ? "Break the calf Moses burned and ground to powder"
-        : phase === "grind" ? "Grind the gold to powder"
-        : phase === "water" ? "Scatter it on the water — make Israel drink"
-        : "Judgment on idolatry complete");
+      phase === "idol" ? "Tap calf to break"
+        : phase === "grind" ? "Rub to grind powder"
+        : phase === "water" ? "Tap water to scatter"
+        : "Done");
 
-    if (phase === "idol" && mouse.down && !calf.broken) {
-      const d = Math.hypot(mouse.x - calf.x, mouse.y - calf.y);
-      if (d < Math.max(calf.w * 0.55, 42)) {
-        calf.broken = true;
-        customWonderState.calfPhase = "grind";
-        if (typeof window.BibleBowlPlaySound === "function") {
-          window.BibleBowlPlaySound("shatter");
-        }
-        for (let idx = 0; idx < 40; idx++) {
-          particles.push({
-            x: calf.x,
-            y: calf.y,
-            vx: (Math.random() - 0.5) * 8,
-            vy: (Math.random() - 0.5) * 8 - 2,
-            r: Math.random() * 5 + 3,
-            alpha: 1,
-            type: "golden_shard"
-          });
-        }
+    const onCalf = Math.hypot(mouse.x - calf.x, mouse.y - calf.y) < Math.max(calf.w * 0.72, 58);
+    if (phase === "idol" && mouse.down && !calf.broken && onCalf) {
+      calf.broken = true;
+      customWonderState.calfPhase = "grind";
+      if (typeof window.BibleBowlPlaySound === "function") {
+        window.BibleBowlPlaySound("shatter");
+      }
+      for (let idx = 0; idx < 40; idx++) {
+        particles.push({
+          x: calf.x,
+          y: calf.y,
+          vx: (Math.random() - 0.5) * 8,
+          vy: (Math.random() - 0.5) * 8 - 2,
+          r: Math.random() * 5 + 3,
+          alpha: 1,
+          type: "golden_shard"
+        });
       }
     }
 
@@ -582,20 +579,20 @@
     const insideTabernacle = Math.hypot(mouse.x - tabCX, mouse.y - tabCY) < tabernacle.w * 0.38;
     const witnessing = !insideTabernacle && mouse.y > tabernacle.y - 10;
 
-    window.BibleBowlScenes.drawCaption(ctx, w, "The glory of the Lord filled the tabernacle");
+    window.BibleBowlScenes.drawCaption(ctx, w, "Glory fills tabernacle");
     window.BibleBowlScenes.drawProgress(ctx, w,
       insideTabernacle
-        ? "Moses could not enter — the cloud had filled it"
+        ? "Do not enter"
         : witnessing
-          ? "Stand outside and behold the glory"
-          : "Move outside the tent to witness");
+          ? "Behold outside"
+          : "Stand below the tent");
 
     if (witnessing && mouse.down) {
-      customWonderState.witnessHold = (customWonderState.witnessHold || 0) + 1;
+      customWonderState.witnessHold = (customWonderState.witnessHold || 0) + 2;
     } else {
       customWonderState.witnessHold = Math.max(0, (customWonderState.witnessHold || 0) - 1);
     }
-    if ((customWonderState.witnessHold || 0) > 55) {
+    if ((customWonderState.witnessHold || 0) > 35) {
       customWonderState.complete = true;
     }
 

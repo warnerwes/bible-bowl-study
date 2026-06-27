@@ -1,0 +1,11 @@
+{
+  "name": "bible-bowl-study",
+  "private": true,
+  "type": "module",
+  "devDependencies": {
+    "playwright": "^1.52.0"
+  },
+  "scripts": {
+    "test:wonders-mobile": "node scripts/test-wonders-mobile.mjs"
+  }
+}

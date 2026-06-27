@@ -260,7 +260,7 @@
     if (parting < 1 && overSea && mouse.down) {
       customWonderState.handExtended = true;
       const prevPart = customWonderState.parting || 0;
-      customWonderState.windStrength = (customWonderState.windStrength || 0) + 0.0045;
+      customWonderState.windStrength = (customWonderState.windStrength || 0) + 0.0075;
       customWonderState.parting = Math.min(1, customWonderState.windStrength);
       if (Math.floor(prevPart * 5) < Math.floor(customWonderState.parting * 5) &&
           typeof window.BibleBowlPlaySound === "function") {
@@ -549,7 +549,8 @@
     ctx.restore();
   }
 
-  function drawElimWell(ctx, x, y, active, idx, drunk) {
+  function drawElimWell(ctx, x, y, active, idx, drunk, w) {
+    const scale = window.BibleBowlScenes.uiScale ? window.BibleBowlScenes.uiScale(w || 390) : 1;
     ctx.fillStyle = "#7a6a52";
     ctx.beginPath();
     ctx.ellipse(x, y + 4, 13, 5, 0, 0, Math.PI * 2);
@@ -571,7 +572,7 @@
       ctx.stroke();
     }
     ctx.fillStyle = drunk ? "rgba(212, 160, 78, 0.9)" : "rgba(236, 230, 216, 0.55)";
-    ctx.font = "600 9px Spectral, Georgia, serif";
+    ctx.font = `700 ${Math.round(11 * scale)}px Spectral, Georgia, serif`;
     ctx.textAlign = "center";
     ctx.fillText(drunk ? "✓" : String(idx + 1), x, y + 18);
   }
@@ -617,7 +618,7 @@
         sp.drinkProgress = Math.max(0, (sp.drinkProgress || 0) - 2);
       }
 
-      drawElimWell(ctx, sp.x, sp.y, nearWell && !sp.drunk, idx, sp.drunk);
+      drawElimWell(ctx, sp.x, sp.y, nearWell && !sp.drunk, idx, sp.drunk, w);
 
       if (nearWell && !sp.drunk && sp.drinkProgress > 10 && Math.random() < 0.08) {
         particles.push({
