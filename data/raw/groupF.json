@@ -105,13 +105,15 @@
     "reference": "Exodus 32:24",
     "topic": "Aaron's Excuse",
     "type": "fill-in",
-    "question": "What excuse did Aaron give Moses for the calf?",
-    "answer": "I cast the gold into the fire, and this calf came out",
+    "question": "Complete Aaron's excuse for the golden calf: \"I cast it into the fire, and out came this ____.\"",
+    "answer": "calf",
     "acceptableAnswers": [
-      "i cast it into the fire and this calf came out",
-      "i threw the gold in the fire and out came this calf",
-      "the calf came out of the fire",
-      "i cast it into the fire and out came this calf"
+      "calf",
+      "the calf",
+      "this calf",
+      "a calf",
+      "cow",
+      "this cow"
     ],
     "memoryAid": {
       "type": "image",
@@ -771,6 +773,48 @@
     "memoryAid": {
       "type": "mnemonic",
       "text": "Cloud rises, camp rises: the ascending cloud is itself the marching order. When the Presence lifts, Israel lifts its tents and follows; resting cloud says 'stay put.' Israel reads its whole itinerary off the going and resting of God's glory above the tent."
+    }
+  },
+  {
+    "id": "ex33-007",
+    "chapter": 33,
+    "book": "Exodus",
+    "reference": "Exodus 33:11",
+    "topic": "God's Presence",
+    "type": "multiple-choice",
+    "question": "How did the Lord speak with Moses at the tent of meeting?",
+    "answer": "Face to face, as a man speaks to his friend",
+    "options": [
+      "Face to face, as a man speaks to his friend",
+      "Only from within the pillar of cloud",
+      "Through dreams and visions in the night",
+      "Only by the hand of Aaron"
+    ],
+    "memoryAid": {
+      "type": "teaching",
+      "text": "Set this beside 33:20 (“no one can see My face and live”) and it sounds like a flat contradiction — but “face to face” names the intimacy of direct, friend-to-friend converse, not a sighting of God’s essence. Moses speaks WITH God as a friend, yet may still glimpse only His “back parts,” His glory; the unapproachable “face” of the divine essence no creature sees and lives.",
+      "source": "St. Gregory of Nyssa, The Life of Moses (cf. Exodus 33:11, 20)"
+    }
+  },
+  {
+    "id": "ex33-008",
+    "chapter": 33,
+    "book": "Exodus",
+    "reference": "Exodus 33:3-5",
+    "topic": "God's Presence",
+    "type": "multiple-choice",
+    "question": "After the golden calf, what reason did the Lord give for refusing to go up in the midst of Israel?",
+    "answer": "Because they were a stiff-necked people",
+    "options": [
+      "Because they were a stiff-necked people",
+      "Because the tabernacle was not yet built",
+      "Because Moses had asked Him to wait outside",
+      "Because the camp had become ritually unclean"
+    ],
+    "memoryAid": {
+      "type": "teaching",
+      "text": "Because of the calf, the Lord will not go “in the midst” of a stiff-necked people lest He consume them, so the tent stands outside the camp — fellowship ruptured. The estrangement is temporary: the tabernacle He commands will rise in the heart of the camp, God dwelling among His people once more — the road that ends in the Word who “tabernacled among us.”",
+      "source": "John 1:14 (cf. Exodus 33:3-5)"
     }
   }
 ]

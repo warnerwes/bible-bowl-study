@@ -54,6 +54,120 @@
     ["setup", "quiz", "results"].forEach((s) => ($(s).hidden = s !== screen));
   }
 
+  // ---------- Celebration effects (dependency-free confetti) ----------
+  const PREFERS_REDUCED_MOTION =
+    typeof window.matchMedia === "function" &&
+    window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const CONFETTI_COLORS = ["#d4a04e", "#e6c074", "#5fae86", "#6aa9e0", "#b48ad6", "#e08a5a", "#f2ead8"];
+
+  function popVerdict() {
+    if (PREFERS_REDUCED_MOTION) return;
+    const v = $("feedback-verdict");
+    v.classList.remove("pop");
+    void v.offsetWidth; // reflow so the animation can restart
+    v.classList.add("pop");
+  }
+  function makeConfettiLayer(lifespanMs) {
+    const layer = el("div", "confetti-layer");
+    document.body.appendChild(layer);
+    setTimeout(() => layer.remove(), lifespanMs);
+    return layer;
+  }
+  function addPiece(layer, x, y) {
+    const p = el("div", "confetti-piece");
+    p.style.background = CONFETTI_COLORS[Math.floor(Math.random() * CONFETTI_COLORS.length)];
+    const w = 6 + Math.random() * 6;
+    p.style.width = w + "px";
+    p.style.height = w * 0.45 + "px";
+    p.style.left = x + "px";
+    p.style.top = y + "px";
+    layer.appendChild(p);
+    return p;
+  }
+  // Mastery progress toward MASTERY_STREAK correct-in-a-row — shown after each
+  // answer in place of a per-correct celebration. `reset` = a streak was just
+  // broken by a wrong answer (so we show "Streak reset" rather than "0 of 3").
+  function renderMasteryProgress(q, reset) {
+    const wrap = $("mastery-progress");
+    if (state.mode === "review") { wrap.hidden = true; return; }
+    const total = MASTERY_STREAK;
+    const s = stats[q.id] || { streak: 0 };
+    const streak = Math.min(s.streak || 0, total);
+    const mastered = (s.streak || 0) >= total;
+
+    const track = $("mp-track");
+    track.innerHTML = "";
+    const segs = [];
+    for (let i = 0; i < total; i++) {
+      const seg = el("span", "mp-seg");
+      track.appendChild(seg);
+      segs.push(seg);
+    }
+
+    const label = $("mp-label");
+    if (mastered) {
+      wrap.className = "mastery-progress mastered";
+      label.textContent = "✦ Mastered";
+    } else if (reset) {
+      wrap.className = "mastery-progress reset";
+      label.textContent = "Streak reset · 0 of " + total + " in a row";
+    } else {
+      wrap.className = "mastery-progress";
+      label.textContent = streak + " of " + total + " correct in a row";
+    }
+    wrap.setAttribute("aria-valuenow", String(streak));
+    wrap.hidden = false;
+
+    // Fill the segments (newest one pulses). Under reduced-motion, paint at once.
+    const paint = () => {
+      segs.forEach((seg, i) => { if (i < streak) seg.classList.add("filled"); });
+      if (!PREFERS_REDUCED_MOTION && streak > 0 && !reset) segs[streak - 1].classList.add("pump");
+    };
+    if (PREFERS_REDUCED_MOTION) paint();
+    else requestAnimationFrame(() => requestAnimationFrame(paint));
+  }
+  // Full-screen drop from the top + a "Mastered!" flourish — fires at 3 in a row.
+  function celebrateMastery() {
+    popVerdict();
+    flashMastered();
+    if (PREFERS_REDUCED_MOTION) return;
+    const W = window.innerWidth;
+    const H = window.innerHeight;
+    const layer = makeConfettiLayer(4200);
+    for (let i = 0; i < 140; i++) {
+      const p = addPiece(layer, Math.random() * W, -16);
+      const dx = (Math.random() - 0.5) * 180;
+      const rot = Math.random() * 1080 - 540;
+      const delay = Math.random() * 450;
+      const dur = 2000 + Math.random() * 1300;
+      p.animate(
+        [
+          { transform: "translate(0,0) rotate(0deg)", opacity: 1 },
+          { transform: `translate(${dx * 0.4}px, ${H * 0.55}px) rotate(${rot * 0.5}deg)`, opacity: 1, offset: 0.6 },
+          { transform: `translate(${dx}px, ${H + 40}px) rotate(${rot}deg)`, opacity: 0 },
+        ],
+        { duration: dur, delay: delay, easing: "cubic-bezier(.25,.6,.4,1)" }
+      ).onfinish = () => p.remove();
+    }
+  }
+  function flashMastered() {
+    const b = el("div", "mastered-flash");
+    // Inline SVG star renders crisply and on-theme (a glyph rendered as a clunky
+    // black diamond in the display serif).
+    b.innerHTML =
+      '<svg class="mf-star" viewBox="0 0 24 24" aria-hidden="true">' +
+      '<path d="M12 1.7l2.3 7.1 7.5.1-6 4.5 2.2 7.2-6-4.4-6 4.4 2.2-7.2-6-4.5 7.5-.1z"/>' +
+      "</svg>" +
+      '<span class="mf-title">Mastered</span>' +
+      '<span class="mf-sub">' + MASTERY_STREAK + " correct in a row</span>";
+    document.body.appendChild(b);
+    requestAnimationFrame(() => b.classList.add("show"));
+    setTimeout(() => {
+      b.classList.remove("show");
+      setTimeout(() => b.remove(), 450);
+    }, 2200);
+  }
+
   // ---------- Progress tracking (localStorage) ----------
   // stats[id] = { wrong, right, streak, seen } — streak = consecutive corrects.
   let stats = {};
@@ -229,11 +343,21 @@
   function normalize(s) {
     return String(s)
       .toLowerCase()
-      .trim()
-      .replace(/[.,!;:'"’”“()]/g, "")
-      .replace(/\b(the|a|an)\b/g, " ")
+      .replace(/['’`]/g, "")             // drop apostrophes: "lord's" -> "lords"
+      .replace(/[^a-z0-9]+/g, " ")        // any other punctuation -> a separator space
+      .replace(/\b(the|a|an)\b/g, " ")    // ignore articles
       .replace(/\s+/g, " ")
       .trim();
+  }
+  // Order-independent key: the significant words, sorted. Connectors like "and"
+  // are dropped, so "Ithamar Eleazar" matches "Eleazar and Ithamar" and
+  // "1000,100,50,10" matches "1000 100 50 10".
+  function answerKey(s) {
+    return normalize(s)
+      .split(" ")
+      .filter((w) => w && w !== "and")
+      .sort()
+      .join(" ");
   }
   function fillInIsCorrect(input, q) {
     const guess = normalize(input);
@@ -241,9 +365,12 @@
     const accepted = (q.acceptableAnswers && q.acceptableAnswers.length)
       ? q.acceptableAnswers
       : [q.answer];
+    const guessKey = answerKey(input);
     return accepted.some((a) => {
       const na = normalize(a);
-      return na === guess || (na.length > 3 && (na.includes(guess) || guess.includes(na)));
+      if (na === guess) return true;
+      if (na.length > 3 && (na.includes(guess) || guess.includes(na))) return true;
+      return guessKey.length > 0 && answerKey(a) === guessKey; // same words, any order
     });
   }
 
@@ -291,7 +418,6 @@
 
   // ---------- Setup / home screen ----------
   function buildSetup() {
-    $("total-count").textContent = state.all.length;
 
     const chapters = [...new Set(state.all.map((q) => q.chapter))].sort((a, b) => a - b);
     const list = $("chapter-list");
@@ -342,6 +468,89 @@
     $("toggle-advanced").setAttribute("aria-expanded", String(open));
   }
 
+  // Unified Progress view: overall stats + per-chapter breakdown + resets.
+  function openProgress(open) {
+    if (open) { show("setup"); renderProgress(); }
+    $("home").hidden = open;
+    $("progress-view").hidden = !open;
+  }
+
+  function renderProgress() {
+    const total = state.all.length;
+    const seen = Object.keys(stats).length;
+    const due = dueQuestions().length;
+    const mastered = masteredQuestions().length;
+    const entries = Object.values(stats);
+    const totalRight = entries.reduce((a, s) => a + (s.right || 0), 0);
+    const totalWrong = entries.reduce((a, s) => a + (s.wrong || 0), 0);
+    const answers = totalRight + totalWrong;
+    const accuracy = answers ? Math.round((totalRight / answers) * 100) : 0;
+
+    const box = $("progress-stats");
+    box.innerHTML = "";
+    const grid = el("div", "stat-grid");
+    const tile = (num, label) => {
+      const t = el("div", "stat");
+      t.appendChild(el("span", "stat-num", num));
+      t.appendChild(el("span", "stat-label", label));
+      return t;
+    };
+    grid.appendChild(tile(`${mastered}/${total}`, "Mastered"));
+    grid.appendChild(tile(`${seen}/${total}`, "Seen"));
+    grid.appendChild(tile(String(due), "To review"));
+    grid.appendChild(tile(`${accuracy}%`, "Accuracy"));
+    box.appendChild(grid);
+    box.appendChild(el("p", "ps-caption", `${totalRight} correct of ${answers} answered`));
+
+    fillChapterBreakdown();
+
+    const actions = $("progress-actions");
+    actions.innerHTML = "";
+    if (mastered > 0) {
+      const rm = el("button", "link-btn", "Reset mastered");
+      rm.type = "button";
+      rm.addEventListener("click", resetMastered);
+      actions.appendChild(rm);
+    }
+    const rp = el("button", "link-btn", "Reset all");
+    rp.type = "button";
+    rp.addEventListener("click", resetProgress);
+    actions.appendChild(rp);
+  }
+
+  // Per-chapter mastery + accuracy rows (into #breakdown-list).
+  function fillChapterBreakdown() {
+    const listEl = $("breakdown-list");
+    listEl.innerHTML = "";
+    const chapters = [...new Set(state.all.map((q) => q.chapter))].sort((a, b) => a - b);
+    chapters.forEach((ch) => {
+      const qs = state.all.filter((q) => q.chapter === ch);
+      const total = qs.length;
+      let mastered = 0, right = 0, wrong = 0;
+      qs.forEach((q) => {
+        const s = stats[q.id];
+        if (!s) return;
+        right += s.right || 0;
+        wrong += s.wrong || 0;
+        if ((s.streak || 0) >= MASTERY_STREAK) mastered++;
+      });
+      const answers = right + wrong;
+      const acc = answers ? Math.round((right / answers) * 100) : null;
+      const pct = total ? Math.round((mastered / total) * 100) : 0;
+
+      const row = el("div", "chap-row");
+      row.appendChild(el("span", "chap-name", "Ch " + ch));
+      const bar = el("div", "chap-bar");
+      const fill = el("div", "chap-fill");
+      fill.style.width = pct + "%";
+      if (mastered === total) fill.classList.add("done");
+      bar.appendChild(fill);
+      row.appendChild(bar);
+      row.appendChild(el("span", "chap-stat", `${mastered}/${total}` + (acc === null ? " · —" : ` · ${acc}%`)));
+      listEl.appendChild(row);
+    });
+  }
+
   // Refresh the home-screen tracking UI (missed CTA + progress line).
   function refreshHome() {
     const due = dueQuestions().length;
@@ -353,31 +562,24 @@
     $("mastered-cta").hidden = mastered === 0;
     $("mastered-count").textContent = mastered;
 
-    const seen = Object.keys(stats).length;
-    const line = $("progress-line");
-    line.innerHTML = "";
-    if (seen === 0) { line.hidden = true; return; }
-    line.hidden = false;
-    line.append(`Seen ${seen} of ${state.all.length}  ·  ${due} to review  ·  ${mastered} mastered`);
-    if (mastered > 0) {
-      line.append("  ·  ");
-      const rm = el("button", "link-btn", "Reset mastered");
-      rm.type = "button";
-      rm.addEventListener("click", resetMastered);
-      line.appendChild(rm);
-    }
-    line.append("  ·  ");
-    const rp = el("button", "link-btn", "Reset all");
-    rp.type = "button";
-    rp.addEventListener("click", resetProgress);
-    line.appendChild(rp);
+    const remaining = state.all.length - mastered;
+    $("quick-note").textContent = mastered > 0
+      ? `${remaining} of ${state.all.length} left to master · missed ones return first`
+      : `All ${state.all.length} questions, shuffled`;
+
+    $("view-progress").hidden = Object.keys(stats).length === 0;
   }
 
+  // After a reset, refresh the home CTAs and the Progress view if it's open.
+  function refreshAfterReset() {
+    refreshHome();
+    if (!$("progress-view").hidden) renderProgress();
+  }
   function resetProgress() {
     if (!window.confirm("Reset all saved progress on this device? This can't be undone.")) return;
     stats = {};
     saveStats();
-    refreshHome();
+    refreshAfterReset();
   }
   function resetMastered() {
     const ids = masteredQuestions().map((q) => q.id);
@@ -385,7 +587,7 @@
     if (!window.confirm("Reset " + ids.length + " mastered question" + (ids.length === 1 ? "" : "s") + " back into study?")) return;
     ids.forEach((id) => { delete stats[id]; });
     saveStats();
-    refreshHome();
+    refreshAfterReset();
   }
 
   function selectedChapters() {
@@ -421,7 +623,9 @@
     renderQuestion();
   }
   function startQuick() {
-    launch(weightedOrder(state.all), "quick");
+    // Set mastered questions aside; fall back to everything once all are mastered.
+    const pool = state.all.filter((q) => !isMastered(q));
+    launch(weightedOrder(pool.length ? pool : state.all), "quick");
   }
   function startDrill() {
     const due = dueQuestions();
@@ -526,8 +730,17 @@
     state.answered = true;
     if (correct) state.score++;
     else state.missed.push(q);
-    if (state.mode !== "review") recordResult(q, correct);
+    let newlyMastered = false;
+    let streakReset = false;
+    if (state.mode !== "review") {
+      const prevStreak = stats[q.id] ? (stats[q.id].streak || 0) : 0;
+      recordResult(q, correct);
+      newlyMastered = correct && !!stats[q.id] && stats[q.id].streak === MASTERY_STREAK;
+      streakReset = !correct && prevStreak > 0;
+    }
     showFeedback(q, correct);
+    renderMasteryProgress(q, streakReset);
+    if (correct && newlyMastered) celebrateMastery();
   });
 
   function showFeedback(q, correct) {
@@ -652,18 +865,20 @@
   }
   function renderAidReview(q) {
     const alt = latestReviewCandidate(q);
-    if (!q.memoryAid || !q.memoryAid.text) return;
-
     const box = $("aid-review");
+    // The A/B vote only makes sense when there's an alternate to compare —
+    // otherwise hide it to keep the after-answer screen uncluttered.
+    if (!q.memoryAid || !q.memoryAid.text || !alt) { box.hidden = true; return; }
+
     const opts = $("aid-review-options");
     const saved = $("aid-review-saved");
     opts.innerHTML = "";
     saved.hidden = true;
 
-    const choices = alt ? [
+    const choices = [
       { id: "current", type: q.memoryAid.type, text: q.memoryAid.text, source: q.memoryAid.source || "" },
       { id: alt.candidateId, type: alt.type, text: alt.text, source: alt.source || "" },
-    ] : [{ id: "current", type: q.memoryAid.type, text: q.memoryAid.text, source: q.memoryAid.source || "" }];
+    ];
     const prior = aidVoteFor(q.id);
 
     choices.forEach((choice) => {
@@ -743,8 +958,13 @@
   });
 
   $("quit-btn").addEventListener("click", showResults);
+  $("view-progress").addEventListener("click", () => openProgress(true));
+  $("close-progress").addEventListener("click", () => openProgress(false));
+  $("show-progress-btn").addEventListener("click", () => openProgress(true));
+
   $("restart-btn").addEventListener("click", () => {
     openAdvanced(false);
+    $("progress-view").hidden = true;
     refreshHome();
     show("setup");
   });
