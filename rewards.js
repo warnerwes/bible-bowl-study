@@ -18,8 +18,8 @@
       chapter: "Ch 14",
       threshold: { type: "masteries", value: 10 },
       ref: "Exodus 14:21-22",
-      quote: "And the Lord caused the sea to go back by a strong east wind all that night, and made the sea dry land, and the waters were divided.",
-      desc: "Escape from Egypt. God parts the Red Sea, forming towering walls of water so Israel can pass through on dry ground.",
+      quote: "And Moses stretched out his hand over the sea; and the Lord drove back the sea with a strong south wind all that night and made the sea dry land, and the waters were divided.",
+      desc: "In the Septuagint and OSB a strong south wind — not an east wind — drives the sea back. St. Paul reads the crossing as our Baptism: Israel was baptized into Moses in the cloud and in the sea, delivered from Pharaoh into life.",
       tip: "Waters cover the path at first. Tap each sea wall five times to part them, then walk through.",
       color: "#3498db"
     },
@@ -30,8 +30,8 @@
       chapter: "Ch 15",
       threshold: { type: "pct", value: 5 },
       ref: "Exodus 15:23,25",
-      quote: "They could not drink the waters of Marah, for they were bitter... and the Lord showed him a tree; which when he cast into the waters, the waters were made sweet.",
-      desc: "Bitter water made sweet. Moses casts a wood branch into the bitter spring of Marah, purifying it for the thirsty Israelites.",
+      quote: "They could not drink the waters of Marah, for they were bitter… and the Lord showed him a tree, and he cast it into the water, and the water became sweet.",
+      desc: "Marah means bitter. St. Gregory of Nyssa reads the tree cast into bitter water as the Cross plunged into the bitterness of our life — what was undrinkable becomes sweet, and there God names Himself the Lord who heals you.",
       tip: "Drag the branch into the bitter pool and sweep it through the water until it is cast in.",
       color: "#2ecc71"
     },
@@ -42,8 +42,8 @@
       chapter: "Ch 15",
       threshold: { type: "pct", value: 15 },
       ref: "Exodus 15:27",
-      quote: "And they came to Elim, where were twelve wells of water, and threescore and ten palm trees: and they encamped there by the waters.",
-      desc: "Rest at the Oasis. Elim provides twelve springs of fresh water and seventy palm trees to shelter the encampment.",
+      quote: "Then they came to Elim, where there were twelve springs of water and seventy palm trees, and they encamped there by the waters.",
+      desc: "Rest after Marah. The Fathers read twelve springs for the twelve tribes — fulfilled in the twelve Apostles — and seventy palms for the seventy elders Moses chose, prefiguring the seventy disciples Christ sent (Luke 10). The apostolic Church appears as an oasis: living water that no longer needs the wood of healing.",
       tip: "Hold at each numbered well until you drink from all twelve.",
       color: "#27ae60"
     },
@@ -54,8 +54,8 @@
       chapter: "Ch 16",
       threshold: { type: "pct", value: 30 },
       ref: "Exodus 16:4,13",
-      quote: "Then said the Lord unto Moses, Behold, I will rain bread from heaven for you... and in the morning the dew lay round about the host.",
-      desc: "Bread from Heaven. Manna falls each morning like hoarfrost, and quails cover the camp in the evening to feed the people.",
+      quote: "Then the Lord said to Moses, 'Behold, I will rain bread from heaven for you'… and in the morning the dew lay round about the camp.",
+      desc: "Bread from heaven each dawn — Israel named it manna, 'What is it?' Quail covered the camp at evening. The question is not fully answered until Christ stands in the wilderness and says, 'I am the bread of life.'",
       tip: "Move close to each flake of manna and gather every one before dawn.",
       color: "#f1c40f"
     },
@@ -66,8 +66,8 @@
       chapter: "Ch 17",
       threshold: { type: "pct", value: 45 },
       ref: "Exodus 17:6",
-      quote: "Behold, I will stand before thee there upon the rock in Horeb; and thou shalt smite the rock, and there shall come water out of it.",
-      desc: "Water from the Rock. Moses strikes the rock at Horeb with his staff, and fresh water gushes forth to quench the people's thirst.",
+      quote: "Behold, I will stand before you there on the rock in Horeb; and you shall strike the rock, and water will come out of it for the people to drink.",
+      desc: "At Rephidim the rock is smitten once and a river flows for a thirsting nation. St. Paul says plainly, 'that Rock was Christ' — smitten on the Cross so living water pours for the whole people.",
       tip: "Touch the rock once with the staff — Moses smote it but once.",
       color: "#e67e22"
     },
@@ -78,8 +78,8 @@
       chapter: "Ch 19",
       threshold: { type: "pct", value: 60 },
       ref: "Exodus 19:18",
-      quote: "And mount Sinai was altogether on a smoke, because the Lord descended upon it in fire... and the whole mount quaked greatly.",
-      desc: "The Covenant & Commandments. God descends upon Mount Sinai in fire and thick cloud, giving the Ten Commandments.",
+      quote: "Now Mount Sinai was completely in smoke, because the Lord descended upon it in fire. Its smoke ascended like the smoke of a furnace, and the whole mountain quaked greatly.",
+      desc: "God descends upon Sinai in fire and cloud to give the Law. The mountain trembles beneath His feet, and the trumpet blast grows ever louder — the herald of the King who comes, not with Moses alone but with myriads of angels.",
       tip: "Tap the mountain to call lightning. Toggle cloud or fire above.",
       color: "#9b59b6"
     },
@@ -90,8 +90,8 @@
       chapter: "Ch 32",
       threshold: { type: "pct", value: 80 },
       ref: "Exodus 32:20",
-      quote: "And he took the calf which they had made, and burnt it in the fire, and ground it to powder, and strawed it upon the water.",
-      desc: "Israel's Great Failure & Repentance. The people construct a golden calf, which Moses breaks and grinds into ash.",
+      quote: "He took the calf which they had made, burned it in the fire, ground it to powder, scattered it on the water, and made the children of Israel drink it.",
+      desc: "While Moses received the Law on the mountain, Israel made a calf below. Moses grinds the idol to dust and pours it on the water they must drink — judgment on idolatry. Three thousand fall by the sword; at Pentecost three thousand are added to life.",
       tip: "Tap the golden calf to shatter it. Sweep the glitter away.",
       color: "#e74c3c"
     },
@@ -102,8 +102,8 @@
       chapter: "Ch 40",
       threshold: { type: "pct", value: 100 },
       ref: "Exodus 40:34",
-      quote: "Then a cloud covered the tent of the congregation, and the glory of the Lord filled the tabernacle.",
-      desc: "The Shekinah Glory. The Tabernacle is finished, and God's glory descends, filling it with a radiant, cloud-like divine light.",
+      quote: "Then the cloud covered the tabernacle of testimony, and the glory of the Lord filled the tabernacle.",
+      desc: "The whole book of Exodus drives toward this: God comes to dwell with His people. St. John deliberately echoes it — 'the Word became flesh and tabernacled among us, and we beheld His glory' — the cloud-filled tent foreshadowing the Incarnation.",
       tip: "Tap the scene to send rings of covenant light. Move to turn the rays.",
       color: "#f39c12"
     }
