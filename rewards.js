@@ -323,59 +323,72 @@
       modal.id = "rewards-modal";
       modal.className = "rewards-modal";
       modal.innerHTML = `
-        <canvas id="rewards-canvas" class="rewards-canvas"></canvas>
-        <div id="rewards-hud" class="rewards-hud">
-          <div id="rewards-hud-badge" class="rewards-hud-badge">🏆</div>
-          <div id="rewards-hud-milestone" class="rewards-hud-milestone">Milestone Unlocked</div>
-          <h2 id="rewards-hud-title" class="rewards-hud-title">Wonder Name</h2>
-          <p id="rewards-hud-quote" class="rewards-hud-quote">"Scripture quote..."</p>
-          <p id="rewards-hud-desc" class="rewards-hud-desc">Description of the event.</p>
-          <div id="rewards-hud-controls" class="rewards-hud-controls"></div>
-          <div id="rewards-hud-tip" class="rewards-hud-tip">Interaction tip.</div>
-          <button id="rewards-hud-close" class="primary-btn rewards-hud-close">Return to Study</button>
+        <div class="rewards-card">
+          <div id="rewards-scene" class="rewards-scene">
+            <canvas id="rewards-canvas" class="rewards-canvas"></canvas>
+            <p id="rewards-scene-hint" class="rewards-scene-hint">Drag or tap the scene to interact</p>
+          </div>
+          <div id="rewards-hud" class="rewards-panel">
+            <header class="rewards-panel-head">
+              <span id="rewards-hud-badge" class="rewards-hud-badge">🏆</span>
+              <div class="rewards-panel-titles">
+                <div id="rewards-hud-milestone" class="rewards-hud-milestone">Milestone Unlocked</div>
+                <h2 id="rewards-hud-title" class="rewards-hud-title">Wonder Name</h2>
+              </div>
+            </header>
+            <details class="rewards-passage">
+              <summary>Scripture &amp; story</summary>
+              <blockquote id="rewards-hud-quote" class="rewards-hud-quote"></blockquote>
+              <p id="rewards-hud-desc" class="rewards-hud-desc"></p>
+            </details>
+            <p id="rewards-hud-tip" class="rewards-hud-tip"></p>
+            <div id="rewards-hud-controls" class="rewards-hud-controls"></div>
+            <button id="rewards-hud-close" type="button" class="primary-btn rewards-hud-close">Return to Study</button>
+          </div>
         </div>
       `;
       document.body.appendChild(modal);
 
       document.getElementById("rewards-hud-close").addEventListener("click", closeModal);
-      
+
       canvas = document.getElementById("rewards-canvas");
       ctx = canvas.getContext("2d");
+      const scene = document.getElementById("rewards-scene");
+      const hint = document.getElementById("rewards-scene-hint");
 
-      window.addEventListener("resize", resizeCanvas);
+      function hideSceneHint() {
+        if (hint) hint.classList.add("hidden");
+      }
 
-      canvas.addEventListener("mousemove", (e) => {
+      function updatePointer(e) {
         const rect = canvas.getBoundingClientRect();
         mouse.px = mouse.x;
         mouse.py = mouse.y;
         mouse.x = e.clientX - rect.left;
         mouse.y = e.clientY - rect.top;
-      });
+      }
 
-      canvas.addEventListener("mousedown", () => mouse.down = true);
-      canvas.addEventListener("mouseup", () => mouse.down = false);
-      canvas.addEventListener("mouseleave", () => mouse.down = false);
-
-      canvas.addEventListener("touchmove", (e) => {
-        if (e.touches.length > 0) {
-          const rect = canvas.getBoundingClientRect();
-          mouse.px = mouse.x;
-          mouse.py = mouse.y;
-          mouse.x = e.touches[0].clientX - rect.left;
-          mouse.y = e.touches[0].clientY - rect.top;
-        }
-      });
-      canvas.addEventListener("touchstart", (e) => {
+      scene.addEventListener("pointerdown", (e) => {
+        if (e.pointerType === "mouse" && e.button !== 0) return;
+        scene.setPointerCapture(e.pointerId);
         mouse.down = true;
-        if (e.touches.length > 0) {
-          const rect = canvas.getBoundingClientRect();
-          mouse.x = e.touches[0].clientX - rect.left;
-          mouse.y = e.touches[0].clientY - rect.top;
-          mouse.px = mouse.x;
-          mouse.py = mouse.y;
-        }
+        updatePointer(e);
+        hideSceneHint();
       });
-      canvas.addEventListener("touchend", () => mouse.down = false);
+      scene.addEventListener("pointermove", (e) => {
+        if (e.pointerType === "mouse" || mouse.down) updatePointer(e);
+      });
+      scene.addEventListener("pointerup", () => { mouse.down = false; });
+      scene.addEventListener("pointercancel", () => { mouse.down = false; });
+
+      if (typeof ResizeObserver !== "undefined") {
+        new ResizeObserver(() => {
+          if (!currentActiveWonder) return;
+          resizeCanvas();
+        }).observe(scene);
+      } else {
+        window.addEventListener("resize", resizeCanvas);
+      }
     }
 
     // Trophy shelf is built; trophies render once app.js fires bbs:stats-updated.
@@ -521,15 +534,21 @@
     
     controls.appendChild(btnMute);
 
-    resizeCanvas();
+    const passage = modal.querySelector(".rewards-passage");
+    const hint = document.getElementById("rewards-scene-hint");
+    if (passage) passage.open = window.matchMedia("(min-width: 720px)").matches;
+    if (hint) hint.classList.remove("hidden");
+
     modal.classList.add("active");
 
-    if (window.BibleBowlScenes && typeof window.BibleBowlScenes.setupParticles === "function") {
-      window.BibleBowlScenes.setupParticles(wonder.id, canvas.width, canvas.height, particles, customWonderState);
-    }
-
-    if (animationFrameId) cancelAnimationFrame(animationFrameId);
-    tick();
+    requestAnimationFrame(() => {
+      resizeCanvas();
+      if (window.BibleBowlScenes && typeof window.BibleBowlScenes.setupParticles === "function") {
+        window.BibleBowlScenes.setupParticles(wonder.id, canvas.width, canvas.height, particles, customWonderState);
+      }
+      if (animationFrameId) cancelAnimationFrame(animationFrameId);
+      tick();
+    });
   }
 
   function closeModal() {
@@ -544,8 +563,10 @@
 
   function resizeCanvas() {
     if (!canvas) return;
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
+    const scene = document.getElementById("rewards-scene");
+    const box = scene ? scene.getBoundingClientRect() : { width: window.innerWidth, height: window.innerHeight * 0.45 };
+    canvas.width = Math.max(1, Math.floor(box.width));
+    canvas.height = Math.max(1, Math.floor(box.height));
   }
 
   // Animation Loop
