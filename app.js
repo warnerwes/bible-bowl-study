@@ -59,18 +59,17 @@
   let stats = {};
   let aidVotes = [];
   function loadStats() {
-    try { stats = JSON.parse(localStorage.getItem(STORAGE_KEY)) || {}; }
-    catch (e) { stats = {}; }
-    try { aidVotes = JSON.parse(localStorage.getItem(VOTE_STORAGE_KEY)) || []; }
-    catch (e) { aidVotes = []; }
+    try { stats = JSON.parse(localStorage.getItem(STORAGE_KEY)) || {}; } catch (e) { stats = {}; }
+    try { aidVotes = JSON.parse(localStorage.getItem(VOTE_STORAGE_KEY)) || []; } catch (e) { aidVotes = []; }
   }
   function saveStats() {
-    try { localStorage.setItem(STORAGE_KEY, JSON.stringify(stats)); }
-    catch (e) { /* private mode / storage disabled — tracking just won't persist */ }
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(stats));
+      window.dispatchEvent(new CustomEvent("bbs:stats-updated"));
+    } catch (e) {}
   }
   function saveAidVotes() {
-    try { localStorage.setItem(VOTE_STORAGE_KEY, JSON.stringify(aidVotes)); }
-    catch (e) { /* private mode / storage disabled */ }
+    try { localStorage.setItem(VOTE_STORAGE_KEY, JSON.stringify(aidVotes)); } catch (e) {}
   }
   function recordResult(q, correct) {
     const s = stats[q.id] || { wrong: 0, right: 0, streak: 0, seen: 0 };
