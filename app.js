@@ -58,6 +58,36 @@
   const PREFERS_REDUCED_MOTION =
     typeof window.matchMedia === "function" &&
     window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  function scrollToNextButton() {
+    const bar = $("feedback-next-bar");
+    const btn = $("next-btn");
+    if (!btn || bar.hidden) return;
+    btn.focus({ preventScroll: true });
+
+    const pad = 14;
+    const rect = btn.getBoundingClientRect();
+    if (rect.bottom <= window.innerHeight - pad && rect.top >= pad) return;
+
+    let nextTop = window.scrollY;
+    if (rect.bottom > window.innerHeight - pad) {
+      nextTop += rect.bottom - (window.innerHeight - pad);
+    }
+
+    const shelf = document.getElementById("rewards-trophy-shelf");
+    if (shelf) {
+      const shelfTop = shelf.getBoundingClientRect().top + window.scrollY;
+      const maxTop = shelfTop - window.innerHeight + pad;
+      if (nextTop > maxTop) nextTop = Math.max(window.scrollY, maxTop);
+    }
+
+    if (Math.abs(nextTop - window.scrollY) < 2) return;
+    window.scrollTo({
+      top: Math.max(0, nextTop),
+      behavior: PREFERS_REDUCED_MOTION ? "auto" : "smooth",
+    });
+  }
+
   const CONFETTI_COLORS = ["#d4a04e", "#e6c074", "#5fae86", "#6aa9e0", "#b48ad6", "#e08a5a", "#f2ead8"];
 
   function popVerdict() {
@@ -666,6 +696,7 @@
     $("q-text").textContent = q.question;
 
     $("feedback").hidden = true;
+    $("feedback-next-bar").hidden = true;
     $("memory-aid").hidden = true;
     $("aid-review").hidden = true;
     $("aid-review-saved").hidden = true;
@@ -749,6 +780,7 @@
     $("submit-btn").hidden = true;
     const fb = $("feedback");
     fb.hidden = false;
+    $("feedback-next-bar").hidden = false;
 
     const verdict = $("feedback-verdict");
     verdict.textContent = correct ? "Correct" : "Not quite";
@@ -776,7 +808,9 @@
 
     $("suggest-link").href = suggestUrl(q);
 
-    $("next-btn").focus();
+    requestAnimationFrame(() => {
+      requestAnimationFrame(scrollToNextButton);
+    });
   }
 
   function setStudyGuideVisible(q, visible) {

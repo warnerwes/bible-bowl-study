@@ -398,6 +398,18 @@ h2 { font-size: 1.45rem; margin-top: 0; line-height: 1.2; font-weight: 600; }
 }
 .suggest-link:hover { color: var(--accent); text-decoration: underline; }
 
+.feedback-next-bar {
+  position: sticky;
+  bottom: 0;
+  z-index: 4;
+  margin: 0.75rem 0 0;
+  padding: 0.65rem 0 calc(0.35rem + env(safe-area-inset-bottom, 0px));
+  background: linear-gradient(to bottom, transparent, var(--surface) 28%);
+}
+.feedback-next-bar .primary-btn {
+  width: 100%;
+}
+
 .memory-aid {
   border-left: 3px solid var(--accent);
   background: rgba(255, 255, 255, 0.025);
