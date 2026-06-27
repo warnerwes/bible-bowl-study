@@ -10,6 +10,7 @@
 
   // The 8 milestones representing the journey of Exodus
   // First unlock is easy (10 masteries); later thresholds use % with widening gaps.
+  // OSB/LXX-aligned copy — verify exact OSB wording before final publication pass.
   const WONDERS = [
     {
       id: "red_sea",
@@ -17,10 +18,10 @@
       label: "Red Sea",
       chapter: "Ch 14",
       threshold: { type: "masteries", value: 10 },
-      ref: "Exodus 14:21-22",
-      quote: "And Moses stretched out his hand over the sea; and the Lord drove back the sea with a strong south wind all that night and made the sea dry land, and the waters were divided.",
-      desc: "In the Septuagint and OSB a strong south wind — not an east wind — drives the sea back. St. Paul reads the crossing as our Baptism: Israel was baptized into Moses in the cloud and in the sea, delivered from Pharaoh into life.",
-      tip: "Hold your hand over the sea — Moses stretched out his hand, and a strong south wind parted the waters.",
+      ref: "Exodus 14:16, 21-22",
+      quote: "Lift up your rod, and stretch forth your hand over the sea… and the Lord drove back the sea with a strong south wind all that night, and made the sea dry land.",
+      desc: "Moses obeys by lifting the rod and stretching out his hand, but the Lord Himself opens the way through the sea. Saint Paul teaches that Israel was baptized into Moses in the cloud and in the sea, so the crossing becomes a pattern of deliverance through water.",
+      tip: "Lift the rod and hold your hand over the sea until the south wind opens a dry path.",
       color: "#3498db"
     },
     {
@@ -29,10 +30,10 @@
       label: "Marah",
       chapter: "Ch 15",
       threshold: { type: "pct", value: 5 },
-      ref: "Exodus 15:23,25",
-      quote: "They could not drink the waters of Marah, for they were bitter… and the Lord showed him a tree, and he cast it into the water, and the water became sweet.",
-      desc: "Marah means bitter. St. Gregory of Nyssa reads the tree cast into bitter water as the Cross plunged into the bitterness of our life — what was undrinkable becomes sweet, and there God names Himself the Lord who heals you.",
-      tip: "Drag the tree into the bitter pool and release to cast it in, as Moses did at Marah.",
+      ref: "Exodus 15:23, 25-26",
+      quote: "They could not drink the water, for it was bitter… and the Lord showed him a tree, and he cast it into the water, and the water was sweetened… 'I am the Lord your God who heals you.'",
+      desc: "At Marah the bitter waters are healed by obedience to what God shows Moses. The Fathers read the wood cast into the water as a figure of the Cross: what is bitter becomes drinkable, and what is deadly becomes medicine.",
+      tip: "Drag the tree into the bitter water and release it there.",
       color: "#2ecc71"
     },
     {
@@ -43,8 +44,8 @@
       threshold: { type: "pct", value: 15 },
       ref: "Exodus 15:27",
       quote: "Then they came to Elim, where there were twelve springs of water and seventy palm trees, and they encamped there by the waters.",
-      desc: "Rest after Marah. The Fathers read twelve springs for the twelve tribes — fulfilled in the twelve Apostles — and seventy palms for the seventy elders Moses chose, prefiguring the seventy disciples Christ sent (Luke 10). The apostolic Church appears as an oasis: living water that no longer needs the wood of healing.",
-      tip: "Hold at each numbered well until you drink from all twelve.",
+      desc: "Elim is the oasis after bitterness: the Lord not only heals, He gives rest. The twelve springs and seventy palms teach ordered abundance for the whole people.",
+      tip: "Find the twelve springs, count the seventy palms, and camp by the waters.",
       color: "#27ae60"
     },
     {
@@ -53,10 +54,10 @@
       label: "Manna",
       chapter: "Ch 16",
       threshold: { type: "pct", value: 30 },
-      ref: "Exodus 16:4,13",
-      quote: "Then the Lord said to Moses, 'Behold, I will rain bread from heaven for you'… and in the morning the dew lay round about the camp.",
-      desc: "Bread from heaven each dawn — Israel named it manna, 'What is it?' Quail covered the camp at evening. The question is not fully answered until Christ stands in the wilderness and says, 'I am the bread of life.'",
-      tip: "Scoop manna at dawn. Tap TENT when full. Day 6: two jars same day — then quail at night eat the rest.",
+      ref: "Exodus 16:4-5, 13-21, 31-33",
+      quote: "I will rain bread from heaven for you… on the sixth day it shall be double… in the evening quails came up and covered the camp; in the morning, when the dew ceased, the manna appeared.",
+      desc: "The wilderness feeding has a holy rhythm: evening quail, morning dew, daily bread, no hoarding, double on the sixth day, rest on the seventh. Christ reveals the fullness: He is the true Bread from heaven and the Bread of Life.",
+      tip: "Wait for the dew to lift, gather one day's portion, and on day six gather double.",
       color: "#f1c40f"
     },
     {
@@ -65,10 +66,10 @@
       label: "Rephidim",
       chapter: "Ch 17",
       threshold: { type: "pct", value: 45 },
-      ref: "Exodus 17:6",
-      quote: "Behold, I will stand before you there on the rock in Horeb; and you shall strike the rock, and water will come out of it for the people to drink.",
-      desc: "At Rephidim the rock is smitten once and a river flows for a thirsting nation. St. Paul says plainly, 'that Rock was Christ' — smitten on the Cross so living water pours for the whole people.",
-      tip: "Massah and Meribah — tap the rock once to strike it with the staff.",
+      ref: "Exodus 17:5-7",
+      quote: "Take the rod… behold, I stand before you there on the rock in Horeb; and you shall strike the rock, and water will come out of it… and he called the place Massah and Meribah.",
+      desc: "Rephidim is not only a miracle of water; it is also a story of quarreling and testing the Lord. The rock is struck once, and Saint Paul says plainly, 'that Rock was Christ.'",
+      tip: "Strike the rock once with the rod, then watch the water flow.",
       color: "#e67e22"
     },
     {
@@ -77,10 +78,10 @@
       label: "Sinai",
       chapter: "Ch 19",
       threshold: { type: "pct", value: 60 },
-      ref: "Exodus 19:18",
-      quote: "Now Mount Sinai was completely in smoke, because the Lord descended upon it in fire. Its smoke ascended like the smoke of a furnace, and the whole mountain quaked greatly.",
-      desc: "God descends upon Sinai in fire and cloud to give the Law. The mountain trembles beneath His feet, and the trumpet blast grows ever louder — the herald of the King who comes, not with Moses alone but with myriads of angels.",
-      tip: "Do not touch Sinai — lightning strikes if you do.",
+      ref: "Exodus 19:10-13, 16-18",
+      quote: "Set bounds around the mountain… do not go up into the mountain, nor touch any part of it… there were voices, lightnings, a dark cloud, and a loud trumpet… because God descended upon it in fire.",
+      desc: "Sinai teaches holy distance before it teaches ascent. The people are sanctified, the mountain is bounded, the trumpet grows louder, and Moses ascends only when God calls.",
+      tip: "Set the bounds, stand back, and wait until God calls.",
       color: "#9b59b6"
     },
     {
@@ -89,10 +90,10 @@
       label: "Golden Calf",
       chapter: "Ch 32",
       threshold: { type: "pct", value: 80 },
-      ref: "Exodus 32:20",
-      quote: "He took the calf which they had made, burned it in the fire, ground it to powder, scattered it on the water, and made the children of Israel drink it.",
-      desc: "While Moses received the Law on the mountain, Israel made a calf below. Moses grinds the idol to dust and pours it on the water they must drink — judgment on idolatry. Three thousand fall by the sword; at Pentecost three thousand are added to life.",
-      tip: "Break the calf, grind it to powder, scatter it on the water, and make Israel drink — as Moses did.",
+      ref: "Exodus 32:19-20, 28",
+      quote: "Moses saw the calf and the dancing… he broke the tablets beneath the mountain. Then he took the calf they made, burned it with fire, ground it very small, scattered it on the water, and made the children of Israel drink it.",
+      desc: "While Moses was with God on the mountain, Israel fell into idolatry below, and Aaron was implicated in the making of the calf. Moses destroys the idol — burn, grind, scatter — and Israel faces the bitterness of false worship.",
+      tip: "Burn the idol, grind it to dust, scatter it on the water, and remember the cost of idolatry.",
       color: "#e74c3c"
     },
     {
@@ -101,13 +102,25 @@
       label: "Glory",
       chapter: "Ch 40",
       threshold: { type: "pct", value: 100 },
-      ref: "Exodus 40:34",
-      quote: "Then the cloud covered the tabernacle of testimony, and the glory of the Lord filled the tabernacle.",
-      desc: "The whole book of Exodus drives toward this: God comes to dwell with His people. St. John deliberately echoes it — 'the Word became flesh and tabernacled among us, and we beheld His glory' — the cloud-filled tent foreshadowing the Incarnation.",
-      tip: "Stand outside the tabernacle — Moses could not enter when the glory filled it. Hold and behold.",
+      ref: "Exodus 40:34-38",
+      quote: "The cloud covered the tabernacle of testimony, and the tabernacle was filled with the glory of the Lord. And Moses was not able to enter the tabernacle, because the cloud overshadowed it.",
+      desc: "Exodus reaches its goal when the Lord fills His dwelling among His people. Moses can set up the tabernacle, but when the glory fills it, even he cannot enter. Saint John reveals the fulfillment: the Word became flesh and dwelt among us.",
+      tip: "Wait outside and behold; when the glory fills the tent, even Moses does not enter.",
       color: "#f39c12"
     }
   ];
+
+  window.BibleBowlScenes = window.BibleBowlScenes || {};
+  window.BibleBowlScenes.WONDER_RULES = {
+    red_sea: { captionStart: "Lift the rod", progress: "The Lord drives back the sea", captionDone: "Dry land through the sea" },
+    marah: { captionStart: "Cast the tree", progress: "The bitter water is healed", captionDone: "The Lord who heals you" },
+    elim: { captionStart: "Find the springs", progress: "12 springs · 70 palms", captionDone: "They camped by the waters" },
+    manna: { captionStart: "Wait for the dew to lift", progress: "Gather today's portion", captionDay6: "Day 6: gather double", captionSabbath: "Sabbath: no manna today", captionDone: "Bread from heaven" },
+    rephidim: { captionStart: "Massah · Meribah", progress: "Strike the rock once", captionDone: "Water from the rock" },
+    sinai: { captionStart: "Set bounds around Sinai", progress: "Stand back and wait", captionDone: "The Lord descends in fire" },
+    golden_calf: { captionStart: "False worship below Sinai", progressBurn: "Burn the idol", progressGrind: "Grind it to dust", progressWater: "Scatter it on the water", captionDone: "The people face their sin" },
+    glory: { captionStart: "Glory fills the tabernacle", progress: "Wait outside and behold", captionDone: "Moses could not enter" }
+  };
 
   let unlockedList = [];
   let currentActiveWonder = null;

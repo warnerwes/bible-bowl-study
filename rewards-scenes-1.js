@@ -6,6 +6,34 @@
 
   window.BibleBowlScenes = window.BibleBowlScenes || {};
 
+  const WONDER_RULES = window.BibleBowlScenes.WONDER_RULES || {
+    red_sea: {
+      captionParting: "Lift the rod",
+      captionCrossing: "Dry land through the sea",
+      progressParting: "The Lord drives back the sea",
+      progressCrossing: "Israel passes through"
+    },
+    marah: {
+      healCaption: "The Lord who heals you",
+      healFrames: 60
+    },
+    elim: {
+      caption: "Twelve springs at Elim",
+      palmsLine: "70 palms at Elim",
+      campLabel: "CAMP",
+      campCaption: "They camped by the waters"
+    },
+    manna: {
+      quailCaption: "Evening · quail come",
+      quailProgress: "Hold or tap Continue",
+      dewCaption: "Dew round the camp",
+      meltMessage: "Manna melted in the sun",
+      hoardMessage: "Too much — worms!",
+      sabbathCaption: "Day 7: Sabbath rest",
+      sabbathProgress: "Tap tent to eat saved manna"
+    }
+  };
+
   function sceneScale(w, h) {
     return Math.min(w / 390, h / 260, 1.35);
   }
@@ -165,6 +193,8 @@
       customWonderState.parting = 0;
       customWonderState.windStrength = 0;
       customWonderState.handExtended = false;
+      customWonderState.phase = "parting";
+      customWonderState.crossingProgress = 0;
       for (let i = 0; i < 160; i++) {
         particles.push({
           x: Math.random() * (w * 0.25),
@@ -215,8 +245,8 @@
           x: pad + (span * i) / (numSprings - 1),
           y: h - 50,
           strength: 1,
-          drunk: false,
-          drinkProgress: 0
+          found: false,
+          findProgress: 0
         });
       }
       const palmCount = 9;
@@ -237,28 +267,40 @@
       customWonderState.jarLimit = customWonderState.weekDay === 6 ? 2 : 1;
       customWonderState.rotten = false;
       customWonderState.complete = false;
-      customWonderState.mannaPhase = "gather";
-      customWonderState.nightTimer = 0;
-      customWonderState.dewFlash = 50;
+      customWonderState.mannaPhase = "quail";
+      customWonderState.quailTimer = 0;
+      customWonderState.quailHold = 0;
+      customWonderState.dewProgress = 0;
+      customWonderState.meltDeadline = 0;
+      customWonderState.meltFlash = 0;
       customWonderState.tentX = w * 0.84;
       customWonderState.tentY = h * 0.78;
-      spawnMannaFlakes(w, h, particles, { sparse: false });
     }
   };
 
   // ---------------- WONDER 1: RED SEA ----------------
   window.BibleBowlScenes.red_sea = (w, h, ctx, canvasTime, mouse, particles, customWonderState) => {
+    const rules = WONDER_RULES.red_sea;
     const parting = customWonderState.parting || 0;
+    if (parting >= 1) customWonderState.phase = "crossing";
+    const phase = customWonderState.phase || "parting";
     const leftEdge = w * (0.48 - 0.22 * parting);
     const rightEdge = w * (0.52 + 0.22 * parting);
     const overSea = mouse.x > w * 0.15 && mouse.x < w * 0.85 && mouse.y > h * 0.08 && mouse.y < h * 0.88;
+    const onDryPath = mouse.x > leftEdge && mouse.x < rightEdge && mouse.y > h * 0.08 && mouse.y < h * 0.92;
 
-    window.BibleBowlScenes.drawCaption(ctx, w,
-      parting >= 1 ? "Dry land" : "Stretch hand over sea");
-    window.BibleBowlScenes.drawProgress(ctx, w,
-      parting >= 1 ? "Israel passes through" : `South wind ${Math.round(parting * 100)}%`);
+    if (phase === "parting") {
+      window.BibleBowlScenes.drawCaption(ctx, w, rules.captionParting);
+      window.BibleBowlScenes.drawProgress(ctx, w,
+        `${rules.progressParting} ${Math.round(parting * 100)}%`);
+    } else {
+      const cross = customWonderState.crossingProgress || 0;
+      window.BibleBowlScenes.drawCaption(ctx, w, rules.captionCrossing);
+      window.BibleBowlScenes.drawProgress(ctx, w,
+        `${rules.progressCrossing} ${Math.round(cross * 100)}%`);
+    }
 
-    if (parting < 1 && overSea && mouse.down) {
+    if (phase === "parting" && parting < 1 && overSea && mouse.down) {
       customWonderState.handExtended = true;
       const prevPart = customWonderState.parting || 0;
       customWonderState.windStrength = (customWonderState.windStrength || 0) + 0.009;
@@ -267,11 +309,19 @@
           typeof window.BibleBowlPlaySound === "function") {
         window.BibleBowlPlaySound(customWonderState.parting >= 1 ? "parted" : "parting");
       }
-    } else {
+    } else if (phase === "parting") {
       customWonderState.handExtended = false;
     }
 
-    if (parting < 1 && customWonderState.handExtended && canvasTime % 3 === 0) {
+    if (phase === "crossing" && onDryPath) {
+      const moved = Math.hypot(mouse.x - mouse.px, mouse.y - mouse.py);
+      if (moved > 1.2) {
+        customWonderState.crossingProgress = Math.min(1,
+          (customWonderState.crossingProgress || 0) + moved / (h * 0.85));
+      }
+    }
+
+    if (phase === "parting" && customWonderState.handExtended && canvasTime % 3 === 0) {
       particles.push({
         x: mouse.x + (Math.random() - 0.5) * 30,
         y: mouse.y + (Math.random() - 0.5) * 20,
@@ -351,7 +401,7 @@
       ctx.fill();
     }
 
-    if (parting >= 1 && mouse.x > leftEdge && mouse.x < rightEdge) {
+    if (parting >= 1 && onDryPath) {
       if (Math.hypot(mouse.x - mouse.px, mouse.y - mouse.py) > 1.5) {
         particles.push({
           x: mouse.x + (Math.random() - 0.5) * 10,
@@ -365,7 +415,7 @@
       }
     }
 
-    if (customWonderState.handExtended || parting < 1) {
+    if (customWonderState.handExtended || (phase === "parting" && parting < 1)) {
       const handX = overSea ? mouse.x : w * 0.5;
       const handY = overSea ? Math.min(mouse.y, h * 0.45) : h * 0.28;
       ctx.save();
@@ -388,7 +438,7 @@
       ctx.restore();
     }
 
-    if (parting >= 1) customWonderState.complete = true;
+    if ((customWonderState.crossingProgress || 0) >= 1) customWonderState.complete = true;
 
     ctx.strokeStyle = "rgba(100, 200, 255, 0.25)";
     ctx.lineWidth = 3;
@@ -417,7 +467,10 @@
     let treeY = treeCast && customWonderState.treeFixed
       ? customWonderState.treeFixed.y : (customWonderState.treeDragging ? mouse.y : customWonderState.treeY || h * 0.22);
 
-    window.BibleBowlScenes.drawCaption(ctx, w, "Cast tree into Marah");
+    window.BibleBowlScenes.drawCaption(ctx, w,
+      customWonderState.sweetened
+        ? WONDER_RULES.marah.healCaption
+        : "Cast tree into Marah");
     window.BibleBowlScenes.drawProgress(ctx, w,
       customWonderState.sweetened ? "Waters made sweet" : "Drag tree into pool");
 
@@ -443,7 +496,12 @@
         customWonderState.treeDragging = false;
       }
     }
-    if (customWonderState.sweetened) customWonderState.complete = true;
+    if (customWonderState.sweetened) {
+      customWonderState.healCaptionTimer = (customWonderState.healCaptionTimer || 0) + 1;
+      if (customWonderState.healCaptionTimer >= WONDER_RULES.marah.healFrames) {
+        customWonderState.complete = true;
+      }
+    }
 
     ctx.fillStyle = "#121810";
     ctx.fillRect(0, 0, w, poolY);
@@ -550,17 +608,17 @@
     ctx.restore();
   }
 
-  function drawElimWell(ctx, x, y, active, idx, drunk, w) {
+  function drawElimSpring(ctx, x, y, active, idx, found, w) {
     const scale = window.BibleBowlScenes.uiScale ? window.BibleBowlScenes.uiScale(w || 390) : 1;
     ctx.fillStyle = "#7a6a52";
     ctx.beginPath();
     ctx.ellipse(x, y + 4, 13, 5, 0, 0, Math.PI * 2);
     ctx.fill();
-    ctx.fillStyle = drunk ? "#9ae6ff" : active ? "#7fd4ff" : "#2f6ea8";
+    ctx.fillStyle = found ? "#9ae6ff" : active ? "#7fd4ff" : "#2f6ea8";
     ctx.beginPath();
     ctx.ellipse(x, y, 10, 4, 0, 0, Math.PI * 2);
     ctx.fill();
-    if (drunk) {
+    if (found) {
       ctx.fillStyle = "rgba(154, 230, 255, 0.35)";
       ctx.beginPath();
       ctx.arc(x, y - 14, 5, 0, Math.PI * 2);
@@ -572,17 +630,24 @@
       ctx.ellipse(x, y - 1, 14, 6, 0, 0, Math.PI * 2);
       ctx.stroke();
     }
-    ctx.fillStyle = drunk ? "rgba(212, 160, 78, 0.9)" : "rgba(236, 230, 216, 0.55)";
+    ctx.fillStyle = found ? "rgba(212, 160, 78, 0.9)" : "rgba(236, 230, 216, 0.55)";
     ctx.font = `700 ${Math.round(11 * scale)}px Spectral, Georgia, serif`;
     ctx.textAlign = "center";
-    ctx.fillText(drunk ? "✓" : String(idx + 1), x, y + 18);
+    ctx.fillText(found ? "✓" : String(idx + 1), x, y + 18);
   }
 
   // ---------------- WONDER 3: ELIM ----------------
   window.BibleBowlScenes.elim = (w, h, ctx, canvasTime, mouse, particles, customWonderState) => {
+    const rules = WONDER_RULES.elim;
     const springs = customWonderState.springs || [];
     const palms = customWonderState.palms || [];
     const groundY = h - 44;
+    const uiScale = window.BibleBowlScenes.uiScale(w);
+    const foundCount = springs.filter((s) => s.found).length;
+    const allFound = foundCount >= 12;
+    const campY = h - Math.round(36 * uiScale);
+    const campW = Math.round(120 * uiScale);
+    const campH = Math.round(44 * uiScale);
 
     const skyGrad = ctx.createLinearGradient(0, 0, 0, groundY);
     skyGrad.addColorStop(0, "#0f1812");
@@ -601,27 +666,34 @@
     ctx.fillStyle = groundGrad;
     ctx.fillRect(0, groundY, w, h - groundY);
 
-    const drunkCount = springs.filter((s) => s.drunk).length;
-    window.BibleBowlScenes.drawCaption(ctx, w, "Twelve wells at Elim");
+    window.BibleBowlScenes.drawCaption(ctx, w,
+      customWonderState.camped ? rules.campCaption : rules.caption);
     window.BibleBowlScenes.drawProgress(ctx, w,
-      drunkCount >= 12 ? "All twelve wells visited" : `Drink from each well ${drunkCount} / 12`);
+      `Springs found ${foundCount}/12`);
+    ctx.save();
+    ctx.fillStyle = "rgba(212, 160, 78, 0.9)";
+    ctx.font = `600 ${Math.round(13 * uiScale)}px Spectral, Georgia, serif`;
+    ctx.textAlign = "center";
+    ctx.fillText(rules.palmsLine, w / 2, 66);
+    ctx.restore();
 
     springs.forEach((sp, idx) => {
-      const nearWell = Math.hypot(mouse.x - sp.x, mouse.y - sp.y) < Math.max(36, 32 * (window.BibleBowlScenes.uiScale ? window.BibleBowlScenes.uiScale(w) : 1));
+      const nearSpring = Math.hypot(mouse.x - sp.x, mouse.y - sp.y) <
+        Math.max(36, 32 * uiScale);
 
-      if (!sp.drunk && nearWell && mouse.down) {
-        sp.drinkProgress = (sp.drinkProgress || 0) + 1;
-        if (sp.drinkProgress > 28) {
-          sp.drunk = true;
+      if (!sp.found && nearSpring && mouse.down) {
+        sp.findProgress = (sp.findProgress || 0) + 1;
+        if (sp.findProgress > 25) {
+          sp.found = true;
           if (typeof window.BibleBowlPlaySound === "function") window.BibleBowlPlaySound("drink");
         }
-      } else if (!nearWell && !sp.drunk) {
-        sp.drinkProgress = Math.max(0, (sp.drinkProgress || 0) - 2);
+      } else if (!nearSpring && !sp.found) {
+        sp.findProgress = Math.max(0, (sp.findProgress || 0) - 2);
       }
 
-      drawElimWell(ctx, sp.x, sp.y, nearWell && !sp.drunk, idx, sp.drunk, w);
+      drawElimSpring(ctx, sp.x, sp.y, nearSpring && !sp.found, idx, sp.found, w);
 
-      if (nearWell && !sp.drunk && sp.drinkProgress > 10 && Math.random() < 0.08) {
+      if (nearSpring && !sp.found && sp.findProgress > 8 && Math.random() < 0.08) {
         particles.push({
           x: sp.x + (Math.random() - 0.5) * 6,
           y: sp.y - 2,
@@ -634,7 +706,24 @@
       }
     });
 
-    if (drunkCount >= 12) customWonderState.complete = true;
+    if (allFound) {
+      const campPulse = canvasTime * 0.08;
+      window.BibleBowlScenes.drawTouchButton(
+        ctx, w / 2, campY, campW, campH, rules.campLabel,
+        { active: customWonderState.campPressed, pulse: campPulse }
+      );
+      const onCamp = window.BibleBowlScenes.hitRect(mouse.x, mouse.y, w / 2, campY, campW, campH);
+      if (onCamp && mouse.down && !customWonderState.campPressed) {
+        customWonderState.campPressed = true;
+        customWonderState.camped = true;
+        if (typeof window.BibleBowlPlaySound === "function") window.BibleBowlPlaySound("gather");
+      }
+      if (!mouse.down) customWonderState.campPressed = false;
+      if (customWonderState.camped) {
+        customWonderState.campTimer = (customWonderState.campTimer || 0) + 1;
+        if (customWonderState.campTimer > 45) customWonderState.complete = true;
+      }
+    }
 
     for (let i = particles.length - 1; i >= 0; i--) {
       const p = particles[i];
@@ -707,16 +796,6 @@
     }
   }
 
-  function mannaLeft(particles) {
-    return particles.filter((p) => p.type === "manna" && !p.taken).length;
-  }
-
-  function startMannaNight(customWonderState) {
-    customWonderState.mannaPhase = "night";
-    customWonderState.nightTimer = 0;
-    customWonderState.quailSpawn = 0;
-  }
-
   function spawnQuail(w, h, particles) {
     particles.push({
       x: -24 - Math.random() * 40,
@@ -725,7 +804,7 @@
       vy: (Math.random() - 0.5) * 0.6,
       wing: Math.random() * Math.PI * 2,
       type: "quail",
-      life: 140
+      life: 160
     });
   }
 
@@ -745,6 +824,40 @@
     ctx.restore();
   }
 
+  function mannaDayCaption(weekDay) {
+    if (weekDay === 7) return WONDER_RULES.manna.sabbathCaption;
+    if (weekDay === 6) return "Day 6: Gather double";
+    return `Day ${weekDay}: Gather one`;
+  }
+
+  function clearMannaParticles(particles) {
+    for (let i = particles.length - 1; i >= 0; i--) {
+      const t = particles[i].type;
+      if (t === "manna" || t === "quail") particles.splice(i, 1);
+    }
+  }
+
+  function advanceMannaToDew(customWonderState, particles) {
+    customWonderState.mannaPhase = "dew";
+    customWonderState.dewProgress = 0;
+    customWonderState.quailHold = 0;
+    for (let i = particles.length - 1; i >= 0; i--) {
+      if (particles[i].type === "quail") particles.splice(i, 1);
+    }
+  }
+
+  function beginMannaGather(customWonderState, w, h, particles, canvasTime, sparse) {
+    customWonderState.mannaPhase = "gather";
+    customWonderState.jarFill = 0;
+    customWonderState.pendingJar = false;
+    customWonderState.rotten = false;
+    customWonderState.meltDeadline = canvasTime + 600;
+    customWonderState.meltFlash = 0;
+    customWonderState.meltTriggered = false;
+    customWonderState.tentPressed = false;
+    spawnMannaFlakes(w, h, particles, { sparse: sparse === true });
+  }
+
   function resetMannaDay(customWonderState, w, h, particles) {
     const weekDay = customWonderState.weekDay;
     customWonderState.jarFill = 0;
@@ -752,11 +865,16 @@
     customWonderState.pendingJar = false;
     customWonderState.jarLimit = weekDay === 6 ? 2 : weekDay === 7 ? 0 : 1;
     customWonderState.rotten = false;
-    customWonderState.mannaPhase = weekDay === 7 ? "sabbath" : "gather";
-    customWonderState.nightTimer = 0;
-    customWonderState.dewFlash = 55;
+    customWonderState.mannaPhase = weekDay === 7 ? "sabbath" : "quail";
+    customWonderState.quailTimer = 0;
+    customWonderState.quailHold = 0;
+    customWonderState.dewProgress = 0;
+    customWonderState.meltDeadline = 0;
+    customWonderState.meltFlash = 0;
+    customWonderState.meltTriggered = false;
+    customWonderState.tentPressed = false;
     if (weekDay === 7) customWonderState.sabbathFed = false;
-    if (weekDay !== 7 && particles) spawnMannaFlakes(w, h, particles, { sparse: false });
+    if (particles) clearMannaParticles(particles);
   }
 
   function advanceMannaDay(customWonderState, w, h, particles) {
@@ -819,8 +937,9 @@
 
   // ---------------- WONDER 4: MANNA ----------------
   window.BibleBowlScenes.manna = (w, h, ctx, canvasTime, mouse, particles, customWonderState) => {
+    const rules = WONDER_RULES.manna;
     const weekDay = customWonderState.weekDay || 1;
-    const phase = customWonderState.mannaPhase || (weekDay === 7 ? "sabbath" : "gather");
+    const phase = customWonderState.mannaPhase || (weekDay === 7 ? "sabbath" : "quail");
     const jarLimit = customWonderState.jarLimit ?? (weekDay === 6 ? 2 : 1);
     let jarFill = customWonderState.jarFill || 0;
     const jarsStored = customWonderState.jarsStored || 0;
@@ -833,11 +952,15 @@
     const jarX = fingerX;
     const jarY = Math.max(120, Math.min(h - 100, fingerY - 72));
     const jarRadius = 34;
+    const uiScale = window.BibleBowlScenes.uiScale(w);
+    const btnY = h - Math.round(40 * uiScale);
+    const btnW = Math.round(140 * uiScale);
+    const btnH = Math.round(42 * uiScale);
 
     if (weekDay === 7 || phase === "sabbath") {
-      window.BibleBowlScenes.drawCaption(ctx, w, "Day 7 · Sabbath");
+      window.BibleBowlScenes.drawCaption(ctx, w, rules.sabbathCaption);
       window.BibleBowlScenes.drawProgress(ctx, w,
-        customWonderState.sabbathFed ? "Rest" : "Tap tent to eat saved manna");
+        customWonderState.sabbathFed ? "Rest" : rules.sabbathProgress);
       drawMannaTentTarget(ctx, w, w * 0.5, h * 0.52, jarsStored || 2, !customWonderState.sabbathFed, canvasTime);
       const onTent = window.BibleBowlScenes.hitRect(fingerX, fingerY, w * 0.5, h * 0.52, 120, 90);
       if (!customWonderState.sabbathFed && onTent && mouse.down) {
@@ -848,67 +971,87 @@
       return;
     }
 
-    if (phase === "night") {
-      customWonderState.nightTimer = (customWonderState.nightTimer || 0) + 1;
-      window.BibleBowlScenes.drawCaption(ctx, w, "Night · quail come");
-      window.BibleBowlScenes.drawProgress(ctx, w, "Quail eat what manna is left");
-      ctx.fillStyle = "rgba(8, 12, 28, 0.55)";
+    if (phase === "quail") {
+      customWonderState.quailTimer = (customWonderState.quailTimer || 0) + 1;
+      window.BibleBowlScenes.drawCaption(ctx, w, rules.quailCaption);
+      window.BibleBowlScenes.drawProgress(ctx, w, rules.quailProgress);
+      ctx.fillStyle = "rgba(8, 12, 28, 0.38)";
       ctx.fillRect(0, 98, w, h - 98);
 
-      if (customWonderState.nightTimer % 18 === 0) spawnQuail(w, h, particles);
+      if (customWonderState.quailTimer % 16 === 0) spawnQuail(w, h, particles);
 
       for (let i = particles.length - 1; i >= 0; i--) {
         const p = particles[i];
-        if (p.type === "manna" && !p.taken) {
-          ctx.fillStyle = "rgba(255, 255, 255, 0.5)";
-          ctx.beginPath();
-          ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-          ctx.fill();
-          continue;
-        }
         if (p.type !== "quail") continue;
         p.x += p.vx;
         p.y += p.vy + Math.sin(canvasTime * 0.08 + p.wing) * 0.3;
         p.life -= 1;
-        for (let j = 0; j < particles.length; j++) {
-          const m = particles[j];
-          if (m.type !== "manna" || m.taken) continue;
-          if (Math.hypot(p.x - m.x, p.y - m.y) < 22) m.taken = true;
-        }
         drawQuail(ctx, p, canvasTime);
         if (p.life <= 0 || p.x > w + 40) particles.splice(i, 1);
       }
 
-      const left = mannaLeft(particles);
-      if (left === 0 || customWonderState.nightTimer > 200) {
-        advanceMannaDay(customWonderState, w, h, particles);
+      if (mouse.down) customWonderState.quailHold = (customWonderState.quailHold || 0) + 1;
+      else customWonderState.quailHold = Math.max(0, (customWonderState.quailHold || 0) - 1);
+
+      window.BibleBowlScenes.drawTouchButton(
+        ctx, w / 2, btnY, btnW, btnH, "Continue",
+        { pulse: canvasTime * 0.08, active: customWonderState.contPressed }
+      );
+      const onContinue = window.BibleBowlScenes.hitRect(fingerX, fingerY, w / 2, btnY, btnW, btnH);
+      if (onContinue && mouse.down) customWonderState.contPressed = true;
+      if (!mouse.down) customWonderState.contPressed = false;
+
+      if ((customWonderState.quailHold || 0) >= 90 || (onContinue && mouse.down)) {
+        advanceMannaToDew(customWonderState, particles);
       }
       return;
     }
 
-    const dayLabel = weekDay === 6
-      ? `Day ${weekDay} · jar ${jarsStored + 1} of 2`
-      : `Day ${weekDay}`;
+    if (phase === "dew") {
+      const dewRate = mouse.down ? 0.012 : 0.005;
+      customWonderState.dewProgress = Math.min(1, (customWonderState.dewProgress || 0) + dewRate);
+      window.BibleBowlScenes.drawCaption(ctx, w, rules.dewCaption);
+      window.BibleBowlScenes.drawProgress(ctx, w, "Morning dew");
+      window.BibleBowlScenes.drawProgressBar(ctx, w, 68, customWonderState.dewProgress, "Dew settling");
+      ctx.fillStyle = `rgba(180, 210, 255, ${0.12 + customWonderState.dewProgress * 0.42})`;
+      ctx.fillRect(0, 98, w, h * 0.58);
+
+      if (customWonderState.dewProgress >= 1) {
+        beginMannaGather(customWonderState, w, h, particles, canvasTime, false);
+      }
+      return;
+    }
+
+    // gather phase
     let hint = rotten
-      ? "Too much — worms!"
-      : pendingJar
-        ? (weekDay === 6 && jarsStored === 0
-          ? "Jar 1 full · tap TENT"
-          : "Jar full · tap TENT")
-        : weekDay === 6 && jarsStored === 1
-          ? "Second jar · less manna left"
-          : "Scoop manna with your jar";
-    window.BibleBowlScenes.drawCaption(ctx, w, dayLabel);
+      ? rules.hoardMessage
+      : (customWonderState.meltFlash || 0) > 0
+        ? rules.meltMessage
+        : pendingJar
+          ? (weekDay === 6 && jarsStored === 0
+            ? "Jar 1 full · tap TENT"
+            : "Jar full · tap TENT")
+          : weekDay === 6 && jarsStored === 1
+            ? "Second jar · less manna left"
+            : "Scoop manna with your jar";
+    window.BibleBowlScenes.drawCaption(ctx, w, mannaDayCaption(weekDay));
     window.BibleBowlScenes.drawProgress(ctx, w, hint);
     window.BibleBowlScenes.drawProgressBar(
       ctx, w, 68, pendingJar ? 1 : jarFill,
       pendingJar ? "Full jar" : `${Math.round(jarFill * 100)}% · ${jarsStored}/${jarLimit} in tent`
     );
 
-    if (customWonderState.dewFlash > 0) {
-      customWonderState.dewFlash -= 1;
-      ctx.fillStyle = `rgba(180, 210, 255, ${customWonderState.dewFlash / 140})`;
-      ctx.fillRect(0, 98, w, h * 0.35);
+    if ((customWonderState.meltFlash || 0) > 0) customWonderState.meltFlash -= 1;
+
+    if (!pendingJar && !rotten && jarFill < 1 &&
+        customWonderState.meltDeadline && canvasTime >= customWonderState.meltDeadline &&
+        !customWonderState.meltTriggered) {
+      customWonderState.meltTriggered = true;
+      customWonderState.meltFlash = 90;
+      customWonderState.meltDeadline = 0;
+      customWonderState.jarFill = 0;
+      jarFill = 0;
+      spawnMannaFlakes(w, h, particles, { sparse: true });
     }
 
     for (let i = particles.length - 1; i >= 0; i--) {
@@ -946,11 +1089,13 @@
       customWonderState.jarsStored = jarsStored + 1;
       if (typeof window.BibleBowlPlaySound === "function") window.BibleBowlPlaySound("drink");
 
-      if (weekDay === 6 && customWonderState.jarsStored < jarLimit) {
+      if (customWonderState.jarsStored >= jarLimit) {
+        advanceMannaDay(customWonderState, w, h, particles);
+      } else if (weekDay === 6) {
+        customWonderState.meltTriggered = false;
+        customWonderState.meltDeadline = canvasTime + 600;
+        customWonderState.meltFlash = 0;
         spawnMannaFlakes(w, h, particles, { sparse: true });
-        customWonderState.dewFlash = 0;
-      } else {
-        startMannaNight(customWonderState);
       }
     }
     if (!mouse.down) customWonderState.tentPressed = false;

@@ -55,6 +55,23 @@ async function drag(page, x1, y1, x2, y2, steps = 12) {
   await page.mouse.up();
 }
 
+async function canvasCoords(page, cx, cy) {
+  const box = await canvasBox(page);
+  const meta = await page.evaluate(() => window.BibleBowlQA.state());
+  const cw = meta.canvas?.w || box.width;
+  const ch = meta.canvas?.h || box.height;
+  return {
+    box,
+    x: box.x + (cx / cw) * box.width,
+    y: box.y + (cy / ch) * box.height,
+  };
+}
+
+async function tapCanvas(page, cx, cy, ms = 400) {
+  const p = await canvasCoords(page, cx, cy);
+  await hold(page, p.x, p.y, ms);
+}
+
 async function hold(page, x, y, ms = 600) {
   await page.mouse.move(x, y);
   await page.mouse.down();
@@ -62,16 +79,39 @@ async function hold(page, x, y, ms = 600) {
   await page.mouse.up();
 }
 
+async function mannaContinuePoint(page) {
+  return page.evaluate(() => {
+    const s = window.BibleBowlQA.state();
+    const w = s.canvas.w;
+    const h = s.canvas.h;
+    const ui = window.BibleBowlScenes.uiScale(w);
+    return { x: w / 2, y: h - Math.round(40 * ui) };
+  });
+}
+
 function wonderTests() {
   return {
     red_sea: async (page, box) => {
       const cx = box.x + box.width * 0.5;
       const cy = box.y + box.height * 0.42;
-      const holdMs = box.width > 500 ? 2000 : 1400;
+      const holdMs = box.width > 500 ? 2200 : 1600;
       await hold(page, cx, cy, holdMs);
-      const s = await page.evaluate(() => window.BibleBowlQA.state());
+      let s = await page.evaluate(() => window.BibleBowlQA.state());
       if ((s.custom.parting || 0) < 0.35) {
         return { issues: ["parting did not advance"], note: `parting=${s.custom.parting}` };
+      }
+      if (s.custom.phase === "crossing" || (s.custom.parting || 0) >= 1) {
+        const y1 = box.y + box.height * 0.55;
+        const y2 = box.y + box.height * 0.35;
+        for (let i = 0; i < 6; i++) {
+          await drag(page, cx, y1, cx, y2, 8);
+          await page.waitForTimeout(60);
+        }
+        s = await page.evaluate(() => window.BibleBowlQA.state());
+        if ((s.custom.crossingProgress || 0) < 0.15) {
+          return { issues: ["crossing phase did not advance"], note: `cross=${s.custom.crossingProgress}` };
+        }
+        return { note: `parting=${s.custom.parting?.toFixed(2)}, cross=${s.custom.crossingProgress?.toFixed(2)}` };
       }
       return { note: `parting=${s.custom.parting?.toFixed(2)}` };
     },
@@ -96,27 +136,46 @@ function wonderTests() {
       const holdMs = box.width > 500 ? 1800 : 1200;
       await hold(page, x, y, holdMs);
       const s = await page.evaluate(() => window.BibleBowlQA.state());
-      const drunk = (s.custom.springs || []).filter((sp) => sp.drunk).length;
-      if (drunk < 1) return { issues: ["well drink did not register"] };
-      return { note: `wells drunk ${drunk}/12` };
+      const found = (s.custom.springs || []).filter((sp) => sp.found).length;
+      if (found < 1) return { issues: ["spring find did not register"] };
+      return { note: `springs found ${found}/12` };
     },
     manna: async (page, box) => {
-      const jx = box.x + box.width * 0.45;
-      const jy = box.y + box.height * 0.55;
-      await hold(page, jx, jy, 100);
-      for (let i = 0; i < 8; i++) {
-        const x = box.x + box.width * (0.2 + i * 0.08);
-        const y = box.y + box.height * 0.5;
-        await drag(page, x, y + 40, x, y, 6);
-        await page.waitForTimeout(80);
+      const cont = await mannaContinuePoint(page);
+      await tapCanvas(page, cont.x, cont.y, 500);
+      await page.waitForTimeout(300);
+      let s = await page.evaluate(() => window.BibleBowlQA.state());
+      if (s.custom.mannaPhase === "quail") {
+        await tapCanvas(page, cont.x, cont.y, 500);
+        await page.waitForTimeout(300);
+        s = await page.evaluate(() => window.BibleBowlQA.state());
       }
-      const s = await page.evaluate(() => window.BibleBowlQA.state());
+      if (s.custom.mannaPhase === "dew") {
+        await tapCanvas(page, s.canvas.w / 2, s.canvas.h * 0.55, 2800);
+        s = await page.evaluate(() => window.BibleBowlQA.state());
+      }
+      if (s.custom.mannaPhase === "gather") {
+        await tapCanvas(page, s.canvas.w * 0.45, s.canvas.h * 0.55, 100);
+        for (let i = 0; i < 8; i++) {
+          const x1 = s.canvas.w * (0.2 + i * 0.08);
+          const y = s.canvas.h * 0.5;
+          const p1 = await canvasCoords(page, x1, y + 40);
+          const p2 = await canvasCoords(page, x1, y);
+          await drag(page, p1.x, p1.y, p2.x, p2.y, 6);
+          await page.waitForTimeout(80);
+        }
+        s = await page.evaluate(() => window.BibleBowlQA.state());
+      }
       const fill = s.custom.jarFill || 0;
       const pending = s.custom.pendingJar;
-      if (fill < 0.15 && !pending) {
-        return { issues: ["jar scoop / progress did not move"], note: `fill=${fill}` };
+      const phase = s.custom.mannaPhase;
+      if (phase === "quail" || phase === "dew") {
+        return { issues: ["manna did not reach gather phase"], note: `phase=${phase}` };
       }
-      return { note: pending ? "jar full" : `fill=${fill.toFixed(2)}` };
+      if (fill < 0.15 && !pending) {
+        return { issues: ["jar scoop / progress did not move"], note: `phase=${phase}, fill=${fill}` };
+      }
+      return { note: `phase=${phase}, ${pending ? "jar full" : `fill=${fill.toFixed(2)}`}` };
     },
     rephidim: async (page, box) => {
       const x = box.x + box.width * 0.5;
@@ -127,25 +186,43 @@ function wonderTests() {
       return { note: "rock struck" };
     },
     sinai: async (page, box) => {
-      const x = box.x + box.width * 0.5;
-      const y = box.y + box.height * 0.68;
-      await hold(page, x, y, 200);
+      const meta = await page.evaluate(() => window.BibleBowlQA.state());
+      const stoneY = meta.canvas.h * 0.78;
+      for (let i = 0; i < 6; i++) {
+        const x = meta.canvas.w * (0.1 + i * 0.16);
+        await tapCanvas(page, x, stoneY, 400);
+        await page.waitForTimeout(180);
+      }
+      await tapCanvas(page, meta.canvas.w / 2, meta.canvas.h * 0.9, box.width > 500 ? 2800 : 2000);
       const s = await page.evaluate(() => window.BibleBowlQA.state());
-      const zapped = (s.custom.zapFlash || 0) > 0 ||
-        (s.custom.lightningTime || 0) > 0 ||
-        (s.custom.touchCount || 0) > 0;
-      if (!zapped) return { issues: ["mountain touch lightning failed"] };
-      return { note: `touchCount=${s.custom.touchCount}` };
+      const stones = (s.custom.boundaryStones || []).length;
+      const trumpet = s.custom.trumpetMeter || 0;
+      if (stones < 6) return { issues: ["boundary stones not placed"], note: `stones=${stones}` };
+      if (trumpet < 10 && !s.custom.complete) {
+        return { issues: ["trumpet wait did not advance"], note: `trumpet=${trumpet.toFixed(1)}` };
+      }
+      return { note: `stones=${stones}, trumpet=${trumpet.toFixed(1)}` };
     },
     golden_calf: async (page, box) => {
-      const x = box.x + box.width * 0.5;
-      const y = box.y + box.height * 0.58;
-      await hold(page, x, y, 300);
+      const calf = await page.evaluate(() => {
+        const c = window.BibleBowlQA.state().custom.calf;
+        return c ? { x: c.x, y: c.y } : null;
+      });
+      const x = box.x + (calf?.x ?? box.width * 0.5);
+      const y = box.y + (calf?.y ?? box.height * 0.58);
+      await hold(page, x, y, 350);
+      await page.waitForTimeout(300);
+      const fireY = box.y + box.height * 0.82;
+      await hold(page, x, fireY, 1400);
       const s = await page.evaluate(() => window.BibleBowlQA.state());
-      if (s.custom.calfPhase !== "grind" && !s.custom.calf?.broken) {
+      const phase = s.custom.calfPhase;
+      if (phase === "witness" && !s.custom.calf?.broken) {
         return { issues: ["calf break failed"] };
       }
-      return { note: `phase=${s.custom.calfPhase}` };
+      if (phase !== "burn" && phase !== "grind" && phase !== "water" && phase !== "done") {
+        return { issues: ["burn phase did not start"], note: `phase=${phase}` };
+      }
+      return { note: `phase=${phase}, burn=${(s.custom.burnProgress || 0).toFixed(0)}` };
     },
     glory: async (page, box) => {
       const x = box.x + box.width * 0.5;

@@ -22,7 +22,25 @@
 
     window.BibleBowlScenes.drawCaption(ctx, w, "Massah · Meribah");
     window.BibleBowlScenes.drawProgress(ctx, w,
-      rock.struck ? "Water from the rock" : "Tap rock once with staff");
+      rock.struck
+        ? "Here the rock was struck once"
+        : canvasTime < 80
+          ? "They tested the Lord"
+          : "Tap rock once with staff");
+
+    if (!rock.struck && canvasTime < 80) {
+      const murmurY = groundY - 28;
+      ctx.fillStyle = "rgba(236, 230, 216, 0.55)";
+      ctx.font = "500 10px Spectral, Georgia, serif";
+      ctx.textAlign = "center";
+      for (let m = 0; m < 5; m++) {
+        const mx = w * (0.12 + m * 0.19) + Math.sin(canvasTime * 0.06 + m) * 6;
+        ctx.fillText("…", mx, murmurY + Math.sin(canvasTime * 0.08 + m * 1.3) * 3);
+      }
+      ctx.fillStyle = "rgba(212, 160, 78, 0.35)";
+      ctx.font = "italic 9px Spectral, Georgia, serif";
+      ctx.fillText("murmuring", w / 2, murmurY + 14);
+    }
 
     ctx.fillStyle = "#1a1510";
     ctx.fillRect(0, groundY, w, h - groundY);
@@ -196,18 +214,107 @@
     return Math.abs(x - peakX) < halfW;
   }
 
+  function boundaryYAtX(stones, x, peakX, peakY) {
+    if (!stones.length) return peakY;
+    const sorted = stones.slice().sort((a, b) =>
+      Math.atan2(a.y - peakY, a.x - peakX) - Math.atan2(b.y - peakY, b.x - peakX));
+    let best = null;
+    for (let i = 0; i < sorted.length; i++) {
+      const a = sorted[i];
+      const b = sorted[(i + 1) % sorted.length];
+      const minX = Math.min(a.x, b.x);
+      const maxX = Math.max(a.x, b.x);
+      if (x >= minX - 2 && x <= maxX + 2) {
+        const t = maxX === minX ? 0.5 : (x - minX) / (maxX - minX);
+        const y = a.y + (b.y - a.y) * t;
+        if (!best || y < best) best = y;
+      }
+    }
+    if (best !== null) return best;
+    return sorted.reduce((sum, s) => sum + s.y, 0) / sorted.length;
+  }
+
   // ---------------- WONDER 6: SINAI ----------------
   window.BibleBowlScenes.sinai = (w, h, ctx, canvasTime, mouse, particles, customWonderState) => {
     const isNight = customWonderState.mode === "night";
     const peakX = w / 2;
     const peakY = h * 0.62;
     const baseW = w * 0.78;
+    const phase = customWonderState.sinaiPhase || "bounds";
+    const stones = customWonderState.boundaryStones || [];
+    const boundsSet = stones.length >= 6;
     const onMountain = pointOnMountain(mouse.x, mouse.y, w, h, peakX, peakY, baseW);
-    const touching = onMountain && mouse.down;
+    const boundaryY = boundsSet ? boundaryYAtX(stones, mouse.x, peakX, peakY) : h;
+    const inSafeZone = boundsSet && phase === "wait" && mouse.y > boundaryY + 14;
+    const crossedBoundary = boundsSet && mouse.y < boundaryY + 6;
 
-    window.BibleBowlScenes.drawCaption(ctx, w, "Sinai");
-    window.BibleBowlScenes.drawProgress(ctx, w,
-      touching ? "Lightning!" : "Do not touch the mountain");
+    const caption = phase === "bounds" ? "Set bounds around Sinai" : "The Lord descends in fire";
+    window.BibleBowlScenes.drawCaption(ctx, w, caption);
+
+    const trumpetMeter = customWonderState.trumpetMeter || 0;
+    let progressText;
+    if (phase === "bounds") {
+      progressText = stones.length < 6
+        ? `Set bounds around Sinai (${stones.length}/6)`
+        : "Set bounds around Sinai";
+    } else {
+      progressText = trumpetMeter > 40 ? "The trumpet grows louder" : "Stand back and wait";
+    }
+    window.BibleBowlScenes.drawProgress(ctx, w, progressText);
+
+    if (phase === "wait" && boundsSet) {
+      window.BibleBowlScenes.drawProgressBar(ctx, w, h * 0.12, trumpetMeter / 80, "Trumpet");
+    }
+
+    if (phase === "bounds" && stones.length < 6 && mouse.down && !customWonderState.placingLock) {
+      const inZone = mouse.y > peakY + 24 && mouse.y < h - 16 &&
+        Math.abs(mouse.x - peakX) < baseW / 2 + 36;
+      const tooClose = stones.some((s) => Math.hypot(s.x - mouse.x, s.y - mouse.y) < 28);
+      if (inZone && !tooClose) {
+        stones.push({ x: mouse.x, y: mouse.y });
+        customWonderState.placingLock = true;
+        if (typeof window.BibleBowlPlaySound === "function") window.BibleBowlPlaySound("thunder");
+      }
+    }
+    if (!mouse.down) customWonderState.placingLock = false;
+    if (phase === "bounds" && stones.length >= 6) {
+      customWonderState.sinaiPhase = "wait";
+    }
+
+    if (phase === "wait" && boundsSet && (onMountain || crossedBoundary)) {
+      customWonderState.warnCooldown = (customWonderState.warnCooldown || 0) - 1;
+      if (customWonderState.warnCooldown <= 0) {
+        customWonderState.warnCooldown = 50;
+        customWonderState.warnFlash = 16;
+        customWonderState.warnCount = (customWonderState.warnCount || 0) + 1;
+        customWonderState.lightning = generateLightningPath(
+          peakX, peakY - 16, mouse.x, mouse.y
+        );
+        customWonderState.lightningTime = 12;
+        if (typeof window.BibleBowlPlaySound === "function") window.BibleBowlPlaySound("thunder");
+        for (let z = 0; z < 12; z++) {
+          particles.push({
+            x: mouse.x + (Math.random() - 0.5) * 20,
+            y: mouse.y + (Math.random() - 0.5) * 16,
+            vx: (Math.random() - 0.5) * 4,
+            vy: (Math.random() - 0.5) * 4,
+            r: Math.random() * 2.5 + 1,
+            alpha: 1,
+            type: "lightning_spark"
+          });
+        }
+      }
+    }
+    if ((customWonderState.warnFlash || 0) > 0) customWonderState.warnFlash -= 1;
+
+    if (phase === "wait" && inSafeZone && mouse.down) {
+      customWonderState.trumpetMeter = trumpetMeter + 1.1;
+    } else if (phase === "wait" && trumpetMeter > 0) {
+      customWonderState.trumpetMeter = Math.max(0, trumpetMeter - 0.35);
+    }
+    if (phase === "wait" && (customWonderState.trumpetMeter || 0) > 80) {
+      customWonderState.complete = true;
+    }
 
     if (Math.random() < (isNight ? 0.28 : 0.14)) {
       particles.push({
@@ -221,34 +328,12 @@
       });
     }
 
-    if (canvasTime % 140 === 0 && !touching) {
+    if (canvasTime % 140 === 0 && phase === "wait") {
       customWonderState.lightning = generateLightningPath(
         peakX + (Math.random() - 0.5) * 50, 0, peakX, peakY - 8
       );
       customWonderState.lightningTime = 9;
     }
-
-    if (touching && !customWonderState.zapLock) {
-      customWonderState.zapLock = true;
-      customWonderState.zapFlash = 18;
-      customWonderState.lightning = generateLightningPath(peakX, peakY - 16, mouse.x, mouse.y);
-      customWonderState.lightningTime = 14;
-      customWonderState.touchCount = (customWonderState.touchCount || 0) + 1;
-      if (typeof window.BibleBowlPlaySound === "function") window.BibleBowlPlaySound("thunder");
-      for (let z = 0; z < 16; z++) {
-        particles.push({
-          x: mouse.x + (Math.random() - 0.5) * 20,
-          y: mouse.y + (Math.random() - 0.5) * 16,
-          vx: (Math.random() - 0.5) * 4,
-          vy: (Math.random() - 0.5) * 4,
-          r: Math.random() * 2.5 + 1,
-          alpha: 1,
-          type: "lightning_spark"
-        });
-      }
-    }
-    if (!mouse.down) customWonderState.zapLock = false;
-    if (customWonderState.zapFlash > 0) customWonderState.zapFlash -= 1;
 
     for (let i = particles.length - 1; i >= 0; i--) {
       const p = particles[i];
@@ -348,21 +433,44 @@
     ctx.fill();
     ctx.restore();
 
-    const sScale = window.BibleBowlScenes.uiScale ? window.BibleBowlScenes.uiScale(w) : 1;
-    ctx.fillStyle = "rgba(236, 230, 216, 0.85)";
-    ctx.font = `800 ${Math.round(15 * sScale)}px Spectral, Georgia, serif`;
-    ctx.textAlign = "center";
-    ctx.fillText("DO NOT TOUCH", peakX, peakY + 22);
-
-    if (onMountain) {
-      window.BibleBowlScenes.drawTapRing(ctx, mouse.x, mouse.y, 28, 20, canvasTime);
+    if (stones.length > 0) {
+      const sorted = stones.slice().sort((a, b) =>
+        Math.atan2(a.y - peakY, a.x - peakX) - Math.atan2(b.y - peakY, b.x - peakX));
+      if (boundsSet) {
+        ctx.strokeStyle = "rgba(212, 160, 78, 0.75)";
+        ctx.lineWidth = 2;
+        ctx.setLineDash([8, 6]);
+        ctx.beginPath();
+        sorted.forEach((s, idx) => {
+          if (idx === 0) ctx.moveTo(s.x, s.y); else ctx.lineTo(s.x, s.y);
+        });
+        ctx.closePath();
+        ctx.stroke();
+        ctx.setLineDash([]);
+      }
+      sorted.forEach((s) => {
+        ctx.fillStyle = "#6b5a48";
+        ctx.beginPath();
+        ctx.ellipse(s.x, s.y + 4, 10, 5, 0, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.fillStyle = "#8a7560";
+        ctx.beginPath();
+        ctx.arc(s.x, s.y, 9, 0, Math.PI * 2);
+        ctx.fill();
+      });
     }
 
-    if (touching) {
-      ctx.fillStyle = `rgba(180, 40, 40, ${0.08 + (customWonderState.zapFlash || 0) * 0.01})`;
-      ctx.fillRect(0, 0, w, h);
-    } else {
+    if (phase === "bounds" && stones.length < 6) {
+      window.BibleBowlScenes.drawTapRing(ctx, mouse.x, mouse.y, 22, 18, canvasTime);
+    } else if (phase === "wait" && inSafeZone) {
+      window.BibleBowlScenes.drawTapRing(ctx, mouse.x, mouse.y, 26, 20, canvasTime);
+    } else if (phase === "wait") {
       window.BibleBowlScenes.drawTapRing(ctx, w / 2, h * 0.9, w * 0.28, 14, canvasTime);
+    }
+
+    if ((customWonderState.warnFlash || 0) > 0) {
+      ctx.fillStyle = `rgba(180, 40, 40, ${0.06 + customWonderState.warnFlash * 0.012})`;
+      ctx.fillRect(0, 0, w, h);
     }
   };
 
@@ -387,18 +495,24 @@
     if (!calf) return;
 
     const scale = Math.min(w / 360, h / 260, 1.15);
-    const phase = customWonderState.calfPhase || "idol";
+    const phase = customWonderState.calfPhase || "witness";
+    const fireCX = w / 2;
+    const fireY = h * 0.84;
+    const fireW = w * 0.28;
+    const inFireZone = mouse.y > fireY - 28 && Math.abs(mouse.x - fireCX) < fireW;
+
     window.BibleBowlScenes.drawCaption(ctx, w, "Golden calf");
     window.BibleBowlScenes.drawProgress(ctx, w,
-      phase === "idol" ? "Tap calf to break"
+      phase === "witness" ? "False worship below Sinai"
+        : phase === "burn" ? "Burn the idol in the fire"
         : phase === "grind" ? "Rub to grind powder"
         : phase === "water" ? "Tap water to scatter"
-        : "Done");
+        : "The people face their sin");
 
     const onCalf = Math.hypot(mouse.x - calf.x, mouse.y - calf.y) < Math.max(calf.w * 0.72, 58);
-    if (phase === "idol" && mouse.down && !calf.broken && onCalf) {
+    if (phase === "witness" && mouse.down && !calf.broken && onCalf) {
       calf.broken = true;
-      customWonderState.calfPhase = "grind";
+      customWonderState.calfPhase = "burn";
       if (typeof window.BibleBowlPlaySound === "function") {
         window.BibleBowlPlaySound("shatter");
       }
@@ -412,6 +526,29 @@
           alpha: 1,
           type: "golden_shard"
         });
+      }
+    }
+
+    if (phase === "burn") {
+      if (mouse.down && inFireZone) {
+        customWonderState.burnProgress = (customWonderState.burnProgress || 0) + 1.4;
+      }
+      for (let i = particles.length - 1; i >= 0; i--) {
+        const p = particles[i];
+        if (p.type !== "golden_shard") continue;
+        const nearFire = Math.hypot(p.x - fireCX, p.y - fireY) < fireW + 20;
+        if (mouse.down && Math.hypot(mouse.x - p.x, mouse.y - p.y) < p.r + 12) {
+          p.x += (mouse.x - p.x) * 0.25;
+          p.y += (mouse.y - p.y) * 0.25;
+        } else if (nearFire) {
+          p.x += (fireCX - p.x) * 0.04;
+          p.y += (fireY - p.y) * 0.06;
+          p.alpha -= 0.015;
+        }
+        if (nearFire && inFireZone) p.alpha -= 0.025;
+      }
+      if ((customWonderState.burnProgress || 0) > 60) {
+        customWonderState.calfPhase = "grind";
       }
     }
 
@@ -437,14 +574,42 @@
       ctx.fillRect(calf.x - 60 * scale, calf.y + 20 * scale, 120 * scale, 24 * scale);
     }
 
+    if (phase === "burn") {
+      const bp = Math.min(1, (customWonderState.burnProgress || 0) / 60);
+      ctx.fillStyle = "#3d2a1a";
+      ctx.fillRect(fireCX - fireW, fireY, fireW * 2, h - fireY);
+      const fireGrad = ctx.createRadialGradient(fireCX, fireY + 8, 4, fireCX, fireY, fireW);
+      fireGrad.addColorStop(0, `rgba(255, 220, 80, ${0.5 + bp * 0.4})`);
+      fireGrad.addColorStop(0.5, `rgba(230, 80, 20, ${0.35 + bp * 0.35})`);
+      fireGrad.addColorStop(1, "rgba(180, 40, 10, 0)");
+      ctx.fillStyle = fireGrad;
+      ctx.beginPath();
+      ctx.ellipse(fireCX, fireY + 10, fireW, 22 + bp * 10, 0, 0, Math.PI * 2);
+      ctx.fill();
+      window.BibleBowlScenes.drawProgressBar(ctx, w, fireY - 18, bp, "Burn");
+      if (canvasTime % 4 === 0) {
+        particles.push({
+          x: fireCX + (Math.random() - 0.5) * fireW,
+          y: fireY + Math.random() * 8,
+          vx: (Math.random() - 0.5) * 1.5,
+          vy: -Math.random() * 2 - 0.5,
+          r: Math.random() * 3 + 1,
+          alpha: 0.9,
+          type: "ember"
+        });
+      }
+    }
+
     const waterY = h * 0.86;
     if (phase === "water" || phase === "done") {
       ctx.fillStyle = "rgba(52, 152, 219, 0.28)";
       ctx.fillRect(0, waterY, w, h - waterY);
-      ctx.fillStyle = "rgba(236,230,216,0.6)";
-      ctx.font = "500 9px Spectral, Georgia, serif";
-      ctx.textAlign = "center";
-      ctx.fillText("Water for Israel to drink", w / 2, waterY + 16);
+      if (phase === "water") {
+        ctx.fillStyle = "rgba(236,230,216,0.6)";
+        ctx.font = "500 9px Spectral, Georgia, serif";
+        ctx.textAlign = "center";
+        ctx.fillText("Scatter ash on the water", w / 2, waterY + 16);
+      }
     }
     if (phase === "water" && mouse.down && mouse.y > waterY - 12) {
       customWonderState.waterScatter = (customWonderState.waterScatter || 0) + 1;
@@ -466,7 +631,7 @@
       const p = particles[i];
 
       if (p.type === "glitter") {
-        if (!calf.broken) {
+        if (phase === "witness" && !calf.broken) {
           p.angle += p.speed;
           const curX = calf.x + Math.cos(p.angle) * p.dist;
           const curY = calf.y + Math.sin(p.angle) * p.dist;
@@ -507,6 +672,18 @@
         ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
         ctx.fill();
 
+      } else if (p.type === "ember") {
+        p.x += p.vx;
+        p.y += p.vy;
+        p.alpha -= 0.02;
+        if (p.alpha <= 0) {
+          particles.splice(i, 1);
+          continue;
+        }
+        ctx.fillStyle = `rgba(255, 160, 50, ${p.alpha})`;
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+        ctx.fill();
       } else if (p.type === "ash") {
         p.x += p.vx + Math.sin(canvasTime * 0.02 + p.x) * 0.15;
         p.y += p.vy;
@@ -524,7 +701,7 @@
       }
     }
 
-    if (!calf.broken) {
+    if (phase === "witness" && !calf.broken) {
       window.BibleBowlScenes.drawTapRing(ctx, calf.x, calf.y, 52 * scale, 38 * scale, canvasTime);
       ctx.save();
       ctx.translate(calf.x, calf.y);
@@ -578,21 +755,40 @@
     const tabCY = tabernacle.y - 20;
     const insideTabernacle = Math.hypot(mouse.x - tabCX, mouse.y - tabCY) < tabernacle.w * 0.38;
     const witnessing = !insideTabernacle && mouse.y > tabernacle.y - 10;
+    const isComplete = !!customWonderState.complete;
+
+    if (isComplete && customWonderState.epilogueTimer == null) {
+      customWonderState.epilogueTimer = 120;
+    }
+    if (isComplete && customWonderState.epilogueTimer > 0) {
+      customWonderState.epilogueTimer -= 1;
+    }
+
+    let progressText;
+    if (isComplete) {
+      const ep = customWonderState.epilogueTimer || 0;
+      if (ep > 90) progressText = "Moses could not enter";
+      else if (ep > 45) progressText = "Cloud by day · Fire by night";
+      else progressText = "When the cloud lifted, Israel journeyed";
+    } else if (insideTabernacle) {
+      progressText = "Do not enter";
+    } else if (witnessing) {
+      progressText = "Behold outside";
+    } else {
+      progressText = "Stand below the tent";
+    }
 
     window.BibleBowlScenes.drawCaption(ctx, w, "Glory fills tabernacle");
-    window.BibleBowlScenes.drawProgress(ctx, w,
-      insideTabernacle
-        ? "Do not enter"
-        : witnessing
-          ? "Behold outside"
-          : "Stand below the tent");
+    window.BibleBowlScenes.drawProgress(ctx, w, progressText);
 
-    if (witnessing && mouse.down) {
+    if (insideTabernacle) {
+      customWonderState.witnessHold = 0;
+    } else if (witnessing && mouse.down && !isComplete) {
       customWonderState.witnessHold = (customWonderState.witnessHold || 0) + 2;
     } else {
       customWonderState.witnessHold = Math.max(0, (customWonderState.witnessHold || 0) - 1);
     }
-    if ((customWonderState.witnessHold || 0) > 35) {
+    if (!insideTabernacle && witnessing && (customWonderState.witnessHold || 0) > 35) {
       customWonderState.complete = true;
     }
 
@@ -640,7 +836,7 @@
       });
     }
 
-    if (witnessing && mouse.down && !customWonderState.rippling) {
+    if (witnessing && mouse.down && !customWonderState.rippling && !isComplete) {
       customWonderState.rippling = true;
       customWonderState.ripples.push({
         x: mouse.x,
@@ -767,7 +963,8 @@
         w: Math.min(w * 0.34, 110),
         broken: false
       };
-      customWonderState.calfPhase = "idol";
+      customWonderState.calfPhase = "witness";
+      customWonderState.burnProgress = 0;
       customWonderState.grindProgress = 0;
       customWonderState.waterScatter = 0;
       for (let i = 0; i < 80; i++) {
@@ -789,9 +986,17 @@
       };
       customWonderState.ripples = [];
       customWonderState.rippling = false;
+      customWonderState.witnessHold = 0;
+      customWonderState.epilogueTimer = null;
     } else if (id === "sinai") {
       if (!customWonderState.mode) customWonderState.mode = "night";
-      customWonderState.lightningActive = false;
+      customWonderState.sinaiPhase = "bounds";
+      customWonderState.boundaryStones = [];
+      customWonderState.trumpetMeter = 0;
+      customWonderState.warnCount = 0;
+      customWonderState.warnFlash = 0;
+      customWonderState.warnCooldown = 0;
+      customWonderState.placingLock = false;
       customWonderState.lightning = null;
       customWonderState.lightningTime = 0;
     }
