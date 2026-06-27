@@ -1,5 +1,78 @@
 /* Rewards and Trophy Shelf Styling */
 
+body:has(#rewards-next-bar) {
+  padding-bottom: calc(3.75rem + env(safe-area-inset-bottom, 0px));
+}
+
+.rewards-next-bar {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 40;
+  background: rgba(12, 14, 18, 0.94);
+  border-top: 1px solid var(--border);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  box-shadow: 0 -8px 24px rgba(0, 0, 0, 0.35);
+  padding:
+    0.55rem max(0.85rem, env(safe-area-inset-left, 0px))
+    calc(0.55rem + env(safe-area-inset-bottom, 0px))
+    max(0.85rem, env(safe-area-inset-right, 0px));
+}
+
+.rewards-next-bar-inner {
+  width: min(100%, var(--maxw, 720px));
+  margin: 0 auto;
+}
+
+.rewards-next-bar-labels {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-bottom: 0.4rem;
+}
+
+.rewards-next-label {
+  font-family: var(--font-display);
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.rewards-next-count {
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--accent-strong);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.rewards-next-track {
+  height: 6px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.08);
+  overflow: hidden;
+}
+
+.rewards-next-fill {
+  height: 100%;
+  width: 0%;
+  border-radius: inherit;
+  background: var(--accent);
+  transition: width 0.45s ease, background-color 0.35s ease;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rewards-next-fill {
+    transition: none;
+  }
+}
+
 .trophy-shelf {
   width: min(100%, var(--maxw));
   max-width: 100%;

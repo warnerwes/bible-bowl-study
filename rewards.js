@@ -9,13 +9,14 @@
   const UNLOCKED_KEY = "bbs:unlocked-rewards:v1";
 
   // The 8 milestones representing the journey of Exodus
+  // First unlock is easy (10 masteries); later thresholds use % with widening gaps.
   const WONDERS = [
     {
       id: "red_sea",
       emoji: "🌊",
       label: "Red Sea",
       chapter: "Ch 14",
-      pct: 10,
+      threshold: { type: "masteries", value: 10 },
       ref: "Exodus 14:21-22",
       quote: "And the Lord caused the sea to go back by a strong east wind all that night, and made the sea dry land, and the waters were divided.",
       desc: "Escape from Egypt. God parts the Red Sea, forming towering walls of water so Israel can pass through on dry ground.",
@@ -27,7 +28,7 @@
       emoji: "💧",
       label: "Marah",
       chapter: "Ch 15",
-      pct: 20,
+      threshold: { type: "pct", value: 5 },
       ref: "Exodus 15:23,25",
       quote: "They could not drink the waters of Marah, for they were bitter... and the Lord showed him a tree; which when he cast into the waters, the waters were made sweet.",
       desc: "Bitter water made sweet. Moses casts a wood branch into the bitter spring of Marah, purifying it for the thirsty Israelites.",
@@ -39,7 +40,7 @@
       emoji: "🌴",
       label: "Elim",
       chapter: "Ch 15",
-      pct: 30,
+      threshold: { type: "pct", value: 15 },
       ref: "Exodus 15:27",
       quote: "And they came to Elim, where were twelve wells of water, and threescore and ten palm trees: and they encamped there by the waters.",
       desc: "Rest at the Oasis. Elim provides twelve springs of fresh water and seventy palm trees to shelter the encampment.",
@@ -51,7 +52,7 @@
       emoji: "🍞",
       label: "Manna",
       chapter: "Ch 16",
-      pct: 40,
+      threshold: { type: "pct", value: 30 },
       ref: "Exodus 16:4,13",
       quote: "Then said the Lord unto Moses, Behold, I will rain bread from heaven for you... and in the morning the dew lay round about the host.",
       desc: "Bread from Heaven. Manna falls each morning like hoarfrost, and quails cover the camp in the evening to feed the people.",
@@ -63,7 +64,7 @@
       emoji: "🪨",
       label: "Rephidim",
       chapter: "Ch 17",
-      pct: 50,
+      threshold: { type: "pct", value: 45 },
       ref: "Exodus 17:6",
       quote: "Behold, I will stand before thee there upon the rock in Horeb; and thou shalt smite the rock, and there shall come water out of it.",
       desc: "Water from the Rock. Moses strikes the rock at Horeb with his staff, and fresh water gushes forth to quench the people's thirst.",
@@ -75,7 +76,7 @@
       emoji: "⛰️",
       label: "Sinai",
       chapter: "Ch 19",
-      pct: 60,
+      threshold: { type: "pct", value: 60 },
       ref: "Exodus 19:18",
       quote: "And mount Sinai was altogether on a smoke, because the Lord descended upon it in fire... and the whole mount quaked greatly.",
       desc: "The Covenant & Commandments. God descends upon Mount Sinai in fire and thick cloud, giving the Ten Commandments.",
@@ -87,7 +88,7 @@
       emoji: "🐂",
       label: "Golden Calf",
       chapter: "Ch 32",
-      pct: 80,
+      threshold: { type: "pct", value: 80 },
       ref: "Exodus 32:20",
       quote: "And he took the calf which they had made, and burnt it in the fire, and ground it to powder, and strawed it upon the water.",
       desc: "Israel's Great Failure & Repentance. The people construct a golden calf, which Moses breaks and grinds into ash.",
@@ -99,7 +100,7 @@
       emoji: "✨",
       label: "Glory",
       chapter: "Ch 40",
-      pct: 100,
+      threshold: { type: "pct", value: 100 },
       ref: "Exodus 40:34",
       quote: "Then a cloud covered the tent of the congregation, and the glory of the Lord filled the tabernacle.",
       desc: "The Shekinah Glory. The Tabernacle is finished, and God's glory descends, filling it with a radiant, cloud-like divine light.",
@@ -373,16 +374,105 @@
     } catch (e) {}
   }
 
-  // Calculate current mastery percentage
-  function getMasteryPct() {
+  // Calculate mastery stats from localStorage
+  function getMasteredCount() {
     try {
       const stats = JSON.parse(localStorage.getItem(STORAGE_KEY)) || {};
-      const mastered = Object.values(stats).filter(s => s && s.streak >= 3).length;
-      const total = totalQuestions || 1;
-      return total > 0 ? (mastered / total) * 100 : 0;
+      return Object.values(stats).filter((s) => s && s.streak >= 3).length;
     } catch (e) {
       return 0;
     }
+  }
+
+  function getMasteryPct() {
+    const mastered = getMasteredCount();
+    const total = totalQuestions || 1;
+    return total > 0 ? (mastered / total) * 100 : 0;
+  }
+
+  function wonderThresholdShort(w) {
+    if (w.threshold.type === "masteries") return String(w.threshold.value);
+    return `${w.threshold.value}%`;
+  }
+
+  function wonderThresholdText(w) {
+    if (w.threshold.type === "masteries") {
+      return `${w.threshold.value} mastered questions`;
+    }
+    return `${w.threshold.value}% of the question bank mastered`;
+  }
+
+  function isWonderUnlocked(w, masteredCount, masteryPct) {
+    if (w.threshold.type === "masteries") return masteredCount >= w.threshold.value;
+    return masteryPct >= w.threshold.value;
+  }
+
+  function getNextLockedWonder() {
+    const masteredCount = getMasteredCount();
+    const masteryPct = getMasteryPct();
+    for (let i = 0; i < WONDERS.length; i++) {
+      if (!isWonderUnlocked(WONDERS[i], masteredCount, masteryPct)) return WONDERS[i];
+    }
+    return null;
+  }
+
+  function getWonderProgress(w) {
+    const masteredCount = getMasteredCount();
+    const masteryPct = getMasteryPct();
+    const idx = WONDERS.indexOf(w);
+
+    if (w.threshold.type === "masteries") {
+      const target = w.threshold.value;
+      const remaining = Math.max(0, target - masteredCount);
+      return {
+        fraction: Math.min(1, masteredCount / target),
+        countLabel: `${masteredCount} / ${target} mastered`,
+        remainingLabel: remaining === 1 ? "1 more to master" : `${remaining} more to master`,
+      };
+    }
+
+    let floor = 0;
+    if (idx > 0 && WONDERS[idx - 1].threshold.type === "pct") {
+      floor = WONDERS[idx - 1].threshold.value;
+    }
+    const target = w.threshold.value;
+    const span = Math.max(1, target - floor);
+    const current = Math.max(0, masteryPct - floor);
+    const remainingPct = Math.max(0, Math.ceil(target - masteryPct));
+    return {
+      fraction: Math.min(1, current / span),
+      countLabel: `${Math.round(masteryPct)}% / ${target}%`,
+      remainingLabel: remainingPct <= 0 ? "Ready to unlock" : `${remainingPct}% to go`,
+    };
+  }
+
+  function updateNextProgressBar() {
+    const bar = document.getElementById("rewards-next-bar");
+    if (!bar) return;
+
+    const fill = document.getElementById("rewards-next-fill");
+    const label = document.getElementById("rewards-next-label");
+    const count = document.getElementById("rewards-next-count");
+    const next = getNextLockedWonder();
+
+    if (!next) {
+      label.textContent = "All Exodus wonders unlocked";
+      count.textContent = "✨ Complete";
+      fill.style.width = "100%";
+      fill.style.backgroundColor = "var(--accent)";
+      bar.setAttribute("aria-valuenow", "100");
+      bar.setAttribute("aria-label", "All Exodus wonders unlocked");
+      return;
+    }
+
+    const prog = getWonderProgress(next);
+    const pct = Math.round(prog.fraction * 100);
+    label.textContent = `Next wonder: ${next.emoji} ${next.label}`;
+    count.textContent = prog.remainingLabel;
+    fill.style.width = `${pct}%`;
+    fill.style.backgroundColor = next.color;
+    bar.setAttribute("aria-valuenow", String(pct));
+    bar.setAttribute("aria-label", `${prog.remainingLabel} until ${next.label} unlocks`);
   }
 
   // Initialize UI elements and append shelf
@@ -407,6 +497,27 @@
       <div class="trophy-shelf-title">Wonders of the Exodus</div>
       <div class="trophy-grid" id="trophy-grid"></div>
     `;
+
+    if (!document.getElementById("rewards-next-bar")) {
+      const nextBar = document.createElement("div");
+      nextBar.id = "rewards-next-bar";
+      nextBar.className = "rewards-next-bar";
+      nextBar.setAttribute("role", "progressbar");
+      nextBar.setAttribute("aria-valuemin", "0");
+      nextBar.setAttribute("aria-valuemax", "100");
+      nextBar.innerHTML = `
+        <div class="rewards-next-bar-inner">
+          <div class="rewards-next-bar-labels">
+            <span id="rewards-next-label" class="rewards-next-label">Next wonder</span>
+            <span id="rewards-next-count" class="rewards-next-count">—</span>
+          </div>
+          <div class="rewards-next-track" aria-hidden="true">
+            <div id="rewards-next-fill" class="rewards-next-fill"></div>
+          </div>
+        </div>
+      `;
+      document.body.appendChild(nextBar);
+    }
 
     if (!document.getElementById("rewards-modal")) {
       const modal = document.createElement("div");
@@ -499,15 +610,17 @@
     // Trophy shelf is built; trophies render once app.js fires bbs:stats-updated.
     // Render locked placeholders now so the shelf isn't empty while loading.
     renderLockedShelf();
+    updateNextProgressBar();
   }
 
   // Locked shelf copy — no spoilers for wonders not yet earned
   function lockedTrophyMarkup(w) {
+    const req = wonderThresholdShort(w);
     return `
       <span class="trophy-icon">🔒</span>
       <span class="trophy-label trophy-label-mystery">???</span>
-      <span class="trophy-chapter">${w.pct}%</span>
-      <span class="trophy-tooltip">🔒 Master ${w.pct}% to reveal the next wonder</span>
+      <span class="trophy-chapter">${req}</span>
+      <span class="trophy-tooltip">🔒 ${wonderThresholdText(w)} to reveal</span>
     `;
   }
 
@@ -516,7 +629,7 @@
       <span class="trophy-icon">${w.emoji}</span>
       <span class="trophy-label">${w.label}</span>
       <span class="trophy-chapter">${w.chapter}</span>
-      <span class="trophy-tooltip">${w.emoji} ${w.label} (${w.chapter} — Unlocked at ${w.pct}%) — Click to open</span>
+      <span class="trophy-tooltip">${w.emoji} ${w.label} (${w.chapter} — ${wonderThresholdText(w)}) — Click to open</span>
     `;
   }
 
@@ -538,13 +651,14 @@
     const grid = document.getElementById("trophy-grid");
     if (!grid) return;
 
-    const currentPct = getMasteryPct();
+    const masteredCount = getMasteredCount();
+    const masteryPct = getMasteryPct();
     const newlyUnlocked = [];
 
     grid.innerHTML = "";
 
     WONDERS.forEach(w => {
-      const isUnlocked = currentPct >= w.pct;
+      const isUnlocked = isWonderUnlocked(w, masteredCount, masteryPct);
       const isAlreadySaved = unlockedList.includes(w.id);
 
       if (isUnlocked && !isAlreadySaved) {
@@ -565,11 +679,15 @@
       grid.appendChild(item);
     });
 
+    updateNextProgressBar();
+
     if (newlyUnlocked.length > 0) {
       saveUnlocked();
       playSound("unlock");
 
-      const highestNew = newlyUnlocked.sort((a, b) => b.pct - a.pct)[0];
+      const highestNew = newlyUnlocked.sort(
+        (a, b) => WONDERS.findIndex((w) => w.id === b.id) - WONDERS.findIndex((w) => w.id === a.id)
+      )[0];
       const items = grid.querySelectorAll(".trophy-item");
       WONDERS.forEach((w, idx) => {
         if (w.id === highestNew.id && items[idx]) {
@@ -601,7 +719,7 @@
     });
 
     if (wonder && shelf) {
-      shelf.setAttribute("aria-label", `${wonder.label} unlocked at ${wonder.pct}% mastery`);
+      shelf.setAttribute("aria-label", `${wonder.label} unlocked — ${wonderThresholdText(wonder)}`);
     }
   }
 
@@ -626,9 +744,9 @@
 
     const modal = document.getElementById("rewards-modal");
     document.getElementById("rewards-hud-badge").textContent = wonder.emoji;
-    document.getElementById("rewards-hud-milestone").textContent = isNew 
-      ? `Milestone Unlocked (${wonder.pct}%)` 
-      : `${wonder.chapter} Landmark (${wonder.pct}%)`;
+    document.getElementById("rewards-hud-milestone").textContent = isNew
+      ? `Milestone Unlocked (${wonderThresholdShort(wonder)})`
+      : `${wonder.chapter} Landmark (${wonderThresholdShort(wonder)})`;
     document.getElementById("rewards-hud-title").textContent = wonder.label;
     document.getElementById("rewards-hud-quote").textContent = wonder.quote;
     document.getElementById("rewards-hud-desc").textContent = wonder.desc;
