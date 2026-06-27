@@ -31,11 +31,22 @@
     ctx.restore();
   };
 
+  window.BibleBowlScenes.drawProgress = (ctx, w, text) => {
+    ctx.save();
+    ctx.fillStyle = "rgba(212, 160, 78, 0.75)";
+    ctx.font = "500 10px Spectral, Georgia, serif";
+    ctx.textAlign = "center";
+    ctx.fillText(text, w / 2, 36);
+    ctx.restore();
+  };
+
   // Setup initial particles for the active scene
   window.BibleBowlScenes.setupParticles = (id, w, h, particles, customWonderState) => {
     if (id === "red_sea") {
-      // Wall of water particles left & right
-      for (let i = 0; i < 200; i++) {
+      customWonderState.parting = 0;
+      customWonderState.strikes = 0;
+      customWonderState.strikesNeeded = 5;
+      for (let i = 0; i < 160; i++) {
         particles.push({
           x: Math.random() * (w * 0.25),
           y: Math.random() * h,
@@ -71,7 +82,9 @@
       }
       customWonderState.sweetened = false;
       customWonderState.rippleRadius = 0;
-      customWonderState.casting = false;
+      customWonderState.branchCast = false;
+      customWonderState.poolDrag = 0;
+      customWonderState.branchFixed = null;
     } else if (id === "elim") {
       customWonderState.springs = [];
       customWonderState.palms = [];
@@ -82,7 +95,9 @@
         customWonderState.springs.push({
           x: pad + (span * i) / (numSprings - 1),
           y: h - 50,
-          strength: 1
+          strength: 1,
+          drunk: false,
+          drinkProgress: 0
         });
       }
       const palmCount = 9;
@@ -96,16 +111,18 @@
         });
       }
     } else if (id === "manna") {
-      // Falling flakes
-      for (let i = 0; i < 150; i++) {
+      const count = Math.min(55, Math.max(36, Math.floor(w * h / 1800)));
+      customWonderState.mannaTotal = count;
+      customWonderState.mannaCollected = 0;
+      for (let i = 0; i < count; i++) {
         particles.push({
           x: Math.random() * w,
-          y: Math.random() * h,
-          vx: (Math.random() - 0.5) * 0.5,
-          vy: Math.random() * 0.8 + 0.4,
-          r: Math.random() * 4 + 1.5,
+          y: Math.random() * h * 0.85 + 10,
+          vx: (Math.random() - 0.5) * 0.3,
+          vy: Math.random() * 0.4 + 0.2,
+          r: Math.random() * 3.5 + 2,
           phase: Math.random() * Math.PI * 2,
-          speed: Math.random() * 0.02 + 0.005,
+          speed: Math.random() * 0.015 + 0.004,
           type: "manna"
         });
       }
@@ -113,45 +130,56 @@
   };
 
   // ---------------- WONDER 1: RED SEA ----------------
-  window.BibleBowlScenes.red_sea = (w, h, ctx, canvasTime, mouse, particles) => {
-    window.BibleBowlScenes.drawCaption(ctx, w, "Walls of water · dry path in the center");
+  window.BibleBowlScenes.red_sea = (w, h, ctx, canvasTime, mouse, particles, customWonderState) => {
+    const parting = customWonderState.parting || 0;
+    const strikes = customWonderState.strikes || 0;
+    const needed = customWonderState.strikesNeeded || 5;
+    const leftEdge = w * (0.48 - 0.22 * parting);
+    const rightEdge = w * (0.52 + 0.22 * parting);
 
-    ctx.fillStyle = "rgba(52, 152, 219, 0.12)";
-    ctx.fillRect(0, 0, w * 0.28, h);
-    ctx.fillRect(w * 0.72, 0, w * 0.28, h);
+    window.BibleBowlScenes.drawCaption(ctx, w, parting >= 1 ? "The sea is parted — walk through" : "Strike the waters to part the sea");
+    window.BibleBowlScenes.drawProgress(ctx, w, parting >= 1 ? "Dry land revealed" : `Wind upon the waters ${strikes} / ${needed}`);
 
-    ctx.fillStyle = "rgba(212, 160, 78, 0.2)";
-    ctx.fillRect(w * 0.28, 0, w * 0.44, h);
-    ctx.strokeStyle = "rgba(236, 230, 216, 0.15)";
-    ctx.setLineDash([8, 10]);
-    ctx.beginPath();
-    ctx.moveTo(w * 0.5, 8);
-    ctx.lineTo(w * 0.5, h - 8);
-    ctx.stroke();
-    ctx.setLineDash([]);
+    ctx.fillStyle = "rgba(52, 152, 219, 0.15)";
+    ctx.fillRect(0, 0, leftEdge, h);
+    ctx.fillRect(rightEdge, 0, w - rightEdge, h);
 
-    ctx.fillStyle = "rgba(236, 230, 216, 0.45)";
-    ctx.font = "600 9px Spectral, Georgia, serif";
-    ctx.textAlign = "center";
-    ctx.fillText("DRY PATH", w / 2, h * 0.48);
-    ctx.font = "500 8px Spectral, Georgia, serif";
-    ctx.fillStyle = "rgba(127, 212, 255, 0.55)";
-    ctx.fillText("SEA", w * 0.14, h * 0.48);
-    ctx.fillText("SEA", w * 0.86, h * 0.48);
-
-    const onWaterWall = (mouse.x < w * 0.28 || mouse.x > w * 0.72) &&
-      (mouse.down || Math.hypot(mouse.x - mouse.px, mouse.y - mouse.py) > 2);
-    if (onWaterWall && canvasTime % 28 === 0 && Math.random() > 0.45) {
-      if (typeof window.BibleBowlPlaySound === "function") window.BibleBowlPlaySound("water");
+    if (parting < 1) {
+      ctx.fillStyle = "rgba(41, 128, 185, 0.55)";
+      ctx.fillRect(leftEdge, 0, rightEdge - leftEdge, h);
+    } else {
+      ctx.fillStyle = "rgba(212, 160, 78, 0.22)";
+      ctx.fillRect(leftEdge, 0, rightEdge - leftEdge, h);
+      ctx.strokeStyle = "rgba(236, 230, 216, 0.12)";
+      ctx.setLineDash([6, 8]);
+      ctx.beginPath();
+      ctx.moveTo(w * 0.5, 8);
+      ctx.lineTo(w * 0.5, h - 8);
+      ctx.stroke();
+      ctx.setLineDash([]);
     }
 
-    if (mouse.x > w * 0.28 && mouse.x < w * 0.72) {
-      if (mouse.x !== mouse.px || mouse.y !== mouse.py) {
+    if (parting < 1 && mouse.down && !customWonderState.wallHit) {
+      const onLeft = mouse.x < leftEdge + 20;
+      const onRight = mouse.x > rightEdge - 20;
+      if (onLeft || onRight) {
+        customWonderState.wallHit = true;
+        customWonderState.strikes = strikes + 1;
+        customWonderState.parting = Math.min(1, customWonderState.strikes / needed);
+        if (typeof window.BibleBowlPlaySound === "function") {
+          window.BibleBowlPlaySound(customWonderState.parting >= 1 ? "parted" : "parting");
+        }
+      }
+    }
+    if (!mouse.down) customWonderState.wallHit = false;
+
+    if (parting >= 1 && mouse.x > leftEdge && mouse.x < rightEdge) {
+      if (Math.hypot(mouse.x - mouse.px, mouse.y - mouse.py) > 1.5) {
         particles.push({
-          x: mouse.x + (Math.random() - 0.5) * 12,
-          y: mouse.y + (Math.random() - 0.5) * 12,
-          vx: (Math.random() - 0.5) * 0.4,
-          vy: -Math.random() * 0.4,
+          x: mouse.x + (Math.random() - 0.5) * 10,
+          y: mouse.y + (Math.random() - 0.5) * 10,
+          vx: (Math.random() - 0.5) * 0.3,
+          vy: -Math.random() * 0.35,
           r: Math.random() * 2 + 1,
           alpha: 1,
           type: "dust"
@@ -159,18 +187,13 @@
       }
     }
 
-    // Process particles
     for (let i = particles.length - 1; i >= 0; i--) {
       const p = particles[i];
-
       if (p.type === "dust") {
         p.x += p.vx;
         p.y += p.vy;
         p.alpha -= 0.02;
-        if (p.alpha <= 0) {
-          particles.splice(i, 1);
-          continue;
-        }
+        if (p.alpha <= 0) { particles.splice(i, 1); continue; }
         ctx.fillStyle = `rgba(226, 192, 116, ${p.alpha})`;
         ctx.beginPath();
         ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
@@ -178,58 +201,39 @@
         continue;
       }
 
-      // Sea spray particles triggered by cursor on water walls
-      const isNearMouse = Math.hypot(p.x - mouse.x, p.y - mouse.y) < 100;
-      if (isNearMouse && mouse.down) {
-        const angle = Math.atan2(p.y - mouse.y, p.x - mouse.x);
-        p.vx += Math.cos(angle) * 0.4;
-        p.vy += Math.sin(angle) * 0.4;
-      }
-
-      p.vx *= 0.95;
-      p.vy *= 0.95;
-      p.x += p.vx + Math.sin(canvasTime * 0.02 + p.y * 0.01) * 0.2;
-      p.y += p.vy + Math.cos(canvasTime * 0.01 + p.x * 0.01) * 0.15;
-
-      // Keep within water boundaries
+      const wallX = p.side === "left" ? leftEdge : rightEdge;
       if (p.side === "left") {
-        if (p.x > w * 0.26) { p.x = w * 0.26; p.vx = -Math.abs(p.vx) - 0.2; }
+        if (p.x > wallX) { p.x = wallX; p.vx = -Math.abs(p.vx) - 0.15; }
         if (p.x < 0) { p.x = 0; p.vx = Math.abs(p.vx); }
       } else {
-        if (p.x < w * 0.74) { p.x = w * 0.74; p.vx = Math.abs(p.vx) + 0.2; }
+        if (p.x < wallX) { p.x = wallX; p.vx = Math.abs(p.vx) + 0.15; }
         if (p.x > w) { p.x = w; p.vx = -Math.abs(p.vx); }
       }
       if (p.y < 0) p.y = h;
       if (p.y > h) p.y = 0;
 
-      ctx.fillStyle = p.side === "left" 
-        ? `rgba(52, 152, 219, ${p.alpha})` 
-        : `rgba(41, 128, 185, ${p.alpha})`;
+      p.vx *= 0.95;
+      p.vy *= 0.95;
+      p.x += p.vx + Math.sin(canvasTime * 0.02 + p.y * 0.01) * 0.15;
+      p.y += p.vy + Math.cos(canvasTime * 0.01 + p.x * 0.01) * 0.12;
+
+      ctx.fillStyle = p.side === "left" ? `rgba(52, 152, 219, ${p.alpha})` : `rgba(41, 128, 185, ${p.alpha})`;
       ctx.beginPath();
       ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
       ctx.fill();
-
-      if (i % 6 === 0) {
-        ctx.fillStyle = "rgba(255,255,255,0.08)";
-        ctx.beginPath();
-        ctx.arc(p.x, p.y, p.r * 2.5, 0, Math.PI * 2);
-        ctx.fill();
-      }
     }
 
-    // Draw sea walls outlines
-    ctx.strokeStyle = "rgba(100, 200, 255, 0.2)";
-    ctx.lineWidth = 4;
+    ctx.strokeStyle = "rgba(100, 200, 255, 0.25)";
+    ctx.lineWidth = 3;
     ctx.beginPath();
-    for (let y = 0; y <= h + 20; y += 20) {
-      const x = w * 0.26 + Math.sin(canvasTime * 0.03 + y * 0.02) * 8;
+    for (let y = 0; y <= h + 20; y += 18) {
+      const x = leftEdge + Math.sin(canvasTime * 0.03 + y * 0.02) * 6;
       if (y === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
     }
     ctx.stroke();
-
     ctx.beginPath();
-    for (let y = 0; y <= h + 20; y += 20) {
-      const x = w * 0.74 + Math.cos(canvasTime * 0.03 + y * 0.02) * 8;
+    for (let y = 0; y <= h + 20; y += 18) {
+      const x = rightEdge + Math.cos(canvasTime * 0.03 + y * 0.02) * 6;
       if (y === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
     }
     ctx.stroke();
@@ -238,11 +242,18 @@
   // ---------------- WONDER 2: MARAH ----------------
   window.BibleBowlScenes.marah = (w, h, ctx, canvasTime, mouse, particles, customWonderState) => {
     const poolY = customWonderState.poolY || h * 0.56;
-    const branchX = mouse.x;
-    const branchY = mouse.y;
+    const poolCX = w / 2;
+    const poolCY = poolY + (h - poolY) * 0.42;
+    const branchCast = customWonderState.branchCast;
+    const branchX = branchCast && customWonderState.branchFixed
+      ? customWonderState.branchFixed.x : mouse.x;
+    const branchY = branchCast && customWonderState.branchFixed
+      ? customWonderState.branchFixed.y : mouse.y;
     const inPool = branchY > poolY + 8 && branchX > w * 0.08 && branchX < w * 0.92;
 
-    window.BibleBowlScenes.drawCaption(ctx, w, "Bitter spring of Marah");
+    window.BibleBowlScenes.drawCaption(ctx, w, "Cast the branch into bitter Marah");
+    window.BibleBowlScenes.drawProgress(ctx, w,
+      customWonderState.sweetened ? "Waters made sweet" : "Sweep the branch through the pool");
 
     ctx.fillStyle = "#121810";
     ctx.fillRect(0, 0, w, poolY);
@@ -250,26 +261,26 @@
     ctx.fillRect(0, poolY, w, h - poolY);
     ctx.fillStyle = customWonderState.sweetened ? "rgba(52, 152, 219, 0.35)" : "rgba(90, 110, 45, 0.45)";
     ctx.beginPath();
-    ctx.ellipse(w / 2, poolY + (h - poolY) * 0.42, w * 0.38, (h - poolY) * 0.34, 0, 0, Math.PI * 2);
+    ctx.ellipse(poolCX, poolCY, w * 0.38, (h - poolY) * 0.34, 0, 0, Math.PI * 2);
     ctx.fill();
 
-    ctx.fillStyle = "rgba(236, 230, 216, 0.55)";
-    ctx.font = "600 10px Spectral, Georgia, serif";
-    ctx.textAlign = "center";
-    ctx.fillText(customWonderState.sweetened ? "Waters made sweet" : "Tap the bitter pool", w / 2, poolY + 18);
-
-    if (!customWonderState.sweetened && inPool && mouse.down && !customWonderState.casting) {
-      customWonderState.casting = true;
-      customWonderState.sweetened = true;
-      customWonderState.rippleRadius = 10;
-      customWonderState.rippleX = branchX;
-      customWonderState.rippleY = branchY;
-      if (typeof window.BibleBowlPlaySound === "function") window.BibleBowlPlaySound("water");
+    if (!branchCast && inPool && mouse.down) {
+      customWonderState.poolDrag = (customWonderState.poolDrag || 0) +
+        Math.hypot(mouse.x - mouse.px, mouse.y - mouse.py);
+      if (customWonderState.poolDrag > 120) {
+        customWonderState.branchCast = true;
+        customWonderState.branchFixed = { x: branchX, y: branchY };
+        customWonderState.sweetened = true;
+        customWonderState.rippleRadius = 10;
+        customWonderState.rippleX = branchX;
+        customWonderState.rippleY = branchY;
+        if (typeof window.BibleBowlPlaySound === "function") window.BibleBowlPlaySound("sweeten");
+      }
     }
-    if (!mouse.down) customWonderState.casting = false;
+    if (!mouse.down && !branchCast) customWonderState.poolDrag = 0;
 
-    if (!customWonderState.sweetened && !inPool) {
-      window.BibleBowlScenes.drawTapRing(ctx, w / 2, poolY + (h - poolY) * 0.42, w * 0.22, (h - poolY) * 0.18, canvasTime);
+    if (!branchCast && !customWonderState.sweetened) {
+      window.BibleBowlScenes.drawTapRing(ctx, poolCX, poolCY, w * 0.2, (h - poolY) * 0.16, canvasTime);
     }
 
     if (customWonderState.sweetened && customWonderState.rippleRadius < w * 1.5) {
@@ -324,7 +335,7 @@
 
     ctx.save();
     ctx.translate(branchX, branchY);
-    ctx.rotate(0.35);
+    ctx.rotate(branchCast ? 0.8 : 0.35);
     ctx.fillStyle = "#5c4033";
     ctx.fillRect(-22, -3, 44, 7);
     ctx.fillStyle = "#27ae60";
@@ -333,10 +344,12 @@
     ctx.arc(-12, -5, 6, 0, Math.PI * 2);
     ctx.arc(0, 5, 7, 0, Math.PI * 2);
     ctx.fill();
-    ctx.fillStyle = "rgba(236, 230, 216, 0.7)";
-    ctx.font = "600 8px Spectral, Georgia, serif";
-    ctx.textAlign = "left";
-    ctx.fillText("Branch", 18, -10);
+    if (!branchCast) {
+      ctx.fillStyle = "rgba(236, 230, 216, 0.7)";
+      ctx.font = "600 8px Spectral, Georgia, serif";
+      ctx.textAlign = "left";
+      ctx.fillText("Branch", 18, -10);
+    }
     ctx.restore();
   };
 
@@ -362,26 +375,31 @@
     ctx.restore();
   }
 
-  function drawElimWell(ctx, x, y, active, idx) {
+  function drawElimWell(ctx, x, y, active, idx, drunk) {
     ctx.fillStyle = "#7a6a52";
     ctx.beginPath();
     ctx.ellipse(x, y + 4, 13, 5, 0, 0, Math.PI * 2);
     ctx.fill();
-    ctx.fillStyle = active ? "#7fd4ff" : "#2f6ea8";
+    ctx.fillStyle = drunk ? "#9ae6ff" : active ? "#7fd4ff" : "#2f6ea8";
     ctx.beginPath();
     ctx.ellipse(x, y, 10, 4, 0, 0, Math.PI * 2);
     ctx.fill();
-    if (active) {
+    if (drunk) {
+      ctx.fillStyle = "rgba(154, 230, 255, 0.35)";
+      ctx.beginPath();
+      ctx.arc(x, y - 14, 5, 0, Math.PI * 2);
+      ctx.fill();
+    } else if (active) {
       ctx.strokeStyle = "rgba(127, 212, 255, 0.55)";
       ctx.lineWidth = 2;
       ctx.beginPath();
       ctx.ellipse(x, y - 1, 14, 6, 0, 0, Math.PI * 2);
       ctx.stroke();
     }
-    ctx.fillStyle = "rgba(236, 230, 216, 0.55)";
+    ctx.fillStyle = drunk ? "rgba(212, 160, 78, 0.9)" : "rgba(236, 230, 216, 0.55)";
     ctx.font = "600 9px Spectral, Georgia, serif";
     ctx.textAlign = "center";
-    ctx.fillText(String(idx + 1), x, y + 18);
+    ctx.fillText(drunk ? "✓" : String(idx + 1), x, y + 18);
   }
 
   // ---------------- WONDER 3: ELIM ----------------
@@ -407,45 +425,35 @@
     ctx.fillStyle = groundGrad;
     ctx.fillRect(0, groundY, w, h - groundY);
 
-    ctx.fillStyle = "rgba(212, 160, 78, 0.12)";
-    window.BibleBowlScenes.drawCaption(ctx, w, "12 wells of water · seventy palm trees");
+    const drunkCount = springs.filter((s) => s.drunk).length;
+    window.BibleBowlScenes.drawCaption(ctx, w, "Twelve wells at Elim");
+    window.BibleBowlScenes.drawProgress(ctx, w,
+      drunkCount >= 12 ? "All twelve wells visited" : `Drink from each well ${drunkCount} / 12`);
 
     springs.forEach((sp, idx) => {
-      const nearWell = Math.hypot(mouse.x - sp.x, mouse.y - sp.y) < 34;
-      const nearTop = Math.abs(mouse.x - sp.x) < 28 && mouse.y < groundY - 20;
-      sp.strength = nearWell ? 2.4 : 1;
+      const nearWell = Math.hypot(mouse.x - sp.x, mouse.y - sp.y) < 32;
 
-      drawElimWell(ctx, sp.x, sp.y, nearWell, idx);
-
-      if (nearWell && Math.random() < 0.12 * sp.strength) {
-        particles.push({
-          x: sp.x + (Math.random() - 0.5) * 8,
-          y: sp.y - 2,
-          vx: (Math.random() - 0.5) * 0.8,
-          vy: -(Math.random() * 2.2 + 0.8),
-          r: Math.random() * 2 + 1,
-          alpha: 0.85,
-          type: "spring_drop"
-        });
-      }
-
-      if (nearWell && canvasTime % 45 === 0 && Math.random() > 0.5) {
-        if (typeof window.BibleBowlPlaySound === "function") {
-          window.BibleBowlPlaySound("water");
+      if (!sp.drunk && nearWell && mouse.down) {
+        sp.drinkProgress = (sp.drinkProgress || 0) + 1;
+        if (sp.drinkProgress > 45) {
+          sp.drunk = true;
+          if (typeof window.BibleBowlPlaySound === "function") window.BibleBowlPlaySound("drink");
         }
+      } else if (!nearWell && !sp.drunk) {
+        sp.drinkProgress = Math.max(0, (sp.drinkProgress || 0) - 2);
       }
 
-      const palmAbove = palms.find((p) => Math.abs(p.x - sp.x) < 30);
-      if (palmAbove && nearTop && Math.random() > 0.82) {
+      drawElimWell(ctx, sp.x, sp.y, nearWell && !sp.drunk, idx, sp.drunk);
+
+      if (nearWell && !sp.drunk && sp.drinkProgress > 10 && Math.random() < 0.08) {
         particles.push({
-          x: palmAbove.x + (Math.random() - 0.5) * 24,
-          y: palmAbove.baseY - 58 * palmAbove.scale,
-          vx: (Math.random() - 0.5) * 0.6,
-          vy: Math.random() * 0.8 + 0.4,
-          r: Math.random() * 3 + 3,
-          rot: Math.random() * Math.PI,
-          rotSpeed: (Math.random() - 0.5) * 0.05,
-          type: "leaf"
+          x: sp.x + (Math.random() - 0.5) * 6,
+          y: sp.y - 2,
+          vx: (Math.random() - 0.5) * 0.5,
+          vy: -(Math.random() * 1.5 + 0.5),
+          r: Math.random() * 1.5 + 1,
+          alpha: 0.7,
+          type: "spring_drop"
         });
       }
     });
@@ -504,46 +512,16 @@
 
   // ---------------- WONDER 4: MANNA ----------------
   window.BibleBowlScenes.manna = (w, h, ctx, canvasTime, mouse, particles, customWonderState) => {
-    window.BibleBowlScenes.drawCaption(ctx, w, "Bread from heaven · quails at evening");
+    const total = customWonderState.mannaTotal || 0;
+    const collected = customWonderState.mannaCollected || 0;
+    const remaining = particles.filter((p) => p.type === "manna").length;
 
-    ctx.fillStyle = "rgba(255,255,255,0.03)";
+    window.BibleBowlScenes.drawCaption(ctx, w, "Gather the bread from heaven");
+    window.BibleBowlScenes.drawProgress(ctx, w,
+      remaining === 0 ? "All manna gathered" : `Gathered ${collected} / ${total}`);
+
+    ctx.fillStyle = "rgba(255,255,255,0.04)";
     ctx.fillRect(0, h * 0.72, w, h * 0.28);
-
-    if (Math.random() < 0.12) {
-      particles.push({
-        x: Math.random() * w,
-        y: -10,
-        vx: (Math.random() - 0.5) * 0.5,
-        vy: Math.random() * 0.8 + 0.5,
-        r: Math.random() * 4 + 1.5,
-        phase: Math.random() * Math.PI * 2,
-        speed: Math.random() * 0.02 + 0.005,
-        type: "manna"
-      });
-    }
-
-    if (Math.random() < 0.005) {
-      particles.push({
-        x: Math.random() > 0.5 ? -30 : w + 30,
-        y: Math.random() * h * 0.5 + 50,
-        vx: (Math.random() * 1.5 + 0.8) * (Math.random() > 0.5 ? 1 : -1),
-        vy: (Math.random() - 0.5) * 0.4,
-        size: Math.random() * 6 + 8,
-        type: "quail"
-      });
-    }
-
-    if (mouse.down) {
-      ctx.strokeStyle = "rgba(241, 196, 15, 0.15)";
-      ctx.lineWidth = 3;
-      ctx.beginPath();
-      ctx.arc(mouse.x, mouse.y, 100, 0, Math.PI*2);
-      ctx.stroke();
-
-      ctx.beginPath();
-      ctx.arc(mouse.x, mouse.y, 60, 0, Math.PI*2);
-      ctx.stroke();
-    }
 
     for (let i = particles.length - 1; i >= 0; i--) {
       const p = particles[i];
@@ -553,76 +531,46 @@
         const dy = mouse.y - p.y;
         const dist = Math.hypot(dx, dy);
 
-        if (dist < 55 || (mouse.down && dist < 120)) {
-          const pull = dist < 55 ? 0.45 : (120 - dist) / 120;
+        if (dist < 40) {
           const angle = Math.atan2(dy, dx);
-          p.vx += Math.cos(angle) * pull * 0.35;
-          p.vy += Math.sin(angle) * pull * 0.35;
+          const pull = (40 - dist) / 40;
+          p.vx += Math.cos(angle) * pull * 0.25;
+          p.vy += Math.sin(angle) * pull * 0.25;
+        }
 
-          if (dist < 18) {
-            for (let s = 0; s < 5; s++) {
-              particles.push({
-                x: p.x,
-                y: p.y,
-                vx: (Math.random() - 0.5) * 3,
-                vy: (Math.random() - 0.5) * 3,
-                r: Math.random() * 2 + 1,
-                alpha: 1,
-                type: "sparkle"
-              });
-            }
-            if (canvasTime % 6 === 0 && typeof window.BibleBowlPlaySound === "function") {
-              window.BibleBowlPlaySound("chime");
-            }
-            particles.splice(i, 1);
-            continue;
+        if (dist < 16) {
+          for (let s = 0; s < 4; s++) {
+            particles.push({
+              x: p.x, y: p.y,
+              vx: (Math.random() - 0.5) * 2,
+              vy: (Math.random() - 0.5) * 2,
+              r: Math.random() * 1.5 + 0.5,
+              alpha: 1,
+              type: "sparkle"
+            });
           }
-        } else if (dist < 180) {
-          p.vx += (mouse.x - mouse.px) * 0.005;
-          p.vy += (mouse.y - mouse.py) * 0.005;
-        }
-
-        p.vx *= 0.95;
-        p.x += p.vx + Math.sin(p.phase + canvasTime * p.speed) * 0.3;
-        p.y += p.vy;
-
-        if (p.y > h + 10) {
-          p.y = -10;
-          p.x = Math.random() * w;
-          p.vx = (Math.random() - 0.5) * 0.5;
-        }
-
-        ctx.fillStyle = "rgba(255, 255, 255, 0.9)";
-        ctx.beginPath();
-        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-        ctx.fill();
-
-        ctx.fillStyle = "rgba(255, 255, 255, 0.12)";
-        ctx.beginPath();
-        ctx.arc(p.x, p.y, p.r * 2.2, 0, Math.PI * 2);
-        ctx.fill();
-
-      } else if (p.type === "quail") {
-        p.x += p.vx;
-        p.y += p.vy;
-
-        if (p.x < -40 || p.x > w + 40) {
+          customWonderState.mannaCollected = collected + 1;
+          if (typeof window.BibleBowlPlaySound === "function") window.BibleBowlPlaySound("gather");
           particles.splice(i, 1);
           continue;
         }
 
-        ctx.save();
-        ctx.translate(p.x, p.y);
-        ctx.strokeStyle = "rgba(100, 90, 80, 0.5)";
-        ctx.lineWidth = 2.5;
-        ctx.beginPath();
-        const swing = Math.sin(canvasTime * 0.2) * 5;
-        ctx.moveTo(-p.size, swing);
-        ctx.quadraticCurveTo(0, -p.size * 0.3, p.size, swing);
-        ctx.stroke();
-        ctx.restore();
+        p.vx *= 0.96;
+        p.x += p.vx + Math.sin(p.phase + canvasTime * p.speed) * 0.2;
+        p.y += p.vy + 0.08;
 
-      } else if (p.type === "sparkle") {
+        ctx.fillStyle = "rgba(255, 255, 255, 0.92)";
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.fillStyle = "rgba(255, 255, 255, 0.1)";
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.r * 2, 0, Math.PI * 2);
+        ctx.fill();
+        continue;
+      }
+
+      if (p.type === "sparkle") {
         p.x += p.vx;
         p.y += p.vy;
         p.vy += 0.05;

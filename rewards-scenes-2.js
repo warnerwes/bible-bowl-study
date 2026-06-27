@@ -11,64 +11,60 @@
     const rock = customWonderState.rock;
     if (!rock) return;
 
-    window.BibleBowlScenes.drawCaption(ctx, w, "Strike the rock at Horeb");
-
     const staffX = mouse.x;
     const staffY = mouse.y;
     const groundY = h * 0.9;
     const rockCenterX = rock.x;
     const rockCenterY = rock.y - rock.h * 0.5;
     const staffLen = Math.min(h * 0.38, 88);
+    const crackY = rock.y - rock.h;
+
+    window.BibleBowlScenes.drawCaption(ctx, w, "Strike the rock at Horeb");
+    window.BibleBowlScenes.drawProgress(ctx, w,
+      rock.struck ? "Water from the rock" : "Smite the rock once with the staff");
 
     ctx.fillStyle = "#1a1510";
     ctx.fillRect(0, groundY, w, h - groundY);
     ctx.fillStyle = "rgba(212, 160, 78, 0.08)";
     ctx.fillRect(0, groundY - 8, w, 8);
 
-    if (mouse.down && !customWonderState.striking) {
+    if (mouse.down && !customWonderState.striking && !rock.struck) {
       customWonderState.striking = true;
       const d = Math.hypot(staffX - rockCenterX, staffY - rockCenterY);
-
       if (d < Math.max(rock.w * 0.55, 48)) {
+        rock.struck = true;
         rock.cracked = true;
         if (typeof window.BibleBowlPlaySound === "function") {
           window.BibleBowlPlaySound("smite");
         }
-        for (let idx = 0; idx < 30; idx++) {
+        for (let idx = 0; idx < 24; idx++) {
           particles.push({
             x: rockCenterX,
-            y: rockCenterY,
-            vx: (Math.random() - 0.5) * 6,
-            vy: (Math.random() - 0.5) * 5 - 2,
-            r: Math.random() * 4 + 2,
+            y: crackY + 6,
+            vx: (Math.random() - 0.5) * 5,
+            vy: (Math.random() - 0.5) * 4 - 1,
+            r: Math.random() * 3 + 1.5,
             alpha: 1,
             type: "dust"
           });
         }
       }
     }
-    if (!mouse.down) {
-      customWonderState.striking = false;
+    if (!mouse.down) customWonderState.striking = false;
+
+    if (rock.struck && canvasTime % 4 === 0 && particles.filter((p) => p.type === "water_stream").length < 80) {
+      particles.push({
+        x: rock.x + (Math.random() - 0.5) * 10,
+        y: crackY + 8,
+        vx: (Math.random() - 0.5) * 1.2,
+        vy: Math.random() * 1.5 + 1.5,
+        r: Math.random() * 2.5 + 1.5,
+        alpha: 0.85,
+        type: "water_stream"
+      });
     }
 
-    if (rock.cracked) {
-      for (let s = 0; s < 3; s++) {
-        particles.push({
-          x: rock.x + (Math.random() - 0.5) * 15,
-          y: rock.y - rock.h * 0.45,
-          vx: (Math.random() - 0.5) * 2,
-          vy: -Math.random() * 3 - 2,
-          r: Math.random() * 3 + 2,
-          alpha: 1,
-          type: "water_stream"
-        });
-      }
-
-      ctx.fillStyle = "rgba(52, 152, 219, 0.25)";
-      ctx.beginPath();
-      ctx.ellipse(rock.x, groundY - 4, rock.w * 0.55, 12, 0, 0, Math.PI * 2);
-      ctx.fill();
-    } else {
+    if (!rock.struck) {
       ctx.strokeStyle = `rgba(212, 160, 78, ${0.25 + Math.sin(canvasTime * 0.08) * 0.12})`;
       ctx.lineWidth = 2;
       ctx.setLineDash([6, 6]);
@@ -76,52 +72,6 @@
       ctx.ellipse(rockCenterX, rockCenterY, rock.w * 0.34, rock.h * 0.38, 0, 0, Math.PI * 2);
       ctx.stroke();
       ctx.setLineDash([]);
-    }
-
-    for (let i = particles.length - 1; i >= 0; i--) {
-      const p = particles[i];
-
-      if (p.type === "dust") {
-        p.x += p.vx;
-        p.y += p.vy;
-        p.vy += 0.1;
-        p.alpha -= 0.02;
-        if (p.alpha <= 0) {
-          particles.splice(i, 1);
-          continue;
-        }
-        ctx.fillStyle = `rgba(165, 140, 115, ${p.alpha})`;
-        ctx.beginPath();
-        ctx.arc(p.x, p.y, p.r, 0, Math.PI*2);
-        ctx.fill();
-
-      } else if (p.type === "water_stream") {
-        p.vy += 0.22;
-        p.x += p.vx;
-        p.y += p.vy;
-
-        if (p.y > h * 0.88) {
-          p.y = h * 0.88;
-          p.vy = -p.vy * 0.4;
-          p.vx = (Math.random() - 0.5) * 4;
-          p.alpha -= 0.12;
-        }
-
-        if (p.alpha <= 0 || p.x < 0 || p.x > w) {
-          particles.splice(i, 1);
-          continue;
-        }
-
-        ctx.fillStyle = `rgba(52, 152, 219, ${p.alpha})`;
-        ctx.beginPath();
-        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-        ctx.fill();
-
-        ctx.fillStyle = `rgba(255, 255, 255, ${p.alpha * 0.6})`;
-        ctx.beginPath();
-        ctx.arc(p.x, p.y, p.r * 0.6, 0, Math.PI * 2);
-        ctx.fill();
-      }
     }
 
     ctx.save();
@@ -140,7 +90,6 @@
     ctx.lineTo(rock.w / 2, 0);
     ctx.closePath();
     ctx.fill();
-
     ctx.fillStyle = "#5c4938";
     ctx.beginPath();
     ctx.moveTo(-rock.w * 0.15, -rock.h);
@@ -150,27 +99,79 @@
     ctx.lineTo(0, 0);
     ctx.closePath();
     ctx.fill();
+    ctx.restore();
+
+    if (rock.struck) {
+      ctx.fillStyle = "rgba(52, 152, 219, 0.22)";
+      ctx.beginPath();
+      ctx.ellipse(rock.x, groundY - 6, rock.w * 0.7, 14, 0, 0, Math.PI * 2);
+      ctx.fill();
+    }
+
+    for (let i = particles.length - 1; i >= 0; i--) {
+      const p = particles[i];
+
+      if (p.type === "dust") {
+        p.x += p.vx;
+        p.y += p.vy;
+        p.vy += 0.1;
+        p.alpha -= 0.02;
+        if (p.alpha <= 0) { particles.splice(i, 1); continue; }
+        ctx.fillStyle = `rgba(165, 140, 115, ${p.alpha})`;
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+        ctx.fill();
+        continue;
+      }
+
+      if (p.type === "water_stream") {
+        p.vy += 0.18;
+        p.x += p.vx;
+        p.y += p.vy;
+        if (p.y > groundY - 4) {
+          p.y = groundY - 4;
+          p.vy *= -0.25;
+          p.vx = (Math.random() - 0.5) * 2;
+          p.alpha -= 0.06;
+        }
+        if (p.alpha <= 0 || p.x < -10 || p.x > w + 10) {
+          particles.splice(i, 1);
+          continue;
+        }
+        ctx.fillStyle = `rgba(127, 212, 255, ${p.alpha * 0.9})`;
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.fillStyle = `rgba(255, 255, 255, ${p.alpha * 0.45})`;
+        ctx.beginPath();
+        ctx.arc(p.x - 1, p.y - 1, p.r * 0.5, 0, Math.PI * 2);
+        ctx.fill();
+      }
+    }
 
     if (rock.cracked) {
+      ctx.save();
+      ctx.translate(rock.x, rock.y);
       ctx.strokeStyle = "#271d15";
-      ctx.lineWidth = 5;
+      ctx.lineWidth = 4;
       ctx.beginPath();
       ctx.moveTo(0, -rock.h);
       ctx.lineTo(-10, -rock.h * 0.7);
       ctx.lineTo(15, -rock.h * 0.45);
       ctx.lineTo(-5, -rock.h * 0.2);
       ctx.stroke();
-
-      ctx.strokeStyle = "#a5d8f3";
-      ctx.lineWidth = 2;
-      ctx.beginPath();
-      ctx.moveTo(0, -rock.h);
-      ctx.lineTo(-10, -rock.h * 0.7);
-      ctx.lineTo(15, -rock.h * 0.45);
-      ctx.lineTo(-5, -rock.h * 0.2);
+      ctx.strokeStyle = "rgba(174, 220, 245, 0.85)";
+      ctx.lineWidth = 2.5;
       ctx.stroke();
+      const glow = ctx.createRadialGradient(0, -rock.h, 1, 0, -rock.h, 18);
+      glow.addColorStop(0, "rgba(200, 235, 255, 0.9)");
+      glow.addColorStop(1, "rgba(52, 152, 219, 0)");
+      ctx.fillStyle = glow;
+      ctx.beginPath();
+      ctx.arc(0, -rock.h, 16, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.restore();
     }
-    ctx.restore();
 
     ctx.save();
     ctx.translate(staffX, staffY);
@@ -646,7 +647,8 @@
         y: h * 0.88,
         w: Math.min(w * 0.42, 160),
         h: Math.min(h * 0.46, 125),
-        cracked: false
+        cracked: false,
+        struck: false
       };
       customWonderState.striking = false;
     } else if (id === "golden_calf") {
