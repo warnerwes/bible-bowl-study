@@ -530,14 +530,30 @@ Plus a **global** section: overall Exodus narrative paragraph for the app, gloss
 | `rewards-scenes-1.js` | Red Sea, Marah, Elim, Manna canvas scenes |
 | `rewards-scenes-2.js` | Rephidim, Sinai, Golden Calf, Glory |
 | `rewards.css` | Trophy shelf, modal layout, mobile scene sizing |
-| `scripts/test-wonders-mobile.mjs` | Automated mobile (390×844) + desktop (1280×800) QA |
+| `memory-labs.js` | Memory Labs shelf, modal, chapter-mastery unlock |
+| `memory-labs-data.js` | Runtime lab config (see also `data/memory-labs.yaml`) |
+| `memory-labs-drag.js` / `memory-labs-tree.js` | Drag-order and priest-tree engines |
+| `memory-labs.css` | Memory Labs UI |
+| `scripts/test-wonders-mobile.mjs` | Automated mobile (390×844) + desktop (1280×800) wonder QA |
+| `scripts/test-memory-labs.mjs` | Automated memory labs QA |
 | `index.html` | Script includes, Orthodox footer note |
+| `docs/CHANGELOG.md` | Release notes and handoff context |
+
+---
+
+## Implementation status (2026-06-26)
+
+**Shipped in `main` (commit `f6fe77a`):** Orthodox catechesis pass on all 8 wonders; wonder polish (manna 95% jar + `jarsCarried`, Elim springs copy, Rephidim staff, Sinai boundary layering); full Memory Labs shelf (5 labs).
+
+**Still open:** Human printed-OSB wording pass on all in-app quotes; P1 polish items listed in [`docs/CHANGELOG.md`](CHANGELOG.md).
+
+**Manna key state (current):** `weekDay`, `mannaPhase`, `jarFill`, `jarsStored`, `jarsCarried`, `jarLimit`, `rotten`, `meltDeadline` — not `pendingJar`.
 
 ---
 
 ## Version note
 
-Export generated from codebase state after manna night/quail + day-6 two-jar flow. Cache-bust at export time: `rewards-scenes-1.js?v=12`, `rewards.js?v=17`.
+Last doc sync: 2026-06-26. Cache-bust in `index.html`: `rewards-scenes-1.js?v=16`, `rewards-scenes-2.js?v=14`, `rewards.js?v=18`, `memory-labs-*.js?v=1`.
 
 ---
 

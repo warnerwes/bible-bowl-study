@@ -9,12 +9,22 @@ shocking mental image.
 ## What's here
 
 ```
-index.html         # the quiz UI (framework-free; restyle/replace freely)
-styles.css         # styling (Byzantine-night theme; Cormorant Garamond + Spectral)
-app.js             # quiz engine — study modes, progress/mastery, Anki export,
-                   #   memory-aid voting, and celebration effects
+index.html              # quiz UI + script includes (cache-busted ?v=N)
+styles.css              # Byzantine-night theme; Cormorant Garamond + Spectral
+app.js                  # quiz engine — study modes, progress/mastery, Anki export,
+                        #   memory-aid voting, and celebration effects
+rewards.js              # Wonders of the Exodus — trophy shelf, unlock, canvas modal, audio
+rewards.css             # trophy shelf + wonder modal styling
+rewards-scenes-1.js    # canvas: red_sea, marah, elim, manna
+rewards-scenes-2.js    # canvas: rephidim, sinai, golden_calf, glory
+memory-labs.js          # Memory Labs — second shelf, drag/tree labs, unlock by chapter mastery
+memory-labs-data.js     # lab definitions (runtime; mirrors data/memory-labs.yaml)
+memory-labs-drag.js     # shared drag-order engine
+memory-labs-tree.js     # priest family tree placement lab
+memory-labs.css         # Memory Labs shelf + modal styling
 data/
   questions.json         # ← the curated question library (source of truth, generated)
+  memory-labs.yaml       # canonical Memory Labs research/spec
   raw/*.json             # per-chapter-group sources merged into questions.json
   review-candidates.json # alternate memory-aid candidates shown for in-app A/B voting
   vote-sink.json         # optional Google-Form sink config for anonymous vote capture
@@ -22,11 +32,16 @@ data/
   candidates/  reviews/  # per-group curation packets for the human review factory
 scripts/
   build.js               # merge + validate data/raw/*.json -> data/questions.json
+  test-wonders-mobile.mjs   # Playwright QA — 8 wonders × mobile + desktop
+  test-memory-labs.mjs      # Playwright QA — 5 labs × mobile + desktop
   build-review-packets.js + others  # the memory-aid curation / voting pipeline
 docs/
+  CHANGELOG.md                          # release notes for agents/maintainers
+  exodus-wonders-deep-research-brief.md
+  exodus-memory-labs-deep-research-brief.md
   question-factory.md    # the human-review + AI-candidate curation workflow
 .github/workflows/
-  deploy.yml             # builds + publishes the site to GitHub Pages on push to main
+  deploy.yml             # builds + validates + publishes the site to GitHub Pages on push to main
 ```
 
 The **question library is the heart of this project**. The front-end is
@@ -81,10 +96,41 @@ progress is saved **per device** in `localStorage` — no account, no server.
   each vote is also submitted anonymously to a Google Form. **Export memory-aid votes**
   (home screen) downloads them for tallying — see the curation pipeline below.
 
+### Wonders of the Exodus (mastery rewards)
+- Eight **canvas mini-games** on a trophy shelf below the quiz — unlocked by mastered
+  question count / percentage (see `rewards.js` `WONDERS[]`).
+- Each wonder teaches the **remembered biblical action** (parting the sea, gathering
+  manna, setting Sinai bounds, etc.) with OSB-oriented copy in the modal panel.
+- Spec and file map: [`docs/exodus-wonders-deep-research-brief.md`](docs/exodus-wonders-deep-research-brief.md).
+
+### Memory Labs (ordered structure)
+- Five **drag-order / tree** labs on a second shelf — unlocked by **chapter masteries**
+  (e.g. plagues needs 8 mastered questions in Exodus ch. 7–12).
+- Labs: Ten Plagues, Twelve Tribes (birth order), Ten Commandments (Orthodox numbering),
+  Line of the Priesthood, Holy Consecration (Exodus 29 subset).
+- Unlock teaching on first open; completion memory sentence on success.
+- Spec: [`docs/exodus-memory-labs-deep-research-brief.md`](docs/exodus-memory-labs-deep-research-brief.md)
+  · data: `data/memory-labs.yaml`.
+
 ### Hosting
 - Published to **GitHub Pages** by `.github/workflows/deploy.yml` on every push to
   `main` (it validates the library, then deploys). Assets are cache-busted (`?v=N`) so
   visitors always get the latest UI.
+- **Live:** https://warnerwes.github.io/bible-bowl-study/
+
+### Automated QA (rewards + labs)
+
+```bash
+npm install
+npm run test:rewards   # 26 checks — 8 wonders + 5 labs, mobile + desktop
+npm run test:wonders   # wonders only (16 checks)
+npm run test:labs      # memory labs only (10 checks)
+```
+
+Append `?qa=1` to the URL for Playwright hooks (`window.BibleBowlQA`, `window.BibleBowlLabQA`).
+
+### Change history
+See [`docs/CHANGELOG.md`](docs/CHANGELOG.md) for commit-level notes and handoff context.
 
 ## Question schema
 

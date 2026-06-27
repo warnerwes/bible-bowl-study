@@ -3,4 +3,5 @@ node_modules/
 *.log
 tmp-upgrades/
 _site/
+captures/
 data/source-exports/

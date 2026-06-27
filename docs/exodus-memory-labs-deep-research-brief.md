@@ -16,7 +16,7 @@
 
 | | **Wonders of the Exodus** | **Memory Labs** |
 |---|---|---|
-| **Shelf title** | Wonders of the Exodus | Memory Labs (proposed) |
+| **Shelf title** | Wonders of the Exodus | Memory Labs |
 | **Goal** | Re-enact narrative milestones | Memorize ordered structure |
 | **Interaction** | Canvas scenes (parting sea, manna jar, etc.) | Drag-order lists + tree placement |
 | **Tone** | Dramatic, embodied story | Quiet catechesis, pattern memory |
@@ -46,7 +46,7 @@ Footer copy already notes Orthodox/patristic tradition. Memory Labs should reuse
 
 ---
 
-## Proposed architecture
+## Proposed architecture (implemented 2026-06-26)
 
 ```
 index.html
@@ -80,49 +80,53 @@ Each lab has `suggested_unlock.type: chapter_masteries` with chapter list + `min
 
 ## Acceptance checklist
 
-- [ ] Each lab has `unlock_teaching` + `completion_teaching`
+- [x] Each lab has `unlock_teaching` + `completion_teaching`
 - [ ] Each ordered list verified against OSB/LXX or flagged for human OSB pass
-- [ ] Commandments use Orthodox numbering
-- [ ] Tribes ordering tradition named explicitly (“birth order, not camp order”)
-- [ ] Consecration subset defensible in one mobile session (~3 min)
-- [ ] Priest tree node list complete and scriptural
-- [ ] No Protestant-only typology stated as Church consensus
+- [x] Commandments use Orthodox numbering
+- [x] Tribes ordering tradition named explicitly (“birth order, not camp order”)
+- [x] Consecration subset defensible in one mobile session (~3 min)
+- [x] Priest tree node list complete and scriptural
+- [x] No Protestant-only typology stated as Church consensus
 - [ ] Final release copy receives human printed-OSB wording pass
+
+---
+
+## Implementation status
+
+**Shipped** in commit `f6fe77a`: all five labs playable; `npm run test:labs` passes 10/10 (mobile + desktop). Runtime config in `memory-labs-data.js`; canonical YAML in `data/memory-labs.yaml`.
+
+**P1 not yet built:** mother tags on tribes, Dog-flies subtitle card, optional compare screens, expanded Levitical tree.
 
 ---
 
 ## Implementation phases
 
-### Phase 1 — Scaffold (P0)
-- Second shelf UI below Wonders
-- Load `data/memory-labs.yaml` (or embed JSON at build time)
-- One drag-order lab end-to-end (**plagues**) as template
-- Unlock/completion teaching modals
-- Mobile QA script mirroring `test-wonders-mobile.mjs`
-
-### Phase 2 — Remaining drag labs (P0)
-- `tribes`, `commandments`, `priest_line` tree
-
-### Phase 3 — Consecration + polish (P1)
-- `consecration` lab
-- P1 features: mother tags, two-table divider, Dog-flies subtitle
+### Phase 1 — Scaffold (P0) ✓
+### Phase 2 — Remaining drag labs (P0) ✓
+### Phase 3 — Consecration + polish (P1) — consecration shipped; P1 polish deferred
 
 ---
 
-## Source file map (existing)
+## Source file map
 
 | File | Role |
 |------|------|
-| `rewards.js` | Wonders shelf pattern to mirror |
-| `rewards.css` | Trophy grid / modal styles to extend |
-| `app.js` | Stats events (`bbs:stats-updated`) for unlock |
-| `scripts/test-wonders-mobile.mjs` | QA pattern for new `test-memory-labs.mjs` |
+| `memory-labs.js` | Shelf, modal, unlock, completion tracking |
+| `memory-labs-data.js` | Runtime lab definitions |
+| `memory-labs-drag.js` | Drag-order engine |
+| `memory-labs-tree.js` | Priest tree engine |
+| `memory-labs.css` | UI styles |
+| `data/memory-labs.yaml` | Canonical spec / research data |
+| `rewards.js` / `rewards.css` | Wonders shelf pattern |
+| `app.js` | Stats events (`bbs:stats-updated`) for unlock refresh |
+| `scripts/test-memory-labs.mjs` | Playwright QA |
+| `docs/CHANGELOG.md` | Release notes |
 
 ---
 
 ## Version note
 
-Research ingested 2026-06-26 from deep-research session. YAML normalized from chat deliverable (fixed nesting of `completion_teaching` blocks, consolidated footnotes). **Human OSB pass still required** before shipping in-app quotes.
+Implemented 2026-06-26 (commit `f6fe77a`). YAML ingested from deep-research session. **Human OSB pass still required** before shipping in-app quotes. See [`docs/CHANGELOG.md`](CHANGELOG.md).
 
 ---
 
