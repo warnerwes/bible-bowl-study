@@ -139,13 +139,33 @@
 /* Just Unlocked pulse animation */
 @keyframes gold-pulse {
   0% { box-shadow: 0 0 0 0 rgba(212, 160, 78, 0.55); }
-  70% { box-shadow: 0 0 0 6px rgba(212, 160, 78, 0); }
+  70% { box-shadow: 0 0 0 8px rgba(212, 160, 78, 0); }
   100% { box-shadow: 0 0 0 0 rgba(212, 160, 78, 0); }
+}
+
+@keyframes trophy-reveal-pop {
+  0% { transform: scale(0.85); filter: brightness(1); }
+  35% { transform: scale(1.2); filter: brightness(1.35); }
+  100% { transform: scale(1); filter: brightness(1); }
+}
+
+.trophy-shelf.shelf-unlock-moment {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 1px rgba(212, 160, 78, 0.35), 0 8px 32px 0 rgba(0, 0, 0, 0.3);
 }
 
 .trophy-item.newly-unlocked {
   animation: gold-pulse 1.5s infinite;
   border-color: var(--accent);
+  background: rgba(212, 160, 78, 0.08);
+}
+
+.trophy-item.newly-unlocked .trophy-icon {
+  animation: trophy-reveal-pop 0.75s ease;
+}
+
+.trophy-item.newly-unlocked .trophy-label-mystery {
+  color: var(--accent-strong);
 }
 
 /* Custom Tooltip — desktop hover only */

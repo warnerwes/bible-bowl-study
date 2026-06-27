@@ -116,6 +116,8 @@
   let particles = [];
   let customWonderState = {}; // for extra custom toggles (like Sinai Day/Night)
   let totalQuestions = 0;    // filled in by bbs:stats-updated event detail
+  let pendingUnlockItem = null;
+  let pendingUnlockWonder = null;
 
   // Web Audio Synthesizer State
   let audioCtx = null;
@@ -565,21 +567,55 @@
 
     if (newlyUnlocked.length > 0) {
       saveUnlocked();
-      // Play major unlock chime arpeggio
       playSound("unlock");
-      
+
       const highestNew = newlyUnlocked.sort((a, b) => b.pct - a.pct)[0];
-      
-      // Let the newly unlocked icon flash at the bottom of the page
       const items = grid.querySelectorAll(".trophy-item");
       WONDERS.forEach((w, idx) => {
         if (w.id === highestNew.id && items[idx]) {
           items[idx].classList.add("newly-unlocked");
-          setTimeout(() => items[idx].classList.remove("newly-unlocked"), 12000);
+          pendingUnlockItem = items[idx];
+          pendingUnlockWonder = highestNew;
+          setTimeout(() => items[idx].classList.remove("newly-unlocked"), 10000);
         }
       });
     }
   }
+
+  function scrollToUnlockedTrophy(itemEl, wonder) {
+    if (!itemEl) return;
+    const reduced =
+      typeof window.matchMedia === "function" &&
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    const shelf = document.getElementById("rewards-trophy-shelf");
+    if (shelf) {
+      shelf.classList.add("shelf-unlock-moment");
+      setTimeout(() => shelf.classList.remove("shelf-unlock-moment"), 3200);
+    }
+
+    itemEl.scrollIntoView({
+      behavior: reduced ? "auto" : "smooth",
+      block: "center",
+      inline: "center",
+    });
+
+    if (wonder && shelf) {
+      shelf.setAttribute("aria-label", `${wonder.label} unlocked at ${wonder.pct}% mastery`);
+    }
+  }
+
+  window.BibleBowlHasPendingUnlock = () => !!pendingUnlockItem;
+
+  window.BibleBowlConsumeUnlockScroll = () => {
+    if (!pendingUnlockItem) return false;
+    const itemEl = pendingUnlockItem;
+    const wonder = pendingUnlockWonder;
+    pendingUnlockItem = null;
+    pendingUnlockWonder = null;
+    requestAnimationFrame(() => scrollToUnlockedTrophy(itemEl, wonder));
+    return true;
+  };
 
   // Open overlay modal and start animation
   function openModal(wonder, isNew) {

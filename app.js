@@ -773,7 +773,12 @@
     }
     showFeedback(q, correct);
     renderMasteryProgress(q, streakReset);
-    if (correct && newlyMastered) celebrateMastery();
+    if (correct && newlyMastered) {
+      const trophyUnlocking =
+        typeof window.BibleBowlHasPendingUnlock === "function" && window.BibleBowlHasPendingUnlock();
+      if (trophyUnlocking) popVerdict();
+      else celebrateMastery();
+    }
   });
 
   function showFeedback(q, correct) {
@@ -809,7 +814,15 @@
     $("suggest-link").href = suggestUrl(q);
 
     requestAnimationFrame(() => {
-      requestAnimationFrame(scrollToNextButton);
+      requestAnimationFrame(() => {
+        if (
+          typeof window.BibleBowlConsumeUnlockScroll === "function" &&
+          window.BibleBowlConsumeUnlockScroll()
+        ) {
+          return;
+        }
+        scrollToNextButton();
+      });
     });
   }
 
