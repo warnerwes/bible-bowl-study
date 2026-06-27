@@ -93,6 +93,18 @@
   transform: scale(0.9);
 }
 
+.trophy-label-mystery {
+  letter-spacing: 0.12em;
+  font-style: italic;
+  opacity: 0.65;
+}
+
+.trophy-item.locked .trophy-chapter {
+  color: var(--accent);
+  opacity: 0.75;
+  font-weight: 600;
+}
+
 /* Unlocked state */
 .trophy-item.unlocked:hover {
   background: rgba(212, 160, 78, 0.08);

@@ -453,6 +453,25 @@
     renderLockedShelf();
   }
 
+  // Locked shelf copy — no spoilers for wonders not yet earned
+  function lockedTrophyMarkup(w) {
+    return `
+      <span class="trophy-icon">🔒</span>
+      <span class="trophy-label trophy-label-mystery">???</span>
+      <span class="trophy-chapter">${w.pct}%</span>
+      <span class="trophy-tooltip">🔒 Master ${w.pct}% to reveal the next wonder</span>
+    `;
+  }
+
+  function unlockedTrophyMarkup(w) {
+    return `
+      <span class="trophy-icon">${w.emoji}</span>
+      <span class="trophy-label">${w.label}</span>
+      <span class="trophy-chapter">${w.chapter}</span>
+      <span class="trophy-tooltip">${w.emoji} ${w.label} (${w.chapter} — Unlocked at ${w.pct}%) — Click to open</span>
+    `;
+  }
+
   // Render all trophies as locked while waiting for the real total to arrive
   function renderLockedShelf() {
     const grid = document.getElementById("trophy-grid");
@@ -461,12 +480,7 @@
     WONDERS.forEach(w => {
       const item = document.createElement("div");
       item.className = "trophy-item locked";
-      item.innerHTML = `
-        <span class="trophy-icon">🔒</span>
-        <span class="trophy-label">${w.label}</span>
-        <span class="trophy-chapter">${w.chapter}</span>
-        <span class="trophy-tooltip">🔒 Locked: Master ${w.pct}% to witness the ${w.label}</span>
-      `;
+      item.innerHTML = lockedTrophyMarkup(w);
       grid.appendChild(item);
     });
   }
@@ -492,17 +506,7 @@
 
       const item = document.createElement("div");
       item.className = `trophy-item ${isUnlocked ? "unlocked" : "locked"}`;
-      
-      const tooltipText = isUnlocked 
-        ? `${w.emoji} ${w.label} (${w.chapter} — Unlocked at ${w.pct}%) - Click to open`
-        : `🔒 Locked: Master ${w.pct}% to witness the ${w.label}`;
-
-      item.innerHTML = `
-        <span class="trophy-icon">${isUnlocked ? w.emoji : "🔒"}</span>
-        <span class="trophy-label">${w.label}</span>
-        <span class="trophy-chapter">${w.chapter}</span>
-        <span class="trophy-tooltip">${tooltipText}</span>
-      `;
+      item.innerHTML = isUnlocked ? unlockedTrophyMarkup(w) : lockedTrophyMarkup(w);
 
       if (isUnlocked) {
         item.addEventListener("click", () => {
