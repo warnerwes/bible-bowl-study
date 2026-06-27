@@ -260,7 +260,7 @@
     if (parting < 1 && overSea && mouse.down) {
       customWonderState.handExtended = true;
       const prevPart = customWonderState.parting || 0;
-      customWonderState.windStrength = (customWonderState.windStrength || 0) + 0.0075;
+      customWonderState.windStrength = (customWonderState.windStrength || 0) + 0.009;
       customWonderState.parting = Math.min(1, customWonderState.windStrength);
       if (Math.floor(prevPart * 5) < Math.floor(customWonderState.parting * 5) &&
           typeof window.BibleBowlPlaySound === "function") {
@@ -606,11 +606,11 @@
       drunkCount >= 12 ? "All twelve wells visited" : `Drink from each well ${drunkCount} / 12`);
 
     springs.forEach((sp, idx) => {
-      const nearWell = Math.hypot(mouse.x - sp.x, mouse.y - sp.y) < 32;
+      const nearWell = Math.hypot(mouse.x - sp.x, mouse.y - sp.y) < Math.max(36, 32 * (window.BibleBowlScenes.uiScale ? window.BibleBowlScenes.uiScale(w) : 1));
 
       if (!sp.drunk && nearWell && mouse.down) {
         sp.drinkProgress = (sp.drinkProgress || 0) + 1;
-        if (sp.drinkProgress > 45) {
+        if (sp.drinkProgress > 28) {
           sp.drunk = true;
           if (typeof window.BibleBowlPlaySound === "function") window.BibleBowlPlaySound("drink");
         }

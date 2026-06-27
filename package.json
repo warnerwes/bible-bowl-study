@@ -6,6 +6,7 @@
     "playwright": "^1.52.0"
   },
   "scripts": {
+    "test:wonders": "node scripts/test-wonders-mobile.mjs",
     "test:wonders-mobile": "node scripts/test-wonders-mobile.mjs"
   }
 }
