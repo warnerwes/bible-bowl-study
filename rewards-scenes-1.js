@@ -46,15 +46,26 @@
       customWonderState.sweetened = false;
       customWonderState.rippleRadius = 0;
     } else if (id === "elim") {
-      // Springs setup
       customWonderState.springs = [];
+      customWonderState.palms = [];
       const numSprings = 12;
-      const step = w / (numSprings + 1);
-      for (let i = 1; i <= numSprings; i++) {
+      const pad = Math.max(12, w * 0.04);
+      const span = w - pad * 2;
+      for (let i = 0; i < numSprings; i++) {
         customWonderState.springs.push({
-          x: step * i,
-          y: h - 30,
+          x: pad + (span * i) / (numSprings - 1),
+          y: h - 50,
           strength: 1
+        });
+      }
+      const palmCount = 9;
+      for (let i = 0; i < palmCount; i++) {
+        const t = i / (palmCount - 1);
+        customWonderState.palms.push({
+          x: pad * 0.4 + span * t,
+          baseY: h - 48,
+          scale: 0.55 + (1 - Math.abs(t - 0.5) * 1.4) * 0.45,
+          phase: Math.random() * Math.PI * 2
         });
       }
     } else if (id === "manna") {
@@ -257,133 +268,164 @@
     ctx.restore();
   };
 
+  function drawElimPalm(ctx, x, baseY, scale, sway) {
+    ctx.save();
+    ctx.translate(x, baseY);
+    ctx.scale(scale, scale);
+    ctx.fillStyle = "#5c3d1e";
+    ctx.fillRect(-5, -62, 10, 62);
+    ctx.strokeStyle = "#2e7d32";
+    ctx.lineWidth = 3;
+    ctx.lineCap = "round";
+    for (let i = 0; i < 8; i++) {
+      const angle = -Math.PI * 0.92 + (i / 7) * Math.PI * 0.84 + sway;
+      ctx.beginPath();
+      ctx.moveTo(0, -62);
+      ctx.quadraticCurveTo(
+        Math.cos(angle) * 18, -62 + Math.sin(angle) * 10,
+        Math.cos(angle) * 46, -62 + Math.sin(angle) * 34
+      );
+      ctx.stroke();
+    }
+    ctx.restore();
+  }
+
+  function drawElimWell(ctx, x, y, active, idx) {
+    ctx.fillStyle = "#7a6a52";
+    ctx.beginPath();
+    ctx.ellipse(x, y + 4, 13, 5, 0, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.fillStyle = active ? "#7fd4ff" : "#2f6ea8";
+    ctx.beginPath();
+    ctx.ellipse(x, y, 10, 4, 0, 0, Math.PI * 2);
+    ctx.fill();
+    if (active) {
+      ctx.strokeStyle = "rgba(127, 212, 255, 0.55)";
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      ctx.ellipse(x, y - 1, 14, 6, 0, 0, Math.PI * 2);
+      ctx.stroke();
+    }
+    ctx.fillStyle = "rgba(236, 230, 216, 0.55)";
+    ctx.font = "600 9px Spectral, Georgia, serif";
+    ctx.textAlign = "center";
+    ctx.fillText(String(idx + 1), x, y + 18);
+  }
+
   // ---------------- WONDER 3: ELIM ----------------
   window.BibleBowlScenes.elim = (w, h, ctx, canvasTime, mouse, particles, customWonderState) => {
     const springs = customWonderState.springs || [];
+    const palms = customWonderState.palms || [];
+    const groundY = h - 44;
 
-    ctx.fillStyle = "#1e291e";
-    ctx.fillRect(0, h - 35, w, 35);
+    const skyGrad = ctx.createLinearGradient(0, 0, 0, groundY);
+    skyGrad.addColorStop(0, "#0f1812");
+    skyGrad.addColorStop(1, "#1a2b1f");
+    ctx.fillStyle = skyGrad;
+    ctx.fillRect(0, 0, w, groundY);
 
-    springs.forEach((sp) => {
-      const isNearMouse = Math.abs(mouse.x - sp.x) < 50;
-      sp.strength = isNearMouse ? 2.5 : 1;
+    palms.forEach((palm) => {
+      const sway = Math.sin(canvasTime * 0.03 + palm.phase) * 0.06;
+      drawElimPalm(ctx, palm.x, palm.baseY, palm.scale, sway);
+    });
 
-      if (Math.random() < 0.3 * sp.strength) {
+    const groundGrad = ctx.createLinearGradient(0, groundY, 0, h);
+    groundGrad.addColorStop(0, "#3d5a34");
+    groundGrad.addColorStop(1, "#243222");
+    ctx.fillStyle = groundGrad;
+    ctx.fillRect(0, groundY, w, h - groundY);
+
+    ctx.fillStyle = "rgba(212, 160, 78, 0.12)";
+    ctx.font = "600 11px Spectral, Georgia, serif";
+    ctx.textAlign = "center";
+    ctx.fillText("12 wells of water · seventy palm trees", w / 2, 22);
+
+    springs.forEach((sp, idx) => {
+      const nearWell = Math.hypot(mouse.x - sp.x, mouse.y - sp.y) < 34;
+      const nearTop = Math.abs(mouse.x - sp.x) < 28 && mouse.y < groundY - 20;
+      sp.strength = nearWell ? 2.4 : 1;
+
+      drawElimWell(ctx, sp.x, sp.y, nearWell, idx);
+
+      if (nearWell && Math.random() < 0.12 * sp.strength) {
         particles.push({
-          x: sp.x + (Math.random() - 0.5) * 6,
-          y: sp.y,
-          vx: (Math.random() - 0.5) * 1.2 * sp.strength,
-          vy: -(Math.random() * 5 + 3) * sp.strength,
-          r: Math.random() * 3 + 1.5,
-          alpha: 1,
+          x: sp.x + (Math.random() - 0.5) * 8,
+          y: sp.y - 2,
+          vx: (Math.random() - 0.5) * 0.8,
+          vy: -(Math.random() * 2.2 + 0.8),
+          r: Math.random() * 2 + 1,
+          alpha: 0.85,
           type: "spring_drop"
         });
       }
 
-      if (isNearMouse && canvasTime % 40 === 0 && Math.random() > 0.55) {
+      if (nearWell && canvasTime % 45 === 0 && Math.random() > 0.5) {
         if (typeof window.BibleBowlPlaySound === "function") {
           window.BibleBowlPlaySound("water");
         }
       }
 
-      ctx.fillStyle = "#5fae86";
-      ctx.beginPath();
-      ctx.arc(sp.x, sp.y + 5, 8, 0, Math.PI, true);
-      ctx.fill();
+      const palmAbove = palms.find((p) => Math.abs(p.x - sp.x) < 30);
+      if (palmAbove && nearTop && Math.random() > 0.82) {
+        particles.push({
+          x: palmAbove.x + (Math.random() - 0.5) * 24,
+          y: palmAbove.baseY - 58 * palmAbove.scale,
+          vx: (Math.random() - 0.5) * 0.6,
+          vy: Math.random() * 0.8 + 0.4,
+          r: Math.random() * 3 + 3,
+          rot: Math.random() * Math.PI,
+          rotSpeed: (Math.random() - 0.5) * 0.05,
+          type: "leaf"
+        });
+      }
     });
-
-    ctx.fillStyle = "#0c140e";
-    ctx.beginPath();
-    ctx.moveTo(0, h);
-    ctx.quadraticCurveTo(w * 0.08, h * 0.7, w * 0.08, h * 0.3);
-    ctx.lineTo(w * 0.09, h * 0.3);
-    ctx.quadraticCurveTo(w * 0.09, h * 0.7, w * 0.02, h);
-    ctx.closePath();
-    ctx.fill();
-
-    ctx.beginPath();
-    ctx.moveTo(w, h);
-    ctx.quadraticCurveTo(w * 0.92, h * 0.7, w * 0.92, h * 0.3);
-    ctx.lineTo(w * 0.91, h * 0.3);
-    ctx.quadraticCurveTo(w * 0.91, h * 0.7, w * 0.98, h);
-    ctx.closePath();
-    ctx.fill();
-
-    const hoverLeftTree = mouse.x < w * 0.22 && mouse.y < h * 0.45;
-    const hoverRightTree = mouse.x > w * 0.78 && mouse.y < h * 0.45;
-
-    if (hoverLeftTree && Math.random() > 0.85) {
-      particles.push({
-        x: Math.random() * (w * 0.22),
-        y: h * 0.25 + (Math.random() - 0.5) * 30,
-        vx: Math.random() * 0.5,
-        vy: Math.random() * 0.5 + 0.5,
-        r: Math.random() * 3 + 4,
-        rot: Math.random() * Math.PI,
-        rotSpeed: (Math.random() - 0.5) * 0.05,
-        type: "leaf"
-      });
-    }
-
-    if (hoverRightTree && Math.random() > 0.85) {
-      particles.push({
-        x: w - Math.random() * (w * 0.22),
-        y: h * 0.25 + (Math.random() - 0.5) * 30,
-        vx: -Math.random() * 0.5,
-        vy: Math.random() * 0.5 + 0.5,
-        r: Math.random() * 3 + 4,
-        rot: Math.random() * Math.PI,
-        rotSpeed: (Math.random() - 0.5) * 0.05,
-        type: "leaf"
-      });
-    }
 
     for (let i = particles.length - 1; i >= 0; i--) {
       const p = particles[i];
 
       if (p.type === "spring_drop") {
-        p.vy += 0.15;
+        p.vy += 0.12;
         p.x += p.vx;
         p.y += p.vy;
-        
-        if (p.y > h - 35 && p.vy > 0) {
-          p.y = h - 35;
-          p.vy = -p.vy * 0.3;
-          p.alpha -= 0.2;
+
+        if (p.y > groundY - 6) {
+          p.alpha -= 0.08;
         }
 
-        if (p.alpha <= 0 || p.x < 0 || p.x > w) {
+        if (p.alpha <= 0 || p.y > groundY) {
           particles.splice(i, 1);
           continue;
         }
 
-        ctx.fillStyle = `rgba(106, 185, 224, ${p.alpha})`;
+        ctx.fillStyle = `rgba(127, 212, 255, ${p.alpha})`;
         ctx.beginPath();
         ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
         ctx.fill();
+        continue;
+      }
 
-      } else if (p.type === "leaf") {
-        p.x += p.vx + Math.sin(canvasTime * 0.02 + p.y) * 0.2;
+      if (p.type === "leaf") {
+        p.x += p.vx + Math.sin(canvasTime * 0.02 + p.y) * 0.15;
         p.y += p.vy;
         p.rot += p.rotSpeed;
 
-        if (p.y > h - 35) {
+        if (p.y > groundY - 4) {
           p.vy = 0;
-          p.vx = 0;
-          p.rotSpeed = 0;
+          p.vx *= 0.9;
+          p.rotSpeed *= 0.9;
         }
 
         ctx.save();
         ctx.translate(p.x, p.y);
         ctx.rotate(p.rot);
-        ctx.fillStyle = "rgba(46, 125, 50, 0.75)";
+        ctx.fillStyle = "rgba(46, 125, 50, 0.8)";
         ctx.beginPath();
         ctx.ellipse(0, 0, p.r, p.r * 0.4, 0, 0, Math.PI * 2);
         ctx.fill();
         ctx.restore();
 
-        if (p.y > h - 35) {
-          p.r -= 0.015;
+        if (p.y > groundY - 4) {
+          p.r -= 0.012;
           if (p.r <= 0) particles.splice(i, 1);
         }
       }

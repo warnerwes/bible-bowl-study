@@ -9,21 +9,29 @@
   // ---------------- WONDER 5: REPHIDIM ----------------
   window.BibleBowlScenes.rephidim = (w, h, ctx, canvasTime, mouse, particles, customWonderState) => {
     const rock = customWonderState.rock;
+    if (!rock) return;
+
     const staffX = mouse.x;
     const staffY = mouse.y;
+    const groundY = h * 0.9;
+    const rockCenterX = rock.x;
+    const rockCenterY = rock.y - rock.h * 0.5;
+
+    ctx.fillStyle = "#1a1510";
+    ctx.fillRect(0, groundY, w, h - groundY);
+    ctx.fillStyle = "rgba(212, 160, 78, 0.08)";
+    ctx.fillRect(0, groundY - 8, w, 8);
 
     if (mouse.down && !customWonderState.striking) {
       customWonderState.striking = true;
-      const rockCenterX = rock.x;
-      const rockCenterY = rock.y - rock.h/2;
       const d = Math.hypot(staffX - rockCenterX, staffY - rockCenterY);
-      
-      if (d < rock.w * 0.6) {
+
+      if (d < Math.max(rock.w * 0.55, 48)) {
         rock.cracked = true;
         if (typeof window.BibleBowlPlaySound === "function") {
           window.BibleBowlPlaySound("smite");
         }
-        for (let idx=0; idx<30; idx++) {
+        for (let idx = 0; idx < 30; idx++) {
           particles.push({
             x: rockCenterX,
             y: rockCenterY,
@@ -52,6 +60,19 @@
           type: "water_stream"
         });
       }
+
+      ctx.fillStyle = "rgba(52, 152, 219, 0.25)";
+      ctx.beginPath();
+      ctx.ellipse(rock.x, groundY - 4, rock.w * 0.55, 12, 0, 0, Math.PI * 2);
+      ctx.fill();
+    } else {
+      ctx.strokeStyle = `rgba(212, 160, 78, ${0.25 + Math.sin(canvasTime * 0.08) * 0.12})`;
+      ctx.lineWidth = 2;
+      ctx.setLineDash([6, 6]);
+      ctx.beginPath();
+      ctx.ellipse(rockCenterX, rockCenterY, rock.w * 0.34, rock.h * 0.38, 0, 0, Math.PI * 2);
+      ctx.stroke();
+      ctx.setLineDash([]);
     }
 
     for (let i = particles.length - 1; i >= 0; i--) {
@@ -102,6 +123,10 @@
 
     ctx.save();
     ctx.translate(rock.x, rock.y);
+    ctx.fillStyle = "rgba(0, 0, 0, 0.35)";
+    ctx.beginPath();
+    ctx.ellipse(8, 6, rock.w * 0.42, 10, 0, 0, Math.PI * 2);
+    ctx.fill();
     ctx.fillStyle = "#7d6652";
     ctx.beginPath();
     ctx.moveTo(-rock.w / 2, 0);
@@ -588,6 +613,55 @@
     ctx.fill();
 
     ctx.restore();
+  };
+
+  const baseSetupParticles = window.BibleBowlScenes.setupParticles;
+  window.BibleBowlScenes.setupParticles = function (id, w, h, particles, customWonderState) {
+    if (typeof baseSetupParticles === "function") {
+      baseSetupParticles(id, w, h, particles, customWonderState);
+    }
+
+    if (id === "rephidim") {
+      customWonderState.rock = {
+        x: w * 0.5,
+        y: h * 0.88,
+        w: Math.min(w * 0.42, 160),
+        h: Math.min(h * 0.46, 125),
+        cracked: false
+      };
+      customWonderState.striking = false;
+    } else if (id === "golden_calf") {
+      customWonderState.calf = {
+        x: w * 0.5,
+        y: h * 0.58,
+        w: Math.min(w * 0.34, 110),
+        broken: false
+      };
+      for (let i = 0; i < 80; i++) {
+        particles.push({
+          angle: Math.random() * Math.PI * 2,
+          dist: Math.random() * 80 + 60,
+          speed: Math.random() * 0.02 + 0.005,
+          r: Math.random() * 2.5 + 1,
+          color: `rgba(241, 196, 15, ${Math.random() * 0.5 + 0.3})`,
+          type: "glitter"
+        });
+      }
+    } else if (id === "glory") {
+      customWonderState.tabernacle = {
+        x: w * 0.5,
+        y: h * 0.68,
+        w: Math.min(w * 0.42, 150),
+        h: Math.min(h * 0.35, 100)
+      };
+      customWonderState.ripples = [];
+      customWonderState.rippling = false;
+    } else if (id === "sinai") {
+      if (!customWonderState.mode) customWonderState.mode = "night";
+      customWonderState.lightningActive = false;
+      customWonderState.lightning = null;
+      customWonderState.lightningTime = 0;
+    }
   };
 
 })();

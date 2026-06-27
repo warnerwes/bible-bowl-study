@@ -43,7 +43,7 @@
       ref: "Exodus 15:27",
       quote: "And they came to Elim, where were twelve wells of water, and threescore and ten palm trees: and they encamped there by the waters.",
       desc: "Rest at the Oasis. Elim provides twelve springs of fresh water and seventy palm trees to shelter the encampment.",
-      tip: "Hover near the ground to make the 12 springs burst higher; hover near the tree crowns to shake down falling palm leaves.",
+      tip: "Tap a numbered well for fresh water. Tap above a palm to shake down leaves.",
       color: "#27ae60"
     },
     {
@@ -67,7 +67,7 @@
       ref: "Exodus 17:6",
       quote: "Behold, I will stand before thee there upon the rock in Horeb; and thou shalt smite the rock, and there shall come water out of it.",
       desc: "Water from the Rock. Moses strikes the rock at Horeb with his staff, and fresh water gushes forth to quench the people's thirst.",
-      tip: "Use Moses' staff (mouse cursor) and click on the rock to strike it, releasing a cascading waterfall of sparkling water.",
+      tip: "Tap the glowing rock to strike it with Moses' staff and release the water.",
       color: "#e67e22"
     },
     {
