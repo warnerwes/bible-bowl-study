@@ -14,7 +14,7 @@ const VIEWPORTS = [
   { name: "desktop", width: 1280, height: 800 },
 ];
 
-const LAB_IDS = ["plagues", "tribes", "commandments", "priest_line", "consecration"];
+const LAB_IDS = ["plagues", "tribes", "commandments", "priest_line", "consecration", "tabernacle_place"];
 
 const MIME = {
   ".html": "text/html",
@@ -66,6 +66,7 @@ async function testLab(page, id, viewportName) {
   const complete =
     after.drag?.complete ||
     after.tree?.complete ||
+    after.tabernacle?.complete ||
     after.completed.includes(id);
 
   if (!complete) {
@@ -103,8 +104,8 @@ async function runViewport(browser, viewport, errors) {
   );
 
   const shelf = await page.locator("#memory-labs-grid .trophy-item.unlocked").count();
-  if (shelf < 5) {
-    errors.push(`[${viewport.name}] expected 5 unlocked labs, got ${shelf}`);
+  if (shelf < 6) {
+    errors.push(`[${viewport.name}] expected 6 unlocked labs, got ${shelf}`);
   }
 
   const results = [];

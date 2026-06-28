@@ -208,6 +208,7 @@
     ws.innerHTML = "";
     if (window.BibleBowlLabDrag) window.BibleBowlLabDrag.unmount();
     if (window.BibleBowlLabTree) window.BibleBowlLabTree.unmount();
+    if (window.BibleBowlLabTabernacle) window.BibleBowlLabTabernacle.unmount();
 
     const onComplete = () => {
       if (!completedLabs.includes(lab.id)) {
@@ -219,7 +220,9 @@
       if (typeof window.BibleBowlPlaySound === "function") window.BibleBowlPlaySound("unlock");
     };
 
-    if (lab.interaction.type === "tree_place" && window.BibleBowlLabTree) {
+    if (lab.interaction.type === "tabernacle_place" && window.BibleBowlLabTabernacle) {
+      labSession = window.BibleBowlLabTabernacle.mount(ws, lab, { onComplete });
+    } else if (lab.interaction.type === "tree_place" && window.BibleBowlLabTree) {
       labSession = window.BibleBowlLabTree.mount(ws, lab, { onComplete });
     } else if (window.BibleBowlLabDrag) {
       labSession = window.BibleBowlLabDrag.mount(ws, lab, { onComplete });
@@ -258,6 +261,7 @@
     document.getElementById("labs-modal").classList.remove("active");
     if (window.BibleBowlLabDrag) window.BibleBowlLabDrag.unmount();
     if (window.BibleBowlLabTree) window.BibleBowlLabTree.unmount();
+    if (window.BibleBowlLabTabernacle) window.BibleBowlLabTabernacle.unmount();
     labSession = null;
     currentLab = null;
   }
@@ -308,7 +312,13 @@
       },
       solve() {
         if (!currentLab) return false;
-        if (currentLab.interaction.type === "tree_place" && window.BibleBowlLabTree) {
+        if (currentLab.interaction.type === "tabernacle_place" && window.BibleBowlLabTabernacle) {
+          const a = window.BibleBowlLabTabernacle.getActive();
+          if (a) {
+            a.fillCorrect();
+            a.check();
+          }
+        } else if (currentLab.interaction.type === "tree_place" && window.BibleBowlLabTree) {
           const a = window.BibleBowlLabTree.getActive();
           if (a) {
             a.fillCorrect();
@@ -326,10 +336,12 @@
       state() {
         const drag = window.BibleBowlLabDrag && window.BibleBowlLabDrag.getActive();
         const tree = window.BibleBowlLabTree && window.BibleBowlLabTree.getActive();
+        const tab = window.BibleBowlLabTabernacle && window.BibleBowlLabTabernacle.getActive();
         return {
           lab: currentLab ? currentLab.id : null,
           drag: drag ? drag.state : null,
           tree: tree ? tree.state : null,
+          tabernacle: tab ? tab.state : null,
           completed: completedLabs.slice(),
         };
       },

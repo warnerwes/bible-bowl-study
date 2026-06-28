@@ -224,6 +224,186 @@
         },
         interaction: { type: "drag_order" },
       },
+      {
+        id: "tabernacle_place",
+        label: "Place the Holy Things",
+        emoji: "⛪",
+        ref: "Exodus 40:1-33",
+        subtitle: "OSB Ex 40 placements · 8 holy items on a map",
+        // This is NOT the same as the bank's Erect/Furnish/Wash/Anoint
+        // mnemonic (ex40-003/004). This is a movement-only drill — what
+        // you see walking east→west through the courtyard. Consecration
+        // happens BEFORE this in the bank's order.
+        teacher_note:
+          "Movement only — does NOT include Aaron's washing or anointing (see 'Holy Consecration' lab for that).",
+        description:
+          "The tabernacle is laid out west to east: God's presence over the Ark at the far west, the priest entering from the east. Place each holy item where it stands according to OSB Exodus 40.",
+        tip:
+          "Start at the east entrance and walk west — Bronze Altar → Laver → Holy Place (Table north, Lampstand south, Golden Altar before veil) → Ark in the Most Holy Place.",
+        // 8 zones. Court + Court Gate collapsed to "East Entrance" to fix the
+        // elimination-shortcut pedagogy problem (skeptic §2). The Courtyard
+        // is split into two sub-zones (Bronze Altar slot + Laver slot) so
+        // each card has a distinct drop target — fillCorrect can place both.
+        tabernacle_zones: [
+          // Top-level zones (rendered in document order).
+          {
+            id: "most_holy",
+            label: "Most Holy Place",
+            sublabel: "God's presence · behind the veil",
+            position: "west",
+            pattern: "stripes",
+            accept: ["ark"],
+          },
+          {
+            id: "holy_place",
+            label: "Holy Place",
+            sublabel: "Outside the veil · priest enters here",
+            position: "center",
+            pattern: "dots",
+            accept: [], // parent zone; only children accept
+          },
+          {
+            id: "tabernacle_exterior",
+            label: "Courtyard",
+            sublabel: "Outside the tabernacle · before the door",
+            position: "east",
+            pattern: "plain",
+            accept: [], // parent zone; only children accept
+          },
+          {
+            id: "east_entrance",
+            label: "East Entrance",
+            sublabel: "The court gate — approach from the east",
+            position: "east-edge",
+            pattern: "plain",
+            accept: ["east_entrance"],
+          },
+          // Nested zones inside Holy Place.
+          {
+            id: "table_zone",
+            parent: "holy_place",
+            label: "② North (Left Wall)",
+            sublabel: "Table of Showbread",
+            position: "north",
+            pattern: "dots",
+            accept: ["table"],
+          },
+          {
+            id: "lampstand_zone",
+            parent: "holy_place",
+            label: "② South (Right Wall)",
+            sublabel: "Lampstand",
+            position: "south",
+            pattern: "dots",
+            accept: ["lampstand"],
+          },
+          {
+            id: "incense_zone",
+            parent: "holy_place",
+            label: "Before the Veil",
+            sublabel: "Golden Altar of Incense",
+            position: "incense",
+            pattern: "dots",
+            accept: ["golden_altar"],
+          },
+          {
+            id: "veil_zone",
+            parent: "most_holy",
+            label: "Veil",
+            sublabel: "Separates Holy from Most Holy",
+            position: "veil",
+            pattern: "stripes",
+            accept: ["veil"],
+          },
+          // Nested zones inside Courtyard.
+          {
+            id: "bronze_altar_zone",
+            parent: "tabernacle_exterior",
+            label: "By the Door",
+            sublabel: "Bronze Altar of Burnt Offering",
+            position: "east",
+            pattern: "plain",
+            accept: ["bronze_altar"],
+          },
+          {
+            id: "laver_zone",
+            parent: "tabernacle_exterior",
+            label: "Washing Station",
+            sublabel: "Between tabernacle and altar",
+            position: "east",
+            pattern: "plain",
+            accept: ["laver"],
+          },
+        ],
+        tabernacle_cards: [
+          // OSB Ex 40:3, 21 — Ark in Most Holy Place
+          {
+            id: "ark",
+            label: "Ark of the Testimony",
+            emoji: "📜",
+            osb_ref: "Ex 40:3, 21",
+          },
+          {
+            id: "veil",
+            label: "Veil",
+            emoji: "🟪",
+            osb_ref: "Ex 40:21",
+          },
+          // OSB Ex 40:22-23 — Table on north side of Holy Place
+          {
+            id: "table",
+            label: "Table of Showbread",
+            emoji: "🍞",
+            osb_ref: "Ex 40:22-23",
+          },
+          // OSB Ex 40:24-25 — Lampstand on south side
+          {
+            id: "lampstand",
+            label: "Lampstand",
+            emoji: "🕯️",
+            osb_ref: "Ex 40:24-25",
+          },
+          // OSB Ex 40:26-27 — Golden Altar before the veil
+          {
+            id: "golden_altar",
+            label: "Golden Altar of Incense",
+            emoji: "🪔",
+            osb_ref: "Ex 40:26-27",
+          },
+          // OSB Ex 40:30 + Ex 30:18 — between tabernacle and altar
+          {
+            id: "laver",
+            label: "Bronze Laver",
+            emoji: "🚰",
+            osb_ref: "Ex 40:30; OSB Ex 30:18",
+          },
+          // OSB Ex 40:29 — Bronze Altar by the doors
+          {
+            id: "bronze_altar",
+            label: "Bronze Altar of Burnt Offering",
+            emoji: "🔥",
+            osb_ref: "Ex 40:29",
+          },
+          // OSB Ex 40:33 — Court around the tabernacle and altar
+          {
+            id: "east_entrance",
+            label: "East Entrance / Court Gate",
+            emoji: "🚪",
+            osb_ref: "Ex 40:33; Ex 27:13-16",
+          },
+        ],
+        unlock: { chapters: [38, 39, 40], min: 6 },
+        unlock_teaching: {
+          headline: "Where God's Presence Dwells",
+          body:
+            "The tabernacle is a map of approach: God's presence sits at the far west, and the priest enters from the east. Every item has a place that teaches its role — closest to God, or closest to the people, or between.",
+        },
+        completion_teaching: {
+          memory_sentence:
+            "God's presence dwells in the Most Holy Place; the priest approaches through courtyard, altar, laver, and Holy Place to stand before the Ark.",
+        },
+        interaction: { type: "tabernacle_place" },
+      },
     ],
   };
 })();

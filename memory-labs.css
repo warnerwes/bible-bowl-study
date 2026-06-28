@@ -543,3 +543,258 @@
     border-left: 1px solid var(--border);
   }
 }
+
+/* ============================================================================
+   Tabernacle spatial mini-game ("Place the Holy Things")
+   ============================================================================ */
+
+.lab-tabernacle-root {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  padding: 0.25rem 0 0.5rem;
+}
+
+/* Compass cues: WEST on top (God's presence), EAST on bottom (entrance).
+   Numbered pairs + wall labels mean students don't need compass literacy. */
+.lab-tabernacle-compass {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-family: var(--font-display);
+  font-size: 0.78rem;
+  color: var(--muted);
+  letter-spacing: 0.04em;
+  padding: 0 0.25rem;
+}
+.lab-tabernacle-compass-w {
+  color: rgba(212, 160, 78, 0.95);
+}
+.lab-tabernacle-compass-e {
+  color: rgba(212, 160, 78, 0.95);
+}
+
+/* Board: vertical stack on mobile, horizontal on wider screens.
+   Most Holy Place on top (west), Courtyard on bottom (east).
+   Sized so the WHOLE map + status + tray fit in a 390x844 mobile
+   viewport with the panel chrome (modal header + Return-to-Study +
+   about-this-lab expanded). The labs-card overflow-y:auto scrolls if
+   anything still overflows. */
+.lab-tabernacle-board {
+  display: grid;
+  grid-template-rows: 0.85fr 1.1fr 0.85fr 0.45fr;
+  grid-template-areas:
+    "most_holy"
+    "holy_place"
+    "tabernacle_exterior"
+    "east_entrance";
+  gap: 0.3rem;
+  width: 100%;
+  min-height: 280px;
+  max-height: 380px;
+  padding: 0.2rem;
+  border-radius: 10px;
+  background: rgba(8, 10, 14, 0.6);
+  border: 1px solid var(--border);
+}
+
+@media (min-width: 720px) {
+  .lab-tabernacle-board {
+    grid-template-rows: 1.1fr 1.7fr 1fr 0.5fr;
+    min-height: 420px;
+    max-height: none;
+  }
+}
+
+/* Generic zone box. Placed chips appear AFTER the caption/sublabel
+   and auto-fit; if a card label is too long the ellipsis kicks in. */
+.lab-tabernacle-zone {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.12rem;
+  padding: 0.25rem 0.3rem;
+  border-radius: 8px;
+  border: 1.5px dashed rgba(212, 160, 78, 0.45);
+  background: rgba(20, 23, 31, 0.7);
+  text-align: center;
+  min-height: 44px;
+  min-width: 0;
+  overflow: hidden;
+  transition: border-color 120ms ease, background 120ms ease, transform 120ms ease;
+}
+
+/* Pattern fills (color-blind safe). Implemented with CSS gradients so no
+   external asset needed and they render at any resolution. */
+.lab-tabernacle-zone-pattern-stripes {
+  background-image: repeating-linear-gradient(
+    135deg,
+    rgba(212, 160, 78, 0.06) 0,
+    rgba(212, 160, 78, 0.06) 6px,
+    transparent 6px,
+    transparent 12px
+  );
+}
+.lab-tabernacle-zone-pattern-dots {
+  background-image: radial-gradient(
+    rgba(212, 160, 78, 0.16) 1.5px,
+    transparent 1.5px
+  );
+  background-size: 12px 12px;
+}
+.lab-tabernacle-zone-pattern-plain {
+  background: rgba(20, 23, 31, 0.7);
+}
+
+.lab-tabernacle-zone-caption {
+  font-family: var(--font-display);
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: var(--accent-strong);
+  letter-spacing: 0.02em;
+}
+.lab-tabernacle-zone-sublabel {
+  font-size: 0.66rem;
+  color: var(--muted);
+  line-height: 1.2;
+  max-width: 95%;
+}
+
+/* Zone grid placement */
+.lab-tabernacle-zone-west { grid-area: most_holy; }
+.lab-tabernacle-zone-center { grid-area: holy_place; }
+.lab-tabernacle-zone-east { grid-area: tabernacle_exterior; }
+.lab-tabernacle-zone-east-edge { grid-area: east_entrance; }
+
+/* Nested zones live INSIDE their parent zone's grid area.
+   Each parent zone becomes a sub-grid for its children. */
+.lab-tabernacle-zone-center {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: auto auto;
+  grid-template-areas:
+    "table_zone lampstand_zone"
+    "incense_zone incense_zone";
+  gap: 0.3rem;
+  align-items: stretch;
+}
+.lab-tabernacle-zone-center > .lab-tabernacle-zone-caption,
+.lab-tabernacle-zone-center > .lab-tabernacle-zone-sublabel {
+  grid-column: 1 / -1;
+}
+
+.lab-tabernacle-zone-west {
+  display: grid;
+  grid-template-rows: auto 1fr;
+  gap: 0.3rem;
+}
+.lab-tabernacle-zone-west > .lab-tabernacle-zone-caption,
+.lab-tabernacle-zone-west > .lab-tabernacle-zone-sublabel {
+  grid-column: 1 / -1;
+}
+.lab-tabernacle-zone-veil {
+  grid-row: 2;
+  border-style: solid;
+  border-color: rgba(212, 160, 78, 0.6);
+  font-size: 0.7rem;
+}
+
+.lab-tabernacle-zone-north { grid-area: table_zone; min-height: 56px; }
+.lab-tabernacle-zone-south { grid-area: lampstand_zone; min-height: 56px; }
+.lab-tabernacle-zone-veil { grid-area: veil_zone; min-height: 56px; }
+
+/* Position the "Before the Veil" incense zone inside holy_place */
+.lab-tabernacle-zone-incense {
+  grid-area: incense_zone;
+  min-height: 56px;
+  border-style: solid;
+  border-color: rgba(212, 160, 78, 0.45);
+}
+
+/* Nested zones need extra room for the placed chip. */
+.lab-tabernacle-zone-north,
+.lab-tabernacle-zone-south,
+.lab-tabernacle-zone-incense,
+.lab-tabernacle-zone-veil {
+  padding: 0.18rem 0.25rem;
+}
+/* Courtyard children: bronze_altar_zone + laver_zone sit inside the
+   tabernacle_exterior parent. Both use position:"east" so their class
+   is lab-tabernacle-zone-east — same as the parent — so we must
+   scope by data-zone-id of the parent. Bump min-height so the chip
+   fits without overflowing the zone. */
+[data-zone-id="tabernacle_exterior"] > .lab-tabernacle-zone-east {
+  min-height: 56px;
+  padding: 0.18rem 0.25rem;
+}
+
+/* Most Holy Place gets a brighter border to signal "presence". */
+.lab-tabernacle-zone-west {
+  border-color: rgba(255, 220, 150, 0.55);
+}
+
+/* Filled / wrong / keyboard-focus states */
+.lab-tabernacle-zone.filled {
+  border-style: solid;
+  border-color: rgba(110, 200, 130, 0.6);
+  background-color: rgba(40, 60, 44, 0.5);
+}
+.lab-tabernacle-zone.wrong {
+  border-color: rgba(220, 90, 90, 0.85);
+  background-color: rgba(70, 30, 30, 0.5);
+  animation: lab-zone-wrong-flash 0.45s ease;
+}
+@keyframes lab-zone-wrong-flash {
+  0% { transform: translateX(0); }
+  20% { transform: translateX(-3px); }
+  40% { transform: translateX(3px); }
+  60% { transform: translateX(-2px); }
+  80% { transform: translateX(2px); }
+  100% { transform: translateX(0); }
+}
+.lab-tabernacle-zone.lab-tabernacle-key-focus {
+  outline: 2px solid rgba(212, 160, 78, 0.95);
+  outline-offset: -2px;
+  box-shadow: 0 0 0 4px rgba(212, 160, 78, 0.18);
+}
+
+/* Placed chip inside a zone — emoji-only badge for compactness.
+   The full label is available via aria-label + title attribute. */
+.lab-tabernacle-placed {
+  font-size: 0.62rem;
+  padding: 0.12rem 0.32rem;
+  margin-top: 0.12rem;
+  max-width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-height: 22px;
+  line-height: 1.1;
+}
+.lab-tabernacle-placed .lab-chip-emoji {
+  font-size: 0.85rem;
+  margin-right: 0.18rem;
+}
+.lab-tabernacle-placed .lab-chip-label {
+  display: none; /* emoji-only when placed; full label in tooltip */
+}
+
+/* The tray pool — same look as drag-lab's pool. */
+.lab-tabernacle-pool {
+  flex-wrap: wrap;
+}
+
+/* On mobile, allow the board itself to scroll horizontally if the
+   viewer's font is huge; the inner pattern fills keep it readable
+   when scaled. The whole modal already scrolls vertically on mobile
+   via .labs-card overflow-y:auto (line 65). */
+@media (max-width: 380px) {
+  .lab-tabernacle-zone-caption {
+    font-size: 0.78rem;
+  }
+  .lab-tabernacle-zone-sublabel {
+    font-size: 0.6rem;
+  }
+}
