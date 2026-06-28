@@ -394,8 +394,6 @@
     const inSafeZone = boundsSet && phase === "wait" && !insideBounds && mouse.y > h * 0.76;
 
     const caption = phase === "bounds" ? "Set bounds around Sinai" : "The Lord descends in fire";
-    window.BibleBowlScenes.drawCaption(ctx, w, caption);
-
     const trumpetMeter = customWonderState.trumpetMeter || 0;
     let progressText;
     if (phase === "bounds") {
@@ -408,11 +406,6 @@
       progressText = "The third day · stand back";
     } else {
       progressText = "Stand back and wait";
-    }
-    window.BibleBowlScenes.drawProgress(ctx, w, progressText);
-
-    if (phase === "wait" && boundsSet) {
-      window.BibleBowlScenes.drawProgressBar(ctx, w, h * 0.12, trumpetMeter / 80, "Trumpet");
     }
 
     if (phase === "bounds" && stones.length < 6 && mouse.down && !customWonderState.placingLock) {
@@ -502,7 +495,7 @@
         p.y += p.vy;
         p.alpha -= 0.015;
 
-        if (p.alpha <= 0) {
+        if (p.alpha <= 0 || p.y < 102) {
           particles.splice(i, 1);
           continue;
         }
@@ -564,6 +557,13 @@
     }
 
     drawSinaiLightning(ctx, w, h, customWonderState);
+
+    // Caption/progress always on top — embers and lightning must not wash out the HUD
+    window.BibleBowlScenes.drawCaption(ctx, w, caption);
+    window.BibleBowlScenes.drawProgress(ctx, w, progressText);
+    if (phase === "wait" && boundsSet) {
+      window.BibleBowlScenes.drawProgressBar(ctx, w, h * 0.12, trumpetMeter / 80, "Trumpet");
+    }
   };
 
   function generateLightningPath(x1, y1, x2, y2) {

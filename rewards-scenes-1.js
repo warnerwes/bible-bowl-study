@@ -42,7 +42,7 @@
 
   window.BibleBowlScenes.drawHeaderBand = (ctx, w) => {
     ctx.save();
-    ctx.fillStyle = "rgba(0, 0, 0, 0.52)";
+    ctx.fillStyle = "rgba(8, 10, 14, 0.82)";
     ctx.fillRect(0, 0, w, 98);
     ctx.restore();
   };
