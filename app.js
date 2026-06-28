@@ -59,6 +59,57 @@
     typeof window.matchMedia === "function" &&
     window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
+  // ---------- Scroll helpers ----------
+  // Single source of truth for "scroll to position X at the top of the
+  // viewport", with the rewards-trophy-shelf clamp that scrollToNextButton
+  // has always honored. Returns true if a scroll actually happened.
+  //
+  // IMPORTANT shelf-clamp semantics:
+  //   * The clamp exists to keep the user from scrolling DOWN past the
+  //     rewards shelf and missing the unlock animation.
+  //   * It must NOT block UPWARD scrolls — once the unlock animation is
+  //     done and the user clicks Next, we need to be free to bring the
+  //     new question back into view even if the user is currently below
+  //     the shelf (e.g. scrolled into the memory aid).
+  //   * When `allowUpwardAcrossShelf` is true (the default for Next),
+  //     we ignore the clamp if the desired top is ABOVE the current
+  //     scrollY. The shelf is only a one-way valve: it can stop you
+  //     going down, never going up.
+  function scrollTargetIntoView(targetTop, options) {
+    const pad = 14;
+    const opts = options || {};
+    let nextTop = Math.max(0, targetTop);
+
+    const shelf = document.getElementById("rewards-trophy-shelf");
+    if (shelf) {
+      const shelfTop = shelf.getBoundingClientRect().top + window.scrollY;
+      const maxTop = shelfTop - window.innerHeight + pad;
+      // Only clamp when scrolling downward. If we're trying to go UP
+      // (nextTop < window.scrollY), let the user come back above the
+      // shelf — they finished the unlock and now want to read the new
+      // question.
+      if (nextTop > window.scrollY && nextTop > maxTop) {
+        nextTop = maxTop;
+      }
+    }
+
+    if (Math.abs(nextTop - window.scrollY) < 2) return false;
+    window.scrollTo({
+      top: nextTop,
+      behavior: opts.smooth === false || PREFERS_REDUCED_MOTION ? "auto" : "smooth",
+    });
+    return true;
+  }
+
+  function scrollElementToTop(el, options) {
+    if (!el) return false;
+    const rect = el.getBoundingClientRect();
+    // Where would scrollY need to be for the element's top to sit at the
+    // pad line near the top of the viewport?
+    const desiredTop = rect.top + window.scrollY - (options && options.pad || 14);
+    return scrollTargetIntoView(desiredTop, options);
+  }
+
   function scrollToNextButton() {
     const bar = $("feedback-next-bar");
     const btn = $("next-btn");
@@ -73,19 +124,7 @@
     if (rect.bottom > window.innerHeight - pad) {
       nextTop += rect.bottom - (window.innerHeight - pad);
     }
-
-    const shelf = document.getElementById("rewards-trophy-shelf");
-    if (shelf) {
-      const shelfTop = shelf.getBoundingClientRect().top + window.scrollY;
-      const maxTop = shelfTop - window.innerHeight + pad;
-      if (nextTop > maxTop) nextTop = Math.max(window.scrollY, maxTop);
-    }
-
-    if (Math.abs(nextTop - window.scrollY) < 2) return;
-    window.scrollTo({
-      top: Math.max(0, nextTop),
-      behavior: PREFERS_REDUCED_MOTION ? "auto" : "smooth",
-    });
+    scrollTargetIntoView(nextTop);
   }
 
   const CONFETTI_COLORS = ["#d4a04e", "#e6c074", "#5fae86", "#6aa9e0", "#b48ad6", "#e08a5a", "#f2ead8"];
@@ -719,7 +758,11 @@
       input.placeholder = "Type your answer…";
       input.addEventListener("input", () => (submit.disabled = input.value.trim() === ""));
       area.appendChild(input);
-      setTimeout(() => input.focus(), 30);
+      // preventScroll: true so the focus doesn't race with our
+      // scrollElementToTop smooth scroll on the Next path. Otherwise
+      // the browser may scroll the input into view mid-animation and
+      // pull the page to a position that buries the question text.
+      setTimeout(() => input.focus({ preventScroll: true }), 30);
     } else {
       const opts = (q.type === "true-false" ? ["True", "False"] : (q.options || [])).slice();
       for (let i = opts.length - 1; i > 0; i--) {
@@ -738,6 +781,14 @@
         area.appendChild(b);
       });
     }
+
+    // Position the screen so the new question is at the top of the
+    // viewport. Without this, Next leaves you wherever the previous
+    // feedback / memory-aid was — often scrolled past the question text.
+    // Honors the rewards-trophy-shelf clamp via scrollElementToTop.
+    requestAnimationFrame(() => {
+      scrollElementToTop($("q-text"));
+    });
   }
 
   // ---------- Submit ----------
