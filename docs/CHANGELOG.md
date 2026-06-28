@@ -103,3 +103,5 @@ scripts/test-memory-labs.mjs
 ```
 
 **Ignored (not in repo):** `node_modules/`, `captures/` (Playwright screenshots), `data/source-exports/`
+
+**Deploy note:** GitHub Pages copies assets listed in `.github/workflows/deploy.yml` — if a new JS/CSS file is added to the app, add it there too.
