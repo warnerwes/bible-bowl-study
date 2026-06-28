@@ -279,7 +279,12 @@
   }
 
   function drawSinaiMountain(ctx, w, h, peakX, peakY, baseW, isNight) {
-    ctx.fillStyle = isNight ? "#120b1f" : "#1a1f28";
+    const mainFill = isNight ? "#3d2f52" : "#3a4554";
+    const shadeFill = isNight ? "#261e35" : "#2a323d";
+    const rimStroke = isNight ? "rgba(200, 180, 220, 0.42)" : "rgba(160, 175, 195, 0.55)";
+    const cloudFill = isNight ? "rgba(120, 90, 150, 0.38)" : "rgba(130, 145, 165, 0.45)";
+
+    ctx.fillStyle = mainFill;
     ctx.beginPath();
     ctx.moveTo(peakX - baseW / 2, h);
     ctx.lineTo(peakX, peakY);
@@ -287,7 +292,7 @@
     ctx.closePath();
     ctx.fill();
 
-    ctx.fillStyle = isNight ? "#090412" : "#11141b";
+    ctx.fillStyle = shadeFill;
     ctx.beginPath();
     ctx.moveTo(peakX, peakY);
     ctx.lineTo(peakX + baseW * 0.05, h * 0.85);
@@ -297,8 +302,17 @@
     ctx.closePath();
     ctx.fill();
 
+    ctx.strokeStyle = rimStroke;
+    ctx.lineWidth = 2.5;
+    ctx.lineJoin = "round";
+    ctx.beginPath();
+    ctx.moveTo(peakX - baseW / 2, h);
+    ctx.lineTo(peakX, peakY);
+    ctx.lineTo(peakX + baseW / 2, h);
+    ctx.stroke();
+
     ctx.save();
-    ctx.fillStyle = isNight ? "rgba(74, 52, 94, 0.25)" : "rgba(100, 110, 120, 0.4)";
+    ctx.fillStyle = cloudFill;
     ctx.beginPath();
     ctx.arc(peakX, peakY - 15, 50, 0, Math.PI * 2);
     ctx.arc(peakX - 42, peakY - 10, 42, 0, Math.PI * 2);
@@ -307,11 +321,16 @@
     ctx.restore();
   }
 
-  function drawBoundaryRingLayer(ctx, stones, peakX, peakY, layer, boundsSet) {
+  function boundaryRingBehindY(peakY, h) {
+    return peakY + (h - peakY) * 0.62;
+  }
+
+  function drawBoundaryRingLayer(ctx, stones, peakX, peakY, h, layer, boundsSet) {
     if (!stones.length) return;
     const sorted = sortBoundaryRing(stones, peakX, peakY);
-    const edgeBehind = (a, b) => (a.x + b.x) / 2 < peakX;
-    const stoneBehind = (s) => s.x < peakX - 4;
+    const behindY = boundaryRingBehindY(peakY, h);
+    const edgeBehind = (a, b) => (a.y + b.y) / 2 < behindY;
+    const stoneBehind = (s) => s.y < behindY - 6;
 
     if (boundsSet && sorted.length >= 3) {
       ctx.strokeStyle = "rgba(212, 160, 78, 0.85)";
@@ -529,9 +548,9 @@
       }
     }
 
-    drawBoundaryRingLayer(ctx, stones, peakX, peakY, "behind", boundsSet);
+    drawBoundaryRingLayer(ctx, stones, peakX, peakY, h, "behind", boundsSet);
     drawSinaiMountain(ctx, w, h, peakX, peakY, baseW, isNight);
-    drawBoundaryRingLayer(ctx, stones, peakX, peakY, "front", boundsSet);
+    drawBoundaryRingLayer(ctx, stones, peakX, peakY, h, "front", boundsSet);
 
     if (phase === "bounds" && stones.length < 6) {
       const next = template[stones.length];
