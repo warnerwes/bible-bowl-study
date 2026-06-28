@@ -848,6 +848,7 @@
   }
 
   const MANNA_JAR_FULL = 0.95;
+  const MANNA_JAR_HOARD = 1.05;
 
   function beginMannaGather(customWonderState, w, h, particles, canvasTime, sparse) {
     customWonderState.mannaPhase = "gather";
@@ -1032,12 +1033,16 @@
     const dayProgress = jarLimit > 0
       ? (jarsStored + jarsCarried + Math.min(jarFill / MANNA_JAR_FULL, 1)) / jarLimit
       : 0;
+    const readyJars = jarsCarried +
+      (jarFill >= MANNA_JAR_FULL && jarFill < MANNA_JAR_HOARD ? 1 : 0);
     let hint = rotten
       ? rules.hoardMessage
       : (customWonderState.meltFlash || 0) > 0
         ? rules.meltMessage
-        : jarsCarried >= dailyNeed && dailyNeed > 0
-          ? `Tap TENT · ${jarsCarried} jar${jarsCarried > 1 ? "s" : ""}`
+        : readyJars >= dailyNeed && dailyNeed > 0
+          ? `Tap TENT · ${readyJars} jar${readyJars > 1 ? "s" : ""}`
+          : jarFill >= MANNA_JAR_FULL && jarFill < MANNA_JAR_HOARD
+            ? "Enough · tap TENT or stop scooping"
           : weekDay === 6 && jarsCarried === 1 && jarsStored === 0
             ? "Fill second jar · same manna"
             : jarsCarried > 0
@@ -1076,37 +1081,23 @@
       ctx.fill();
     }
 
-    if (!rotten && jarFill >= MANNA_JAR_FULL && jarsCarried < dailyNeed) {
-      jarsCarried += 1;
-      customWonderState.jarsCarried = jarsCarried;
-      jarFill = 0;
-      customWonderState.jarFill = 0;
-      if (typeof window.BibleBowlPlaySound === "function") window.BibleBowlPlaySound("gather");
-    }
-
     if (!rotten) {
       for (let i = particles.length - 1; i >= 0; i--) {
         const p = particles[i];
         if (p.type !== "manna" || p.taken) continue;
         if (Math.hypot(p.x - jarX, p.y - jarY) < jarRadius) {
-          if (jarsCarried >= dailyNeed && dailyNeed > 0) continue;
-          if (dailyNeed === 0) {
-            customWonderState.rotten = true;
-            break;
-          }
-          if (jarFill < MANNA_JAR_FULL) {
+          if (jarFill < MANNA_JAR_HOARD) {
             p.taken = true;
-            jarFill = Math.min(1, jarFill + 0.014);
+            jarFill = Math.min(MANNA_JAR_HOARD, jarFill + 0.014);
             customWonderState.jarFill = jarFill;
-          } else if (jarsCarried >= dailyNeed) {
-            customWonderState.rotten = true;
-            break;
+            if (jarFill >= MANNA_JAR_HOARD) customWonderState.rotten = true;
           }
         }
       }
     }
 
-    if (!rotten && jarFill >= MANNA_JAR_FULL && jarsCarried < dailyNeed) {
+    if (!rotten && !mouse.down && jarFill >= MANNA_JAR_FULL && jarFill < MANNA_JAR_HOARD &&
+        jarsCarried < dailyNeed) {
       jarsCarried += 1;
       customWonderState.jarsCarried = jarsCarried;
       jarFill = 0;
@@ -1114,10 +1105,14 @@
       if (typeof window.BibleBowlPlaySound === "function") window.BibleBowlPlaySound("gather");
     }
 
+    const tentReady = jarsCarried > 0 ||
+      (jarFill >= MANNA_JAR_FULL && jarFill < MANNA_JAR_HOARD);
     const onTent = window.BibleBowlScenes.hitRect(fingerX, fingerY, tentX, tentY, 110, 88);
-    if (jarsCarried > 0 && !rotten && onTent && mouse.down && !customWonderState.tentPressed) {
+    if (tentReady && !rotten && onTent && mouse.down && !customWonderState.tentPressed) {
       customWonderState.tentPressed = true;
-      customWonderState.jarsStored = jarsStored + jarsCarried;
+      let depositCount = jarsCarried;
+      if (jarFill >= MANNA_JAR_FULL && jarFill < MANNA_JAR_HOARD) depositCount += 1;
+      customWonderState.jarsStored = jarsStored + depositCount;
       customWonderState.jarsCarried = 0;
       jarsCarried = 0;
       customWonderState.jarFill = 0;
@@ -1134,7 +1129,7 @@
     }
     if (!mouse.down) customWonderState.tentPressed = false;
 
-    drawMannaTentTarget(ctx, w, tentX, tentY, jarsStored, jarsCarried, jarsCarried > 0, canvasTime);
+    drawMannaTentTarget(ctx, w, tentX, tentY, jarsStored, jarsCarried, tentReady, canvasTime);
     drawMannaJar(ctx, jarX, jarDrawY, jarFill, rotten, 1.35);
 
     if (mouse.down || mouse.x > 0) {
