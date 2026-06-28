@@ -58,7 +58,12 @@
   border: 1px solid rgba(212, 160, 78, 0.35);
   background: rgba(18, 21, 27, 0.98);
   box-shadow: 0 24px 60px rgba(0, 0, 0, 0.55);
-  overflow: hidden;
+  /* overflow-y:auto at the base so any viewport where content exceeds
+     height gets a scrollbar instead of silent clipping. The drag engine
+     overwrites className to .lab-drag-root on the inner element, so this
+     card-level overflow is what actually saves us on small viewports. */
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
   min-width: 0;
 }
 
