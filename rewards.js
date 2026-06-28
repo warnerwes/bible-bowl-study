@@ -45,7 +45,7 @@
       ref: "Exodus 15:27",
       quote: "Then they came to Elim, where there were twelve springs of water and seventy palm trees, and they encamped there by the waters.",
       desc: "Elim is the oasis after bitterness: the Lord not only heals, He gives rest. The twelve springs and seventy palms teach ordered abundance for the whole people.",
-      tip: "Find the twelve springs, count the seventy palms, and camp by the waters.",
+      tip: "Find the twelve springs and camp under the seventy palms.",
       color: "#27ae60"
     },
     {
