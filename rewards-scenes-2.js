@@ -244,12 +244,16 @@
   function computeSinaiBoundaryRing(w, h) {
     const m = sinaiMountainMetrics(w, h);
     const margin = Math.max(14, Math.min(w, h) * 0.028);
+    // The boundary ring should wrap around the BASE of the mountain,
+    // not cross its face. Side stones use small t values (close to base,
+    // far from peak) so they sit in the lower portion of the canvas and
+    // the dashed segments between them don't cut across the mountain.
     return [
       { x: m.leftBase.x - margin, y: h - margin },
-      outwardBoundaryPoint(m.leftBase, m.peak, 0.32, margin, w, h),
-      outwardBoundaryPoint(m.leftBase, m.peak, 0.58, margin, w, h),
-      outwardBoundaryPoint(m.rightBase, m.peak, 0.58, margin, w, h),
-      outwardBoundaryPoint(m.rightBase, m.peak, 0.32, margin, w, h),
+      outwardBoundaryPoint(m.leftBase, m.peak, 0.05, margin, w, h),
+      outwardBoundaryPoint(m.leftBase, m.peak, 0.18, margin, w, h),
+      outwardBoundaryPoint(m.rightBase, m.peak, 0.18, margin, w, h),
+      outwardBoundaryPoint(m.rightBase, m.peak, 0.05, margin, w, h),
       { x: m.rightBase.x + margin, y: h - margin }
     ];
   }
