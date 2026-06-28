@@ -683,6 +683,98 @@
       : "⬇ Export to Anki (CSV)";
   }
 
+  // ---------- History routing (PWA back-button support) ----------
+  // Without this, hitting the system back button on a PWA closes the app
+  // mid-quiz (no history to fall back to). We push a history entry on
+  // each screen transition so the system back fires `popstate`, which
+  // we intercept to decrement state.index / return to setup / etc.
+  //
+  // Routing convention:
+  //   - Setup screen has NO history entry. Back from setup exits the
+  //     PWA (this is expected — home screens don't have a parent).
+  //   - `launch()` pushes one entry per quiz: /quiz/0
+  //   - Next button pushes /quiz/N for each advance, or /results
+  //   - Restart uses history.back() so we don't leave a stale entry
+  //     on the stack pointing into a torn-down quiz.
+  //
+  // Option A behavior: on page load, we ignore any URL hash and always
+  // start on setup. This way, reloading mid-quiz lands you at home
+  // (matches typical web-app reload semantics; PWAs sometimes restore
+  // on reload which can feel surprising).
+  const ROUTE = {
+    setup: () => null, // no history entry for setup
+    quiz: (i) => "/quiz/" + i,
+    results: () => "/results",
+  };
+  let _suppressNextPush = false; // set true during popstate-driven re-renders
+
+  function navigateTo(screen, payload) {
+    let url;
+    if (screen === "setup") url = ROUTE.setup();
+    else if (screen === "quiz") url = ROUTE.quiz(payload);
+    else if (screen === "results") url = ROUTE.results();
+    else url = null;
+    if (url == null) {
+      // setup or unknown → use replaceState so we don't leave a stale entry
+      history.replaceState({ screen: "setup" }, "", location.pathname + location.search);
+    } else {
+      history.pushState({ screen, index: payload }, "", url);
+    }
+  }
+
+  function handlePopstate(event) {
+    // Called when user hits back/forward. The browser has already
+    // updated location, so we read it and route accordingly.
+    const path = location.pathname;
+    let screen = "setup", payload = null;
+    if (path.startsWith("/quiz/")) {
+      const idx = parseInt(path.slice("/quiz/".length), 10);
+      if (Number.isFinite(idx) && idx >= 0) {
+        screen = "quiz";
+        payload = idx;
+      }
+    } else if (path === "/results") {
+      screen = "results";
+    } else {
+      screen = "setup";
+    }
+
+    _suppressNextPush = true; // we're re-rendering from history, don't push again
+    try {
+      if (screen === "setup") {
+        // Back from Q1 (or anywhere) → tear down the quiz, return to setup.
+        // Keep state.quiz in memory in case the user immediately re-enters
+        // via history.forward, but render the setup screen.
+        show("setup");
+      } else if (screen === "quiz") {
+        // If we don't have a quiz loaded (e.g. reload), or the index is
+        // out of range, fall back to setup.
+        if (!state.quiz.length || payload >= state.quiz.length) {
+          show("setup");
+        } else {
+          state.index = payload;
+          state.answered = false;
+          state.selected = null;
+          state.pendingAidVote = null;
+          show("quiz");
+          renderQuestion();
+        }
+      } else if (screen === "results") {
+        // If we don't have a quiz loaded, fall back to setup.
+        if (!state.quiz.length) {
+          show("setup");
+        } else {
+          showResults();
+        }
+      }
+    } finally {
+      _suppressNextPush = false;
+    }
+  }
+
+  // Register the popstate listener once at module init.
+  window.addEventListener("popstate", handlePopstate);
+
   // ---------- Start a quiz ----------
   function launch(questions, mode) {
     state.quiz = questions;
@@ -692,6 +784,10 @@
     state.mode = mode;
     show("quiz");
     renderQuestion();
+    // Push a history entry so the system back button returns to setup
+    // instead of closing the PWA. Skip if we're mid-popstate (already
+    // routing from history).
+    if (!_suppressNextPush) navigateTo("quiz", 0);
   }
   function startQuick() {
     // Set mastered questions aside; fall back to everything once all are mastered.
@@ -1053,8 +1149,13 @@
   $("next-btn").addEventListener("click", () => {
     commitPendingAidVote();
     state.index++;
-    if (state.index >= state.quiz.length) showResults();
-    else renderQuestion();
+    if (state.index >= state.quiz.length) {
+      showResults();
+      if (!_suppressNextPush) navigateTo("results");
+    } else {
+      renderQuestion();
+      if (!_suppressNextPush) navigateTo("quiz", state.index);
+    }
   });
 
   $("quit-btn").addEventListener("click", showResults);
@@ -1067,6 +1168,25 @@
     $("progress-view").hidden = true;
     refreshHome();
     show("setup");
+    // Step back through the history stack so we land at the entry that
+    // existed before launch() pushed /quiz/0. This avoids leaving a
+    // stale /quiz/N entry on the stack that would re-launch a quiz if
+    // the user hits forward. Each Next/launch pushed one entry, so we
+    // need to step back (1 results + N quiz questions + 1 quiz/0) =
+    // state.quiz.length + 2 entries. But we only step back the right
+    // amount based on history.length to avoid under/overshooting.
+    // Simpler approach: just go back until we're not on /quiz/* or
+    // /results. But that's a loop. Cleanest: replaceState the current
+    // entry to setup (collapses the stack at this point), then the
+    // user's previous back behavior takes them to whatever was before.
+    // We use replaceState so we don't push a new entry.
+    history.replaceState({ screen: "setup" }, "", location.pathname.replace(/\/quiz\/\d+|\/results/g, "") || "/");
+    // Tear down the quiz state so a future forward navigation doesn't
+    // accidentally restore into it.
+    state.quiz = [];
+    state.index = 0;
+    state.score = 0;
+    state.missed = [];
   });
 
   // ---------- Results ----------
