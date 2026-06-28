@@ -29,6 +29,7 @@
           "Darkness",
           "Firstborn Struck",
         ],
+        item_emojis: ["🩸", "🐸", "🪲", "🪰", "🐄", "🤒", "🌨️", "🦗", "🌑", "💀"],
         unlock: { chapters: [7, 8, 9, 10, 11, 12], min: 8 },
         unlock_teaching: {
           headline: "Judgment That Teaches",
@@ -64,6 +65,20 @@
           "Joseph",
           "Benjamin",
         ],
+        item_emojis: [
+          "🥇", // Reuben — firstborn ("behold a son")
+          "⚔️", // Simeon — linked with sword, Dinah's vengeance
+          "📜", // Levi — priestly line, set apart
+          "🦁", // Judah — Lion of Judah, scepter
+          "⚖️", // Dan — "judge" / scales of justice
+          "🦌", // Naphtali — "hind let loose", swift
+          "🐺", // Gad — "troop shall overcome him"
+          "🌾", // Asher — "happy / bread", fertile
+          "🐴", // Issachar — strong donkey between burdens
+          "⛵", // Zebulun — "dwelling" by the sea, haven for ships
+          "🌟", // Joseph — dreamer, fruitful bough
+          "🐺", // Benjamin — "son of the right hand", ravenous wolf
+        ],
         unlock: { chapters: [1, 2, 6], min: 5 },
         unlock_teaching: {
           headline: "One Family, Twelve Names",
@@ -97,6 +112,18 @@
           "Do Not Steal",
           "No False Witness",
           "Do Not Covet",
+        ],
+        item_emojis: [
+          "🚫", // No Other Gods
+          "🗿", // No Carved Images
+          "📛", // Honor God's Name
+          "🕯️", // Keep Sabbath Holy
+          "👨‍👩‍👧", // Honor Parents
+          "🗡️", // Do Not Murder
+          "💍", // No Adultery (covenant bond)
+          "🔒", // Do Not Steal
+          "👅", // No False Witness
+          "👀", // Do Not Covet (eyes)
         ],
         unlock: { chapters: [19, 20], min: 7 },
         unlock_teaching: {
@@ -173,6 +200,17 @@
           "Burnt Offering",
           "Ordination Ram",
           "Holy Meal & 7 Days",
+        ],
+        item_emojis: [
+          "🛠️", // Prepare Offerings
+          "💧", // Wash Priests
+          "👕", // Clothe Aaron
+          "🫒", // Anoint Aaron (oil)
+          "👔", // Clothe His Sons
+          "🐏", // Sin Offering (ram)
+          "🔥", // Burnt Offering
+          "🐂", // Ordination Ram
+          "🍞", // Holy Meal & 7 Days (bread of presence)
         ],
         unlock: { chapters: [25, 26, 27, 28, 29, 30, 31, 35, 36, 37, 38, 39, 40], min: 10 },
         unlock_teaching: {

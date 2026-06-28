@@ -295,10 +295,107 @@
   text-align: left;
 }
 
+/* Source chip while its body-level clone is being dragged.
+   visibility:hidden (not opacity:0) keeps the chip's grid slot reserved
+   so siblings don't reflow under the finger, AND keeps it non-hit-testable
+   so elementFromPoint() never accidentally returns it mid-drag. */
 .lab-chip.dragging {
-  opacity: 0.85;
-  transform: scale(1.03);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35);
+  visibility: hidden;
+}
+
+/* Floating body-level clone. Lives on document.body so it escapes the
+   .labs-card overflow:auto scroll container. Uses CSS custom properties
+   for the position so each pointermove is one style invalidation on the
+   compositor thread (no top/left thrash, no reflow). */
+.lab-chip.dragging-floating {
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 1002; /* above .labs-modal (1001) and .confetti-layer (9998) */
+  pointer-events: none;
+  visibility: visible;
+  opacity: 0.95;
+  cursor: grabbing;
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.55), 0 0 0 2px rgba(212, 160, 78, 0.5);
+  background: rgba(212, 160, 78, 0.28);
+  /* Compose the position (from JS-set CSS vars) with a static lift scale.
+     transform-list approach: translate first, then scale, both in one rule
+     so a single GPU layer handles both. */
+  transform: translate(var(--drag-x, 0px), var(--drag-y, 0px)) scale(1.05);
+}
+
+/* Live drop-target highlight — fires while dragging so the user can see
+   which slot the chip will land in. */
+.lab-drag-slot.drag-over {
+  border-color: rgba(212, 160, 78, 0.85);
+  background: rgba(212, 160, 78, 0.12);
+}
+
+/* Visual feedback when a chip is returned to the pool (brief glow). */
+.lab-drag-pool.return-flash {
+  animation: lab-pool-flash 0.25s ease-out;
+}
+@keyframes lab-pool-flash {
+  0%   { background: rgba(212, 160, 78, 0.30); }
+  100% { background: transparent; }
+}
+
+/* Victory state for drag lab completion. Status banner scales in,
+   slots cascade a gold burst wave in the order the user filled them. */
+.lab-drag-status.lab-success.victory {
+  position: relative;
+  font-family: var(--font-display);
+  font-size: 1.0rem;
+  padding: 0.65rem 0.85rem;
+  border: 1px solid rgba(212, 160, 78, 0.55);
+  border-radius: 10px;
+  background: linear-gradient(180deg,
+              rgba(212, 160, 78, 0.18),
+              rgba(212, 160, 78, 0.06));
+  animation: lab-victory-in 0.6s cubic-bezier(.2,.7,.2,1);
+}
+.lab-drag-status.lab-success.victory::before {
+  content: "✦ ";
+  color: var(--accent-strong);
+}
+@keyframes lab-victory-in {
+  0%   { transform: scale(0.85); opacity: 0; }
+  60%  { transform: scale(1.06); opacity: 1; }
+  100% { transform: scale(1);    opacity: 1; }
+}
+
+.lab-drag-slot.filled.victory {
+  animation: lab-slot-burst 0.7s ease-out;
+}
+@keyframes lab-slot-burst {
+  0%   { box-shadow: 0 0 0 0 rgba(212, 160, 78, 0.0); }
+  40%  { box-shadow: 0 0 0 8px rgba(212, 160, 78, 0.45); }
+  100% { box-shadow: 0 0 0 16px rgba(212, 160, 78, 0.0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lab-drag-status.lab-success.victory,
+  .lab-drag-slot.filled.victory,
+  .lab-drag-pool.return-flash {
+    animation: none;
+  }
+}
+
+.lab-chip-emoji {
+  display: inline-block;
+  margin-right: 0.35rem;
+  font-size: 0.95rem;
+  line-height: 1;
+}
+
+/* Slight compactness for chips living inside slots — they share row
+   with the slot number, so a bit more breathing room helps the label. */
+.lab-drag-slot .lab-chip {
+  font-size: 0.75rem;
+  padding: 0.3rem 0.55rem;
+}
+.lab-drag-slot .lab-chip-emoji {
+  font-size: 0.85rem;
 }
 
 .lab-drag-actions {

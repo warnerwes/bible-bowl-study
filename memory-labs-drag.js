@@ -72,6 +72,51 @@
 
   let active = null;
 
+  // Victory celebration primitives. Wraps the existing confetti system
+  // (CONFETTI_COLORS, makeConfettiLayer, addPiece in app.js) so the drag
+  // lab doesn't reinvent burst logic. Honors prefers-reduced-motion.
+  function celebrateLabVictory(slotEls) {
+    const reduceMotion =
+      typeof window.matchMedia === "function" &&
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (reduceMotion) return;
+
+    const W = window.innerWidth;
+    const H = window.innerHeight;
+    const origin = slotEls.length
+      ? slotEls[slotEls.length - 1].getBoundingClientRect()
+      : { left: W / 2, top: H / 2, width: 0, height: 0 };
+    const cx = origin.left + origin.width / 2;
+    const cy = origin.top + origin.height / 2;
+
+    // 90-piece radial burst from the last-filled slot — celebrates the
+    // chip the user JUST placed (the climax of the activity).
+    const layer = window.BibleBowlMakeConfettiLayer
+      ? window.BibleBowlMakeConfettiLayer(3600)
+      : null;
+    if (!layer || !window.BibleBowlAddConfettiPiece) return;
+
+    for (let i = 0; i < 90; i++) {
+      const px = cx + (Math.random() - 0.5) * 60;
+      const py = cy + (Math.random() - 0.5) * 30;
+      const p = window.BibleBowlAddConfettiPiece(layer, px, py);
+      const angle = Math.random() * Math.PI * 2;
+      const dist = 90 + Math.random() * 180;
+      const dx = Math.cos(angle) * dist;
+      const dy = Math.sin(angle) * dist + 60; // bias downward
+      const rot = Math.random() * 720 - 360;
+      const delay = Math.random() * 200;
+      const dur = 1400 + Math.random() * 900;
+      p.animate(
+        [
+          { transform: "translate(0,0) rotate(0deg)", opacity: 1 },
+          { transform: `translate(${dx}px, ${dy}px) rotate(${rot}deg)`, opacity: 0 },
+        ],
+        { duration: dur, delay, easing: "cubic-bezier(.2,.6,.4,1)" }
+      ).onfinish = () => p.remove();
+    }
+  }
+
   window.BibleBowlLabDrag = {
     mount(container, lab, callbacks) {
       const correct = lab.ordered_items.slice();
@@ -158,11 +203,33 @@
         });
       }
 
+      // Emoji lookup for memorable chip visuals. Falls back to "" if data
+      // is missing so old labs keep working.
+      const EMOJI_MAP = (lab.item_emojis && Array.isArray(lab.item_emojis))
+        ? Object.fromEntries(lab.ordered_items.map((l, i) => [l, lab.item_emojis[i] || ""]))
+        : {};
+
+      // Module-level drag state. Only one chip drags at a time. The
+      // floating "ghost" is a clone of the source chip appended to
+      // document.body — it escapes the .labs-card overflow:auto scroll
+      // container and uses CSS custom properties for compositor-friendly
+      // per-frame updates.
+      let dragGhost = null;       // body-level follower <button>
+      let dragSourceEl = null;    // original chip (hidden via .dragging)
+      let dragPointerId = null;
+      let dragOffsetX = 0;        // pointer's offset within chip at grab
+      let dragOffsetY = 0;
+      let dragMoved = false;      // becomes true on first pointermove
+
+      function clearDragOverHighlights() {
+        const slots = container.querySelectorAll(".lab-drag-slot.drag-over");
+        slots.forEach((s) => s.classList.remove("drag-over"));
+      }
+
       function makeChip(label, from, index) {
         const chip = document.createElement("button");
         chip.type = "button";
         chip.className = "lab-chip";
-        chip.textContent = label;
         chip.dataset.label = label;
         if (lab.id === "commandments" && label === "No Carved Images") {
           chip.title = "Orthodox #2 — distinct from #1";
@@ -171,69 +238,168 @@
           chip.title = "LXX/OSB term — not generic flies";
         }
 
-        chip.addEventListener("pointerdown", (e) => {
-          e.preventDefault();
+        // Render emoji + label inside the chip for memorability.
+        const emoji = EMOJI_MAP[label];
+        if (emoji) {
+          const e = document.createElement("span");
+          e.className = "lab-chip-emoji";
+          e.setAttribute("aria-hidden", "true");
+          e.textContent = emoji;
+          chip.appendChild(e);
+        }
+        const lbl = document.createElement("span");
+        lbl.className = "lab-chip-label";
+        lbl.textContent = label;
+        chip.appendChild(lbl);
+
+        function startDrag(clientX, clientY, pointerId) {
+          if (dragGhost) return; // already dragging something else
           dragChip = label;
           dragFrom = { from, index };
+          dragMoved = false;
+          dragPointerId = pointerId;
+
+          const r = chip.getBoundingClientRect();
+          dragOffsetX = clientX - r.left;
+          dragOffsetY = clientY - r.top;
+
+          // Hide source via .dragging (visibility:hidden — layout preserved,
+          // non-hit-testable). ARIA announces it as "selected".
           chip.classList.add("dragging");
-          chip.setPointerCapture(e.pointerId);
-        });
-        // Touch fallback for browsers that don't fire pointer events
-        // on tap-and-hold (older Android Chrome, in-app webviews).
-        // Mirrors the pointerdown/pointerup behaviour using touch coords.
-        chip.addEventListener("touchstart", (e) => {
-          if (dragChip) return;
-          e.preventDefault();
-          dragChip = label;
-          dragFrom = { from, index };
-          chip.classList.add("dragging");
-        }, { passive: false });
-        chip.addEventListener("touchend", (e) => {
-          if (!dragChip) return;
-          e.preventDefault();
-          chip.classList.remove("dragging");
-          const touch = e.changedTouches[0];
-          const target = document.elementFromPoint(touch.clientX, touch.clientY);
+          chip.setAttribute("aria-pressed", "true");
+          dragSourceEl = chip;
+
+          // Build the floating body-level clone. CSS handles position:fixed
+          // and z-index; we just set initial coords via CSS custom props.
+          dragGhost = chip.cloneNode(true);
+          dragGhost.classList.remove("dragging");
+          dragGhost.classList.add("dragging-floating");
+          dragGhost.style.setProperty("--drag-x", r.left + "px");
+          dragGhost.style.setProperty("--drag-y", r.top + "px");
+          dragGhost.style.width = r.width + "px";
+          // Replace the clone's internal aria-pressed (was the source's).
+          dragGhost.removeAttribute("aria-pressed");
+          document.body.appendChild(dragGhost);
+
+          // Capture the pointer on the SOURCE so move/up events flow even
+          // when the finger leaves the source's bounds. The ghost does NOT
+          // need capture (and shouldn't — only one capture per pointer id).
+          if (pointerId !== null && chip.setPointerCapture) {
+            try { chip.setPointerCapture(pointerId); } catch (_) {}
+          }
+        }
+
+        function moveDrag(clientX, clientY) {
+          if (!dragGhost || dragChip !== label) return;
+          dragMoved = true;
+          const x = clientX - dragOffsetX;
+          const y = clientY - dragOffsetY;
+          dragGhost.style.setProperty("--drag-x", x + "px");
+          dragGhost.style.setProperty("--drag-y", y + "px");
+
+          // Live drop-target highlight. Clear previous, find new.
+          clearDragOverHighlights();
+          const target = document.elementFromPoint(clientX, clientY);
+          const slot = target && target.closest(".lab-drag-slot");
+          if (slot) slot.classList.add("drag-over");
+        }
+
+        function endDrag(clientX, clientY) {
+          if (dragChip !== label) return;
+          const target = document.elementFromPoint(clientX, clientY);
           const slot = target && target.closest(".lab-drag-slot");
           const poolTarget = target && target.closest(".lab-drag-pool");
+          let returnedToPool = false;
           if (slot) {
             placeInSlot(Number(slot.dataset.index), dragChip, dragFrom);
           } else if (poolTarget) {
             returnToPool(dragChip, dragFrom);
+            returnedToPool = true;
           }
-          dragChip = null;
-          dragFrom = null;
+          cleanupDragState();
+          if (returnedToPool) flashPoolReturn();
           renderAll();
-        }, { passive: false });
-        chip.addEventListener("touchcancel", () => {
-          if (!dragChip) return;
-          chip.classList.remove("dragging");
+        }
+
+        function cancelDrag() {
+          if (dragChip !== label) return;
+          cleanupDragState();
+          // renderAll not strictly needed because source is still in DOM
+          // and data hasn't changed; but call it to ensure any visual
+          // artefacts are cleared.
+          renderAll();
+        }
+
+        function cleanupDragState() {
+          // Remove ghost first so it disappears visually, then unhide source.
+          if (dragGhost) {
+            dragGhost.remove();
+            dragGhost = null;
+          }
+          if (dragSourceEl) {
+            dragSourceEl.classList.remove("dragging");
+            dragSourceEl.removeAttribute("aria-pressed");
+            dragSourceEl = null;
+          }
+          clearDragOverHighlights();
           dragChip = null;
           dragFrom = null;
+          dragOffsetX = 0;
+          dragOffsetY = 0;
+          dragMoved = false;
+          dragPointerId = null;
+        }
+
+        function flashPoolReturn() {
+          // Brief background flash so returning-to-pool feels acknowledged.
+          poolEl.classList.remove("return-flash");
+          // Force reflow so the animation restarts even on rapid drops.
+          void poolEl.offsetWidth;
+          poolEl.classList.add("return-flash");
+          setTimeout(() => poolEl.classList.remove("return-flash"), 280);
+        }
+
+        // ---- POINTER PATH (covers mouse, trackpad, touch, pen).
+        //      setPointerCapture on the source routes move/up to it even
+        //      when the pointer leaves its bounds. The ghost has no
+        //      pointer events (CSS) so it never steals the capture. ----
+        chip.addEventListener("pointerdown", (e) => {
+          if (e.button !== undefined && e.button !== 0) return; // left only
+          e.preventDefault();
+          startDrag(e.clientX, e.clientY, e.pointerId);
+        });
+        chip.addEventListener("pointermove", (e) => {
+          if (dragChip !== label) return;
+          moveDrag(e.clientX, e.clientY);
         });
         chip.addEventListener("pointerup", (e) => {
-          chip.classList.remove("dragging");
-          if (!dragChip) return;
-          const target = document.elementFromPoint(e.clientX, e.clientY);
-          const slot = target && target.closest(".lab-drag-slot");
-          const poolTarget = target && target.closest(".lab-drag-pool");
-          if (slot) {
-            placeInSlot(Number(slot.dataset.index), dragChip, dragFrom);
-          } else if (poolTarget) {
-            returnToPool(dragChip, dragFrom);
-          }
-          dragChip = null;
-          dragFrom = null;
-          renderAll();
+          if (dragChip !== label) return;
+          e.preventDefault();
+          endDrag(e.clientX, e.clientY);
         });
-        chip.addEventListener("click", () => {
+        chip.addEventListener("pointercancel", () => {
+          cancelDrag();
+        });
+
+        // Esc cancels the drag — gives keyboard users an escape hatch.
+        chip.addEventListener("keydown", (e) => {
+          if (e.key === "Escape" && dragChip === label) {
+            e.preventDefault();
+            cancelDrag();
+          }
+        });
+
+        // Keyboard / click-to-fill: still works for a11y and tap-only users.
+        chip.addEventListener("click", (e) => {
           if (dragChip) return;
+          e.preventDefault();
           const empty = slots.findIndex((s) => !s);
           if (empty >= 0 && from === "pool") {
             placeInSlot(empty, label, dragFrom);
             renderAll();
           }
         });
+
         return chip;
       }
 
@@ -287,12 +453,17 @@
         const ok = order.every((v, i) => v === correct[i]);
         if (ok) {
           status.textContent = lab.completion_teaching.memory_sentence;
-          status.className = "lab-drag-status lab-success";
-          slotEls.forEach((d) => d.classList.add("filled"));
+          status.className = "lab-drag-status lab-success victory";
+          slotEls.forEach((d, i) => {
+            d.classList.add("filled", "victory");
+            d.style.animationDelay = (i * 35) + "ms";
+          });
           checkBtn.disabled = true;
           active.state.complete = true;
+          // onComplete owns the modal-level celebration (sound + status
+          // text). Drag engine owns the in-lab burst + slot cascade.
+          celebrateLabVictory(slotEls);
           if (callbacks && callbacks.onComplete) callbacks.onComplete();
-          if (typeof window.BibleBowlPlaySound === "function") window.BibleBowlPlaySound("chime");
         } else {
           status.textContent = failureHint(lab.id, order, correct);
           status.className = "lab-drag-status lab-hint";

@@ -1062,5 +1062,13 @@
     });
   }
 
+  // Expose celebration primitives so Memory Labs (memory-labs-drag.js,
+  // memory-labs-tree.js) can use the same dependency-free confetti
+  // system without duplicating it. Keeping the primitives on window
+  // rather than a module export because the existing scripts are
+  // vanilla IIFEs loaded via <script> tags, not ES modules.
+  window.BibleBowlMakeConfettiLayer = makeConfettiLayer;
+  window.BibleBowlAddConfettiPiece = addPiece;
+
   load();
 })();
