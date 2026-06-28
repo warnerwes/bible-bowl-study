@@ -1076,12 +1076,21 @@
       ctx.fill();
     }
 
+    if (!rotten && jarFill >= MANNA_JAR_FULL && jarsCarried < dailyNeed) {
+      jarsCarried += 1;
+      customWonderState.jarsCarried = jarsCarried;
+      jarFill = 0;
+      customWonderState.jarFill = 0;
+      if (typeof window.BibleBowlPlaySound === "function") window.BibleBowlPlaySound("gather");
+    }
+
     if (!rotten) {
       for (let i = particles.length - 1; i >= 0; i--) {
         const p = particles[i];
         if (p.type !== "manna" || p.taken) continue;
         if (Math.hypot(p.x - jarX, p.y - jarY) < jarRadius) {
-          if (jarsCarried >= dailyNeed) {
+          if (jarsCarried >= dailyNeed && dailyNeed > 0) continue;
+          if (dailyNeed === 0) {
             customWonderState.rotten = true;
             break;
           }
@@ -1089,6 +1098,9 @@
             p.taken = true;
             jarFill = Math.min(1, jarFill + 0.014);
             customWonderState.jarFill = jarFill;
+          } else if (jarsCarried >= dailyNeed) {
+            customWonderState.rotten = true;
+            break;
           }
         }
       }
