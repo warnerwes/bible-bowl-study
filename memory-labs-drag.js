@@ -178,6 +178,39 @@
           chip.classList.add("dragging");
           chip.setPointerCapture(e.pointerId);
         });
+        // Touch fallback for browsers that don't fire pointer events
+        // on tap-and-hold (older Android Chrome, in-app webviews).
+        // Mirrors the pointerdown/pointerup behaviour using touch coords.
+        chip.addEventListener("touchstart", (e) => {
+          if (dragChip) return;
+          e.preventDefault();
+          dragChip = label;
+          dragFrom = { from, index };
+          chip.classList.add("dragging");
+        }, { passive: false });
+        chip.addEventListener("touchend", (e) => {
+          if (!dragChip) return;
+          e.preventDefault();
+          chip.classList.remove("dragging");
+          const touch = e.changedTouches[0];
+          const target = document.elementFromPoint(touch.clientX, touch.clientY);
+          const slot = target && target.closest(".lab-drag-slot");
+          const poolTarget = target && target.closest(".lab-drag-pool");
+          if (slot) {
+            placeInSlot(Number(slot.dataset.index), dragChip, dragFrom);
+          } else if (poolTarget) {
+            returnToPool(dragChip, dragFrom);
+          }
+          dragChip = null;
+          dragFrom = null;
+          renderAll();
+        }, { passive: false });
+        chip.addEventListener("touchcancel", () => {
+          if (!dragChip) return;
+          chip.classList.remove("dragging");
+          dragChip = null;
+          dragFrom = null;
+        });
         chip.addEventListener("pointerup", (e) => {
           chip.classList.remove("dragging");
           if (!dragChip) return;

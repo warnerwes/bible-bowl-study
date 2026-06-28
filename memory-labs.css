@@ -404,6 +404,15 @@
   .lab-tree-cell {
     grid-column: auto !important;
   }
+
+  /* Drag lab: make card scrollable so all 12 slots + pool + buttons
+     fit on small viewports without clipping. The chips already have
+     touch-action:none (.lab-chip CSS), so vertical drags within the
+     scroll container reach the slot's elementFromPoint correctly. */
+  .labs-card {
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+  }
 }
 
 @media (min-width: 601px) {
