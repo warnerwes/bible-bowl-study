@@ -278,11 +278,89 @@
     return inside;
   }
 
+  function drawPillarOfCloud(ctx, peakX, peakY, w, h, t) {
+    const topY = h * 0.06;
+    const baseY = peakY + 8;
+    const span = baseY - topY;
+    ctx.save();
+    ctx.globalCompositeOperation = "screen";
+    for (let i = 0; i < 7; i++) {
+      const frac = i / 6;
+      const drift = Math.sin(t * 0.025 + i * 1.4) * 10;
+      const y = baseY - span * frac;
+      const rx = w * (0.11 + frac * 0.04) + Math.sin(t * 0.03 + i) * 6;
+      const ry = w * 0.055 + Math.cos(t * 0.02 + i * 0.9) * 4;
+      const grad = ctx.createRadialGradient(peakX + drift, y, 2, peakX + drift, y, rx);
+      grad.addColorStop(0, "rgba(248, 252, 255, 0.82)");
+      grad.addColorStop(0.45, "rgba(210, 220, 235, 0.42)");
+      grad.addColorStop(1, "rgba(180, 195, 215, 0)");
+      ctx.fillStyle = grad;
+      ctx.beginPath();
+      ctx.ellipse(peakX + drift, y, rx, ry, 0, 0, Math.PI * 2);
+      ctx.fill();
+    }
+    ctx.globalCompositeOperation = "source-over";
+    const veil = ctx.createLinearGradient(peakX, topY, peakX, baseY);
+    veil.addColorStop(0, "rgba(220, 230, 245, 0.08)");
+    veil.addColorStop(0.5, "rgba(200, 215, 235, 0.18)");
+    veil.addColorStop(1, "rgba(180, 200, 220, 0.28)");
+    ctx.fillStyle = veil;
+    ctx.fillRect(peakX - w * 0.14, topY, w * 0.28, span);
+    ctx.restore();
+  }
+
+  function drawPillarOfFire(ctx, peakX, peakY, w, h, t, layer) {
+    const topY = h * 0.04;
+    const baseY = peakY + 12;
+    ctx.save();
+    if (layer === "behind") {
+      const glow = ctx.createRadialGradient(peakX, peakY + 10, 4, peakX, peakY, w * 0.42);
+      glow.addColorStop(0, "rgba(255, 150, 40, 0.42)");
+      glow.addColorStop(0.45, "rgba(255, 90, 20, 0.18)");
+      glow.addColorStop(1, "rgba(255, 60, 0, 0)");
+      ctx.fillStyle = glow;
+      ctx.fillRect(peakX - w * 0.42, peakY - h * 0.08, w * 0.84, h * 0.55);
+    } else {
+      const span = baseY - topY;
+      for (let f = 0; f < 5; f++) {
+        const phase = t * 0.06 + f * 1.7;
+        const tipY = topY + span * (0.08 + f * 0.06) + Math.sin(phase) * 6;
+        const tipX = peakX + Math.sin(phase * 0.8 + f) * 14;
+        const grad = ctx.createLinearGradient(tipX, baseY, tipX, tipY);
+        grad.addColorStop(0, "rgba(255, 90, 10, 0.9)");
+        grad.addColorStop(0.45, "rgba(255, 170, 40, 0.75)");
+        grad.addColorStop(0.8, "rgba(255, 230, 120, 0.35)");
+        grad.addColorStop(1, "rgba(255, 255, 200, 0)");
+        ctx.fillStyle = grad;
+        ctx.beginPath();
+        ctx.moveTo(tipX, tipY);
+        ctx.quadraticCurveTo(
+          tipX + 16 + Math.sin(phase) * 8, baseY - span * 0.35,
+          tipX + 10, baseY
+        );
+        ctx.quadraticCurveTo(
+          tipX - 6, baseY - span * 0.2,
+          tipX, tipY
+        );
+        ctx.fill();
+      }
+      ctx.shadowColor = "rgba(255, 140, 30, 0.65)";
+      ctx.shadowBlur = 22;
+      ctx.fillStyle = "rgba(255, 200, 80, 0.55)";
+      ctx.beginPath();
+      ctx.ellipse(peakX, peakY - 6, w * 0.1, w * 0.055, 0, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.shadowBlur = 0;
+    }
+    ctx.restore();
+  }
+
   function drawSinaiMountain(ctx, w, h, peakX, peakY, baseW, isNight) {
-    const mainFill = isNight ? "#3d2f52" : "#3a4554";
-    const shadeFill = isNight ? "#261e35" : "#2a323d";
-    const rimStroke = isNight ? "rgba(200, 180, 220, 0.42)" : "rgba(160, 175, 195, 0.55)";
-    const cloudFill = isNight ? "rgba(120, 90, 150, 0.38)" : "rgba(130, 145, 165, 0.45)";
+    const mainFill = isNight ? "#3d2f52" : "#4a5568";
+    const shadeFill = isNight ? "#261e35" : "#354050";
+    const rimStroke = isNight
+      ? "rgba(255, 170, 90, 0.5)"
+      : "rgba(200, 215, 235, 0.55)";
 
     ctx.fillStyle = mainFill;
     ctx.beginPath();
@@ -310,15 +388,6 @@
     ctx.lineTo(peakX, peakY);
     ctx.lineTo(peakX + baseW / 2, h);
     ctx.stroke();
-
-    ctx.save();
-    ctx.fillStyle = cloudFill;
-    ctx.beginPath();
-    ctx.arc(peakX, peakY - 15, 50, 0, Math.PI * 2);
-    ctx.arc(peakX - 42, peakY - 10, 42, 0, Math.PI * 2);
-    ctx.arc(peakX + 42, peakY - 10, 42, 0, Math.PI * 2);
-    ctx.fill();
-    ctx.restore();
   }
 
   function boundaryRingBehindY(peakY, h) {
@@ -412,7 +481,11 @@
       pointInBoundaryRing(mouse.x, mouse.y, stones, peakX, peakY);
     const inSafeZone = boundsSet && phase === "wait" && !insideBounds && mouse.y > h * 0.76;
 
-    const caption = phase === "bounds" ? "Set bounds around Sinai" : "The Lord descends in fire";
+    const caption = phase === "bounds"
+      ? "Set bounds around Sinai"
+      : isNight
+        ? "The Lord descends in fire"
+        : "The pillar of cloud on Sinai";
     const trumpetMeter = customWonderState.trumpetMeter || 0;
     let progressText;
     if (phase === "bounds") {
@@ -487,19 +560,31 @@
       customWonderState.complete = true;
     }
 
-    if (Math.random() < (isNight ? 0.28 : 0.14)) {
+    if (isNight) {
+      if (Math.random() < 0.32) {
+        particles.push({
+          x: peakX + (Math.random() - 0.5) * 50,
+          y: peakY - 6,
+          vx: (Math.random() - 0.5) * 1.2,
+          vy: -(Math.random() * 2.5 + 1.2),
+          r: Math.random() * 3 + 1.5,
+          alpha: 1,
+          type: "ember"
+        });
+      }
+    } else if (Math.random() < 0.22) {
       particles.push({
-        x: peakX + (Math.random() - 0.5) * 80,
-        y: peakY - 10,
-        vx: (Math.random() - 0.5) * 0.8,
-        vy: -Math.random() * 2 - 1,
-        r: Math.random() * 3 + 1.5,
-        alpha: 1,
-        type: "ember"
+        x: peakX + (Math.random() - 0.5) * 60,
+        y: peakY + (Math.random() - 0.5) * 20,
+        vx: (Math.random() - 0.5) * 0.5,
+        vy: -(Math.random() * 0.8 + 0.3),
+        r: Math.random() * 8 + 6,
+        alpha: 0.55 + Math.random() * 0.25,
+        type: "cloud_wisp"
       });
     }
 
-    if (canvasTime % 140 === 0 && phase === "wait") {
+    if (canvasTime % 140 === 0 && phase === "wait" && isNight) {
       customWonderState.lightning = generateLightningPath(
         peakX + (Math.random() - 0.5) * 50, 0, peakX, peakY - 8
       );
@@ -519,16 +604,33 @@
           continue;
         }
 
-        ctx.fillStyle = isNight
-          ? `rgba(230, 126, 34, ${p.alpha})`
-          : `rgba(243, 156, 18, ${p.alpha})`;
+        ctx.fillStyle = `rgba(255, 120, 30, ${p.alpha})`;
         ctx.beginPath();
         ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
         ctx.fill();
 
-        ctx.fillStyle = `rgba(255, 255, 255, ${p.alpha})`;
+        ctx.fillStyle = `rgba(255, 240, 180, ${p.alpha * 0.85})`;
         ctx.beginPath();
-        ctx.arc(p.x, p.y, p.r * 0.5, 0, Math.PI * 2);
+        ctx.arc(p.x, p.y - 1, p.r * 0.45, 0, Math.PI * 2);
+        ctx.fill();
+
+      } else if (p.type === "cloud_wisp") {
+        p.x += p.vx + Math.sin(canvasTime * 0.04 + p.y) * 0.2;
+        p.y += p.vy;
+        p.alpha -= 0.004;
+
+        if (p.alpha <= 0 || p.y < 102) {
+          particles.splice(i, 1);
+          continue;
+        }
+
+        const grad = ctx.createRadialGradient(p.x, p.y, 1, p.x, p.y, p.r);
+        grad.addColorStop(0, `rgba(248, 252, 255, ${p.alpha})`);
+        grad.addColorStop(0.55, `rgba(210, 220, 235, ${p.alpha * 0.55})`);
+        grad.addColorStop(1, "rgba(200, 215, 230, 0)");
+        ctx.fillStyle = grad;
+        ctx.beginPath();
+        ctx.ellipse(p.x, p.y, p.r, p.r * 0.55, 0, 0, Math.PI * 2);
         ctx.fill();
 
       } else if (p.type === "lightning_spark") {
@@ -549,7 +651,15 @@
     }
 
     drawBoundaryRingLayer(ctx, stones, peakX, peakY, h, "behind", boundsSet);
+    if (isNight) {
+      drawPillarOfFire(ctx, peakX, peakY, w, h, canvasTime, "behind");
+    } else {
+      drawPillarOfCloud(ctx, peakX, peakY, w, h, canvasTime);
+    }
     drawSinaiMountain(ctx, w, h, peakX, peakY, baseW, isNight);
+    if (isNight) {
+      drawPillarOfFire(ctx, peakX, peakY, w, h, canvasTime, "front");
+    }
     drawBoundaryRingLayer(ctx, stones, peakX, peakY, h, "front", boundsSet);
 
     if (phase === "bounds" && stones.length < 6) {

@@ -895,13 +895,13 @@
     } else if (id === "sinai") {
       grad = ctx.createLinearGradient(0, 0, 0, h);
       if (customWonderState.mode === "day") {
-        grad.addColorStop(0, "#2c3e50"); 
-        grad.addColorStop(0.6, "#1a252f");
-        grad.addColorStop(1, "#0d1318");
+        grad.addColorStop(0, "#5a6a7a");
+        grad.addColorStop(0.45, "#3d4a58");
+        grad.addColorStop(1, "#252d38");
       } else {
-        grad.addColorStop(0, "#100c17"); 
-        grad.addColorStop(0.7, "#0c060d");
-        grad.addColorStop(1, "#050005");
+        grad.addColorStop(0, "#1a1020");
+        grad.addColorStop(0.55, "#120a14");
+        grad.addColorStop(1, "#08040a");
       }
     } else if (id === "golden_calf") {
       grad = ctx.createRadialGradient(w/2, h/2, 50, w/2, h/2, w);
