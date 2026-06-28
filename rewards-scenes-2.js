@@ -245,15 +245,17 @@
     const m = sinaiMountainMetrics(w, h);
     const margin = Math.max(14, Math.min(w, h) * 0.028);
     // The boundary ring should wrap around the BASE of the mountain,
-    // not cross its face. Side stones use small t values (close to base,
-    // far from peak) so they sit in the lower portion of the canvas and
-    // the dashed segments between them don't cut across the mountain.
+    // hugging the lower slopes. Side stones use moderate t values (close
+    // to the base, far from the peak) so they sit on the mountain's lower
+    // flanks and the dashed segments between them don't cut across the
+    // mountain face — but not so low that they end up in the foreground
+    // in front of the mountain.
     return [
       { x: m.leftBase.x - margin, y: h - margin },
-      outwardBoundaryPoint(m.leftBase, m.peak, 0.05, margin, w, h),
-      outwardBoundaryPoint(m.leftBase, m.peak, 0.18, margin, w, h),
-      outwardBoundaryPoint(m.rightBase, m.peak, 0.18, margin, w, h),
-      outwardBoundaryPoint(m.rightBase, m.peak, 0.05, margin, w, h),
+      outwardBoundaryPoint(m.leftBase, m.peak, 0.32, margin, w, h),
+      outwardBoundaryPoint(m.leftBase, m.peak, 0.55, margin, w, h),
+      outwardBoundaryPoint(m.rightBase, m.peak, 0.55, margin, w, h),
+      outwardBoundaryPoint(m.rightBase, m.peak, 0.32, margin, w, h),
       { x: m.rightBase.x + margin, y: h - margin }
     ];
   }
@@ -695,7 +697,10 @@
     window.BibleBowlScenes.drawCaption(ctx, w, caption);
     window.BibleBowlScenes.drawProgress(ctx, w, progressText);
     if (phase === "wait" && boundsSet) {
-      window.BibleBowlScenes.drawProgressBar(ctx, w, h * 0.12, trumpetMeter / 80, "Trumpet");
+      // Move the Trumpet bar below the dark header band (which ends at y=98)
+      // so the "Trumpet" label doesn't collide with the "Stand back and
+      // wait" subtitle at y=48. h*0.22 puts the bar cleanly below the band.
+      window.BibleBowlScenes.drawProgressBar(ctx, w, h * 0.22, trumpetMeter / 80, "Trumpet");
     }
   };
 
