@@ -1150,6 +1150,9 @@
     commitPendingAidVote();
     state.index++;
     if (state.index >= state.quiz.length) {
+      // Clear state.answered so showResults() doesn't double-count
+      // the just-finished question in the denominator.
+      state.answered = false;
       showResults();
       if (!_suppressNextPush) navigateTo("results");
     } else {

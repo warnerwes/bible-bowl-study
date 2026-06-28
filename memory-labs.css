@@ -80,8 +80,10 @@
   flex: 0 0 auto;
   padding: 0.85rem 1rem 1rem;
   border-top: 1px solid var(--border);
-  max-height: 42dvh;
-  overflow-y: auto;
+  /* Removed max-height + nested overflow-y. The parent .labs-card
+     already scrolls; a nested scroll here just hides content
+     ("About this lab" + "Return to Study") below a fold users don't
+     know exists on small viewports. */
 }
 
 .labs-panel-head {
@@ -582,7 +584,7 @@
    anything still overflows. */
 .lab-tabernacle-board {
   display: grid;
-  grid-template-rows: 0.85fr 1.1fr 0.85fr 0.45fr;
+  grid-template-rows: 0.85fr 1.1fr auto 0.45fr;
   grid-template-areas:
     "most_holy"
     "holy_place"
@@ -600,7 +602,7 @@
 
 @media (min-width: 720px) {
   .lab-tabernacle-board {
-    grid-template-rows: 1.1fr 1.7fr 1fr 0.5fr;
+    grid-template-rows: 1.1fr 1.7fr auto 0.5fr;
     min-height: 420px;
     max-height: none;
   }
@@ -720,14 +722,15 @@
 .lab-tabernacle-zone-veil {
   padding: 0.18rem 0.25rem;
 }
-/* Courtyard children: bronze_altar_zone + laver_zone sit inside the
-   tabernacle_exterior parent. Both use position:"east" so their class
-   is lab-tabernacle-zone-east — same as the parent — so we must
-   scope by data-zone-id of the parent. Bump min-height so the chip
-   fits without overflowing the zone. */
+/* Courtyard children (bronze_altar_zone, laver_zone) share the
+   .lab-tabernacle-zone-east class with their parent because both
+   use position: "east" in the data. The base rule above assigns
+   grid-area: tabernacle_exterior to every .lab-tabernacle-zone-east,
+   which would yank the children OUT of the parent's flex column and
+   pile them on top of each other in the courtyard grid row. Reset
+   grid-area here so they actually nest. */
 [data-zone-id="tabernacle_exterior"] > .lab-tabernacle-zone-east {
-  min-height: 56px;
-  padding: 0.18rem 0.25rem;
+  grid-area: auto;
 }
 
 /* Most Holy Place gets a brighter border to signal "presence". */
