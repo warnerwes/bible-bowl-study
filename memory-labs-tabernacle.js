@@ -196,11 +196,9 @@
           if (!selectedCardId) return;
           const cardId = selectedCardId;
           const fromZone = findZoneContaining(cardId);
-          if (placed[z.id]) {
-            status.textContent = "This zone already has an item placed.";
-            status.className = "lab-drag-status lab-hint";
-            return;
-          }
+          // Tapping onto a filled zone SWAPS: commitPlace() bumps the
+          // resident item back to the tray, so two transposed placements
+          // can be fixed without emptying both zones first (matches drag).
           const success = assign(z.id, cardId, fromZone);
           if (success) {
             selectCard(null);
@@ -217,11 +215,7 @@
               e.preventDefault();
               const cardId = selectedCardId;
               const fromZone = findZoneContaining(cardId);
-              if (placed[z.id]) {
-                status.textContent = "This zone already has an item placed.";
-                status.className = "lab-drag-status lab-hint";
-                return;
-              }
+              // Tapping/Enter onto a filled zone SWAPS (see click handler).
               const success = assign(z.id, cardId, fromZone);
               if (success) {
                 selectCard(null);
