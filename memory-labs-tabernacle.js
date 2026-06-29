@@ -250,25 +250,31 @@
       // Divider (#8), which made the sidebar read nonsensically. The
       // map renders zones top-down (Most Holy → Divider → Holy Place
       // → Courtyard → East Entrance), so the sidebar should too.
-      // We iterate the board's children after nested insertion.
+      //
+      // We build the sidebar empty, attach the layout to the DOM
+      // so the board has layout, read each zone's getBoundingClientRect
+      // to compute true spatial position, then sort + populate the
+      // sidebar items. Pure DOM order won't work because nested
+      // zones are appended to the board first then moved into their
+      // parent's slot — Divider (declared last) ends up last in DOM
+      // even though it should be 2nd from top on the map.
       const sidebar = document.createElement("aside");
       sidebar.className = "lab-tabernacle-sidebar";
       sidebar.setAttribute("aria-label", "Zone legend");
       const sidebarList = document.createElement("ul");
       sidebarList.className = "lab-tabernacle-sidebar-list";
 
-      // Walk the board's DOM in document order. Every .lab-tabernacle-zone
-      // (top-level or nested) is in spatial position relative to its
-      // siblings. This produces top→bottom reading order that matches
-      // the map exactly.
-      const spatialZones = [...board.querySelectorAll(".lab-tabernacle-zone")];
-      spatialZones.forEach((zoneEl) => {
+      // Pre-create empty list items for every zone. We'll sort and
+      // populate them after the layout is mounted.
+      const zoneElsList = [...board.querySelectorAll(".lab-tabernacle-zone")];
+      zoneElsList.forEach((zoneEl) => {
         const zid = zoneEl.dataset.zoneId;
         const z = zoneById[zid];
         if (!z) return;
         const li = document.createElement("li");
         li.className = "lab-tabernacle-sidebar-item";
         li.dataset.sidebarFor = z.id;
+        li.dataset.zoneRef = zid; // for spatial sort
         const cap = document.createElement("span");
         cap.className = "lab-tabernacle-sidebar-caption";
         cap.dataset.role = "label";
@@ -313,6 +319,24 @@
       container.appendChild(trayEl);
       container.appendChild(actions);
       container.appendChild(medalEl);
+
+      // Now that the board is in the DOM, sort sidebar items by the
+      // spatial top position of their matching zone. Tiebreak by left
+      // so side-by-side nested zones (north before south) read in the
+      // natural left-to-right order. Re-append in sorted order.
+      const sortedItems = [...sidebarList.children].sort((a, b) => {
+        const za = zoneById[a.dataset.zoneRef];
+        const zb = zoneById[b.dataset.zoneRef];
+        if (!za || !zb) return 0;
+        const zaEl = zoneEls[za.id];
+        const zbEl = zoneEls[zb.id];
+        if (!zaEl || !zbEl) return 0;
+        const ra = zaEl.getBoundingClientRect();
+        const rb = zbEl.getBoundingClientRect();
+        if (Math.abs(ra.top - rb.top) > 4) return ra.top - rb.top;
+        return ra.left - rb.left;
+      });
+      sortedItems.forEach((li) => sidebarList.appendChild(li));
 
       // ---- Drag engine -------------------------------------------------
 
