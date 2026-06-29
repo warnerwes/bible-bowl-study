@@ -107,6 +107,101 @@ async function runViewport(browser, viewport, errors, checks) {
     detail: `actual=${zoneCount}`,
   });
 
+  // 3a. Anti-leak guard (2026-06-28): every answer-name must be HIDDEN
+  // on initial mount. The static labels show only room/direction text.
+  // The reveal slots exist in the DOM but are hidden until a card is
+  // correctly placed in that zone.
+  const leakCheck = await page.evaluate(() => {
+    const labels = Array.from(
+      document.querySelectorAll(".lab-tabernacle-zone-caption")
+    ).map((el) => el.textContent.trim());
+    const reveals = Array.from(
+      document.querySelectorAll('[data-role="reveal"]')
+    ).map((el) => ({
+      text: el.textContent.trim(),
+      hidden: !!el.hidden,
+    }));
+    const allRevealsHidden = reveals.length > 0 && reveals.every((r) => r.hidden);
+    return { labels, reveals, allRevealsHidden };
+  });
+  const BANNED_LEAK_PATTERNS = [
+    /Table of Showbread/i,
+    /^Lampstand$/i,
+    /Golden Altar of Incense/i,
+    /^Veil\s*\(Parochet\)/i,
+    /Bronze Altar of Burnt Offering/i,
+    /Laver\s*\(Washing Basin\)/i,
+    /^Court Gate$/i,
+    /Ark of the Covenant/i,
+  ];
+  const leakedLabels = leakCheck.labels.filter((lbl) =>
+    BANNED_LEAK_PATTERNS.some((re) => re.test(lbl))
+  );
+  checks.push({
+    name: `${viewport.name}: no answer-name appears in initial zone captions`,
+    ok: leakedLabels.length === 0,
+    detail:
+      leakedLabels.length === 0
+        ? `captions=${JSON.stringify(leakCheck.labels)}`
+        : `LEAKED: ${JSON.stringify(leakedLabels)}`,
+  });
+  checks.push({
+    name: `${viewport.name}: all reveal slots are hidden on initial mount`,
+    ok:
+      leakCheck.reveals.length >= 6 &&
+      leakCheck.allRevealsHidden,
+    detail: `reveals=${JSON.stringify(
+      leakCheck.reveals.map((r) => ({ text: r.text, hidden: r.hidden }))
+    )}`,
+  });
+
+  // 3b. The veil_zone must be visible AND have non-zero area in the
+  // rendered board (the original bug: veil_zone had `grid-area:
+  // veil_zone` but the board grid never declared that area, so the
+  // element got squashed to 0 height and was effectively invisible).
+  const veilBox = await page.evaluate(() => {
+    const el = document.querySelector('[data-zone-id="veil_zone"]');
+    if (!el) return null;
+    const r = el.getBoundingClientRect();
+    return { x: r.x, y: r.y, w: r.width, h: r.height };
+  });
+  checks.push({
+    name: `${viewport.name}: veil_zone rendered with visible area`,
+    ok:
+      veilBox &&
+      veilBox.w > 60 &&
+      veilBox.h >= 30,
+    detail: JSON.stringify(veilBox),
+  });
+  // 3c. The veil_zone must sit visually between Most Holy and Holy
+  // Place (y-coordinate between the two parent rows).
+  const veilBetweenCheck = await page.evaluate(() => {
+    const veil = document.querySelector('[data-zone-id="veil_zone"]');
+    const mhp = document.querySelector('[data-zone-id="most_holy"]');
+    const hp = document.querySelector('[data-zone-id="holy_place"]');
+    if (!veil || !mhp || !hp) return null;
+    const v = veil.getBoundingClientRect();
+    const m = mhp.getBoundingClientRect();
+    const h = hp.getBoundingClientRect();
+    // Veil's top should be at or below Most Holy's bottom.
+    // Veil's bottom should be at or above Holy Place's top.
+    return {
+      veilTop: v.top,
+      veilBottom: v.bottom,
+      mhpBottom: m.bottom,
+      hpTop: h.top,
+      isBetween:
+        v.top >= m.bottom - 1 && v.bottom <= h.top + 1,
+    };
+  });
+  checks.push({
+    name: `${viewport.name}: veil_zone sits between Most Holy and Holy Place`,
+    ok:
+      veilBetweenCheck &&
+      veilBetweenCheck.isBetween,
+    detail: JSON.stringify(veilBetweenCheck),
+  });
+
   // 4. Pool starts with 8 chips.
   const initialState = await page.evaluate(() => window.BibleBowlLabQA.state());
   checks.push({
@@ -234,6 +329,23 @@ async function runViewport(browser, viewport, errors, checks) {
     name: `${viewport.name}: tray empty after solve`,
     ok: afterSolve.tabernacle?.tray?.length === 0,
     detail: `tray=${JSON.stringify(afterSolve.tabernacle?.tray)}`,
+  });
+
+  // 7a. Reveal-after-place: after solving, every reveal slot should
+  // now be visible. The user has earned the answer-name as a reward.
+  const revealsAfterSolve = await page.evaluate(() => {
+    return Array.from(
+      document.querySelectorAll('[data-role="reveal"]')
+    ).map((el) => ({
+      text: el.textContent.trim(),
+      hidden: !!el.hidden,
+    }));
+  });
+  const allRevealed = revealsAfterSolve.every((r) => !r.hidden);
+  checks.push({
+    name: `${viewport.name}: answer-name reveals after solve`,
+    ok: revealsAfterSolve.length >= 6 && allRevealed,
+    detail: JSON.stringify(revealsAfterSolve),
   });
 
   // 8. Capture success screenshot.

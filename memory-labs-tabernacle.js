@@ -119,6 +119,12 @@
       // Zones. Nested zones are rendered as child <div>s inside their
       // parent so DOM walk-up (`closest('[data-zone-id]')`) finds the
       // deepest valid zone first.
+      //
+      // Note (2026-06-28): Initial labels show ONLY directional/room
+      // text (e.g. "① North Wall"). The answer-name lives in
+      // `reveal_label` and is swapped in AFTER a correct placement
+      // (see renderZones), so the user cannot solve the lab by reading
+      // the map — they have to know the placement from memory.
       const zoneEls = {};
       zones.forEach((z) => {
         const el = document.createElement("div");
@@ -129,14 +135,28 @@
 
         const cap = document.createElement("span");
         cap.className = "lab-tabernacle-zone-caption";
+        cap.dataset.role = "label";
         cap.textContent = z.label;
         el.appendChild(cap);
 
         if (z.sublabel) {
           const sub = document.createElement("span");
           sub.className = "lab-tabernacle-zone-sublabel";
+          sub.dataset.role = "sublabel";
           sub.textContent = z.sublabel;
           el.appendChild(sub);
+        }
+
+        // Optional reveal slot — only populated after a correct
+        // placement. Hidden by default so the answer-name never leaks
+        // before the user has earned the reveal.
+        if (z.reveal_label) {
+          const reveal = document.createElement("span");
+          reveal.className = "lab-tabernacle-zone-reveal";
+          reveal.dataset.role = "reveal";
+          reveal.textContent = z.reveal_label;
+          reveal.hidden = true;
+          el.appendChild(reveal);
         }
 
         // Pattern fill hook for color-blind users (CSS handles).
@@ -457,14 +477,24 @@
       function renderZones() {
         Object.keys(zoneEls).forEach((zid) => {
           const el = zoneEls[zid];
-          // Remove any placed-chip element but keep caption/sublabel.
+          // Remove any placed-chip element but keep caption/sublabel/reveal.
           const placedChip = el.querySelector(".lab-tabernacle-placed");
           if (placedChip) placedChip.remove();
           el.classList.remove("wrong", "filled", "lab-tabernacle-key-focus");
 
+          // Reset reveal state. The reveal slot is populated ONLY when
+          // a card has been placed in this zone — keeping the answer-name
+          // hidden until the user earns it. (2026-06-28 anti-leak fix.)
+          const revealEl = el.querySelector('[data-role="reveal"]');
+          if (revealEl) revealEl.hidden = true;
+
           const cardId = placed[zid];
           if (!cardId) return;
           el.classList.add("filled");
+
+          // Reveal the answer-name now that a card sits in this zone.
+          if (revealEl) revealEl.hidden = false;
+
           const card = cards.find((c) => c.id === cardId);
           if (!card) return;
 

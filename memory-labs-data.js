@@ -246,10 +246,15 @@
         // each card has a distinct drop target — fillCorrect can place both.
         tabernacle_zones: [
           // Top-level zones (rendered in document order).
+          // Note (2026-06-28): Each zone shows ONLY a directional/room
+          // label initially. The answer-name lives in `reveal_label` and
+          // is swapped in ONLY after a correct placement, so the user
+          // cannot memorize positions by reading the map.
           {
             id: "most_holy",
             label: "Most Holy Place",
-            sublabel: "God's presence · behind the veil",
+            sublabel: "God's presence",
+            reveal_label: "Ark of the Covenant",
             position: "west",
             pattern: "stripes",
             accept: ["ark"],
@@ -257,7 +262,7 @@
           {
             id: "holy_place",
             label: "Holy Place",
-            sublabel: "Outside the veil · priest enters here",
+            sublabel: "Priest enters here",
             position: "center",
             pattern: "dots",
             accept: [], // parent zone; only children accept
@@ -265,7 +270,7 @@
           {
             id: "tabernacle_exterior",
             label: "Courtyard",
-            sublabel: "Outside the tabernacle · before the door",
+            sublabel: "Before the door",
             position: "east",
             pattern: "plain",
             accept: [], // parent zone; only children accept
@@ -273,7 +278,8 @@
           {
             id: "east_entrance",
             label: "East Entrance",
-            sublabel: "The court gate — approach from the east",
+            sublabel: "The court gate",
+            reveal_label: "Court Gate",
             position: "east-edge",
             pattern: "plain",
             accept: ["east_entrance"],
@@ -282,8 +288,9 @@
           {
             id: "table_zone",
             parent: "holy_place",
-            label: "② North (Left Wall)",
-            sublabel: "Table of Showbread",
+            label: "① North Wall",
+            sublabel: "Holy Place",
+            reveal_label: "Table of Showbread",
             position: "north",
             pattern: "dots",
             accept: ["table"],
@@ -291,8 +298,9 @@
           {
             id: "lampstand_zone",
             parent: "holy_place",
-            label: "② South (Right Wall)",
-            sublabel: "Lampstand",
+            label: "① South Wall",
+            sublabel: "Holy Place",
+            reveal_label: "Lampstand",
             position: "south",
             pattern: "dots",
             accept: ["lampstand"],
@@ -300,17 +308,22 @@
           {
             id: "incense_zone",
             parent: "holy_place",
-            label: "Before the Veil",
-            sublabel: "Golden Altar of Incense",
+            label: "Centered · against the west wall",
+            sublabel: "Holy Place",
+            reveal_label: "Golden Altar of Incense",
             position: "incense",
             pattern: "dots",
             accept: ["golden_altar"],
           },
           {
             id: "veil_zone",
-            parent: "most_holy",
-            label: "Veil",
-            sublabel: "Separates Holy from Most Holy",
+            // Top-level zone (not nested under most_holy) so the grid can
+            // render it as its own row between Most Holy Place and Holy
+            // Place. The veil IS the divider — it lives between the two
+            // rooms, not inside either of them.
+            label: "Divider",
+            sublabel: "Most Holy Place",
+            reveal_label: "Veil (Parochet)",
             position: "veil",
             pattern: "stripes",
             accept: ["veil"],
@@ -319,8 +332,9 @@
           {
             id: "bronze_altar_zone",
             parent: "tabernacle_exterior",
-            label: "By the Door",
-            sublabel: "Bronze Altar of Burnt Offering",
+            label: "Centered · before the door",
+            sublabel: "Courtyard",
+            reveal_label: "Bronze Altar of Burnt Offering",
             position: "east",
             pattern: "plain",
             accept: ["bronze_altar"],
@@ -328,8 +342,9 @@
           {
             id: "laver_zone",
             parent: "tabernacle_exterior",
-            label: "Washing Station",
-            sublabel: "Between tabernacle and altar",
+            label: "Between tabernacle and altar",
+            sublabel: "Courtyard",
+            reveal_label: "Laver (Washing Basin)",
             position: "east",
             pattern: "plain",
             accept: ["laver"],

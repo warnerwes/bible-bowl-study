@@ -584,16 +584,20 @@
    anything still overflows. */
 .lab-tabernacle-board {
   display: grid;
-  grid-template-rows: 0.85fr 1.1fr auto 0.45fr;
+  /* Five rows now (2026-06-28): added veil_zone between Most Holy Place
+     and Holy Place. Veil is its own row so the user can SEE it and
+     drag the Veil card onto it. */
+  grid-template-rows: 0.85fr auto 1.1fr auto 0.45fr;
   grid-template-areas:
     "most_holy"
+    "veil_zone"
     "holy_place"
     "tabernacle_exterior"
     "east_entrance";
   gap: 0.3rem;
   width: 100%;
-  min-height: 280px;
-  max-height: 380px;
+  min-height: 320px;
+  max-height: 420px;
   padding: 0.2rem;
   border-radius: 10px;
   background: rgba(8, 10, 14, 0.6);
@@ -602,10 +606,18 @@
 
 @media (min-width: 720px) {
   .lab-tabernacle-board {
-    grid-template-rows: 1.1fr 1.7fr auto 0.5fr;
-    min-height: 420px;
+    grid-template-rows: 1.1fr auto 1.7fr auto 0.5fr;
+    min-height: 460px;
     max-height: none;
   }
+}
+
+/* The veil_zone is a top-level grid row between Most Holy and Holy.
+   Slim band so it reads as a divider, not a room. */
+.lab-tabernacle-zone-veil {
+  grid-area: veil_zone;
+  min-height: 38px;
+  padding: 0.15rem 0.3rem;
 }
 
 /* Generic zone box. Placed chips appear AFTER the caption/sublabel
@@ -664,6 +676,24 @@
   max-width: 95%;
 }
 
+/* Reveal slot — answer-name shown ONLY after a correct placement.
+   Visible (gold) on success, hidden via [hidden] before that. */
+.lab-tabernacle-zone-reveal {
+  font-size: 0.72rem;
+  color: var(--accent-strong);
+  font-weight: 600;
+  line-height: 1.2;
+  margin-top: 0.18rem;
+  padding: 0.08rem 0.32rem;
+  border-radius: 999px;
+  background: rgba(212, 160, 78, 0.12);
+  border: 1px solid rgba(212, 160, 78, 0.45);
+  max-width: 95%;
+}
+.lab-tabernacle-zone-reveal[hidden] {
+  display: none;
+}
+
 /* Zone grid placement */
 .lab-tabernacle-zone-west { grid-area: most_holy; }
 .lab-tabernacle-zone-center { grid-area: holy_place; }
@@ -683,7 +713,8 @@
   align-items: stretch;
 }
 .lab-tabernacle-zone-center > .lab-tabernacle-zone-caption,
-.lab-tabernacle-zone-center > .lab-tabernacle-zone-sublabel {
+.lab-tabernacle-zone-center > .lab-tabernacle-zone-sublabel,
+.lab-tabernacle-zone-center > .lab-tabernacle-zone-reveal {
   grid-column: 1 / -1;
 }
 
@@ -693,19 +724,15 @@
   gap: 0.3rem;
 }
 .lab-tabernacle-zone-west > .lab-tabernacle-zone-caption,
-.lab-tabernacle-zone-west > .lab-tabernacle-zone-sublabel {
+.lab-tabernacle-zone-west > .lab-tabernacle-zone-sublabel,
+.lab-tabernacle-zone-west > .lab-tabernacle-zone-reveal {
   grid-column: 1 / -1;
-}
-.lab-tabernacle-zone-veil {
-  grid-row: 2;
-  border-style: solid;
-  border-color: rgba(212, 160, 78, 0.6);
-  font-size: 0.7rem;
 }
 
 .lab-tabernacle-zone-north { grid-area: table_zone; min-height: 56px; }
 .lab-tabernacle-zone-south { grid-area: lampstand_zone; min-height: 56px; }
-.lab-tabernacle-zone-veil { grid-area: veil_zone; min-height: 56px; }
+/* veil_zone is now a top-level grid row; its rules live above
+   (see .lab-tabernacle-board grid-template-areas). */
 
 /* Position the "Before the Veil" incense zone inside holy_place */
 .lab-tabernacle-zone-incense {
@@ -718,8 +745,7 @@
 /* Nested zones need extra room for the placed chip. */
 .lab-tabernacle-zone-north,
 .lab-tabernacle-zone-south,
-.lab-tabernacle-zone-incense,
-.lab-tabernacle-zone-veil {
+.lab-tabernacle-zone-incense {
   padding: 0.18rem 0.25rem;
 }
 /* Courtyard children (bronze_altar_zone, laver_zone) share the
