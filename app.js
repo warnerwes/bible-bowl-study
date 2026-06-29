@@ -390,23 +390,6 @@
     a.remove();
     setTimeout(() => URL.revokeObjectURL(url), 1000);
   }
-  function exportAidVotes() {
-    if (!aidVotes.length) return;
-    const payload = {
-      exportedAt: new Date().toISOString(),
-      userAgent: navigator.userAgent,
-      votes: aidVotes,
-    };
-    const blob = new Blob([JSON.stringify(payload, null, 2) + "\n"], { type: "application/json;charset=utf-8" });
-    const url = URL.createObjectURL(blob);
-    const a = el("a");
-    a.href = url;
-    a.download = "bible-bowl-memory-aid-votes.json";
-    document.body.appendChild(a);
-    a.click();
-    a.remove();
-    setTimeout(() => URL.revokeObjectURL(url), 1000);
-  }
 
   // ---------- Answer normalization (fill-in) ----------
   function normalize(s) {
@@ -521,7 +504,6 @@
     $("review-mastered").addEventListener("click", startReview);
     $("start-btn").addEventListener("click", startCustom);
     $("export-csv").addEventListener("click", exportAnki);
-    $("export-votes").addEventListener("click", exportAidVotes);
 
     // Advanced toggle
     $("toggle-advanced").addEventListener("click", () => openAdvanced(true));
@@ -625,7 +607,6 @@
   // Refresh the home-screen tracking UI (missed CTA + progress line).
   function refreshHome() {
     const due = dueQuestions().length;
-    $("export-votes").hidden = aidVotes.length === 0;
     $("missed-cta").hidden = due === 0;
     $("missed-count").textContent = due;
 
@@ -1013,7 +994,6 @@
     else aidVotes.push(vote);
     saveAidVotes();
     submitAidVote(vote);
-    $("export-votes").hidden = false;
   }
   function commitPendingAidVote() {
     if (!state.pendingAidVote) return;

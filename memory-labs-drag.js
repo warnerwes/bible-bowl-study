@@ -72,6 +72,37 @@
 
   let active = null;
 
+  const DISPENSER_COPY = {
+    plagues: {
+      label: "Next plague",
+      unit: "plague",
+      plural: "plagues",
+      empty: "All plagues placed",
+      tap: "Tap the numbered slot where this plague belongs.",
+    },
+    tribes: {
+      label: "Next tribe",
+      unit: "tribe",
+      plural: "tribes",
+      empty: "All tribes placed",
+      tap: "Tap the numbered slot where this tribe belongs.",
+    },
+    commandments: {
+      label: "Next commandment",
+      unit: "commandment",
+      plural: "commandments",
+      empty: "All commandments placed",
+      tap: "Tap the numbered slot where this commandment belongs.",
+    },
+    consecration: {
+      label: "Next step",
+      unit: "step",
+      plural: "steps",
+      empty: "All consecration steps placed",
+      tap: "Tap the numbered slot where this step belongs.",
+    },
+  };
+
   // Victory celebration primitives. Wraps the existing confetti system
   // (CONFETTI_COLORS, makeConfettiLayer, addPiece in app.js) so the drag
   // lab doesn't reinvent burst logic. Honors prefers-reduced-motion.
@@ -120,13 +151,24 @@
   window.BibleBowlLabDrag = {
     mount(container, lab, callbacks) {
       const correct = lab.ordered_items.slice();
+      const usesDispenser = true;
+      const dispenserCopy = DISPENSER_COPY[lab.id] || {
+        label: "Next card",
+        unit: "card",
+        plural: "cards",
+        empty: "All cards placed",
+        tap: "Tap the numbered slot where this card belongs.",
+      };
       const slots = Array(correct.length).fill(null);
       let pool = shuffle(correct);
       let dragChip = null;
       let dragFrom = null;
+      let hintsUsed = 0;
+      let complete = false;
 
       container.innerHTML = "";
       container.className = "lab-drag-root";
+      if (usesDispenser) container.classList.add("has-dispenser");
 
       const status = document.createElement("p");
       status.className = "lab-drag-status";
@@ -145,6 +187,12 @@
         drop.className = "lab-drag-slot";
         drop.dataset.index = String(idx);
         drop.setAttribute("role", "listitem");
+        drop.addEventListener("click", () => {
+          if (complete) return;
+          if (!usesDispenser || !pool.length) return;
+          placeInSlot(idx, pool[0], { from: "pool", index: null });
+          renderAll();
+        });
         if (lab.id === "commandments" && idx === 4) {
           row.classList.add("lab-table-divider");
         }
@@ -162,6 +210,15 @@
       poolEl.className = "lab-drag-pool";
       poolEl.setAttribute("role", "list");
 
+      const dispenserMeta = document.createElement("p");
+      dispenserMeta.className = "lab-drag-dispenser-meta";
+
+      const dispenserWrap = document.createElement("div");
+      dispenserWrap.className = "lab-drag-dispenser";
+      dispenserWrap.appendChild(poolLabel);
+      dispenserWrap.appendChild(poolEl);
+      dispenserWrap.appendChild(dispenserMeta);
+
       const actions = document.createElement("div");
       actions.className = "lab-drag-actions";
 
@@ -170,13 +227,25 @@
       checkBtn.className = "primary-btn lab-check-btn";
       checkBtn.textContent = "Check order";
 
+      const hintBtn = document.createElement("button");
+      hintBtn.type = "button";
+      hintBtn.className = "primary-btn ghost-btn lab-hint-btn";
+      hintBtn.textContent = "Hint";
+      hintBtn.setAttribute("aria-label", "Reveal one correct position");
+
       const resetBtn = document.createElement("button");
       resetBtn.type = "button";
       resetBtn.className = "primary-btn ghost-btn lab-reset-btn";
       resetBtn.textContent = "Shuffle again";
 
       actions.appendChild(checkBtn);
+      actions.appendChild(hintBtn);
       actions.appendChild(resetBtn);
+
+      const hintCounter = document.createElement("span");
+      hintCounter.className = "lab-tabernacle-hint-counter";
+      hintCounter.setAttribute("aria-live", "polite");
+      actions.appendChild(hintCounter);
 
       container.appendChild(status);
       if (lab.subtitle) {
@@ -192,15 +261,37 @@
         container.appendChild(note);
       }
       container.appendChild(slotsWrap);
-      container.appendChild(poolLabel);
-      container.appendChild(poolEl);
+      if (usesDispenser) {
+        container.appendChild(dispenserWrap);
+      } else {
+        container.appendChild(poolLabel);
+        container.appendChild(poolEl);
+      }
       container.appendChild(actions);
 
       function renderPool() {
         poolEl.innerHTML = "";
-        pool.forEach((label) => {
-          poolEl.appendChild(makeChip(label, "pool", null));
-        });
+        if (usesDispenser) {
+          poolLabel.textContent = dispenserCopy.label;
+          const next = pool[0];
+          if (next) {
+            poolEl.appendChild(makeChip(next, "pool", null));
+          } else {
+            const done = document.createElement("span");
+            done.className = "lab-drag-dispenser-empty";
+            done.textContent = dispenserCopy.empty;
+            poolEl.appendChild(done);
+          }
+          const unit = pool.length === 1 ? dispenserCopy.unit : dispenserCopy.plural;
+          dispenserMeta.textContent =
+            pool.length === 1
+              ? `1 ${unit} still waiting`
+              : `${pool.length} ${unit} still waiting`;
+          return;
+        }
+        poolLabel.textContent = "Cards";
+        dispenserMeta.textContent = "";
+        pool.forEach((label) => poolEl.appendChild(makeChip(label, "pool", null)));
       }
 
       // Emoji lookup for memorable chip visuals. Falls back to "" if data
@@ -231,6 +322,7 @@
         chip.type = "button";
         chip.className = "lab-chip";
         chip.dataset.label = label;
+        chip.disabled = complete;
         if (lab.id === "commandments" && label === "No Carved Images") {
           chip.title = "Orthodox #2 — distinct from #1";
         }
@@ -364,6 +456,7 @@
         //      when the pointer leaves its bounds. The ghost has no
         //      pointer events (CSS) so it never steals the capture. ----
         chip.addEventListener("pointerdown", (e) => {
+          if (complete) return;
           if (e.button !== undefined && e.button !== 0) return; // left only
           e.preventDefault();
           startDrag(e.clientX, e.clientY, e.pointerId);
@@ -391,8 +484,14 @@
 
         // Keyboard / click-to-fill: still works for a11y and tap-only users.
         chip.addEventListener("click", (e) => {
+          if (complete) return;
           if (dragChip) return;
           e.preventDefault();
+          if (usesDispenser && from === "pool") {
+            status.textContent = dispenserCopy.tap;
+            status.className = "lab-drag-status";
+            return;
+          }
           const empty = slots.findIndex((s) => !s);
           if (empty >= 0 && from === "pool") {
             placeInSlot(empty, label, dragFrom);
@@ -404,28 +503,40 @@
       }
 
       function placeInSlot(index, label, from) {
+        if (complete || !from) return;
         if (from.from === "slot" && from.index !== null) {
+          if (from.index === index) return;
+          const displaced = slots[index] || null;
           slots[from.index] = null;
+          slots[index] = label;
+          if (displaced) slots[from.index] = displaced;
+          return;
         } else if (from.from === "pool") {
-          pool = pool.filter((x) => x !== label);
+          const removeAt = pool.indexOf(label);
+          if (removeAt >= 0) pool.splice(removeAt, 1);
         }
         if (slots[index]) {
-          pool.push(slots[index]);
+          if (usesDispenser) pool.unshift(slots[index]);
+          else pool.push(slots[index]);
         }
         slots[index] = label;
       }
 
       function returnToPool(label, from) {
+        if (complete || !from) return;
         if (from.from === "slot" && from.index !== null) {
           slots[from.index] = null;
         }
-        if (!pool.includes(label)) pool.push(label);
+        if (!pool.includes(label)) {
+          if (usesDispenser) pool.unshift(label);
+          else pool.push(label);
+        }
       }
 
       function renderSlots() {
         slotEls.forEach((drop, idx) => {
           drop.innerHTML = "";
-          drop.classList.remove("filled", "wrong");
+          drop.classList.remove("filled", "wrong", "lab-hint-reveal");
           if (slots[idx]) {
             drop.classList.add("filled");
             drop.appendChild(makeChip(slots[idx], "slot", idx));
@@ -436,14 +547,80 @@
       function renderAll() {
         renderSlots();
         renderPool();
-        active.state = { slots: slots.slice(), pool: pool.slice(), complete: false };
+        updateHintCounter();
+        active.state = {
+          slots: slots.slice(),
+          pool: pool.slice(),
+          hintsUsed,
+          dispenser: usesDispenser
+            ? { current: pool[0] || null, remaining: pool.length }
+            : null,
+          complete,
+        };
       }
 
       function userOrder() {
         return slots.slice();
       }
 
+      function updateHintCounter() {
+        hintCounter.textContent = `Hints: ${hintsUsed}`;
+      }
+
+      function clearHintReveal() {
+        container
+          .querySelectorAll(".lab-hint-reveal")
+          .forEach((el) => el.classList.remove("lab-hint-reveal"));
+      }
+
+      function pulseHint(el) {
+        if (!el) return;
+        el.classList.add("lab-hint-reveal");
+        setTimeout(() => el.classList.remove("lab-hint-reveal"), 1600);
+      }
+
+      function chipForLabel(label) {
+        return [...container.querySelectorAll(".lab-chip")].find(
+          (chip) => chip.dataset.label === label
+        );
+      }
+
+      function revealOneHint() {
+        if (usesDispenser && pool.length) {
+          const label = pool[0];
+          const targetIndex = correct.indexOf(label);
+          if (targetIndex >= 0 && slots[targetIndex] !== label) {
+            requestAnimationFrame(() => {
+              pulseHint(chipForLabel(label));
+              pulseHint(slotEls[targetIndex]);
+            });
+            return true;
+          }
+        }
+        const targetIndex = correct.findIndex((label, idx) => slots[idx] !== label);
+        if (targetIndex < 0) return false;
+        const label = correct[targetIndex];
+        requestAnimationFrame(() => {
+          pulseHint(chipForLabel(label));
+          pulseHint(slotEls[targetIndex]);
+        });
+        return true;
+      }
+
+      hintBtn.addEventListener("click", () => {
+        if (active.state.complete) return;
+        if (!revealOneHint()) {
+          status.textContent = "Everything is already in the right order.";
+          status.className = "lab-drag-status";
+          return;
+        }
+        hintsUsed++;
+        updateHintCounter();
+        active.state.hintsUsed = hintsUsed;
+      });
+
       checkBtn.addEventListener("click", () => {
+        if (complete) return;
         if (slots.some((s) => !s)) {
           status.textContent = "Fill every slot before checking.";
           status.className = "lab-drag-status lab-hint";
@@ -452,6 +629,7 @@
         const order = userOrder();
         const ok = order.every((v, i) => v === correct[i]);
         if (ok) {
+          complete = true;
           status.textContent = lab.completion_teaching.memory_sentence;
           status.className = "lab-drag-status lab-success victory";
           slotEls.forEach((d, i) => {
@@ -459,7 +637,12 @@
             d.style.animationDelay = (i * 35) + "ms";
           });
           checkBtn.disabled = true;
-          active.state.complete = true;
+          hintBtn.disabled = true;
+          container.querySelectorAll(".lab-chip").forEach((chip) => {
+            chip.disabled = true;
+          });
+          active.state.complete = complete;
+          active.state.hintsUsed = hintsUsed;
           // onComplete owns the modal-level celebration (sound + status
           // text). Drag engine owns the in-lab burst + slot cascade.
           celebrateLabVictory(slotEls);
@@ -477,23 +660,31 @@
       resetBtn.addEventListener("click", () => {
         for (let i = 0; i < slots.length; i++) slots[i] = null;
         pool = shuffle(correct);
+        hintsUsed = 0;
+        complete = false;
+        clearHintReveal();
         status.textContent = "Drag each card into its numbered slot.";
         status.className = "lab-drag-status";
         checkBtn.disabled = false;
+        hintBtn.disabled = false;
         renderAll();
       });
 
       active = {
         labId: lab.id,
         correct,
-        state: { slots: [], pool: [], complete: false },
+        state: { slots: [], pool: [], hintsUsed: 0, dispenser: null, complete: false },
         setOrder(labels) {
+          if (complete) return;
           for (let i = 0; i < slots.length; i++) slots[i] = labels[i] || null;
           pool = correct.filter((x) => !labels.includes(x));
           renderAll();
         },
         check() {
           checkBtn.click();
+        },
+        hintCount() {
+          return hintsUsed;
         },
       };
 

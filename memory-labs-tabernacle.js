@@ -25,6 +25,8 @@
   "use strict";
 
   function shuffle(arr) {
+    const isQA = typeof window !== "undefined" && window.location && window.location.search.includes("qa=1");
+    if (isQA) return arr.slice();
     const a = arr.slice();
     for (let i = a.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
@@ -67,6 +69,7 @@
 
   window.BibleBowlLabTabernacle = {
     mount(container, lab, callbacks) {
+      const usesDispenser = true;
       const zones = lab.tabernacle_zones.slice();
       const cards = lab.tabernacle_cards.slice();
       const zoneById = Object.fromEntries(zones.map((z) => [z.id, z]));
@@ -76,12 +79,19 @@
       let dragCardId = null;
       let dragFromZone = null; // null = from pool
       let highlightedZoneId = null;
+      let selectedCardId = null;
+
+      function selectCard(cardId) {
+        selectedCardId = cardId;
+        render();
+      }
 
       // Build the DOM. ADD the root class rather than overwriting className
       // so the host workspace keeps "labs-workspace" + "labs-workspace--tabernacle"
       // (the mobile flex-height chain depends on those classes surviving mount).
       container.innerHTML = "";
       container.classList.add("lab-tabernacle-root");
+      if (usesDispenser) container.classList.add("has-dispenser");
 
       // Heading + status
       const status = document.createElement("p");
@@ -171,8 +181,6 @@
           labelBlock.appendChild(reveal);
         }
 
-        // Drop slot: empty target box that receives placed chips.
-        // No text inside — chips land here.
         const slot = document.createElement("div");
         slot.className = "lab-tabernacle-slot";
         slot.dataset.role = "slot";
@@ -182,6 +190,50 @@
 
         el.appendChild(labelBlock);
         el.appendChild(slot);
+
+        el.tabIndex = 0;
+        el.addEventListener("click", () => {
+          if (!selectedCardId) return;
+          const cardId = selectedCardId;
+          const fromZone = findZoneContaining(cardId);
+          if (placed[z.id]) {
+            status.textContent = "This zone already has an item placed.";
+            status.className = "lab-drag-status lab-hint";
+            return;
+          }
+          const success = assign(z.id, cardId, fromZone);
+          if (success) {
+            selectCard(null);
+            render();
+          } else {
+            status.textContent = "This zone cannot hold this item. Drop on a smaller marked zone.";
+            status.className = "lab-drag-status lab-hint";
+          }
+        });
+
+        el.addEventListener("keydown", (e) => {
+          if (e.key === "Enter" || e.key === " ") {
+            if (selectedCardId) {
+              e.preventDefault();
+              const cardId = selectedCardId;
+              const fromZone = findZoneContaining(cardId);
+              if (placed[z.id]) {
+                status.textContent = "This zone already has an item placed.";
+                status.className = "lab-drag-status lab-hint";
+                return;
+              }
+              const success = assign(z.id, cardId, fromZone);
+              if (success) {
+                selectCard(null);
+                render();
+              } else {
+                status.textContent = "This zone cannot hold this item. Drop on a smaller marked zone.";
+                status.className = "lab-drag-status lab-hint";
+              }
+            }
+          }
+        });
+
         board.appendChild(el);
         zoneEls[z.id] = el;
       });
@@ -196,14 +248,24 @@
         }
       });
 
-      // Tray (chip pool)
+      // Dispenser / Tray (chip pool)
+
       const trayLabel = document.createElement("p");
       trayLabel.className = "lab-drag-pool-label lab-tabernacle-pool-label";
-      trayLabel.textContent = "Holy Items";
+      trayLabel.textContent = usesDispenser ? "Next Item" : "Holy Items";
 
       const trayEl = document.createElement("div");
       trayEl.className = "lab-drag-pool lab-tabernacle-pool";
       trayEl.setAttribute("role", "list");
+
+      const dispenserMeta = document.createElement("p");
+      dispenserMeta.className = "lab-drag-dispenser-meta";
+
+      const dispenserWrap = document.createElement("div");
+      dispenserWrap.className = "lab-drag-dispenser";
+      dispenserWrap.appendChild(trayLabel);
+      dispenserWrap.appendChild(trayEl);
+      dispenserWrap.appendChild(dispenserMeta);
 
       // Actions
       const actions = document.createElement("div");
@@ -323,8 +385,12 @@
       // the footer too so the achievement appears where the user worked.
       const trayFooter = document.createElement("div");
       trayFooter.className = "lab-tabernacle-tray-footer";
-      trayFooter.appendChild(trayLabel);
-      trayFooter.appendChild(trayEl);
+      if (usesDispenser) {
+        trayFooter.appendChild(dispenserWrap);
+      } else {
+        trayFooter.appendChild(trayLabel);
+        trayFooter.appendChild(trayEl);
+      }
       trayFooter.appendChild(actions);
       trayFooter.appendChild(medalEl);
 
@@ -399,6 +465,10 @@
         const chip = document.createElement("button");
         chip.type = "button";
         chip.className = "lab-chip lab-tabernacle-chip";
+        if (cardId === selectedCardId) {
+          chip.classList.add("selected");
+          chip.setAttribute("aria-pressed", "true");
+        }
         chip.dataset.cardId = cardId;
         chip.setAttribute("role", "listitem");
         chip.setAttribute(
@@ -431,6 +501,7 @@
         chip.addEventListener("keydown", (e) => {
           if (e.key === "Escape") {
             if (dragCardId === cardId) cancelDrag();
+            if (selectedCardId === cardId) selectCard(null);
             return;
           }
           if (e.key === "Enter" || e.key === " ") {
@@ -438,17 +509,23 @@
             if (highlightedZoneId && !placed[highlightedZoneId]) {
               assign(highlightedZoneId, cardId, dragFromZone);
               render();
+            } else {
+              if (selectedCardId === cardId) {
+                selectCard(null);
+              } else {
+                selectCard(cardId);
+              }
             }
           }
         });
 
-        // Click-to-place fallback (tap-only users).
+        // Click-to-place fallback & tap-to-select.
         chip.addEventListener("click", () => {
           if (dragCardId) return;
-          const empty = zones.find((z) => !placed[z.id]);
-          if (empty) {
-            assign(empty.id, cardId, dragFromZone);
-            render();
+          if (selectedCardId === cardId) {
+            selectCard(null);
+          } else {
+            selectCard(cardId);
           }
         });
 
@@ -704,10 +781,29 @@
 
       function renderTray() {
         trayEl.innerHTML = "";
-        tray.forEach((cid) => {
-          const chip = makeChip(cid);
-          if (chip) trayEl.appendChild(chip);
-        });
+        if (usesDispenser) {
+          trayLabel.textContent = "Next Item";
+          const next = tray[0];
+          if (next) {
+            trayEl.appendChild(makeChip(next));
+          } else {
+            const done = document.createElement("span");
+            done.className = "lab-drag-dispenser-empty";
+            done.textContent = "All items placed";
+            trayEl.appendChild(done);
+          }
+          const unit = tray.length === 1 ? "item" : "items";
+          dispenserMeta.textContent =
+            tray.length === 1
+              ? `1 ${unit} still waiting`
+              : `${tray.length} ${unit} still waiting`;
+        } else {
+          trayLabel.textContent = "Holy Items";
+          tray.forEach((cid) => {
+            const chip = makeChip(cid);
+            if (chip) trayEl.appendChild(chip);
+          });
+        }
       }
 
       function renderZones() {
@@ -716,7 +812,11 @@
           // Remove any placed-chip element but keep caption/sublabel/reveal.
           const placedChip = el.querySelector(".lab-tabernacle-placed");
           if (placedChip) placedChip.remove();
-          el.classList.remove("wrong", "filled", "lab-tabernacle-key-focus");
+          el.classList.remove("wrong", "filled", "lab-tabernacle-key-focus", "lab-tabernacle-zone-selectable");
+
+          if (selectedCardId && !placed[zid]) {
+            el.classList.add("lab-tabernacle-zone-selectable");
+          }
 
           // Reset reveal state. The reveal slot is populated ONLY when
           // a card has been placed in this zone — keeping the answer-name
@@ -826,6 +926,10 @@
           tray: tray.slice(),
           hintsUsed,
           complete: false,
+          selectedCardId,
+          dispenser: usesDispenser
+            ? { current: tray[0] || null, remaining: tray.length }
+            : null,
         };
       }
 
@@ -1100,6 +1204,7 @@
       });
 
       resetBtn.addEventListener("click", () => {
+        selectCard(null);
         Object.keys(placed).forEach((k) => {
           tray.push(placed[k]);
           delete placed[k];

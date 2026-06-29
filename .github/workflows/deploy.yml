@@ -36,7 +36,7 @@ jobs:
       - name: Assemble publishable site
         run: |
           mkdir -p _site
-          cp index.html styles.css rewards.css memory-labs.css \
+          cp index.html styles.css rewards.css memory-labs.css memory-labs-dispenser.css \
             app.js rewards.js rewards-scenes-1.js rewards-scenes-2.js \
             memory-labs.js memory-labs-data.js memory-labs-drag.js memory-labs-tree.js memory-labs-tabernacle.js \
             manifest.webmanifest sw.js _site/

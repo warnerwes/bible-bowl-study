@@ -19,6 +19,7 @@ const topLevel = readdirSync(ROOT).filter((f) => {
   if (f.startsWith("scripts/")) return false;
   return statSync(f).isFile();
 });
+const topLevelCss = readdirSync(ROOT).filter((f) => f.endsWith(".css") && statSync(f).isFile());
 
 const deployYml = await readFile(".github/workflows/deploy.yml", "utf8");
 
@@ -35,6 +36,14 @@ for (const js of topLevel) {
   check(`${js} is in the deploy.yml cp list`, () => {
     if (!deployYml.includes(js)) {
       throw new Error(`${js} missing from .github/workflows/deploy.yml cp line`);
+    }
+  });
+}
+
+for (const css of topLevelCss) {
+  check(`${css} is in the deploy.yml cp list`, () => {
+    if (!deployYml.includes(css)) {
+      throw new Error(`${css} missing from .github/workflows/deploy.yml cp line`);
     }
   });
 }
@@ -61,6 +70,25 @@ check("every <script src=\"...\"> in index.html resolves to a repo-root file", (
     if (!existsSync(`${ROOT}/${clean}`)) {
       throw new Error(`index.html references missing file: ${ref}`);
     }
+  }
+});
+
+check("every stylesheet href in index.html resolves to a repo-root file", () => {
+  const html = readFileSync(`${ROOT}/index.html`, "utf8");
+  const refs = [...html.matchAll(/<link[^>]+rel="stylesheet"[^>]+href="([^"]+)"/g)].map((m) => m[1]);
+  for (const ref of refs) {
+    const clean = ref.replace(/\?.*$/, "").replace(/^\.\//, "");
+    if (clean.startsWith("http")) continue;
+    if (!existsSync(`${ROOT}/${clean}`)) {
+      throw new Error(`index.html references missing stylesheet: ${ref}`);
+    }
+  }
+});
+
+check("public home page does not expose memory-aid vote export", () => {
+  const html = readFileSync(`${ROOT}/index.html`, "utf8");
+  if (/id="export-votes"|Export memory-aid votes/i.test(html)) {
+    throw new Error("memory-aid vote export control is exposed in index.html");
   }
 });
 

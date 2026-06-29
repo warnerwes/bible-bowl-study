@@ -22,6 +22,7 @@ const html = readFileSync(join(root, "index.html"), "utf8");
 
 const expectedAssets = [
   "memory-labs.css",
+  "memory-labs-dispenser.css",
   "memory-labs-data.js",
   "memory-labs-drag.js",
   "memory-labs-tree.js",

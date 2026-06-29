@@ -884,7 +884,7 @@
 
 /* Nested zones live INSIDE their parent zone's grid area.
    Each parent zone becomes a sub-grid for its children. */
-.lab-tabernacle-zone-center {
+.lab-tabernacle-zone-center > .lab-tabernacle-slot {
   display: grid;
   grid-template-columns: 1fr 1fr;
   grid-template-rows: auto auto;
@@ -893,28 +893,30 @@
     "incense_zone incense_zone";
   gap: 0.3rem;
   align-items: stretch;
-  /* Holy Place needs visible overflow so the third grid row
-     (incense_zone) isn't clipped when the parent's row in the
-     board grid is shorter than the nested content needs.
-     (2026-06-28 fix: previously overflow:hidden on the parent
-     .lab-tabernacle-zone squashed incense_zone to ~8px tall.) */
   overflow: visible;
-}
-.lab-tabernacle-zone-center > .lab-tabernacle-zone-caption,
-.lab-tabernacle-zone-center > .lab-tabernacle-zone-sublabel,
-.lab-tabernacle-zone-center > .lab-tabernacle-zone-reveal {
-  grid-column: 1 / -1;
+  background: transparent;
+  border: none;
+  padding: 0;
+  box-shadow: none;
 }
 
 .lab-tabernacle-zone-west {
   display: grid;
   grid-template-rows: auto 1fr;
-  gap: 0.3rem;
+  gap: 0.2rem;
+  justify-items: center;
 }
-.lab-tabernacle-zone-west > .lab-tabernacle-zone-caption,
-.lab-tabernacle-zone-west > .lab-tabernacle-zone-sublabel,
-.lab-tabernacle-zone-west > .lab-tabernacle-zone-reveal {
+.lab-tabernacle-zone-west > .lab-tabernacle-label {
   grid-column: 1 / -1;
+  text-align: center;
+  align-items: center;
+  border-right: none;
+  padding: 0;
+}
+.lab-tabernacle-zone-west > .lab-tabernacle-slot {
+  width: 100%;
+  max-width: 150px;
+  min-height: 38px;
 }
 
 .lab-tabernacle-zone-north { grid-area: table_zone; min-height: 56px; }
@@ -1190,6 +1192,84 @@
   .lab-tabernacle-pool-label {
     margin: 0 0 0.1rem 0;
     font-size: 0.72rem;
+  }
+  .lab-drag-dispenser .lab-tabernacle-pool {
+    display: block;
+    overflow: visible;
+  }
+  .lab-drag-dispenser .lab-tabernacle-pool .lab-chip {
+    width: 100%;
+  }
+
+  /* Compact tabernacle map spacing on mobile viewports to prevent overlap */
+  .lab-tabernacle-root {
+    gap: 0.25rem;
+  }
+  .lab-tabernacle-compass {
+    font-size: 0.72rem;
+    padding: 0.12rem 0;
+    margin: 0.05rem 0;
+  }
+  .lab-tabernacle-board {
+    gap: 0.15rem;
+    padding: 0.12rem;
+    grid-template-rows: 0.8fr auto 1.4fr auto 0.55fr;
+  }
+  .lab-tabernacle-zone {
+    min-height: 34px;
+    padding: 0.08rem 0.18rem;
+    gap: 0.15rem;
+    border-width: 1px;
+  }
+  .lab-tabernacle-label {
+    padding: 0 0.25rem 0 0.12rem;
+    max-width: 60%;
+  }
+  .lab-tabernacle-zone-caption {
+    font-size: 0.70rem;
+    line-height: 1.1;
+  }
+  .lab-tabernacle-zone-sublabel {
+    font-size: 0.52rem;
+    line-height: 1.1;
+  }
+  .lab-tabernacle-zone-veil {
+    min-height: 26px;
+    padding: 0.08rem 0.18rem;
+  }
+  .lab-tabernacle-zone-north,
+  .lab-tabernacle-zone-south,
+  .lab-tabernacle-zone-incense {
+    min-height: 36px;
+    padding: 0.08rem 0.18rem;
+  }
+  .lab-tabernacle-zone-center > .lab-tabernacle-slot {
+    gap: 0.15rem;
+  }
+  [data-zone-id="tabernacle_exterior"] > .lab-tabernacle-slot {
+    gap: 0.15rem;
+    padding: 0.12rem;
+  }
+
+  /* Allow outer card to scroll instead of squishing workspace */
+  .labs-workspace {
+    overflow-y: visible !important;
+    flex: 0 0 auto !important;
+  }
+  .labs-workspace--tabernacle {
+    overflow-y: visible !important;
+    height: auto !important;
+    min-height: auto !important;
+  }
+  .lab-tabernacle-root {
+    height: auto !important;
+  }
+  .lab-tabernacle-layout {
+    height: auto !important;
+  }
+  .lab-tabernacle-board {
+    min-height: 480px; /* Comfortable height for grid */
+    flex: 0 0 auto !important;
   }
 }
 .lab-tabernacle-pool-label {

@@ -1,5 +1,5 @@
 /**
- * Mobile + desktop QA for all 5 Memory Labs.
+ * Mobile + desktop QA for all 6 Memory Labs.
  * Run: npm run test:labs
  */
 import { createServer } from "http";
@@ -15,6 +15,8 @@ const VIEWPORTS = [
 ];
 
 const LAB_IDS = ["plagues", "tribes", "commandments", "priest_line", "consecration", "tabernacle_place"];
+const DRAG_LAB_IDS = new Set(["plagues", "tribes", "commandments", "consecration"]);
+const TREE_LAB_IDS = new Set(["priest_line"]);
 
 const MIME = {
   ".html": "text/html",
@@ -40,6 +42,342 @@ function startServer(port) {
   });
 }
 
+function placementSnapshot(state) {
+  if (state.drag) return { slots: state.drag.slots, pool: state.drag.pool };
+  if (state.tree) return { filled: state.tree.filled, tray: state.tree.tray };
+  if (state.tabernacle) {
+    return { placed: state.tabernacle.placed, tray: state.tabernacle.tray };
+  }
+  return null;
+}
+
+function hintCountFromState(state) {
+  return (
+    state.drag?.hintsUsed ??
+    state.tree?.hintsUsed ??
+    state.tabernacle?.hintsUsed ??
+    0
+  );
+}
+
+async function assertSolvedLabLocked(page, id, solvedState, issues) {
+  if (id === "tabernacle_place") return;
+  const before = placementSnapshot(solvedState);
+  await page.evaluate(() => {
+    document.querySelector(".lab-chip")?.click();
+    document.querySelector(".lab-drag-slot, .lab-tree-slot")?.click();
+  });
+  await page.waitForTimeout(80);
+  const afterState = await page.evaluate(() => window.BibleBowlLabQA.state());
+  const after = placementSnapshot(afterState);
+  const complete =
+    afterState.drag?.complete ||
+    afterState.tree?.complete ||
+    afterState.completed.includes(id);
+  if (!complete) {
+    issues.push("solved lab became incomplete after a post-completion click");
+  }
+  if (JSON.stringify(before) !== JSON.stringify(after)) {
+    issues.push(`solved lab mutated after post-completion click: before=${JSON.stringify(before)} after=${JSON.stringify(after)}`);
+  }
+}
+
+async function exerciseDragDispenser(page, id, issues) {
+  const before = await page.evaluate(() => ({
+    dispenserCount: document.querySelectorAll(".lab-drag-dispenser").length,
+    poolChipCount: document.querySelectorAll(".lab-drag-dispenser .lab-chip").length,
+    current: document.querySelector(".lab-drag-dispenser .lab-chip")?.dataset.label || "",
+    copy: document.querySelector(".lab-drag-dispenser")?.textContent || "",
+    sticky: getComputedStyle(document.querySelector(".lab-drag-dispenser")).position,
+    filledSlots: document.querySelectorAll(".lab-drag-slot.filled").length,
+    remaining: window.BibleBowlLabQA.state().drag?.pool.length ?? -1,
+  }));
+
+  if (before.dispenserCount !== 1) {
+    issues.push(`${id} dispenser missing: ${JSON.stringify(before)}`);
+    return;
+  }
+  if (before.poolChipCount !== 1 || !before.current) {
+    issues.push(`${id} dispenser should show exactly one current card: ${JSON.stringify(before)}`);
+  }
+  if (before.sticky !== "sticky") {
+    issues.push(`${id} dispenser should be sticky, got ${before.sticky}`);
+  }
+  if (id !== "plagues" && /plague/i.test(before.copy)) {
+    issues.push(`${id} dispenser copy should not mention plagues: "${before.copy}"`);
+  }
+
+  await page.locator("#labs-workspace").evaluate((el) => {
+    el.scrollTop = el.scrollHeight;
+  });
+  await page.waitForTimeout(80);
+  const scrolled = await page.evaluate(() => {
+    const ws = document.getElementById("labs-workspace");
+    const disp = document.querySelector(".lab-drag-dispenser");
+    if (!ws || !disp) return null;
+    const wr = ws.getBoundingClientRect();
+    const dr = disp.getBoundingClientRect();
+    return {
+      visible: dr.bottom <= wr.bottom + 2 && dr.top >= wr.top - 2,
+      workspaceBottom: wr.bottom,
+      dispenserTop: dr.top,
+      dispenserBottom: dr.bottom,
+    };
+  });
+  if (!scrolled?.visible) {
+    issues.push(`${id} sticky dispenser not visible after workspace scroll: ${JSON.stringify(scrolled)}`);
+  }
+
+  await page.locator('.lab-drag-slot[data-index="0"]').click();
+  await page.waitForTimeout(120);
+  const after = await page.evaluate(() => ({
+    poolChipCount: document.querySelectorAll(".lab-drag-dispenser .lab-chip").length,
+    current: document.querySelector(".lab-drag-dispenser .lab-chip")?.dataset.label || "",
+    copy: document.querySelector(".lab-drag-dispenser")?.textContent || "",
+    filledSlots: document.querySelectorAll(".lab-drag-slot.filled").length,
+    remaining: window.BibleBowlLabQA.state().drag?.pool.length ?? -1,
+  }));
+
+  if (after.filledSlots !== before.filledSlots + 1) {
+    issues.push(`tap slot did not place current ${id} card: before=${JSON.stringify(before)} after=${JSON.stringify(after)}`);
+  }
+  if (after.remaining !== before.remaining - 1) {
+    issues.push(`dispenser did not reduce remaining count: before=${before.remaining} after=${after.remaining}`);
+  }
+  if (after.remaining > 0 && after.poolChipCount !== 1) {
+    issues.push(`dispenser should keep exactly one next card visible: ${JSON.stringify(after)}`);
+  }
+  if (after.remaining > 0 && after.current === before.current) {
+    issues.push(`dispenser did not advance to a new current card: before=${before.current} after=${after.current}`);
+  }
+  if (id !== "plagues" && /plague/i.test(after.copy)) {
+    issues.push(`${id} dispenser copy should not mention plagues after placement: "${after.copy}"`);
+  }
+
+  await page.locator("#labs-workspace").evaluate((el) => {
+    el.scrollTop = 0;
+  });
+}
+
+async function exerciseDragSlotSwap(page, id, issues) {
+  await page.locator('.lab-drag-slot[data-index="1"]').click();
+  await page.waitForTimeout(120);
+  const before = await page.evaluate(() => {
+    const drag = window.BibleBowlLabQA.state().drag;
+    return {
+      slots: drag?.slots.slice(0, 2) || [],
+      pool: drag?.pool.slice() || [],
+      filledSlots: document.querySelectorAll(".lab-drag-slot.filled").length,
+      visibleDispenserCards: document.querySelectorAll(".lab-drag-dispenser .lab-chip").length,
+    };
+  });
+
+  if (before.filledSlots !== 2 || !before.slots[0] || !before.slots[1]) {
+    issues.push(`${id} swap setup did not place two cards: ${JSON.stringify(before)}`);
+    return;
+  }
+
+  const fromBox = await page.locator('.lab-drag-slot[data-index="0"] .lab-chip').boundingBox();
+  const toBox = await page.locator('.lab-drag-slot[data-index="1"]').boundingBox();
+  if (!fromBox || !toBox) {
+    issues.push(`${id} swap boxes missing: from=${JSON.stringify(fromBox)} to=${JSON.stringify(toBox)}`);
+    return;
+  }
+
+  await page.mouse.move(fromBox.x + fromBox.width / 2, fromBox.y + fromBox.height / 2);
+  await page.mouse.down();
+  await page.mouse.move(toBox.x + toBox.width / 2, toBox.y + toBox.height / 2, { steps: 8 });
+  await page.mouse.up();
+  await page.waitForTimeout(160);
+
+  const after = await page.evaluate(() => {
+    const drag = window.BibleBowlLabQA.state().drag;
+    return {
+      slots: drag?.slots.slice(0, 2) || [],
+      pool: drag?.pool.slice() || [],
+      filledSlots: document.querySelectorAll(".lab-drag-slot.filled").length,
+      visibleDispenserCards: document.querySelectorAll(".lab-drag-dispenser .lab-chip").length,
+    };
+  });
+
+  if (after.slots[0] !== before.slots[1] || after.slots[1] !== before.slots[0]) {
+    issues.push(`${id} slot drag should swap occupied slots: before=${JSON.stringify(before)} after=${JSON.stringify(after)}`);
+  }
+  if (after.pool.length !== before.pool.length || after.pool[0] !== before.pool[0]) {
+    issues.push(`${id} slot swap should not return displaced card to dispenser: before=${JSON.stringify(before)} after=${JSON.stringify(after)}`);
+  }
+  if (after.visibleDispenserCards !== 1) {
+    issues.push(`${id} dispenser should still show exactly one card after swap: ${JSON.stringify(after)}`);
+  }
+}
+
+async function exerciseTreeDispenser(page, issues) {
+  const before = await page.evaluate(() => {
+    const disp = document.querySelector(".lab-drag-dispenser");
+    return {
+      dispenserCount: document.querySelectorAll(".lab-drag-dispenser").length,
+      chipCount: document.querySelectorAll(".lab-drag-dispenser .lab-chip").length,
+      current: document.querySelector(".lab-drag-dispenser .lab-chip")?.dataset.name || "",
+      copy: disp?.textContent || "",
+      sticky: disp ? getComputedStyle(disp).position : "",
+      remaining: window.BibleBowlLabQA.state().tree?.tray.length ?? -1,
+      filledCount: Object.keys(window.BibleBowlLabQA.state().tree?.filled || {}).length,
+      slotIds: [...document.querySelectorAll(".lab-tree-slot")].slice(0, 2).map((slot) => slot.dataset.slotId),
+    };
+  });
+
+  if (before.dispenserCount !== 1) {
+    issues.push(`priest_line dispenser missing: ${JSON.stringify(before)}`);
+    return;
+  }
+  if (before.chipCount !== 1 || !before.current) {
+    issues.push(`priest_line dispenser should show exactly one current name: ${JSON.stringify(before)}`);
+  }
+  if (before.sticky !== "sticky") {
+    issues.push(`priest_line dispenser should be sticky, got ${before.sticky}`);
+  }
+  if (/plague/i.test(before.copy)) {
+    issues.push(`priest_line dispenser copy should not mention plagues: "${before.copy}"`);
+  }
+  if (before.slotIds.length < 2 || before.slotIds.some((id) => !id)) {
+    issues.push(`priest_line needs two tree slots for swap coverage: ${JSON.stringify(before)}`);
+    return;
+  }
+
+  await page.locator("#labs-workspace").evaluate((el) => {
+    el.scrollTop = el.scrollHeight;
+  });
+  await page.waitForTimeout(80);
+  const scrolled = await page.evaluate(() => {
+    const ws = document.getElementById("labs-workspace");
+    const disp = document.querySelector(".lab-drag-dispenser");
+    if (!ws || !disp) return null;
+    const wr = ws.getBoundingClientRect();
+    const dr = disp.getBoundingClientRect();
+    return {
+      visible: dr.bottom <= wr.bottom + 2 && dr.top >= wr.top - 2,
+      workspaceBottom: wr.bottom,
+      dispenserTop: dr.top,
+      dispenserBottom: dr.bottom,
+    };
+  });
+  if (!scrolled?.visible) {
+    issues.push(`priest_line sticky dispenser not visible after workspace scroll: ${JSON.stringify(scrolled)}`);
+  }
+
+  await page.locator(`.lab-tree-slot[data-slot-id="${before.slotIds[0]}"]`).click();
+  await page.waitForTimeout(120);
+  const after = await page.evaluate(() => ({
+    chipCount: document.querySelectorAll(".lab-drag-dispenser .lab-chip").length,
+    current: document.querySelector(".lab-drag-dispenser .lab-chip")?.dataset.name || "",
+    filledCount: Object.keys(window.BibleBowlLabQA.state().tree?.filled || {}).length,
+    remaining: window.BibleBowlLabQA.state().tree?.tray.length ?? -1,
+  }));
+
+  if (after.filledCount !== before.filledCount + 1) {
+    issues.push(`tap slot did not place current priest_line name: before=${JSON.stringify(before)} after=${JSON.stringify(after)}`);
+  }
+  if (after.remaining !== before.remaining - 1) {
+    issues.push(`priest_line dispenser did not reduce remaining count: before=${before.remaining} after=${after.remaining}`);
+  }
+  if (after.remaining > 0 && after.chipCount !== 1) {
+    issues.push(`priest_line dispenser should keep exactly one next name visible: ${JSON.stringify(after)}`);
+  }
+  if (after.remaining > 0 && after.current === before.current) {
+    issues.push(`priest_line dispenser did not advance: before=${before.current} after=${after.current}`);
+  }
+
+  await page.locator("#labs-workspace").evaluate((el) => {
+    el.scrollTop = 0;
+  });
+}
+
+async function exerciseTreeSlotSwap(page, issues) {
+  const slotIds = await page.evaluate(() =>
+    [...document.querySelectorAll(".lab-tree-slot")].slice(0, 2).map((slot) => slot.dataset.slotId)
+  );
+  if (slotIds.length < 2 || slotIds.some((id) => !id)) {
+    issues.push(`priest_line swap needs two tree slots, got ${JSON.stringify(slotIds)}`);
+    return;
+  }
+
+  await page.locator(`.lab-tree-slot[data-slot-id="${slotIds[1]}"]`).click();
+  await page.waitForTimeout(120);
+  const before = await page.evaluate((ids) => {
+    const tree = window.BibleBowlLabQA.state().tree;
+    return {
+      filled: { ...tree.filled },
+      tray: tree.tray.slice(),
+      first: tree.filled[ids[0]],
+      second: tree.filled[ids[1]],
+    };
+  }, slotIds);
+
+  if (!before.first || !before.second) {
+    issues.push(`priest_line swap setup did not place two names: ${JSON.stringify(before)}`);
+    return;
+  }
+
+  await page.locator(`.lab-tree-slot[data-slot-id="${slotIds[0]}"] .lab-chip`).click();
+  await page.waitForTimeout(80);
+  await page.locator(`.lab-tree-slot[data-slot-id="${slotIds[1]}"] .lab-chip`).click();
+  await page.waitForTimeout(120);
+  const after = await page.evaluate((ids) => {
+    const tree = window.BibleBowlLabQA.state().tree;
+    return {
+      filled: { ...tree.filled },
+      tray: tree.tray.slice(),
+      first: tree.filled[ids[0]],
+      second: tree.filled[ids[1]],
+    };
+  }, slotIds);
+
+  if (after.first !== before.second || after.second !== before.first) {
+    issues.push(`priest_line occupied slots should swap names: before=${JSON.stringify(before)} after=${JSON.stringify(after)}`);
+  }
+  if (JSON.stringify(after.tray) !== JSON.stringify(before.tray)) {
+    issues.push(`priest_line swap should not return a displaced name to dispenser: before=${JSON.stringify(before)} after=${JSON.stringify(after)}`);
+  }
+}
+
+async function exerciseResetClearsHints(page, id, issues) {
+  if (id === "tabernacle_place") return;
+  const resetButton = page.locator(".lab-reset-btn");
+  const resetCount = await resetButton.count();
+  if (resetCount !== 1) {
+    issues.push(`expected one reset button, got ${resetCount}`);
+    return;
+  }
+  await resetButton.click();
+  await page.waitForTimeout(120);
+  const afterReset = await page.evaluate(() => ({
+    state: window.BibleBowlLabQA.state(),
+    counter: document.querySelector(".lab-tabernacle-hint-counter")?.textContent || "",
+    pulses: document.querySelectorAll(".lab-hint-reveal").length,
+  }));
+  if (hintCountFromState(afterReset.state) !== 0) {
+    issues.push(`reset did not clear hint count: ${JSON.stringify(afterReset.state)}`);
+  }
+  if (!/Hints:\s*0/.test(afterReset.counter)) {
+    issues.push(`reset did not restore hint counter text: "${afterReset.counter}"`);
+  }
+  if (afterReset.pulses !== 0) {
+    issues.push(`reset left ${afterReset.pulses} hint pulse element(s)`);
+  }
+  const drag = afterReset.state.drag;
+  const tree = afterReset.state.tree;
+  if (drag) {
+    if (!drag.slots.every((slot) => slot === null) || drag.pool.length !== drag.slots.length) {
+      issues.push(`reset left unexpected drag state: ${JSON.stringify(drag)}`);
+    }
+  }
+  if (tree) {
+    if (Object.keys(tree.filled).length !== 0 || tree.tray.length === 0) {
+      issues.push(`reset left unexpected tree state: ${JSON.stringify(tree)}`);
+    }
+  }
+}
+
 async function testLab(page, id, viewportName) {
   await page.evaluate((lid) => window.BibleBowlLabQA.open(lid), id);
   await page.waitForSelector("#labs-modal.active", { timeout: 8000 });
@@ -56,12 +394,61 @@ async function testLab(page, id, viewportName) {
   }
   await page.waitForTimeout(300);
 
+  const issues = [];
+  const dispenserCount = await page.locator(".lab-drag-dispenser").count();
+  if (dispenserCount !== 1) {
+    issues.push(`${id} should render one dispenser, got ${dispenserCount}`);
+  }
+
+  if (DRAG_LAB_IDS.has(id)) {
+    await exerciseDragDispenser(page, id, issues);
+    await exerciseDragSlotSwap(page, id, issues);
+  } else if (TREE_LAB_IDS.has(id)) {
+    await exerciseTreeDispenser(page, issues);
+    await exerciseTreeSlotSwap(page, issues);
+  }
+
   const before = await page.evaluate(() => window.BibleBowlLabQA.state());
+  const beforePlacement = placementSnapshot(before);
+
+  const hintButtonCount = await page.locator(".lab-hint-btn").count();
+  if (hintButtonCount !== 1) {
+    return {
+      id,
+      ok: false,
+      issues: [`expected one hint button, got ${hintButtonCount}`],
+      note: "missing hint control",
+    };
+  }
+  await page.locator(".lab-hint-btn").click();
+  await page.waitForTimeout(120);
+  const afterHint = await page.evaluate(() => ({
+    state: window.BibleBowlLabQA.state(),
+    pulseCount: document.querySelectorAll(".lab-hint-reveal").length,
+    counter: document.querySelector(".lab-tabernacle-hint-counter")?.textContent || "",
+  }));
+
   await page.evaluate(() => window.BibleBowlLabQA.solve());
   await page.waitForTimeout(400);
 
   const after = await page.evaluate(() => window.BibleBowlLabQA.state());
-  const issues = [];
+  const afterHintPlacement = placementSnapshot(afterHint.state);
+
+  if (hintCountFromState(afterHint.state) !== 1) {
+    issues.push(`hint count did not increment to 1: ${JSON.stringify(afterHint.state)}`);
+  }
+  if (!/Hints:\s*1/.test(afterHint.counter)) {
+    issues.push(`hint counter text did not update: "${afterHint.counter}"`);
+  }
+  if (afterHint.pulseCount < 1) {
+    issues.push("hint did not pulse any source or target");
+  }
+  if (afterHint.pulseCount < 2) {
+    issues.push(`hint should pulse both source and target, got ${afterHint.pulseCount}`);
+  }
+  if (JSON.stringify(beforePlacement) !== JSON.stringify(afterHintPlacement)) {
+    issues.push("hint changed placement state instead of only revealing it");
+  }
 
   const complete =
     after.drag?.complete ||
@@ -72,6 +459,10 @@ async function testLab(page, id, viewportName) {
   if (!complete) {
     issues.push("lab did not complete after solve()");
   }
+
+  await assertSolvedLabLocked(page, id, after, issues);
+
+  await exerciseResetClearsHints(page, id, issues);
 
   const modal = await page.locator("#labs-modal.active").count();
   if (modal < 1) issues.push("modal not open");

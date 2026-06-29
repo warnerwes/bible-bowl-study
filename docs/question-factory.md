@@ -145,8 +145,8 @@ when candidate packets exist. The quiz loads that file opportunistically. After
 a learner sees a memory aid, it can ask which aid sticks better: the current aid
 or the latest imported candidate.
 
-Votes are stored in the learner's browser. They can export them from the home
-screen with **Export memory-aid votes**.
+Votes are stored in the learner's browser and, when `data/vote-sink.json` is
+enabled, sent to the configured Google Form / Sheet for back-end review.
 
 To send votes invisibly to Google Forms, create a form with short-answer fields
 named:

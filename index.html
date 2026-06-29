@@ -20,7 +20,8 @@
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Spectral:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="styles.css?v=18" />
   <link rel="stylesheet" href="rewards.css?v=7" />
-  <link rel="stylesheet" href="memory-labs.css?v=16" />
+  <link rel="stylesheet" href="memory-labs.css?v=17" />
+  <link rel="stylesheet" href="memory-labs-dispenser.css?v=3" />
 </head>
 <body>
   <header class="site-header">
@@ -50,7 +51,6 @@
 
         <div class="home-foot">
           <button type="button" id="toggle-advanced" class="link-btn" aria-expanded="false">Build a custom quiz ▾</button>
-          <button type="button" id="export-votes" class="link-btn" hidden>Export memory-aid votes</button>
           <button type="button" id="view-progress" class="link-btn" hidden>View my progress →</button>
         </div>
       </div>
@@ -194,16 +194,16 @@
   <script src="rewards-scenes-2.js?v=17"></script>
   <script src="rewards.js?v=20"></script>
   <script src="memory-labs-data.js?v=7"></script>
-  <script src="memory-labs-drag.js?v=7"></script>
-  <script src="memory-labs-tree.js?v=7"></script>
-  <script src="memory-labs-tabernacle.js?v=13"></script>
+  <script src="memory-labs-drag.js?v=10"></script>
+  <script src="memory-labs-tree.js?v=9"></script>
+  <script src="memory-labs-tabernacle.js?v=15"></script>
   <script src="memory-labs.js?v=9"></script>
   <script>
     // ---- Version + SW update machinery ----
     // The asset-busting version baked into this HTML build. Bump this
     // when shipping any change to memory-labs.* or the SW, so phones
     // that loaded an older HTML auto-detect the mismatch and reload.
-    var __BBS_VERSION = "22";
+    var __BBS_VERSION = "26";
     if ("serviceWorker" in navigator) {
       window.addEventListener("load", function () {
         navigator.serviceWorker.register("sw.js").catch(function () {});

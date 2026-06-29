@@ -93,8 +93,7 @@ progress is saved **per device** in `localStorage` — no account, no server.
   the study guide shows **"Which aid sticks better?"** — pick the current aid or the
   alternate, or **Suggest my own**. The choice is saved when you press **Next**.
 - Votes are stored locally (`bbs:aid-votes:v1`). If `data/vote-sink.json` is enabled,
-  each vote is also submitted anonymously to a Google Form. **Export memory-aid votes**
-  (home screen) downloads them for tallying — see the curation pipeline below.
+  each vote is also submitted anonymously to a Google Form for back-end tallying.
 
 ### Wonders of the Exodus (mastery rewards)
 - Eight **canvas mini-games** on a trophy shelf below the quiz — unlocked by mastered
@@ -104,7 +103,7 @@ progress is saved **per device** in `localStorage` — no account, no server.
 - Spec and file map: [`docs/exodus-wonders-deep-research-brief.md`](docs/exodus-wonders-deep-research-brief.md).
 
 ### Memory Labs (ordered structure)
-- Five **drag-order / tree** labs on a second shelf — unlocked by **chapter masteries**
+- Six **drag-order / tree** labs on a second shelf — unlocked by **chapter masteries**
   (e.g. plagues needs 8 mastered questions in Exodus ch. 7–12).
 - Labs: Ten Plagues, Twelve Tribes (birth order), Ten Commandments (Orthodox numbering),
   Line of the Priesthood, Holy Consecration (Exodus 29 subset).

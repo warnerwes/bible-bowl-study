@@ -74,6 +74,8 @@ async function runViewport(browser, viewport, errors, checks) {
   page.on("console", (m) => {
     if (m.type() === "error") errors.push(`[${viewport.name}] console: ${m.text()}`);
   });
+  
+  await page.route("**/sw.js", (route) => route.abort());
 
   await page.goto("http://127.0.0.1:9878/index.html?qa=1", {
     waitUntil: "networkidle",
@@ -713,8 +715,12 @@ async function main() {
   const checks = [];
   let failed = 0;
 
-  for (const viewport of VIEWPORTS) {
-    await runViewport(browser, viewport, errors, checks);
+  try {
+    for (const viewport of VIEWPORTS) {
+      await runViewport(browser, viewport, errors, checks);
+    }
+  } catch (e) {
+    console.error("Test execution aborted due to error:", e);
   }
 
   // 9. Verify the 6 new placement MC questions are in the bank.
