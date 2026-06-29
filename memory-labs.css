@@ -757,10 +757,164 @@
   80% { transform: translateX(2px); }
   100% { transform: translateX(0); }
 }
+/* Correct placement after Check: subtle green ring so user knows
+   right-but-not-yet-completed (e.g. when other zones still missing). */
+.lab-tabernacle-zone.right {
+  border-color: rgba(110, 200, 130, 0.95);
+  background-color: rgba(40, 70, 46, 0.55);
+  box-shadow: inset 0 0 0 2px rgba(110, 200, 130, 0.6);
+}
+/* Required zone still empty after Check: gentle pulse so user can
+   see WHICH placements they still owe. */
+.lab-tabernacle-zone.missing {
+  border-color: rgba(212, 160, 78, 0.95);
+  background-color: rgba(70, 55, 25, 0.5);
+  animation: lab-zone-missing-pulse 1.6s ease-in-out infinite;
+}
+@keyframes lab-zone-missing-pulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(212, 160, 78, 0.0); }
+  50% { box-shadow: 0 0 0 4px rgba(212, 160, 78, 0.35); }
+}
+/* Any zone that received feedback during Check — keeps the status
+   visible until Reset clears it. */
+.lab-tabernacle-zone.checked {
+  transition: border-color 0.2s ease, background-color 0.2s ease;
+}
 .lab-tabernacle-zone.lab-tabernacle-key-focus {
   outline: 2px solid rgba(212, 160, 78, 0.95);
   outline-offset: -2px;
   box-shadow: 0 0 0 4px rgba(212, 160, 78, 0.18);
+}
+
+/* Hint reveal: pulsing gold halo on the chip + zone that the Hint
+   button just illuminated. Auto-removes via setTimeout(1600) in the
+   engine. Works for both placed chips AND tray chips so the user can
+   see which item to drag (or which zone to drop into). */
+.lab-hint-reveal {
+  animation: lab-tabernacle-hint-pulse 1.6s ease-in-out 1;
+  outline: 3px solid rgba(255, 215, 90, 0.95) !important;
+  outline-offset: 2px;
+  box-shadow:
+    0 0 0 6px rgba(255, 215, 90, 0.35),
+    0 0 24px 6px rgba(255, 215, 90, 0.55) !important;
+  z-index: 2;
+  position: relative;
+}
+@keyframes lab-tabernacle-hint-pulse {
+  0%, 100% { transform: scale(1); }
+  25% { transform: scale(1.08); }
+  50% { transform: scale(1); }
+  75% { transform: scale(1.05); }
+}
+
+/* Hint counter pill (in actions row next to Hint button). */
+.lab-tabernacle-hint-counter {
+  display: inline-block;
+  padding: 0.35rem 0.7rem;
+  border-radius: 999px;
+  background: rgba(212, 160, 78, 0.12);
+  border: 1px solid rgba(212, 160, 78, 0.45);
+  color: var(--accent-strong, #d4a04e);
+  font-size: 0.82rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+}
+.lab-tabernacle-hint-counter:empty {
+  display: none;
+}
+
+/* Medal badge — appears under the tray on successful completion.
+   Anchored to the user's working area so the achievement feels like
+   it belongs to the placements, not the side panel. */
+.lab-tabernacle-medal {
+  margin-top: 0.75rem;
+  display: flex;
+  justify-content: center;
+}
+.lab-tabernacle-medal-badge {
+  width: 100%;
+  max-width: 360px;
+  padding: 0.85rem 1rem;
+  border-radius: 14px;
+  text-align: center;
+  border: 2px solid transparent;
+  background: rgba(20, 22, 32, 0.85);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.4);
+}
+.lab-tabernacle-medal-headline {
+  font-size: 1.4rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  margin-bottom: 0.35rem;
+}
+.lab-tabernacle-medal-sub {
+  font-size: 0.88rem;
+  line-height: 1.35;
+  color: rgba(232, 222, 200, 0.88);
+}
+.lab-tabernacle-medal-newbest {
+  margin-top: 0.5rem;
+  font-size: 0.78rem;
+  color: rgba(255, 215, 90, 0.95);
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+.lab-tabernacle-medal-oldbest {
+  margin-top: 0.5rem;
+  font-size: 0.78rem;
+  color: rgba(232, 222, 200, 0.65);
+  font-weight: 500;
+}
+
+/* Tier-specific colors. Gold is the celebration, silver is dignified,
+   bronze is encouraging (not demeaning — bronze is still completion). */
+.lab-tabernacle-medal-gold {
+  border-color: rgba(255, 215, 0, 0.95);
+  background: linear-gradient(
+    135deg,
+    rgba(60, 44, 0, 0.9) 0%,
+    rgba(30, 22, 0, 0.95) 100%
+  );
+  box-shadow:
+    0 0 0 1px rgba(255, 215, 0, 0.4),
+    0 8px 24px rgba(255, 215, 0, 0.25),
+    0 4px 12px rgba(0, 0, 0, 0.5);
+}
+.lab-tabernacle-medal-gold .lab-tabernacle-medal-headline {
+  color: #ffd24a;
+  text-shadow: 0 0 12px rgba(255, 215, 0, 0.6);
+}
+.lab-tabernacle-medal-silver {
+  border-color: rgba(220, 220, 235, 0.95);
+  background: linear-gradient(
+    135deg,
+    rgba(48, 50, 60, 0.92) 0%,
+    rgba(24, 26, 32, 0.95) 100%
+  );
+  box-shadow:
+    0 0 0 1px rgba(220, 220, 235, 0.35),
+    0 6px 18px rgba(0, 0, 0, 0.45);
+}
+.lab-tabernacle-medal-silver .lab-tabernacle-medal-headline {
+  color: #ecedf3;
+  text-shadow: 0 0 8px rgba(220, 220, 235, 0.45);
+}
+.lab-tabernacle-medal-bronze {
+  border-color: rgba(205, 127, 50, 0.92);
+  background: linear-gradient(
+    135deg,
+    rgba(46, 28, 14, 0.92) 0%,
+    rgba(24, 14, 6, 0.95) 100%
+  );
+  box-shadow:
+    0 0 0 1px rgba(205, 127, 50, 0.3),
+    0 6px 18px rgba(0, 0, 0, 0.45);
+}
+.lab-tabernacle-medal-bronze .lab-tabernacle-medal-headline {
+  color: #d99553;
+  text-shadow: 0 0 8px rgba(205, 127, 50, 0.45);
 }
 
 /* Placed chip inside a zone — emoji-only badge for compactness.

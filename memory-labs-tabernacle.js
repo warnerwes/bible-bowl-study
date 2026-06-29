@@ -72,6 +72,7 @@
       const zoneById = Object.fromEntries(zones.map((z) => [z.id, z]));
       const placed = {}; // zoneId -> cardId
       let tray = shuffle(cards.map((c) => c.id));
+      let hintsUsed = 0; // increments on each Hint button press
       let dragCardId = null;
       let dragFromZone = null; // null = from pool
       let highlightedZoneId = null;
@@ -168,17 +169,40 @@
       checkBtn.type = "button";
       checkBtn.className = "primary-btn lab-check-btn";
       checkBtn.textContent = "Check placements";
+      const hintBtn = document.createElement("button");
+      hintBtn.type = "button";
+      hintBtn.className = "primary-btn ghost-btn lab-hint-btn";
+      hintBtn.textContent = "Hint";
+      hintBtn.setAttribute("aria-label", "Reveal one correct placement");
       const resetBtn = document.createElement("button");
       resetBtn.type = "button";
       resetBtn.className = "primary-btn ghost-btn lab-reset-btn";
       resetBtn.textContent = "Reset";
       actions.appendChild(checkBtn);
+      actions.appendChild(hintBtn);
       actions.appendChild(resetBtn);
+
+      // Hint counter pill (separate from the button so it can update
+      // without re-rendering the button + without losing focus).
+      const hintCounter = document.createElement("span");
+      hintCounter.className = "lab-tabernacle-hint-counter";
+      hintCounter.setAttribute("aria-live", "polite");
+      actions.appendChild(hintCounter);
+
+      // Medal badge container — rendered ONLY on completion. Hidden
+      // before then. Lives under the tray so the achievement feels
+      // anchored to the user's working area.
+      const medalEl = document.createElement("div");
+      medalEl.className = "lab-tabernacle-medal";
+      medalEl.setAttribute("role", "status");
+      medalEl.setAttribute("aria-live", "polite");
+      medalEl.hidden = true;
 
       container.appendChild(board);
       container.appendChild(trayLabel);
       container.appendChild(trayEl);
       container.appendChild(actions);
+      container.appendChild(medalEl);
 
       // ---- Drag engine -------------------------------------------------
 
@@ -464,8 +488,43 @@
           lbl.className = "lab-chip-label";
           lbl.textContent = card.label;
           placedChipEl.appendChild(lbl);
-          // Click placed chip = return to pool.
-          placedChipEl.addEventListener("click", () => {
+          // Click placed chip = return to pool (only if no drag started).
+          let pointerDownX = 0;
+          let pointerDownY = 0;
+          let draggedFar = false;
+          placedChipEl.addEventListener("pointerdown", (e) => {
+            if (e.button !== undefined && e.button !== 0) return;
+            pointerDownX = e.clientX;
+            pointerDownY = e.clientY;
+            draggedFar = false;
+            startDrag(cardId, placedChipEl, e.clientX, e.clientY, e.pointerId);
+          });
+          placedChipEl.addEventListener("pointermove", (e) => {
+            if (dragCardId !== cardId) return;
+            moveDrag(e.clientX, e.clientY);
+            if (
+              !draggedFar &&
+              Math.hypot(e.clientX - pointerDownX, e.clientY - pointerDownY) > 6
+            ) {
+              draggedFar = true;
+            }
+          });
+          placedChipEl.addEventListener("pointerup", (e) => {
+            if (dragCardId !== cardId) return;
+            e.preventDefault();
+            endDrag(e.clientX, e.clientY);
+          });
+          placedChipEl.addEventListener("pointercancel", () => {
+            if (dragCardId === cardId) cancelDrag();
+          });
+          placedChipEl.addEventListener("click", (e) => {
+            // Suppress click-to-return if user just dragged this chip.
+            if (draggedFar) {
+              e.preventDefault();
+              e.stopPropagation();
+              return;
+            }
+            // Quick tap on a placed chip = bounce back to pool.
             delete placed[zid];
             tray.push(cardId);
             render();
@@ -477,58 +536,300 @@
       function render() {
         renderTray();
         renderZones();
+        // Mirror hint progress in the chip pill so user sees their
+        // counter ticking up without it blocking the active drag.
+        hintCounter.textContent =
+          hintsUsed === 0
+            ? "Hints: 0"
+            : `Hints: ${hintsUsed}`;
         active.state = {
           placed: { ...placed },
           tray: tray.slice(),
+          hintsUsed,
           complete: false,
         };
       }
 
+      // ---- Hint / medal -------------------------------------------------
+
+      // Tier mapping per Wes's spec (2026-06-28):
+      //   0 hints  → GOLD
+      //   1–2 hints → SILVER
+      //   3+ hints → BRONZE
+      function tierFor(hints) {
+        if (hints <= 0) return "gold";
+        if (hints <= 2) return "silver";
+        return "bronze";
+      }
+      const TIER_LABEL = {
+        gold: "GOLD",
+        silver: "SILVER",
+        bronze: "BRONZE",
+      };
+      const TIER_EMOJI = {
+        gold: "🥇",
+        silver: "🥈",
+        bronze: "🥉",
+      };
+      const TIER_LINE = {
+        gold: "Mastered with no hints — every holy thing placed from memory alone.",
+        silver: "Placed cleanly with a hint or two — the placements are known, the recall almost there.",
+        bronze: "Placed with many hints — keep practicing until the map lives in your heart.",
+      };
+      const MEDAL_STORAGE_KEY = `bbs-medal:${lab.id}`;
+      function readBestMedal() {
+        try {
+          const raw = localStorage.getItem(MEDAL_STORAGE_KEY);
+          if (!raw) return null;
+          const parsed = JSON.parse(raw);
+          if (parsed && ["gold", "silver", "bronze"].includes(parsed.tier)) {
+            return parsed;
+          }
+        } catch (_) {}
+        return null;
+      }
+      function writeBestMedal(record) {
+        try {
+          localStorage.setItem(MEDAL_STORAGE_KEY, JSON.stringify(record));
+        } catch (_) {}
+      }
+      // Tier ranking for "did this beat the prior best" comparison.
+      function tierRank(t) {
+        if (t === "gold") return 0;
+        if (t === "silver") return 1;
+        if (t === "bronze") return 2;
+        return 3;
+      }
+
+      // Reveal one placement visually: pulse the source CHIP and the
+      // target ZONE together. Then commit the placement into `placed`
+      // and re-render so the chip actually moves. Returns true on
+      // success, false if nothing left to reveal.
+      function revealOne() {
+        // 1. Prefer unresolved tray cards (user hasn't placed yet).
+        for (const cardId of tray) {
+          // Find the first required zone whose accept set contains
+          // this card.
+          const target = zones.find(
+            (z) =>
+              Array.isArray(z.accept) &&
+              z.accept.includes(cardId) &&
+              !placed[z.id]
+          );
+          if (target) {
+            placeAndFlash(cardId, target.id);
+            return true;
+          }
+        }
+        // 2. Tray empty but something is wrongly placed — point at it.
+        for (const zid of Object.keys(placed)) {
+          const z = zoneById[zid];
+          if (!z || !Array.isArray(z.accept)) continue;
+          if (!z.accept.includes(placed[zid])) {
+            // Find the FIRST required zone whose accept set contains
+            // this card and is currently empty.
+            const correctZoneId = zones
+              .filter(
+                (zz) =>
+                  Array.isArray(zz.accept) &&
+                  zz.accept.includes(placed[zid]) &&
+                  !placed[zz.id]
+              )
+              .map((zz) => zz.id)[0];
+            if (correctZoneId) {
+              placeAndFlash(placed[zid], correctZoneId);
+              return true;
+            }
+          }
+        }
+        return false;
+      }
+      function placeAndFlash(cardId, zoneId) {
+        // Move the card into the target zone (slot it like a user drop).
+        const fromZone = findZoneContaining(cardId);
+        assign(zoneId, cardId, fromZone);
+        // Brief CSS pulse classes on the chip + zone — picked up by
+        // render() on next paint via the .lab-hint-reveal class added
+        // imperatively below.
+        // After render(), look up the placed chip and add pulse classes
+        // that auto-remove via setTimeout.
+        // render() is called by assign? No — assign only mutates state.
+        // We render and then tag the elements.
+        // Defer so the elements exist by the time we query for them.
+        render();
+        requestAnimationFrame(() => {
+          // Find the chip element (could be in tray if assign put it back,
+          // or placed on the target zone).
+          const placedChipEl = document.querySelector(
+            `[data-card-id="${cardId}"].lab-tabernacle-placed`
+          );
+          if (placedChipEl) {
+            placedChipEl.classList.add("lab-hint-reveal");
+            setTimeout(
+              () => placedChipEl.classList.remove("lab-hint-reveal"),
+              1600
+            );
+          } else {
+            const trayChipEl = trayEl.querySelector(
+              `[data-card-id="${cardId}"]`
+            );
+            if (trayChipEl) {
+              trayChipEl.classList.add("lab-hint-reveal");
+              setTimeout(
+                () => trayChipEl.classList.remove("lab-hint-reveal"),
+                1600
+              );
+            }
+          }
+          const zoneEl = zoneEls[zoneId];
+          if (zoneEl) {
+            zoneEl.classList.add("lab-hint-reveal");
+            setTimeout(() => zoneEl.classList.remove("lab-hint-reveal"), 1600);
+          }
+        });
+      }
+
+      // Public hint counter for the test harness.
+      function hintCount() {
+        return hintsUsed;
+      }
+
+      // Build the medal DOM. Hidden until a successful Check.
+      function renderMedal(tier, hintsCount, previousBest) {
+        medalEl.hidden = false;
+        const isNewBest =
+          !previousBest || tierRank(tier) < tierRank(previousBest.tier);
+        const medalText = `${TIER_EMOJI[tier]} ${TIER_LABEL[tier]}`;
+        const tierLabel = `${medalText} (${hintsCount} hint${
+          hintsCount === 1 ? "" : "s"
+        })`;
+        medalEl.innerHTML = "";
+        const badge = document.createElement("div");
+        badge.className = `lab-tabernacle-medal-badge lab-tabernacle-medal-${tier}`;
+        const head = document.createElement("div");
+        head.className = "lab-tabernacle-medal-headline";
+        head.textContent = medalText;
+        const sub = document.createElement("div");
+        sub.className = "lab-tabernacle-medal-sub";
+        sub.textContent = `${hintsCount} hint${hintsCount === 1 ? "" : "s"} — ${TIER_LINE[tier]}`;
+        badge.appendChild(head);
+        badge.appendChild(sub);
+        if (isNewBest && previousBest) {
+          const newBest = document.createElement("div");
+          newBest.className = "lab-tabernacle-medal-newbest";
+          newBest.textContent = `New best! (Previous: ${TIER_EMOJI[previousBest.tier]} ${TIER_LABEL[previousBest.tier]})`;
+          badge.appendChild(newBest);
+        } else if (isNewBest && !previousBest) {
+          const firstEver = document.createElement("div");
+          firstEver.className = "lab-tabernacle-medal-newbest";
+          firstEver.textContent = "First completion on this device.";
+          badge.appendChild(firstEver);
+        } else if (previousBest) {
+          const keepTrying = document.createElement("div");
+          keepTrying.className = "lab-tabernacle-medal-oldbest";
+          keepTrying.textContent = `Best remains: ${TIER_EMOJI[previousBest.tier]} ${TIER_LABEL[previousBest.tier]} (${previousBest.hints} hint${
+            previousBest.hints === 1 ? "" : "s"
+          })`;
+          badge.appendChild(keepTrying);
+        }
+        medalEl.appendChild(badge);
+        return tierLabel;
+      }
+
+      hintBtn.addEventListener("click", () => {
+        if (active.state.complete) return; // No hints after completion.
+        const did = revealOne();
+        if (!did) {
+          status.textContent =
+            "All placements are already correct — no hint needed.";
+          status.className = "lab-drag-status";
+          return;
+        }
+        hintsUsed++;
+        // Render keeps the chip pill in sync + re-draws tray/zones. We
+        // capture the new render() values via the call above.
+        render();
+      });
+
       // ---- Check / reset ----------------------------------------------
 
       checkBtn.addEventListener("click", () => {
+        // Clear any prior per-zone feedback classes before re-evaluating.
+        Object.values(zoneEls).forEach((el) => {
+          el.classList.remove(
+            "wrong",
+            "right",
+            "missing",
+            "checked",
+            "lab-tabernacle-key-focus"
+          );
+        });
         // Only require zones with a non-empty accept set to be filled.
         // Parent zones (e.g., holy_place, most_holy) are visual containers
         // whose children hold the actual drop targets — they should not
         // appear "missing" when all their children are filled.
         const required = zones.filter((z) => Array.isArray(z.accept) && z.accept.length > 0);
-        const missing = required.filter((z) => !placed[z.id]);
-        if (missing.length) {
-          status.textContent = `Place every item — ${missing.length} zone(s) still empty.`;
+        const missingZones = required.filter((z) => !placed[z.id]);
+        let wrongCount = 0;
+        let correctCount = 0;
+        // Mark every required zone with status class so user can see at a
+        // glance which placements are right, wrong, and still empty.
+        required.forEach((z) => {
+          const el = zoneEls[z.id];
+          if (!el) return;
+          el.classList.add("checked");
+          if (!placed[z.id]) {
+            el.classList.add("missing");
+          } else if (Array.isArray(z.accept) && z.accept.includes(placed[z.id])) {
+            el.classList.add("right");
+            correctCount++;
+          } else {
+            el.classList.add("wrong");
+            wrongCount++;
+          }
+        });
+        const totalRequired = required.length;
+        const empty = missingZones.length;
+        if (empty || wrongCount) {
+          // Compose a precise status so user knows what to fix.
+          const parts = [];
+          if (wrongCount) parts.push(`${wrongCount} misplacement${wrongCount === 1 ? "" : "s"}`);
+          if (empty) parts.push(`${empty} zone${empty === 1 ? "" : "s"} still empty`);
+          status.textContent = `${correctCount}/${totalRequired} right — ${parts.join(", ")}. Red zones need to swap; pulsing zones still need a card.`;
           status.className = "lab-drag-status lab-hint";
+          if (wrongCount && typeof window.BibleBowlPlaySound === "function") {
+            window.BibleBowlPlaySound("thunder");
+          }
           return;
         }
-        // Walk placed zones, check each card is in a zone whose accept
-        // set contains it.
-        let ok = true;
-        let firstWrong = null;
-        for (const zid of Object.keys(placed)) {
-          const z = zoneById[zid];
-          const cid = placed[zid];
-          if (!z || !Array.isArray(z.accept) || !z.accept.includes(cid)) {
-            ok = false;
-            firstWrong = { cardId: cid, zoneId: zid, expectedZoneId: z && z.parent ? z.parent : zid };
-            zoneEls[zid].classList.add("wrong");
-            break;
-          }
+        // All correct. Compute medal tier from hint usage and render the
+        // badge in the tray area so the achievement sits where the user
+        // was just working. Persist if it beats the prior best.
+        status.textContent = lab.completion_teaching.memory_sentence;
+        status.className = "lab-drag-status lab-success";
+        checkBtn.disabled = true;
+        hintBtn.disabled = true; // no more hints after success
+        active.state.complete = true;
+        const priorBest = readBestMedal();
+        const tier = tierFor(hintsUsed);
+        const record = {
+          tier,
+          hints: hintsUsed,
+          at: new Date().toISOString(),
+        };
+        // Only persist if this attempt beats the prior best (or no prior).
+        if (
+          !priorBest ||
+          tierRank(tier) < tierRank(priorBest.tier) ||
+          (tierRank(tier) === tierRank(priorBest.tier) &&
+            hintsUsed < (priorBest.hints || Infinity))
+        ) {
+          writeBestMedal(record);
         }
-        if (ok) {
-          status.textContent = lab.completion_teaching.memory_sentence;
-          status.className = "lab-drag-status lab-success";
-          checkBtn.disabled = true;
-          active.state.complete = true;
-          if (callbacks && callbacks.onComplete) callbacks.onComplete();
-          if (typeof window.BibleBowlPlaySound === "function")
-            window.BibleBowlPlaySound("unlock");
-        } else {
-          status.textContent = failureHintFor(
-            firstWrong.cardId,
-            firstWrong.expectedZoneId
-          );
-          status.className = "lab-drag-status lab-hint";
-          if (typeof window.BibleBowlPlaySound === "function")
-            window.BibleBowlPlaySound("thunder");
-        }
+        renderMedal(tier, hintsUsed, priorBest);
+        if (callbacks && callbacks.onComplete) callbacks.onComplete();
+        if (typeof window.BibleBowlPlaySound === "function")
+          window.BibleBowlPlaySound("unlock");
       });
 
       resetBtn.addEventListener("click", () => {
@@ -537,10 +838,28 @@
           delete placed[k];
         });
         tray = shuffle(tray);
+        // Fresh attempt: clear hint counter so a gold attempt is
+        // genuinely possible from this point on.
+        hintsUsed = 0;
+        // Clear per-zone feedback so previous Check marks don't bleed into the new attempt.
+        Object.values(zoneEls).forEach((el) => {
+          el.classList.remove(
+            "wrong",
+            "right",
+            "missing",
+            "checked",
+            "lab-tabernacle-key-focus",
+            "lab-hint-reveal"
+          );
+        });
         status.textContent =
           "Drag each item onto its correct place on the tabernacle map.";
         status.className = "lab-drag-status";
         checkBtn.disabled = false;
+        hintBtn.disabled = false;
+        // Hide the medal so the prior badge doesn't shadow the new attempt.
+        medalEl.hidden = true;
+        medalEl.innerHTML = "";
         render();
       });
 
@@ -589,6 +908,35 @@
         assignForTest(zoneId, cardId) {
           assign(zoneId, cardId, findZoneContaining(cardId));
           render();
+        },
+        // Test hook: pull a placed card back to the tray, leaving its
+        // zone empty. Used to simulate user actions that need a known
+        // empty required zone (e.g. verifying .missing feedback works).
+        unplaceForTest(cardId) {
+          const zid = findZoneContaining(cardId);
+          if (zid) {
+            delete placed[zid];
+            tray.push(cardId);
+            render();
+          }
+        },
+        // Test hook: read the current hint counter.
+        hintCount() {
+          return hintsUsed;
+        },
+        // Test hook: compute the tier for a hypothetical hint count.
+        tierFor(h) {
+          return tierFor(h);
+        },
+        // Test hook: clear localStorage medal (for clean test runs).
+        clearMedalForTest() {
+          try {
+            localStorage.removeItem(MEDAL_STORAGE_KEY);
+          } catch (_) {}
+        },
+        // Test hook: read what medal would currently be persisted.
+        readBestMedal() {
+          return readBestMedal();
         },
         cleanup() {
           window.removeEventListener("orientationchange", onOrientationChange);

@@ -141,14 +141,78 @@ async function runViewport(browser, viewport, errors, checks) {
   });
   const statusText = await page.locator(".lab-drag-status").textContent();
   checks.push({
-    name: `${viewport.name}: per-card failure hint appears`,
-    ok: statusText && statusText.length > 20 && /Ark|Most Holy|presence|behind the veil/i.test(statusText),
-    detail: `status="${(statusText || "").slice(0, 60)}..."`,
+    name: `${viewport.name}: status surfaces misplacement count`,
+    ok:
+      statusText &&
+      /2 misplacement|swap|Red zones/i.test(statusText),
+    detail: `status="${(statusText || "").slice(0, 90)}..."`,
+  });
+  // Each wrong zone must have the .wrong class for visible feedback.
+  const wrongZoneCount = await page.evaluate(() => {
+    return document.querySelectorAll(
+      ".lab-tabernacle-zone.wrong"
+    ).length;
+  });
+  checks.push({
+    name: `${viewport.name}: wrong zones visually marked (red)`,
+    ok: wrongZoneCount >= 2,
+    detail: `wrong-classed zones=${wrongZoneCount}`,
+  });
+  // Placed-chip dragability: verify the placed chip has a pointerdown
+  // handler so user can re-drag it (the "I can't move it once placed"
+  // bug). We just check the class is wired and the element exists.
+  const placedDraggable = await page.evaluate(() => {
+    const el = document.querySelector(".lab-tabernacle-placed");
+    if (!el) return false;
+    // Element must have a cardId so startDrag can resolve the source
+    // zone via findZoneContaining().
+    return !!el.dataset.cardId;
+  });
+  checks.push({
+    name: `${viewport.name}: placed chip has dataset.cardId for re-drag`,
+    ok: placedDraggable,
   });
   // Capture the wrong placement screenshot.
   await page.screenshot({
     path: join(root, "captures", `qa-tabernacle-wrong-${viewport.name}.png`),
     fullPage: true,
+  });
+
+  // 5b. Reset, partially fill, click Check, verify the EMPTY required
+  // zone gets a visible .missing class so user knows WHICH placement
+  // is still owed. (UX report: "I can't see where I am missing other
+  // placements".)
+  await page.locator(".lab-reset-btn").click();
+  await page.waitForTimeout(200);
+  // Fill 8 of 8 correct, then unplaceForTest one card so exactly 7
+  // remain correct + 1 zone is empty + 1 card returns to tray.
+  await page.evaluate(() => {
+    const Tab = window.BibleBowlLabTabernacle.getActive();
+    Tab.fillCorrect();
+    const state = window.BibleBowlLabQA.state();
+    const placedZone = Object.keys(state.tabernacle.placed)[0];
+    if (placedZone) {
+      Tab.unplaceForTest(state.tabernacle.placed[placedZone]);
+    }
+  });
+  await page.waitForTimeout(150);
+  await page.locator(".lab-check-btn").click();
+  await page.waitForTimeout(200);
+  const missingCount = await page.evaluate(
+    () => document.querySelectorAll(".lab-tabernacle-zone.missing").length
+  );
+  checks.push({
+    name: `${viewport.name}: empty required zone gets .missing feedback`,
+    ok: missingCount >= 1,
+    detail: `missing-classed zones=${missingCount}`,
+  });
+  const correctCount = await page.evaluate(
+    () => document.querySelectorAll(".lab-tabernacle-zone.right").length
+  );
+  checks.push({
+    name: `${viewport.name}: correct placements get .right feedback (green)`,
+    ok: correctCount >= 6,
+    detail: `right-classed zones=${correctCount}`,
   });
 
   // 6. Reset, then solve.
@@ -175,6 +239,149 @@ async function runViewport(browser, viewport, errors, checks) {
   // 8. Capture success screenshot.
   await page.screenshot({
     path: join(root, "captures", `qa-tabernacle-solved-${viewport.name}.png`),
+    fullPage: true,
+  });
+
+  // 9. Hint + medal feature: tier mapping, hint reveal, counter
+  // increment, persistence, gold/silver/bronze visual output.
+  // 9a. Tier mapping is deterministic — verify each tier for known
+  // hint counts.
+  const tierCheck = await page.evaluate(() => {
+    const Tab = window.BibleBowlLabTabernacle.getActive();
+    return {
+      zero: Tab.tierFor(0),
+      one: Tab.tierFor(1),
+      two: Tab.tierFor(2),
+      three: Tab.tierFor(3),
+      ten: Tab.tierFor(10),
+    };
+  });
+  checks.push({
+    name: `${viewport.name}: tier mapping 0→gold, 1-2→silver, 3+→bronze`,
+    ok:
+      tierCheck.zero === "gold" &&
+      tierCheck.one === "silver" &&
+      tierCheck.two === "silver" &&
+      tierCheck.three === "bronze" &&
+      tierCheck.ten === "bronze",
+    detail: JSON.stringify(tierCheck),
+  });
+
+  // 9b. Reset and exercise the Hint button: each click must reveal a
+  // chip+zone pulse, increment the counter, and update the visible
+  // pill text.
+  await page.locator(".lab-reset-btn").click();
+  await page.waitForTimeout(200);
+  await page.evaluate(() => {
+    const Tab = window.BibleBowlLabTabernacle.getActive();
+    Tab.clearMedalForTest(); // ensure medal starts fresh on this device
+  });
+  // First hint press.
+  await page.locator(".lab-hint-btn").click();
+  await page.waitForTimeout(150);
+  const hintAfterFirst = await page.evaluate(() => {
+    const Tab = window.BibleBowlLabTabernacle.getActive();
+    return {
+      count: Tab.hintCount(),
+      pillText: document.querySelector(".lab-tabernacle-hint-counter")?.textContent || "",
+      placementPulsing: !!document.querySelector(".lab-hint-reveal"),
+      stateHints: window.BibleBowlLabQA.state().tabernacle?.hintsUsed,
+    };
+  });
+  checks.push({
+    name: `${viewport.name}: Hint click #1 increments counter to 1`,
+    ok:
+      hintAfterFirst.count === 1 &&
+      hintAfterFirst.stateHints === 1 &&
+      /Hints:\s*1/.test(hintAfterFirst.pillText),
+    detail: JSON.stringify(hintAfterFirst),
+  });
+  // Brief pulse class must be present immediately after click.
+  checks.push({
+    name: `${viewport.name}: Hint reveals pulse class on chip or zone`,
+    ok: hintAfterFirst.placementPulsing,
+  });
+
+  // 9c. Solve with 1 hint already used → SILVER tier (since hints
+  // remaining = total - 1 hint revealed = 7 placements auto-done via
+  // solve(); we also need to re-hit Hint one more time to push
+  // counter to 2 so the silver tier (1-2 hints) is forced.
+  await page.locator(".lab-hint-btn").click();
+  await page.waitForTimeout(150);
+  // Solve remaining + check. solve() itself calls a.check() so the
+  // medal will render synchronously — no second Check click needed.
+  await page.evaluate(() => window.BibleBowlLabQA.solve());
+  await page.waitForTimeout(300);
+  const silverState = await page.evaluate(() => {
+    const medal = document.querySelector(".lab-tabernacle-medal-badge");
+    const headline = medal?.querySelector(".lab-tabernacle-medal-headline")?.textContent || "";
+    // Find the TIER class (gold|silver|bronze), not the base "badge" class.
+    const tierClass =
+      ["lab-tabernacle-medal-gold", "lab-tabernacle-medal-silver", "lab-tabernacle-medal-bronze"]
+        .find((c) => medal?.classList.contains(c)) || "";
+    return {
+      visible: !document.querySelector(".lab-tabernacle-medal")?.hidden,
+      tierClass,
+      headline,
+      best: window.BibleBowlLabTabernacle.getActive().readBestMedal(),
+      hintsUsed: window.BibleBowlLabTabernacle.getActive().hintCount(),
+    };
+  });
+  checks.push({
+    name: `${viewport.name}: 2 hints → SILVER medal rendered`,
+    ok:
+      silverState.visible &&
+      /SILVER/i.test(silverState.headline) &&
+      silverState.tierClass === "lab-tabernacle-medal-silver",
+    detail: JSON.stringify(silverState),
+  });
+  checks.push({
+    name: `${viewport.name}: SILVER medal persisted to localStorage`,
+    ok:
+      silverState.best?.tier === "silver" &&
+      silverState.best?.hints === 2,
+    detail: JSON.stringify(silverState.best),
+  });
+
+  // 9d. Reset and replay with ZERO hints → GOLD tier.
+  await page.locator(".lab-reset-btn").click();
+  await page.waitForTimeout(200);
+  // Counter pill must read "Hints: 0" after reset.
+  const afterReset = await page.evaluate(
+    () =>
+      document.querySelector(".lab-tabernacle-hint-counter")?.textContent || ""
+  );
+  checks.push({
+    name: `${viewport.name}: reset clears hint counter back to 0`,
+    ok: /Hints:\s*0/.test(afterReset),
+    detail: `pill="${afterReset}"`,
+  });
+  await page.evaluate(() => window.BibleBowlLabQA.solve());
+  await page.waitForTimeout(300);
+  const goldState = await page.evaluate(() => {
+    const medal = document.querySelector(".lab-tabernacle-medal-badge");
+    const headline = medal?.querySelector(".lab-tabernacle-medal-headline")?.textContent || "";
+    const tierClass =
+      ["lab-tabernacle-medal-gold", "lab-tabernacle-medal-silver", "lab-tabernacle-medal-bronze"]
+        .find((c) => medal?.classList.contains(c)) || "";
+    return {
+      tierClass,
+      headline,
+      best: window.BibleBowlLabTabernacle.getActive().readBestMedal(),
+    };
+  });
+  checks.push({
+    name: `${viewport.name}: 0 hints → GOLD medal + persists as new best`,
+    ok:
+      /GOLD/i.test(goldState.headline) &&
+      goldState.tierClass === "lab-tabernacle-medal-gold" &&
+      goldState.best?.tier === "gold",
+    detail: JSON.stringify(goldState),
+  });
+
+  // 9e. Capture completed screenshot with medal visible.
+  await page.screenshot({
+    path: join(root, "captures", `qa-tabernacle-medal-${viewport.name}.png`),
     fullPage: true,
   });
 
