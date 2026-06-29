@@ -1109,9 +1109,37 @@
   display: none; /* emoji-only when placed; full label in tooltip */
 }
 
-/* The tray pool — same look as drag-lab's pool. */
+/* The tray pool — same look as drag-lab's pool, but bumped for
+   legibility on phones. The default pool is intentionally subtle
+   (used by every lab), so we override here specifically for the
+   tabernacle pool to make the holy items easier to scan and tap. */
 .lab-tabernacle-pool {
   flex-wrap: wrap;
+  min-height: 56px;
+  padding: 0.6rem;
+  border-radius: 10px;
+  background: rgba(212, 160, 78, 0.08);
+  border: 1px solid rgba(212, 160, 78, 0.28);
+  gap: 0.5rem;
+}
+.lab-tabernacle-pool-label {
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--accent-strong);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin: 0 0 0.2rem 0;
+}
+.lab-tabernacle-pool .lab-chip {
+  font-size: 0.86rem;
+  font-weight: 600;
+  padding: 0.5rem 0.75rem;
+  min-height: 44px;
+  background: rgba(212, 160, 78, 0.22);
+  border: 1.5px solid rgba(212, 160, 78, 0.7);
+  color: var(--text);
+  box-shadow: 0 1px 0 rgba(212, 160, 78, 0.18);
+  flex: 0 1 auto;
 }
 
 /* On mobile, allow the board itself to scroll horizontally if the

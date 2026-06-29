@@ -196,7 +196,7 @@
 
       // Tray (chip pool)
       const trayLabel = document.createElement("p");
-      trayLabel.className = "lab-drag-pool-label";
+      trayLabel.className = "lab-drag-pool-label lab-tabernacle-pool-label";
       trayLabel.textContent = "Holy Items";
 
       const trayEl = document.createElement("div");
@@ -244,12 +244,28 @@
       // sits beside the map. Labels live OUTSIDE the map so each zone
       // has more room for its placed emoji chip — fixes the issue
       // where chips overflowed small zones and got clipped.
+      //
+      // Order: SPATIAL (top→bottom matching the map), not data order.
+      // Data order puts East Entrance (#4) before nested children and
+      // Divider (#8), which made the sidebar read nonsensically. The
+      // map renders zones top-down (Most Holy → Divider → Holy Place
+      // → Courtyard → East Entrance), so the sidebar should too.
+      // We iterate the board's children after nested insertion.
       const sidebar = document.createElement("aside");
       sidebar.className = "lab-tabernacle-sidebar";
       sidebar.setAttribute("aria-label", "Zone legend");
       const sidebarList = document.createElement("ul");
       sidebarList.className = "lab-tabernacle-sidebar-list";
-      zones.forEach((z) => {
+
+      // Walk the board's DOM in document order. Every .lab-tabernacle-zone
+      // (top-level or nested) is in spatial position relative to its
+      // siblings. This produces top→bottom reading order that matches
+      // the map exactly.
+      const spatialZones = [...board.querySelectorAll(".lab-tabernacle-zone")];
+      spatialZones.forEach((zoneEl) => {
+        const zid = zoneEl.dataset.zoneId;
+        const z = zoneById[zid];
+        if (!z) return;
         const li = document.createElement("li");
         li.className = "lab-tabernacle-sidebar-item";
         li.dataset.sidebarFor = z.id;
