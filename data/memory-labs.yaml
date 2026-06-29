@@ -1,0 +1,489 @@
+# Exodus Memory Labs — canonical lab definitions for Bible Bowl Study
+# Human OSB wording pass required before shipping in-app Scripture quotes.
+
+exodus_memory_labs_intro: >-
+  Memory Labs are the app's "order and structure" shelf: students touch, drag, and place
+  the great patterns of Exodus until the shape of Scripture becomes memorable. These are
+  not arcade rewards or dramatic re-enactments; they are small catechesis moments that teach
+  how God orders judgment, covenant, priesthood, worship, and memory. Final app wording
+  should be checked against the printed Orthodox Study Bible/SAAS before release, because
+  exact OSB wording and verse numbering may differ from common Protestant references.
+
+glossary:
+  - term: "OSB / SAAS"
+    note: >-
+      The Orthodox Study Bible Old Testament uses the St. Athanasius Academy Septuagint,
+      an English translation of the Septuagint tradition; OSB/SAAS should be the app's
+      authority for final wording.
+  - term: "LXX"
+    note: >-
+      "LXX" means the Septuagint, the Greek Old Testament tradition received deeply in
+      Orthodox Scripture, worship, and patristic interpretation.
+  - term: "Dog-fly"
+    note: >-
+      The fourth plague is often rendered "flies" or "swarms" in many English Bibles,
+      but the Greek/LXX tradition uses the vivid term "dog-fly/dog-flies"; this should
+      be flagged for students rather than silently normalized.
+  - term: "Theophany"
+    note: >-
+      A visible manifestation of God's presence; for this project, Sinai in Exodus 19 and
+      the glory filling the tabernacle in Exodus 40 are the key theophany moments.
+
+orthodox_cautions:
+  - Do a human OSB pass before shipping every in-app Scripture quote.
+  - Keep the Wonders and Memory Labs distinct: Wonders reward narrative milestones, while Memory Labs teach ordered structure.
+  - Do not let students "perform" priestly rites in the consecration lab. Frame the sequence as remembering God's institution, not play-acting sacramental or temple ministry.
+  - >-
+    For the Ten Commandments, use Orthodox numbering as default: no other gods is #1,
+    carved images is #2, God's Name is #3, Sabbath is #4, parents is #5, murder is #6,
+    adultery is #7, stealing is #8, false witness is #9, and coveting is one commandment #10.
+  - Avoid overconfident typology. Patristic connections may be offered as Churchly illumination, but do not state every plague, tribe, or ritual detail as a fixed one-to-one symbol unless the tradition clearly supports it.
+
+labs:
+  - lab_id: plagues
+    label: "Ten Plagues"
+    emoji: "🩸"
+    priority: P0
+    osb_reference: "Exodus 7:14–12:32"
+    ordered_items:
+      - rank: 1
+        label: "Water to Blood"
+        scripture_ref: "Exodus 7:14–25"
+        osb_note: "The Nile is struck first; use OSB wording for final app text."
+      - rank: 2
+        label: "Frogs"
+        scripture_ref: "Exodus 8:1–15"
+        osb_note: "Frogs come up after the waters are struck."
+      - rank: 3
+        label: "Lice"
+        scripture_ref: "Exodus 8:16–19"
+        osb_note: "Many English Bibles say gnats; OSB/LXX-friendly app label should be checked as lice."
+      - rank: 4
+        label: "Dog-flies"
+        scripture_ref: "Exodus 8:20–32"
+        osb_note: "Use Dog-flies or Dog-flies / Flies so students notice the LXX/OSB term."
+      - rank: 5
+        label: "Livestock Disease"
+        scripture_ref: "Exodus 9:1–7"
+        osb_note: "The plague falls on Egyptian livestock."
+      - rank: 6
+        label: "Boils"
+        scripture_ref: "Exodus 9:8–12"
+        osb_note: "The plague touches bodies directly."
+      - rank: 7
+        label: "Hail and Fire"
+        scripture_ref: "Exodus 9:13–35"
+        osb_note: "The sky becomes an instrument of judgment."
+      - rank: 8
+        label: "Locusts"
+        scripture_ref: "Exodus 10:1–20"
+        osb_note: "The locusts consume what the hail leaves."
+      - rank: 9
+        label: "Darkness"
+        scripture_ref: "Exodus 10:21–29"
+        osb_note: "Darkness comes before the final plague."
+      - rank: 10
+        label: "Firstborn Struck"
+        scripture_ref: "Exodus 11:1–10; 12:29–32"
+        osb_note: "This plague leads directly into Passover and the Exodus."
+    osb_quote: >-
+      OSB quote anchors for final human pass: Exodus 8 finger of God moment after the third
+      plague; Exodus 8 dog-fly/dog-flies term for the fourth plague; Exodus 12 striking of
+      the firstborn. Do not quote a long OSB passage in-app; use one brief phrase plus the
+      reference.
+    description: >-
+      The ten plagues are an ordered judgment against Pharaoh's hardness and Egypt's false
+      security. They move from the waters, to creatures, to bodies, to sky, to darkness, and
+      finally to the firstborn, preparing the way for Passover.
+    tip: "Start with the Nile, end with the firstborn, and group the middle by water, creatures, bodies, sky, and darkness."
+    unlock_teaching:
+      headline: "Judgment That Teaches"
+      body: >-
+        The plagues are not random disasters; they are remembered in Scripture as ordered
+        signs of God's authority over creation, kings, and false gods. In the Greek tradition,
+        the fourth plague's dog-fly wording is vivid and strange on purpose. Origen preached
+        on the ten plagues with which Egypt was smitten, treating Exodus as moral instruction.
+        The Church also keeps Exodus close to Pascha: Holy Saturday readings include Passover
+        and the crossing of the sea.
+      sources:
+        - author: "Origen"
+          work: "Homilies on Exodus, Homily IV"
+          relevance: "Patristic witness that the ten plagues were read as a meaningful ordered sequence."
+        - author: "Orthodox Holy Saturday lectionary"
+          work: "Vespers with Divine Liturgy readings"
+          relevance: "Exodus 12 and the Red Sea reading are preserved liturgically in the Paschal context."
+        - author: "Septuagint / LXX tradition"
+          work: "Exodus 8"
+          relevance: "Supports the OSB-friendly dog-fly/dog-flies terminology for the fourth plague."
+    completion_teaching:
+      memory_sentence: "God's judgments in Exodus are ordered signs, leading from bloodied water to Passover deliverance."
+      expansion: >-
+        The order helps students remember the movement from warning to crisis to liberation.
+        It also guards against treating the plagues as disconnected trivia.
+      patristic_sources:
+        - author: "Origen"
+          work: "Homilies on Exodus, Homily IV"
+          relevance: "Explicitly treats the ten plagues as a preached sequence."
+        - author: "St. Gregory of Nyssa"
+          work: "The Life of Moses"
+          relevance: "Reads Exodus spiritually and morally without reducing it to spectacle."
+      liturgical_connections:
+        - "Holy Saturday includes Exodus readings that connect Passover and the Red Sea to Pascha."
+        - "The Song of Moses after the crossing is part of the Church's Exodus-shaped Paschal memory."
+    interaction_spec:
+      type: drag_order
+      item_count: 10
+      success_rule: exact order match
+      failure_teaches: "Hint by region of judgment: water, creatures, bodies, sky, darkness, firstborn."
+    suggested_unlock:
+      type: chapter_masteries
+      chapters: [7, 8, 9, 10, 11, 12]
+      min_masteries: 8
+    gameplay_changes:
+      P0:
+        - Add drag-order list with exactly ten plague cards.
+        - "Use OSB/LXX-friendly labels: especially Lice and Dog-flies."
+        - Show unlock teaching before first attempt and completion sentence after success.
+      P1:
+        - Add optional reveal mode that groups plagues by created realm affected.
+        - "Add common translation subtitles such as Dog-flies / Flies."
+      P2:
+        - Add a review screen with one short OSB quote anchor per plague after human OSB pass.
+    theological_red_flags:
+      - No major LXX vs MT order difference is expected for the ten plagues, but terminology differs for the third and fourth plagues.
+      - Do not replace Dog-flies with generic Flies without a note; this erases an OSB/LXX teaching moment.
+      - Do not say every plague has one universally defined patristic meaning.
+      - Avoid cartoonish comedy; the final plague should be handled with sobriety.
+
+  - lab_id: tribes
+    label: "Twelve Tribes"
+    emoji: "⛺"
+    priority: P0
+    osb_reference: "Genesis 29:31–30:24; Genesis 35:16–18; Exodus 1:1–5"
+    ordering_basis: "Birth order of Jacob's twelve sons"
+    ordered_items:
+      - { rank: 1, label: Reuben, scripture_ref: "Genesis 29:32", osb_note: "Son of Leah; firstborn." }
+      - { rank: 2, label: Simeon, scripture_ref: "Genesis 29:33", osb_note: "Son of Leah." }
+      - { rank: 3, label: Levi, scripture_ref: "Genesis 29:34", osb_note: "Son of Leah; priestly line comes through Levi." }
+      - { rank: 4, label: Judah, scripture_ref: "Genesis 29:35", osb_note: "Son of Leah; royal/messianic line later associated with Judah." }
+      - { rank: 5, label: Dan, scripture_ref: "Genesis 30:5–6", osb_note: "Son of Bilhah." }
+      - { rank: 6, label: Naphtali, scripture_ref: "Genesis 30:7–8", osb_note: "Son of Bilhah." }
+      - { rank: 7, label: Gad, scripture_ref: "Genesis 30:10–11", osb_note: "Son of Zilpah." }
+      - { rank: 8, label: Asher, scripture_ref: "Genesis 30:12–13", osb_note: "Son of Zilpah." }
+      - { rank: 9, label: Issachar, scripture_ref: "Genesis 30:17–18", osb_note: "Son of Leah." }
+      - { rank: 10, label: Zebulun, scripture_ref: "Genesis 30:19–20", osb_note: "Son of Leah." }
+      - { rank: 11, label: Joseph, scripture_ref: "Genesis 30:22–24", osb_note: "Son of Rachel; later associated with Ephraim and Manasseh." }
+      - { rank: 12, label: Benjamin, scripture_ref: "Genesis 35:16–18", osb_note: "Son of Rachel; last born." }
+    osb_quote: >-
+      OSB quote anchors for final human pass: Genesis 29:32–30:24 for the first eleven sons
+      and Genesis 35:18 for Benjamin. Exodus 1:1–5 is useful context, but it does not present
+      the birth order; do not use Exodus 1 as the ordering key.
+    description: >-
+      This lab teaches birth order, not camp order, blessing order, land-allotment order, or
+      the order of names in Exodus 1. For v1, birth order is the clearest memory structure.
+    tip: "Remember the mothers in waves: Leah's first four, Bilhah's two, Zilpah's two, Leah's last two, Rachel's two."
+    unlock_teaching:
+      headline: "One Family, Twelve Names"
+      body: >-
+        The twelve tribes begin as twelve sons in a complicated family, yet God works through
+        this family to form Israel. Their order is not always listed the same way in Scripture
+        because lists can teach different things: birth, encampment, blessing, or inheritance.
+        For this Memory Lab, birth order is the simplest foundation.
+      sources:
+        - author: Genesis
+          work: "Genesis 29:31–30:24; 35:16–18"
+          relevance: Primary scriptural basis for birth order.
+        - author: "Byzantine liturgical tradition"
+          work: "Sunday of the Holy Forefathers"
+          relevance: Liturgical remembrance of the Old Testament ancestors before Christ.
+    completion_teaching:
+      memory_sentence: "The tribes begin as sons: remember the family order before you memorize the later tribal maps."
+      expansion: Later Scripture may list tribes differently because the purpose changes. This lab gives students the first layer.
+      patristic_sources:
+        - author: "Byzantine liturgical tradition"
+          work: "Sunday of the Holy Forefathers"
+          relevance: Shows the Church remembers the patriarchs as part of salvation history.
+      liturgical_connections:
+        - "Sunday of the Holy Forefathers commemorates the Old Testament ancestors before the Nativity cycle."
+    interaction_spec:
+      type: drag_order
+      item_count: 12
+      success_rule: exact birth-order match
+      failure_teaches: "Hint by mother-group waves rather than simply marking all wrong."
+    suggested_unlock:
+      type: chapter_masteries
+      chapters: [1, 2, 6]
+      min_masteries: 5
+    gameplay_changes:
+      P0:
+        - Add twelve-card drag-order lab using birth order.
+        - "Add a small subtitle: Birth order, not camp order."
+        - Use mother-group hint after a failed attempt.
+      P1:
+        - "Add optional mother tags: Leah, Bilhah, Zilpah, Rachel."
+        - "Add optional compare screen: birth order vs Exodus 1 name order."
+      P2:
+        - "Add advanced toggle for later tribal arrangements: camp order, blessing order, inheritance order."
+    theological_red_flags:
+      - Multiple valid biblical orderings exist. V1 should use birth order because it is easiest and most foundational.
+      - "Exodus 1 lists names of Jacob's sons who went to Egypt, but not in strict birth order."
+      - Do not forget that Dinah is Jacob's daughter but not one of the twelve tribal patriarchs.
+      - Do not treat Joseph's later Ephraim/Manasseh tribal structure as identical to this birth-order lab.
+
+  - lab_id: commandments
+    label: "Ten Commandments"
+    emoji: "📜"
+    priority: P0
+    osb_reference: "Exodus 20:1–17; Deuteronomy 5:6–21"
+    orthodox_numbering_notes:
+      default_order: >-
+        Use Orthodox numbering: #1 no other gods, #2 no carved images, #3 do not take the
+        Lord's Name in vain, #4 keep the Sabbath holy, #5 honor father and mother, #6 do not
+        murder/kill, #7 do not commit adultery, #8 do not steal, #9 do not bear false witness,
+        #10 do not covet.
+      protestant_divergence_flag: >-
+        Many Reformed/Protestant and Greek Orthodox lists separate no other gods and no carved
+        images, while Catholic/Lutheran lists commonly combine those and split coveting; Jewish
+        numbering also differs. Flag this in the teacher note.
+      wording_note: Verify exact OSB wording before shipping. Use short memorization labels in cards; link to full Exodus 20 on detail screen.
+    ordered_items:
+      - { rank: 1, label: "No Other Gods", scripture_ref: "Exodus 20:2–3" }
+      - { rank: 2, label: "No Carved Images", scripture_ref: "Exodus 20:4–6" }
+      - { rank: 3, label: "Honor God's Name", scripture_ref: "Exodus 20:7" }
+      - { rank: 4, label: "Keep Sabbath Holy", scripture_ref: "Exodus 20:8–11" }
+      - { rank: 5, label: "Honor Parents", scripture_ref: "Exodus 20:12" }
+      - { rank: 6, label: "Do Not Murder", scripture_ref: "Exodus 20:13" }
+      - { rank: 7, label: "No Adultery", scripture_ref: "Exodus 20:14" }
+      - { rank: 8, label: "Do Not Steal", scripture_ref: "Exodus 20:15" }
+      - { rank: 9, label: "No False Witness", scripture_ref: "Exodus 20:16" }
+      - { rank: 10, label: "Do Not Covet", scripture_ref: "Exodus 20:17" }
+    description: >-
+      The commandments are given after the Sinai theophany and belong to covenant life, not
+      bare rule-keeping. Orthodox teaching traditionally sees the first table as ordering love
+      for God and the second as ordering love for neighbor.
+    tip: "Learn the two tables: God first, then neighbor."
+    unlock_teaching:
+      headline: "Words at Sinai"
+      body: >-
+        Exodus 19 shows the awe of Sinai; Exodus 20 gives the ordered commandments spoken into
+        that holy fear. The Church remembers the Decalogue as the shape of covenant faithfulness.
+        The second commandment should be taught with care: Orthodox veneration of icons is not
+        worship of created things.
+      sources:
+        - author: "St. Philaret of Moscow"
+          work: "Longer Catechism"
+          relevance: Orthodox catechetical numbering and the two-table structure.
+        - author: "St. John of Damascus"
+          work: "On the Divine Images"
+          relevance: Clarifies veneration of icons against idolatry.
+    completion_teaching:
+      memory_sentence: "The commandments order love: first toward God, then toward the neighbor."
+      expansion: The order matters because worship and life belong together.
+      patristic_sources:
+        - author: "St. Philaret of Moscow"
+          work: "Longer Catechism"
+          relevance: Authoritative Orthodox catechetical framing of the commandments.
+        - author: "St. John of Damascus"
+          work: "On the Divine Images"
+          relevance: Important support for explaining the second commandment without rejecting Orthodox icons.
+      liturgical_connections:
+        - "Sinai theophany belongs naturally near the existing Sinai Wonder."
+        - "Great and Holy Thursday services include Exodus 19 among readings in some Orthodox liturgical contexts."
+    interaction_spec:
+      type: drag_order
+      item_count: 10
+      success_rule: exact Orthodox-numbering match
+      failure_teaches: "If #2 or #10 is misplaced, show a note about Orthodox vs Catholic/Lutheran/Protestant numbering."
+    suggested_unlock:
+      type: chapter_masteries
+      chapters: [19, 20]
+      min_masteries: 7
+    gameplay_changes:
+      P0:
+        - Implement Orthodox numbering only as the default lab answer.
+        - "Add teacher note: Other traditions number differently."
+        - "Add failure hint for #2 carved images and #10 coveting."
+      P1:
+        - Add a detail drawer with full OSB text after human OSB pass.
+        - "Add a two tables visual divider after commandment #4."
+      P2:
+        - Add optional comparison chart for Orthodox, Catholic/Lutheran, Jewish, and Reformed numbering.
+    theological_red_flags:
+      - Do not use Protestant-renumbered lists as the default.
+      - Do not split coveting into two commandments for Orthodox v1.
+      - Do not teach the second commandment as anti-icon.
+      - Do not flatten Sabbath teaching into a modern argument.
+
+  - lab_id: consecration
+    label: "Holy Consecration"
+    emoji: "🕯️"
+    priority: P1
+    osb_reference: "Exodus 28–29; Exodus 40:9–15, 34–35; Leviticus 8"
+    ordering_basis: "V1 uses the Exodus 29 priest-consecration command sequence; Leviticus 8 is fulfillment/context."
+    subset_justification: >-
+      V1 teaches a nine-step priest-consecration sequence from Exodus 29, with a contextual
+      note that Exodus 40 and Leviticus 8 include tabernacle/altar anointing and fulfillment
+      details. Keeps the game under about three minutes.
+    ordered_items:
+      - { rank: 1, label: "Prepare Offerings", scripture_ref: "Exodus 29:1–3" }
+      - { rank: 2, label: "Wash Priests", scripture_ref: "Exodus 29:4" }
+      - { rank: 3, label: "Clothe Aaron", scripture_ref: "Exodus 29:5–6" }
+      - { rank: 4, label: "Anoint Aaron", scripture_ref: "Exodus 29:7" }
+      - { rank: 5, label: "Clothe His Sons", scripture_ref: "Exodus 29:8–9" }
+      - { rank: 6, label: "Sin Offering", scripture_ref: "Exodus 29:10–14" }
+      - { rank: 7, label: "Burnt Offering", scripture_ref: "Exodus 29:15–18" }
+      - { rank: 8, label: "Ordination Ram", scripture_ref: "Exodus 29:19–28" }
+      - { rank: 9, label: "Holy Meal & 7 Days", scripture_ref: "Exodus 29:31–37" }
+    description: >-
+      This lab teaches the order by which God sets apart Aaron and his sons for priestly service.
+      It should feel reverent, not theatrical: students are remembering a holy institution, not
+      pretending to perform it.
+    tip: "Think: prepare, wash, clothe, anoint, offer, ordain, eat, complete."
+    unlock_teaching:
+      headline: "Set Apart for God"
+      body: >-
+        Consecration means that God sets persons and things apart for holy service; it is not
+        a magic costume change. In Exodus, priestly ministry begins with washing, vesting,
+        anointing, sacrifice, and obedience to a received order.
+      sources:
+        - author: Exodus
+          work: "Exodus 29"
+          relevance: Primary v1 sequence for priestly consecration.
+        - author: "St. Gregory of Nyssa"
+          work: "The Life of Moses"
+          relevance: Connects the tabernacle mystery to Christ while preserving reverence for biblical details.
+    completion_teaching:
+      memory_sentence: "Holy service begins by God's command, in God's order, for God's glory."
+      expansion: The final goal is not the ritual as spectacle, but the Lord's presence among His people.
+      liturgical_connections:
+        - "Orthodox worship treats washing, vesting, anointing, and holy space with reverence as echoes and fulfillments, not identical repetitions of Aaron's ordination."
+        - "The glory filling the tabernacle in Exodus 40 connects this lab to the existing Glory Wonder."
+    interaction_spec:
+      type: drag_order
+      item_count: 9
+      success_rule: exact v1 Exodus 29 subset order
+      failure_teaches: "Tell students whether they mixed preparation, vesting/anointing, offerings, or completion."
+    suggested_unlock:
+      type: chapter_masteries
+      chapters: [25, 26, 27, 28, 29, 30, 31, 35, 36, 37, 38, 39, 40]
+      min_masteries: 10
+    gameplay_changes:
+      P0:
+        - Ship a nine-step Exodus 29 sequence only.
+        - "Add visible note: Remembering God's institution, not performing the rite."
+        - "Use reverent card art: oil, garment, altar, meal; no cartoon blood effects."
+      P1:
+        - "Add optional compare note: Exodus 29 command, Leviticus 8 fulfillment, Exodus 40 tabernacle setup."
+        - Add post-completion bridge to the Glory Filling the Tabernacle Wonder.
+      P2:
+        - Add advanced mode separating tabernacle setup, altar consecration, and priest ordination.
+    theological_red_flags:
+      - Do not combine Exodus 29, Exodus 40, and Leviticus 8 into one exact order without telling students which passage is the ordering basis.
+      - Do not imply the player performs sacrifice, ordination, or sacrament.
+      - Do not present Aaronic priesthood as identical to Orthodox priesthood.
+      - Do not skip the seven-day completion note.
+
+  - lab_id: priest_line
+    label: "Line of the Priesthood"
+    emoji: "🌿"
+    priority: P0
+    osb_reference: "Exodus 6:16–25; Exodus 18:3–4; Exodus 28:1"
+    tree_basis: "Levi-to-Aaron priestly line, with Moses' sons shown for contrast"
+    tree_nodes:
+      - { id: jacob, label: Jacob, slot: root }
+      - { id: levi, label: Levi, parent: jacob }
+      - { id: kohath, label: Kohath, parent: levi }
+      - { id: amram, label: Amram, parent: kohath }
+      - { id: jochebed, label: Jochebed, slot: spouse_of_amram }
+      - { id: miriam, label: Miriam, parent: amram, mother: jochebed }
+      - { id: aaron, label: Aaron, parent: amram, mother: jochebed }
+      - { id: moses, label: Moses, parent: amram, mother: jochebed }
+      - { id: nadab, label: Nadab, parent: aaron }
+      - { id: abihu, label: Abihu, parent: aaron }
+      - { id: eleazar, label: Eleazar, parent: aaron }
+      - { id: ithamar, label: Ithamar, parent: aaron }
+      - { id: phinehas, label: Phinehas, parent: eleazar }
+      - { id: gershom, label: Gershom, parent: moses }
+      - { id: eliezer, label: Eliezer, parent: moses }
+    tree_edges:
+      - { parent: jacob, child: levi }
+      - { parent: levi, child: kohath }
+      - { parent: kohath, child: amram }
+      - { parent: amram, child: miriam }
+      - { parent: jochebed, child: miriam }
+      - { parent: amram, child: aaron }
+      - { parent: jochebed, child: aaron }
+      - { parent: amram, child: moses }
+      - { parent: jochebed, child: moses }
+      - { parent: aaron, child: nadab }
+      - { parent: aaron, child: abihu }
+      - { parent: aaron, child: eleazar }
+      - { parent: aaron, child: ithamar }
+      - { parent: eleazar, child: phinehas }
+      - { parent: moses, child: gershom }
+      - { parent: moses, child: eliezer }
+      - { parent: amram, child: jochebed, edge_type: spouse }
+    description: >-
+      This tree teaches that Moses and Aaron share the same Levitical family, but the priestly
+      line in Exodus is Aaron's line. Gershom and Eliezer belong under Moses; Nadab, Abihu,
+      Eleazar, and Ithamar belong under Aaron.
+    tip: "Build the trunk Jacob → Levi → Kohath → Amram, then split Aaron's priests from Moses' sons."
+    unlock_teaching:
+      headline: "One Tribe, Two Callings"
+      body: >-
+        Moses and Aaron come from the same Levitical root, but their callings are not
+        interchangeable. Moses leads and speaks as prophet and deliverer; Aaron and his sons
+        are set apart for priestly ministry.
+      sources:
+        - author: Exodus
+          work: "Exodus 6:16–25"
+          relevance: Primary genealogy for Levi through Phinehas.
+        - author: "Orthodox hagiographic tradition"
+          work: "Commemoration of Righteous Aaron"
+          relevance: Aaron as first Old Testament high priest and brother of Moses and Miriam.
+    completion_teaching:
+      memory_sentence: "Moses and Aaron share Levi's line, but the priesthood runs through Aaron."
+      expansion: >-
+        That distinction keeps students from confusing Gershom with Eleazar or Moses'
+        household with Aaron's priestly sons.
+      liturgical_connections:
+        - "Aaron is commemorated in Orthodox tradition as the first Old Testament high priest."
+        - "This lab visually prepares students for the later consecration lab."
+    interaction_spec:
+      type: tree_place
+      item_count: 15
+      success_rule: all nodes placed in correct parent/child or spouse slot
+      failure_teaches: "If Gershom is placed under Aaron or Eleazar under Moses, show: Moses' sons are not the Aaronic priestly line."
+      mobile_layout: >-
+        Vertical trunk Jacob → Levi → Kohath → Amram. Below Amram, split into Miriam, Aaron,
+        Moses. Under Aaron: Nadab, Abihu, Eleazar, Ithamar; under Eleazar: Phinehas; under
+        Moses: Gershom and Eliezer. Jochebed as spouse node next to Amram.
+    suggested_unlock:
+      type: chapter_masteries
+      chapters: [2, 4, 6, 18, 28]
+      min_masteries: 6
+    gameplay_changes:
+      P0:
+        - Add tree-placement lab with 15 nodes.
+        - "Use near-name warning: Eleazar ≠ Eliezer."
+        - Use parent slots large enough for touch placement on mobile.
+      P1:
+        - Add spouse nodes Elisheba and Zipporah as optional advanced placements.
+        - Add a toggle to hide/show Miriam depending on screen size.
+      P2:
+        - Add expanded Levitical tree with Gershon, Merari, Izhar, Hebron, Uzziel, and later priestly descendants.
+    theological_red_flags:
+      - Do not teach Gershom as part of the Aaronic priestly succession.
+      - Do not confuse Eleazar, Aaron's son, with Eliezer, Moses' son.
+      - Do not attach Jochebed's parentage too confidently in v1 without an OSB/LXX pass.
+      - Do not omit Aaron's sons if the lab is called Line of the Priesthood.
+
+acceptance_checklist:
+  - Each lab has unlock_teaching + completion_teaching
+  - Each ordered list verified against OSB/LXX or flagged for human OSB pass
+  - Commandments use Orthodox numbering
+  - Tribes ordering tradition named explicitly
+  - Consecration subset defensible in one mobile session (~3 min)
+  - Priest tree node list complete and scriptural
+  - No Protestant-only typology stated as Church consensus
+  - Final release copy receives a human printed-OSB wording and verse-numbering pass

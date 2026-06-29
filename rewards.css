@@ -1,0 +1,677 @@
+/* Rewards and Trophy Shelf Styling */
+
+body:has(#rewards-next-bar) {
+  padding-bottom: calc(3.75rem + env(safe-area-inset-bottom, 0px));
+}
+
+.rewards-next-bar {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 40;
+  background: rgba(12, 14, 18, 0.94);
+  border-top: 1px solid var(--border);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  box-shadow: 0 -8px 24px rgba(0, 0, 0, 0.35);
+  padding:
+    0.55rem max(0.85rem, env(safe-area-inset-left, 0px))
+    calc(0.55rem + env(safe-area-inset-bottom, 0px))
+    max(0.85rem, env(safe-area-inset-right, 0px));
+}
+
+.rewards-next-bar-inner {
+  width: min(100%, var(--maxw, 720px));
+  margin: 0 auto;
+}
+
+.rewards-next-bar-labels {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-bottom: 0.4rem;
+}
+
+.rewards-next-label {
+  font-family: var(--font-display);
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.rewards-next-count {
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--accent-strong);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.rewards-next-track {
+  height: 6px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.08);
+  overflow: hidden;
+}
+
+.rewards-next-fill {
+  height: 100%;
+  width: 0%;
+  border-radius: inherit;
+  background: var(--accent);
+  transition: width 0.45s ease, background-color 0.35s ease;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rewards-next-fill {
+    transition: none;
+  }
+}
+
+.trophy-shelf {
+  width: min(100%, var(--maxw));
+  max-width: 100%;
+  margin: 2rem auto 1rem;
+  padding: 1rem 0.85rem;
+  background: rgba(23, 27, 33, 0.4);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  text-align: center;
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+  overflow-x: clip;
+}
+
+.trophy-shelf-title {
+  font-family: var(--font-display);
+  font-size: 0.9rem;
+  color: var(--muted);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  margin: 0 0 0.85rem;
+  padding: 0 0.15rem;
+}
+
+.trophy-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.45rem 0.3rem;
+  align-items: stretch;
+  width: 100%;
+  min-width: 0;
+}
+
+/* Individual Trophy styling */
+.trophy-item {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  min-width: 0;
+  padding: 0.35rem 0.15rem;
+  border-radius: 8px;
+  cursor: pointer;
+  background: transparent;
+  border: 1px solid transparent;
+  transition: background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.trophy-icon {
+  font-size: 1.45rem;
+  line-height: 1;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+  transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.trophy-label {
+  font-size: 0.62rem;
+  color: var(--muted);
+  margin-top: 0.3rem;
+  font-weight: 500;
+  text-align: center;
+  width: 100%;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  transition: color 0.3s;
+}
+
+.trophy-chapter {
+  font-size: 0.58rem;
+  color: var(--muted);
+  margin-top: 0.08rem;
+  font-weight: normal;
+  text-align: center;
+  width: 100%;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  transition: color 0.3s;
+}
+
+.trophy-item.unlocked:hover .trophy-chapter {
+  color: var(--accent-strong);
+}
+
+/* Locked state */
+.trophy-item.locked {
+  cursor: not-allowed;
+  opacity: 0.25;
+  filter: grayscale(100%);
+}
+
+.trophy-item.locked .trophy-icon {
+  transform: scale(0.9);
+}
+
+.trophy-label-mystery {
+  letter-spacing: 0.12em;
+  font-style: italic;
+  opacity: 0.65;
+}
+
+.trophy-item.locked .trophy-chapter {
+  color: var(--accent);
+  opacity: 0.75;
+  font-weight: 600;
+}
+
+/* Unlocked state */
+.trophy-item.unlocked:hover {
+  background: rgba(212, 160, 78, 0.08);
+  border-color: rgba(212, 160, 78, 0.3);
+  box-shadow: 0 0 15px rgba(212, 160, 78, 0.15);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .trophy-item.unlocked:hover .trophy-icon {
+    transform: scale(1.15) translateY(-2px);
+  }
+
+  .trophy-item.unlocked:hover .trophy-label,
+  .trophy-item.unlocked:hover .trophy-chapter {
+    color: var(--accent-strong);
+  }
+
+  .trophy-item:hover .trophy-tooltip {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(-50%) translateY(0);
+  }
+}
+
+/* Just Unlocked pulse animation */
+@keyframes gold-pulse {
+  0% { box-shadow: 0 0 0 0 rgba(212, 160, 78, 0.55); }
+  70% { box-shadow: 0 0 0 8px rgba(212, 160, 78, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(212, 160, 78, 0); }
+}
+
+@keyframes trophy-reveal-pop {
+  0% { transform: scale(0.85); filter: brightness(1); }
+  35% { transform: scale(1.2); filter: brightness(1.35); }
+  100% { transform: scale(1); filter: brightness(1); }
+}
+
+.trophy-shelf.shelf-unlock-moment {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 1px rgba(212, 160, 78, 0.35), 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+}
+
+.trophy-item.newly-unlocked {
+  animation: gold-pulse 1.5s infinite;
+  border-color: var(--accent);
+  background: rgba(212, 160, 78, 0.08);
+}
+
+.trophy-item.newly-unlocked .trophy-icon {
+  animation: trophy-reveal-pop 0.75s ease;
+}
+
+.trophy-item.newly-unlocked .trophy-label-mystery {
+  color: var(--accent-strong);
+}
+
+/* Custom Tooltip — desktop hover only */
+.trophy-tooltip {
+  position: absolute;
+  bottom: calc(100% + 4px);
+  left: 50%;
+  transform: translateX(-50%) translateY(5px);
+  background: #171b21;
+  border: 1px solid var(--border);
+  color: var(--text);
+  padding: 0.45rem 0.6rem;
+  border-radius: 6px;
+  font-size: 0.7rem;
+  line-height: 1.35;
+  max-width: min(11rem, 72vw);
+  white-space: normal;
+  text-wrap: balance;
+  pointer-events: none;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+  z-index: 100;
+  font-family: var(--font-body);
+}
+
+.trophy-tooltip::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 6px solid transparent;
+  border-top-color: #171b21;
+}
+
+/* Immersive Celebration Modal — scene-in-card layout */
+.rewards-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding:
+    max(0.5rem, env(safe-area-inset-top, 0px))
+    max(0.5rem, env(safe-area-inset-right, 0px))
+    max(0.5rem, env(safe-area-inset-bottom, 0px))
+    max(0.5rem, env(safe-area-inset-left, 0px));
+  background: rgba(8, 10, 14, 0.72);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.35s ease, visibility 0.35s ease;
+  overflow: hidden;
+}
+
+.rewards-modal.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.rewards-card {
+  display: flex;
+  flex-direction: column;
+  width: min(100%, 560px);
+  max-width: 100%;
+  max-height: min(94dvh, 860px);
+  border-radius: 16px;
+  border: 1px solid rgba(212, 160, 78, 0.35);
+  background: rgba(18, 21, 27, 0.96);
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.55);
+  overflow: hidden;
+  animation: slide-up 0.45s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  min-width: 0;
+}
+
+@keyframes slide-up {
+  from { transform: translateY(24px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+/* Interactive scene viewport — always visible at top of card */
+.rewards-scene {
+  position: relative;
+  flex: 0 0 auto;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  max-height: 48dvh;
+  min-height: 210px;
+  background: #07090d;
+  touch-action: none;
+  cursor: crosshair;
+  overflow: hidden;
+}
+
+.rewards-canvas {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.rewards-scene-hint {
+  position: absolute;
+  left: 50%;
+  bottom: 0.75rem;
+  transform: translateX(-50%);
+  margin: 0;
+  padding: 0.45rem 0.85rem;
+  border-radius: 999px;
+  font-size: 0.88rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: #f3e8cf;
+  background: rgba(8, 10, 14, 0.55);
+  border: 1px solid rgba(212, 160, 78, 0.35);
+  pointer-events: none;
+  transition: opacity 0.35s ease;
+  max-width: calc(100% - 1rem);
+  text-align: center;
+  line-height: 1.3;
+}
+
+.rewards-scene-hint.hidden {
+  opacity: 0;
+}
+
+/* Compact info panel below the scene */
+.rewards-panel {
+  flex: 1 1 auto;
+  min-height: 0;
+  min-width: 0;
+  overflow-x: hidden;
+  overflow-y: auto;
+  padding: 1rem 1.1rem 1.15rem;
+  -webkit-overflow-scrolling: touch;
+}
+
+.rewards-panel-head {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 0.75rem;
+}
+
+.rewards-panel-titles {
+  min-width: 0;
+  text-align: left;
+}
+
+.rewards-hud-badge {
+  font-size: 2.4rem;
+  line-height: 1;
+  flex-shrink: 0;
+  animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+  0% { transform: translateY(0px) rotate(0deg); }
+  50% { transform: translateY(-6px) rotate(2deg); }
+  100% { transform: translateY(0px) rotate(0deg); }
+}
+
+.rewards-hud-milestone {
+  font-size: 0.72rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--accent);
+  margin-bottom: 0.15rem;
+}
+
+.rewards-hud-title {
+  font-family: var(--font-display);
+  font-size: 1.55rem;
+  color: var(--text);
+  margin: 0;
+  font-weight: 600;
+  line-height: 1.15;
+  overflow-wrap: anywhere;
+}
+
+.rewards-passage {
+  margin: 0 0 0.75rem;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.rewards-passage summary {
+  cursor: pointer;
+  padding: 0.55rem 0.75rem;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--muted);
+  list-style: none;
+}
+
+.rewards-passage summary::-webkit-details-marker {
+  display: none;
+}
+
+.rewards-passage summary::after {
+  content: " ▸";
+  color: var(--accent);
+}
+
+.rewards-passage[open] summary::after {
+  content: " ▾";
+}
+
+.rewards-passage[open] summary {
+  border-bottom: 1px solid var(--border);
+}
+
+.rewards-hud-quote {
+  font-style: italic;
+  color: var(--muted);
+  font-size: 0.92rem;
+  line-height: 1.45;
+  margin: 0;
+  padding: 0.75rem 0.85rem 0.35rem;
+  border-left: none;
+}
+
+.rewards-hud-desc {
+  font-size: 0.88rem;
+  color: #ece6d8;
+  margin: 0;
+  padding: 0 0.85rem 0.75rem;
+  line-height: 1.55;
+}
+
+.rewards-hud-tip {
+  font-size: 0.95rem;
+  color: var(--accent-strong);
+  background: rgba(212, 160, 78, 0.1);
+  border: 1px solid rgba(212, 160, 78, 0.2);
+  border-radius: 8px;
+  padding: 0.45rem 0.75rem;
+  margin: 0 0 0.85rem;
+  font-weight: 500;
+  line-height: 1.45;
+  overflow-wrap: anywhere;
+}
+
+.rewards-hud-close {
+  width: 100%;
+}
+
+.rewards-hud-controls {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-bottom: 0.85rem;
+}
+
+.rewards-control-btn {
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  color: var(--text);
+  padding: 0.4rem 0.75rem;
+  border-radius: 6px;
+  font-size: 0.78rem;
+  cursor: pointer;
+  font-family: inherit;
+  transition: all 0.2s;
+  max-width: 100%;
+  overflow-wrap: anywhere;
+  text-align: center;
+}
+
+.rewards-control-btn:hover {
+  border-color: var(--accent);
+  background: rgba(212, 160, 78, 0.1);
+}
+
+.rewards-control-btn.active {
+  background: var(--accent);
+  color: #1c1408;
+  border-color: var(--accent);
+  font-weight: 600;
+}
+
+/* Wider screens: full row of trophies + side-by-side modal */
+@media (min-width: 601px) {
+  .trophy-grid {
+    grid-template-columns: repeat(8, minmax(0, 1fr));
+    gap: 0.5rem;
+  }
+
+  .trophy-icon {
+    font-size: 1.8rem;
+  }
+
+  .trophy-label {
+    font-size: 0.72rem;
+  }
+
+  .trophy-chapter {
+    font-size: 0.65rem;
+  }
+
+  .trophy-item {
+    padding: 0.5rem 0.25rem;
+  }
+}
+
+@media (min-width: 720px) {
+  .rewards-card {
+    flex-direction: row;
+    width: min(100%, 920px);
+    max-height: min(88dvh, 560px);
+  }
+
+  .rewards-scene {
+    flex: 1.15 1 0;
+    min-width: 0;
+    min-height: 0;
+    max-height: none;
+    height: auto;
+    aspect-ratio: auto;
+    align-self: stretch;
+  }
+
+  .rewards-panel {
+    flex: 0 0 320px;
+    padding: 1.25rem 1.15rem;
+  }
+
+  .rewards-hud-title {
+    font-size: 1.75rem;
+  }
+}
+
+/* Responsive adjustment */
+@media (max-width: 600px) {
+  .trophy-shelf {
+    width: calc(100% - 1.7rem);
+    margin-inline: auto;
+    padding: 0.85rem 0.55rem;
+  }
+
+  .trophy-grid {
+    gap: 0.35rem 0.2rem;
+  }
+
+  .trophy-icon {
+    font-size: 1.25rem;
+  }
+
+  .trophy-label {
+    font-size: 0.58rem;
+    margin-top: 0.2rem;
+  }
+
+  .trophy-chapter {
+    font-size: 0.54rem;
+  }
+
+  .trophy-item {
+    padding: 0.25rem 0.05rem;
+  }
+
+  .trophy-label-mystery {
+    letter-spacing: 0.06em;
+  }
+
+  .rewards-modal {
+    padding:
+      max(0.35rem, env(safe-area-inset-top, 0px))
+      max(0.35rem, env(safe-area-inset-right, 0px))
+      max(0.35rem, env(safe-area-inset-bottom, 0px))
+      max(0.35rem, env(safe-area-inset-left, 0px));
+    align-items: flex-end;
+  }
+
+  .rewards-card {
+    width: 100%;
+    max-width: 100%;
+    max-height: min(96dvh, 100%);
+    border-bottom-left-radius: 12px;
+    border-bottom-right-radius: 12px;
+  }
+
+  .rewards-scene {
+    aspect-ratio: 16 / 11;
+    min-height: 180px;
+    max-height: 40dvh;
+  }
+
+  .rewards-panel {
+    padding: 0.75rem 0.8rem 0.9rem;
+  }
+
+  .rewards-hud-badge {
+    font-size: 1.85rem;
+  }
+
+  .rewards-hud-title {
+    font-size: 1.2rem;
+  }
+
+  .rewards-hud-milestone {
+    font-size: 0.65rem;
+    letter-spacing: 0.08em;
+  }
+
+  .rewards-control-btn {
+    flex: 1 1 calc(50% - 0.5rem);
+    min-width: 0;
+    padding: 0.35rem 0.5rem;
+    font-size: 0.72rem;
+  }
+}
+
+@media (max-width: 360px) {
+  .trophy-shelf {
+    width: calc(100% - 1.2rem);
+    padding-inline: 0.4rem;
+  }
+
+  .trophy-label {
+    display: none;
+  }
+
+  .trophy-chapter {
+    font-size: 0.6rem;
+    margin-top: 0.15rem;
+  }
+}

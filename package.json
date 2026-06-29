@@ -1,0 +1,15 @@
+{
+  "name": "bible-bowl-study",
+  "private": true,
+  "devDependencies": {
+    "playwright": "^1.52.0"
+  },
+  "scripts": {
+    "test:wonders": "node scripts/test-wonders-mobile.mjs",
+    "test:wonders-mobile": "node scripts/test-wonders-mobile.mjs",
+    "test:schema": "node scripts/test-question-schema.mjs",
+    "test:labs": "node scripts/test-memory-labs.mjs",
+    "test:tabernacle": "node scripts/test-tabernacle-placement.mjs",
+    "test:rewards": "node scripts/test-wonders-mobile.mjs && node scripts/test-memory-labs.mjs && node scripts/test-tabernacle-placement.mjs"
+  }
+}

@@ -54,23 +54,205 @@
     ["setup", "quiz", "results"].forEach((s) => ($(s).hidden = s !== screen));
   }
 
+  // ---------- Celebration effects (dependency-free confetti) ----------
+  const PREFERS_REDUCED_MOTION =
+    typeof window.matchMedia === "function" &&
+    window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  // ---------- Scroll helpers ----------
+  // Single source of truth for "scroll to position X at the top of the
+  // viewport", with the rewards-trophy-shelf clamp that scrollToNextButton
+  // has always honored. Returns true if a scroll actually happened.
+  //
+  // IMPORTANT shelf-clamp semantics:
+  //   * The clamp exists to keep the user from scrolling DOWN past the
+  //     rewards shelf and missing the unlock animation.
+  //   * It must NOT block UPWARD scrolls — once the unlock animation is
+  //     done and the user clicks Next, we need to be free to bring the
+  //     new question back into view even if the user is currently below
+  //     the shelf (e.g. scrolled into the memory aid).
+  //   * When `allowUpwardAcrossShelf` is true (the default for Next),
+  //     we ignore the clamp if the desired top is ABOVE the current
+  //     scrollY. The shelf is only a one-way valve: it can stop you
+  //     going down, never going up.
+  function scrollTargetIntoView(targetTop, options) {
+    const pad = 14;
+    const opts = options || {};
+    let nextTop = Math.max(0, targetTop);
+
+    const shelf = document.getElementById("rewards-trophy-shelf");
+    if (shelf) {
+      const shelfTop = shelf.getBoundingClientRect().top + window.scrollY;
+      const maxTop = shelfTop - window.innerHeight + pad;
+      // Only clamp when scrolling downward. If we're trying to go UP
+      // (nextTop < window.scrollY), let the user come back above the
+      // shelf — they finished the unlock and now want to read the new
+      // question.
+      if (nextTop > window.scrollY && nextTop > maxTop) {
+        nextTop = maxTop;
+      }
+    }
+
+    if (Math.abs(nextTop - window.scrollY) < 2) return false;
+    window.scrollTo({
+      top: nextTop,
+      behavior: opts.smooth === false || PREFERS_REDUCED_MOTION ? "auto" : "smooth",
+    });
+    return true;
+  }
+
+  function scrollElementToTop(el, options) {
+    if (!el) return false;
+    const rect = el.getBoundingClientRect();
+    // Where would scrollY need to be for the element's top to sit at the
+    // pad line near the top of the viewport?
+    const desiredTop = rect.top + window.scrollY - (options && options.pad || 14);
+    return scrollTargetIntoView(desiredTop, options);
+  }
+
+  function scrollToNextButton() {
+    const bar = $("feedback-next-bar");
+    const btn = $("next-btn");
+    if (!btn || bar.hidden) return;
+    btn.focus({ preventScroll: true });
+
+    const pad = 14;
+    const rect = btn.getBoundingClientRect();
+    if (rect.bottom <= window.innerHeight - pad && rect.top >= pad) return;
+
+    let nextTop = window.scrollY;
+    if (rect.bottom > window.innerHeight - pad) {
+      nextTop += rect.bottom - (window.innerHeight - pad);
+    }
+    scrollTargetIntoView(nextTop);
+  }
+
+  const CONFETTI_COLORS = ["#d4a04e", "#e6c074", "#5fae86", "#6aa9e0", "#b48ad6", "#e08a5a", "#f2ead8"];
+
+  function popVerdict() {
+    if (PREFERS_REDUCED_MOTION) return;
+    const v = $("feedback-verdict");
+    v.classList.remove("pop");
+    void v.offsetWidth; // reflow so the animation can restart
+    v.classList.add("pop");
+  }
+  function makeConfettiLayer(lifespanMs) {
+    const layer = el("div", "confetti-layer");
+    document.body.appendChild(layer);
+    setTimeout(() => layer.remove(), lifespanMs);
+    return layer;
+  }
+  function addPiece(layer, x, y) {
+    const p = el("div", "confetti-piece");
+    p.style.background = CONFETTI_COLORS[Math.floor(Math.random() * CONFETTI_COLORS.length)];
+    const w = 6 + Math.random() * 6;
+    p.style.width = w + "px";
+    p.style.height = w * 0.45 + "px";
+    p.style.left = x + "px";
+    p.style.top = y + "px";
+    layer.appendChild(p);
+    return p;
+  }
+  // Mastery progress toward MASTERY_STREAK correct-in-a-row — shown after each
+  // answer in place of a per-correct celebration. `reset` = a streak was just
+  // broken by a wrong answer (so we show "Streak reset" rather than "0 of 3").
+  function renderMasteryProgress(q, reset) {
+    const wrap = $("mastery-progress");
+    if (state.mode === "review") { wrap.hidden = true; return; }
+    const total = MASTERY_STREAK;
+    const s = stats[q.id] || { streak: 0 };
+    const streak = Math.min(s.streak || 0, total);
+    const mastered = (s.streak || 0) >= total;
+
+    const track = $("mp-track");
+    track.innerHTML = "";
+    const segs = [];
+    for (let i = 0; i < total; i++) {
+      const seg = el("span", "mp-seg");
+      track.appendChild(seg);
+      segs.push(seg);
+    }
+
+    const label = $("mp-label");
+    if (mastered) {
+      wrap.className = "mastery-progress mastered";
+      label.textContent = "✦ Mastered";
+    } else if (reset) {
+      wrap.className = "mastery-progress reset";
+      label.textContent = "Streak reset · 0 of " + total + " in a row";
+    } else {
+      wrap.className = "mastery-progress";
+      label.textContent = streak + " of " + total + " correct in a row";
+    }
+    wrap.setAttribute("aria-valuenow", String(streak));
+    wrap.hidden = false;
+
+    // Fill the segments (newest one pulses). Under reduced-motion, paint at once.
+    const paint = () => {
+      segs.forEach((seg, i) => { if (i < streak) seg.classList.add("filled"); });
+      if (!PREFERS_REDUCED_MOTION && streak > 0 && !reset) segs[streak - 1].classList.add("pump");
+    };
+    if (PREFERS_REDUCED_MOTION) paint();
+    else requestAnimationFrame(() => requestAnimationFrame(paint));
+  }
+  // Full-screen drop from the top + a "Mastered!" flourish — fires at 3 in a row.
+  function celebrateMastery() {
+    popVerdict();
+    flashMastered();
+    if (PREFERS_REDUCED_MOTION) return;
+    const W = window.innerWidth;
+    const H = window.innerHeight;
+    const layer = makeConfettiLayer(4200);
+    for (let i = 0; i < 140; i++) {
+      const p = addPiece(layer, Math.random() * W, -16);
+      const dx = (Math.random() - 0.5) * 180;
+      const rot = Math.random() * 1080 - 540;
+      const delay = Math.random() * 450;
+      const dur = 2000 + Math.random() * 1300;
+      p.animate(
+        [
+          { transform: "translate(0,0) rotate(0deg)", opacity: 1 },
+          { transform: `translate(${dx * 0.4}px, ${H * 0.55}px) rotate(${rot * 0.5}deg)`, opacity: 1, offset: 0.6 },
+          { transform: `translate(${dx}px, ${H + 40}px) rotate(${rot}deg)`, opacity: 0 },
+        ],
+        { duration: dur, delay: delay, easing: "cubic-bezier(.25,.6,.4,1)" }
+      ).onfinish = () => p.remove();
+    }
+  }
+  function flashMastered() {
+    const b = el("div", "mastered-flash");
+    // Inline SVG star renders crisply and on-theme (a glyph rendered as a clunky
+    // black diamond in the display serif).
+    b.innerHTML =
+      '<svg class="mf-star" viewBox="0 0 24 24" aria-hidden="true">' +
+      '<path d="M12 1.7l2.3 7.1 7.5.1-6 4.5 2.2 7.2-6-4.4-6 4.4 2.2-7.2-6-4.5 7.5-.1z"/>' +
+      "</svg>" +
+      '<span class="mf-title">Mastered</span>' +
+      '<span class="mf-sub">' + MASTERY_STREAK + " correct in a row</span>";
+    document.body.appendChild(b);
+    requestAnimationFrame(() => b.classList.add("show"));
+    setTimeout(() => {
+      b.classList.remove("show");
+      setTimeout(() => b.remove(), 450);
+    }, 2200);
+  }
+
   // ---------- Progress tracking (localStorage) ----------
   // stats[id] = { wrong, right, streak, seen } — streak = consecutive corrects.
   let stats = {};
   let aidVotes = [];
   function loadStats() {
-    try { stats = JSON.parse(localStorage.getItem(STORAGE_KEY)) || {}; }
-    catch (e) { stats = {}; }
-    try { aidVotes = JSON.parse(localStorage.getItem(VOTE_STORAGE_KEY)) || []; }
-    catch (e) { aidVotes = []; }
+    try { stats = JSON.parse(localStorage.getItem(STORAGE_KEY)) || {}; } catch (e) { stats = {}; }
+    try { aidVotes = JSON.parse(localStorage.getItem(VOTE_STORAGE_KEY)) || []; } catch (e) { aidVotes = []; }
   }
   function saveStats() {
-    try { localStorage.setItem(STORAGE_KEY, JSON.stringify(stats)); }
-    catch (e) { /* private mode / storage disabled — tracking just won't persist */ }
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(stats));
+      window.dispatchEvent(new CustomEvent("bbs:stats-updated", { detail: { total: state.all.length } }));
+    } catch (e) {}
   }
   function saveAidVotes() {
-    try { localStorage.setItem(VOTE_STORAGE_KEY, JSON.stringify(aidVotes)); }
-    catch (e) { /* private mode / storage disabled */ }
+    try { localStorage.setItem(VOTE_STORAGE_KEY, JSON.stringify(aidVotes)); } catch (e) {}
   }
   function recordResult(q, correct) {
     const s = stats[q.id] || { wrong: 0, right: 0, streak: 0, seen: 0 };
@@ -230,11 +412,21 @@
   function normalize(s) {
     return String(s)
       .toLowerCase()
-      .trim()
-      .replace(/[.,!;:'"’”“()]/g, "")
-      .replace(/\b(the|a|an)\b/g, " ")
+      .replace(/['’`]/g, "")             // drop apostrophes: "lord's" -> "lords"
+      .replace(/[^a-z0-9]+/g, " ")        // any other punctuation -> a separator space
+      .replace(/\b(the|a|an)\b/g, " ")    // ignore articles
       .replace(/\s+/g, " ")
       .trim();
+  }
+  // Order-independent key: the significant words, sorted. Connectors like "and"
+  // are dropped, so "Ithamar Eleazar" matches "Eleazar and Ithamar" and
+  // "1000,100,50,10" matches "1000 100 50 10".
+  function answerKey(s) {
+    return normalize(s)
+      .split(" ")
+      .filter((w) => w && w !== "and")
+      .sort()
+      .join(" ");
   }
   function fillInIsCorrect(input, q) {
     const guess = normalize(input);
@@ -242,9 +434,12 @@
     const accepted = (q.acceptableAnswers && q.acceptableAnswers.length)
       ? q.acceptableAnswers
       : [q.answer];
+    const guessKey = answerKey(input);
     return accepted.some((a) => {
       const na = normalize(a);
-      return na === guess || (na.length > 3 && (na.includes(guess) || guess.includes(na)));
+      if (na === guess) return true;
+      if (na.length > 3 && (na.includes(guess) || guess.includes(na))) return true;
+      return guessKey.length > 0 && answerKey(a) === guessKey; // same words, any order
     });
   }
 
@@ -292,7 +487,6 @@
 
   // ---------- Setup / home screen ----------
   function buildSetup() {
-    $("total-count").textContent = state.all.length;
 
     const chapters = [...new Set(state.all.map((q) => q.chapter))].sort((a, b) => a - b);
     const list = $("chapter-list");
@@ -335,12 +529,97 @@
 
     refreshHome();
     updateSummary();
+    // Notify rewards system that questions are loaded and mastery can be calculated.
+    window.dispatchEvent(new CustomEvent("bbs:stats-updated", { detail: { total: state.all.length } }));
   }
 
   function openAdvanced(open) {
     $("home").hidden = open;
     $("advanced").hidden = !open;
     $("toggle-advanced").setAttribute("aria-expanded", String(open));
+  }
+
+  // Unified Progress view: overall stats + per-chapter breakdown + resets.
+  function openProgress(open) {
+    if (open) { show("setup"); renderProgress(); }
+    $("home").hidden = open;
+    $("progress-view").hidden = !open;
+  }
+
+  function renderProgress() {
+    const total = state.all.length;
+    const seen = Object.keys(stats).length;
+    const due = dueQuestions().length;
+    const mastered = masteredQuestions().length;
+    const entries = Object.values(stats);
+    const totalRight = entries.reduce((a, s) => a + (s.right || 0), 0);
+    const totalWrong = entries.reduce((a, s) => a + (s.wrong || 0), 0);
+    const answers = totalRight + totalWrong;
+    const accuracy = answers ? Math.round((totalRight / answers) * 100) : 0;
+
+    const box = $("progress-stats");
+    box.innerHTML = "";
+    const grid = el("div", "stat-grid");
+    const tile = (num, label) => {
+      const t = el("div", "stat");
+      t.appendChild(el("span", "stat-num", num));
+      t.appendChild(el("span", "stat-label", label));
+      return t;
+    };
+    grid.appendChild(tile(`${mastered}/${total}`, "Mastered"));
+    grid.appendChild(tile(`${seen}/${total}`, "Seen"));
+    grid.appendChild(tile(String(due), "To review"));
+    grid.appendChild(tile(`${accuracy}%`, "Accuracy"));
+    box.appendChild(grid);
+    box.appendChild(el("p", "ps-caption", `${totalRight} correct of ${answers} answered`));
+
+    fillChapterBreakdown();
+
+    const actions = $("progress-actions");
+    actions.innerHTML = "";
+    if (mastered > 0) {
+      const rm = el("button", "link-btn", "Reset mastered");
+      rm.type = "button";
+      rm.addEventListener("click", resetMastered);
+      actions.appendChild(rm);
+    }
+    const rp = el("button", "link-btn", "Reset all");
+    rp.type = "button";
+    rp.addEventListener("click", resetProgress);
+    actions.appendChild(rp);
+  }
+
+  // Per-chapter mastery + accuracy rows (into #breakdown-list).
+  function fillChapterBreakdown() {
+    const listEl = $("breakdown-list");
+    listEl.innerHTML = "";
+    const chapters = [...new Set(state.all.map((q) => q.chapter))].sort((a, b) => a - b);
+    chapters.forEach((ch) => {
+      const qs = state.all.filter((q) => q.chapter === ch);
+      const total = qs.length;
+      let mastered = 0, right = 0, wrong = 0;
+      qs.forEach((q) => {
+        const s = stats[q.id];
+        if (!s) return;
+        right += s.right || 0;
+        wrong += s.wrong || 0;
+        if ((s.streak || 0) >= MASTERY_STREAK) mastered++;
+      });
+      const answers = right + wrong;
+      const acc = answers ? Math.round((right / answers) * 100) : null;
+      const pct = total ? Math.round((mastered / total) * 100) : 0;
+
+      const row = el("div", "chap-row");
+      row.appendChild(el("span", "chap-name", "Ch " + ch));
+      const bar = el("div", "chap-bar");
+      const fill = el("div", "chap-fill");
+      fill.style.width = pct + "%";
+      if (mastered === total) fill.classList.add("done");
+      bar.appendChild(fill);
+      row.appendChild(bar);
+      row.appendChild(el("span", "chap-stat", `${mastered}/${total}` + (acc === null ? " · —" : ` · ${acc}%`)));
+      listEl.appendChild(row);
+    });
   }
 
   // Refresh the home-screen tracking UI (missed CTA + progress line).
@@ -354,31 +633,24 @@
     $("mastered-cta").hidden = mastered === 0;
     $("mastered-count").textContent = mastered;
 
-    const seen = Object.keys(stats).length;
-    const line = $("progress-line");
-    line.innerHTML = "";
-    if (seen === 0) { line.hidden = true; return; }
-    line.hidden = false;
-    line.append(`Seen ${seen} of ${state.all.length}  ·  ${due} to review  ·  ${mastered} mastered`);
-    if (mastered > 0) {
-      line.append("  ·  ");
-      const rm = el("button", "link-btn", "Reset mastered");
-      rm.type = "button";
-      rm.addEventListener("click", resetMastered);
-      line.appendChild(rm);
-    }
-    line.append("  ·  ");
-    const rp = el("button", "link-btn", "Reset all");
-    rp.type = "button";
-    rp.addEventListener("click", resetProgress);
-    line.appendChild(rp);
+    const remaining = state.all.length - mastered;
+    $("quick-note").textContent = mastered > 0
+      ? `${remaining} of ${state.all.length} left to master · missed ones return first`
+      : `All ${state.all.length} questions, shuffled`;
+
+    $("view-progress").hidden = Object.keys(stats).length === 0;
   }
 
+  // After a reset, refresh the home CTAs and the Progress view if it's open.
+  function refreshAfterReset() {
+    refreshHome();
+    if (!$("progress-view").hidden) renderProgress();
+  }
   function resetProgress() {
     if (!window.confirm("Reset all saved progress on this device? This can't be undone.")) return;
     stats = {};
     saveStats();
-    refreshHome();
+    refreshAfterReset();
   }
   function resetMastered() {
     const ids = masteredQuestions().map((q) => q.id);
@@ -386,7 +658,7 @@
     if (!window.confirm("Reset " + ids.length + " mastered question" + (ids.length === 1 ? "" : "s") + " back into study?")) return;
     ids.forEach((id) => { delete stats[id]; });
     saveStats();
-    refreshHome();
+    refreshAfterReset();
   }
 
   function selectedChapters() {
@@ -411,6 +683,98 @@
       : "⬇ Export to Anki (CSV)";
   }
 
+  // ---------- History routing (PWA back-button support) ----------
+  // Without this, hitting the system back button on a PWA closes the app
+  // mid-quiz (no history to fall back to). We push a history entry on
+  // each screen transition so the system back fires `popstate`, which
+  // we intercept to decrement state.index / return to setup / etc.
+  //
+  // Routing convention:
+  //   - Setup screen has NO history entry. Back from setup exits the
+  //     PWA (this is expected — home screens don't have a parent).
+  //   - `launch()` pushes one entry per quiz: /quiz/0
+  //   - Next button pushes /quiz/N for each advance, or /results
+  //   - Restart uses history.back() so we don't leave a stale entry
+  //     on the stack pointing into a torn-down quiz.
+  //
+  // Option A behavior: on page load, we ignore any URL hash and always
+  // start on setup. This way, reloading mid-quiz lands you at home
+  // (matches typical web-app reload semantics; PWAs sometimes restore
+  // on reload which can feel surprising).
+  const ROUTE = {
+    setup: () => null, // no history entry for setup
+    quiz: (i) => "/quiz/" + i,
+    results: () => "/results",
+  };
+  let _suppressNextPush = false; // set true during popstate-driven re-renders
+
+  function navigateTo(screen, payload) {
+    let url;
+    if (screen === "setup") url = ROUTE.setup();
+    else if (screen === "quiz") url = ROUTE.quiz(payload);
+    else if (screen === "results") url = ROUTE.results();
+    else url = null;
+    if (url == null) {
+      // setup or unknown → use replaceState so we don't leave a stale entry
+      history.replaceState({ screen: "setup" }, "", location.pathname + location.search);
+    } else {
+      history.pushState({ screen, index: payload }, "", url);
+    }
+  }
+
+  function handlePopstate(event) {
+    // Called when user hits back/forward. The browser has already
+    // updated location, so we read it and route accordingly.
+    const path = location.pathname;
+    let screen = "setup", payload = null;
+    if (path.startsWith("/quiz/")) {
+      const idx = parseInt(path.slice("/quiz/".length), 10);
+      if (Number.isFinite(idx) && idx >= 0) {
+        screen = "quiz";
+        payload = idx;
+      }
+    } else if (path === "/results") {
+      screen = "results";
+    } else {
+      screen = "setup";
+    }
+
+    _suppressNextPush = true; // we're re-rendering from history, don't push again
+    try {
+      if (screen === "setup") {
+        // Back from Q1 (or anywhere) → tear down the quiz, return to setup.
+        // Keep state.quiz in memory in case the user immediately re-enters
+        // via history.forward, but render the setup screen.
+        show("setup");
+      } else if (screen === "quiz") {
+        // If we don't have a quiz loaded (e.g. reload), or the index is
+        // out of range, fall back to setup.
+        if (!state.quiz.length || payload >= state.quiz.length) {
+          show("setup");
+        } else {
+          state.index = payload;
+          state.answered = false;
+          state.selected = null;
+          state.pendingAidVote = null;
+          show("quiz");
+          renderQuestion();
+        }
+      } else if (screen === "results") {
+        // If we don't have a quiz loaded, fall back to setup.
+        if (!state.quiz.length) {
+          show("setup");
+        } else {
+          showResults();
+        }
+      }
+    } finally {
+      _suppressNextPush = false;
+    }
+  }
+
+  // Register the popstate listener once at module init.
+  window.addEventListener("popstate", handlePopstate);
+
   // ---------- Start a quiz ----------
   function launch(questions, mode) {
     state.quiz = questions;
@@ -420,9 +784,15 @@
     state.mode = mode;
     show("quiz");
     renderQuestion();
+    // Push a history entry so the system back button returns to setup
+    // instead of closing the PWA. Skip if we're mid-popstate (already
+    // routing from history).
+    if (!_suppressNextPush) navigateTo("quiz", 0);
   }
   function startQuick() {
-    launch(weightedOrder(state.all), "quick");
+    // Set mastered questions aside; fall back to everything once all are mastered.
+    const pool = state.all.filter((q) => !isMastered(q));
+    launch(weightedOrder(pool.length ? pool : state.all), "quick");
   }
   function startDrill() {
     const due = dueQuestions();
@@ -461,6 +831,7 @@
     $("q-text").textContent = q.question;
 
     $("feedback").hidden = true;
+    $("feedback-next-bar").hidden = true;
     $("memory-aid").hidden = true;
     $("aid-review").hidden = true;
     $("aid-review-saved").hidden = true;
@@ -483,7 +854,11 @@
       input.placeholder = "Type your answer…";
       input.addEventListener("input", () => (submit.disabled = input.value.trim() === ""));
       area.appendChild(input);
-      setTimeout(() => input.focus(), 30);
+      // preventScroll: true so the focus doesn't race with our
+      // scrollElementToTop smooth scroll on the Next path. Otherwise
+      // the browser may scroll the input into view mid-animation and
+      // pull the page to a position that buries the question text.
+      setTimeout(() => input.focus({ preventScroll: true }), 30);
     } else {
       const opts = (q.type === "true-false" ? ["True", "False"] : (q.options || [])).slice();
       for (let i = opts.length - 1; i > 0; i--) {
@@ -502,6 +877,14 @@
         area.appendChild(b);
       });
     }
+
+    // Position the screen so the new question is at the top of the
+    // viewport. Without this, Next leaves you wherever the previous
+    // feedback / memory-aid was — often scrolled past the question text.
+    // Honors the rewards-trophy-shelf clamp via scrollElementToTop.
+    requestAnimationFrame(() => {
+      scrollElementToTop($("q-text"));
+    });
   }
 
   // ---------- Submit ----------
@@ -527,14 +910,29 @@
     state.answered = true;
     if (correct) state.score++;
     else state.missed.push(q);
-    if (state.mode !== "review") recordResult(q, correct);
+    let newlyMastered = false;
+    let streakReset = false;
+    if (state.mode !== "review") {
+      const prevStreak = stats[q.id] ? (stats[q.id].streak || 0) : 0;
+      recordResult(q, correct);
+      newlyMastered = correct && !!stats[q.id] && stats[q.id].streak === MASTERY_STREAK;
+      streakReset = !correct && prevStreak > 0;
+    }
     showFeedback(q, correct);
+    renderMasteryProgress(q, streakReset);
+    if (correct && newlyMastered) {
+      const trophyUnlocking =
+        typeof window.BibleBowlHasPendingUnlock === "function" && window.BibleBowlHasPendingUnlock();
+      if (trophyUnlocking) popVerdict();
+      else celebrateMastery();
+    }
   });
 
   function showFeedback(q, correct) {
     $("submit-btn").hidden = true;
     const fb = $("feedback");
     fb.hidden = false;
+    $("feedback-next-bar").hidden = false;
 
     const verdict = $("feedback-verdict");
     verdict.textContent = correct ? "Correct" : "Not quite";
@@ -562,7 +960,17 @@
 
     $("suggest-link").href = suggestUrl(q);
 
-    $("next-btn").focus();
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        if (
+          typeof window.BibleBowlConsumeUnlockScroll === "function" &&
+          window.BibleBowlConsumeUnlockScroll()
+        ) {
+          return;
+        }
+        scrollToNextButton();
+      });
+    });
   }
 
   function setStudyGuideVisible(q, visible) {
@@ -653,18 +1061,20 @@
   }
   function renderAidReview(q) {
     const alt = latestReviewCandidate(q);
-    if (!q.memoryAid || !q.memoryAid.text) return;
-
     const box = $("aid-review");
+    // The A/B vote only makes sense when there's an alternate to compare —
+    // otherwise hide it to keep the after-answer screen uncluttered.
+    if (!q.memoryAid || !q.memoryAid.text || !alt) { box.hidden = true; return; }
+
     const opts = $("aid-review-options");
     const saved = $("aid-review-saved");
     opts.innerHTML = "";
     saved.hidden = true;
 
-    const choices = alt ? [
+    const choices = [
       { id: "current", type: q.memoryAid.type, text: q.memoryAid.text, source: q.memoryAid.source || "" },
       { id: alt.candidateId, type: alt.type, text: alt.text, source: alt.source || "" },
-    ] : [{ id: "current", type: q.memoryAid.type, text: q.memoryAid.text, source: q.memoryAid.source || "" }];
+    ];
     const prior = aidVoteFor(q.id);
 
     choices.forEach((choice) => {
@@ -739,15 +1149,47 @@
   $("next-btn").addEventListener("click", () => {
     commitPendingAidVote();
     state.index++;
-    if (state.index >= state.quiz.length) showResults();
-    else renderQuestion();
+    if (state.index >= state.quiz.length) {
+      // Clear state.answered so showResults() doesn't double-count
+      // the just-finished question in the denominator.
+      state.answered = false;
+      showResults();
+      if (!_suppressNextPush) navigateTo("results");
+    } else {
+      renderQuestion();
+      if (!_suppressNextPush) navigateTo("quiz", state.index);
+    }
   });
 
   $("quit-btn").addEventListener("click", showResults);
+  $("view-progress").addEventListener("click", () => openProgress(true));
+  $("close-progress").addEventListener("click", () => openProgress(false));
+  $("show-progress-btn").addEventListener("click", () => openProgress(true));
+
   $("restart-btn").addEventListener("click", () => {
     openAdvanced(false);
+    $("progress-view").hidden = true;
     refreshHome();
     show("setup");
+    // Step back through the history stack so we land at the entry that
+    // existed before launch() pushed /quiz/0. This avoids leaving a
+    // stale /quiz/N entry on the stack that would re-launch a quiz if
+    // the user hits forward. Each Next/launch pushed one entry, so we
+    // need to step back (1 results + N quiz questions + 1 quiz/0) =
+    // state.quiz.length + 2 entries. But we only step back the right
+    // amount based on history.length to avoid under/overshooting.
+    // Simpler approach: just go back until we're not on /quiz/* or
+    // /results. But that's a loop. Cleanest: replaceState the current
+    // entry to setup (collapses the stack at this point), then the
+    // user's previous back behavior takes them to whatever was before.
+    // We use replaceState so we don't push a new entry.
+    history.replaceState({ screen: "setup" }, "", location.pathname.replace(/\/quiz\/\d+|\/results/g, "") || "/");
+    // Tear down the quiz state so a future forward navigation doesn't
+    // accidentally restore into it.
+    state.quiz = [];
+    state.index = 0;
+    state.score = 0;
+    state.missed = [];
   });
 
   // ---------- Results ----------
@@ -793,6 +1235,14 @@
       review.appendChild(item);
     });
   }
+
+  // Expose celebration primitives so Memory Labs (memory-labs-drag.js,
+  // memory-labs-tree.js) can use the same dependency-free confetti
+  // system without duplicating it. Keeping the primitives on window
+  // rather than a module export because the existing scripts are
+  // vanilla IIFEs loaded via <script> tags, not ES modules.
+  window.BibleBowlMakeConfettiLayer = makeConfettiLayer;
+  window.BibleBowlAddConfettiPiece = addPiece;
 
   load();
 })();

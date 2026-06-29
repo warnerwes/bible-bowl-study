@@ -1,0 +1,409 @@
+/* Bible Bowl Study — Memory Labs data (from data/memory-labs.yaml) */
+
+(() => {
+  "use strict";
+
+  window.BibleBowlLabs = {
+    intro:
+      "Memory Labs teach the ordered patterns of Exodus — judgment, covenant, priesthood, and worship — through touch and placement, not arcade spectacle.",
+
+    labs: [
+      {
+        id: "plagues",
+        label: "Ten Plagues",
+        emoji: "🩸",
+        ref: "Exodus 7:14–12:32",
+        subtitle: "Exact plague order · OSB/LXX labels",
+        description:
+          "The ten plagues are an ordered judgment against Pharaoh's hardness. They move from waters to creatures, bodies, sky, darkness, and the firstborn.",
+        tip: "Start with the Nile, end with the firstborn.",
+        ordered_items: [
+          "Water to Blood",
+          "Frogs",
+          "Lice",
+          "Dog-flies",
+          "Livestock Disease",
+          "Boils",
+          "Hail and Fire",
+          "Locusts",
+          "Darkness",
+          "Firstborn Struck",
+        ],
+        item_emojis: ["🩸", "🐸", "🪲", "🪰", "🐄", "🤒", "🌨️", "🦗", "🌑", "💀"],
+        unlock: { chapters: [7, 8, 9, 10, 11, 12], min: 8 },
+        unlock_teaching: {
+          headline: "Judgment That Teaches",
+          body:
+            "The plagues are not random disasters; they are ordered signs of God's authority. The fourth plague's dog-fly wording is vivid on purpose in the Greek tradition. Holy Saturday readings keep Passover and the sea crossing close to Pascha.",
+        },
+        completion_teaching: {
+          memory_sentence:
+            "God's judgments in Exodus are ordered signs, leading from bloodied water to Passover deliverance.",
+        },
+        interaction: { type: "drag_order" },
+      },
+      {
+        id: "tribes",
+        label: "Twelve Tribes",
+        emoji: "⛺",
+        ref: "Genesis 29–35; Exodus 1",
+        subtitle: "Birth order, not camp order",
+        description:
+          "Jacob's twelve sons in birth order — the foundation before camp lists, blessings, and land allotments.",
+        tip: "Leah's first four, Bilhah's two, Zilpah's two, Leah's last two, Rachel's two.",
+        ordered_items: [
+          "Reuben",
+          "Simeon",
+          "Levi",
+          "Judah",
+          "Dan",
+          "Naphtali",
+          "Gad",
+          "Asher",
+          "Issachar",
+          "Zebulun",
+          "Joseph",
+          "Benjamin",
+        ],
+        item_emojis: [
+          "🥇", // Reuben — firstborn ("behold a son")
+          "⚔️", // Simeon — linked with sword, Dinah's vengeance
+          "📜", // Levi — priestly line, set apart
+          "🦁", // Judah — Lion of Judah, scepter
+          "⚖️", // Dan — "judge" / scales of justice
+          "🦌", // Naphtali — "hind let loose", swift
+          "🐺", // Gad — "troop shall overcome him"
+          "🌾", // Asher — "happy / bread", fertile
+          "🐴", // Issachar — strong donkey between burdens
+          "⛵", // Zebulun — "dwelling" by the sea, haven for ships
+          "🌟", // Joseph — dreamer, fruitful bough
+          "🐺", // Benjamin — "son of the right hand", ravenous wolf
+        ],
+        unlock: { chapters: [1, 2, 6], min: 5 },
+        unlock_teaching: {
+          headline: "One Family, Twelve Names",
+          body:
+            "The twelve tribes begin as twelve sons in a complicated family. Scripture lists them differently for different purposes — here we learn birth order first.",
+        },
+        completion_teaching: {
+          memory_sentence:
+            "The tribes begin as sons: remember the family order before you memorize the later tribal maps.",
+        },
+        interaction: { type: "drag_order" },
+      },
+      {
+        id: "commandments",
+        label: "Ten Commandments",
+        emoji: "📜",
+        ref: "Exodus 20:1–17",
+        subtitle: "Orthodox numbering · two tables",
+        teacher_note: "Other traditions number the commandments differently.",
+        description:
+          "After Sinai the Lord speaks the Decalogue — first love of God, then love of neighbor.",
+        tip: "Learn the two tables: God first, then neighbor.",
+        ordered_items: [
+          "No Other Gods",
+          "No Carved Images",
+          "Honor God's Name",
+          "Keep Sabbath Holy",
+          "Honor Parents",
+          "Do Not Murder",
+          "No Adultery",
+          "Do Not Steal",
+          "No False Witness",
+          "Do Not Covet",
+        ],
+        item_emojis: [
+          "🚫", // No Other Gods
+          "🗿", // No Carved Images
+          "📛", // Honor God's Name
+          "🕯️", // Keep Sabbath Holy
+          "👨‍👩‍👧", // Honor Parents
+          "🗡️", // Do Not Murder
+          "💍", // No Adultery (covenant bond)
+          "🔒", // Do Not Steal
+          "👅", // No False Witness
+          "👀", // Do Not Covet (eyes)
+        ],
+        unlock: { chapters: [19, 20], min: 7 },
+        unlock_teaching: {
+          headline: "Words at Sinai",
+          body:
+            "Exodus 20 gives covenant words into holy fear. Orthodox numbering treats carved images as the second commandment and coveting as one tenth commandment. Veneration of icons is not worship of created things.",
+        },
+        completion_teaching: {
+          memory_sentence:
+            "The commandments order love: first toward God, then toward the neighbor.",
+        },
+        interaction: { type: "drag_order" },
+      },
+      {
+        id: "priest_line",
+        label: "Line of the Priesthood",
+        emoji: "🌿",
+        ref: "Exodus 6:16–25; 18:3–4; 28:1",
+        subtitle: "Aaron's line · Moses' sons for contrast",
+        description:
+          "Moses and Aaron share Levi's line, but priestly ministry runs through Aaron and his sons — not through Gershom or Eliezer.",
+        tip: "Trunk: Jacob → Levi → Kohath → Amram, then split Aaron's priests from Moses' sons.",
+        unlock: { chapters: [2, 4, 6, 18, 28], min: 6 },
+        unlock_teaching: {
+          headline: "One Tribe, Two Callings",
+          body:
+            "Moses leads as prophet; Aaron and his sons are set apart for priestly ministry. Eleazar belongs under Aaron; Eliezer belongs under Moses.",
+        },
+        completion_teaching: {
+          memory_sentence:
+            "Moses and Aaron share Levi's line, but the priesthood runs through Aaron.",
+        },
+        interaction: { type: "tree_place" },
+        tree_slots: [
+          { id: "jacob", label: "Patriarch", accept: "Jacob", row: 0 },
+          { id: "levi", label: "Son of Jacob", accept: "Levi", row: 1 },
+          { id: "kohath", label: "Son of Levi", accept: "Kohath", row: 2 },
+          { id: "amram", label: "Son of Kohath", accept: "Amram", row: 3 },
+          { id: "jochebed", label: "Spouse of Amram", accept: "Jochebed", row: 3, side: true },
+          { id: "miriam", label: "Daughter", accept: "Miriam", row: 4, branch: "sibling" },
+          { id: "aaron", label: "Son · priest", accept: "Aaron", row: 4, branch: "sibling" },
+          { id: "moses", label: "Son · prophet", accept: "Moses", row: 4, branch: "sibling" },
+          { id: "nadab", label: "Son of Aaron", accept: "Nadab", row: 5, branch: "aaron" },
+          { id: "abihu", label: "Son of Aaron", accept: "Abihu", row: 5, branch: "aaron" },
+          { id: "eleazar", label: "Son of Aaron", accept: "Eleazar", row: 5, branch: "aaron" },
+          { id: "ithamar", label: "Son of Aaron", accept: "Ithamar", row: 5, branch: "aaron" },
+          { id: "phinehas", label: "Son of Eleazar", accept: "Phinehas", row: 6, branch: "eleazar" },
+          { id: "gershom", label: "Son of Moses", accept: "Gershom", row: 5, branch: "moses" },
+          { id: "eliezer", label: "Son of Moses", accept: "Eliezer", row: 6, branch: "moses" },
+        ],
+        tree_chips: [
+          "Jacob", "Levi", "Kohath", "Amram", "Jochebed",
+          "Miriam", "Aaron", "Moses",
+          "Nadab", "Abihu", "Eleazar", "Ithamar", "Phinehas",
+          "Gershom", "Eliezer",
+        ],
+      },
+      {
+        id: "consecration",
+        label: "Holy Consecration",
+        emoji: "🕯️",
+        ref: "Exodus 29",
+        subtitle: "Remembering God's institution · not performing the rite",
+        description:
+          "God sets Aaron and his sons apart through washing, vesting, anointing, offerings, and a holy meal — in His commanded order.",
+        tip: "Prepare, wash, clothe, anoint, offer, ordain, eat, complete.",
+        ordered_items: [
+          "Prepare Offerings",
+          "Wash Priests",
+          "Clothe Aaron",
+          "Anoint Aaron",
+          "Clothe His Sons",
+          "Sin Offering",
+          "Burnt Offering",
+          "Ordination Ram",
+          "Holy Meal & 7 Days",
+        ],
+        item_emojis: [
+          "🛠️", // Prepare Offerings
+          "💧", // Wash Priests
+          "👕", // Clothe Aaron
+          "🫒", // Anoint Aaron (oil)
+          "👔", // Clothe His Sons
+          "🐏", // Sin Offering (ram)
+          "🔥", // Burnt Offering
+          "🐂", // Ordination Ram
+          "🍞", // Holy Meal & 7 Days (bread of presence)
+        ],
+        unlock: { chapters: [25, 26, 27, 28, 29, 30, 31, 35, 36, 37, 38, 39, 40], min: 10 },
+        unlock_teaching: {
+          headline: "Set Apart for God",
+          body:
+            "Consecration is God setting persons apart for holy service — not a magic costume change. You are remembering the order God gave, not play-acting priestly rites.",
+        },
+        completion_teaching: {
+          memory_sentence:
+            "Holy service begins by God's command, in God's order, for God's glory.",
+        },
+        interaction: { type: "drag_order" },
+      },
+      {
+        id: "tabernacle_place",
+        label: "Place the Holy Things",
+        emoji: "⛪",
+        ref: "Exodus 40:1-33",
+        subtitle: "OSB Ex 40 placements · 8 holy items on a map",
+        // This is NOT the same as the bank's Erect/Furnish/Wash/Anoint
+        // mnemonic (ex40-003/004). This is a movement-only drill — what
+        // you see walking east→west through the courtyard. Consecration
+        // happens BEFORE this in the bank's order.
+        teacher_note:
+          "Movement only — does NOT include Aaron's washing or anointing (see 'Holy Consecration' lab for that).",
+        description:
+          "The tabernacle is laid out west to east: God's presence over the Ark at the far west, the priest entering from the east. Place each holy item where it stands according to OSB Exodus 40.",
+        tip:
+          "Start at the east entrance and walk west — Bronze Altar → Laver → Holy Place (Table north, Lampstand south, Golden Altar before veil) → Ark in the Most Holy Place.",
+        // 8 zones. Court + Court Gate collapsed to "East Entrance" to fix the
+        // elimination-shortcut pedagogy problem (skeptic §2). The Courtyard
+        // is split into two sub-zones (Bronze Altar slot + Laver slot) so
+        // each card has a distinct drop target — fillCorrect can place both.
+        tabernacle_zones: [
+          // Top-level zones (rendered in document order).
+          {
+            id: "most_holy",
+            label: "Most Holy Place",
+            sublabel: "God's presence · behind the veil",
+            position: "west",
+            pattern: "stripes",
+            accept: ["ark"],
+          },
+          {
+            id: "holy_place",
+            label: "Holy Place",
+            sublabel: "Outside the veil · priest enters here",
+            position: "center",
+            pattern: "dots",
+            accept: [], // parent zone; only children accept
+          },
+          {
+            id: "tabernacle_exterior",
+            label: "Courtyard",
+            sublabel: "Outside the tabernacle · before the door",
+            position: "east",
+            pattern: "plain",
+            accept: [], // parent zone; only children accept
+          },
+          {
+            id: "east_entrance",
+            label: "East Entrance",
+            sublabel: "The court gate — approach from the east",
+            position: "east-edge",
+            pattern: "plain",
+            accept: ["east_entrance"],
+          },
+          // Nested zones inside Holy Place.
+          {
+            id: "table_zone",
+            parent: "holy_place",
+            label: "② North (Left Wall)",
+            sublabel: "Table of Showbread",
+            position: "north",
+            pattern: "dots",
+            accept: ["table"],
+          },
+          {
+            id: "lampstand_zone",
+            parent: "holy_place",
+            label: "② South (Right Wall)",
+            sublabel: "Lampstand",
+            position: "south",
+            pattern: "dots",
+            accept: ["lampstand"],
+          },
+          {
+            id: "incense_zone",
+            parent: "holy_place",
+            label: "Before the Veil",
+            sublabel: "Golden Altar of Incense",
+            position: "incense",
+            pattern: "dots",
+            accept: ["golden_altar"],
+          },
+          {
+            id: "veil_zone",
+            parent: "most_holy",
+            label: "Veil",
+            sublabel: "Separates Holy from Most Holy",
+            position: "veil",
+            pattern: "stripes",
+            accept: ["veil"],
+          },
+          // Nested zones inside Courtyard.
+          {
+            id: "bronze_altar_zone",
+            parent: "tabernacle_exterior",
+            label: "By the Door",
+            sublabel: "Bronze Altar of Burnt Offering",
+            position: "east",
+            pattern: "plain",
+            accept: ["bronze_altar"],
+          },
+          {
+            id: "laver_zone",
+            parent: "tabernacle_exterior",
+            label: "Washing Station",
+            sublabel: "Between tabernacle and altar",
+            position: "east",
+            pattern: "plain",
+            accept: ["laver"],
+          },
+        ],
+        tabernacle_cards: [
+          // OSB Ex 40:3, 21 — Ark in Most Holy Place
+          {
+            id: "ark",
+            label: "Ark of the Testimony",
+            emoji: "📜",
+            osb_ref: "Ex 40:3, 21",
+          },
+          {
+            id: "veil",
+            label: "Veil",
+            emoji: "🟪",
+            osb_ref: "Ex 40:21",
+          },
+          // OSB Ex 40:22-23 — Table on north side of Holy Place
+          {
+            id: "table",
+            label: "Table of Showbread",
+            emoji: "🍞",
+            osb_ref: "Ex 40:22-23",
+          },
+          // OSB Ex 40:24-25 — Lampstand on south side
+          {
+            id: "lampstand",
+            label: "Lampstand",
+            emoji: "🕯️",
+            osb_ref: "Ex 40:24-25",
+          },
+          // OSB Ex 40:26-27 — Golden Altar before the veil
+          {
+            id: "golden_altar",
+            label: "Golden Altar of Incense",
+            emoji: "🪔",
+            osb_ref: "Ex 40:26-27",
+          },
+          // OSB Ex 40:30 + Ex 30:18 — between tabernacle and altar
+          {
+            id: "laver",
+            label: "Bronze Laver",
+            emoji: "🚰",
+            osb_ref: "Ex 40:30; OSB Ex 30:18",
+          },
+          // OSB Ex 40:29 — Bronze Altar by the doors
+          {
+            id: "bronze_altar",
+            label: "Bronze Altar of Burnt Offering",
+            emoji: "🔥",
+            osb_ref: "Ex 40:29",
+          },
+          // OSB Ex 40:33 — Court around the tabernacle and altar
+          {
+            id: "east_entrance",
+            label: "East Entrance / Court Gate",
+            emoji: "🚪",
+            osb_ref: "Ex 40:33; Ex 27:13-16",
+          },
+        ],
+        unlock: { chapters: [38, 39, 40], min: 6 },
+        unlock_teaching: {
+          headline: "Where God's Presence Dwells",
+          body:
+            "The tabernacle is a map of approach: God's presence sits at the far west, and the priest enters from the east. Every item has a place that teaches its role — closest to God, or closest to the people, or between.",
+        },
+        completion_teaching: {
+          memory_sentence:
+            "God's presence dwells in the Most Holy Place; the priest approaches through courtyard, altar, laver, and Holy Place to stand before the Ark.",
+        },
+        interaction: { type: "tabernacle_place" },
+      },
+    ],
+  };
+})();
