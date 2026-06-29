@@ -575,19 +575,22 @@
   margin: 0.15rem 0;
 }
 
-/* Board: vertical stack on mobile, horizontal on wider screens.
-   Most Holy Place on top (west), Courtyard on bottom (east).
-   Sized so the WHOLE map + status + tray fit in a 390x844 mobile
-   viewport with the panel chrome (modal header + Return-to-Study +
-   about-this-lab expanded). The labs-card overflow-y:auto scrolls if
-   anything still overflows. */
+/* Board: a vertical stack of the tabernacle's rooms, west (God's
+   presence) at top -> east (entrance) at bottom. On phones the board
+   is sized by FLEX (it fills the vertical space the layout gives it)
+   so the whole map + chip pool fit in one viewport -- the previous
+   fixed min-height/max-height forced the workspace to scroll, which
+   broke the "see the map and the chips at once" pedagogy (see
+   docs/review-tabernacle-spatial-skeptic.md S1a). On >=720px the
+   board reverts to a comfortable fixed min-height. */
 .lab-tabernacle-board {
   display: grid;
   position: relative; /* anchor compass labels (top: -1.5rem, bottom: -1.5rem) */
-  /* Five rows now (2026-06-28): added veil_zone between Most Holy Place
-     and Holy Place. Veil is its own row so the user can SEE it and
-     drag the Veil card onto it. */
-  grid-template-rows: 0.7fr auto 1.4fr auto 0.45fr;
+  /* Five rows (2026-06-28): veil_zone is its own row between Most Holy
+     Place and Holy Place so the user can SEE it and drag the Veil card
+     onto it. Row tracks are fr-based so the board scales to its flex
+     height on mobile instead of forcing a fixed pixel height. */
+  grid-template-rows: 0.8fr auto 1.5fr auto 0.55fr;
   grid-template-areas:
     "most_holy"
     "veil_zone"
@@ -596,8 +599,7 @@
     "east_entrance";
   gap: 0.3rem;
   width: 100%;
-  min-height: 380px;
-  max-height: 520px;
+  min-height: 0; /* flex child: let the layout assign height */
   padding: 0.2rem;
   border-radius: 10px;
   background: rgba(8, 10, 14, 0.6);
@@ -624,37 +626,78 @@
    legend sidebar on the right (desktop) or below (mobile). Labels
    live OUTSIDE the map so each zone has more room for its placed
    emoji chip — fixes overflow + improves readability. */
+/* Layout: a full-height flex COLUMN on mobile (map on top, chip pool+
+   actions pinned below as a footer that never scrolls away) so the
+   user can always see the map AND the chips at the same time -- the
+   whole point of a placement game (see skeptic review S1a). On
+   >=720px it becomes the side-by-side map+legend row. The root +
+   layout + board-col chain each carry min-height:0 so the flex height
+   actually propagates down to the grid board instead of being clamped
+   by a default min-content. */
+.lab-tabernacle-root {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  gap: 0.4rem;
+  height: 100%;
+}
+/* When the tabernacle lab is mounted, turn the scrollable workspace into a
+   flex column that fills its height, so the root's height:100% resolves
+   against a real flex parent and the map/tray split works without the
+   workspace scrolling. Other labs are unaffected (they don't add this
+   class). The JS mount adds .labs-workspace--tabernacle to #labs-workspace. */
+.labs-workspace--tabernacle {
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
 .lab-tabernacle-layout {
   display: flex;
-  flex-direction: row;
+  flex-direction: column; /* mobile-first: stack map over pool-footer */
   flex-wrap: nowrap;
   align-items: stretch;
-  gap: 0.5rem;
+  gap: 0.4rem;
   width: 100%;
+  flex: 1 1 auto;
+  min-height: 0;
 }
 .lab-tabernacle-board-col {
   display: flex;
   flex-direction: column;
   flex: 1 1 auto;
   min-width: 0;
+  min-height: 0;
   gap: 0.15rem;
 }
 .lab-tabernacle-layout > .lab-tabernacle-board-col > .lab-tabernacle-board {
   flex: 1 1 auto;
   min-width: 0;
+  min-height: 0;
+}
+/* The chip pool + actions are wrapped in a footer that does NOT flex
+   grow -- it takes only the height it needs, so the map gets the rest. */
+.lab-tabernacle-tray-footer {
+  flex: 0 0 auto;
+  min-height: 0;
 }
 .lab-tabernacle-layout > .lab-tabernacle-sidebar {
-  flex: 0 0 auto;
-  width: clamp(130px, 38%, 220px);
-  max-height: 460px;
+  /* Sidebar is desktop-only (>=720px). Hidden on mobile so the map
+     gets the full width -- the in-map labels already carry the
+     caption/sublabel, and the answer-name reveal lives in the map's
+     own reveal slot. */
+  display: none;
 }
-@media (max-width: 359px) {
+@media (min-width: 720px) {
   .lab-tabernacle-layout {
-    flex-direction: column;
+    flex-direction: row;
+    align-items: stretch;
   }
   .lab-tabernacle-layout > .lab-tabernacle-sidebar {
-    width: 100%;
-    max-height: 220px;
+    display: block;
+    flex: 0 0 auto;
+    width: clamp(130px, 38%, 220px);
+    max-height: 460px;
   }
 }
 
@@ -1122,6 +1165,33 @@
   border: 1px solid rgba(212, 160, 78, 0.28);
   gap: 0.5rem;
 }
+/* Mobile: the chip pool is a SINGLE horizontal scroll row (no wrap) so
+   it takes only ~50px and the map gets the bulk of the viewport. Chips
+   never run out of reach -- the row scrolls left/right -- and the
+   footer (pool + actions) stays short so the board keeps its height. */
+@media (max-width: 719px) {
+  .lab-tabernacle-pool {
+    flex-wrap: nowrap;
+    flex-direction: row;
+    overflow-x: auto;
+    overflow-y: hidden;
+    padding: 0.4rem 0.5rem;
+    gap: 0.35rem;
+    min-height: 0;
+    scrollbar-width: thin;
+  }
+  .lab-tabernacle-pool .lab-chip {
+    flex: 0 0 auto;
+    white-space: nowrap;
+    font-size: 0.78rem;
+    padding: 0.34rem 0.55rem;
+    min-height: 36px;
+  }
+  .lab-tabernacle-pool-label {
+    margin: 0 0 0.1rem 0;
+    font-size: 0.72rem;
+  }
+}
 .lab-tabernacle-pool-label {
   font-size: 0.82rem;
   font-weight: 700;
@@ -1142,15 +1212,71 @@
   flex: 0 1 auto;
 }
 
-/* On mobile, allow the board itself to scroll horizontally if the
-   viewer's font is huge; the inner pattern fills keep it readable
-   when scaled. The whole modal already scrolls vertically on mobile
-   via .labs-card overflow-y:auto (line 65). */
-@media (max-width: 380px) {
+/* Mobile compactness: trim zone + label heights across all phones so
+   the 5-row map (Most Holy / Veil / Holy Place w/ 3 nested / Courtyard
+   w/ 2 nested / East Entrance) fits the flex board height without
+   inner overflow, and shrink captions so they don't dominate the
+   drop slots. The map reads at a glance; placed emoji chips still meet
+   the 44px touch target via the slot, not the label. */
+@media (max-width: 719px) {
+  .lab-tabernacle-zone {
+    min-height: 40px;
+    padding: 0.15rem;
+    gap: 0.25rem;
+  }
+  .lab-tabernacle-zone-veil {
+    min-height: 30px;
+  }
+  .lab-tabernacle-zone-north,
+  .lab-tabernacle-zone-south,
+  .lab-tabernacle-zone-incense {
+    min-height: 44px;
+  }
+  .lab-tabernacle-label {
+    padding: 0 0.35rem 0 0.2rem;
+    max-width: 52%;
+  }
   .lab-tabernacle-zone-caption {
     font-size: 0.78rem;
   }
   .lab-tabernacle-zone-sublabel {
     font-size: 0.6rem;
+  }
+  .lab-tabernacle-compass {
+    font-size: 0.72rem;
+    padding: 0.15rem 0;
+  }
+  .lab-tabernacle-placed {
+    font-size: 0.58rem;
+    min-height: 20px;
+    padding: 0.08rem 0.26rem;
+  }
+  /* The Level-3 teacher note is reference text; hide it on phones so the
+     board keeps its height (it stays in the DOM for desktop + a11y). */
+  .lab-teacher-note {
+    display: none;
+  }
+  /* Action buttons: a single compact row (no wrap) so the footer stays
+     short and the map gets the bulk of the viewport. Check stays primary;
+     Hint + Reset shrink so all three fit on one line. */
+  .lab-tabernacle-tray-footer .lab-drag-actions {
+    flex-wrap: nowrap;
+    gap: 0.35rem;
+    margin-top: 0.2rem;
+  }
+  .lab-tabernacle-tray-footer .lab-drag-actions .primary-btn {
+    flex: 1 1 0;
+    min-width: 0;
+    padding: 0.4rem 0.5rem;
+    font-size: 0.78rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .lab-tabernacle-tray-footer .lab-drag-actions .lab-reset-btn {
+    flex: 0 0 auto;
+  }
+  .lab-tabernacle-hint-counter {
+    font-size: 0.72rem;
   }
 }

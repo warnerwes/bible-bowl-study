@@ -202,33 +202,62 @@ async function runViewport(browser, viewport, errors, checks) {
     detail: JSON.stringify(veilBetweenCheck),
   });
 
-  // 3d. Splitscreen layout (2026-06-28): the legend sidebar must sit
-  // BESIDE the map (side-by-side) at any viewport >= 360px, and stack
-  // below it only on very narrow phones (< 360px). The sidebar should
-  // be horizontally aligned with the map (same y-range) on side-by-side.
+  // 3d. Layout (2026-06-29 mobile-fit revision): on phones (<720px) the
+  // legend sidebar is HIDDEN so the map gets the full width and the chip
+  // pool sits in a pinned footer (the whole map+pool fits one viewport).
+  // On >=720px the sidebar reappears BESIDE the map (side-by-side). The
+  // sidebar element still exists in the DOM (desktop + the reveal flow
+  // rely on it), so we check its computed visibility, not its presence.
   const layoutCheck = await page.evaluate(() => {
     const board = document.querySelector(".lab-tabernacle-board");
     const sidebar = document.querySelector(".lab-tabernacle-sidebar");
     if (!board || !sidebar) return null;
     const b = board.getBoundingClientRect();
     const s = sidebar.getBoundingClientRect();
+    const sbStyle = window.getComputedStyle(sidebar);
     return {
       viewportW: window.innerWidth,
       board: { x: b.x, y: b.y, w: b.width, h: b.height },
       sidebar: { x: s.x, y: s.y, w: s.width, h: s.height },
-      // Side-by-side: sidebar's x must be >= board's right (sidebar is
-      // to the right of the board). Stacked: sidebar's y is below
-      // board's bottom.
+      sidebarDisplay: sbStyle.display,
+      sidebarHidden: sbStyle.display === "none",
       isSideBySide: s.x >= b.right - 1,
       isStacked: s.y >= b.bottom - 1,
     };
   });
-  const expectSideBySide = layoutCheck && layoutCheck.viewportW >= 360;
+  // Desktop (>=720px): sidebar visible + side-by-side. Mobile (<720px):
+  // sidebar hidden so the map fills the width.
+  const isDesktop = layoutCheck && layoutCheck.viewportW >= 720;
   checks.push({
-    name: `${viewport.name}: layout is side-by-side at viewport >= 360px`,
-    ok: layoutCheck && (expectSideBySide ? layoutCheck.isSideBySide : layoutCheck.isStacked),
+    name: `${viewport.name}: sidebar layout matches viewport`,
+    ok: layoutCheck && (isDesktop ? (!layoutCheck.sidebarHidden && layoutCheck.isSideBySide) : layoutCheck.sidebarHidden),
     detail: JSON.stringify(layoutCheck),
   });
+
+  // 3e. Mobile one-viewport fit (2026-06-29): the whole tabernacle UI
+  // (map + chip pool + actions) must fit inside the labs-card without the
+  // workspace scrolling past the card on phones. We assert the workspace's
+  // scrollHeight does not exceed the card height by more than a small
+  // tolerance (the pedagogy breaks when the user can't see map + chips at
+  // once). Only enforced on the mobile viewport.
+  if (viewport.name === "mobile" && layoutCheck) {
+    const fitCheck = await page.evaluate(() => {
+      const card = document.querySelector("#labs-modal .labs-card");
+      const ws = document.getElementById("labs-workspace");
+      if (!card || !ws) return null;
+      return {
+        cardH: Math.round(card.getBoundingClientRect().height),
+        wsScrollH: ws.scrollHeight,
+        wsClientH: ws.clientHeight,
+        overflow: ws.scrollHeight - Math.round(card.getBoundingClientRect().height),
+      };
+    });
+    checks.push({
+      name: `${viewport.name}: map+pool fit inside the card (no scroll past card)`,
+      ok: fitCheck && fitCheck.overflow <= 40,
+      detail: JSON.stringify(fitCheck),
+    });
+  }
 
   // 3d. Drop-validation rules (2026-06-28):
   //   - Card dropped on its correct zone → accepted.

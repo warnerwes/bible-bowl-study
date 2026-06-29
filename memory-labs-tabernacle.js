@@ -77,9 +77,11 @@
       let dragFromZone = null; // null = from pool
       let highlightedZoneId = null;
 
-      // Build the DOM
+      // Build the DOM. ADD the root class rather than overwriting className
+      // so the host workspace keeps "labs-workspace" + "labs-workspace--tabernacle"
+      // (the mobile flex-height chain depends on those classes surviving mount).
       container.innerHTML = "";
-      container.className = "lab-tabernacle-root";
+      container.classList.add("lab-tabernacle-root");
 
       // Heading + status
       const status = document.createElement("p");
@@ -314,11 +316,20 @@
       layout.appendChild(boardCol);
       layout.appendChild(sidebar);
 
+      // Tray footer: the chip pool + action buttons sit in a non-flexing
+      // footer so the map (boardCol) gets all the remaining vertical space
+      // and the chips stay pinned at the bottom of the viewport on mobile
+      // (see CSS .lab-tabernacle-tray-footer). The medal renders inside
+      // the footer too so the achievement appears where the user worked.
+      const trayFooter = document.createElement("div");
+      trayFooter.className = "lab-tabernacle-tray-footer";
+      trayFooter.appendChild(trayLabel);
+      trayFooter.appendChild(trayEl);
+      trayFooter.appendChild(actions);
+      trayFooter.appendChild(medalEl);
+
       container.appendChild(layout);
-      container.appendChild(trayLabel);
-      container.appendChild(trayEl);
-      container.appendChild(actions);
-      container.appendChild(medalEl);
+      container.appendChild(trayFooter);
 
       // Now that the board is in the DOM, sort sidebar items by the
       // spatial top position of their matching zone. Tiebreak by left
@@ -1218,6 +1229,9 @@
         cleanup() {
           window.removeEventListener("orientationchange", onOrientationChange);
           if (dragCardId) cancelDrag();
+          // Drop the root class we added on mount so the host workspace
+          // returns to its plain .labs-workspace state for the next lab.
+          container.classList.remove("lab-tabernacle-root");
         },
       };
 

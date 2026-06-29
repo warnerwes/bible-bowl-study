@@ -206,6 +206,7 @@
   function mountLabPlay(lab) {
     const ws = document.getElementById("labs-workspace");
     ws.innerHTML = "";
+    ws.classList.remove("labs-workspace--tabernacle");
     if (window.BibleBowlLabDrag) window.BibleBowlLabDrag.unmount();
     if (window.BibleBowlLabTree) window.BibleBowlLabTree.unmount();
     if (window.BibleBowlLabTabernacle) window.BibleBowlLabTabernacle.unmount();
@@ -221,6 +222,7 @@
     };
 
     if (lab.interaction.type === "tabernacle_place" && window.BibleBowlLabTabernacle) {
+      ws.classList.add("labs-workspace--tabernacle");
       labSession = window.BibleBowlLabTabernacle.mount(ws, lab, { onComplete });
     } else if (lab.interaction.type === "tree_place" && window.BibleBowlLabTree) {
       labSession = window.BibleBowlLabTree.mount(ws, lab, { onComplete });
@@ -259,6 +261,7 @@
 
   function closeLabModal() {
     document.getElementById("labs-modal").classList.remove("active");
+    document.getElementById("labs-workspace").classList.remove("labs-workspace--tabernacle");
     if (window.BibleBowlLabDrag) window.BibleBowlLabDrag.unmount();
     if (window.BibleBowlLabTree) window.BibleBowlLabTree.unmount();
     if (window.BibleBowlLabTabernacle) window.BibleBowlLabTabernacle.unmount();
