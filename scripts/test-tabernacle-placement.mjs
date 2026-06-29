@@ -202,6 +202,40 @@ async function runViewport(browser, viewport, errors, checks) {
     detail: JSON.stringify(veilBetweenCheck),
   });
 
+  // 3d. Soft-snap refusal (2026-06-28): dropping a card on a parent
+  // zone whose children don't accept it must NOT corrupt state. The
+  // bug was: dropping the Golden Altar of Incense (which belongs in
+  // incense_zone inside Holy Place) on the Courtyard parent (which
+  // has children bronze_altar + laver) would silently assign it to
+  // placed['tabernacle_exterior'], blocking any future drop there.
+  // (Lab is fresh-mounted at this point so tray=8, placed={}.)
+  const rejectCheck = await page.evaluate(() => {
+    const Tab = window.BibleBowlLabTabernacle.getActive();
+    const before = window.BibleBowlLabQA.state().tabernacle;
+    // Try to drop golden_altar onto tabernacle_exterior (parent).
+    // No child accepts golden_altar → assign() should return false.
+    const result = Tab.assignForTest("tabernacle_exterior", "golden_altar");
+    const after = window.BibleBowlLabQA.state().tabernacle;
+    return {
+      assignReturned: result,
+      placedBefore: before.placed,
+      placedAfter: after.placed,
+      trayBeforeLen: before.tray.length,
+      trayAfterLen: after.tray.length,
+      trayContainsCard: after.tray.includes("golden_altar"),
+      parentNotCorrupted: !after.placed.tabernacle_exterior,
+    };
+  });
+  checks.push({
+    name: `${viewport.name}: wrong-card drop on parent zone is REJECTED (no state corruption)`,
+    ok:
+      rejectCheck.assignReturned === false &&
+      rejectCheck.parentNotCorrupted &&
+      rejectCheck.trayContainsCard &&
+      rejectCheck.trayAfterLen === 8,
+    detail: JSON.stringify(rejectCheck),
+  });
+
   // 4. Pool starts with 8 chips.
   const initialState = await page.evaluate(() => window.BibleBowlLabQA.state());
   checks.push({
@@ -212,17 +246,17 @@ async function runViewport(browser, viewport, errors, checks) {
 
   // 5. Place one card WRONG (Ark into the East Entrance zone, which only
   // accepts east_entrance). First fill the rest correctly, then swap.
+  // (2026-06-28: uses forcePlaceForTest because assign() now correctly
+  // refuses wrong placements — so to set up a wrong-placement fixture
+  // we have to bypass the soft-snap validation.)
   await page.evaluate(() => {
     const Tab = window.BibleBowlLabTabernacle.getActive();
     // Fill all zones with their declared accept[0].
     Tab.fillCorrect();
     // Swap Ark and east_entrance so all zones still have cards — this
     // surfaces the per-card hint instead of bailing on empty zones.
-    // Move Ark from Most Holy Place into East Entrance zone.
-    Tab.assignForTest("east_entrance", "ark");
-    // Move east_entrance card (now in tray) into Most Holy Place — keeps
-    // all 10 zones filled so check() reaches the per-card hint logic.
-    Tab.assignForTest("most_holy", "east_entrance");
+    Tab.forcePlaceForTest("east_entrance", "ark");
+    Tab.forcePlaceForTest("most_holy", "east_entrance");
   });
   // Need to re-render via click-to-place or by directly clicking Check.
   // Click check button — should report hint, not complete.
@@ -381,13 +415,19 @@ async function runViewport(browser, viewport, errors, checks) {
 
   // 9b. Reset and exercise the Hint button: each click must reveal a
   // chip+zone pulse, increment the counter, and update the visible
-  // pill text.
+  // pill text. Crucially (2026-06-28): the Hint button MUST NOT auto-
+  // place the card. The user has to drag it themselves; the hint
+  // only lights up the source chip + target zone. Otherwise gold
+  // tier is trivially achievable by clicking Hint 8 times.
   await page.locator(".lab-reset-btn").click();
   await page.waitForTimeout(200);
   await page.evaluate(() => {
     const Tab = window.BibleBowlLabTabernacle.getActive();
     Tab.clearMedalForTest(); // ensure medal starts fresh on this device
   });
+  const beforeHint = await page.evaluate(() =>
+    window.BibleBowlLabQA.state().tabernacle
+  );
   // First hint press.
   await page.locator(".lab-hint-btn").click();
   await page.waitForTimeout(150);
@@ -400,6 +440,9 @@ async function runViewport(browser, viewport, errors, checks) {
       stateHints: window.BibleBowlLabQA.state().tabernacle?.hintsUsed,
     };
   });
+  const afterHint = await page.evaluate(() =>
+    window.BibleBowlLabQA.state().tabernacle
+  );
   checks.push({
     name: `${viewport.name}: Hint click #1 increments counter to 1`,
     ok:
@@ -412,6 +455,15 @@ async function runViewport(browser, viewport, errors, checks) {
   checks.push({
     name: `${viewport.name}: Hint reveals pulse class on chip or zone`,
     ok: hintAfterFirst.placementPulsing,
+  });
+  // The hint must NOT auto-place the card (user must still drag it).
+  checks.push({
+    name: `${viewport.name}: Hint does NOT auto-place any card`,
+    ok:
+      JSON.stringify(beforeHint.placed) ===
+        JSON.stringify(afterHint.placed) &&
+      afterHint.tray.length === 8,
+    detail: `before=${JSON.stringify(beforeHint.placed)} after=${JSON.stringify(afterHint.placed)} tray=${afterHint.tray.length}`,
   });
 
   // 9c. Solve with 1 hint already used → SILVER tier (since hints

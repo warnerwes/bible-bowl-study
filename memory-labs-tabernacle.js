@@ -391,9 +391,13 @@
         if (zone && !placed[zone.dataset.zoneId]) {
           assign(zone.dataset.zoneId, dragCardId, dragFromZone);
         }
-        // Soft snap is automatic: if dropped on a parent zone, the deepest
-        // accept set is matched in assign(). If dropped outside, card
-        // returns to its source (pool or original zone).
+        // Soft snap: if dropped on a parent zone whose children don't
+        // accept this card, the drop is REJECTED — the card returns to
+        // its source (pool or original zone). Previously a failed soft-
+        // snap would silently assign the card to the parent zone's id,
+        // which is not a real drop target and would corrupt state
+        // (Card visible in Courtyard but blocked any future drops
+        // there). assign() now refuses in that case. (2026-06-28 fix.)
         cleanupDrag();
         render();
       }
@@ -439,6 +443,12 @@
 
       // Soft-snap: if dropped on a parent zone, look for the FIRST child
       // zone whose `accept` set contains this card and place it there.
+      // If the dropped-on zone is a parent (accept: []) AND no child
+      // accepts this card, REFUSE the drop — return false so the caller
+      // doesn't corrupt state by writing to a non-target zone id.
+      // (2026-06-28 fix: previously a failed soft-snap would write the
+      // card to the parent's id, blocking future drops and surfacing as
+      // a phantom "wrong placement" on Check.)
       function assign(zoneId, cardId, fromZone) {
         // Remove from current source.
         if (fromZone) {
@@ -449,12 +459,30 @@
 
         // Resolve nested target.
         let target = zoneById[zoneId];
-        if (target && Array.isArray(target.accept) && !target.accept.includes(cardId)) {
-          // Dropped on a parent — try its children.
+        if (!target) {
+          // Unknown zone — undo the source removal so the card stays put.
+          undoSourceRemoval(cardId, fromZone);
+          return false;
+        }
+        const accepts =
+          Array.isArray(target.accept) && target.accept.includes(cardId);
+        if (!accepts) {
+          // Dropped on a parent (accept: []) or a zone that doesn't
+          // accept this card. Try children first.
           const child = zones.find(
-            (z) => z.parent === zoneId && Array.isArray(z.accept) && z.accept.includes(cardId)
+            (z) =>
+              z.parent === zoneId &&
+              Array.isArray(z.accept) &&
+              z.accept.includes(cardId)
           );
-          if (child) target = child;
+          if (child) {
+            target = child;
+          } else {
+            // No real target — undo the source removal so the card
+            // returns to pool / stays in its fromZone.
+            undoSourceRemoval(cardId, fromZone);
+            return false;
+          }
         }
 
         // If the resolved target already has a card, bounce it back to pool.
@@ -462,6 +490,15 @@
           tray.push(placed[target.id]);
         }
         placed[target.id] = cardId;
+        return true;
+      }
+
+      function undoSourceRemoval(cardId, fromZone) {
+        if (fromZone) {
+          placed[fromZone] = cardId;
+        } else {
+          if (!tray.includes(cardId)) tray.push(cardId);
+        }
       }
 
       // ---- Rendering ---------------------------------------------------
@@ -636,88 +673,76 @@
       // and re-render so the chip actually moves. Returns true on
       // success, false if nothing left to reveal.
       function revealOne() {
-        // 1. Prefer unresolved tray cards (user hasn't placed yet).
-        for (const cardId of tray) {
-          // Find the first required zone whose accept set contains
-          // this card.
-          const target = zones.find(
-            (z) =>
-              Array.isArray(z.accept) &&
-              z.accept.includes(cardId) &&
-              !placed[z.id]
-          );
-          if (target) {
-            placeAndFlash(cardId, target.id);
-            return true;
-          }
-        }
-        // 2. Tray empty but something is wrongly placed — point at it.
-        for (const zid of Object.keys(placed)) {
-          const z = zoneById[zid];
-          if (!z || !Array.isArray(z.accept)) continue;
-          if (!z.accept.includes(placed[zid])) {
-            // Find the FIRST required zone whose accept set contains
-            // this card and is currently empty.
-            const correctZoneId = zones
-              .filter(
-                (zz) =>
-                  Array.isArray(zz.accept) &&
-                  zz.accept.includes(placed[zid]) &&
-                  !placed[zz.id]
-              )
-              .map((zz) => zz.id)[0];
-            if (correctZoneId) {
-              placeAndFlash(placed[zid], correctZoneId);
-              return true;
+              // 1. Prefer unresolved tray cards (user hasn't placed yet).
+              for (const cardId of tray) {
+                // Find the first required zone whose accept set contains
+                // this card.
+                const target = zones.find(
+                  (z) =>
+                    Array.isArray(z.accept) &&
+                    z.accept.includes(cardId) &&
+                    !placed[z.id]
+                );
+                if (target) {
+                  flashHint(cardId, target.id);
+                  return true;
+                }
+              }
+              // 2. Tray empty but something is wrongly placed — point at the
+              // mis-placed chip and its correct home so the user can re-drag.
+              for (const zid of Object.keys(placed)) {
+                const z = zoneById[zid];
+                if (!z || !Array.isArray(z.accept)) continue;
+                if (!z.accept.includes(placed[zid])) {
+                  // Find the FIRST required zone whose accept set contains
+                  // this card and is currently empty.
+                  const correctZoneId = zones
+                    .filter(
+                      (zz) =>
+                        Array.isArray(zz.accept) &&
+                        zz.accept.includes(placed[zid]) &&
+                        !placed[zz.id]
+                    )
+                    .map((zz) => zz.id)[0];
+                  if (correctZoneId) {
+                    flashHint(placed[zid], correctZoneId);
+                    return true;
+                  }
+                }
+              }
+              return false;
             }
-          }
-        }
-        return false;
-      }
-      function placeAndFlash(cardId, zoneId) {
-        // Move the card into the target zone (slot it like a user drop).
-        const fromZone = findZoneContaining(cardId);
-        assign(zoneId, cardId, fromZone);
-        // Brief CSS pulse classes on the chip + zone — picked up by
-        // render() on next paint via the .lab-hint-reveal class added
-        // imperatively below.
-        // After render(), look up the placed chip and add pulse classes
-        // that auto-remove via setTimeout.
-        // render() is called by assign? No — assign only mutates state.
-        // We render and then tag the elements.
-        // Defer so the elements exist by the time we query for them.
-        render();
-        requestAnimationFrame(() => {
-          // Find the chip element (could be in tray if assign put it back,
-          // or placed on the target zone).
-          const placedChipEl = document.querySelector(
-            `[data-card-id="${cardId}"].lab-tabernacle-placed`
-          );
-          if (placedChipEl) {
-            placedChipEl.classList.add("lab-hint-reveal");
-            setTimeout(
-              () => placedChipEl.classList.remove("lab-hint-reveal"),
-              1600
-            );
-          } else {
-            const trayChipEl = trayEl.querySelector(
-              `[data-card-id="${cardId}"]`
-            );
-            if (trayChipEl) {
-              trayChipEl.classList.add("lab-hint-reveal");
-              setTimeout(
-                () => trayChipEl.classList.remove("lab-hint-reveal"),
-                1600
-              );
+            // Hint reveal: pulse the source chip + the target zone so the
+            // user can SEE where the card goes, but DO NOT auto-place it.
+            // The user must still drag the chip themselves — mastery comes
+            // from the muscle memory of moving the card into place, not
+            // from a programmatic click. (2026-06-28 fix: previously the
+            // hint button called assign() and dropped the card for the
+            // user, which made the gold tier trivially achievable.)
+            function flashHint(cardId, zoneId) {
+              requestAnimationFrame(() => {
+                const chipEl =
+                  trayEl.querySelector(`[data-card-id="${cardId}"]`) ||
+                  document.querySelector(
+                    `[data-card-id="${cardId}"].lab-tabernacle-placed`
+                  );
+                if (chipEl) {
+                  chipEl.classList.add("lab-hint-reveal");
+                  setTimeout(
+                    () => chipEl.classList.remove("lab-hint-reveal"),
+                    1600
+                  );
+                }
+                const zoneEl = zoneEls[zoneId];
+                if (zoneEl) {
+                  zoneEl.classList.add("lab-hint-reveal");
+                  setTimeout(
+                    () => zoneEl.classList.remove("lab-hint-reveal"),
+                    1600
+                  );
+                }
+              });
             }
-          }
-          const zoneEl = zoneEls[zoneId];
-          if (zoneEl) {
-            zoneEl.classList.add("lab-hint-reveal");
-            setTimeout(() => zoneEl.classList.remove("lab-hint-reveal"), 1600);
-          }
-        });
-      }
 
       // Public hint counter for the test harness.
       function hintCount() {
@@ -935,9 +960,12 @@
         },
         // Test hook: programmatic placement (used by regression tests to
         // simulate user actions without DOM events). Bypasses drag engine.
+        // Returns true on success, false if the drop was rejected (e.g.
+        // card placed on a parent zone whose children don't accept it).
         assignForTest(zoneId, cardId) {
-          assign(zoneId, cardId, findZoneContaining(cardId));
+          const result = assign(zoneId, cardId, findZoneContaining(cardId));
           render();
+          return result;
         },
         // Test hook: pull a placed card back to the tray, leaving its
         // zone empty. Used to simulate user actions that need a known
@@ -949,6 +977,24 @@
             tray.push(cardId);
             render();
           }
+        },
+        // Test hook: force a placement bypassing soft-snap validation.
+        // Used to set up "wrong placement" test fixtures — assign()
+        // now refuses drops onto zones that don't accept the card, so
+        // tests that need to verify Check handles wrong placements
+        // must use this hook to inject the wrong state directly.
+        forcePlaceForTest(zoneId, cardId) {
+          // Remove from wherever it currently is.
+          for (const zid of Object.keys(placed)) {
+            if (placed[zid] === cardId) delete placed[zid];
+          }
+          tray = tray.filter((c) => c !== cardId);
+          // If the target already has a card, push it back to tray.
+          if (placed[zoneId] && placed[zoneId] !== cardId) {
+            tray.push(placed[zoneId]);
+          }
+          placed[zoneId] = cardId;
+          render();
         },
         // Test hook: read the current hint counter.
         hintCount() {
