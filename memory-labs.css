@@ -558,21 +558,28 @@
 }
 
 /* Compass cues: WEST on top (God's presence), EAST on bottom (entrance).
-   Numbered pairs + wall labels mean students don't need compass literacy. */
+   Each label is anchored to the actual edge of the map so the spatial
+   cue is concrete — WEST sits above the top edge, EAST sits below the
+   bottom edge. They are absolutely positioned so they don't consume
+   grid rows. */
 .lab-tabernacle-compass {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+  position: absolute;
+  left: 0;
+  right: 0;
+  text-align: center;
   font-family: var(--font-display);
   font-size: 0.78rem;
-  color: var(--muted);
   letter-spacing: 0.04em;
-  padding: 0 0.25rem;
+  pointer-events: none;
+  color: rgba(212, 160, 78, 0.95);
+  font-weight: 600;
 }
-.lab-tabernacle-compass-w {
+.lab-tabernacle-compass-west {
+  top: -1.5rem;
   color: rgba(212, 160, 78, 0.95);
 }
-.lab-tabernacle-compass-e {
+.lab-tabernacle-compass-east {
+  bottom: -1.5rem;
   color: rgba(212, 160, 78, 0.95);
 }
 
@@ -584,6 +591,7 @@
    anything still overflows. */
 .lab-tabernacle-board {
   display: grid;
+  position: relative; /* anchor compass labels (top: -1.5rem, bottom: -1.5rem) */
   /* Five rows now (2026-06-28): added veil_zone between Most Holy Place
      and Holy Place. Veil is its own row so the user can SEE it and
      drag the Veil card onto it. */

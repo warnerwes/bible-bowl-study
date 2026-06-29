@@ -106,15 +106,19 @@
         "Tabernacle floor plan. God's presence is at the west (top). The priestly approach begins at the east entrance (bottom)."
       );
 
-      // Compass cues: top is WEST, bottom is EAST. We use numbered pairs
-      // and wall labels so compass literacy is NOT required.
-      const compass = document.createElement("div");
-      compass.className = "lab-tabernacle-compass";
-      compass.innerHTML = `
-        <span class="lab-tabernacle-compass-w">↑ God's Presence (WEST)</span>
-        <span class="lab-tabernacle-compass-e">↓ Entrance (EAST)</span>
-      `;
-      board.appendChild(compass);
+      // Compass cues: WEST on top (God's presence), EAST on bottom (entrance).
+      // Each label is anchored to the actual edge of the map so the
+      // spatial cue is concrete — WEST sits above the top edge, EAST
+      // sits below the bottom edge. Numbered pairs + wall labels mean
+      // students don't need compass literacy.
+      const compassW = document.createElement("div");
+      compassW.className = "lab-tabernacle-compass lab-tabernacle-compass-west";
+      compassW.textContent = "↑ God's Presence (WEST)";
+      const compassE = document.createElement("div");
+      compassE.className = "lab-tabernacle-compass lab-tabernacle-compass-east";
+      compassE.textContent = "↓ Entrance (EAST)";
+      board.appendChild(compassW);
+      board.appendChild(compassE);
 
       // Zones. Nested zones are rendered as child <div>s inside their
       // parent so DOM walk-up (`closest('[data-zone-id]')`) finds the
