@@ -41,9 +41,15 @@
   window.BibleBowlScenes.uiScale = (w) => Math.max(1, Math.min(1.75, w / 320));
 
   window.BibleBowlScenes.drawHeaderBand = (ctx, w) => {
+    // Header band height scales with uiScale so the title + subtitle +
+    // bar all fit inside a single dark band without overlapping.
+    const scale = window.BibleBowlScenes.uiScale(w);
+    // Worst case (uiScale=1.75): title ~31px + subtitle ~24px + bar 35px
+    // + gaps ≈ 110px. Round up to 130 for breathing room.
+    const bandH = Math.round(70 + 40 * scale);
     ctx.save();
     ctx.fillStyle = "rgba(8, 10, 14, 0.82)";
-    ctx.fillRect(0, 0, w, 98);
+    ctx.fillRect(0, 0, w, bandH);
     ctx.restore();
   };
 
@@ -51,22 +57,30 @@
     window.BibleBowlScenes.drawHeaderBand(ctx, w);
     const scale = window.BibleBowlScenes.uiScale(w);
     const size = Math.round(18 * scale);
+    // Title baseline: with uiScale up to 1.75, the title font grows to
+    // ~31px. Pin the title baseline so descenders don't run into the
+    // subtitle's cap-height.
+    const titleY = Math.round(16 + size * 0.55);
     ctx.save();
     ctx.fillStyle = "rgba(236, 230, 216, 0.96)";
     ctx.font = `700 ${size}px Spectral, Georgia, serif`;
     ctx.textAlign = "center";
-    ctx.fillText(text, w / 2, 28);
+    ctx.fillText(text, w / 2, titleY);
     ctx.restore();
   };
 
   window.BibleBowlScenes.drawProgress = (ctx, w, text) => {
     const scale = window.BibleBowlScenes.uiScale(w);
     const size = Math.round(14 * scale);
+    // Subtitle baseline: scale with uiScale so the subtitle's cap-height
+    // clears the title's descenders. At scale=1, subtitleY=46. At
+    // scale=1.75, subtitleY=72 — keeps a ≥4px gap.
+    const subtitleY = Math.round(18 + size * 1.85);
     ctx.save();
     ctx.fillStyle = "rgba(212, 160, 78, 0.95)";
     ctx.font = `600 ${size}px Spectral, Georgia, serif`;
     ctx.textAlign = "center";
-    ctx.fillText(text, w / 2, 48);
+    ctx.fillText(text, w / 2, subtitleY);
     ctx.restore();
   };
 
@@ -133,9 +147,13 @@
     ctx.save();
     if (label) {
       ctx.fillStyle = "rgba(236, 230, 216, 0.95)";
-      ctx.font = `700 ${Math.round(13 * scale)}px Spectral, Georgia, serif`;
+      const labelSize = Math.round(13 * scale);
+      ctx.font = `700 ${labelSize}px Spectral, Georgia, serif`;
       ctx.textAlign = "center";
-      ctx.fillText(label, w / 2, y - 8);
+      // Scale the label offset with uiScale so the label's descender clears
+      // the bar's top edge (at uiScale=1.75, the label needs ~12px above).
+      const labelOffset = Math.round(labelSize * 0.9);
+      ctx.fillText(label, w / 2, y - labelOffset);
     }
     ctx.fillStyle = "rgba(0, 0, 0, 0.38)";
     fillRoundRect(ctx, barX, y, barW, barH, 8);
@@ -1019,9 +1037,14 @@
       customWonderState.dewProgress = Math.min(1, (customWonderState.dewProgress || 0) + dewRate);
       window.BibleBowlScenes.drawCaption(ctx, w, rules.dewCaption);
       window.BibleBowlScenes.drawProgress(ctx, w, "Morning dew");
-      window.BibleBowlScenes.drawProgressBar(ctx, w, 68, customWonderState.dewProgress, "Dew settling");
+      // Bar y is scaled with uiScale so it sits below the subtitle and
+      // its label stays inside the dark header band.
+      const dewScale = window.BibleBowlScenes.uiScale(w);
+      const dewBarY = Math.round(40 + 25 * dewScale);
+      const dewBandH = Math.round(70 + 40 * dewScale);
+      window.BibleBowlScenes.drawProgressBar(ctx, w, dewBarY, customWonderState.dewProgress, "Dew settling");
       ctx.fillStyle = `rgba(180, 210, 255, ${0.12 + customWonderState.dewProgress * 0.42})`;
-      ctx.fillRect(0, 98, w, h * 0.58);
+      ctx.fillRect(0, dewBandH, w, h * 0.58);
 
       if (customWonderState.dewProgress >= 1) {
         beginMannaGather(customWonderState, w, h, particles, canvasTime, false);
