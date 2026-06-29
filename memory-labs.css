@@ -900,24 +900,6 @@
   box-shadow: none;
 }
 
-.lab-tabernacle-zone-west {
-  display: grid;
-  grid-template-rows: auto 1fr;
-  gap: 0.2rem;
-  justify-items: center;
-}
-.lab-tabernacle-zone-west > .lab-tabernacle-label {
-  grid-column: 1 / -1;
-  text-align: center;
-  align-items: center;
-  border-right: none;
-  padding: 0;
-}
-.lab-tabernacle-zone-west > .lab-tabernacle-slot {
-  width: 100%;
-  max-width: 150px;
-  min-height: 38px;
-}
 
 .lab-tabernacle-zone-north { grid-area: table_zone; min-height: 56px; }
 .lab-tabernacle-zone-south { grid-area: lampstand_zone; min-height: 56px; }
