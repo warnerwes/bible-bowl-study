@@ -449,43 +449,70 @@
       // (2026-06-28 fix: previously a failed soft-snap would write the
       // card to the parent's id, blocking future drops and surfacing as
       // a phantom "wrong placement" on Check.)
+      // Resolve a drop to its target zone.
+      // Three cases:
+      //  1. Card dropped on a zone whose `accept` includes it → place there.
+      //  2. Card dropped on a parent zone (accept: []) whose child
+      //     accepts it → soft-snap to that child. (User-friendly: dropping
+      //     Bronze Altar on the big Courtyard box routes to the
+      //     bronze_altar sub-zone.)
+      //  3. Card dropped on a zone (or parent whose children don't accept
+      //     it) where it doesn't belong → place it anyway. The user is
+      //     learning — wrong placements get marked red on Check and the
+      //     user can drag the chip back out. The ONLY case that refuses
+      //     is when the dropped-on zone is a parent AND no child accepts
+      //     it (silent state corruption: nothing on the screen would
+      //     visually match the assignment).
+      //
+      // Returns true if placed, false if rejected (card returned to
+      // source). (2026-06-28 fix.)
       function assign(zoneId, cardId, fromZone) {
+        const target = zoneById[zoneId];
+        if (!target) {
+          // Unknown zone — undo source removal.
+          undoSourceRemoval(cardId, fromZone);
+          return false;
+        }
+        const accepts =
+          Array.isArray(target.accept) && target.accept.includes(cardId);
+        if (accepts) {
+          return commitPlace(target, cardId, fromZone);
+        }
+        // Not accepted by the dropped-on zone. Try children if it's a
+        // parent (soft-snap).
+        const child = zones.find(
+          (z) =>
+            z.parent === zoneId &&
+            Array.isArray(z.accept) &&
+            z.accept.includes(cardId)
+        );
+        if (child) {
+          return commitPlace(child, cardId, fromZone);
+        }
+        // No matching child. If the dropped-on zone is a parent with
+        // no children that accept this card, REFUSE — the user has
+        // dropped on a region that visibly cannot hold this card, and
+        // accepting would corrupt state (write a card id to a zone id
+        // that has no rendered slot for it).
+        if (!Array.isArray(target.accept) || target.accept.length === 0) {
+          undoSourceRemoval(cardId, fromZone);
+          return false;
+        }
+        // Otherwise: the dropped-on zone has its own accept set, and
+        // the card isn't in it. This is a WRONG placement — place it
+        // anyway so the user gets feedback on Check and can drag the
+        // chip back out to try again.
+        return commitPlace(target, cardId, fromZone);
+      }
+
+      function commitPlace(target, cardId, fromZone) {
         // Remove from current source.
         if (fromZone) {
           delete placed[fromZone];
         } else {
           tray = tray.filter((c) => c !== cardId);
         }
-
-        // Resolve nested target.
-        let target = zoneById[zoneId];
-        if (!target) {
-          // Unknown zone — undo the source removal so the card stays put.
-          undoSourceRemoval(cardId, fromZone);
-          return false;
-        }
-        const accepts =
-          Array.isArray(target.accept) && target.accept.includes(cardId);
-        if (!accepts) {
-          // Dropped on a parent (accept: []) or a zone that doesn't
-          // accept this card. Try children first.
-          const child = zones.find(
-            (z) =>
-              z.parent === zoneId &&
-              Array.isArray(z.accept) &&
-              z.accept.includes(cardId)
-          );
-          if (child) {
-            target = child;
-          } else {
-            // No real target — undo the source removal so the card
-            // returns to pool / stays in its fromZone.
-            undoSourceRemoval(cardId, fromZone);
-            return false;
-          }
-        }
-
-        // If the resolved target already has a card, bounce it back to pool.
+        // If the target already has a card, bounce it back to pool.
         if (placed[target.id] && placed[target.id] !== cardId) {
           tray.push(placed[target.id]);
         }

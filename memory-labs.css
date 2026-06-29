@@ -587,7 +587,7 @@
   /* Five rows now (2026-06-28): added veil_zone between Most Holy Place
      and Holy Place. Veil is its own row so the user can SEE it and
      drag the Veil card onto it. */
-  grid-template-rows: 0.85fr auto 1.1fr auto 0.45fr;
+  grid-template-rows: 0.7fr auto 1.4fr auto 0.45fr;
   grid-template-areas:
     "most_holy"
     "veil_zone"
@@ -596,8 +596,8 @@
     "east_entrance";
   gap: 0.3rem;
   width: 100%;
-  min-height: 320px;
-  max-height: 420px;
+  min-height: 380px;
+  max-height: 520px;
   padding: 0.2rem;
   border-radius: 10px;
   background: rgba(8, 10, 14, 0.6);
@@ -606,8 +606,8 @@
 
 @media (min-width: 720px) {
   .lab-tabernacle-board {
-    grid-template-rows: 1.1fr auto 1.7fr auto 0.5fr;
-    min-height: 460px;
+    grid-template-rows: 0.9fr auto 1.9fr auto 0.5fr;
+    min-height: 520px;
     max-height: none;
   }
 }
@@ -711,6 +711,12 @@
     "incense_zone incense_zone";
   gap: 0.3rem;
   align-items: stretch;
+  /* Holy Place needs visible overflow so the third grid row
+     (incense_zone) isn't clipped when the parent's row in the
+     board grid is shorter than the nested content needs.
+     (2026-06-28 fix: previously overflow:hidden on the parent
+     .lab-tabernacle-zone squashed incense_zone to ~8px tall.) */
+  overflow: visible;
 }
 .lab-tabernacle-zone-center > .lab-tabernacle-zone-caption,
 .lab-tabernacle-zone-center > .lab-tabernacle-zone-sublabel,

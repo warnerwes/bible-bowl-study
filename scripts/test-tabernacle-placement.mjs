@@ -202,39 +202,96 @@ async function runViewport(browser, viewport, errors, checks) {
     detail: JSON.stringify(veilBetweenCheck),
   });
 
-  // 3d. Soft-snap refusal (2026-06-28): dropping a card on a parent
-  // zone whose children don't accept it must NOT corrupt state. The
-  // bug was: dropping the Golden Altar of Incense (which belongs in
-  // incense_zone inside Holy Place) on the Courtyard parent (which
-  // has children bronze_altar + laver) would silently assign it to
-  // placed['tabernacle_exterior'], blocking any future drop there.
-  // (Lab is fresh-mounted at this point so tray=8, placed={}.)
-  const rejectCheck = await page.evaluate(() => {
+  // 3d. Drop-validation rules (2026-06-28):
+  //   - Card dropped on its correct zone → accepted.
+  //   - Card dropped on a parent whose child accepts it → soft-snapped.
+  //   - Card dropped on a parent whose NO child accepts it → REFUSED
+  //     (silent state corruption: nothing on screen would match).
+  //   - Card dropped on any other zone (including wrong ones) →
+  //     accepted as a WRONG PLACEMENT — the user is learning and can
+  //     drag the chip back out to try again. Only Check marks it red.
+  // First case: dropping Ark on Most Holy Place (correct) → accepted.
+  const correctDrop = await page.evaluate(() => {
     const Tab = window.BibleBowlLabTabernacle.getActive();
-    const before = window.BibleBowlLabQA.state().tabernacle;
-    // Try to drop golden_altar onto tabernacle_exterior (parent).
-    // No child accepts golden_altar → assign() should return false.
-    const result = Tab.assignForTest("tabernacle_exterior", "golden_altar");
-    const after = window.BibleBowlLabQA.state().tabernacle;
+    const result = Tab.assignForTest("most_holy", "ark");
+    const state = window.BibleBowlLabQA.state().tabernacle;
     return {
-      assignReturned: result,
-      placedBefore: before.placed,
-      placedAfter: after.placed,
-      trayBeforeLen: before.tray.length,
-      trayAfterLen: after.tray.length,
-      trayContainsCard: after.tray.includes("golden_altar"),
-      parentNotCorrupted: !after.placed.tabernacle_exterior,
+      result,
+      placedArk: state.placed.most_holy === "ark",
+      trayArk: state.tray.includes("ark"),
     };
   });
   checks.push({
-    name: `${viewport.name}: wrong-card drop on parent zone is REJECTED (no state corruption)`,
+    name: `${viewport.name}: correct drop is accepted`,
     ok:
-      rejectCheck.assignReturned === false &&
-      rejectCheck.parentNotCorrupted &&
-      rejectCheck.trayContainsCard &&
-      rejectCheck.trayAfterLen === 8,
-    detail: JSON.stringify(rejectCheck),
+      correctDrop.result === true &&
+      correctDrop.placedArk &&
+      !correctDrop.trayArk,
+    detail: JSON.stringify(correctDrop),
   });
+  // Second case: dropping Bronze Altar on Courtyard parent (soft-snap
+  // → bronze_altar_zone) → accepted.
+  const softSnapDrop = await page.evaluate(() => {
+    const Tab = window.BibleBowlLabTabernacle.getActive();
+    const result = Tab.assignForTest("tabernacle_exterior", "bronze_altar");
+    const state = window.BibleBowlLabQA.state().tabernacle;
+    return {
+      result,
+      placedBronzeAltar: state.placed.bronze_altar_zone === "bronze_altar",
+      parentNotCorrupted: !state.placed.tabernacle_exterior,
+    };
+  });
+  checks.push({
+    name: `${viewport.name}: parent drop with matching child soft-snaps`,
+    ok:
+      softSnapDrop.result === true &&
+      softSnapDrop.placedBronzeAltar &&
+      softSnapDrop.parentNotCorrupted,
+    detail: JSON.stringify(softSnapDrop),
+  });
+  // Third case: dropping Golden Altar on Courtyard parent (no child
+  // accepts it) → REFUSED. (Prevents silent state corruption.)
+  const refuseDrop = await page.evaluate(() => {
+    const Tab = window.BibleBowlLabTabernacle.getActive();
+    const result = Tab.assignForTest("tabernacle_exterior", "golden_altar");
+    const state = window.BibleBowlLabQA.state().tabernacle;
+    return {
+      result,
+      placedBefore: {},
+      placedAfter: state.placed,
+      trayContainsCard: state.tray.includes("golden_altar"),
+      parentNotCorrupted: !state.placed.tabernacle_exterior,
+    };
+  });
+  checks.push({
+    name: `${viewport.name}: parent drop with no matching child is REFUSED`,
+    ok:
+      refuseDrop.result === false &&
+      refuseDrop.parentNotCorrupted &&
+      refuseDrop.trayContainsCard,
+    detail: JSON.stringify(refuseDrop),
+  });
+  // Fourth case: dropping Golden Altar directly on the incense_zone
+  // (correct) → accepted. (Smoke test the normal placement path.)
+  const incenseDrop = await page.evaluate(() => {
+    const Tab = window.BibleBowlLabTabernacle.getActive();
+    const result = Tab.assignForTest("incense_zone", "golden_altar");
+    const state = window.BibleBowlLabQA.state().tabernacle;
+    return {
+      result,
+      placedGoldenAltar: state.placed.incense_zone === "golden_altar",
+    };
+  });
+  checks.push({
+    name: `${viewport.name}: correct drop on incense_zone is accepted`,
+    ok:
+      incenseDrop.result === true && incenseDrop.placedGoldenAltar,
+    detail: JSON.stringify(incenseDrop),
+  });
+  // Reset state so subsequent tests (which expect tray=8, placed={})
+  // see a fresh board.
+  await page.locator(".lab-reset-btn").click();
+  await page.waitForTimeout(150);
 
   // 4. Pool starts with 8 chips.
   const initialState = await page.evaluate(() => window.BibleBowlLabQA.state());
@@ -300,6 +357,44 @@ async function runViewport(browser, viewport, errors, checks) {
   checks.push({
     name: `${viewport.name}: placed chip has dataset.cardId for re-drag`,
     ok: placedDraggable,
+  });
+  // Drag-out test (2026-06-28): user wants to drop a chip somewhere
+  // wrong, then drag it back out to try again. Verify the placed chip
+  // has a pointerdown listener attached (set up by renderZones for
+  // each placed chip) so startDrag() can fire.
+  const placedHasPointerDown = await page.evaluate(() => {
+    const el = document.querySelector(".lab-tabernacle-placed");
+    if (!el) return false;
+    // Pointerdown listener is attached via addEventListener — we
+    // can't introspect that directly, but we can simulate a pointerdown
+    // event and see if the drag machinery kicks in (a dragGhost is
+    // appended to document.body).
+    const before = document.querySelectorAll(".lab-chip.dragging-floating")
+      .length;
+    el.dispatchEvent(
+      new PointerEvent("pointerdown", {
+        bubbles: true,
+        cancelable: true,
+        clientX: 50,
+        clientY: 50,
+        pointerId: 1,
+        button: 0,
+      })
+    );
+    const after = document.querySelectorAll(".lab-chip.dragging-floating")
+      .length;
+    // Cleanup: dispatch pointercancel so any pending drag aborts.
+    el.dispatchEvent(
+      new PointerEvent("pointercancel", {
+        bubbles: true,
+        cancelable: true,
+      })
+    );
+    return after > before;
+  });
+  checks.push({
+    name: `${viewport.name}: placed chip pointerdown starts a drag (user can drag it back out)`,
+    ok: placedHasPointerDown,
   });
   // Capture the wrong placement screenshot.
   await page.screenshot({
