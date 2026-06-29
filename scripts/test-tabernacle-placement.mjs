@@ -202,6 +202,34 @@ async function runViewport(browser, viewport, errors, checks) {
     detail: JSON.stringify(veilBetweenCheck),
   });
 
+  // 3d. Splitscreen layout (2026-06-28): the legend sidebar must sit
+  // BESIDE the map (side-by-side) at any viewport >= 360px, and stack
+  // below it only on very narrow phones (< 360px). The sidebar should
+  // be horizontally aligned with the map (same y-range) on side-by-side.
+  const layoutCheck = await page.evaluate(() => {
+    const board = document.querySelector(".lab-tabernacle-board");
+    const sidebar = document.querySelector(".lab-tabernacle-sidebar");
+    if (!board || !sidebar) return null;
+    const b = board.getBoundingClientRect();
+    const s = sidebar.getBoundingClientRect();
+    return {
+      viewportW: window.innerWidth,
+      board: { x: b.x, y: b.y, w: b.width, h: b.height },
+      sidebar: { x: s.x, y: s.y, w: s.width, h: s.height },
+      // Side-by-side: sidebar's x must be >= board's right (sidebar is
+      // to the right of the board). Stacked: sidebar's y is below
+      // board's bottom.
+      isSideBySide: s.x >= b.right - 1,
+      isStacked: s.y >= b.bottom - 1,
+    };
+  });
+  const expectSideBySide = layoutCheck && layoutCheck.viewportW >= 360;
+  checks.push({
+    name: `${viewport.name}: layout is side-by-side at viewport >= 360px`,
+    ok: layoutCheck && (expectSideBySide ? layoutCheck.isSideBySide : layoutCheck.isStacked),
+    detail: JSON.stringify(layoutCheck),
+  });
+
   // 3d. Drop-validation rules (2026-06-28):
   //   - Card dropped on its correct zone → accepted.
   //   - Card dropped on a parent whose child accepts it → soft-snapped.
