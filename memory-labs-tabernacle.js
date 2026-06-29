@@ -234,7 +234,17 @@
           }
         });
 
-        board.appendChild(el);
+        if (z.position === "west" || z.position === "veil" || z.position === "center") {
+          let building = board.querySelector(".lab-tabernacle-building");
+          if (!building) {
+            building = document.createElement("div");
+            building.className = "lab-tabernacle-building";
+            board.appendChild(building);
+          }
+          building.appendChild(el);
+        } else {
+          board.appendChild(el);
+        }
         zoneEls[z.id] = el;
       });
 
