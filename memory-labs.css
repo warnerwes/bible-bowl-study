@@ -889,8 +889,8 @@
   grid-template-columns: 1fr 1fr;
   grid-template-rows: auto auto;
   grid-template-areas:
-    "table_zone lampstand_zone"
-    "incense_zone incense_zone";
+    "incense_zone incense_zone"
+    "table_zone lampstand_zone";
   gap: 0.3rem;
   align-items: stretch;
   overflow: visible;
