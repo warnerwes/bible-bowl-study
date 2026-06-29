@@ -945,54 +945,12 @@
 
       // ---- Hint / medal -------------------------------------------------
 
-      // Tier mapping per Wes's spec (2026-06-28):
-      //   0 hints  → GOLD
-      //   1–2 hints → SILVER
-      //   3+ hints → BRONZE
-      function tierFor(hints) {
-        if (hints <= 0) return "gold";
-        if (hints <= 2) return "silver";
-        return "bronze";
-      }
-      const TIER_LABEL = {
-        gold: "GOLD",
-        silver: "SILVER",
-        bronze: "BRONZE",
-      };
-      const TIER_EMOJI = {
-        gold: "🥇",
-        silver: "🥈",
-        bronze: "🥉",
-      };
+      // Tier/persistence logic lives in the shared BibleBowlLabMedals helper.
       const TIER_LINE = {
         gold: "Mastered with no hints — every holy thing placed from memory alone.",
         silver: "Placed cleanly with a hint or two — the placements are known, the recall almost there.",
         bronze: "Placed with many hints — keep practicing until the map lives in your heart.",
       };
-      const MEDAL_STORAGE_KEY = `bbs-medal:${lab.id}`;
-      function readBestMedal() {
-        try {
-          const raw = localStorage.getItem(MEDAL_STORAGE_KEY);
-          if (!raw) return null;
-          const parsed = JSON.parse(raw);
-          if (parsed && ["gold", "silver", "bronze"].includes(parsed.tier)) {
-            return parsed;
-          }
-        } catch (_) {}
-        return null;
-      }
-      function writeBestMedal(record) {
-        try {
-          localStorage.setItem(MEDAL_STORAGE_KEY, JSON.stringify(record));
-        } catch (_) {}
-      }
-      // Tier ranking for "did this beat the prior best" comparison.
-      function tierRank(t) {
-        if (t === "gold") return 0;
-        if (t === "silver") return 1;
-        if (t === "bronze") return 2;
-        return 3;
-      }
 
       // Reveal one placement visually: pulse the source CHIP and the
       // target ZONE together. Then commit the placement into `placed`
@@ -1077,6 +1035,15 @@
 
       // Build the medal DOM. Hidden until a successful Check.
       function renderMedal(tier, hintsCount, previousBest) {
+        const BB = window.BibleBowlLabMedals || {};
+        const TIER_EMOJI = BB.TIER_EMOJI || { gold: "🥇", silver: "🥈", bronze: "🥉" };
+        const TIER_LABEL = BB.TIER_LABEL || { gold: "GOLD", silver: "SILVER", bronze: "BRONZE" };
+        const tierRank = BB.tierRank || function(t) {
+          if (t === "gold") return 0;
+          if (t === "silver") return 1;
+          if (t === "bronze") return 2;
+          return 3;
+        };
         medalEl.hidden = false;
         const isNewBest =
           !previousBest || tierRank(tier) < tierRank(previousBest.tier);
@@ -1191,21 +1158,13 @@
         checkBtn.disabled = true;
         hintBtn.disabled = true; // no more hints after success
         active.state.complete = true;
-        const priorBest = readBestMedal();
-        const tier = tierFor(hintsUsed);
-        const record = {
-          tier,
-          hints: hintsUsed,
-          at: new Date().toISOString(),
-        };
-        // Only persist if this attempt beats the prior best (or no prior).
-        if (
-          !priorBest ||
-          tierRank(tier) < tierRank(priorBest.tier) ||
-          (tierRank(tier) === tierRank(priorBest.tier) &&
-            hintsUsed < (priorBest.hints || Infinity))
-        ) {
-          writeBestMedal(record);
+        let tier, priorBest = null;
+        if (window.BibleBowlLabMedals) {
+          const result = window.BibleBowlLabMedals.recordAttempt(lab.id, hintsUsed);
+          tier = result.tier;
+          priorBest = result.prior;
+        } else {
+          tier = hintsUsed <= 0 ? "gold" : hintsUsed <= 2 ? "silver" : "bronze";
         }
         renderMedal(tier, hintsUsed, priorBest);
         if (callbacks && callbacks.onComplete) callbacks.onComplete();
@@ -1329,17 +1288,17 @@
         },
         // Test hook: compute the tier for a hypothetical hint count.
         tierFor(h) {
-          return tierFor(h);
+          return window.BibleBowlLabMedals ? window.BibleBowlLabMedals.tierFor(h) : (h <= 0 ? "gold" : h <= 2 ? "silver" : "bronze");
         },
         // Test hook: clear localStorage medal (for clean test runs).
         clearMedalForTest() {
           try {
-            localStorage.removeItem(MEDAL_STORAGE_KEY);
+            localStorage.removeItem(`bbs-medal:${lab.id}`);
           } catch (_) {}
         },
         // Test hook: read what medal would currently be persisted.
         readBestMedal() {
-          return readBestMedal();
+          return window.BibleBowlLabMedals ? window.BibleBowlLabMedals.readBest(lab.id) : null;
         },
         cleanup() {
           window.removeEventListener("orientationchange", onOrientationChange);

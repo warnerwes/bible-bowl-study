@@ -27,6 +27,62 @@
   font-size: 0.55rem;
   color: var(--accent-strong);
 }
+/* Shelf medal badge: a small, earned metallic seal on each completed lab.
+   Sized in em so it scales with the trophy icon at every breakpoint. */
+.lab-medal-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.15em;
+  height: 1.15em;
+  border-radius: 50%;
+  right: -4px;
+  bottom: -2px;
+  border: 1px solid;
+  font-size: 0.58em;
+  line-height: 1;
+  background-image: radial-gradient(circle at 30% 25%, rgba(255, 255, 255, 0.22), rgba(255, 255, 255, 0) 55%);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.45), inset 0 1px 1px rgba(255, 255, 255, 0.25);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+  transform: translateZ(0);
+}
+
+.memory-lab-item.medal-gold .lab-medal-badge {
+  border-color: rgba(255, 215, 0, 0.95);
+  background-color: rgba(60, 44, 0, 0.92);
+  background-image: linear-gradient(135deg, rgba(255, 215, 0, 0.75) 0%, rgba(184, 134, 11, 0.55) 100%), radial-gradient(circle at 30% 25%, rgba(255, 255, 255, 0.22), rgba(255, 255, 255, 0) 55%);
+  color: #2a1f00;
+  box-shadow: 0 0 0 1px rgba(255, 215, 0, 0.35), 0 3px 8px rgba(255, 215, 0, 0.28), inset 0 1px 1px rgba(255, 255, 255, 0.25);
+}
+
+.memory-lab-item.medal-silver .lab-medal-badge {
+  border-color: rgba(220, 220, 235, 0.9);
+  background-color: rgba(40, 42, 50, 0.92);
+  background-image: linear-gradient(135deg, rgba(220, 220, 235, 0.7) 0%, rgba(130, 132, 145, 0.5) 100%), radial-gradient(circle at 30% 25%, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0) 55%);
+  color: #1a1c22;
+  box-shadow: 0 0 0 1px rgba(220, 220, 235, 0.25), 0 3px 8px rgba(0, 0, 0, 0.35), inset 0 1px 1px rgba(255, 255, 255, 0.2);
+}
+
+.memory-lab-item.medal-bronze .lab-medal-badge {
+  border-color: rgba(205, 127, 50, 0.92);
+  background-color: rgba(46, 28, 14, 0.92);
+  background-image: linear-gradient(135deg, rgba(205, 127, 50, 0.72) 0%, rgba(120, 70, 30, 0.52) 100%), radial-gradient(circle at 30% 25%, rgba(255, 255, 255, 0.18), rgba(255, 255, 255, 0) 55%);
+  color: #2a180a;
+  box-shadow: 0 0 0 1px rgba(205, 127, 50, 0.25), 0 3px 8px rgba(0, 0, 0, 0.35), inset 0 1px 1px rgba(255, 255, 255, 0.2);
+}
+
+/* Subtle icon glow so the tier reads from a distance without cluttering the card. */
+.memory-lab-item.medal-gold .trophy-icon {
+  filter: drop-shadow(0 0 5px rgba(255, 215, 0, 0.45));
+}
+
+.memory-lab-item.medal-silver .trophy-icon {
+  filter: drop-shadow(0 0 4px rgba(220, 220, 235, 0.32));
+}
+
+.memory-lab-item.medal-bronze .trophy-icon {
+  filter: drop-shadow(0 0 4px rgba(205, 127, 50, 0.32));
+}
 
 .labs-modal {
   position: fixed;
@@ -594,10 +650,13 @@
   gap: 0.4rem;
   width: 100%;
   min-height: 0; /* flex child: let the layout assign height */
-  padding: 0.35rem;
-  border-radius: 10px;
+  padding: 0.5rem;
+  border-radius: 12px;
   background: rgba(8, 10, 14, 0.6);
-  border: 1px solid var(--border);
+  /* Courtyard wall — a soft gold frame around the whole map, like the
+     mockup, sitting one tone below the brighter tabernacle building. */
+  border: 2px solid rgba(212, 160, 78, 0.5);
+  box-shadow: inset 0 0 14px rgba(212, 160, 78, 0.08);
 }
 
 @media (min-width: 720px) {
@@ -904,12 +963,15 @@
    Each parent zone becomes a sub-grid for its children. */
 .lab-tabernacle-zone-center > .lab-tabernacle-slot {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  grid-template-rows: auto auto;
+  /* Cross-shaped Holy Place (matches the mockup): the west-wall zone sits
+     centred at the top; the South and North walls drop below it as the two
+     arms — South on the left, North on the right — with an open centre aisle. */
+  grid-template-columns: 1fr 1.25fr 1fr;
+  grid-template-rows: auto 1fr;
   grid-template-areas:
-    "incense_zone incense_zone"
-    "table_zone lampstand_zone";
-  gap: 0.3rem;
+    ".              incense_zone   .         "
+    "lampstand_zone .              table_zone";
+  gap: 0.3rem 0.45rem;
   align-items: stretch;
   overflow: visible;
   background: transparent;
@@ -1063,6 +1125,9 @@
   font-weight: 800;
   letter-spacing: 0.08em;
   margin-bottom: 0.35rem;
+  /* Shared medal labels are title-case ("Gold") for shelf tooltips;
+     the in-lab headline wants the louder all-caps achievement shout. */
+  text-transform: uppercase;
 }
 .lab-tabernacle-medal-sub {
   font-size: 0.88rem;
@@ -1172,6 +1237,22 @@
    never run out of reach -- the row scrolls left/right -- and the
    footer (pool + actions) stays short so the board keeps its height. */
 @media (max-width: 719px) {
+  /* Tabernacle on mobile: keep the map front-and-centre. The board stays
+     on top (natural order); hide the reference panel's heavy bits — the
+     title/"completed" header, the "About this lab" details, and the
+     descriptive subtitle — leaving only the exit/replay button as a slim
+     bar at the very bottom. Live game feedback shows in the board's own
+     status line (.lab-drag-status), so nothing is lost. The chip
+     dispenser pins just above this slim bar (see memory-labs-dispenser.css). */
+  .labs-card:has(.labs-workspace--tabernacle) .labs-panel-head,
+  .labs-card:has(.labs-workspace--tabernacle) .labs-passage,
+  .labs-card:has(.labs-workspace--tabernacle) #labs-status {
+    display: none;
+  }
+  .labs-card:has(.labs-workspace--tabernacle) .labs-panel {
+    padding: 0.3rem 0.6rem 0.45rem;
+    gap: 0.3rem;
+  }
   .lab-tabernacle-pool {
     flex-wrap: nowrap;
     flex-direction: row;

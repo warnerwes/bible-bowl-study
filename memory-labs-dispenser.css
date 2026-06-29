@@ -71,9 +71,21 @@
     padding: 0.35rem 0.5rem;
     gap: 0.2rem 0.4rem;
   }
+  /* Pin the chip dispenser (Next Item tray + Check) to the viewport
+     bottom during play — it's what the thumb needs reachable. The
+     dispenser is wrapped in .lab-tabernacle-tray-footer, which is the
+     direct child of the tall scrolling workspace, so the FOOTER is the
+     element that must be sticky: a sticky element can only travel within
+     its containing block, and the inner dispenser's box is too tight to
+     pin. Every zone scrolls above it (no overlap of the 2D map). */
+  .lab-tabernacle-tray-footer {
+    position: sticky;
+    bottom: 0;
+    z-index: 5;
+    background: linear-gradient(180deg, rgba(15, 17, 22, 0.96), rgba(15, 17, 22, 0.99));
+  }
   .lab-tabernacle-root .lab-drag-dispenser {
-    position: static !important;
-    box-shadow: none !important;
+    position: static;
   }
   .lab-drag-dispenser .lab-drag-pool-label {
     font-size: 0.65rem;

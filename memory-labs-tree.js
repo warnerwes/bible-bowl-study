@@ -311,6 +311,9 @@
           });
           active.state.complete = complete;
           active.state.hintsUsed = hintsUsed;
+          if (window.BibleBowlLabMedals) {
+            window.BibleBowlLabMedals.recordAttempt(lab.id, hintsUsed);
+          }
           if (callbacks && callbacks.onComplete) callbacks.onComplete();
           if (typeof window.BibleBowlPlaySound === "function") window.BibleBowlPlaySound("chime");
         } else {

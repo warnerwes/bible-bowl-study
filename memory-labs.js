@@ -140,11 +140,17 @@
             </details>
             <p id="labs-status" class="labs-status-line"></p>
             <button id="labs-close" type="button" class="primary-btn labs-close-btn">Return to Study</button>
+            <button id="labs-replay" type="button" class="primary-btn ghost-btn labs-replay-btn" hidden>Play Again</button>
           </div>
         </div>
       `;
       document.body.appendChild(modal);
       document.getElementById("labs-close").addEventListener("click", closeLabModal);
+      document.getElementById("labs-replay").addEventListener("click", () => {
+        if (currentLab) mountLabPlay(currentLab);
+        document.getElementById("labs-replay").hidden = true;
+        document.getElementById("labs-milestone").textContent = "Memory Lab";
+      });
     }
   }
 
@@ -157,15 +163,28 @@
       const unlocked = isLabUnlocked(lab);
       const done = completedLabs.includes(lab.id);
       const item = document.createElement("div");
-      item.className = `trophy-item memory-lab-item ${unlocked ? "unlocked" : "locked"}${done ? " completed" : ""}`;
+      const bestMedal = unlocked && window.BibleBowlLabMedals && window.BibleBowlLabMedals.readBest(lab.id);
+      const tierClass = bestMedal ? ` medal-${bestMedal.tier}` : "";
+      let doneMark = "";
+      let tooltipTail = done ? "Completed" : "Click to practice";
+      if (bestMedal) {
+        const emoji = window.BibleBowlLabMedals.TIER_EMOJI[bestMedal.tier];
+        const label = window.BibleBowlLabMedals.TIER_LABEL[bestMedal.tier];
+        const hints = bestMedal.hints || 0;
+        doneMark = `<span class="lab-done-mark lab-medal-badge medal-${bestMedal.tier}" aria-label="${label}">${emoji}</span>`;
+        tooltipTail = `${label} — ${hints === 0 ? "mastered with no hints" : `${hints} hint${hints === 1 ? "" : "s"}`}`;
+      } else if (done) {
+        doneMark = '<span class="lab-done-mark">✓</span>';
+      }
+      item.className = `trophy-item memory-lab-item ${unlocked ? "unlocked" : "locked"}${done ? " completed" : ""}${tierClass}`;
       item.dataset.labId = lab.id;
 
       if (unlocked) {
         item.innerHTML = `
-          <span class="trophy-icon">${lab.emoji}${done ? '<span class="lab-done-mark">✓</span>' : ""}</span>
+          <span class="trophy-icon">${lab.emoji}${doneMark}</span>
           <span class="trophy-label">${lab.label}</span>
           <span class="trophy-chapter">${lab.ref}</span>
-          <span class="trophy-tooltip">${lab.emoji} ${lab.label} — ${done ? "Completed" : "Click to practice"}</span>
+          <span class="trophy-tooltip">${lab.emoji} ${lab.label} — ${tooltipTail}</span>
         `;
         item.addEventListener("click", () => openLabModal(lab));
       } else {
@@ -218,6 +237,9 @@
         renderShelf();
       }
       document.getElementById("labs-status").textContent = lab.completion_teaching.memory_sentence;
+      document.getElementById("labs-milestone").textContent = "Memory Lab · completed";
+      const replayBtn = document.getElementById("labs-replay");
+      if (replayBtn) replayBtn.hidden = false;
       if (typeof window.BibleBowlPlaySound === "function") window.BibleBowlPlaySound("unlock");
     };
 
@@ -235,9 +257,15 @@
     currentLab = lab;
     const modal = document.getElementById("labs-modal");
     document.getElementById("labs-badge").textContent = lab.emoji;
-    document.getElementById("labs-milestone").textContent = completedLabs.includes(lab.id)
-      ? "Memory Lab · completed"
-      : "Memory Lab";
+    // Opening any lab — even an already-completed one — drops the player
+    // into a fresh, playable board. So the panel always reads as active
+    // gameplay ("Memory Lab"), never "· completed". The completed state
+    // belongs on the shelf and on the post-finish screen (onComplete),
+    // not over a live dispenser. The "Play Again" button likewise stays
+    // hidden until the player actually finishes this run.
+    document.getElementById("labs-milestone").textContent = "Memory Lab";
+    const replayBtn = document.getElementById("labs-replay");
+    if (replayBtn) replayBtn.hidden = true;
     document.getElementById("labs-title").textContent = lab.label;
     document.getElementById("labs-ref").textContent = lab.ref;
     document.getElementById("labs-desc").textContent = lab.description || "";

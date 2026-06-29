@@ -5,3 +5,4 @@ tmp-upgrades/
 _site/
 captures/
 data/source-exports/
+.claude/

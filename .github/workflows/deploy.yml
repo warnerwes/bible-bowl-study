@@ -38,7 +38,7 @@ jobs:
           mkdir -p _site
           cp index.html styles.css rewards.css memory-labs.css memory-labs-dispenser.css \
             app.js rewards.js rewards-scenes-1.js rewards-scenes-2.js \
-            memory-labs.js memory-labs-data.js memory-labs-drag.js memory-labs-tree.js memory-labs-tabernacle.js \
+            memory-labs.js memory-labs-data.js memory-labs-medals.js memory-labs-drag.js memory-labs-tree.js memory-labs-tabernacle.js \
             manifest.webmanifest sw.js _site/
           cp icon-192.png icon-512.png icon-maskable-512.png apple-touch-icon.png _site/
           cp favicon.png favicon-16.png favicon-32.png _site/

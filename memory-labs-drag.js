@@ -643,6 +643,9 @@
           });
           active.state.complete = complete;
           active.state.hintsUsed = hintsUsed;
+          if (window.BibleBowlLabMedals) {
+            window.BibleBowlLabMedals.recordAttempt(lab.id, hintsUsed);
+          }
           // onComplete owns the modal-level celebration (sound + status
           // text). Drag engine owns the in-lab burst + slot cascade.
           celebrateLabVictory(slotEls);
