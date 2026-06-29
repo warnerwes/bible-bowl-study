@@ -159,20 +159,20 @@
     "book": "Exodus",
     "reference": "Exodus 17:12",
     "topic": "Battle with Amalek",
-    "type": "fill-in",
+    "type": "multiple-choice",
     "question": "How did Aaron and Hur help Moses keep his hands raised?",
     "answer": "They put a stone under him and held up his hands",
-    "acceptableAnswers": [
-      "they put a stone under him and held up his hands",
-      "put a stone under him and held his hands",
-      "sat him on a stone and held up his hands",
-      "held up his hands"
-    ],
     "memoryAid": {
       "type": "teaching",
       "text": "They seat Moses on a stone and brace each arm until the sun sets, so the figure of the Cross never drops for an instant all day long. It takes three men to keep the Cross raised — the Body upholding the form by which Joshua (Jesus) conquers. Perseverance in the Cross unto the very end wins the war.",
       "source": "St. Justin Martyr, Dialogue with Trypho, ch. 90"
-    }
+    },
+    "options": [
+      "They put a stone under him and held up his hands",
+      "They prayed aloud for him from a distance",
+      "They fought alongside Joshua in the valley",
+      "They carried a banner above his head"
+    ]
   },
   {
     "id": "ex17-010",
