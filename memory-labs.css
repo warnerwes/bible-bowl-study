@@ -620,6 +620,91 @@
   padding: 0.15rem 0.3rem;
 }
 
+/* Splitscreen layout (2026-06-28): map on the left/center, zone
+   legend sidebar on the right (desktop) or below (mobile). Labels
+   live OUTSIDE the map so each zone has more room for its placed
+   emoji chip — fixes overflow + improves readability. */
+.lab-tabernacle-layout {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  width: 100%;
+}
+@media (min-width: 720px) {
+  .lab-tabernacle-layout {
+    flex-direction: row;
+    align-items: stretch;
+  }
+  .lab-tabernacle-layout > .lab-tabernacle-board {
+    flex: 1 1 auto;
+    max-width: 60%;
+  }
+  .lab-tabernacle-layout > .lab-tabernacle-sidebar {
+    flex: 0 0 auto;
+    width: clamp(180px, 32%, 260px);
+    max-height: 460px;
+  }
+}
+
+.lab-tabernacle-sidebar {
+  background: rgba(8, 10, 14, 0.55);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 0.4rem 0.5rem;
+  overflow-y: auto;
+  max-height: 240px;
+}
+.lab-tabernacle-sidebar-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.18rem;
+}
+.lab-tabernacle-sidebar-item {
+  display: flex;
+  flex-direction: column;
+  padding: 0.28rem 0.4rem;
+  border-radius: 6px;
+  border: 1px solid rgba(212, 160, 78, 0.18);
+  background: rgba(20, 23, 31, 0.45);
+  transition: border-color 150ms ease, background 150ms ease;
+}
+.lab-tabernacle-sidebar-item.filled {
+  border-color: rgba(110, 200, 130, 0.65);
+  background: rgba(110, 200, 130, 0.1);
+}
+.lab-tabernacle-sidebar-caption {
+  font-family: var(--font-display);
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--accent-strong);
+}
+.lab-tabernacle-sidebar-sublabel {
+  font-size: 0.62rem;
+  color: var(--muted);
+  line-height: 1.2;
+}
+.lab-tabernacle-sidebar-answer {
+  font-size: 0.7rem;
+  color: var(--accent-strong);
+  font-weight: 600;
+  margin-top: 0.18rem;
+}
+.lab-tabernacle-sidebar-answer[hidden] {
+  display: none;
+}
+
+/* Inside the map, hide zone caption + sublabel + reveal slots —
+   the user reads those in the sidebar now. Keeps the map clean:
+   only placed emoji chips visible inside zones. */
+.lab-tabernacle-board .lab-tabernacle-zone-caption,
+.lab-tabernacle-board .lab-tabernacle-zone-sublabel,
+.lab-tabernacle-board .lab-tabernacle-zone-reveal {
+  display: none !important;
+}
+
 /* Generic zone box. Placed chips appear AFTER the caption/sublabel
    and auto-fit; if a card label is too long the ellipsis kicks in. */
 .lab-tabernacle-zone {

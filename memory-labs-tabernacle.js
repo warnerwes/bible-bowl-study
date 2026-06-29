@@ -218,7 +218,51 @@
       medalEl.setAttribute("aria-live", "polite");
       medalEl.hidden = true;
 
-      container.appendChild(board);
+      // Build a sidebar that lists every zone (id, caption, sublabel).
+      // On mobile the sidebar collapses below the map; on desktop it
+      // sits beside the map. Labels live OUTSIDE the map so each zone
+      // has more room for its placed emoji chip — fixes the issue
+      // where chips overflowed small zones and got clipped.
+      const sidebar = document.createElement("aside");
+      sidebar.className = "lab-tabernacle-sidebar";
+      sidebar.setAttribute("aria-label", "Zone legend");
+      const sidebarList = document.createElement("ul");
+      sidebarList.className = "lab-tabernacle-sidebar-list";
+      zones.forEach((z) => {
+        const li = document.createElement("li");
+        li.className = "lab-tabernacle-sidebar-item";
+        li.dataset.sidebarFor = z.id;
+        const cap = document.createElement("span");
+        cap.className = "lab-tabernacle-sidebar-caption";
+        cap.dataset.role = "label";
+        cap.textContent = z.label;
+        li.appendChild(cap);
+        if (z.sublabel) {
+          const sub = document.createElement("span");
+          sub.className = "lab-tabernacle-sidebar-sublabel";
+          sub.dataset.role = "sublabel";
+          sub.textContent = z.sublabel;
+          li.appendChild(sub);
+        }
+        // Slot for the answer-name emoji+label once the user places
+        // correctly. Empty placeholder until then — keeping the answer-
+        // name out of the initial render (anti-leak).
+        const answerSlot = document.createElement("span");
+        answerSlot.className = "lab-tabernacle-sidebar-answer";
+        answerSlot.dataset.role = "answer";
+        answerSlot.hidden = true;
+        li.appendChild(answerSlot);
+        sidebarList.appendChild(li);
+      });
+      sidebar.appendChild(sidebarList);
+
+      // Wrap map + sidebar in a flex layout row.
+      const layout = document.createElement("div");
+      layout.className = "lab-tabernacle-layout";
+      layout.appendChild(board);
+      layout.appendChild(sidebar);
+
+      container.appendChild(layout);
       container.appendChild(trayLabel);
       container.appendChild(trayEl);
       container.appendChild(actions);
@@ -231,6 +275,15 @@
       let dragPointerId = null;
       let dragOffsetX = 0;
       let dragOffsetY = 0;
+      // Tracks whether the active drag has moved far enough to count
+      // as a real drag (vs a tap). Mirrors the per-chip `draggedFar`
+      // closure variable inside renderZones, kept global so the
+      // window-level pointermove listener (attached in startDrag)
+      // can update it. Used by the placed-chip click handler to
+      // decide whether to bounce-back to pool. (2026-06-28 fix.)
+      let dragMovedFar = false;
+      let dragStartX = 0;
+      let dragStartY = 0;
 
       const reduceMotion =
         typeof window.matchMedia === "function" &&
@@ -283,23 +336,14 @@
         lbl.textContent = card.label;
         chip.appendChild(lbl);
 
-        // Pointer-based drag (mouse + touch + pen).
+        // Pointer-based drag (mouse + touch + pen). pointermove + pointerup
+        // are handled by WINDOW-level listeners attached in startDrag
+        // (so the drag continues even after the source chip is hidden
+        // via visibility:hidden). This block only needs pointerdown.
         chip.addEventListener("pointerdown", (e) => {
           if (e.button !== undefined && e.button !== 0) return;
           e.preventDefault();
           startDrag(cardId, chip, e.clientX, e.clientY, e.pointerId);
-        });
-        chip.addEventListener("pointermove", (e) => {
-          if (dragCardId !== cardId) return;
-          moveDrag(e.clientX, e.clientY);
-        });
-        chip.addEventListener("pointerup", (e) => {
-          if (dragCardId !== cardId) return;
-          e.preventDefault();
-          endDrag(e.clientX, e.clientY);
-        });
-        chip.addEventListener("pointercancel", () => {
-          if (dragCardId === cardId) cancelDrag();
         });
 
         // Keyboard: Enter = place in highlighted zone; Esc = cancel.
@@ -361,11 +405,52 @@
         dragGhost.removeAttribute("aria-pressed");
         document.body.appendChild(dragGhost);
 
+        // Attach pointermove + pointerup + pointercancel to WINDOW so the
+        // drag continues even if the cursor leaves the source chip's
+        // bounding box. The chip becomes `visibility: hidden` once the
+        // ghost is created, and pointer-capture on a hidden element is
+        // unreliable across browsers — global listeners are the
+        // rock-solid fallback. (2026-06-28 fix: drag-out from placed
+        // chips was failing because pointermove on the hidden chip
+        // wasn't firing reliably.)
+        window.addEventListener("pointermove", onWindowPointerMove);
+        window.addEventListener("pointerup", onWindowPointerUp);
+        window.addEventListener("pointercancel", onWindowPointerCancel);
+
         if (pointerId !== null && chip.setPointerCapture) {
           try {
             chip.setPointerCapture(pointerId);
           } catch (_) {}
         }
+      }
+
+      function onWindowPointerMove(e) {
+        if (!dragCardId) return;
+        if (
+          dragPointerId !== null &&
+          e.pointerId !== undefined &&
+          e.pointerId !== dragPointerId
+        ) {
+          return;
+        }
+        moveDrag(e.clientX, e.clientY);
+      }
+
+      function onWindowPointerUp(e) {
+        if (!dragCardId) return;
+        if (
+          dragPointerId !== null &&
+          e.pointerId !== undefined &&
+          e.pointerId !== dragPointerId
+        ) {
+          return;
+        }
+        e.preventDefault();
+        endDrag(e.clientX, e.clientY);
+      }
+
+      function onWindowPointerCancel() {
+        if (dragCardId) cancelDrag();
       }
 
       function moveDrag(clientX, clientY) {
@@ -417,6 +502,12 @@
           dragSourceEl.removeAttribute("aria-pressed");
           dragSourceEl = null;
         }
+        // Detach the global pointer listeners that startDrag attached
+        // so they don't fire on subsequent unrelated clicks elsewhere
+        // on the page. (2026-06-28 fix.)
+        window.removeEventListener("pointermove", onWindowPointerMove);
+        window.removeEventListener("pointerup", onWindowPointerUp);
+        window.removeEventListener("pointercancel", onWindowPointerCancel);
         clearHighlight();
         dragCardId = null;
         dragFromZone = null;
@@ -552,6 +643,19 @@
           const revealEl = el.querySelector('[data-role="reveal"]');
           if (revealEl) revealEl.hidden = true;
 
+          // Reset sidebar answer slot for this zone.
+          const sidebarItem = sidebarList.querySelector(
+            `[data-sidebar-for="${zid}"]`
+          );
+          const sidebarAnswer = sidebarItem?.querySelector(
+            '[data-role="answer"]'
+          );
+          if (sidebarAnswer) {
+            sidebarAnswer.hidden = true;
+            sidebarAnswer.textContent = "";
+          }
+          if (sidebarItem) sidebarItem.classList.remove("filled");
+
           const cardId = placed[zid];
           if (!cardId) return;
           el.classList.add("filled");
@@ -561,6 +665,16 @@
 
           const card = cards.find((c) => c.id === cardId);
           if (!card) return;
+
+          // Populate sidebar answer slot with emoji + label of the
+          // placed card. (Splitscreen: legend shows what's where.)
+          if (sidebarAnswer && sidebarItem) {
+            sidebarAnswer.textContent = card.emoji
+              ? `${card.emoji} ${card.label}`
+              : card.label;
+            sidebarAnswer.hidden = false;
+            sidebarItem.classList.add("filled");
+          }
 
           const placedChipEl = document.createElement("button");
           placedChipEl.type = "button";
@@ -593,24 +707,6 @@
             draggedFar = false;
             startDrag(cardId, placedChipEl, e.clientX, e.clientY, e.pointerId);
           });
-          placedChipEl.addEventListener("pointermove", (e) => {
-            if (dragCardId !== cardId) return;
-            moveDrag(e.clientX, e.clientY);
-            if (
-              !draggedFar &&
-              Math.hypot(e.clientX - pointerDownX, e.clientY - pointerDownY) > 6
-            ) {
-              draggedFar = true;
-            }
-          });
-          placedChipEl.addEventListener("pointerup", (e) => {
-            if (dragCardId !== cardId) return;
-            e.preventDefault();
-            endDrag(e.clientX, e.clientY);
-          });
-          placedChipEl.addEventListener("pointercancel", () => {
-            if (dragCardId === cardId) cancelDrag();
-          });
           placedChipEl.addEventListener("click", (e) => {
             // Suppress click-to-return if user just dragged this chip.
             if (draggedFar) {
@@ -623,6 +719,10 @@
             tray.push(cardId);
             render();
           });
+          // (2026-06-28 fix: removed per-chip pointermove + pointerup
+          //  + pointercancel handlers — startDrag() now attaches global
+          //  window-level listeners so the drag continues even after
+          //  the source chip is hidden via visibility:hidden.)
           el.appendChild(placedChipEl);
         });
       }
