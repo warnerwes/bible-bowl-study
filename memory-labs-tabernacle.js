@@ -106,66 +106,80 @@
         "Tabernacle floor plan. God's presence is at the west (top). The priestly approach begins at the east entrance (bottom)."
       );
 
-      // Compass cues: WEST on top (God's presence), EAST on bottom (entrance).
-      // Each label is anchored to the actual edge of the map so the
-      // spatial cue is concrete — WEST sits above the top edge, EAST
-      // sits below the bottom edge. Numbered pairs + wall labels mean
-      // students don't need compass literacy.
+      // Compass cues: WEST above, EAST below the board. Rendered as
+      // flow siblings of the board inside the layout container.
       const compassW = document.createElement("div");
       compassW.className = "lab-tabernacle-compass lab-tabernacle-compass-west";
       compassW.textContent = "↑ God's Presence (WEST)";
       const compassE = document.createElement("div");
       compassE.className = "lab-tabernacle-compass lab-tabernacle-compass-east";
       compassE.textContent = "↓ Entrance (EAST)";
-      board.appendChild(compassW);
-      board.appendChild(compassE);
 
       // Zones. Nested zones are rendered as child <div>s inside their
       // parent so DOM walk-up (`closest('[data-zone-id]')`) finds the
       // deepest valid zone first.
       //
-      // Note (2026-06-28): Initial labels show ONLY directional/room
-      // text (e.g. "① North Wall"). The answer-name lives in
-      // `reveal_label` and is swapped in AFTER a correct placement
-      // (see renderZones), so the user cannot solve the lab by reading
-      // the map — they have to know the placement from memory.
+      // Layout per zone (2026-06-29): labels live OUTSIDE the drop
+      // slot so the user sees the slot name (e.g. "Divider") right
+      // next to the slot itself. Each zone becomes a 2-cell row:
+      //   [ label-block | drop-slot ]
+      // The label-block holds caption + sublabel + reveal; the
+      // drop-slot holds only placed chips. This way labels never
+      // collide with placed chips and the map reads like an
+      // annotated floor plan.
+      //
+      // Anti-leak: `reveal_label` (the answer-name) is hidden until
+      // a correct placement, so the user cannot solve by reading the
+      // labels alone.
       const zoneEls = {};
       zones.forEach((z) => {
+        // Outer row wraps the zone (label + drop slot).
         const el = document.createElement("div");
         el.className = `lab-tabernacle-zone lab-tabernacle-zone-${z.position}`;
         el.dataset.zoneId = z.id;
         el.setAttribute("role", "region");
         el.setAttribute("aria-label", z.label);
 
+        // Label block: caption + sublabel + reveal. Sits to the LEFT
+        // of the drop slot via CSS. Pointer-events disabled so it
+        // doesn't intercept drag events.
+        const labelBlock = document.createElement("div");
+        labelBlock.className = "lab-tabernacle-label";
+
         const cap = document.createElement("span");
         cap.className = "lab-tabernacle-zone-caption";
         cap.dataset.role = "label";
         cap.textContent = z.label;
-        el.appendChild(cap);
+        labelBlock.appendChild(cap);
 
         if (z.sublabel) {
           const sub = document.createElement("span");
           sub.className = "lab-tabernacle-zone-sublabel";
           sub.dataset.role = "sublabel";
           sub.textContent = z.sublabel;
-          el.appendChild(sub);
+          labelBlock.appendChild(sub);
         }
 
-        // Optional reveal slot — only populated after a correct
-        // placement. Hidden by default so the answer-name never leaks
-        // before the user has earned the reveal.
         if (z.reveal_label) {
           const reveal = document.createElement("span");
           reveal.className = "lab-tabernacle-zone-reveal";
           reveal.dataset.role = "reveal";
           reveal.textContent = z.reveal_label;
           reveal.hidden = true;
-          el.appendChild(reveal);
+          labelBlock.appendChild(reveal);
         }
 
-        // Pattern fill hook for color-blind users (CSS handles).
-        if (z.pattern) el.classList.add("lab-tabernacle-zone-pattern-" + z.pattern);
+        // Drop slot: empty target box that receives placed chips.
+        // No text inside — chips land here.
+        const slot = document.createElement("div");
+        slot.className = "lab-tabernacle-slot";
+        slot.dataset.role = "slot";
 
+        // Pattern fill hook for color-blind users (CSS handles).
+        if (z.pattern) slot.classList.add("lab-tabernacle-slot-pattern-" + z.pattern);
+
+        el.appendChild(labelBlock);
+        el.appendChild(slot);
         board.appendChild(el);
         zoneEls[z.id] = el;
       });
@@ -173,7 +187,10 @@
       // Append nested zones inside their parents.
       zones.forEach((z) => {
         if (z.parent && zoneEls[z.parent]) {
-          zoneEls[z.parent].appendChild(zoneEls[z.id]);
+          const parentZone = zoneEls[z.parent];
+          // Find the parent's drop slot and append the child there.
+          const parentSlot = parentZone.querySelector(".lab-tabernacle-slot");
+          if (parentSlot) parentSlot.appendChild(zoneEls[z.id]);
         }
       });
 
@@ -260,10 +277,19 @@
       });
       sidebar.appendChild(sidebarList);
 
-      // Wrap map + sidebar in a flex layout row.
+      // Wrap map + sidebar in a flex layout row. Compass labels live
+      // above (WEST) and below (EAST) the board so the spatial cue
+      // is concrete and never gets clipped by overflow.
       const layout = document.createElement("div");
       layout.className = "lab-tabernacle-layout";
-      layout.appendChild(board);
+      // Board wrapper holds the compass pair + board vertically so
+      // both labels and the board sit in the same column.
+      const boardCol = document.createElement("div");
+      boardCol.className = "lab-tabernacle-board-col";
+      boardCol.appendChild(compassW);
+      boardCol.appendChild(board);
+      boardCol.appendChild(compassE);
+      layout.appendChild(boardCol);
       layout.appendChild(sidebar);
 
       container.appendChild(layout);
@@ -727,7 +753,11 @@
           //  + pointercancel handlers — startDrag() now attaches global
           //  window-level listeners so the drag continues even after
           //  the source chip is hidden via visibility:hidden.)
-          el.appendChild(placedChipEl);
+          // (2026-06-29 fix: append the placed chip to the slot, not
+          //  the zone wrapper, so the chip lands inside the drop
+          //  target next to its label.)
+          const slot = el.querySelector(".lab-tabernacle-slot") || el;
+          slot.appendChild(placedChipEl);
         });
       }
 

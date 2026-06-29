@@ -558,29 +558,21 @@
 }
 
 /* Compass cues: WEST on top (God's presence), EAST on bottom (entrance).
-   Each label is anchored to the actual edge of the map so the spatial
-   cue is concrete — WEST sits above the top edge, EAST sits below the
-   bottom edge. They are absolutely positioned so they don't consume
-   grid rows. */
+   Rendered above and below the board as full-width labels with a
+   little extra padding on the board's parent so they never get
+   clipped by overflow. */
 .lab-tabernacle-compass {
-  position: absolute;
-  left: 0;
-  right: 0;
+  display: block;
   text-align: center;
   font-family: var(--font-display);
-  font-size: 0.78rem;
-  letter-spacing: 0.04em;
-  pointer-events: none;
+  font-size: 0.82rem;
+  letter-spacing: 0.06em;
+  font-weight: 700;
+  padding: 0.25rem 0;
   color: rgba(212, 160, 78, 0.95);
-  font-weight: 600;
-}
-.lab-tabernacle-compass-west {
-  top: -1.5rem;
-  color: rgba(212, 160, 78, 0.95);
-}
-.lab-tabernacle-compass-east {
-  bottom: -1.5rem;
-  color: rgba(212, 160, 78, 0.95);
+  background: rgba(8, 10, 14, 0.5);
+  border-radius: 6px;
+  margin: 0.15rem 0;
 }
 
 /* Board: vertical stack on mobile, horizontal on wider screens.
@@ -640,7 +632,14 @@
   gap: 0.5rem;
   width: 100%;
 }
-.lab-tabernacle-layout > .lab-tabernacle-board {
+.lab-tabernacle-board-col {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+  min-width: 0;
+  gap: 0.15rem;
+}
+.lab-tabernacle-layout > .lab-tabernacle-board-col > .lab-tabernacle-board {
   flex: 1 1 auto;
   min-width: 0;
 }
@@ -718,29 +717,69 @@
   display: none !important;
 }
 
-/* Generic zone box. Placed chips appear AFTER the caption/sublabel
-   and auto-fit; if a card label is too long the ellipsis kicks in. */
+/* Generic zone box. Now a 2-cell row: [ label-block | drop-slot ].
+   The label-block holds the slot name and is to the LEFT of the
+   drop slot, so the user sees "Divider" right next to the divider
+   slot. Placed chips appear inside the drop-slot only, never inside
+   the label block. */
 .lab-tabernacle-zone {
   position: relative;
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 0.12rem;
-  padding: 0.25rem 0.3rem;
+  flex-direction: row;
+  align-items: stretch;
+  justify-content: stretch;
+  gap: 0.35rem;
+  padding: 0.2rem;
   border-radius: 8px;
   border: 1.5px dashed rgba(212, 160, 78, 0.45);
   background: rgba(20, 23, 31, 0.7);
-  text-align: center;
   min-height: 44px;
   min-width: 0;
   overflow: hidden;
   transition: border-color 120ms ease, background 120ms ease, transform 120ms ease;
 }
+.lab-tabernacle-label {
+  flex: 0 0 auto;
+  min-width: 0;
+  max-width: 65%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: center;
+  text-align: right;
+  gap: 0.05rem;
+  padding: 0 0.5rem 0 0.3rem;
+  border-right: 1px solid rgba(212, 160, 78, 0.25);
+  pointer-events: none;
+}
+.lab-tabernacle-zone-center .lab-tabernacle-label {
+  /* Center zones (Holy Place) have nested children; labels stay on
+     the outside but at slightly less weight so the map reads
+     cleanly. */
+  font-size: 0.85em;
+}
+.lab-tabernacle-slot {
+  flex: 1 1 auto;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.1rem;
+  padding: 0.18rem;
+  border-radius: 6px;
+  background: rgba(8, 10, 14, 0.4);
+  border: 1px solid rgba(212, 160, 78, 0.18);
+  text-align: center;
+  overflow: hidden;
+}
 
 /* Pattern fills (color-blind safe). Implemented with CSS gradients so no
-   external asset needed and they render at any resolution. */
-.lab-tabernacle-zone-pattern-stripes {
+   external asset needed and they render at any resolution.
+   Slots carry the same patterns (now scoped to .lab-tabernacle-slot
+   since the slot is the inner drop target). */
+.lab-tabernacle-zone-pattern-stripes,
+.lab-tabernacle-slot-pattern-stripes {
   background-image: repeating-linear-gradient(
     135deg,
     rgba(212, 160, 78, 0.06) 0,
@@ -749,14 +788,16 @@
     transparent 12px
   );
 }
-.lab-tabernacle-zone-pattern-dots {
+.lab-tabernacle-zone-pattern-dots,
+.lab-tabernacle-slot-pattern-dots {
   background-image: radial-gradient(
     rgba(212, 160, 78, 0.16) 1.5px,
     transparent 1.5px
   );
   background-size: 12px 12px;
 }
-.lab-tabernacle-zone-pattern-plain {
+.lab-tabernacle-zone-pattern-plain,
+.lab-tabernacle-slot-pattern-plain {
   background: rgba(20, 23, 31, 0.7);
 }
 
