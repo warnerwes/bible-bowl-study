@@ -816,5 +816,125 @@
       "text": "Because of the calf, the Lord will not go “in the midst” of a stiff-necked people lest He consume them, so the tent stands outside the camp — fellowship ruptured. The estrangement is temporary: the tabernacle He commands will rise in the heart of the camp, God dwelling among His people once more — the road that ends in the Word who “tabernacled among us.”",
       "source": "John 1:14 (cf. Exodus 33:3-5)"
     }
+  },
+  {
+    "id": "ex40-010",
+    "chapter": 40,
+    "book": "Exodus",
+    "reference": "Exodus 40:22-23",
+    "topic": "Tabernacle Placement",
+    "type": "multiple-choice",
+    "question": "On which side of the Holy Place was the Table of Showbread placed?",
+    "answer": "The north side",
+    "options": [
+      "The north side",
+      "The south side",
+      "The east side",
+      "The west side"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "Table on the NORTH, Lampstand on the SOUTH — opposite walls, like facing guests across a table. Remember 'N for nourishment' (bread on the north)."
+    }
+  },
+  {
+    "id": "ex40-011",
+    "chapter": 40,
+    "book": "Exodus",
+    "reference": "Exodus 40:24-25",
+    "topic": "Tabernacle Placement",
+    "type": "multiple-choice",
+    "question": "On which side of the Holy Place was the Lampstand placed?",
+    "answer": "The south side",
+    "options": [
+      "The south side",
+      "The north side",
+      "The east side",
+      "The west side"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "Lampstand opposite the table — south wall, so the priest entering from the east sees light on his right (south) and bread on his left (north)."
+    }
+  },
+  {
+    "id": "ex40-012",
+    "chapter": 40,
+    "book": "Exodus",
+    "reference": "Exodus 40:26-27",
+    "topic": "Tabernacle Placement",
+    "type": "multiple-choice",
+    "question": "Where was the Golden Altar of Incense placed?",
+    "answer": "In the Holy Place, before the veil",
+    "options": [
+      "In the Holy Place, before the veil",
+      "In the Most Holy Place, beside the Ark",
+      "Outside the tabernacle, beside the Bronze Altar",
+      "In the courtyard, by the East Entrance"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "The incense altar stands BEFORE the veil — still in the Holy Place, but the smoke rises toward the Most Holy Place where God's presence rests over the mercy seat."
+    }
+  },
+  {
+    "id": "ex40-013",
+    "chapter": 40,
+    "book": "Exodus",
+    "reference": "Exodus 40:3, 21",
+    "topic": "Tabernacle Placement",
+    "type": "multiple-choice",
+    "question": "Where was the Ark of the Testimony placed?",
+    "answer": "Inside the tabernacle, behind the veil in the Most Holy Place",
+    "options": [
+      "Inside the tabernacle, behind the veil in the Most Holy Place",
+      "Inside the tabernacle, in the Holy Place beside the Table",
+      "Outside the tabernacle, beside the Bronze Altar",
+      "At the East Entrance, in the courtyard"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "The Ark sits BEHIND the veil — alone in the Most Holy Place. The veil separates; the Ark is the throne-footstool where God's presence rests between the cherubim."
+    }
+  },
+  {
+    "id": "ex40-014",
+    "chapter": 40,
+    "book": "Exodus",
+    "reference": "Exodus 40:29",
+    "topic": "Tabernacle Placement",
+    "type": "multiple-choice",
+    "question": "Where was the Bronze Altar of Burnt Offering placed?",
+    "answer": "Outside the tabernacle, by the doors of the entrance",
+    "options": [
+      "Outside the tabernacle, by the doors of the entrance",
+      "Inside the Holy Place, beside the Table",
+      "In the Most Holy Place, in front of the Ark",
+      "In the courtyard, by the East Entrance only"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "The Bronze Altar sits OUTSIDE the tabernacle, by the door. Sacrifices happen before the priest enters — the altar is the threshold between the world and the holy tent."
+    }
+  },
+  {
+    "id": "ex40-015",
+    "chapter": 40,
+    "book": "Exodus",
+    "reference": "Exodus 40:30",
+    "topic": "Tabernacle Placement",
+    "type": "multiple-choice",
+    "question": "According to OSB Exodus 30:18 and 40:30, where was the Bronze Laver placed?",
+    "answer": "Between the tabernacle of witness and the altar",
+    "options": [
+      "Between the tabernacle of witness and the altar",
+      "Inside the Most Holy Place, beside the Ark",
+      "Outside the courtyard, beyond the East Entrance",
+      "In the Holy Place, beside the Lampstand"
+    ],
+    "memoryAid": {
+      "type": "mnemonic",
+      "text": "Laver BETWEEN the tabernacle and the altar — the washing station a priest passes after the sacrifice but before entering the holy tent. Made from the mirrors of the women who served/fasted at the tabernacle entrance (Ex 38:8)."
+    }
   }
 ]

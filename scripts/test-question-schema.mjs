@@ -62,13 +62,13 @@ check("no duplicate question text within same chapter", () => {
   }
 });
 
-check("ex17-011 is multiple-choice about Aaron/Hur (regression #53)", () => {
-  const q = json.find(x => x.id === "ex17-011");
-  if (!q) throw new Error("ex17-011 missing");
-  if (q.type !== "multiple-choice") throw new Error(`ex17-011 type is ${q.type}, expected multiple-choice`);
-  if (!q.options || q.options.length !== 4) throw new Error(`ex17-011 has ${q.options?.length} options, expected 4`);
+check("ex17-009 is multiple-choice about Aaron/Hur (regression #53)", () => {
+  const q = json.find(x => x.id === "ex17-009");
+  if (!q) throw new Error("ex17-009 missing");
+  if (q.type !== "multiple-choice") throw new Error(`ex17-009 type is ${q.type}, expected multiple-choice`);
+  if (!q.options || q.options.length !== 4) throw new Error(`ex17-009 has ${q.options?.length} options, expected 4`);
   if (!/aaron/i.test(q.question) || !/hur/i.test(q.question)) {
-    throw new Error(`ex17-011 question doesn't mention Aaron and Hur: ${q.question}`);
+    throw new Error(`ex17-009 question doesn't mention Aaron and Hur: ${q.question}`);
   }
 });
 
