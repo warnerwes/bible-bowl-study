@@ -199,11 +199,91 @@
   <script src="memory-labs-tabernacle.js?v=2"></script>
   <script src="memory-labs.js?v=2"></script>
   <script>
+    // ---- Version + SW update machinery ----
+    // The asset-busting version baked into this HTML build. Bump this
+    // when shipping any change to memory-labs.* or the SW, so phones
+    // that loaded an older HTML auto-detect the mismatch and reload.
+    var __BBS_VERSION = "9";
     if ("serviceWorker" in navigator) {
       window.addEventListener("load", function () {
         navigator.serviceWorker.register("sw.js").catch(function () {});
       });
+      // When a new SW takes over from an old one, reload so the page
+      // re-evaluates the new HTML (new script tags, new CSS, etc.).
+      var reloadingForSW = false;
+      navigator.serviceWorker.addEventListener("controllerchange", function () {
+        if (reloadingForSW) return;
+        reloadingForSW = true;
+        // Tiny delay so the new SW is fully in control before reload.
+        setTimeout(function () { window.location.reload(); }, 80);
+      });
     }
+    // ---- Update ping ----
+    // Every 60s, fetch the live index.html (cache-bypassing) and
+    // compare its embedded version stamp against ours. If the server
+    // has a newer version, show a banner and reload on tap.
+    (function () {
+      var CHECK_MS = 60 * 1000;
+      function liveVersion() {
+        // Cache-buster query avoids any browser HTTP cache.
+        return fetch("index.html?ping=" + Date.now(), {
+          cache: "no-store",
+          headers: { "X-BBS-Update-Check": "1" },
+        })
+          .then(function (r) { return r.text(); })
+          .then(function (html) {
+            var m = html.match(/__BBS_VERSION\s*=\s*"(\d+)"/);
+            return m ? m[1] : null;
+          })
+          .catch(function () { return null; });
+      }
+      function ensureBanner() {
+        var el = document.getElementById("bbs-update-banner");
+        if (el) return el;
+        el = document.createElement("div");
+        el.id = "bbs-update-banner";
+        el.setAttribute("role", "status");
+        el.style.cssText = [
+          "position:fixed",
+          "left:50%",
+          "bottom:max(1rem,env(safe-area-inset-bottom,0px))",
+          "transform:translateX(-50%)",
+          "z-index:9999",
+          "padding:0.7rem 1.1rem",
+          "border-radius:999px",
+          "background:rgba(212,160,78,0.95)",
+          "color:#1a1611",
+          "font-weight:600",
+          "font-size:0.9rem",
+          "box-shadow:0 4px 18px rgba(0,0,0,0.5)",
+          "cursor:pointer",
+          "display:none",
+        ].join(";");
+        el.textContent = "Update available — tap to reload";
+        el.addEventListener("click", function () {
+          window.location.reload();
+        });
+        document.body.appendChild(el);
+        return el;
+      }
+      function showBanner() {
+        ensureBanner().style.display = "block";
+      }
+      function tick() {
+        liveVersion().then(function (v) {
+          if (v && v !== __BBS_VERSION) {
+            // Server has a newer build. Force the reload (don't just
+            // wait for the user to tap) because otherwise the user is
+            // running stale code on a critical fix.
+            window.location.reload();
+          }
+        });
+      }
+      // First check after a short delay (let SW install settle), then
+      // every CHECK_MS thereafter.
+      setTimeout(tick, 5 * 1000);
+      setInterval(tick, CHECK_MS);
+    })();
   </script>
 </body>
 </html>
