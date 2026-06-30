@@ -164,6 +164,7 @@
       let dragChip = null;
       let dragFrom = null;
       let hintsUsed = 0;
+      let mistakes = 0;
       let complete = false;
 
       container.innerHTML = "";
@@ -247,6 +248,12 @@
       hintCounter.setAttribute("aria-live", "polite");
       actions.appendChild(hintCounter);
 
+      const medalEl = document.createElement("div");
+      medalEl.className = "lab-medal";
+      medalEl.setAttribute("role", "status");
+      medalEl.setAttribute("aria-live", "polite");
+      medalEl.hidden = true;
+
       container.appendChild(status);
       if (lab.subtitle) {
         const sub = document.createElement("p");
@@ -268,6 +275,7 @@
         container.appendChild(poolEl);
       }
       container.appendChild(actions);
+      container.appendChild(medalEl);
 
       function renderPool() {
         poolEl.innerHTML = "";
@@ -552,6 +560,7 @@
           slots: slots.slice(),
           pool: pool.slice(),
           hintsUsed,
+          mistakes,
           dispenser: usesDispenser
             ? { current: pool[0] || null, remaining: pool.length }
             : null,
@@ -643,14 +652,22 @@
           });
           active.state.complete = complete;
           active.state.hintsUsed = hintsUsed;
+          active.state.mistakes = mistakes;
           if (window.BibleBowlLabMedals) {
-            window.BibleBowlLabMedals.recordAttempt(lab.id, hintsUsed);
+            const medal = window.BibleBowlLabMedals.recordAttempt(
+              lab.id,
+              hintsUsed,
+              mistakes
+            );
+            window.BibleBowlLabMedals.renderBanner(medalEl, medal);
           }
           // onComplete owns the modal-level celebration (sound + status
           // text). Drag engine owns the in-lab burst + slot cascade.
           celebrateLabVictory(slotEls);
           if (callbacks && callbacks.onComplete) callbacks.onComplete();
         } else {
+          mistakes++;
+          active.state.mistakes = mistakes;
           status.textContent = failureHint(lab.id, order, correct);
           status.className = "lab-drag-status lab-hint";
           order.forEach((v, i) => {
@@ -664,19 +681,22 @@
         for (let i = 0; i < slots.length; i++) slots[i] = null;
         pool = shuffle(correct);
         hintsUsed = 0;
+        mistakes = 0;
         complete = false;
         clearHintReveal();
         status.textContent = "Drag each card into its numbered slot.";
         status.className = "lab-drag-status";
         checkBtn.disabled = false;
         hintBtn.disabled = false;
+        medalEl.hidden = true;
+        medalEl.innerHTML = "";
         renderAll();
       });
 
       active = {
         labId: lab.id,
         correct,
-        state: { slots: [], pool: [], hintsUsed: 0, dispenser: null, complete: false },
+        state: { slots: [], pool: [], hintsUsed: 0, mistakes: 0, dispenser: null, complete: false },
         setOrder(labels) {
           if (complete) return;
           for (let i = 0; i < slots.length; i++) slots[i] = labels[i] || null;

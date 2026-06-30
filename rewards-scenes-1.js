@@ -769,7 +769,9 @@
     const uiScale = window.BibleBowlScenes.uiScale(w);
     const foundCount = springs.filter((s) => s.found).length;
     const allFound = foundCount >= 12;
-    const campY = h - Math.round(36 * uiScale);
+    // Sit the CAMP button in the clear middle band, well above the spring
+    // row and the tents — not down among them where it overlapped before.
+    const campY = Math.round(h * 0.52);
     const campW = Math.round(120 * uiScale);
     const campH = Math.round(44 * uiScale);
 
@@ -839,7 +841,10 @@
       drawElimCamp(ctx, w, h, uiScale, canvasTime, customWonderState, particles);
     }
 
-    if (allFound) {
+    // The CAMP button only appears once every spring is found, and hides the
+    // moment the camp is pitched (the tents take its place) so it never sits
+    // on top of the springs or the tents.
+    if (allFound && !customWonderState.camped) {
       const campPulse = canvasTime * 0.08;
       window.BibleBowlScenes.drawTouchButton(
         ctx, w / 2, campY, campW, campH, rules.campLabel,
@@ -852,10 +857,11 @@
         if (typeof window.BibleBowlPlaySound === "function") window.BibleBowlPlaySound("gather");
       }
       if (!mouse.down) customWonderState.campPressed = false;
-      if (customWonderState.camped) {
-        customWonderState.campTimer = (customWonderState.campTimer || 0) + 1;
-        if (customWonderState.campTimer > 45) customWonderState.complete = true;
-      }
+    }
+    // Once camped, run the short settle timer to completion (button hidden).
+    if (customWonderState.camped) {
+      customWonderState.campTimer = (customWonderState.campTimer || 0) + 1;
+      if (customWonderState.campTimer > 45) customWonderState.complete = true;
     }
 
     for (let i = particles.length - 1; i >= 0; i--) {

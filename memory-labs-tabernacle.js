@@ -76,6 +76,7 @@
       const placed = {}; // zoneId -> cardId
       let tray = shuffle(cards.map((c) => c.id));
       let hintsUsed = 0; // increments on each Hint button press
+      let mistakes = 0; // increments once per wrong Check submission
       let dragCardId = null;
       let dragFromZone = null; // null = from pool
       let highlightedZoneId = null;
@@ -946,6 +947,7 @@
           placed: { ...placed },
           tray: tray.slice(),
           hintsUsed,
+          mistakes,
           complete: false,
           selectedCardId,
           dispenser: usesDispenser
@@ -958,10 +960,17 @@
 
       // Tier/persistence logic lives in the shared BibleBowlLabMedals helper.
       const TIER_LINE = {
-        gold: "Mastered with no hints — every holy thing placed from memory alone.",
-        silver: "Placed cleanly with a hint or two — the placements are known, the recall almost there.",
-        bronze: "Placed with many hints — keep practicing until the map lives in your heart.",
+        gold: "Mastered with no hints or mistakes — every holy thing placed from memory alone.",
+        silver: "Placed with just a little help — the placements are known, the recall almost there.",
+        bronze: "Completed with practice support — keep reviewing until the map lives in your heart.",
       };
+
+      function penaltyText(hintsCount, mistakesCount) {
+        if (!hintsCount && !mistakesCount) return "Flawless";
+        return `${mistakesCount} mistake${mistakesCount === 1 ? "" : "s"}, ${hintsCount} hint${
+          hintsCount === 1 ? "" : "s"
+        }`;
+      }
 
       // Reveal one placement visually: pulse the source CHIP and the
       // target ZONE together. Then commit the placement into `placed`
@@ -1045,7 +1054,7 @@
       }
 
       // Build the medal DOM. Hidden until a successful Check.
-      function renderMedal(tier, hintsCount, previousBest) {
+      function renderMedal(tier, hintsCount, mistakesCount, previousBest, isNewBest) {
         const BB = window.BibleBowlLabMedals || {};
         const TIER_EMOJI = BB.TIER_EMOJI || { gold: "🥇", silver: "🥈", bronze: "🥉" };
         const TIER_LABEL = BB.TIER_LABEL || { gold: "GOLD", silver: "SILVER", bronze: "BRONZE" };
@@ -1055,13 +1064,26 @@
           if (t === "bronze") return 2;
           return 3;
         };
+        const score = hintsCount + mistakesCount;
+        const priorHints = previousBest ? previousBest.hints || 0 : 0;
+        const priorMistakes = previousBest ? previousBest.mistakes || 0 : 0;
+        const priorScore =
+          previousBest && typeof previousBest.score === "number"
+            ? previousBest.score
+            : priorHints + priorMistakes;
         medalEl.hidden = false;
-        const isNewBest =
-          !previousBest || tierRank(tier) < tierRank(previousBest.tier);
+        const newBest =
+          typeof isNewBest === "boolean"
+            ? isNewBest
+            : !previousBest ||
+              tierRank(tier) < tierRank(previousBest.tier) ||
+              (tierRank(tier) === tierRank(previousBest.tier) &&
+                (score < priorScore ||
+                  (score === priorScore &&
+                    (mistakesCount < priorMistakes ||
+                      (mistakesCount === priorMistakes && hintsCount < priorHints)))));
         const medalText = `${TIER_EMOJI[tier]} ${TIER_LABEL[tier]}`;
-        const tierLabel = `${medalText} (${hintsCount} hint${
-          hintsCount === 1 ? "" : "s"
-        })`;
+        const tierLabel = `${medalText} (${penaltyText(hintsCount, mistakesCount)})`;
         medalEl.innerHTML = "";
         const badge = document.createElement("div");
         badge.className = `lab-tabernacle-medal-badge lab-tabernacle-medal-${tier}`;
@@ -1070,15 +1092,18 @@
         head.textContent = medalText;
         const sub = document.createElement("div");
         sub.className = "lab-tabernacle-medal-sub";
-        sub.textContent = `${hintsCount} hint${hintsCount === 1 ? "" : "s"} — ${TIER_LINE[tier]}`;
+        sub.textContent = `${penaltyText(hintsCount, mistakesCount)} — ${TIER_LINE[tier]}`;
         badge.appendChild(head);
         badge.appendChild(sub);
-        if (isNewBest && previousBest) {
-          const newBest = document.createElement("div");
-          newBest.className = "lab-tabernacle-medal-newbest";
-          newBest.textContent = `New best! (Previous: ${TIER_EMOJI[previousBest.tier]} ${TIER_LABEL[previousBest.tier]})`;
-          badge.appendChild(newBest);
-        } else if (isNewBest && !previousBest) {
+        if (newBest && previousBest) {
+          const newBestMsg = document.createElement("div");
+          newBestMsg.className = "lab-tabernacle-medal-newbest";
+          newBestMsg.textContent = `New best! (Previous: ${TIER_EMOJI[previousBest.tier]} ${TIER_LABEL[previousBest.tier]} - ${penaltyText(
+            priorHints,
+            priorMistakes
+          )})`;
+          badge.appendChild(newBestMsg);
+        } else if (newBest && !previousBest) {
           const firstEver = document.createElement("div");
           firstEver.className = "lab-tabernacle-medal-newbest";
           firstEver.textContent = "First completion on this device.";
@@ -1086,9 +1111,10 @@
         } else if (previousBest) {
           const keepTrying = document.createElement("div");
           keepTrying.className = "lab-tabernacle-medal-oldbest";
-          keepTrying.textContent = `Best remains: ${TIER_EMOJI[previousBest.tier]} ${TIER_LABEL[previousBest.tier]} (${previousBest.hints} hint${
-            previousBest.hints === 1 ? "" : "s"
-          })`;
+          keepTrying.textContent = `Best remains: ${TIER_EMOJI[previousBest.tier]} ${TIER_LABEL[previousBest.tier]} (${penaltyText(
+            priorHints,
+            priorMistakes
+          )})`;
           badge.appendChild(keepTrying);
         }
         medalEl.appendChild(badge);
@@ -1150,6 +1176,10 @@
         const totalRequired = required.length;
         const empty = missingZones.length;
         if (empty || wrongCount) {
+          if (wrongCount) {
+            mistakes++;
+            active.state.mistakes = mistakes;
+          }
           // Compose a precise status so user knows what to fix.
           const parts = [];
           if (wrongCount) parts.push(`${wrongCount} misplacement${wrongCount === 1 ? "" : "s"}`);
@@ -1169,15 +1199,21 @@
         checkBtn.disabled = true;
         hintBtn.disabled = true; // no more hints after success
         active.state.complete = true;
-        let tier, priorBest = null;
+        let tier, priorBest = null, isNewBest = true;
         if (window.BibleBowlLabMedals) {
-          const result = window.BibleBowlLabMedals.recordAttempt(lab.id, hintsUsed);
+          const result = window.BibleBowlLabMedals.recordAttempt(
+            lab.id,
+            hintsUsed,
+            mistakes
+          );
           tier = result.tier;
           priorBest = result.prior;
+          isNewBest = result.isNewBest;
         } else {
-          tier = hintsUsed <= 0 ? "gold" : hintsUsed <= 2 ? "silver" : "bronze";
+          const score = hintsUsed + mistakes;
+          tier = score <= 0 ? "gold" : score <= 2 ? "silver" : "bronze";
         }
-        renderMedal(tier, hintsUsed, priorBest);
+        renderMedal(tier, hintsUsed, mistakes, priorBest, isNewBest);
         if (callbacks && callbacks.onComplete) callbacks.onComplete();
         if (typeof window.BibleBowlPlaySound === "function")
           window.BibleBowlPlaySound("unlock");
@@ -1193,6 +1229,7 @@
         // Fresh attempt: clear hint counter so a gold attempt is
         // genuinely possible from this point on.
         hintsUsed = 0;
+        mistakes = 0;
         // Clear per-zone feedback so previous Check marks don't bleed into the new attempt.
         Object.values(zoneEls).forEach((el) => {
           el.classList.remove(

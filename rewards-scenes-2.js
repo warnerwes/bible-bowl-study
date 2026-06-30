@@ -20,13 +20,31 @@
     const crackY = rock.y - rock.h;
     const onRock = Math.hypot(staffX - rockCenterX, staffY - rockCenterY) < Math.max(rock.w * 0.62, 68);
 
+    // Swing speed = how far the staff moved since the last frame (px/frame).
+    // The rock only yields to a hard, fast strike — a slow drag won't do it.
+    // STRIKE_SPEED is the force threshold; tune for feel.
+    const STRIKE_SPEED = 18;
+    const prevX = customWonderState.prevStaffX;
+    const prevY = customWonderState.prevStaffY;
+    const validPrev = prevX !== null && prevX !== undefined;
+    const swingSpeed = validPrev ? Math.hypot(staffX - prevX, staffY - prevY) : 0;
+    // A huge jump means the pointer teleported (just appeared / refocused),
+    // not a real swing — never let that count as a strike.
+    const teleport = swingSpeed > 220;
+    customWonderState.prevStaffX = staffX;
+    customWonderState.prevStaffY = staffY;
+    const recentSoft = customWonderState.softHitFlash != null &&
+      canvasTime - customWonderState.softHitFlash < 40;
+
     window.BibleBowlScenes.drawCaption(ctx, w, "Massah · Meribah");
     window.BibleBowlScenes.drawProgress(ctx, w,
       rock.struck
         ? "Here the rock was struck once"
-        : canvasTime < 80
-          ? "They tested the Lord"
-          : "Tap rock once with staff");
+        : recentSoft
+          ? "Strike harder! Swing the staff to break the rock"
+          : canvasTime < 80
+            ? "They tested the Lord"
+            : "Strike the rock hard with the staff");
 
     if (!rock.struck && canvasTime < 80) {
       const murmurY = groundY - 28;
@@ -51,7 +69,9 @@
       window.BibleBowlScenes.drawTapRing(ctx, rockCenterX, rockCenterY, rock.w * 0.36, rock.h * 0.4, canvasTime);
     }
 
-    if (mouse.down && !rock.struck && onRock) {
+    const hardStrike =
+      mouse.down && onRock && validPrev && !teleport && swingSpeed >= STRIKE_SPEED;
+    if (hardStrike && !rock.struck) {
       rock.struck = true;
       rock.cracked = true;
       if (typeof window.BibleBowlPlaySound === "function") {
@@ -67,6 +87,27 @@
           alpha: 1,
           type: "dust"
         });
+      }
+    } else if (
+      mouse.down && onRock && !rock.struck &&
+      (!validPrev || (!teleport && swingSpeed < STRIKE_SPEED))
+    ) {
+      // Soft contact: the rock resists. Flash a "hit harder" cue and shed a
+      // few chips at the contact point, but do NOT break it. Throttle so a
+      // resting finger doesn't spray particles every frame.
+      if (!recentSoft || canvasTime - customWonderState.softHitFlash > 6) {
+        customWonderState.softHitFlash = canvasTime;
+        for (let idx = 0; idx < 5; idx++) {
+          particles.push({
+            x: staffX + (Math.random() - 0.5) * 8,
+            y: staffY + (Math.random() - 0.5) * 8,
+            vx: (Math.random() - 0.5) * 2.5,
+            vy: -(Math.random() * 1.5 + 0.5),
+            r: Math.random() * 1.6 + 0.8,
+            alpha: 0.9,
+            type: "dust"
+          });
+        }
       }
     }
     if (!mouse.down) customWonderState.striking = false;
@@ -94,7 +135,11 @@
     }
 
     ctx.save();
-    ctx.translate(rock.x, rock.y);
+    // A recent soft hit makes the rock shudder briefly (it resisted the tap).
+    const rockShake = recentSoft && canvasTime - customWonderState.softHitFlash < 10
+      ? Math.sin(canvasTime * 1.6) * 2.2
+      : 0;
+    ctx.translate(rock.x + rockShake, rock.y);
     ctx.fillStyle = "rgba(0, 0, 0, 0.35)";
     ctx.beginPath();
     ctx.ellipse(8, 6, rock.w * 0.42, 10, 0, 0, Math.PI * 2);
@@ -936,39 +981,223 @@
       ctx.save();
       ctx.translate(calf.x, calf.y);
       ctx.scale(scale, scale);
+      // --- Golden calf idol: side profile, facing left ---
+      // A small CAST-gold bull statue on a stone pedestal, modeled with
+      // light/shade so it reads as metal, not a flat cutout. Drawn in the
+      // calf's local space (origin at the body center; +x right, +y down).
+      // Draw order is back-to-front: far legs -> tail -> body -> near legs
+      // -> dewlap -> head -> horns -> ears -> face -> highlights.
+      const gold = ctx.createLinearGradient(0, -36, 0, 28);
+      gold.addColorStop(0, "#fff1bb");
+      gold.addColorStop(0.42, "#f6c733");
+      gold.addColorStop(0.8, "#d9990f");
+      gold.addColorStop(1, "#b67b07");
+      const goldDark = "#9a6a0c";   // recessed / far side
+      const goldDeep = "#7c5406";   // deepest shadow
+
+      // Stone pedestal with a lit top lip and a base shadow.
+      ctx.shadowColor = "rgba(0, 0, 0, 0.5)";
+      ctx.shadowBlur = 9;
+      ctx.fillStyle = "#6f421b";
+      ctx.fillRect(-52, 42, 104, 14);
+      ctx.shadowBlur = 0;
+      ctx.fillStyle = "#8a5a28";
+      ctx.fillRect(-52, 42, 104, 3);
+      ctx.fillStyle = "rgba(0, 0, 0, 0.28)";
+      ctx.fillRect(-52, 52, 104, 4);
+
+      // FAR pair of legs — darker and inset, sitting behind the body.
       ctx.shadowColor = "#e67e22";
-      ctx.shadowBlur = 20;
-      ctx.fillStyle = "#f1c40f";
+      ctx.shadowBlur = 14;
+      ctx.fillStyle = goldDark;
+      [-19, 21].forEach((lx) => {
+        ctx.beginPath();
+        ctx.moveTo(lx - 4, 13);
+        ctx.lineTo(lx + 4, 13);
+        ctx.lineTo(lx + 3.5, 41);
+        ctx.lineTo(lx - 3.5, 41);
+        ctx.closePath();
+        ctx.fill();
+      });
+      ctx.fillStyle = goldDeep;
+      [-19, 21].forEach((lx) => ctx.fillRect(lx - 4, 39, 8, 3));
+
+      // Tail draping behind the rump with a tuft.
+      ctx.strokeStyle = goldDark;
+      ctx.lineWidth = 4;
+      ctx.lineCap = "round";
       ctx.beginPath();
-      ctx.ellipse(0, 5, 45, 25, 0, 0, Math.PI * 2);
+      ctx.moveTo(40, -6);
+      ctx.quadraticCurveTo(54, 8, 47, 27);
+      ctx.stroke();
+      ctx.fillStyle = goldDeep;
+      ctx.beginPath();
+      ctx.ellipse(47, 29, 3.5, 6, 0, 0, Math.PI * 2);
       ctx.fill();
 
+      // Torso: rounded back with a shoulder rise at the front and a haunch
+      // at the rear (a stocky young bull, not a plain blob).
+      ctx.fillStyle = gold;
       ctx.beginPath();
-      ctx.moveTo(-35, 5);
-      ctx.lineTo(-58, -12);
-      ctx.lineTo(-45, -25);
-      ctx.lineTo(-30, -5);
+      ctx.moveTo(-30, -4);
+      ctx.quadraticCurveTo(-34, -21, -13, -23);  // withers / shoulder hump
+      ctx.quadraticCurveTo(13, -26, 33, -15);    // top line back to haunch
+      ctx.quadraticCurveTo(47, -6, 42, 10);      // rounded rump
+      ctx.quadraticCurveTo(39, 23, 21, 23);      // rear underbelly
+      ctx.lineTo(-19, 23);                        // belly
+      ctx.quadraticCurveTo(-35, 22, -34, 3);     // chest / brisket
+      ctx.quadraticCurveTo(-33, -1, -30, -4);
       ctx.closePath();
       ctx.fill();
 
-      ctx.fillRect(-28, 15, 10, 30);
-      ctx.fillRect(18, 15, 10, 30);
-
-      ctx.strokeStyle = "#f39c12";
-      ctx.lineWidth = 5;
+      // Modeling: underbelly shadow + a haunch crease so the torso has form.
+      ctx.shadowBlur = 0;
+      ctx.fillStyle = "rgba(118, 78, 8, 0.45)";
       ctx.beginPath();
-      ctx.arc(-55, -28, 12, 0, Math.PI * 0.5, true);
+      ctx.ellipse(2, 19, 30, 6, 0, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.fillStyle = "rgba(150, 100, 12, 0.30)";
+      ctx.beginPath();
+      ctx.ellipse(30, 4, 11, 13, -0.2, 0, Math.PI * 2);
+      ctx.fill();
+
+      // NEAR pair of legs — brighter and wider, in front of the body.
+      ctx.shadowColor = "#e67e22";
+      ctx.shadowBlur = 12;
+      ctx.fillStyle = gold;
+      [-30, 31].forEach((lx) => {
+        ctx.beginPath();
+        ctx.moveTo(lx - 5, 12);
+        ctx.lineTo(lx + 5, 12);
+        ctx.lineTo(lx + 4, 42);
+        ctx.lineTo(lx - 4, 42);
+        ctx.closePath();
+        ctx.fill();
+      });
+      ctx.shadowBlur = 0;
+      ctx.fillStyle = "#9a6a12";
+      [-30, 31].forEach((lx) => ctx.fillRect(lx - 4.5, 39, 9, 4));
+      ctx.fillStyle = "rgba(255, 240, 180, 0.5)";
+      [-30, 31].forEach((lx) => {
+        ctx.beginPath();
+        ctx.ellipse(lx - 1.5, 23, 1.4, 4, 0, 0, Math.PI * 2);
+        ctx.fill();
+      });
+
+      // Dewlap (loose throat skin) hanging under the neck.
+      ctx.shadowColor = "#e67e22";
+      ctx.shadowBlur = 13;
+      ctx.fillStyle = gold;
+      ctx.beginPath();
+      ctx.moveTo(-30, -2);
+      ctx.quadraticCurveTo(-45, 5, -47, 18);
+      ctx.quadraticCurveTo(-40, 14, -33, 8);
+      ctx.closePath();
+      ctx.fill();
+
+      // Neck + head (head juts down-left).
+      ctx.beginPath();
+      ctx.moveTo(-28, -8);
+      ctx.quadraticCurveTo(-47, -16, -57, -7);   // neck up to the poll
+      ctx.quadraticCurveTo(-66, 1, -64, 12);     // forehead down to muzzle
+      ctx.quadraticCurveTo(-62, 22, -50, 21);    // muzzle front / chin
+      ctx.quadraticCurveTo(-41, 19, -39, 8);     // jaw back up
+      ctx.quadraticCurveTo(-37, -3, -28, -8);    // cheek back into neck
+      ctx.closePath();
+      ctx.fill();
+
+      // Horns: two curved cones, each shading from a gold base to an ivory
+      // tip. Far horn first (behind), then the brighter near horn.
+      ctx.shadowBlur = 6;
+      const farHorn = ctx.createLinearGradient(-55, -8, -74, -32);
+      farHorn.addColorStop(0, "#b98f24");
+      farHorn.addColorStop(1, "#fff3d2");
+      ctx.fillStyle = farHorn;
+      ctx.strokeStyle = "rgba(110, 82, 18, 0.55)";
+      ctx.lineWidth = 0.8;
+      ctx.beginPath();
+      ctx.moveTo(-53, -7);
+      ctx.quadraticCurveTo(-66, -22, -74, -32);  // outer edge to tip
+      ctx.quadraticCurveTo(-62, -22, -57, -9);   // inner edge back to head
+      ctx.closePath();
+      ctx.fill();
+      ctx.stroke();
+      const nearHorn = ctx.createLinearGradient(-49, -8, -38, -37);
+      nearHorn.addColorStop(0, "#caa12e");
+      nearHorn.addColorStop(1, "#fff7dc");
+      ctx.fillStyle = nearHorn;
+      ctx.beginPath();
+      ctx.moveTo(-51, -8);
+      ctx.quadraticCurveTo(-50, -28, -38, -37);  // outer edge to tip
+      ctx.quadraticCurveTo(-43, -24, -45, -9);   // inner edge back to head
+      ctx.closePath();
+      ctx.fill();
       ctx.stroke();
 
+      // Ears: far ear darker, near ear lit, with an inner-ear shadow.
+      ctx.shadowBlur = 11;
+      ctx.fillStyle = goldDark;
       ctx.beginPath();
-      ctx.moveTo(40, -5);
-      ctx.quadraticCurveTo(55, 10, 48, 28);
-      ctx.strokeStyle = "#f1c40f";
-      ctx.lineWidth = 4;
+      ctx.ellipse(-40, -14, 6, 10, 0.6, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.fillStyle = gold;
+      ctx.beginPath();
+      ctx.ellipse(-50, -15, 5.5, 10, -0.4, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.shadowBlur = 0;
+      ctx.fillStyle = goldDeep;
+      ctx.beginPath();
+      ctx.ellipse(-50, -14, 2.4, 6, -0.4, 0, Math.PI * 2);
+      ctx.fill();
+
+      // Forelock: a little curl of hair between the horns.
+      ctx.strokeStyle = "#e0b53a";
+      ctx.lineWidth = 2.3;
+      ctx.lineCap = "round";
+      ctx.beginPath();
+      ctx.moveTo(-55, -9);
+      ctx.quadraticCurveTo(-50, -3, -56, 0);
+      ctx.moveTo(-52, -10);
+      ctx.quadraticCurveTo(-47, -4, -53, -1);
       ctx.stroke();
 
-      ctx.fillStyle = "#d35400";
-      ctx.fillRect(-55, 42, 110, 12);
+      // Muzzle: a shaded nose plane, mouth line, and nostril.
+      ctx.fillStyle = "#dca31a";
+      ctx.beginPath();
+      ctx.ellipse(-58, 15, 7.5, 6.5, -0.25, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.strokeStyle = goldDeep;
+      ctx.lineWidth = 1.2;
+      ctx.beginPath();
+      ctx.moveTo(-63, 14);
+      ctx.quadraticCurveTo(-60, 20, -52, 20);
+      ctx.stroke();
+      ctx.fillStyle = "#3a2606";
+      ctx.beginPath();
+      ctx.arc(-61, 13, 1.5, 0, Math.PI * 2);
+      ctx.fill();
+
+      // Eye with a catchlight.
+      ctx.fillStyle = "#3a2606";
+      ctx.beginPath();
+      ctx.arc(-49, 1, 2.6, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.fillStyle = "rgba(255, 255, 255, 0.85)";
+      ctx.beginPath();
+      ctx.arc(-49.8, 0.2, 0.9, 0, Math.PI * 2);
+      ctx.fill();
+
+      // Sheen blob + a bright rim light running along the back line.
+      ctx.fillStyle = "rgba(255, 255, 255, 0.22)";
+      ctx.beginPath();
+      ctx.ellipse(6, -12, 18, 5, -0.18, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.strokeStyle = "rgba(255, 244, 200, 0.55)";
+      ctx.lineWidth = 1.6;
+      ctx.beginPath();
+      ctx.moveTo(-13, -23);
+      ctx.quadraticCurveTo(13, -26, 33, -15);
+      ctx.stroke();
       ctx.restore();
     } else {
       ctx.fillStyle = "#5e4b3c";
@@ -1186,6 +1415,9 @@
         struck: false
       };
       customWonderState.striking = false;
+      customWonderState.prevStaffX = null;
+      customWonderState.prevStaffY = null;
+      customWonderState.softHitFlash = null;
     } else if (id === "golden_calf") {
       customWonderState.calf = {
         x: w * 0.5,

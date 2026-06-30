@@ -173,8 +173,15 @@
         const emoji = window.BibleBowlLabMedals.TIER_EMOJI[bestMedal.tier];
         const label = window.BibleBowlLabMedals.TIER_LABEL[bestMedal.tier];
         const hints = bestMedal.hints || 0;
+        const mistakes = bestMedal.mistakes || 0;
+        const penaltyLabel =
+          hints === 0 && mistakes === 0
+            ? "mastered with no hints or mistakes"
+            : `${mistakes} mistake${mistakes === 1 ? "" : "s"}, ${hints} hint${
+                hints === 1 ? "" : "s"
+              }`;
         doneMark = `<span class="lab-done-mark lab-medal-badge medal-${bestMedal.tier}" aria-label="${label}">${emoji}</span>`;
-        tooltipTail = `${label} — ${hints === 0 ? "mastered with no hints" : `${hints} hint${hints === 1 ? "" : "s"}`}`;
+        tooltipTail = `${label} — ${penaltyLabel}`;
       } else if (done) {
         doneMark = '<span class="lab-done-mark">✓</span>';
       }

@@ -25,7 +25,21 @@
       let tray = shuffle(lab.tree_chips.slice());
       let selectedSlot = null;
       let hintsUsed = 0;
+      let mistakes = 0;
       let complete = false;
+
+      // module-level drag state — mirror memory-labs-drag.js pattern
+      let dragGhost = null;
+      let dragFrom = null;        /* { name, fromSlot } */
+      let dragOffsetX = 0;
+      let dragOffsetY = 0;
+      let dragPointerId = null;
+      let dragMoved = false;
+      let dragActive = false;     /* ghost shown (moved past threshold) */
+      let dragStartX = 0;
+      let dragStartY = 0;
+      let dragChipRect = null;
+      let dragOverEl = null;
 
       container.innerHTML = "";
       container.className = "lab-tree-root";
@@ -100,10 +114,17 @@
       hintCounter.setAttribute("aria-live", "polite");
       actions.appendChild(hintCounter);
 
+      const medalEl = document.createElement("div");
+      medalEl.className = "lab-medal";
+      medalEl.setAttribute("role", "status");
+      medalEl.setAttribute("aria-live", "polite");
+      medalEl.hidden = true;
+
       container.appendChild(status);
       container.appendChild(tree);
       container.appendChild(dispenserWrap);
       container.appendChild(actions);
+      container.appendChild(medalEl);
 
       function wrongBranchMessage(name, slotId) {
         if ((name === "Gershom" || name === "Eliezer") && slotId.startsWith("nadab")) {
@@ -141,6 +162,9 @@
         }
         chip.addEventListener("click", (e) => {
           if (complete) return;
+          // A drag just happened on this chip — swallow the click so it does
+          // not also fire tap-to-select.
+          if (dragMoved) { dragMoved = false; return; }
           e.stopPropagation();
           if (fromSlot) {
             if (selectedSlot && selectedSlot !== fromSlot) {
@@ -159,6 +183,97 @@
           status.textContent = "Tap the family slot where this name belongs.";
           status.className = "lab-drag-status";
         });
+
+        // ---- POINTER DRAG (mirrors the working memory-labs-drag pattern).
+        // A drag only begins once the pointer moves past a small threshold,
+        // so a clean tap still falls through to tap-to-place. Listeners live
+        // on window so the drag survives the chip being re-rendered, and the
+        // drop is hit-tested with elementFromPoint -> closest([data-slot-id]).
+        function startDrag(e) {
+          if (complete) return;
+          if (e.button !== undefined && e.button !== 0) return;
+          dragFrom = { name, fromSlot };
+          dragPointerId = e.pointerId;
+          dragMoved = false;
+          dragActive = false;
+          dragStartX = e.clientX;
+          dragStartY = e.clientY;
+          dragChipRect = chip.getBoundingClientRect();
+          dragOffsetX = e.clientX - dragChipRect.left;
+          dragOffsetY = e.clientY - dragChipRect.top;
+          window.addEventListener("pointermove", moveDrag);
+          window.addEventListener("pointerup", endDrag);
+          window.addEventListener("pointercancel", cancelDrag);
+        }
+
+        function beginGhost() {
+          dragActive = true;
+          chip.classList.add("dragging");
+          dragGhost = chip.cloneNode(true);
+          dragGhost.className = "lab-chip lab-tree-drag-ghost";
+          dragGhost.style.position = "fixed";
+          dragGhost.style.margin = "0";
+          dragGhost.style.width = dragChipRect.width + "px";
+          dragGhost.style.pointerEvents = "none";
+          dragGhost.style.zIndex = "9999";
+          document.body.appendChild(dragGhost);
+        }
+
+        function moveDrag(e) {
+          if (e.pointerId !== dragPointerId) return;
+          if (!dragActive) {
+            if (Math.hypot(e.clientX - dragStartX, e.clientY - dragStartY) < 6) return;
+            beginGhost();
+          }
+          dragMoved = true;
+          dragGhost.style.left = (e.clientX - dragOffsetX) + "px";
+          dragGhost.style.top = (e.clientY - dragOffsetY) + "px";
+          if (dragOverEl) dragOverEl.classList.remove("drag-over");
+          const t = document.elementFromPoint(e.clientX, e.clientY);
+          dragOverEl = (t && t.closest("[data-slot-id]")) || null;
+          if (dragOverEl) dragOverEl.classList.add("drag-over");
+        }
+
+        function endDrag(e) {
+          if (e.pointerId !== dragPointerId) return;
+          const info = dragFrom;
+          const wasActive = dragActive;
+          const dropTarget = wasActive
+            ? document.elementFromPoint(e.clientX, e.clientY)
+            : null;
+          const slotEl = dropTarget && dropTarget.closest("[data-slot-id]");
+          teardownDrag();
+          if (wasActive && slotEl && info) {
+            assign(slotEl.dataset.slotId, info.name, info.fromSlot);
+            render();
+          } else if (wasActive) {
+            render(); // dropped on nothing — restore
+          }
+        }
+
+        function cancelDrag(e) {
+          if (e && e.pointerId !== dragPointerId) return;
+          const wasActive = dragActive;
+          teardownDrag();
+          if (wasActive) render();
+        }
+
+        function teardownDrag() {
+          window.removeEventListener("pointermove", moveDrag);
+          window.removeEventListener("pointerup", endDrag);
+          window.removeEventListener("pointercancel", cancelDrag);
+          if (dragGhost && dragGhost.parentNode) {
+            dragGhost.parentNode.removeChild(dragGhost);
+          }
+          if (dragOverEl) dragOverEl.classList.remove("drag-over");
+          dragGhost = null;
+          dragOverEl = null;
+          dragActive = false;
+          dragPointerId = null;
+          chip.classList.remove("dragging");
+        }
+
+        chip.addEventListener("pointerdown", startDrag);
         return chip;
       }
 
@@ -220,6 +335,7 @@
           filled: { ...filled },
           tray: tray.slice(),
           hintsUsed,
+          mistakes,
           complete,
         };
       }
@@ -311,12 +427,20 @@
           });
           active.state.complete = complete;
           active.state.hintsUsed = hintsUsed;
+          active.state.mistakes = mistakes;
           if (window.BibleBowlLabMedals) {
-            window.BibleBowlLabMedals.recordAttempt(lab.id, hintsUsed);
+            const medal = window.BibleBowlLabMedals.recordAttempt(
+              lab.id,
+              hintsUsed,
+              mistakes
+            );
+            window.BibleBowlLabMedals.renderBanner(medalEl, medal);
           }
           if (callbacks && callbacks.onComplete) callbacks.onComplete();
           if (typeof window.BibleBowlPlaySound === "function") window.BibleBowlPlaySound("chime");
         } else {
+          mistakes++;
+          active.state.mistakes = mistakes;
           status.textContent = msg;
           status.className = "lab-drag-status lab-hint";
           if (typeof window.BibleBowlPlaySound === "function") window.BibleBowlPlaySound("thunder");
@@ -340,18 +464,21 @@
         tray = shuffle(lab.tree_chips.slice());
         selectedSlot = null;
         hintsUsed = 0;
+        mistakes = 0;
         complete = false;
         clearHintReveal();
         status.textContent = "Place each name in the correct slot on the family tree.";
         status.className = "lab-drag-status";
         checkBtn.disabled = false;
         hintBtn.disabled = false;
+        medalEl.hidden = true;
+        medalEl.innerHTML = "";
         render();
       });
 
       active = {
         labId: lab.id,
-        state: { filled: {}, tray: [], hintsUsed: 0, complete: false },
+        state: { filled: {}, tray: [], hintsUsed: 0, mistakes: 0, complete: false },
         fillCorrect() {
           if (complete) return;
           slots.forEach((s) => {

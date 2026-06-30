@@ -376,6 +376,25 @@
   visibility: hidden;
 }
 
+/* Tree-lab drag ghost — positioned via inline left/top from JS (it follows
+   the pointer during a name drag). Lives on document.body to escape the
+   card's overflow:auto. */
+.lab-chip.lab-tree-drag-ghost {
+  z-index: 9999;
+  pointer-events: none;
+  opacity: 0.95;
+  cursor: grabbing;
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.55), 0 0 0 2px rgba(212, 160, 78, 0.5);
+  background: rgba(212, 160, 78, 0.28);
+}
+
+/* Slot highlighted while a dragged name hovers over it. */
+.lab-tree-slot.drag-over {
+  outline: 2px solid var(--accent, #d4a04e);
+  outline-offset: 2px;
+  background: rgba(212, 160, 78, 0.15);
+}
+
 /* Floating body-level clone. Lives on document.body so it escapes the
    .labs-card overflow:auto scroll container. Uses CSS custom properties
    for the position so each pointermove is one style invalidation on the
@@ -482,6 +501,93 @@
 .lab-reset-btn {
   flex: 1 1 auto;
   min-width: 120px;
+}
+
+.lab-medal {
+  display: flex;
+  justify-content: center;
+  margin-top: 0.65rem;
+}
+
+.lab-medal-badge-card {
+  width: 100%;
+  max-width: 360px;
+  padding: 0.8rem 0.95rem;
+  border-radius: 14px;
+  text-align: center;
+  border: 2px solid transparent;
+  background: rgba(20, 22, 32, 0.85);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.4);
+}
+
+.lab-medal-headline {
+  margin-bottom: 0.3rem;
+  font-size: 1.25rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.lab-medal-sub {
+  font-size: 0.86rem;
+  line-height: 1.35;
+  color: rgba(232, 222, 200, 0.88);
+}
+
+.lab-medal-note {
+  margin-top: 0.45rem;
+  font-size: 0.77rem;
+  font-weight: 600;
+}
+
+.lab-medal-note--new {
+  color: rgba(255, 215, 90, 0.95);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.lab-medal-note--old {
+  color: rgba(232, 222, 200, 0.65);
+}
+
+.lab-medal--gold {
+  border-color: rgba(255, 215, 0, 0.95);
+  background: linear-gradient(135deg, rgba(60, 44, 0, 0.9) 0%, rgba(30, 22, 0, 0.95) 100%);
+  box-shadow:
+    0 0 0 1px rgba(255, 215, 0, 0.4),
+    0 8px 24px rgba(255, 215, 0, 0.25),
+    0 4px 12px rgba(0, 0, 0, 0.5);
+}
+
+.lab-medal--gold .lab-medal-headline {
+  color: #ffd24a;
+  text-shadow: 0 0 12px rgba(255, 215, 0, 0.6);
+}
+
+.lab-medal--silver {
+  border-color: rgba(220, 220, 235, 0.95);
+  background: linear-gradient(135deg, rgba(48, 50, 60, 0.92) 0%, rgba(24, 26, 32, 0.95) 100%);
+  box-shadow:
+    0 0 0 1px rgba(220, 220, 235, 0.35),
+    0 6px 18px rgba(0, 0, 0, 0.45);
+}
+
+.lab-medal--silver .lab-medal-headline {
+  color: #ecedf3;
+  text-shadow: 0 0 8px rgba(220, 220, 235, 0.45);
+}
+
+.lab-medal--bronze {
+  border-color: rgba(205, 127, 50, 0.92);
+  background: linear-gradient(135deg, rgba(46, 28, 14, 0.92) 0%, rgba(24, 14, 6, 0.95) 100%);
+  box-shadow:
+    0 0 0 1px rgba(205, 127, 50, 0.3),
+    0 6px 18px rgba(0, 0, 0, 0.45);
+}
+
+.lab-medal--bronze .lab-medal-headline {
+  color: #d99553;
+  text-shadow: 0 0 8px rgba(205, 127, 50, 0.45);
 }
 
 /* Priest tree */
