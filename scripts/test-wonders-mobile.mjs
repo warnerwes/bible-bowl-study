@@ -178,9 +178,13 @@ function wonderTests() {
       return { note: `phase=${phase}, ${carried ? `${carried} carried` : `fill=${fill.toFixed(2)}`}` };
     },
     rephidim: async (page, box) => {
-      const x = box.x + box.width * 0.5;
-      const y = box.y + box.height * 0.62;
-      await hold(page, x, y, 250);
+      const rock = await page.evaluate(() => window.BibleBowlQA.state().custom.rock);
+      const swingA = await canvasCoords(page, rock.x - rock.w * 0.35, rock.y - rock.h * 0.7);
+      const swingB = await canvasCoords(page, rock.x + rock.w * 0.35, rock.y - rock.h * 0.35);
+      for (let i = 0; i < 3; i++) {
+        await drag(page, swingA.x, swingA.y, swingB.x, swingB.y, 4);
+        await page.waitForTimeout(70);
+      }
       const s = await page.evaluate(() => window.BibleBowlQA.state());
       if (!s.custom.rock?.struck) return { issues: ["rock strike failed"] };
       return { note: "rock struck" };

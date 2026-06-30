@@ -7,9 +7,10 @@
 
   const STORAGE_KEY = "bbs:stats:v1";
   const UNLOCKED_KEY = "bbs:unlocked-rewards:v1";
+  const MASTERY_STREAK = 3;
 
   // The 8 milestones representing the journey of Exodus
-  // First unlock is easy (10 masteries); later thresholds use % with widening gaps.
+  // Starts with concrete early wins, then widens by bank percentage.
   // OSB/LXX-aligned copy — verify exact OSB wording before final publication pass.
   const WONDERS = [
     {
@@ -17,7 +18,7 @@
       emoji: "🌊",
       label: "Red Sea",
       chapter: "Ch 14",
-      threshold: { type: "masteries", value: 10 },
+      threshold: { type: "masteries", value: 1 },
       ref: "Exodus 14:16, 21-22",
       quote: "Lift up your rod, and stretch forth your hand over the sea… and the Lord drove back the sea with a strong south wind all that night, and made the sea dry land.",
       desc: "Moses obeys by lifting the rod and stretching out his hand, but the Lord Himself opens the way through the sea. Saint Paul teaches that Israel was baptized into Moses in the cloud and in the sea, so the crossing becomes a pattern of deliverance through water.",
@@ -29,7 +30,7 @@
       emoji: "💧",
       label: "Marah",
       chapter: "Ch 15",
-      threshold: { type: "pct", value: 5 },
+      threshold: { type: "masteries", value: 6 },
       ref: "Exodus 15:23, 25-26",
       quote: "They could not drink the water, for it was bitter… and the Lord showed him a tree, and he cast it into the water, and the water was sweetened… 'I am the Lord your God who heals you.'",
       desc: "At Marah the bitter waters are healed by obedience to what God shows Moses. The Fathers read the wood cast into the water as a figure of the Cross: what is bitter becomes drinkable, and what is deadly becomes medicine.",
@@ -41,7 +42,7 @@
       emoji: "🌴",
       label: "Elim",
       chapter: "Ch 15",
-      threshold: { type: "pct", value: 15 },
+      threshold: { type: "pct", value: 5 },
       ref: "Exodus 15:27",
       quote: "Then they came to Elim, where there were twelve springs of water and seventy palm trees, and they encamped there by the waters.",
       desc: "Elim is the oasis after bitterness: the Lord not only heals, He gives rest. The twelve springs and seventy palms teach ordered abundance for the whole people.",
@@ -53,7 +54,7 @@
       emoji: "🍞",
       label: "Manna",
       chapter: "Ch 16",
-      threshold: { type: "pct", value: 30 },
+      threshold: { type: "pct", value: 12 },
       ref: "Exodus 16:4-5, 13-21, 31-33",
       quote: "I will rain bread from heaven for you… on the sixth day it shall be double… in the evening quails came up and covered the camp; in the morning, when the dew ceased, the manna appeared.",
       desc: "The wilderness feeding has a holy rhythm: evening quail, morning dew, daily bread, no hoarding, double on the sixth day, rest on the seventh. Christ reveals the fullness: He is the true Bread from heaven and the Bread of Life.",
@@ -65,7 +66,7 @@
       emoji: "🪨",
       label: "Rephidim",
       chapter: "Ch 17",
-      threshold: { type: "pct", value: 45 },
+      threshold: { type: "pct", value: 22 },
       ref: "Exodus 17:5-7",
       quote: "Take the rod… behold, I stand before you there on the rock in Horeb; and you shall strike the rock, and water will come out of it… and he called the place Massah and Meribah.",
       desc: "Rephidim is not only a miracle of water; it is also a story of quarreling and testing the Lord. The rock is struck once, and Saint Paul says plainly, 'that Rock was Christ.'",
@@ -77,7 +78,7 @@
       emoji: "⛰️",
       label: "Sinai",
       chapter: "Ch 19",
-      threshold: { type: "pct", value: 60 },
+      threshold: { type: "pct", value: 38 },
       ref: "Exodus 19:10-13, 16-18",
       quote: "Set bounds around the mountain… do not go up into the mountain, nor touch any part of it… there were voices, lightnings, a dark cloud, and a loud trumpet… because God descended upon it in fire.",
       desc: "Sinai teaches holy distance before it teaches ascent. The people are sanctified, the mountain is bounded, the trumpet grows louder, and Moses ascends only when God calls.",
@@ -89,7 +90,7 @@
       emoji: "🐂",
       label: "Golden Calf",
       chapter: "Ch 32",
-      threshold: { type: "pct", value: 80 },
+      threshold: { type: "pct", value: 60 },
       ref: "Exodus 32:19-20, 28",
       quote: "Moses saw the calf and the dancing… he broke the tablets beneath the mountain. Then he took the calf they made, burned it with fire, ground it very small, scattered it on the water, and made the children of Israel drink it.",
       desc: "While Moses was with God on the mountain, Israel fell into idolatry below, and Aaron was implicated in the making of the calf. Moses destroys the idol — burn, grind, scatter — and Israel faces the bitterness of false worship.",
@@ -133,242 +134,25 @@
   let pendingUnlockItem = null;
   let pendingUnlockWonder = null;
 
-  // Web Audio Synthesizer State
-  let audioCtx = null;
-  let audioBus = null;
   let isMuted = false;
-  let soundLast = {};
-  let chimeIdx = 0;
-  let waterVariant = 0;
-
-  const SOUND_GAPS = {
-    chime: 220,
-    water: 320,
-    smite: 900,
-    thunder: 650,
-    shatter: 900,
-    glory: 500,
-    unlock: 0,
-    parting: 400,
-    parted: 0,
-    sweeten: 0,
-    drink: 350,
-    gather: 140,
-  };
-
-  const PENTATONIC = [523.25, 587.33, 659.25, 783.99, 880.00, 987.77, 1174.66];
-
-  function initAudio() {
-    if (!audioCtx) {
-      audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-      const comp = audioCtx.createDynamicsCompressor();
-      comp.threshold.value = -20;
-      comp.knee.value = 10;
-      comp.ratio.value = 3;
-      comp.attack.value = 0.004;
-      comp.release.value = 0.14;
-      audioBus = audioCtx.createGain();
-      audioBus.gain.value = 0.38;
-      comp.connect(audioBus);
-      audioBus.connect(audioCtx.destination);
-      audioCtx._bbsComp = comp;
-    }
+  function rewardAudio() {
+    return window.BibleBowlRewardsAudio || null;
   }
 
-  function bus() {
-    return audioCtx._bbsComp;
+  function syncAudioMuted() {
+    const audio = rewardAudio();
+    if (audio) audio.setMuted(isMuted);
   }
 
-  function canPlay(type) {
-    const gap = SOUND_GAPS[type] ?? 120;
-    if (!gap) return true;
-    const now = performance.now();
-    if (soundLast[type] && now - soundLast[type] < gap) return false;
-    soundLast[type] = now;
-    return true;
-  }
-
-  function tone(freq, opts = {}) {
-    const {
-      type = "sine",
-      attack = 0.015,
-      decay = 0.45,
-      volume = 0.07,
-      detune = 0,
-      delay = 0,
-      sweepTo = null,
-    } = opts;
-    const t0 = audioCtx.currentTime + delay;
-    const osc = audioCtx.createOscillator();
-    const gain = audioCtx.createGain();
-    osc.type = type;
-    osc.frequency.setValueAtTime(freq, t0);
-    if (sweepTo) osc.frequency.exponentialRampToValueAtTime(Math.max(20, sweepTo), t0 + decay * 0.7);
-    if (detune) osc.detune.value = detune;
-    gain.gain.setValueAtTime(0.0001, t0);
-    gain.gain.linearRampToValueAtTime(volume, t0 + attack);
-    gain.gain.exponentialRampToValueAtTime(0.0001, t0 + attack + decay);
-    osc.connect(gain);
-    gain.connect(bus());
-    osc.start(t0);
-    osc.stop(t0 + attack + decay + 0.08);
-  }
-
-  function noiseBurst(opts = {}) {
-    const {
-      duration = 0.35,
-      volume = 0.05,
-      filterType = "bandpass",
-      freq = 700,
-      q = 1.1,
-      freqEnd = null,
-      delay = 0,
-    } = opts;
-    const t0 = audioCtx.currentTime + delay;
-    const bufferSize = Math.max(1, Math.floor(audioCtx.sampleRate * duration));
-    const buffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
-    const data = buffer.getChannelData(0);
-    for (let i = 0; i < bufferSize; i++) {
-      const env = 1 - i / bufferSize;
-      data[i] = (Math.random() * 2 - 1) * env;
-    }
-    const src = audioCtx.createBufferSource();
-    src.buffer = buffer;
-    const filter = audioCtx.createBiquadFilter();
-    const gain = audioCtx.createGain();
-    filter.type = filterType;
-    filter.frequency.setValueAtTime(freq, t0);
-    filter.Q.value = q;
-    if (freqEnd) filter.frequency.exponentialRampToValueAtTime(Math.max(40, freqEnd), t0 + duration);
-    gain.gain.setValueAtTime(volume, t0);
-    gain.gain.exponentialRampToValueAtTime(0.0001, t0 + duration);
-    src.connect(filter);
-    filter.connect(gain);
-    gain.connect(bus());
-    src.start(t0);
-    src.stop(t0 + duration + 0.02);
-  }
-
-  function playUnlock() {
-    const base = 261.63;
-    const chord = [0, 4, 7, 12, 16, 19];
-    chord.forEach((semi, i) => {
-      const f = base * Math.pow(2, semi / 12);
-      tone(f, { volume: 0.055, decay: 1.1, attack: 0.03, delay: i * 0.1, type: "triangle" });
-      tone(f * 2, { volume: 0.018, decay: 0.7, attack: 0.04, delay: i * 0.1 + 0.02, type: "sine" });
-    });
-    noiseBurst({ duration: 0.5, volume: 0.012, filterType: "highpass", freq: 1200, freqEnd: 800, delay: 0.35 });
-  }
-
-  function playWater() {
-    waterVariant = (waterVariant + 1) % 3;
-    if (waterVariant === 0) {
-      noiseBurst({ duration: 0.55, volume: 0.018, filterType: "bandpass", freq: 420, freqEnd: 160, q: 0.7 });
-      tone(196, { volume: 0.022, decay: 0.55, attack: 0.02, type: "sine", sweepTo: 130 });
-    } else if (waterVariant === 1) {
-      tone(392, { volume: 0.016, decay: 0.4, attack: 0.015, type: "sine" });
-      tone(523, { volume: 0.012, decay: 0.35, delay: 0.06, type: "triangle" });
-    } else {
-      noiseBurst({ duration: 0.35, volume: 0.014, filterType: "highpass", freq: 700, freqEnd: 350, q: 0.6 });
-      tone(330, { volume: 0.014, decay: 0.45, attack: 0.02, type: "sine" });
-    }
-  }
-
-  function playParting() {
-    noiseBurst({ duration: 0.5, volume: 0.016, filterType: "bandpass", freq: 280, freqEnd: 120, q: 0.5 });
-    tone(220, { volume: 0.018, decay: 0.6, attack: 0.04, type: "sine", sweepTo: 165 });
-    tone(330, { volume: 0.01, decay: 0.45, delay: 0.08, type: "triangle" });
-  }
-
-  function playParted() {
-    [220, 277.18, 329.63].forEach((f, i) => {
-      tone(f, { volume: 0.02, decay: 1.2, attack: 0.06, delay: i * 0.12, type: "sine" });
-    });
-    noiseBurst({ duration: 0.4, volume: 0.01, filterType: "highpass", freq: 500, freqEnd: 900, delay: 0.2 });
-  }
-
-  function playSweeten() {
-    tone(392, { volume: 0.018, decay: 0.9, attack: 0.05, type: "sine" });
-    tone(523.25, { volume: 0.012, decay: 0.75, attack: 0.06, delay: 0.1, type: "triangle" });
-    noiseBurst({ duration: 0.35, volume: 0.012, filterType: "bandpass", freq: 600, freqEnd: 300, q: 0.5 });
-  }
-
-  function playDrink() {
-    tone(440, { volume: 0.014, decay: 0.35, attack: 0.02, type: "sine" });
-    tone(554.37, { volume: 0.01, decay: 0.28, delay: 0.05, type: "triangle" });
-  }
-
-  function playGather() {
-    const freq = PENTATONIC[chimeIdx % PENTATONIC.length];
-    chimeIdx += 1;
-    tone(freq, { volume: 0.016, decay: 0.55, attack: 0.02, type: "sine" });
-    tone(freq * 1.5, { volume: 0.008, decay: 0.35, attack: 0.03, type: "triangle", delay: 0.04 });
-  }
-
-  function playChime() {
-    const freq = PENTATONIC[chimeIdx % PENTATONIC.length];
-    chimeIdx += 1 + Math.floor(Math.random() * 2);
-    tone(freq, { volume: 0.018, decay: 0.85, attack: 0.02, type: "sine" });
-    tone(freq * 2.01, { volume: 0.008, decay: 0.55, attack: 0.025, type: "triangle", detune: 3 });
-  }
-
-  function playSmite() {
-    tone(110, { volume: 0.045, decay: 0.4, attack: 0.008, type: "sine", sweepTo: 82 });
-    noiseBurst({ duration: 0.2, volume: 0.015, filterType: "lowpass", freq: 320, freqEnd: 140, q: 0.6 });
-    tone(392, { volume: 0.012, decay: 0.7, attack: 0.04, delay: 0.12, type: "sine" });
-    tone(523, { volume: 0.01, decay: 0.55, attack: 0.05, delay: 0.18, type: "triangle" });
-  }
-
-  function playThunder() {
-    noiseBurst({ duration: 1.0, volume: 0.035, filterType: "lowpass", freq: 140, freqEnd: 50, q: 0.4 });
-    tone(55, { volume: 0.028, decay: 1.0, attack: 0.06, type: "sine", sweepTo: 42 });
-    tone(98, { volume: 0.012, decay: 0.5, attack: 0.08, delay: 0.2, type: "triangle" });
-  }
-
-  function playShatter() {
-    [659.25, 783.99, 987.77].forEach((f, i) => {
-      tone(f, { volume: 0.012, decay: 0.2 + i * 0.04, attack: 0.008, type: "sine", delay: i * 0.04 });
-    });
-    noiseBurst({ duration: 0.22, volume: 0.018, filterType: "highpass", freq: 900, freqEnd: 450, delay: 0.06 });
-  }
-
-  function playGlory() {
-    [174.61, 220, 261.63].forEach((f, i) => {
-      tone(f, { volume: 0.018, decay: 1.6, attack: 0.1, delay: i * 0.09, type: "sine" });
-      tone(f * 1.5, { volume: 0.009, decay: 1.2, attack: 0.12, delay: i * 0.09 + 0.05, type: "triangle" });
-    });
-    noiseBurst({ duration: 0.6, volume: 0.008, filterType: "highpass", freq: 700, freqEnd: 1200, delay: 0.25 });
+  function resumeAudio() {
+    const audio = rewardAudio();
+    if (audio) audio.resume();
   }
 
   function playSound(type) {
-    initAudio();
-    if (isMuted || !audioCtx) return;
-    if (!canPlay(type)) return;
-
-    if (audioCtx.state === "suspended") {
-      audioCtx.resume();
-    }
-
-    try {
-      if (type === "unlock") playUnlock();
-      else if (type === "water") playWater();
-      else if (type === "chime") playChime();
-      else if (type === "smite") playSmite();
-      else if (type === "thunder") playThunder();
-      else if (type === "shatter") playShatter();
-      else if (type === "glory") playGlory();
-      else if (type === "parting") playParting();
-      else if (type === "parted") playParted();
-      else if (type === "sweeten") playSweeten();
-      else if (type === "drink") playDrink();
-      else if (type === "gather") playGather();
-    } catch (e) {
-      console.warn("Audio synthesis error:", e);
-    }
+    const audio = rewardAudio();
+    if (audio) audio.playSound(type);
   }
-
-  // Export sound triggers globally for scene files
-  window.BibleBowlPlaySound = playSound;
 
   // Load unlocked rewards from localStorage
   function loadUnlocked() {
@@ -378,6 +162,7 @@
       unlockedList = [];
     }
     isMuted = localStorage.getItem("bbs:muted") === "true";
+    syncAudioMuted();
   }
 
   // Save unlocked rewards
@@ -387,20 +172,29 @@
     } catch (e) {}
   }
 
-  // Calculate mastery stats from localStorage
-  function getMasteredCount() {
+  function getSavedStats() {
     try {
-      const stats = JSON.parse(localStorage.getItem(STORAGE_KEY)) || {};
-      return Object.values(stats).filter((s) => s && s.streak >= 3).length;
+      return JSON.parse(localStorage.getItem(STORAGE_KEY)) || {};
     } catch (e) {
-      return 0;
+      return {};
     }
   }
 
-  function getMasteryPct() {
-    const mastered = getMasteredCount();
-    const total = totalQuestions || 1;
-    return total > 0 ? (mastered / total) * 100 : 0;
+  function getMasteredCount(stats = getSavedStats()) {
+    return Object.values(stats).filter((s) => s && s.streak >= MASTERY_STREAK).length;
+  }
+
+  function getClosestStreak(stats = getSavedStats()) {
+    return Object.values(stats).reduce((best, s) => {
+      const streak = Math.max(0, Math.min(MASTERY_STREAK, s?.streak || 0));
+      return Math.max(best, streak);
+    }, 0);
+  }
+
+  function resolveWonderTarget(w, total = totalQuestions) {
+    if (w.threshold.type === "masteries") return Math.max(1, w.threshold.value);
+    if (!total || total < 1) return null;
+    return Math.max(1, Math.min(total, Math.ceil((w.threshold.value / 100) * total)));
   }
 
   function wonderThresholdShort(w) {
@@ -410,52 +204,67 @@
 
   function wonderThresholdText(w) {
     if (w.threshold.type === "masteries") {
-      return `${w.threshold.value} mastered questions`;
+      return w.threshold.value === 1 ? "1 mastered question" : `${w.threshold.value} mastered questions`;
     }
+    const target = resolveWonderTarget(w);
+    if (target) return `${target} mastered questions (${w.threshold.value}% of the bank)`;
     return `${w.threshold.value}% of the question bank mastered`;
   }
 
-  function isWonderUnlocked(w, masteredCount, masteryPct) {
-    if (w.threshold.type === "masteries") return masteredCount >= w.threshold.value;
-    return masteryPct >= w.threshold.value;
+  function isWonderUnlocked(w, masteredCount) {
+    const target = resolveWonderTarget(w);
+    return target !== null && masteredCount >= target;
   }
 
   function getNextLockedWonder() {
     const masteredCount = getMasteredCount();
-    const masteryPct = getMasteryPct();
     for (let i = 0; i < WONDERS.length; i++) {
-      if (!isWonderUnlocked(WONDERS[i], masteredCount, masteryPct)) return WONDERS[i];
+      if (!isWonderUnlocked(WONDERS[i], masteredCount)) return WONDERS[i];
     }
     return null;
   }
 
   function getWonderProgress(w) {
-    const masteredCount = getMasteredCount();
-    const masteryPct = getMasteryPct();
+    const stats = getSavedStats();
+    const masteredCount = getMasteredCount(stats);
     const idx = WONDERS.indexOf(w);
+    const target = resolveWonderTarget(w);
+
+    if (w.id === "red_sea" && masteredCount < 1) {
+      const closest = getClosestStreak(stats);
+      return {
+        fraction: Math.min(1, closest / MASTERY_STREAK),
+        countLabel: `${closest} / ${MASTERY_STREAK} toward first mastery`,
+        remainingLabel: `Closest question: ${closest} of ${MASTERY_STREAK}`,
+      };
+    }
+
+    if (target === null) {
+      return {
+        fraction: 0,
+        countLabel: wonderThresholdShort(w),
+        remainingLabel: "Loading question bank",
+      };
+    }
 
     if (w.threshold.type === "masteries") {
-      const target = w.threshold.value;
       const remaining = Math.max(0, target - masteredCount);
       return {
         fraction: Math.min(1, masteredCount / target),
         countLabel: `${masteredCount} / ${target} mastered`,
-        remainingLabel: remaining === 1 ? "1 more to master" : `${remaining} more to master`,
+        remainingLabel: remaining <= 0 ? "Ready to unlock" : remaining === 1 ? "1 more to master" : `${remaining} more to master`,
       };
     }
 
     let floor = 0;
-    if (idx > 0 && WONDERS[idx - 1].threshold.type === "pct") {
-      floor = WONDERS[idx - 1].threshold.value;
-    }
-    const target = w.threshold.value;
+    if (idx > 0) floor = resolveWonderTarget(WONDERS[idx - 1]) || 0;
     const span = Math.max(1, target - floor);
-    const current = Math.max(0, masteryPct - floor);
-    const remainingPct = Math.max(0, Math.ceil(target - masteryPct));
+    const current = Math.max(0, masteredCount - floor);
+    const remaining = Math.max(0, target - masteredCount);
     return {
       fraction: Math.min(1, current / span),
-      countLabel: `${Math.round(masteryPct)}% / ${target}%`,
-      remainingLabel: remainingPct <= 0 ? "Ready to unlock" : `${remainingPct}% to go`,
+      countLabel: `${masteredCount} / ${target} mastered`,
+      remainingLabel: remaining <= 0 ? "Ready to unlock" : remaining === 1 ? "1 more to master" : `${remaining} more to master`,
     };
   }
 
@@ -665,13 +474,12 @@
     if (!grid) return;
 
     const masteredCount = getMasteredCount();
-    const masteryPct = getMasteryPct();
     const newlyUnlocked = [];
 
     grid.innerHTML = "";
 
     WONDERS.forEach(w => {
-      const isUnlocked = isWonderUnlocked(w, masteredCount, masteryPct);
+      const isUnlocked = isWonderUnlocked(w, masteredCount);
       const isAlreadySaved = unlockedList.includes(w.id);
 
       if (isUnlocked && !isAlreadySaved) {
@@ -775,12 +583,10 @@
     btnMute.addEventListener("click", () => {
       isMuted = !isMuted;
       localStorage.setItem("bbs:muted", String(isMuted));
+      syncAudioMuted();
       btnMute.textContent = isMuted ? "🔇 Muted" : "🔊 Sound On";
       btnMute.className = `rewards-control-btn ${isMuted ? "active" : ""}`;
-      initAudio();
-      if (!isMuted && audioCtx.state === "suspended") {
-        audioCtx.resume();
-      }
+      if (!isMuted) resumeAudio();
     });
 
     if (wonder.id === "sinai") {
@@ -941,6 +747,21 @@
       },
       close() {
         closeModal();
+      },
+      rewardThresholds(total = totalQuestions) {
+        return {
+          total,
+          thresholds: WONDERS.map((w) => ({
+            id: w.id,
+            type: w.threshold.type,
+            value: w.threshold.value,
+            target: resolveWonderTarget(w, total),
+          })),
+        };
+      },
+      nextProgress() {
+        const next = getNextLockedWonder();
+        return next ? { id: next.id, ...getWonderProgress(next) } : { id: null, fraction: 1 };
       },
       state() {
         return {

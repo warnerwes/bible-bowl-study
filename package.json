@@ -13,8 +13,9 @@
     "test:tabernacle": "node scripts/test-tabernacle-placement.mjs",
     "test:reader": "node scripts/test-bible-reader-routes.mjs",
     "test:refiner": "node scripts/test-refiner-trial.mjs",
+    "test:reward-thresholds": "node scripts/test-reward-thresholds.mjs",
     "test:cache": "node scripts/test-cache-busters.mjs",
     "test:update": "node scripts/test-update-mechanism.mjs && node scripts/test-update-live.mjs",
-    "test:rewards": "node scripts/test-wonders-mobile.mjs && node scripts/test-memory-labs.mjs && node scripts/test-tabernacle-placement.mjs"
+    "test:rewards": "node scripts/test-reward-thresholds.mjs && node scripts/test-wonders-mobile.mjs && node scripts/test-memory-labs.mjs && node scripts/test-tabernacle-placement.mjs"
   }
 }

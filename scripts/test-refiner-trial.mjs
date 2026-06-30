@@ -1,9 +1,9 @@
 /**
  * Refiner Trial regression test.
  *
- * Verifies the post-mastery mode unlocks only after every question is
- * mastered, prioritizes weak questions, records timed-trial stats, and
- * writes a best result.
+ * Verifies the post-Glory mode unlocks only after 100% mastery, weights
+ * weak questions without making every deck identical, records timed-trial
+ * stats, writes a best result, and unlocks faster levels after gold.
  *
  * Run: node scripts/test-refiner-trial.mjs
  */
@@ -61,43 +61,17 @@ async function openSeededPage(browser, seed) {
     if (data.trialStats) {
       localStorage.setItem("bbs:refiner-stats:v1", JSON.stringify(data.trialStats));
     }
+    if (data.level != null) {
+      localStorage.setItem("bbs:refiner-level:v1", String(data.level));
+    }
   }, seed);
   await page.goto(`http://127.0.0.1:${PORT}/index.html?qa=1`, { waitUntil: "networkidle" });
   await page.waitForFunction(() => window.BibleBowlRefinerQA, null, { timeout: 8000 });
   return page;
 }
 
-const questions = JSON.parse(readFileSync(join(root, "data/questions.json"), "utf8"));
-const weakQuestion = questions[0];
-const secondWeakQuestion = questions[1];
-const server = await startServer();
-const browser = await chromium.launch();
-
-try {
-  const lockedPage = await openSeededPage(browser, { stats: {} });
-  await lockedPage.waitForSelector("#refiner-trial-cta", { timeout: 8000 });
-  const locked = await lockedPage.evaluate(() => ({
-    unlocked: window.BibleBowlRefinerQA.isUnlocked(),
-    hidden: document.getElementById("refiner-trial-cta").hidden,
-  }));
-  await lockedPage.close();
-
-  const stats = masteredStats(questions);
-  stats[weakQuestion.id] = { right: 3, wrong: 8, streak: 3, seen: 11 };
-  stats[secondWeakQuestion.id] = { right: 3, wrong: 5, streak: 3, seen: 8 };
-  const trialStats = { [weakQuestion.id]: { right: 0, wrong: 2, timeout: 1 } };
-  const page = await openSeededPage(browser, { stats, trialStats });
-  await page.waitForSelector("#refiner-trial-cta:not([hidden])", { timeout: 8000 });
-
-  await page.evaluate(() => window.BibleBowlRefinerQA.start());
-  await page.waitForSelector("#refiner-modal.active", { timeout: 8000 });
-  const started = await page.evaluate(() => window.BibleBowlRefinerQA.state());
-
-  await page.evaluate(() => window.BibleBowlRefinerQA.answerWrong());
-  await page.waitForSelector(".refiner-feedback.wrong", { timeout: 8000 });
-  const afterWrong = await page.evaluate(() => window.BibleBowlRefinerQA.state());
-
-  for (let i = 0; i < 8; i++) {
+async function answerRemainingCorrect(page) {
+  for (let i = 0; i < 12; i++) {
     const showingQuestion = await page.evaluate(
       () => !!document.querySelector("#refiner-modal.active .refiner-question")
     );
@@ -113,13 +87,71 @@ try {
     await page.evaluate(() => window.BibleBowlRefinerQA.next());
     if (/result/i.test(buttonText)) break;
   }
+}
+
+const questions = JSON.parse(readFileSync(join(root, "data/questions.json"), "utf8"));
+const weakQuestion = questions[0];
+const secondWeakQuestion = questions[1];
+const normalQuestion = questions[10];
+const server = await startServer();
+const browser = await chromium.launch();
+
+try {
+  const lockedPage = await openSeededPage(browser, { stats: {} });
+  await lockedPage.waitForSelector("#refiner-trial-cta", { timeout: 8000 });
+  const locked = await lockedPage.evaluate(() => ({
+    unlocked: window.BibleBowlRefinerQA.isUnlocked(),
+    hidden: document.getElementById("refiner-trial-cta").hidden,
+  }));
+  await lockedPage.close();
+
+  const stats = masteredStats(questions);
+  stats[weakQuestion.id] = { right: 3, wrong: 50, streak: 3, seen: 53 };
+  stats[secondWeakQuestion.id] = { right: 3, wrong: 20, streak: 3, seen: 23 };
+  const trialStats = { [weakQuestion.id]: { right: 0, wrong: 6, timeout: 3 } };
+  const page = await openSeededPage(browser, { stats, trialStats });
+  await page.waitForSelector("#refiner-trial-cta:not([hidden])", { timeout: 8000 });
+  const unlockedCta = await page.evaluate(() => ({
+    unlocked: window.BibleBowlRefinerQA.isUnlocked(),
+    hidden: document.getElementById("refiner-trial-cta").hidden,
+    glowing: document.getElementById("refiner-trial-cta").classList.contains("glory-ready"),
+    copy: document.getElementById("refiner-trial-cta").textContent,
+    levelInfo: window.BibleBowlRefinerQA.levelInfo(),
+  }));
+  const samples = await page.evaluate(() => window.BibleBowlRefinerQA.sampleDeckIds(12));
+  const weights = await page.evaluate(() => window.BibleBowlRefinerQA.questionWeights());
+  const weakAppearances = samples.filter((deck) => deck.includes(weakQuestion.id)).length;
+  const variedDecks = new Set(samples.map((deck) => deck.join("|"))).size;
+
+  await page.evaluate(() => window.BibleBowlRefinerQA.start());
+  await page.waitForSelector("#refiner-modal.active", { timeout: 8000 });
+  const started = await page.evaluate(() => window.BibleBowlRefinerQA.state());
+
+  await page.evaluate(() => window.BibleBowlRefinerQA.answerWrong());
+  await page.waitForSelector(".refiner-feedback.wrong", { timeout: 8000 });
+  const afterWrong = await page.evaluate(() => window.BibleBowlRefinerQA.state());
+
+  await answerRemainingCorrect(page);
 
   await page.waitForSelector(".refiner-result", { timeout: 8000 });
+  const missedQuestionId = started.ids[0];
   const finished = await page.evaluate((firstId) => ({
     result: document.querySelector(".refiner-result")?.textContent || "",
     best: JSON.parse(localStorage.getItem("bbs:refiner-best:v1") || "null"),
     weakTrialStats: JSON.parse(localStorage.getItem("bbs:refiner-stats:v1") || "{}")[firstId],
-  }), weakQuestion.id);
+  }), missedQuestionId);
+
+  await page.evaluate(() => window.BibleBowlRefinerQA.start());
+  await page.waitForSelector("#refiner-modal.active .refiner-question", { timeout: 8000 });
+  await answerRemainingCorrect(page);
+  await page.waitForSelector(".refiner-result", { timeout: 8000 });
+  const goldFinished = await page.evaluate(() => ({
+    result: document.querySelector(".refiner-result")?.textContent || "",
+    best: JSON.parse(localStorage.getItem("bbs:refiner-best:v1") || "null"),
+    level: localStorage.getItem("bbs:refiner-level:v1"),
+    levelInfo: window.BibleBowlRefinerQA.levelInfo(),
+    ctaCopy: document.getElementById("refiner-trial-cta").textContent,
+  }));
   await page.close();
 
   const checks = [
@@ -129,14 +161,33 @@ try {
       detail: JSON.stringify(locked),
     },
     {
-      name: "Refiner Trial unlocks after full mastery",
-      ok: started.ids?.length === 5,
-      detail: `deck=${started.ids?.join(",")}`,
+      name: "Refiner Trial unlocks after Glory / 100% mastery",
+      ok: unlockedCta.unlocked && !unlockedCta.hidden && unlockedCta.glowing && started.ids?.length === 5,
+      detail: JSON.stringify({ cta: unlockedCta.copy, deck: started.ids }),
     },
     {
-      name: "weakest question is first in the trial deck",
-      ok: started.ids?.[0] === weakQuestion.id,
-      detail: `expected=${weakQuestion.id} actual=${started.ids?.[0]}`,
+      name: "level timers ramp 15, 10, 7, 5, 4 seconds",
+      ok: unlockedCta.levelInfo.levels.map((item) => item.seconds).join(",") === "15,10,7,5,4",
+      detail: JSON.stringify(unlockedCta.levelInfo.levels),
+    },
+    {
+      name: "weakest question has the highest sampling weight",
+      ok: weights[weakQuestion.id] > weights[secondWeakQuestion.id] && weights[secondWeakQuestion.id] > weights[normalQuestion.id],
+      detail: JSON.stringify({
+        weak: weights[weakQuestion.id],
+        second: weights[secondWeakQuestion.id],
+        normal: weights[normalQuestion.id],
+      }),
+    },
+    {
+      name: "weighted decks vary across runs",
+      ok: variedDecks > 1,
+      detail: `unique=${variedDecks} samples=${samples.map((deck) => deck.join(",")).join(" | ")}`,
+    },
+    {
+      name: "most-missed question appears in most sampled decks",
+      ok: weakAppearances >= 8,
+      detail: `${weakAppearances}/12 decks included ${weakQuestion.id}`,
     },
     {
       name: "wrong answer costs one life",
@@ -149,14 +200,23 @@ try {
       detail: JSON.stringify(finished.best),
     },
     {
-      name: "trial records additional weak-question miss",
-      ok: (finished.weakTrialStats?.wrong || 0) >= 3,
+      name: "trial records the intentional miss",
+      ok: (finished.weakTrialStats?.wrong || 0) >= 1,
       detail: JSON.stringify(finished.weakTrialStats),
     },
     {
       name: "result screen renders",
       ok: /Refiner/.test(finished.result),
       detail: finished.result.trim(),
+    },
+    {
+      name: "gold unlocks the next faster Refiner level",
+      ok: goldFinished.level === "1" &&
+        goldFinished.best?.tier === "gold" &&
+        goldFinished.best?.level === 0 &&
+        goldFinished.levelInfo.currentSeconds === 10 &&
+        /Run next level|Level 2 unlocked/.test(goldFinished.result),
+      detail: JSON.stringify(goldFinished),
     },
   ];
 

@@ -6,11 +6,14 @@
   const STATS_KEY = "bbs:stats:v1";
   const TRIAL_STATS_KEY = "bbs:refiner-stats:v1";
   const BEST_KEY = "bbs:refiner-best:v1";
+  const LEVEL_KEY = "bbs:refiner-level:v1";
   const MASTERY_STREAK = 3;
   const QA_MODE = new URLSearchParams(location.search).get("qa") === "1";
   const TRIAL_COUNT = QA_MODE ? 5 : 20;
-  const SECONDS_PER_QUESTION = QA_MODE ? 5 : 15;
+  const BASE_SECONDS_PER_QUESTION = 15;
+  const LEVEL_TIME_DROPS = [0, 5, 3, 2, 1];
   const STARTING_LIVES = 3;
+  const MAX_LEVEL = LEVEL_TIME_DROPS.length - 1;
 
   const SCRIPT_URL = document.currentScript && document.currentScript.src;
   const QUESTIONS_URL = new URL("data/questions.json", SCRIPT_URL || window.location.href).href;
@@ -54,6 +57,39 @@
     } catch (_) {}
   }
 
+  function currentLevel() {
+    const raw = Number(localStorage.getItem(LEVEL_KEY));
+    if (!Number.isFinite(raw)) return 0;
+    return Math.max(0, Math.min(MAX_LEVEL, Math.floor(raw)));
+  }
+
+  function writeLevel(level) {
+    try {
+      localStorage.setItem(LEVEL_KEY, String(Math.max(0, Math.min(MAX_LEVEL, level))));
+    } catch (_) {}
+  }
+
+  function secondsForLevel(level = currentLevel()) {
+    let seconds = BASE_SECONDS_PER_QUESTION;
+    for (let i = 1; i <= level; i++) seconds -= LEVEL_TIME_DROPS[i] || 0;
+    return Math.max(1, seconds);
+  }
+
+  function levelName(level = currentLevel()) {
+    return `Level ${level + 1}`;
+  }
+
+  function nextLevel(level = currentLevel()) {
+    if (level >= MAX_LEVEL) return null;
+    const next = level + 1;
+    return {
+      level: next,
+      name: levelName(next),
+      seconds: secondsForLevel(next),
+      drop: LEVEL_TIME_DROPS[next],
+    };
+  }
+
   function stats() {
     return readJson(STATS_KEY, {});
   }
@@ -62,9 +98,17 @@
     return readJson(TRIAL_STATS_KEY, {});
   }
 
-  function isFullyMastered() {
+  function masteredCount() {
     const s = stats();
-    return questions.length > 0 && questions.every((q) => (s[q.id]?.streak || 0) >= MASTERY_STREAK);
+    return questions.filter((q) => (s[q.id]?.streak || 0) >= MASTERY_STREAK).length;
+  }
+
+  function isFullyMastered() {
+    return questions.length > 0 && masteredCount() === questions.length;
+  }
+
+  function hasReceivedGlory() {
+    return isFullyMastered();
   }
 
   function normalize(value) {
@@ -101,12 +145,35 @@
     );
   }
 
+  function questionWeight(q) {
+    return Math.max(1, 1 + weaknessScore(q));
+  }
+
+  function weightedIndex(pool, flattenWeights) {
+    const total = pool.reduce((sum, item) => {
+      const weight = flattenWeights ? Math.sqrt(item.weight) : item.weight;
+      return sum + Math.max(1, weight);
+    }, 0);
+    let ticket = Math.random() * total;
+    for (let i = 0; i < pool.length; i++) {
+      const weight = Math.max(1, flattenWeights ? Math.sqrt(pool[i].weight) : pool[i].weight);
+      ticket -= weight;
+      if (ticket <= 0) return i;
+    }
+    return pool.length - 1;
+  }
+
   function selectQuestions() {
-    return questions
-      .map((q) => ({ q, score: weaknessScore(q) }))
-      .sort((a, b) => b.score - a.score || a.q.id.localeCompare(b.q.id))
-      .slice(0, Math.min(TRIAL_COUNT, questions.length))
-      .map((item) => item.q);
+    const pool = questions.map((q) => ({ q, weight: questionWeight(q) }));
+    const deck = [];
+    const target = Math.min(TRIAL_COUNT, pool.length);
+    while (deck.length < target && pool.length) {
+      const surpriseSlot = deck.length > 0 && (deck.length + 1) % 4 === 0;
+      const idx = weightedIndex(pool, surpriseSlot);
+      deck.push(pool[idx].q);
+      pool.splice(idx, 1);
+    }
+    return deck;
   }
 
   function bestRecord() {
@@ -128,10 +195,13 @@
   function recordTrialResult() {
     const total = trial.deck.length;
     const tier = medalFor(trial.correct, total, trial.lives);
-    const score = trial.correct * 100 + trial.lives * 25;
+    const score = trial.level * 10000 + trial.correct * 100 + trial.lives * 25;
     const record = {
       tier,
       score,
+      level: trial.level,
+      levelName: levelName(trial.level),
+      secondsPerQuestion: trial.secondsPerQuestion,
       correct: trial.correct,
       total,
       lives: trial.lives,
@@ -141,6 +211,13 @@
     if (!prior || score > prior.score || (score === prior.score && trial.lives > prior.lives)) {
       writeJson(BEST_KEY, record);
       record.isNewBest = true;
+    }
+    if (tier === "gold") {
+      const unlocked = nextLevel(trial.level);
+      if (unlocked && currentLevel() <= trial.level) {
+        writeLevel(unlocked.level);
+        record.unlockedNext = unlocked;
+      }
     }
     return record;
   }
@@ -160,9 +237,9 @@
     cta.hidden = true;
     cta.innerHTML = `
       <div class="refiner-copy">
-        <span class="refiner-kicker">Post-mastery</span>
+        <span class="refiner-kicker">Glory earned</span>
         <strong>Refiner Trial</strong>
-        <span>Weakest questions first / ${SECONDS_PER_QUESTION}s each / ${STARTING_LIVES} lives</span>
+        <span>Weighted weak spots / ${BASE_SECONDS_PER_QUESTION}s each / ${STARTING_LIVES} lives</span>
       </div>
       <button type="button" id="refiner-start" class="primary-btn ghost-btn">Start trial</button>
     `;
@@ -203,16 +280,21 @@
 
   function refreshCta() {
     ensureCta();
-    if (!questions.length || !isFullyMastered()) {
+    const unlocked = questions.length > 0 && hasReceivedGlory();
+    cta.classList.toggle("glory-ready", unlocked);
+    if (!unlocked) {
       cta.hidden = true;
       return;
     }
     cta.hidden = false;
+    const level = currentLevel();
+    const seconds = secondsForLevel(level);
     const best = bestRecord();
     const copy = cta.querySelector(".refiner-copy span:last-child");
+    cta.querySelector("#refiner-start").textContent = `Start ${levelName(level)}`;
     copy.textContent = best
-      ? `Best: ${medalLabel(best.tier)} / ${best.correct}/${best.total} / ${best.lives} lives left`
-      : `Weakest questions first / ${SECONDS_PER_QUESTION}s each / ${STARTING_LIVES} lives`;
+      ? `${levelName(level)} / ${seconds}s each / Best: ${medalLabel(best.tier)} ${best.correct}/${best.total}`
+      : `${levelName(level)} / weighted weak spots / ${seconds}s each / ${STARTING_LIVES} lives`;
   }
 
   async function loadQuestions() {
@@ -225,10 +307,13 @@
   }
 
   function startTrial() {
-    if (!isFullyMastered()) return;
+    if (!hasReceivedGlory()) return;
     ensureModal();
+    const level = currentLevel();
     trial = {
       deck: selectQuestions(),
+      level,
+      secondsPerQuestion: secondsForLevel(level),
       index: 0,
       lives: STARTING_LIVES,
       correct: 0,
@@ -257,14 +342,14 @@
 
   function startTimer() {
     clearTimer();
-    trial.deadline = Date.now() + SECONDS_PER_QUESTION * 1000;
+    trial.deadline = Date.now() + trial.secondsPerQuestion * 1000;
     timerId = setInterval(() => {
       if (!trial || trial.answered) return;
       const remaining = Math.max(0, trial.deadline - Date.now());
       updateTimer(remaining);
       if (remaining <= 0) answerCurrent(null, true);
     }, 100);
-    updateTimer(SECONDS_PER_QUESTION * 1000);
+    updateTimer(trial.secondsPerQuestion * 1000);
   }
 
   function updateTimer(ms) {
@@ -272,7 +357,8 @@
     const text = $("#refiner-time");
     const bar = $("#refiner-time-fill");
     if (text) text.textContent = `${seconds}s`;
-    if (bar) bar.style.width = `${Math.max(0, Math.min(1, ms / (SECONDS_PER_QUESTION * 1000))) * 100}%`;
+    const totalMs = (trial?.secondsPerQuestion || BASE_SECONDS_PER_QUESTION) * 1000;
+    if (bar) bar.style.width = `${Math.max(0, Math.min(1, ms / totalMs)) * 100}%`;
   }
 
   function renderQuestion() {
@@ -286,8 +372,9 @@
     shell.innerHTML = `
       <div class="refiner-meta">
         <span>${trial.index + 1}/${trial.deck.length}</span>
+        <span>${levelName(trial.level)}</span>
         <span>${trial.lives} lives</span>
-        <span id="refiner-time">${SECONDS_PER_QUESTION}s</span>
+        <span id="refiner-time">${trial.secondsPerQuestion}s</span>
       </div>
       <div class="refiner-timer"><div id="refiner-time-fill"></div></div>
       <div class="q-tags">
@@ -372,13 +459,20 @@
     clearTimer();
     const result = recordTrialResult();
     const body = $("#refiner-body");
+    const nextCopy = result.unlockedNext
+      ? `<p class="refiner-next">${escapeHtml(result.unlockedNext.name)} unlocked: ${result.unlockedNext.seconds}s each.</p>`
+      : result.tier === "gold" && result.level >= MAX_LEVEL
+        ? `<p class="refiner-next">Final Refiner level mastered.</p>`
+        : "";
     body.innerHTML = `
       <div class="refiner-result">
         <span class="refiner-kicker">${result.isNewBest ? "New best" : "Trial complete"}</span>
         <h3>${medalLabel(result.tier)} Refiner</h3>
+        <p>${escapeHtml(result.levelName)} / ${result.secondsPerQuestion}s each</p>
         <p>${result.correct}/${result.total} correct / ${result.lives} lives left</p>
+        ${nextCopy}
         <div class="refiner-result-actions">
-          <button type="button" class="primary-btn" id="refiner-retry">Run it again</button>
+          <button type="button" class="primary-btn" id="refiner-retry">${result.unlockedNext ? "Run next level" : "Run it again"}</button>
           <button type="button" class="primary-btn ghost-btn" id="refiner-done">Done</button>
         </div>
       </div>
@@ -409,6 +503,8 @@
       start: startTrial,
       state: () => trial && {
         ids: trial.deck.map((q) => q.id),
+        level: trial.level,
+        secondsPerQuestion: trial.secondsPerQuestion,
         index: trial.index,
         lives: trial.lives,
         correct: trial.correct,
@@ -422,7 +518,19 @@
       answerWrong: () => answerCurrent("__wrong__"),
       forceTimeout: () => answerCurrent(null, true),
       next: () => $("#refiner-feedback button")?.click(),
-      isUnlocked: isFullyMastered,
+      isUnlocked: hasReceivedGlory,
+      sampleDeckIds: (count = 5) => Array.from({ length: count }, () => selectQuestions().map((q) => q.id)),
+      questionWeights: () => Object.fromEntries(questions.map((q) => [q.id, questionWeight(q)])),
+      levelInfo: () => ({
+        currentLevel: currentLevel(),
+        currentName: levelName(),
+        currentSeconds: secondsForLevel(),
+        levels: LEVEL_TIME_DROPS.map((_, level) => ({
+          level,
+          name: levelName(level),
+          seconds: secondsForLevel(level),
+        })),
+      }),
     };
   }
 })();
