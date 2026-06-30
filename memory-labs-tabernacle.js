@@ -635,7 +635,13 @@
       function endDrag(clientX, clientY) {
         if (!dragCardId) return;
         const zone = findZoneAtPoint(clientX, clientY);
-        if (zone && !placed[zone.dataset.zoneId]) {
+        if (zone) {
+          // Drop onto ANY zone — empty OR occupied. assign()/commitPlace()
+          // handle an occupied target: a chip dragged from another zone
+          // trades places with the resident (a true swap); a chip from the
+          // tray bumps the resident back to the tray. (Previously this
+          // refused occupied zones, so two transposed items could not be
+          // swapped by dragging.)
           assign(zone.dataset.zoneId, dragCardId, dragFromZone);
         }
         // Soft snap: if dropped on a parent zone whose children don't
@@ -759,15 +765,26 @@
       }
 
       function commitPlace(target, cardId, fromZone) {
-        // Remove from current source.
+        // Capture whoever currently occupies the target (to relocate them).
+        const displaced =
+          placed[target.id] && placed[target.id] !== cardId
+            ? placed[target.id]
+            : null;
+        // Remove the moving card from its current source.
         if (fromZone) {
           delete placed[fromZone];
         } else {
           tray = tray.filter((c) => c !== cardId);
         }
-        // If the target already has a card, bounce it back to pool.
-        if (placed[target.id] && placed[target.id] !== cardId) {
-          tray.push(placed[target.id]);
+        // Relocate the displaced resident: a true SWAP when the moving card
+        // came from another zone (resident slides into the now-empty source
+        // zone); otherwise bounce it back to the tray.
+        if (displaced) {
+          if (fromZone) {
+            placed[fromZone] = displaced;
+          } else {
+            tray.push(displaced);
+          }
         }
         placed[target.id] = cardId;
         return true;

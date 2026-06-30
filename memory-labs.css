@@ -237,8 +237,18 @@
   line-height: 1.4;
 }
 
-.labs-close-btn {
-  width: 100%;
+/* Action row: "Play Again" + "Return to Study" sit side by side after a
+   run; during play only Return is shown and takes the full width on its
+   own. Wraps to stacked on very narrow panels. */
+.labs-actions {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+.labs-actions .primary-btn {
+  flex: 1 1 8rem;
+  width: auto;
+  margin: 0;
 }
 
 /* Drag-order lab */

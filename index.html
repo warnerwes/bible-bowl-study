@@ -20,7 +20,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Spectral:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="styles.css?v=18" />
   <link rel="stylesheet" href="rewards.css?v=7" />
-  <link rel="stylesheet" href="memory-labs.css?v=19" />
+  <link rel="stylesheet" href="memory-labs.css?v=20" />
   <link rel="stylesheet" href="memory-labs-dispenser.css?v=4" />
 </head>
 <body>
@@ -197,14 +197,14 @@
   <script src="memory-labs-data.js?v=7"></script>
   <script src="memory-labs-drag.js?v=11"></script>
   <script src="memory-labs-tree.js?v=10"></script>
-  <script src="memory-labs-tabernacle.js?v=18"></script>
-  <script src="memory-labs.js?v=11"></script>
+  <script src="memory-labs-tabernacle.js?v=19"></script>
+  <script src="memory-labs.js?v=12"></script>
   <script>
     // ---- Version + SW update machinery ----
     // The asset-busting version baked into this HTML build. Bump this
     // when shipping any change to memory-labs.* or the SW, so phones
     // that loaded an older HTML auto-detect the mismatch and reload.
-    var __BBS_VERSION = "31";
+    var __BBS_VERSION = "33";
     if ("serviceWorker" in navigator) {
       window.addEventListener("load", function () {
         navigator.serviceWorker.register("sw.js").catch(function () {});

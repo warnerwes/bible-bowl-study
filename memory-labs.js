@@ -139,8 +139,10 @@
               <p id="labs-tip" class="labs-tip"></p>
             </details>
             <p id="labs-status" class="labs-status-line"></p>
-            <button id="labs-close" type="button" class="primary-btn labs-close-btn">Return to Study</button>
-            <button id="labs-replay" type="button" class="primary-btn ghost-btn labs-replay-btn" hidden>Play Again</button>
+            <div class="labs-actions">
+              <button id="labs-replay" type="button" class="primary-btn ghost-btn labs-replay-btn" hidden>Play Again</button>
+              <button id="labs-close" type="button" class="primary-btn labs-close-btn">Return to Study</button>
+            </div>
           </div>
         </div>
       `;
