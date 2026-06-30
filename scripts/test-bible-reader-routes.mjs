@@ -64,11 +64,17 @@ try {
   await page.evaluate(() => window.BibleReader.open(12));
   await page.waitForSelector("#reader-modal.active", { timeout: 8000 });
 
+  await page.evaluate(() => window.BibleReader.openRef("Exodus 12:29"));
+  await page.waitForSelector('#reader-modal .verse-highlight[data-verse="29"]', { timeout: 8000 });
+
   const result = await page.evaluate(() => ({
     title: document.querySelector("#reader-title")?.textContent || "",
     error: document.querySelector(".reader-error")?.textContent || "",
     message: document.querySelector(".reader-message")?.textContent || "",
     verseCount: document.querySelectorAll(".reader-verse").length,
+    highlighted: [...document.querySelectorAll("#reader-modal .verse-highlight")]
+      .map((row) => Number(row.dataset.verse)),
+    verse29: document.querySelector('#reader-modal .verse-highlight[data-verse="29"]')?.textContent || "",
   }));
 
   const checks = [
@@ -86,6 +92,11 @@ try {
       name: "reader does not show HTTP 404",
       ok: !/404/.test(`${result.error} ${result.message}`),
       detail: JSON.stringify(result),
+    },
+    {
+      name: "reader opens Exodus 12:29 and highlights verse 29",
+      ok: result.highlighted.includes(29) && /firstborn/i.test(result.verse29),
+      detail: JSON.stringify({ highlighted: result.highlighted, verse29: result.verse29 }),
     },
   ];
 
