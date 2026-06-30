@@ -183,42 +183,54 @@
       },
       {
         id: "consecration",
-        label: "Holy Consecration",
+        label: "Setting Up the Tabernacle",
         emoji: "🕯️",
-        ref: "Exodus 40:10-13",
-        subtitle: "Aaron and his sons set apart at the door · OSB Exodus 40",
-        // Scoped to Exodus 40:10-13 (the priests' consecration as Moses sets
-        // up the tabernacle). The fuller Exodus 29 ordination rite (offerings,
-        // ordination ram, the seven-day holy meal) is OUT of quiz scope, so it
-        // is deliberately NOT part of this lab.
+        ref: "Exodus 40:1-13",
+        subtitle: "The order Moses raised & consecrated it · OSB Exodus 40",
+        // Exodus 40:1-13 — the ORDER God commanded Moses to raise and
+        // consecrate the tabernacle, ending with the priests. This lab tests
+        // the temporal sequence ("first..., then..."); the companion lab
+        // "Place the Holy Things" tests the SPATIAL layout of the same items.
+        // The fuller Exodus 29 ordination rite (offerings, ordination ram, the
+        // seven-day holy meal) is OUT of quiz scope and is not included.
         description:
-          "At the door of the tabernacle, God sets Aaron and his sons apart for priestly ministry — brought, washed, clothed, and anointed in His commanded order. You are remembering the order God gave, not performing the rite.",
-        tip: "At the door: bring them, wash, clothe Aaron, anoint Aaron, clothe his sons, anoint his sons.",
+          "On the first day of the first month, Moses raises the tabernacle from the inside out, anoints it all holy, then washes, clothes, and anoints Aaron and his sons. You are remembering the order God gave, not performing the rite.",
+        tip: "Inside out: ark, then the Holy Place (table, lampstand, incense), then the door veil and the outer altar — anoint it all holy — then the priests at the door.",
         ordered_items: [
-          "Bring to the Door",
-          "Wash with Water",
-          "Clothe Aaron",
-          "Anoint Aaron",
-          "Clothe His Sons",
-          "Anoint His Sons",
+          "Set Up the Tabernacle",
+          "Place the Ark & Veil",
+          "Bring in the Table & Bread",
+          "Bring in the Lampstand & Lamps",
+          "Set the Altar of Incense",
+          "Hang the Veil at the Door",
+          "Set the Altar of Burnt Offering",
+          "Anoint & Consecrate It All",
+          "Wash Aaron & His Sons",
+          "Clothe & Anoint Aaron",
+          "Clothe & Anoint His Sons",
         ],
         item_emojis: [
-          "🚪", // Bring Aaron & his sons to the door (Ex 40:10)
-          "💧", // Wash them with water (Ex 40:10)
-          "👕", // Put the holy garments on Aaron (Ex 40:11)
-          "🫒", // Anoint and consecrate Aaron (Ex 40:11)
-          "👔", // Put garments on his sons (Ex 40:12)
-          "🫗", // Anoint his sons as their father (Ex 40:13)
+          "🏕️", // Set up the tabernacle (Ex 40:2)
+          "📜", // Put in the ark, cover it with the veil (Ex 40:3)
+          "🍞", // Bring in the table & lay out its bread (Ex 40:4)
+          "🕎", // Bring in the lampstand & install its lamps (Ex 40:4)
+          "🪔", // Set the gold altar of incense before the ark (Ex 40:5)
+          "🚪", // Put up the veil for the door (Ex 40:5)
+          "🔥", // Set the altar of burnt offering before the door (Ex 40:6)
+          "🫒", // Anoint & consecrate the tabernacle & all in it (Ex 40:7-9)
+          "💧", // Bring Aaron & his sons to the door, wash them (Ex 40:10)
+          "👕", // Clothe & anoint Aaron (Ex 40:11)
+          "👔", // Clothe & anoint his sons (Ex 40:12-13)
         ],
         unlock: { chapters: [38, 39, 40], min: 1 },
         unlock_teaching: {
-          headline: "Set Apart at the Door",
+          headline: "Raised in God's Order",
           body:
-            "Consecration is God setting persons apart for holy service — not a magic costume change. In Exodus 40, Moses brings Aaron and his sons to the door of the tabernacle and washes, clothes, and anoints them for an everlasting priesthood. You are remembering the order God gave, not play-acting priestly rites.",
+            "The tabernacle is not thrown together — God gives Moses an exact order. Moses builds from the Most Holy outward, anoints everything holy, and consecrates the priests last, at the door. You are remembering the order God gave, not play-acting priestly rites.",
         },
         completion_teaching: {
           memory_sentence:
-            "At the door of the tabernacle, Aaron and his sons are washed, clothed, and anointed for an everlasting priesthood.",
+            "Moses raised the tabernacle from the ark outward, anointed it all holy, then washed, clothed, and anointed Aaron and his sons at the door.",
         },
         interaction: { type: "drag_order" },
       },
