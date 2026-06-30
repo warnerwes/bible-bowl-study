@@ -267,16 +267,31 @@
           findProgress: 0
         });
       }
-      const palmCount = 9;
-      for (let i = 0; i < palmCount; i++) {
-        const t = i / (palmCount - 1);
-        customWonderState.palms.push({
-          x: pad * 0.4 + span * t,
-          baseY: h - 48,
-          scale: 0.55 + (1 - Math.abs(t - 0.5) * 1.4) * 0.45,
-          phase: Math.random() * Math.PI * 2
-        });
-      }
+      let seed = (Math.floor(w) * 73856093) ^ (Math.floor(h) * 19349663) ^ 0x5e1f;
+      const rand = () => {
+        seed = (seed * 1664525 + 1013904223) >>> 0;
+        return seed / 4294967296;
+      };
+      const addPalmBand = (count, depth, y0, y1, s0, s1, alpha, tone, fronds, edges) => {
+        for (let i = 0; i < count; i++) {
+          const t = (i + 0.35 + rand() * 0.3) / count;
+          const edgeBias = edges ? (i % 2 ? rand() * 0.24 : 0.76 + rand() * 0.24) : t;
+          customWonderState.palms.push({
+            x: pad * 0.2 + span * edgeBias + (rand() - 0.5) * w * 0.075,
+            baseY: y0 + rand() * (y1 - y0),
+            scale: s0 + rand() * (s1 - s0),
+            phase: rand() * Math.PI * 2,
+            depth,
+            alpha,
+            tone,
+            fronds
+          });
+        }
+      };
+      addPalmBand(42, "far", h - 132, h - 96, 0.25, 0.45, 0.48, "far", 5, false);
+      addPalmBand(19, "mid", h - 96, h - 66, 0.45, 0.7, 0.74, "mid", 7, false);
+      addPalmBand(9, "near", h - 52, h - 46, 0.7, 1.1, 1, "near", 8, true);
+      customWonderState.palms.sort((a, b) => a.baseY - b.baseY || a.scale - b.scale);
     } else if (id === "manna") {
       if (!customWonderState.weekDay) customWonderState.weekDay = 1;
       customWonderState.jarFill = 0;
@@ -604,17 +619,26 @@
     ctx.restore();
   };
 
-  function drawElimPalm(ctx, x, baseY, scale, sway) {
+  function drawElimPalm(ctx, x, baseY, scale, sway, opts = {}) {
+    const alpha = opts.alpha ?? 1;
+    const fronds = opts.fronds || 8;
+    const trunk = opts.tone === "far" ? "rgba(118, 100, 70, 0.62)" : "#5c3d1e";
+    const leaf = opts.tone === "far"
+      ? "rgba(102, 145, 78, 0.58)"
+      : opts.tone === "mid"
+        ? "rgba(59, 130, 56, 0.78)"
+        : "#2e7d32";
     ctx.save();
+    ctx.globalAlpha *= alpha;
     ctx.translate(x, baseY);
     ctx.scale(scale, scale);
-    ctx.fillStyle = "#5c3d1e";
+    ctx.fillStyle = trunk;
     ctx.fillRect(-5, -62, 10, 62);
-    ctx.strokeStyle = "#2e7d32";
-    ctx.lineWidth = 3;
+    ctx.strokeStyle = leaf;
+    ctx.lineWidth = opts.tone === "far" ? 2.2 : 3;
     ctx.lineCap = "round";
-    for (let i = 0; i < 8; i++) {
-      const angle = -Math.PI * 0.92 + (i / 7) * Math.PI * 0.84 + sway;
+    for (let i = 0; i < fronds; i++) {
+      const angle = -Math.PI * 0.92 + (i / Math.max(1, fronds - 1)) * Math.PI * 0.84 + sway;
       ctx.beginPath();
       ctx.moveTo(0, -62);
       ctx.quadraticCurveTo(
@@ -624,6 +648,88 @@
       ctx.stroke();
     }
     ctx.restore();
+  }
+
+  function drawElimCamp(ctx, w, h, uiScale, canvasTime, customWonderState, particles) {
+    const progress = Math.min(1, (customWonderState.campTimer || 0) / 20);
+    const ease = progress * progress * (3 - progress * 2);
+    const baseY = h - Math.round(74 * uiScale);
+    const fireX = w * 0.5;
+    const fireY = baseY + Math.round(2 * uiScale);
+    const tents = [
+      [-0.31, -4, 0.78, "#b98857"], [-0.21, 8, 0.92, "#c9a36b"],
+      [-0.11, -7, 0.72, "#9f7448"], [0.12, 8, 0.95, "#c39a61"],
+      [0.25, -5, 0.76, "#aa8051"], [0.35, 6, 0.86, "#d0ad78"],
+      [-0.39, 14, 0.66, "#a8794a"], [0.43, 15, 0.68, "#b98c58"]
+    ];
+    const drawTent = (cx, cy, s, color, flip) => {
+      const tw = 46 * s * uiScale;
+      const th = 26 * s * uiScale;
+      ctx.fillStyle = "rgba(0, 0, 0, 0.22)";
+      ctx.beginPath();
+      ctx.ellipse(cx, cy + th * 0.22, tw * 0.52, th * 0.18, 0, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.fillStyle = color;
+      ctx.beginPath();
+      ctx.moveTo(cx - tw * 0.52, cy + th * 0.28);
+      ctx.lineTo(cx - tw * 0.1, cy - th * 0.58);
+      ctx.lineTo(cx + tw * 0.5, cy + th * 0.28);
+      ctx.closePath();
+      ctx.fill();
+      ctx.fillStyle = "rgba(82, 47, 28, 0.76)";
+      ctx.beginPath();
+      ctx.moveTo(cx + (flip ? -1 : 1) * tw * 0.08, cy - th * 0.46);
+      ctx.lineTo(cx + (flip ? -1 : 1) * tw * 0.36, cy + th * 0.28);
+      ctx.lineTo(cx + (flip ? -1 : 1) * tw * 0.02, cy + th * 0.28);
+      ctx.closePath();
+      ctx.fill();
+      ctx.strokeStyle = "rgba(78, 52, 34, 0.72)";
+      ctx.lineWidth = Math.max(1, 1.5 * uiScale);
+      ctx.beginPath();
+      ctx.moveTo(cx - tw * 0.1, cy - th * 0.58);
+      ctx.lineTo(cx + tw * 0.52, cy + th * 0.28);
+      ctx.stroke();
+    };
+
+    ctx.save();
+    ctx.globalAlpha = ease;
+    ctx.translate(fireX, fireY);
+    ctx.scale(0.86 + ease * 0.14, 0.86 + ease * 0.14);
+    ctx.translate(-fireX, -fireY);
+    tents.forEach((t, i) => drawTent(w * (0.5 + t[0]), baseY + t[1] * uiScale, t[2], t[3], i % 2));
+    const flicker = Math.sin(canvasTime * 0.31) * 2 * uiScale;
+    ctx.fillStyle = "rgba(255, 176, 70, 0.18)";
+    ctx.beginPath();
+    ctx.arc(fireX, fireY - 2 * uiScale, 24 * uiScale, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.fillStyle = "#5b3824";
+    ctx.fillRect(fireX - 13 * uiScale, fireY + 9 * uiScale, 26 * uiScale, 4 * uiScale);
+    ctx.fillStyle = "#f7b34b";
+    ctx.beginPath();
+    ctx.moveTo(fireX, fireY - 18 * uiScale + flicker);
+    ctx.quadraticCurveTo(fireX + 15 * uiScale, fireY - 2 * uiScale, fireX, fireY + 9 * uiScale);
+    ctx.quadraticCurveTo(fireX - 13 * uiScale, fireY - 2 * uiScale, fireX, fireY - 18 * uiScale + flicker);
+    ctx.fill();
+    ctx.fillStyle = "#ff6f2c";
+    ctx.beginPath();
+    ctx.moveTo(fireX, fireY - 10 * uiScale - flicker);
+    ctx.quadraticCurveTo(fireX + 7 * uiScale, fireY, fireX, fireY + 7 * uiScale);
+    ctx.quadraticCurveTo(fireX - 6 * uiScale, fireY, fireX, fireY - 10 * uiScale - flicker);
+    ctx.fill();
+    ctx.restore();
+
+    const emberCount = particles.filter((p) => p.type === "camp_ember").length;
+    if (ease >= 0.6 && canvasTime % 3 === 0 && emberCount < 18) {
+      particles.push({
+        x: fireX + (Math.random() - 0.5) * 14 * uiScale,
+        y: fireY - 8 * uiScale,
+        vx: (Math.random() - 0.5) * 0.35,
+        vy: -(Math.random() * 0.8 + 0.45),
+        r: Math.random() * 1.5 + 0.8,
+        alpha: 0.75,
+        type: "camp_ember"
+      });
+    }
   }
 
   function drawElimSpring(ctx, x, y, active, idx, found, w) {
@@ -674,8 +780,12 @@
     ctx.fillRect(0, 0, w, groundY);
 
     palms.forEach((palm) => {
-      const sway = Math.sin(canvasTime * 0.03 + palm.phase) * 0.06;
-      drawElimPalm(ctx, palm.x, palm.baseY, palm.scale, sway);
+      const sway = Math.sin(canvasTime * 0.03 + palm.phase) * (palm.depth === "far" ? 0.032 : 0.06);
+      drawElimPalm(ctx, palm.x, palm.baseY, palm.scale, sway, {
+        alpha: palm.alpha,
+        fronds: palm.fronds,
+        tone: palm.tone
+      });
     });
 
     const groundGrad = ctx.createLinearGradient(0, groundY, 0, h);
@@ -725,6 +835,10 @@
       }
     });
 
+    if (customWonderState.camped) {
+      drawElimCamp(ctx, w, h, uiScale, canvasTime, customWonderState, particles);
+    }
+
     if (allFound) {
       const campPulse = canvasTime * 0.08;
       window.BibleBowlScenes.drawTouchButton(
@@ -762,6 +876,24 @@
         }
 
         ctx.fillStyle = `rgba(127, 212, 255, ${p.alpha})`;
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+        ctx.fill();
+        continue;
+      }
+
+      if (p.type === "camp_ember") {
+        p.x += p.vx + Math.sin(canvasTime * 0.08 + p.y) * 0.08;
+        p.y += p.vy;
+        p.vy -= 0.01;
+        p.alpha -= 0.025;
+
+        if (p.alpha <= 0) {
+          particles.splice(i, 1);
+          continue;
+        }
+
+        ctx.fillStyle = `rgba(255, 180, 78, ${p.alpha})`;
         ctx.beginPath();
         ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
         ctx.fill();

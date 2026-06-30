@@ -328,17 +328,15 @@
             pattern: "stripes",
             accept: ["veil"],
           },
-          // Nested zones inside Courtyard.
-          {
-            id: "bronze_altar_zone",
-            parent: "tabernacle_exterior",
-            label: "Centered · before the door",
-            sublabel: "Courtyard",
-            reveal_label: "Bronze Altar of Burnt Offering",
-            position: "east",
-            pattern: "plain",
-            accept: ["bronze_altar"],
-          },
+          // Nested zones inside Courtyard. DECLARATION ORDER IS SPATIAL:
+          // the courtyard slot is a flex column (top = WEST, toward the
+          // tent; bottom = EAST, toward the gate), so the FIRST child
+          // renders highest/west. Per LXX (Ex 30:18; 40:30) the laver
+          // stands BETWEEN the tabernacle and the altar — so walking in
+          // from the east gate the order is Altar → Laver → Holy Place.
+          // Therefore declare the Laver FIRST (higher/west) and the
+          // Bronze Altar SECOND (lower/east, "before the door"). Do not
+          // reorder these without re-checking the rendered Y positions.
           {
             id: "laver_zone",
             parent: "tabernacle_exterior",
@@ -348,6 +346,16 @@
             position: "east",
             pattern: "plain",
             accept: ["laver"],
+          },
+          {
+            id: "bronze_altar_zone",
+            parent: "tabernacle_exterior",
+            label: "Centered · before the door",
+            sublabel: "Courtyard",
+            reveal_label: "Bronze Altar of Burnt Offering",
+            position: "east",
+            pattern: "plain",
+            accept: ["bronze_altar"],
           },
         ],
         tabernacle_cards: [
