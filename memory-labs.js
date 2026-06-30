@@ -94,6 +94,70 @@
     };
   }
 
+  function exodusReaderRefs(rawRef) {
+    const normalized = String(rawRef || "")
+      .replace(/[\u2013\u2014]/g, "-")
+      .replace(/\s+/g, " ")
+      .trim();
+    if (!normalized) return [];
+
+    const refs = [];
+    let priorBook = "";
+    normalized.split(";").forEach((part) => {
+      const segment = part.trim();
+      if (!segment) return;
+
+      const explicit = segment.match(/\bExodus\s+(\d+)(?::\s*([0-9,\-:\s]+))?/i);
+      if (explicit) {
+        priorBook = "Exodus";
+        addRef(explicit[1], explicit[2]);
+        return;
+      }
+
+      if (priorBook === "Exodus") {
+        const continuation = segment.match(/^(\d+)(?::\s*([0-9,\-:\s]+))?/);
+        if (continuation) addRef(continuation[1], continuation[2]);
+      }
+    });
+    return refs;
+
+    function addRef(chapter, verses) {
+      const chapterNum = Number(chapter);
+      if (!Number.isFinite(chapterNum)) return;
+      const suffix = verses ? ":" + verses.replace(/\s+/g, "") : "";
+      const ref = `Exodus ${chapterNum}${suffix}`;
+      if (refs.some((item) => item.ref === ref)) return;
+      refs.push({
+        ref,
+        shortLabel: `Ex ${chapterNum}${suffix}`,
+      });
+    }
+  }
+
+  function renderReferenceActions(lab) {
+    const refLine = document.getElementById("labs-ref");
+    if (!refLine) return;
+    refLine.textContent = lab.ref || "";
+    const refs = exodusReaderRefs(lab.ref);
+    if (!refs.length) return;
+    refLine.appendChild(document.createTextNode(" "));
+    refs.forEach((item, index) => {
+      if (index > 0) refLine.appendChild(document.createTextNode(" / "));
+      const btn = document.createElement("button");
+      btn.type = "button";
+      btn.className = "link-btn";
+      btn.dataset.ref = item.ref;
+      btn.textContent = refs.length === 1 ? "Read OSB" : `Read ${item.shortLabel}`;
+      btn.setAttribute("aria-label", `Read ${item.ref} in OSB`);
+      btn.addEventListener("click", () => {
+        if (window.BibleReader && typeof window.BibleReader.openRef === "function") {
+          window.BibleReader.openRef(item.ref);
+        }
+      });
+      refLine.appendChild(btn);
+    });
+  }
+
   function initShelf() {
     let shelf = document.getElementById("memory-labs-shelf");
     if (!shelf) {
@@ -295,7 +359,7 @@
     const replayBtn = document.getElementById("labs-replay");
     if (replayBtn) replayBtn.hidden = true;
     document.getElementById("labs-title").textContent = lab.label;
-    document.getElementById("labs-ref").textContent = lab.ref;
+    renderReferenceActions(lab);
     document.getElementById("labs-desc").textContent = lab.description || "";
     document.getElementById("labs-tip").textContent = lab.tip ? `Tip: ${lab.tip}` : "";
     document.getElementById("labs-status").textContent = lab.subtitle || "";

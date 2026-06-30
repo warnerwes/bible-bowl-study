@@ -82,6 +82,44 @@ async function assertSolvedLabLocked(page, id, solvedState, issues) {
   }
 }
 
+async function assertLabReferenceReader(page, id, issues) {
+  if (id !== "consecration") return;
+
+  const refs = await page.locator("#labs-ref button").evaluateAll((buttons) =>
+    buttons.map((btn) => ({
+      text: btn.textContent || "",
+      ref: btn.dataset.ref || "",
+    }))
+  );
+  const match = refs.find((item) => item.ref === "Exodus 40:1-13");
+  if (!match) {
+    issues.push(`missing reader button for Exodus 40:1-13: ${JSON.stringify(refs)}`);
+    return;
+  }
+
+  await page.locator('#labs-ref button[data-ref="Exodus 40:1-13"]').click();
+  await page.waitForSelector("#reader-modal.active", { timeout: 8000 });
+  const opened = await page.evaluate(() => ({
+    title: document.querySelector("#reader-title")?.textContent || "",
+    highlighted: [...document.querySelectorAll("#reader-modal .verse-highlight")]
+      .map((row) => Number(row.dataset.verse)),
+    error: document.querySelector("#reader-modal .reader-error")?.textContent || "",
+  }));
+
+  if (opened.title !== "Exodus 40") {
+    issues.push(`reference reader opened wrong title: ${JSON.stringify(opened)}`);
+  }
+  if (opened.highlighted[0] !== 1 || opened.highlighted.at(-1) !== 13) {
+    issues.push(`reader did not highlight Exodus 40:1-13: ${JSON.stringify(opened)}`);
+  }
+  if (opened.error) {
+    issues.push(`reader showed error from lab reference: ${opened.error}`);
+  }
+
+  await page.locator("#reader-modal .reader-close-btn").click();
+  await page.waitForFunction(() => !document.getElementById("reader-modal")?.classList.contains("active"));
+}
+
 async function exerciseDragDispenser(page, id, issues) {
   const before = await page.evaluate(() => ({
     dispenserCount: document.querySelectorAll(".lab-drag-dispenser").length,
@@ -438,6 +476,7 @@ async function testLab(page, id, viewportName) {
   await page.waitForTimeout(300);
 
   const issues = [];
+  await assertLabReferenceReader(page, id, issues);
   const dispenserCount = await page.locator(".lab-drag-dispenser").count();
   if (dispenserCount !== 1) {
     issues.push(`${id} should render one dispenser, got ${dispenserCount}`);
