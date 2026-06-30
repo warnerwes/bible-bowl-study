@@ -135,6 +135,45 @@ async function assertLabReferenceReader(page, id, issues) {
   }
 }
 
+async function assertLabSuggestionLink(page, id, issues) {
+  const link = await page.evaluate(() => {
+    const a = document.querySelector("#labs-suggest-link");
+    return a ? {
+      text: a.textContent || "",
+      href: a.href || "",
+      target: a.target || "",
+      rel: a.rel || "",
+      title: document.querySelector("#labs-title")?.textContent || "",
+      ref: document.querySelector("#labs-ref")?.childNodes[0]?.textContent?.trim() || "",
+    } : null;
+  });
+  if (!link) {
+    issues.push(`${id} missing GitHub suggestion link`);
+    return;
+  }
+  let url;
+  try {
+    url = new URL(link.href);
+  } catch (e) {
+    issues.push(`${id} suggestion link is not a valid URL: ${link.href}`);
+    return;
+  }
+  if (url.origin !== "https://github.com" || url.pathname !== "/warnerwes/bible-bowl-study/issues/new") {
+    issues.push(`${id} suggestion link targets wrong endpoint: ${link.href}`);
+  }
+  if (link.target !== "_blank" || !link.rel.includes("noopener")) {
+    issues.push(`${id} suggestion link should open safely in a new tab: ${JSON.stringify(link)}`);
+  }
+  const title = url.searchParams.get("title") || "";
+  const body = url.searchParams.get("body") || "";
+  if (!/Suggest a correction/i.test(link.text) || !title.includes(id)) {
+    issues.push(`${id} suggestion link has weak visible/title copy: ${JSON.stringify({ text: link.text, title })}`);
+  }
+  [`**Memory Lab ID:** ${id}`, `**Lab:** ${link.title}`, `**Reference:** ${link.ref}`, "**Suggested change / issue:**"].forEach((needle) => {
+    if (!body.includes(needle)) issues.push(`${id} suggestion body missing ${needle}`);
+  });
+}
+
 async function assertConsecrationAnointingCopy(page, id, issues) {
   if (id !== "consecration") return;
   const copy = await page.evaluate(() => {
@@ -515,6 +554,7 @@ async function testLab(page, id, viewportName) {
 
   const issues = [];
   await assertLabReferenceReader(page, id, issues);
+  await assertLabSuggestionLink(page, id, issues);
   await assertConsecrationAnointingCopy(page, id, issues);
   const dispenserCount = await page.locator(".lab-drag-dispenser").count();
   if (dispenserCount !== 1) {

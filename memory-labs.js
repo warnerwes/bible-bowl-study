@@ -8,6 +8,7 @@
   const SEEN_KEY = "bbs:labs-seen-unlock:v1";
   const QA_MODE = new URLSearchParams(location.search).get("qa") === "1";
   const MASTERY_STREAK = 3;
+  const REPO = "warnerwes/bible-bowl-study";
 
   const LABS = (window.BibleBowlLabs && window.BibleBowlLabs.labs) || [];
   let questionBank = [];
@@ -134,29 +135,80 @@
     }
   }
 
+  function suggestLabUrl(lab) {
+    const title = `[Memory Lab Revision] ${lab.id} — ${lab.label}`;
+    const body = [
+      `**Memory Lab ID:** ${lab.id}`,
+      `**Lab:** ${lab.label}`,
+      `**Reference:** ${lab.ref || "(none)"}`,
+      `**Interaction:** ${lab.interaction?.type || "(none)"}`,
+      "",
+      `**Subtitle:** ${lab.subtitle || "(none)"}`,
+      `**Description:** ${lab.description || "(none)"}`,
+      `**Tip:** ${lab.tip || "(none)"}`,
+    ];
+
+    if (Array.isArray(lab.ordered_items) && lab.ordered_items.length) {
+      body.push("", "**Ordered items:**");
+      lab.ordered_items.forEach((item, index) => body.push(`${index + 1}. ${item}`));
+    }
+    if (Array.isArray(lab.tree_slots) && lab.tree_slots.length) {
+      body.push("", "**Tree slots:**");
+      lab.tree_slots.forEach((slot) => body.push(`- ${slot.label}: ${slot.accept}`));
+    }
+    if (Array.isArray(lab.tabernacle_cards) && lab.tabernacle_cards.length) {
+      body.push("", "**Placement cards:**");
+      lab.tabernacle_cards.forEach((card) => {
+        body.push(`- ${card.label} (${card.osb_ref || "no ref"})`);
+      });
+    }
+
+    body.push("", "**Teaching copy:**");
+    if (lab.unlock_teaching?.body) {
+      body.push(`- Intro: ${lab.unlock_teaching.headline || "Untitled"} — ${lab.unlock_teaching.body}`);
+    }
+    if (lab.completion_teaching?.memory_sentence) {
+      body.push(`- Completion: ${lab.completion_teaching.memory_sentence}`);
+    }
+    body.push("", "---", "**Suggested change / issue:**", "_Describe the correction here._");
+    return `https://github.com/${REPO}/issues/new?title=${encodeURIComponent(title)}&body=${encodeURIComponent(body.join("\n"))}`;
+  }
+
   function renderReferenceActions(lab) {
     const refLine = document.getElementById("labs-ref");
     if (!refLine) return;
     refLine.textContent = lab.ref || "";
     const refs = exodusReaderRefs(lab.ref);
-    if (!refs.length) return;
-    refLine.appendChild(document.createTextNode(" "));
-    refs.forEach((item, index) => {
-      if (index > 0) refLine.appendChild(document.createTextNode(" / "));
-      const btn = document.createElement("button");
-      btn.type = "button";
-      btn.className = "link-btn";
-      btn.dataset.ref = item.ref;
-      btn.dataset.labReaderRef = "1";
-      btn.textContent = refs.length === 1 ? "Read OSB" : `Read ${item.shortLabel}`;
-      btn.setAttribute("aria-label", `Read ${item.ref} in OSB`);
-      btn.addEventListener("click", () => {
-        if (window.BibleReader && typeof window.BibleReader.openRef === "function") {
-          window.BibleReader.openRef(item.ref);
-        }
+    if (refs.length) {
+      refLine.appendChild(document.createTextNode(" "));
+      refs.forEach((item, index) => {
+        if (index > 0) refLine.appendChild(document.createTextNode(" / "));
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = "link-btn";
+        btn.dataset.ref = item.ref;
+        btn.dataset.labReaderRef = "1";
+        btn.textContent = refs.length === 1 ? "Read OSB" : `Read ${item.shortLabel}`;
+        btn.setAttribute("aria-label", `Read ${item.ref} in OSB`);
+        btn.addEventListener("click", () => {
+          if (window.BibleReader && typeof window.BibleReader.openRef === "function") {
+            window.BibleReader.openRef(item.ref);
+          }
+        });
+        refLine.appendChild(btn);
       });
-      refLine.appendChild(btn);
-    });
+    }
+    refLine.appendChild(document.createTextNode(refs.length ? " · " : " "));
+    const suggest = document.createElement("a");
+    suggest.id = "labs-suggest-link";
+    suggest.className = "link-btn";
+    suggest.style.fontSize = "inherit";
+    suggest.href = suggestLabUrl(lab);
+    suggest.target = "_blank";
+    suggest.rel = "noopener";
+    suggest.textContent = "⚐ Suggest a correction";
+    suggest.setAttribute("aria-label", `Suggest a correction for ${lab.label} on GitHub`);
+    refLine.appendChild(suggest);
   }
 
   function renderWorkspaceReferenceAction(lab) {
