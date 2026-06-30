@@ -11,13 +11,15 @@
    file at that path. We detect navigation requests with a non-root path
    and, if the network doesn't have a real file, serve index.html instead.
    The app's handlePopstate() then routes from the URL to the right screen. */
-const CACHE = "bbs-cache-v42";
+const CACHE = "bbs-cache-v43";
 const CORE = [
   "./",
   "./index.html",
   "./manifest.webmanifest",
   "./data/questions.json",
   "./data/source-text/exodus/exodus-verses.json",
+  "./mastery-trial.css",
+  "./mastery-trial.js",
   "./memory-labs-medals.js",
   "./icon-192.png",
   "./icon-512.png",

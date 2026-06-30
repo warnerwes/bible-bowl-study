@@ -23,6 +23,7 @@
   <link rel="stylesheet" href="memory-labs.css?v=39" />
   <link rel="stylesheet" href="memory-labs-dispenser.css?v=39" />
   <link rel="stylesheet" href="bible-reader.css?v=39" />
+  <link rel="stylesheet" href="mastery-trial.css?v=43" />
 </head>
 <body>
   <header class="site-header">
@@ -202,12 +203,13 @@
   <script src="memory-labs-tree.js?v=42"></script>
   <script src="memory-labs-tabernacle.js?v=39"></script>
   <script src="memory-labs.js?v=42"></script>
+  <script src="mastery-trial.js?v=43"></script>
   <script>
     // ---- Version + SW update machinery ----
     // The asset-busting version baked into this HTML build. Bump this
     // when shipping any change to scripts, styles, or the SW, so phones
     // that loaded an older HTML auto-detect the mismatch and reload.
-    var __BBS_VERSION = "42";
+    var __BBS_VERSION = "43";
     if ("serviceWorker" in navigator) {
       window.addEventListener("load", function () {
         navigator.serviceWorker.register("sw.js").catch(function () {});

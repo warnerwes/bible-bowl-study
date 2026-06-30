@@ -30,6 +30,8 @@ const expectedAssets = [
   "memory-labs-tree.js",
   "memory-labs-tabernacle.js",
   "memory-labs.js",
+  "mastery-trial.css",
+  "mastery-trial.js",
 ];
 
 let failed = 0;
