@@ -12,6 +12,10 @@
   text-align: left;
 }
 
+.refiner-cta[hidden] {
+  display: none;
+}
+
 .refiner-cta.glory-ready {
   border-color: rgba(255, 221, 140, 0.78);
   box-shadow:

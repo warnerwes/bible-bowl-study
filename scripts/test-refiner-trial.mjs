@@ -48,6 +48,12 @@ function masteredStats(questions) {
   );
 }
 
+function allButOneMasteredStats(questions) {
+  const rows = masteredStats(questions);
+  delete rows[questions[questions.length - 1].id];
+  return rows;
+}
+
 async function openSeededPage(browser, seed) {
   const page = await browser.newPage({ viewport: { width: 390, height: 844 } });
   page.on("pageerror", (error) => errors.push(String(error)));
@@ -98,12 +104,22 @@ const browser = await chromium.launch();
 
 try {
   const lockedPage = await openSeededPage(browser, { stats: {} });
-  await lockedPage.waitForSelector("#refiner-trial-cta", { timeout: 8000 });
+  await lockedPage.waitForSelector("#refiner-trial-cta", { state: "attached", timeout: 8000 });
   const locked = await lockedPage.evaluate(() => ({
     unlocked: window.BibleBowlRefinerQA.isUnlocked(),
     hidden: document.getElementById("refiner-trial-cta").hidden,
+    visible: !!document.getElementById("refiner-trial-cta")?.checkVisibility?.(),
   }));
   await lockedPage.close();
+
+  const almostPage = await openSeededPage(browser, { stats: allButOneMasteredStats(questions) });
+  await almostPage.waitForSelector("#refiner-trial-cta", { state: "attached", timeout: 8000 });
+  const almost = await almostPage.evaluate(() => ({
+    unlocked: window.BibleBowlRefinerQA.isUnlocked(),
+    hidden: document.getElementById("refiner-trial-cta").hidden,
+    visible: !!document.getElementById("refiner-trial-cta")?.checkVisibility?.(),
+  }));
+  await almostPage.close();
 
   const stats = masteredStats(questions);
   stats[weakQuestion.id] = { right: 3, wrong: 50, streak: 3, seen: 53 };
@@ -157,8 +173,13 @@ try {
   const checks = [
     {
       name: "Refiner Trial stays locked before full mastery",
-      ok: locked.hidden && !locked.unlocked,
+      ok: locked.hidden && !locked.visible && !locked.unlocked,
       detail: JSON.stringify(locked),
+    },
+    {
+      name: "Refiner Trial stays hidden at 277/278 mastery",
+      ok: almost.hidden && !almost.visible && !almost.unlocked,
+      detail: JSON.stringify(almost),
     },
     {
       name: "Refiner Trial unlocks after Glory / 100% mastery",
