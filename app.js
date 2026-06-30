@@ -325,15 +325,9 @@
     return `https://github.com/${REPO}/issues/new?title=${encodeURIComponent(title)}&body=${encodeURIComponent(body.join("\n"))}`;
   }
 
-  // ---------- Scripture passage link (Septuagint, in context) ----------
+  // ---------- Scripture passage link ----------
   function scriptureRef(q) {
     return q.reference || ("Exodus " + q.chapter);
-  }
-  // The OSB's Old Testament follows the Septuagint; link to Brenton's LXX
-  // chapter on BibleHub so the verse is read in its surrounding context.
-  function septuagintUrl(q) {
-    const book = (q.book || "Exodus").toLowerCase().replace(/\s+/g, "_");
-    return `https://biblehub.com/sep/${book}/${q.chapter}.htm`;
   }
 
   // ---------- Anki CSV export ----------
@@ -502,6 +496,7 @@
     $("quick-start").addEventListener("click", startQuick);
     $("drill-missed").addEventListener("click", startDrill);
     $("review-mastered").addEventListener("click", startReview);
+    $("read-exodus")?.addEventListener("click", () => window.BibleReader.open(1));
     $("start-btn").addEventListener("click", startCustom);
     $("export-csv").addEventListener("click", exportAnki);
 
@@ -927,8 +922,14 @@
     ans.appendChild(el("strong", null, q.answer));
 
     const pl = $("passage-link");
-    pl.href = septuagintUrl(q);
-    pl.textContent = "Read " + scriptureRef(q) + " in context ↗";
+    pl.href = "#";
+    pl.textContent = "Read " + scriptureRef(q) + " in the Orthodox Study Bible ↗";
+    pl.onclick = function (e) {
+      e.preventDefault();
+      if (window.BibleReader && typeof window.BibleReader.openRef === "function") {
+        window.BibleReader.openRef(q.reference || ("Exodus " + q.chapter));
+      }
+    };
 
     const studyToggle = $("study-guide-toggle");
     if (q.memoryAid && q.memoryAid.text) {
@@ -1202,10 +1203,14 @@
         item.appendChild(el("p", "aid-body", q.memoryAid.text));
         if (q.memoryAid.source) item.appendChild(el("cite", "aid-source", "— " + q.memoryAid.source));
       }
-      const passage = el("a", "passage-link", "Read " + scriptureRef(q) + " in context ↗");
-      passage.href = septuagintUrl(q);
-      passage.target = "_blank";
-      passage.rel = "noopener";
+      const passage = el("a", "passage-link", "Read " + scriptureRef(q) + " in the Orthodox Study Bible ↗");
+      passage.href = "#";
+      passage.onclick = function (e) {
+        e.preventDefault();
+        if (window.BibleReader && typeof window.BibleReader.openRef === "function") {
+          window.BibleReader.openRef(q.reference || ("Exodus " + q.chapter));
+        }
+      };
       item.appendChild(passage);
       const suggest = el("a", "suggest-link", "⚐ Suggest a correction");
       suggest.href = suggestUrl(q);

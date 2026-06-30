@@ -36,14 +36,16 @@ jobs:
       - name: Assemble publishable site
         run: |
           mkdir -p _site
-          cp index.html styles.css rewards.css memory-labs.css memory-labs-dispenser.css \
-            app.js rewards.js rewards-scenes-1.js rewards-scenes-2.js \
+          cp index.html styles.css rewards.css memory-labs.css memory-labs-dispenser.css bible-reader.css \
+            app.js rewards.js rewards-scenes-1.js rewards-scenes-2.js bible-reader.js \
             memory-labs.js memory-labs-data.js memory-labs-medals.js memory-labs-drag.js memory-labs-tree.js memory-labs-tabernacle.js \
             manifest.webmanifest sw.js _site/
           cp icon-192.png icon-512.png icon-maskable-512.png apple-touch-icon.png _site/
           cp favicon.png favicon-16.png favicon-32.png _site/
           mkdir -p _site/data
           cp data/questions.json _site/data/
+          mkdir -p _site/data/source-text/exodus
+          cp data/source-text/exodus/exodus-verses.json _site/data/source-text/exodus/
           if [ -f data/review-candidates.json ]; then cp data/review-candidates.json _site/data/; fi
           if [ -f data/vote-sink.json ]; then cp data/vote-sink.json _site/data/; fi
 

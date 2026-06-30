@@ -6,9 +6,9 @@
   <title>Bible Bowl Study — Exodus</title>
   <meta name="description" content="Quiz yourself on the Book of Exodus with mnemonics, teachings, and vivid memory aids." />
   <meta name="theme-color" content="#0c0e12" />
-  <link rel="icon" type="image/png" sizes="16x16" href="favicon-16.png?v=3" />
-  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png?v=3" />
-  <link rel="icon" type="image/png" sizes="256x256" href="favicon.png?v=3" />
+  <link rel="icon" type="image/png" sizes="16x16" href="favicon-16.png?v=39" />
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png?v=39" />
+  <link rel="icon" type="image/png" sizes="256x256" href="favicon.png?v=39" />
   <link rel="manifest" href="manifest.webmanifest" />
   <link rel="apple-touch-icon" href="apple-touch-icon.png" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -18,10 +18,11 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Spectral:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="styles.css?v=18" />
-  <link rel="stylesheet" href="rewards.css?v=7" />
-  <link rel="stylesheet" href="memory-labs.css?v=21" />
-  <link rel="stylesheet" href="memory-labs-dispenser.css?v=4" />
+  <link rel="stylesheet" href="styles.css?v=39" />
+  <link rel="stylesheet" href="rewards.css?v=39" />
+  <link rel="stylesheet" href="memory-labs.css?v=39" />
+  <link rel="stylesheet" href="memory-labs-dispenser.css?v=39" />
+  <link rel="stylesheet" href="bible-reader.css?v=39" />
 </head>
 <body>
   <header class="site-header">
@@ -52,6 +53,7 @@
         <div class="home-foot">
           <button type="button" id="toggle-advanced" class="link-btn" aria-expanded="false">Build a custom quiz ▾</button>
           <button type="button" id="view-progress" class="link-btn" hidden>View my progress →</button>
+          <button type="button" id="read-exodus" class="link-btn">📖 Read Exodus (OSB)</button>
         </div>
       </div>
 
@@ -161,7 +163,7 @@
             </div>
             <p id="aid-review-saved" class="muted" hidden>Saved.</p>
           </div>
-          <a id="passage-link" class="passage-link" target="_blank" rel="noopener"></a>
+          <a id="passage-link" class="passage-link" href="#"></a>
           <button id="study-guide-toggle" type="button" class="link-btn study-guide-toggle" hidden>Show study guide</button>
           <a id="suggest-link" class="suggest-link" target="_blank" rel="noopener">⚐ Suggest a correction</a>
         </div>
@@ -189,22 +191,23 @@
     <p class="muted">Memory aids draw on Orthodox/patristic tradition and the Orthodox Study Bible.</p>
   </footer>
 
-  <script src="app.js?v=21"></script>
-  <script src="rewards-scenes-1.js?v=21"></script>
-  <script src="rewards-scenes-2.js?v=18"></script>
-  <script src="rewards.js?v=20"></script>
-  <script src="memory-labs-medals.js?v=19"></script>
-  <script src="memory-labs-data.js?v=10"></script>
-  <script src="memory-labs-drag.js?v=13"></script>
-  <script src="memory-labs-tree.js?v=12"></script>
-  <script src="memory-labs-tabernacle.js?v=20"></script>
-  <script src="memory-labs.js?v=14"></script>
+  <script src="app.js?v=39"></script>
+  <script src="bible-reader.js?v=39"></script>
+  <script src="rewards-scenes-1.js?v=39"></script>
+  <script src="rewards-scenes-2.js?v=39"></script>
+  <script src="rewards.js?v=39"></script>
+  <script src="memory-labs-medals.js?v=39"></script>
+  <script src="memory-labs-data.js?v=39"></script>
+  <script src="memory-labs-drag.js?v=39"></script>
+  <script src="memory-labs-tree.js?v=39"></script>
+  <script src="memory-labs-tabernacle.js?v=39"></script>
+  <script src="memory-labs.js?v=39"></script>
   <script>
     // ---- Version + SW update machinery ----
     // The asset-busting version baked into this HTML build. Bump this
     // when shipping any change to memory-labs.* or the SW, so phones
     // that loaded an older HTML auto-detect the mismatch and reload.
-    var __BBS_VERSION = "38";
+    var __BBS_VERSION = "39";
     if ("serviceWorker" in navigator) {
       window.addEventListener("load", function () {
         navigator.serviceWorker.register("sw.js").catch(function () {});

@@ -1,0 +1,237 @@
+#reader-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 1200;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: max(0.45rem, env(safe-area-inset-top, 0px))
+    max(0.45rem, env(safe-area-inset-right, 0px))
+    max(0.45rem, env(safe-area-inset-bottom, 0px))
+    max(0.45rem, env(safe-area-inset-left, 0px));
+  background: rgba(8, 10, 14, 0.76);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.25s ease, visibility 0.25s ease;
+}
+
+#reader-modal.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+#reader-modal .reader-card {
+  width: min(100%, 720px);
+  max-width: 100%;
+  max-height: min(85vh, 860px);
+  display: flex;
+  flex-direction: column;
+  border-radius: 16px;
+  border: 1px solid var(--border-gold);
+  background: rgba(19, 23, 30, 0.98);
+  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.56);
+  overflow: hidden;
+}
+
+.reader-header {
+  display: flex;
+  gap: 0.55rem;
+  align-items: center;
+  padding: 0.72rem 0.9rem;
+  border-bottom: 1px solid var(--border);
+  background: rgba(23, 26, 33, 0.95);
+}
+
+.reader-title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(1.1rem, 2.8vw, 1.45rem);
+  line-height: 1.2;
+  color: var(--accent-strong);
+  flex: 1;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.reader-select-wrap {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  flex: 0 0 auto;
+}
+
+.reader-select-label {
+  font-size: 0.64rem;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.reader-chapter-select {
+  min-width: 5.6rem;
+  appearance: none;
+  color: var(--text);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 0.34rem 0.48rem;
+  font-size: 0.86rem;
+  font-family: var(--font-body);
+}
+
+.reader-nav-btn,
+.reader-close-btn {
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 0.36rem 0.55rem;
+  background: var(--surface);
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: 0.78rem;
+  cursor: pointer;
+  transition: border-color 0.15s ease, background 0.15s ease, color 0.15s ease;
+}
+
+.reader-nav-btn:hover:not(:disabled),
+.reader-close-btn:hover {
+  border-color: var(--accent);
+  background: rgba(212, 160, 78, 0.15);
+}
+
+.reader-nav-btn:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+.reader-close-btn {
+  width: 2.2rem;
+  padding: 0.36rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+  line-height: 1;
+  color: var(--accent);
+}
+
+.reader-body {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  padding: 0.8rem 0.85rem 0.95rem;
+}
+
+.reader-body::-webkit-scrollbar {
+  width: 8px;
+}
+
+.reader-body::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.reader-body::-webkit-scrollbar-thumb {
+  background: rgba(212, 160, 78, 0.3);
+  border-radius: 999px;
+}
+
+.reader-message {
+  margin: 0.2rem 0 0.7rem;
+  color: var(--muted);
+}
+
+.reader-error {
+  color: var(--wrong);
+  font-weight: 600;
+}
+
+.reader-subheading {
+  margin: 1.05rem 0 0.35rem;
+  color: var(--accent);
+  font-family: var(--font-display);
+  font-size: 0.92rem;
+  line-height: 1.28;
+}
+
+.reader-verse {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.45rem;
+  padding: 0.2rem 0.05rem;
+  border-radius: 6px;
+}
+
+.reader-verse + .reader-verse {
+  margin-top: 0.08rem;
+}
+
+.reader-verse-number {
+  flex: 0 0 auto;
+  width: 1.85rem;
+  padding-top: 0.07rem;
+  font-size: 0.72rem;
+  line-height: 1.15;
+  color: var(--accent);
+  font-weight: 600;
+  transform: translateY(-0.04rem);
+  text-align: right;
+}
+
+.reader-verse-text {
+  margin: 0;
+  color: var(--text);
+  font-size: 0.96rem;
+  line-height: 1.52;
+  overflow-wrap: anywhere;
+}
+
+.verse-highlight {
+  background: rgba(212, 160, 78, 0.16);
+  box-shadow: inset 0 0 0 1px rgba(212, 160, 78, 0.35);
+}
+
+.reader-footer {
+  border-top: 1px solid var(--border);
+  padding: 0.62rem 0.9rem 0.72rem;
+}
+
+.reader-attribution,
+.reader-translation {
+  margin: 0;
+  font-size: 0.7rem;
+  color: var(--muted);
+  line-height: 1.45;
+}
+
+.reader-translation {
+  margin-top: 0.16rem;
+  font-size: 0.72rem;
+}
+
+@media (max-width: 450px) {
+  #reader-modal {
+    align-items: flex-end;
+  }
+
+  #reader-modal .reader-card {
+    width: calc(100vw - 0.56rem);
+    max-height: 96dvh;
+    border-radius: 14px 14px 0 0;
+  }
+
+  .reader-header {
+    flex-wrap: wrap;
+  }
+
+  .reader-title {
+    width: 100%;
+    font-size: 1.24rem;
+  }
+
+  .reader-select-wrap {
+    margin-right: auto;
+  }
+}
+
