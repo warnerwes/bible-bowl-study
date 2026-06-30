@@ -405,6 +405,8 @@
       stageIndex,
       blanks,
       activeIndex: -1,
+      showBlankVerses: false,
+      resetScroll: true,
     };
     renderGame();
   }
@@ -443,6 +445,12 @@
       return;
     }
     startGame(gameState.chapter, next);
+  }
+
+  function toggleGameVerseScope() {
+    if (!gameState) return;
+    gameState.showBlankVerses = !gameState.showBlankVerses;
+    renderGame();
   }
 
   function appendVerseGameText(row, blanks) {
@@ -485,10 +493,18 @@
     const complete = filled === gameState.blanks.length;
     const shell = el("div", "reader-game");
     const head = el("div", "reader-game-head");
-    head.innerHTML = `
-      <span>Stage ${gameState.stageIndex + 1}/${stageTotal}</span>
-      <strong>${filled}/${gameState.blanks.length} blanks</strong>
-    `;
+    const status = el("div", "reader-game-status");
+    status.append(
+      el("span", "", "Stage " + (gameState.stageIndex + 1) + "/" + stageTotal),
+      el("strong", "", filled + "/" + gameState.blanks.length + " blanks")
+    );
+    const scope = el("button", "reader-game-scope", gameState.showBlankVerses ? "Show all" : "Show some");
+    scope.type = "button";
+    scope.setAttribute("aria-pressed", gameState.showBlankVerses ? "true" : "false");
+    scope.setAttribute("aria-label", gameState.showBlankVerses ? "Show all verses" : "Show only verses with blanks");
+    scope.title = gameState.showBlankVerses ? "Show all verses" : "Show only verses with blanks";
+    scope.addEventListener("click", toggleGameVerseScope);
+    head.append(status, scope);
     shell.appendChild(head);
 
     const verseWrap = el("div", "reader-game-verses");
@@ -496,14 +512,20 @@
     gameState.blanks.forEach((blank) => {
       (byVerse[blank.verse] || (byVerse[blank.verse] = [])).push(blank);
     });
-    Object.keys(byVerse).map(Number).sort((a, b) => a - b).forEach((verse) => {
-      const text = dataCache.verses[chapter + ":" + verse] || "";
-      const row = el("div", "reader-verse reader-game-verse");
+    const blankVerses = new Set(Object.keys(byVerse).map(Number));
+    const rows = chapterEntries(chapter).filter((row) => !gameState.showBlankVerses || blankVerses.has(row.verse));
+    rows.forEach((entry) => {
+      const blanks = byVerse[entry.verse] || [];
+      const rowClass = "reader-verse reader-game-verse " + (blanks.length ? "reader-game-verse-has-blanks" : "reader-game-verse-context");
+      const row = el("div", rowClass);
+      const text = entry.text || "";
+      const verse = entry.verse;
       row.dataset.verse = String(verse);
       const num = el("span", "reader-verse-number", verse);
       const txt = el("p", "reader-verse-text");
       row.append(num, txt);
-      appendVerseGameText({ text, node: txt }, byVerse[verse]);
+      if (blanks.length) appendVerseGameText({ text, node: txt }, blanks);
+      else txt.textContent = text;
       verseWrap.appendChild(row);
     });
     shell.appendChild(verseWrap);
@@ -535,7 +557,17 @@
       }
     }
     modalBody.appendChild(shell);
-    if (!complete && activeBlank()) {
+    if (complete) {
+      requestAnimationFrame(() => {
+        modalBody.scrollTop = modalBody.scrollHeight;
+      });
+    } else if (gameState.resetScroll) {
+      gameState.resetScroll = false;
+      modalBody.scrollTop = 0;
+      requestAnimationFrame(() => {
+        modalBody.scrollTop = 0;
+      });
+    } else if (activeBlank()) {
       requestAnimationFrame(() => {
         modalBody.querySelector(".reader-blank.active")?.scrollIntoView({ block: "center" });
       });
@@ -676,6 +708,7 @@
       chapter: gameState.chapter,
       stageIndex: gameState.stageIndex,
       activeIndex: gameState.activeIndex,
+      showBlankVerses: gameState.showBlankVerses,
       blanks: gameState.blanks.map((blank) => ({
         id: blank.id,
         verse: blank.verse,

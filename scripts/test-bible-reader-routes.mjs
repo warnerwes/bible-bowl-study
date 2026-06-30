@@ -140,9 +140,25 @@ try {
       return box ? { width: box.width, height: box.height } : null;
     })(),
     blankCount: document.querySelectorAll(".reader-blank").length,
+    verseCount: document.querySelectorAll(".reader-game-verses .reader-verse").length,
+    blankVerseCount: document.querySelectorAll(".reader-game-verse-has-blanks").length,
+    scopeText: document.querySelector(".reader-game-scope")?.textContent || "",
     choiceCount: document.querySelectorAll(".reader-choice").length,
     state: window.BibleReader.gameState(),
   }));
+  await page.locator(".reader-game-scope").click();
+  const gameScopedVerses = await page.evaluate(() => {
+    const state = window.BibleReader.gameState();
+    return {
+      verseCount: document.querySelectorAll(".reader-game-verses .reader-verse").length,
+      blankVerseCount: document.querySelectorAll(".reader-game-verse-has-blanks").length,
+      scopeText: document.querySelector(".reader-game-scope")?.textContent || "",
+      showBlankVerses: state?.showBlankVerses,
+      uniqueBlankVerses: new Set(state?.blanks?.map((blank) => blank.verse) || []).size,
+    };
+  });
+  await page.evaluate(() => window.BibleReader.startGame(12));
+  await page.waitForFunction(() => window.BibleReader.gameState()?.showBlankVerses === false);
   await page.locator(".reader-blank").first().click();
   await page.waitForFunction(() => document.querySelectorAll(".reader-choice-tray .reader-choice").length >= 4);
   const gameStageOne = await page.evaluate(() => {
@@ -252,10 +268,22 @@ try {
         gameInitial.titleBox?.width > 200 &&
         gameInitial.titleBox?.height < 60 &&
         gameInitial.blankCount === 4 &&
+        gameInitial.verseCount === 51 &&
+        gameInitial.blankVerseCount === new Set(gameInitial.state?.blanks?.map((blank) => blank.verse) || []).size &&
+        /Show some/.test(gameInitial.scopeText) &&
         gameInitial.choiceCount === 0 &&
         gameInitial.state?.activeIndex === -1 &&
+        gameInitial.state?.showBlankVerses === false &&
         gameInitial.state?.blanks?.every((blank) => blank.options.length >= 4),
       detail: JSON.stringify(gameInitial),
+    },
+    {
+      name: "reader word game scope button filters to blank verses",
+      ok: gameScopedVerses.showBlankVerses === true &&
+        /Show all/.test(gameScopedVerses.scopeText) &&
+        gameScopedVerses.verseCount === gameScopedVerses.uniqueBlankVerses &&
+        gameScopedVerses.blankVerseCount === gameScopedVerses.uniqueBlankVerses,
+      detail: JSON.stringify(gameScopedVerses),
     },
     {
       name: "reader word game loads choices into sticky bottom tray after blank click",
