@@ -82,6 +82,7 @@
 }
 
 .reader-nav-btn,
+.reader-game-btn,
 .reader-close-btn {
   border: 1px solid var(--border);
   border-radius: 10px;
@@ -95,9 +96,16 @@
 }
 
 .reader-nav-btn:hover:not(:disabled),
+.reader-game-btn:hover,
 .reader-close-btn:hover {
   border-color: var(--accent);
   background: rgba(212, 160, 78, 0.15);
+}
+
+.reader-game-btn[aria-pressed="true"] {
+  border-color: rgba(212, 160, 78, 0.72);
+  color: var(--accent-strong);
+  background: rgba(212, 160, 78, 0.16);
 }
 
 .reader-nav-btn:disabled {
@@ -192,6 +200,106 @@
   box-shadow: inset 0 0 0 1px rgba(212, 160, 78, 0.35);
 }
 
+.reader-game {
+  display: grid;
+  gap: 0.9rem;
+}
+
+.reader-game-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 0.72rem 0.8rem;
+  border: 1px solid rgba(212, 160, 78, 0.28);
+  border-radius: 8px;
+  background: rgba(212, 160, 78, 0.08);
+  color: var(--muted);
+  font-size: 0.86rem;
+}
+
+.reader-game-head strong {
+  color: var(--accent-strong);
+}
+
+.reader-game-verses {
+  display: grid;
+  gap: 0.45rem;
+}
+
+.reader-game-verse {
+  padding: 0.55rem 0.45rem;
+  background: rgba(255, 255, 255, 0.035);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+.reader-blank {
+  min-width: 5.2rem;
+  min-height: 1.75rem;
+  margin: 0 0.12rem;
+  padding: 0.16rem 0.45rem;
+  border: 1px solid rgba(212, 160, 78, 0.52);
+  border-radius: 8px;
+  background: rgba(212, 160, 78, 0.1);
+  color: var(--accent-strong);
+  font: inherit;
+  font-weight: 700;
+  line-height: 1.1;
+  vertical-align: baseline;
+  cursor: pointer;
+}
+
+.reader-blank.active {
+  box-shadow: 0 0 0 2px rgba(212, 160, 78, 0.22);
+}
+
+.reader-blank.filled {
+  border-color: rgba(89, 201, 138, 0.55);
+  background: rgba(89, 201, 138, 0.14);
+  color: var(--correct);
+}
+
+.reader-blank.wrong:not(.filled) {
+  border-color: rgba(239, 98, 98, 0.62);
+  background: rgba(239, 98, 98, 0.1);
+}
+
+.reader-game-options {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.55rem;
+  align-items: stretch;
+}
+
+.reader-game-prompt,
+.reader-game-done {
+  grid-column: 1 / -1;
+  margin: 0;
+  color: var(--muted);
+  font-weight: 600;
+}
+
+.reader-game-options .primary-btn {
+  grid-column: 1 / -1;
+}
+
+.reader-choice {
+  min-height: 2.75rem;
+  padding: 0.62rem 0.75rem;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--surface);
+  color: var(--text);
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.reader-choice:hover {
+  border-color: var(--accent);
+  background: rgba(212, 160, 78, 0.13);
+}
+
 .reader-footer {
   border-top: 1px solid var(--border);
   padding: 0.62rem 0.9rem 0.72rem;
@@ -233,5 +341,8 @@
   .reader-select-wrap {
     margin-right: auto;
   }
-}
 
+  .reader-game-options {
+    grid-template-columns: 1fr;
+  }
+}

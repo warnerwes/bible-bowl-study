@@ -77,6 +77,26 @@ try {
     verse29: document.querySelector('#reader-modal .verse-highlight[data-verse="29"]')?.textContent || "",
   }));
 
+  await page.evaluate(() => window.BibleReader.startGame(12));
+  await page.waitForSelector("#reader-modal .reader-game", { timeout: 8000 });
+  const gameStageOne = await page.evaluate(() => ({
+    title: document.querySelector("#reader-title")?.textContent || "",
+    blankCount: document.querySelectorAll(".reader-blank").length,
+    choiceCount: document.querySelectorAll(".reader-choice").length,
+    state: window.BibleReader.gameState(),
+  }));
+  for (let i = 0; i < gameStageOne.blankCount; i++) {
+    await page.evaluate(() => window.BibleReader.answerGameCorrect());
+  }
+  await page.waitForSelector(".reader-game-done", { timeout: 8000 });
+  await page.evaluate(() => window.BibleReader.nextGameStage());
+  await page.waitForFunction(() => window.BibleReader.gameState()?.stageIndex === 1);
+  const gameStageTwo = await page.evaluate(() => ({
+    blankCount: document.querySelectorAll(".reader-blank").length,
+    choiceCount: document.querySelectorAll(".reader-choice").length,
+    state: window.BibleReader.gameState(),
+  }));
+
   const checks = [
     {
       name: "reader opens Exodus 12 while location is /quiz/12",
@@ -97,6 +117,21 @@ try {
       name: "reader opens Exodus 12:29 and highlights verse 29",
       ok: result.highlighted.includes(29) && /firstborn/i.test(result.verse29),
       detail: JSON.stringify({ highlighted: result.highlighted, verse29: result.verse29 }),
+    },
+    {
+      name: "reader word game starts with four chapter blanks",
+      ok: /Word Game/.test(gameStageOne.title) &&
+        gameStageOne.blankCount === 4 &&
+        gameStageOne.choiceCount >= 4 &&
+        gameStageOne.state?.blanks?.every((blank) => blank.options.length >= 4),
+      detail: JSON.stringify(gameStageOne),
+    },
+    {
+      name: "reader word game stage two increases missing words",
+      ok: gameStageTwo.state?.stageIndex === 1 &&
+        gameStageTwo.blankCount === 8 &&
+        gameStageTwo.choiceCount >= 4,
+      detail: JSON.stringify(gameStageTwo),
     },
   ];
 

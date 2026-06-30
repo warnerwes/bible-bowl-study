@@ -6,6 +6,16 @@
     "data/source-text/exodus/exodus-verses.json",
     SCRIPT_URL || window.location.href
   ).href;
+  const GAME_BLANK_COUNTS = [4, 8, 12];
+  const STOP_WORDS = new Set([
+    "about", "after", "again", "against", "also", "among", "and", "are", "because", "before",
+    "being", "between", "both", "but", "came", "come", "did", "does", "down", "each",
+    "from", "had", "has", "have", "her", "him", "his", "into", "its", "let", "like",
+    "made", "may", "not", "now", "off", "one", "only", "out", "over", "said", "same",
+    "shall", "she", "should", "such", "than", "that", "the", "their", "them", "then",
+    "there", "these", "they", "this", "those", "through", "thus", "unto", "upon", "was",
+    "were", "when", "where", "which", "who", "will", "with", "you", "your"
+  ]);
 
   const $ = (id) => document.getElementById(id);
   const el = (tag, cls, text) => {
@@ -27,10 +37,12 @@
   let chapterSelect;
   let prevBtn;
   let nextBtn;
+  let gameBtn;
   let closeBtn;
   let attributionEl;
   let translationEl;
   let activeChapter = null;
+  let gameState = null;
 
   function withLocalHelpers(text) {
     return String(text == null ? "" : text)
@@ -84,6 +96,60 @@
     const verses = chapterMap[chapter];
     if (!verses || !verses.length) return null;
     return verses[verses.length - 1];
+  }
+
+  function chapterEntries(chapter) {
+    const max = maxVerseFor(chapter);
+    if (!Number.isFinite(max)) return [];
+    const rows = [];
+    for (let verse = 1; verse <= max; verse++) {
+      rows.push({ verse, text: dataCache.verses[chapter + ":" + verse] || "" });
+    }
+    return rows;
+  }
+
+  function normalizeWord(word) {
+    return String(word || "").replace(/^[^A-Za-z]+|[^A-Za-z]+$/g, "").toLowerCase();
+  }
+
+  function chapterKeywords(chapter) {
+    const rows = chapterEntries(chapter);
+    const words = new Map();
+    rows.forEach((row) => {
+      const matches = row.text.matchAll(/\b[A-Za-z][A-Za-z'-]{2,}\b/g);
+      for (const match of matches) {
+        const display = match[0].replace(/'s$/i, "");
+        const key = normalizeWord(display);
+        if (key.length < 4 || STOP_WORDS.has(key)) continue;
+        const current = words.get(key) || {
+          key,
+          display,
+          count: 0,
+          firstVerse: row.verse,
+          proper: /^[A-Z]/.test(display),
+          length: display.length,
+        };
+        current.count += 1;
+        current.proper = current.proper || /^[A-Z]/.test(display);
+        if (display.length > current.display.length) current.display = display;
+        words.set(key, current);
+      }
+    });
+    return [...words.values()]
+      .map((item) => ({
+        ...item,
+        score: item.count * 4 + item.length * 0.35 + (item.proper ? 3 : 0),
+      }))
+      .sort((a, b) => b.score - a.score || a.firstVerse - b.firstVerse || a.key.localeCompare(b.key));
+  }
+
+  function shuffle(items) {
+    const arr = items.slice();
+    for (let i = arr.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [arr[i], arr[j]] = [arr[j], arr[i]];
+    }
+    return arr;
   }
 
   function ensureReaderData() {
@@ -158,12 +224,15 @@
     nextBtn.type = "button";
     nextBtn.disabled = true;
 
+    gameBtn = el("button", "reader-game-btn", "Word game");
+    gameBtn.type = "button";
+
     closeBtn = el("button", "reader-close-btn", "×");
     closeBtn.type = "button";
     closeBtn.setAttribute("aria-label", "Close reader");
 
     selectWrap.append(selectLabel, chapterSelect);
-    header.append(title, selectWrap, prevBtn, nextBtn, closeBtn);
+    header.append(title, selectWrap, gameBtn, prevBtn, nextBtn, closeBtn);
 
     modalBody = el("div", "reader-body");
     const footer = el("footer", "reader-footer");
@@ -194,6 +263,14 @@
       if (ch == null) return;
       open(ch);
     });
+    gameBtn.addEventListener("click", function () {
+      if (gameState && gameState.chapter === activeChapter) {
+        gameState = null;
+        renderChapter(activeChapter);
+      } else {
+        startGame(activeChapter);
+      }
+    });
     document.addEventListener("keydown", function (evt) {
       if (!modal.classList.contains("active")) return;
       if (evt.key === "Escape") {
@@ -218,6 +295,200 @@
     prevBtn.disabled = idx <= 0;
     nextBtn.disabled = idx < 0 || idx >= availableChapters.length - 1;
     if (idx >= 0) chapterSelect.value = String(chapter);
+    if (gameBtn) {
+      const inGame = gameState && gameState.chapter === chapter;
+      gameBtn.textContent = inGame ? "Read" : "Word game";
+      gameBtn.setAttribute("aria-pressed", inGame ? "true" : "false");
+    }
+  }
+
+  function makeOptions(answer, keywords) {
+    const answerKey = normalizeWord(answer);
+    const distractors = shuffle(keywords.filter((item) => item.key !== answerKey))
+      .slice(0, 3)
+      .map((item) => item.display);
+    return shuffle([answer, ...distractors]);
+  }
+
+  function buildGameStage(chapter, stageIndex) {
+    const keywords = chapterKeywords(chapter);
+    const target = Math.min(GAME_BLANK_COUNTS[stageIndex] || GAME_BLANK_COUNTS[0], keywords.length);
+    const keywordKeys = new Set(keywords.slice(0, Math.max(target * 3, target)).map((item) => item.key));
+    const rows = chapterEntries(chapter);
+    const occurrences = [];
+    rows.forEach((row) => {
+      const usedInVerse = new Set();
+      const matches = [...row.text.matchAll(/\b[A-Za-z][A-Za-z'-]{2,}\b/g)];
+      matches.forEach((match) => {
+        const key = normalizeWord(match[0]);
+        if (!keywordKeys.has(key) || usedInVerse.has(key)) return;
+        const keyword = keywords.find((item) => item.key === key);
+        if (!keyword) return;
+        occurrences.push({
+          verse: row.verse,
+          key,
+          answer: keyword.display,
+          index: match.index,
+          length: match[0].length,
+          score: keyword.score,
+        });
+        usedInVerse.add(key);
+      });
+    });
+
+    const perVerse = {};
+    const selected = [];
+    occurrences
+      .sort((a, b) => b.score - a.score || a.verse - b.verse)
+      .forEach((item) => {
+        if (selected.length >= target) return;
+        if (selected.some((blank) => blank.key === item.key)) return;
+        const count = perVerse[item.verse] || 0;
+        if (count >= 2) return;
+        perVerse[item.verse] = count + 1;
+        selected.push(item);
+      });
+
+    occurrences.forEach((item) => {
+      if (selected.length >= target) return;
+      if (selected.some((blank) => blank.key === item.key && blank.verse === item.verse)) return;
+      selected.push(item);
+    });
+
+    return selected
+      .sort((a, b) => a.verse - b.verse || a.index - b.index)
+      .slice(0, target)
+      .map((item, idx) => ({
+        ...item,
+        id: "blank-" + idx,
+        filled: false,
+        wrong: false,
+        options: makeOptions(item.answer, keywords),
+      }));
+  }
+
+  function startGame(chapter, stageIndex = 0) {
+    if (!dataCache) return;
+    const normalizedChapter = normalizeChapter(chapter);
+    if (normalizedChapter == null) return;
+    const blanks = buildGameStage(normalizedChapter, stageIndex);
+    gameState = {
+      chapter: normalizedChapter,
+      stageIndex,
+      blanks,
+      activeIndex: 0,
+    };
+    renderGame();
+  }
+
+  function activeBlank() {
+    if (!gameState) return null;
+    return gameState.blanks[gameState.activeIndex] || null;
+  }
+
+  function chooseGameOption(value) {
+    const blank = activeBlank();
+    if (!blank) return false;
+    const ok = normalizeWord(value) === normalizeWord(blank.answer);
+    blank.wrong = !ok;
+    if (ok) {
+      blank.filled = true;
+      const next = gameState.blanks.findIndex((item) => !item.filled);
+      gameState.activeIndex = next < 0 ? gameState.blanks.length : next;
+    }
+    renderGame();
+    return ok;
+  }
+
+  function advanceGameStage() {
+    if (!gameState) return;
+    const next = gameState.stageIndex + 1;
+    if (next >= GAME_BLANK_COUNTS.length) {
+      gameState = null;
+      renderChapter(activeChapter);
+      return;
+    }
+    startGame(gameState.chapter, next);
+  }
+
+  function appendVerseGameText(row, blanks) {
+    const text = row.text;
+    const sorted = blanks.slice().sort((a, b) => a.index - b.index);
+    let cursor = 0;
+    sorted.forEach((blank) => {
+      if (blank.index > cursor) row.node.append(document.createTextNode(text.slice(cursor, blank.index)));
+      const btn = el("button", "reader-blank", blank.filled ? blank.answer : "_____");
+      btn.type = "button";
+      btn.dataset.blankId = blank.id;
+      if (blank.filled) btn.classList.add("filled");
+      if (blank.wrong) btn.classList.add("wrong");
+      if (activeBlank()?.id === blank.id) btn.classList.add("active");
+      btn.addEventListener("click", function () {
+        gameState.activeIndex = gameState.blanks.findIndex((item) => item.id === blank.id);
+        renderGame();
+      });
+      row.node.append(btn);
+      cursor = blank.index + blank.length;
+    });
+    row.node.append(document.createTextNode(text.slice(cursor)));
+  }
+
+  function renderGame() {
+    if (!gameState) return;
+    const chapter = gameState.chapter;
+    activeChapter = chapter;
+    modalBody.innerHTML = "";
+    updateHeaderControls(chapter);
+    title.textContent = "Exodus " + chapter + " Word Game";
+
+    const stageTotal = GAME_BLANK_COUNTS.length;
+    const filled = gameState.blanks.filter((blank) => blank.filled).length;
+    const complete = filled === gameState.blanks.length;
+    const shell = el("div", "reader-game");
+    const head = el("div", "reader-game-head");
+    head.innerHTML = `
+      <span>Stage ${gameState.stageIndex + 1}/${stageTotal}</span>
+      <strong>${filled}/${gameState.blanks.length} blanks</strong>
+    `;
+    shell.appendChild(head);
+
+    const verseWrap = el("div", "reader-game-verses");
+    const byVerse = {};
+    gameState.blanks.forEach((blank) => {
+      (byVerse[blank.verse] || (byVerse[blank.verse] = [])).push(blank);
+    });
+    Object.keys(byVerse).map(Number).sort((a, b) => a - b).forEach((verse) => {
+      const text = dataCache.verses[chapter + ":" + verse] || "";
+      const row = el("div", "reader-verse reader-game-verse");
+      row.dataset.verse = String(verse);
+      const num = el("span", "reader-verse-number", verse);
+      const txt = el("p", "reader-verse-text");
+      row.append(num, txt);
+      appendVerseGameText({ text, node: txt }, byVerse[verse]);
+      verseWrap.appendChild(row);
+    });
+    shell.appendChild(verseWrap);
+
+    const answer = el("div", "reader-game-options");
+    if (complete) {
+      const msg = el("p", "reader-game-done", gameState.stageIndex + 1 >= stageTotal ? "Chapter game complete." : "Stage complete.");
+      const next = el("button", "primary-btn", gameState.stageIndex + 1 >= stageTotal ? "Back to reading" : "Next stage");
+      next.type = "button";
+      next.addEventListener("click", advanceGameStage);
+      answer.append(msg, next);
+    } else {
+      const blank = activeBlank();
+      const prompt = el("p", "reader-game-prompt", "Missing word");
+      answer.appendChild(prompt);
+      blank.options.forEach((option) => {
+        const btn = el("button", "reader-choice", option);
+        btn.type = "button";
+        btn.addEventListener("click", () => chooseGameOption(option));
+        answer.appendChild(btn);
+      });
+    }
+    shell.appendChild(answer);
+    modalBody.appendChild(shell);
   }
 
   function highlightClassFromRange(fromVerse, toVerse, maxVerse) {
@@ -313,6 +584,7 @@
     const t = Number(toVerse);
     const from = Number.isFinite(f) ? f : null;
     const to = Number.isFinite(t) ? t : null;
+    gameState = null;
     renderChapter(normalizedChapter, from, to);
 
     modal.classList.add("active");
@@ -354,5 +626,23 @@
   window.BibleReader = {
     open,
     openRef,
+    startGame,
+    gameState: () => gameState && {
+      chapter: gameState.chapter,
+      stageIndex: gameState.stageIndex,
+      activeIndex: gameState.activeIndex,
+      blanks: gameState.blanks.map((blank) => ({
+        id: blank.id,
+        verse: blank.verse,
+        answer: blank.answer,
+        filled: blank.filled,
+        options: blank.options,
+      })),
+    },
+    answerGameCorrect: () => {
+      const blank = activeBlank();
+      return blank ? chooseGameOption(blank.answer) : false;
+    },
+    nextGameStage: advanceGameStage,
   };
 })();
