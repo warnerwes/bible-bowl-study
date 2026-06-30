@@ -57,6 +57,10 @@ try {
     waitUntil: "networkidle",
   });
   await page.waitForFunction(() => window.BibleReader);
+  const homeBadge = await page.evaluate(() => ({
+    text: document.querySelector("#read-exodus .new-badge")?.textContent || "",
+    visible: !!document.querySelector("#read-exodus .new-badge")?.offsetParent,
+  }));
 
   await page.evaluate(() => {
     history.pushState({ screen: "quiz", index: 0 }, "", "/quiz/12");
@@ -76,21 +80,68 @@ try {
       .map((row) => Number(row.dataset.verse)),
     verse29: document.querySelector('#reader-modal .verse-highlight[data-verse="29"]')?.textContent || "",
   }));
+  const footerPlacement = await page.evaluate(() => {
+    const body = document.querySelector(".reader-body");
+    const footer = document.querySelector(".reader-footer");
+    const fixedFooter = document.querySelector("#reader-modal .reader-card > .reader-footer");
+    const bodyBox = body?.getBoundingClientRect();
+    const initialBox = footer?.getBoundingClientRect();
+    const initiallyVisible = !!(bodyBox && initialBox && initialBox.top < bodyBox.bottom && initialBox.bottom > bodyBox.top);
+    if (body) body.scrollTop = body.scrollHeight;
+    const bottomBox = footer?.getBoundingClientRect();
+    const bottomVisible = !!(bodyBox && bottomBox && bottomBox.top < bodyBox.bottom && bottomBox.bottom > bodyBox.top);
+    return {
+      fixed: !!fixedFooter,
+      parentClass: footer?.parentElement?.className || "",
+      initiallyVisible,
+      bottomVisible,
+      text: footer?.textContent || "",
+    };
+  });
 
   await page.evaluate(() => window.BibleReader.startGame(12));
   await page.waitForSelector("#reader-modal .reader-game", { timeout: 8000 });
-  const gameStageOne = await page.evaluate(() => ({
+  const gameInitial = await page.evaluate(() => ({
     title: document.querySelector("#reader-title")?.textContent || "",
+    titleBox: (() => {
+      const box = document.querySelector("#reader-title")?.getBoundingClientRect();
+      return box ? { width: box.width, height: box.height } : null;
+    })(),
     blankCount: document.querySelectorAll(".reader-blank").length,
     choiceCount: document.querySelectorAll(".reader-choice").length,
     state: window.BibleReader.gameState(),
   }));
+  await page.locator(".reader-blank").first().click();
+  await page.waitForSelector(".reader-choice-tray .reader-choice", { timeout: 8000 });
+  const gameStageOne = await page.evaluate(() => {
+    const tray = document.querySelector(".reader-choice-tray");
+    const box = tray?.getBoundingClientRect();
+    return {
+      title: document.querySelector("#reader-title")?.textContent || "",
+      blankCount: document.querySelectorAll(".reader-blank").length,
+      choiceCount: document.querySelectorAll(".reader-choice").length,
+      tray: box ? {
+        position: getComputedStyle(tray).position,
+        top: Math.round(box.top),
+        bottom: Math.round(box.bottom),
+        viewportHeight: window.innerHeight,
+      } : null,
+      state: window.BibleReader.gameState(),
+    };
+  });
   for (let i = 0; i < gameStageOne.blankCount; i++) {
     await page.evaluate(() => window.BibleReader.answerGameCorrect());
   }
   await page.waitForSelector(".reader-game-done", { timeout: 8000 });
   await page.evaluate(() => window.BibleReader.nextGameStage());
   await page.waitForFunction(() => window.BibleReader.gameState()?.stageIndex === 1);
+  const gameStageTwoInitial = await page.evaluate(() => ({
+    blankCount: document.querySelectorAll(".reader-blank").length,
+    choiceCount: document.querySelectorAll(".reader-choice").length,
+    state: window.BibleReader.gameState(),
+  }));
+  await page.locator(".reader-blank").first().click();
+  await page.waitForSelector(".reader-choice-tray .reader-choice", { timeout: 8000 });
   const gameStageTwo = await page.evaluate(() => ({
     blankCount: document.querySelectorAll(".reader-blank").length,
     choiceCount: document.querySelectorAll(".reader-choice").length,
@@ -98,6 +149,11 @@ try {
   }));
 
   const checks = [
+    {
+      name: "home reader button shows New badge",
+      ok: homeBadge.text.trim() === "New" && homeBadge.visible,
+      detail: JSON.stringify(homeBadge),
+    },
     {
       name: "reader opens Exodus 12 while location is /quiz/12",
       ok: result.title === "Exodus 12",
@@ -119,19 +175,42 @@ try {
       detail: JSON.stringify({ highlighted: result.highlighted, verse29: result.verse29 }),
     },
     {
-      name: "reader word game starts with four chapter blanks",
-      ok: /Word Game/.test(gameStageOne.title) &&
-        gameStageOne.blankCount === 4 &&
+      name: "reader source attribution lives at scroll bottom, not fixed footer",
+      ok: !footerPlacement.fixed &&
+        footerPlacement.parentClass === "reader-body" &&
+        !footerPlacement.initiallyVisible &&
+        footerPlacement.bottomVisible &&
+        /Orthodox Study Bible/.test(footerPlacement.text),
+      detail: JSON.stringify(footerPlacement),
+    },
+    {
+      name: "reader word game starts with four unselected chapter blanks",
+      ok: /Word Game/.test(gameInitial.title) &&
+        gameInitial.titleBox?.width > 200 &&
+        gameInitial.titleBox?.height < 60 &&
+        gameInitial.blankCount === 4 &&
+        gameInitial.choiceCount === 0 &&
+        gameInitial.state?.activeIndex === -1 &&
+        gameInitial.state?.blanks?.every((blank) => blank.options.length >= 4),
+      detail: JSON.stringify(gameInitial),
+    },
+    {
+      name: "reader word game loads choices into sticky bottom tray after blank click",
+      ok: gameStageOne.blankCount === 4 &&
         gameStageOne.choiceCount >= 4 &&
-        gameStageOne.state?.blanks?.every((blank) => blank.options.length >= 4),
+        gameStageOne.tray?.position === "sticky" &&
+        gameStageOne.tray.top > gameStageOne.tray.viewportHeight * 0.55 &&
+        gameStageOne.state?.activeIndex === 0,
       detail: JSON.stringify(gameStageOne),
     },
     {
       name: "reader word game stage two increases missing words",
       ok: gameStageTwo.state?.stageIndex === 1 &&
+        gameStageTwoInitial.blankCount === 8 &&
+        gameStageTwoInitial.choiceCount === 0 &&
         gameStageTwo.blankCount === 8 &&
         gameStageTwo.choiceCount >= 4,
-      detail: JSON.stringify(gameStageTwo),
+      detail: JSON.stringify({ initial: gameStageTwoInitial, selected: gameStageTwo }),
     },
   ];
 

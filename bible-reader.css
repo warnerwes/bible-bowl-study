@@ -30,7 +30,7 @@
   flex-direction: column;
   border-radius: 16px;
   border: 1px solid var(--border-gold);
-  background: rgba(19, 23, 30, 0.98);
+  background: #13171e;
   box-shadow: 0 24px 70px rgba(0, 0, 0, 0.56);
   overflow: hidden;
 }
@@ -39,7 +39,7 @@
   display: flex;
   gap: 0.55rem;
   align-items: center;
-  padding: 0.72rem 0.9rem;
+  padding: 0.56rem 0.78rem;
   border-bottom: 1px solid var(--border);
   background: rgba(23, 26, 33, 0.95);
 }
@@ -202,7 +202,7 @@
 
 .reader-game {
   display: grid;
-  gap: 0.9rem;
+  gap: 0.82rem;
 }
 
 .reader-game-head {
@@ -225,6 +225,7 @@
 .reader-game-verses {
   display: grid;
   gap: 0.45rem;
+  padding-bottom: 0.35rem;
 }
 
 .reader-game-verse {
@@ -250,7 +251,10 @@
 }
 
 .reader-blank.active {
-  box-shadow: 0 0 0 2px rgba(212, 160, 78, 0.22);
+  background: rgba(212, 160, 78, 0.18);
+  box-shadow:
+    0 0 0 2px rgba(212, 160, 78, 0.24),
+    0 0 18px rgba(212, 160, 78, 0.16);
 }
 
 .reader-blank.filled {
@@ -264,11 +268,28 @@
   background: rgba(239, 98, 98, 0.1);
 }
 
-.reader-game-options {
+.reader-choice-tray {
+  position: sticky;
+  bottom: -0.95rem;
+  z-index: 5;
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 0.55rem;
+  gap: 0.42rem;
   align-items: stretch;
+  margin: 0.12rem -0.85rem -0.95rem;
+  padding: 0.46rem 0.85rem calc(0.54rem + env(safe-area-inset-bottom, 0px));
+  border-top: 1px solid rgba(212, 160, 78, 0.34);
+  background:
+    linear-gradient(180deg, rgba(19, 23, 30, 0.9), #13171e 34%),
+    radial-gradient(circle at 50% 0, rgba(212, 160, 78, 0.18), transparent 58%);
+  box-shadow: 0 -18px 30px rgba(0, 0, 0, 0.34);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+.reader-choice-tray.complete {
+  grid-template-columns: 1fr;
+  text-align: center;
 }
 
 .reader-game-prompt,
@@ -279,13 +300,34 @@
   font-weight: 600;
 }
 
-.reader-game-options .primary-btn {
+.reader-game-prompt {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  align-items: center;
+  font-size: 0.68rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.reader-game-prompt strong {
+  color: var(--accent-strong);
+  font-size: 0.72rem;
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+.reader-game-done {
+  color: var(--accent-strong);
+}
+
+.reader-choice-tray .primary-btn {
   grid-column: 1 / -1;
 }
 
 .reader-choice {
-  min-height: 2.75rem;
-  padding: 0.62rem 0.75rem;
+  min-height: 2.24rem;
+  padding: 0.42rem 0.68rem;
   border: 1px solid var(--border);
   border-radius: 8px;
   background: var(--surface);
@@ -298,6 +340,12 @@
 .reader-choice:hover {
   border-color: var(--accent);
   background: rgba(212, 160, 78, 0.13);
+}
+
+.reader-blank:focus-visible,
+.reader-choice:focus-visible {
+  outline: 2px solid var(--accent-strong);
+  outline-offset: 2px;
 }
 
 .reader-footer {
@@ -330,19 +378,72 @@
   }
 
   .reader-header {
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto auto auto;
+    grid-template-areas:
+      "title title title close"
+      "select select game game"
+      "prev prev next next";
+    align-items: center;
+    gap: 0.28rem;
+    padding: 0.36rem 0.52rem 0.42rem;
   }
 
   .reader-title {
-    width: 100%;
-    font-size: 1.24rem;
+    grid-area: title;
+    width: auto;
+    min-width: 0;
+    font-size: 1.04rem;
+    overflow-wrap: normal;
+    word-break: normal;
   }
 
   .reader-select-wrap {
-    margin-right: auto;
+    grid-area: select;
+    justify-self: start;
+    margin-right: 0;
   }
 
-  .reader-game-options {
+  .reader-select-label {
+    font-size: 0.58rem;
+  }
+
+  .reader-chapter-select {
+    min-width: 5.25rem;
+    padding: 0.25rem 0.42rem;
+    font-size: 0.8rem;
+  }
+
+  .reader-game-btn {
+    grid-area: game;
+    justify-self: end;
+  }
+
+  .reader-nav-btn,
+  .reader-game-btn,
+  .reader-close-btn {
+    min-height: 1.82rem;
+    padding: 0.2rem 0.42rem;
+    font-size: 0.72rem;
+  }
+
+  .reader-nav-btn-prev {
+    grid-area: prev;
+    justify-self: stretch;
+  }
+
+  .reader-nav-btn-next {
+    grid-area: next;
+    justify-self: stretch;
+  }
+
+  .reader-close-btn {
+    grid-area: close;
+    justify-self: end;
+    width: 1.82rem;
+  }
+
+  .reader-choice-tray {
     grid-template-columns: 1fr;
   }
 }

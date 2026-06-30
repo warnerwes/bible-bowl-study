@@ -18,11 +18,11 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Spectral:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="styles.css?v=39" />
+  <link rel="stylesheet" href="styles.css?v=52" />
   <link rel="stylesheet" href="rewards.css?v=39" />
   <link rel="stylesheet" href="memory-labs.css?v=39" />
   <link rel="stylesheet" href="memory-labs-dispenser.css?v=39" />
-  <link rel="stylesheet" href="bible-reader.css?v=50" />
+  <link rel="stylesheet" href="bible-reader.css?v=54" />
   <link rel="stylesheet" href="mastery-trial.css?v=50" />
 </head>
 <body>
@@ -54,7 +54,7 @@
         <div class="home-foot">
           <button type="button" id="toggle-advanced" class="link-btn" aria-expanded="false">Build a custom quiz ▾</button>
           <button type="button" id="view-progress" class="link-btn" hidden>View my progress →</button>
-          <button type="button" id="read-exodus" class="link-btn">📖 Read Exodus (OSB)</button>
+          <button type="button" id="read-exodus" class="link-btn">📖 Read Exodus (OSB) <span class="new-badge">New</span></button>
         </div>
       </div>
 
@@ -193,7 +193,7 @@
   </footer>
 
   <script src="app.js?v=39"></script>
-  <script src="bible-reader.js?v=50"></script>
+  <script src="bible-reader.js?v=54"></script>
   <script src="rewards-audio.js?v=48"></script>
   <script src="rewards-scenes-1.js?v=39"></script>
   <script src="rewards-scenes-2.js?v=40"></script>
@@ -210,7 +210,7 @@
     // The asset-busting version baked into this HTML build. Bump this
     // when shipping any change to scripts, styles, or the SW, so phones
     // that loaded an older HTML auto-detect the mismatch and reload.
-    var __BBS_VERSION = "51";
+    var __BBS_VERSION = "54";
     if ("serviceWorker" in navigator) {
       window.addEventListener("load", function () {
         navigator.serviceWorker.register("sw.js").catch(function () {});

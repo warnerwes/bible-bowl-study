@@ -39,8 +39,6 @@
   let nextBtn;
   let gameBtn;
   let closeBtn;
-  let attributionEl;
-  let translationEl;
   let activeChapter = null;
   let gameState = null;
 
@@ -235,12 +233,8 @@
     header.append(title, selectWrap, gameBtn, prevBtn, nextBtn, closeBtn);
 
     modalBody = el("div", "reader-body");
-    const footer = el("footer", "reader-footer");
-    attributionEl = el("p", "reader-attribution");
-    translationEl = el("p", "reader-translation");
-    footer.append(attributionEl, translationEl);
 
-    card.append(header, modalBody, footer);
+    card.append(header, modalBody);
     modal.appendChild(card);
     document.body.appendChild(modal);
 
@@ -300,6 +294,16 @@
       gameBtn.textContent = inGame ? "Read" : "Word game";
       gameBtn.setAttribute("aria-pressed", inGame ? "true" : "false");
     }
+  }
+
+  function appendReaderFooter(target) {
+    const footer = el("footer", "reader-footer");
+    footer.append(
+      el("p", "reader-attribution", dataCache?.attribution || ""),
+      el("p", "reader-translation", dataCache?.translation || "")
+    );
+    target.appendChild(footer);
+    return footer;
   }
 
   function makeOptions(answer, keywords) {
@@ -376,7 +380,7 @@
       chapter: normalizedChapter,
       stageIndex,
       blanks,
-      activeIndex: 0,
+      activeIndex: -1,
     };
     renderGame();
   }
@@ -387,14 +391,20 @@
   }
 
   function chooseGameOption(value) {
-    const blank = activeBlank();
+    let blank = activeBlank();
+    if (!blank) {
+      const next = gameState?.blanks.findIndex((item) => !item.filled) ?? -1;
+      if (next >= 0) {
+        gameState.activeIndex = next;
+        blank = activeBlank();
+      }
+    }
     if (!blank) return false;
     const ok = normalizeWord(value) === normalizeWord(blank.answer);
     blank.wrong = !ok;
     if (ok) {
       blank.filled = true;
-      const next = gameState.blanks.findIndex((item) => !item.filled);
-      gameState.activeIndex = next < 0 ? gameState.blanks.length : next;
+      gameState.activeIndex = -1;
     }
     renderGame();
     return ok;
@@ -423,8 +433,13 @@
       if (blank.filled) btn.classList.add("filled");
       if (blank.wrong) btn.classList.add("wrong");
       if (activeBlank()?.id === blank.id) btn.classList.add("active");
+      btn.setAttribute("aria-label", blank.filled ? "Filled word: " + blank.answer : "Missing word in verse " + blank.verse);
+      btn.setAttribute("aria-expanded", activeBlank()?.id === blank.id ? "true" : "false");
+      if (!blank.filled) btn.setAttribute("aria-controls", "reader-choice-tray");
       btn.addEventListener("click", function () {
-        gameState.activeIndex = gameState.blanks.findIndex((item) => item.id === blank.id);
+        gameState.activeIndex = blank.filled
+          ? -1
+          : gameState.blanks.findIndex((item) => item.id === blank.id);
         renderGame();
       });
       row.node.append(btn);
@@ -468,27 +483,39 @@
       verseWrap.appendChild(row);
     });
     shell.appendChild(verseWrap);
+    appendReaderFooter(shell);
 
-    const answer = el("div", "reader-game-options");
+    const answer = el("div", "reader-game-options reader-choice-tray");
+    answer.id = "reader-choice-tray";
     if (complete) {
+      answer.classList.add("complete");
       const msg = el("p", "reader-game-done", gameState.stageIndex + 1 >= stageTotal ? "Chapter game complete." : "Stage complete.");
       const next = el("button", "primary-btn", gameState.stageIndex + 1 >= stageTotal ? "Back to reading" : "Next stage");
       next.type = "button";
       next.addEventListener("click", advanceGameStage);
       answer.append(msg, next);
+      shell.appendChild(answer);
     } else {
       const blank = activeBlank();
-      const prompt = el("p", "reader-game-prompt", "Missing word");
-      answer.appendChild(prompt);
-      blank.options.forEach((option) => {
-        const btn = el("button", "reader-choice", option);
-        btn.type = "button";
-        btn.addEventListener("click", () => chooseGameOption(option));
-        answer.appendChild(btn);
+      if (blank) {
+        const prompt = el("p", "reader-game-prompt");
+        prompt.append(el("span", "", "Missing word"), el("strong", "", "Verse " + blank.verse));
+        answer.appendChild(prompt);
+        blank.options.forEach((option) => {
+          const btn = el("button", "reader-choice", option);
+          btn.type = "button";
+          btn.addEventListener("click", () => chooseGameOption(option));
+          answer.appendChild(btn);
+        });
+        shell.appendChild(answer);
+      }
+    }
+    modalBody.appendChild(shell);
+    if (!complete && activeBlank()) {
+      requestAnimationFrame(() => {
+        modalBody.querySelector(".reader-blank.active")?.scrollIntoView({ block: "center" });
       });
     }
-    shell.appendChild(answer);
-    modalBody.appendChild(shell);
   }
 
   function highlightClassFromRange(fromVerse, toVerse, maxVerse) {
@@ -516,15 +543,12 @@
         const e = el("p", "reader-message reader-error", fetchError);
         modalBody.appendChild(e);
       }
-      attributionEl.textContent = "";
-      translationEl.textContent = "";
       return;
     }
 
     if (!Number.isFinite(chapterMax) || chapterMax < 1) {
       modalBody.appendChild(el("p", "reader-message", "This chapter isn't available offline yet."));
-      attributionEl.textContent = dataCache.attribution || "";
-      translationEl.textContent = dataCache.translation || "";
+      appendReaderFooter(modalBody);
       return;
     }
 
@@ -557,8 +581,7 @@
       }
     }
 
-    attributionEl.textContent = dataCache.attribution || "";
-    translationEl.textContent = dataCache.translation || "";
+    appendReaderFooter(modalBody);
   }
 
   async function open(chapter, fromVerse, toVerse) {
@@ -572,8 +595,6 @@
       modalBody.innerHTML = "";
       modalBody.appendChild(el("p", "reader-message", "Unable to load the OSB text right now."));
       if (fetchError) modalBody.appendChild(el("p", "reader-message reader-error", fetchError));
-      attributionEl.textContent = "";
-      translationEl.textContent = "";
       modal.classList.add("active");
       modal.setAttribute("aria-hidden", "false");
       return;
@@ -640,7 +661,7 @@
       })),
     },
     answerGameCorrect: () => {
-      const blank = activeBlank();
+      const blank = activeBlank() || gameState?.blanks.find((item) => !item.filled);
       return blank ? chooseGameOption(blank.answer) : false;
     },
     nextGameStage: advanceGameStage,
