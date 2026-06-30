@@ -185,42 +185,40 @@
         id: "consecration",
         label: "Holy Consecration",
         emoji: "🕯️",
-        ref: "Exodus 29",
-        subtitle: "Remembering God's institution · not performing the rite",
+        ref: "Exodus 40:10-13",
+        subtitle: "Aaron and his sons set apart at the door · OSB Exodus 40",
+        // Scoped to Exodus 40:10-13 (the priests' consecration as Moses sets
+        // up the tabernacle). The fuller Exodus 29 ordination rite (offerings,
+        // ordination ram, the seven-day holy meal) is OUT of quiz scope, so it
+        // is deliberately NOT part of this lab.
         description:
-          "God sets Aaron and his sons apart through washing, vesting, anointing, offerings, and a holy meal — in His commanded order.",
-        tip: "Prepare, wash, clothe, anoint, offer, ordain, eat, complete.",
+          "At the door of the tabernacle, God sets Aaron and his sons apart for priestly ministry — brought, washed, clothed, and anointed in His commanded order. You are remembering the order God gave, not performing the rite.",
+        tip: "At the door: bring them, wash, clothe Aaron, anoint Aaron, clothe his sons, anoint his sons.",
         ordered_items: [
-          "Prepare Offerings",
-          "Wash Priests",
+          "Bring to the Door",
+          "Wash with Water",
           "Clothe Aaron",
           "Anoint Aaron",
           "Clothe His Sons",
-          "Sin Offering",
-          "Burnt Offering",
-          "Ordination Ram",
-          "Holy Meal & 7 Days",
+          "Anoint His Sons",
         ],
         item_emojis: [
-          "🛠️", // Prepare Offerings
-          "💧", // Wash Priests
-          "👕", // Clothe Aaron
-          "🫒", // Anoint Aaron (oil)
-          "👔", // Clothe His Sons
-          "🐏", // Sin Offering (ram)
-          "🔥", // Burnt Offering
-          "🐂", // Ordination Ram
-          "🍞", // Holy Meal & 7 Days (bread of presence)
+          "🚪", // Bring Aaron & his sons to the door (Ex 40:10)
+          "💧", // Wash them with water (Ex 40:10)
+          "👕", // Put the holy garments on Aaron (Ex 40:11)
+          "🫒", // Anoint and consecrate Aaron (Ex 40:11)
+          "👔", // Put garments on his sons (Ex 40:12)
+          "🫗", // Anoint his sons as their father (Ex 40:13)
         ],
-        unlock: { chapters: [25, 26, 27, 28, 29, 30, 31, 35, 36, 37, 38, 39, 40], min: 10 },
+        unlock: { chapters: [38, 39, 40], min: 1 },
         unlock_teaching: {
-          headline: "Set Apart for God",
+          headline: "Set Apart at the Door",
           body:
-            "Consecration is God setting persons apart for holy service — not a magic costume change. You are remembering the order God gave, not play-acting priestly rites.",
+            "Consecration is God setting persons apart for holy service — not a magic costume change. In Exodus 40, Moses brings Aaron and his sons to the door of the tabernacle and washes, clothes, and anoints them for an everlasting priesthood. You are remembering the order God gave, not play-acting priestly rites.",
         },
         completion_teaching: {
           memory_sentence:
-            "Holy service begins by God's command, in God's order, for God's glory.",
+            "At the door of the tabernacle, Aaron and his sons are washed, clothed, and anointed for an everlasting priesthood.",
         },
         interaction: { type: "drag_order" },
       },
