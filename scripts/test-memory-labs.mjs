@@ -83,41 +83,56 @@ async function assertSolvedLabLocked(page, id, solvedState, issues) {
 }
 
 async function assertLabReferenceReader(page, id, issues) {
-  if (id !== "consecration") return;
-
-  const refs = await page.locator("#labs-ref button").evaluateAll((buttons) =>
+  const baseRef = await page.locator("#labs-ref").evaluate((node) => node.childNodes[0]?.textContent || "");
+  if (!/^Exodus\b/i.test(baseRef.trim())) {
+    issues.push(`${id} lab reference should stay in Exodus scope, got "${baseRef.trim()}"`);
+  }
+  if (/\bGenesis\b|\bExodus\s+29\b|\bEx\s+29\b/i.test(baseRef)) {
+    issues.push(`${id} lab reference includes out-of-scope text: "${baseRef.trim()}"`);
+  }
+  const refs = await page.locator('button[data-lab-reader-ref="1"]:visible').evaluateAll((buttons) =>
     buttons.map((btn) => ({
       text: btn.textContent || "",
       ref: btn.dataset.ref || "",
     }))
   );
-  const match = refs.find((item) => item.ref === "Exodus 40:1-13");
-  if (!match) {
-    issues.push(`missing reader button for Exodus 40:1-13: ${JSON.stringify(refs)}`);
+  const uniqueRefs = [...new Map(refs.map((item) => [item.ref, item])).values()];
+  if (!uniqueRefs.length) {
+    issues.push(`${id} missing Exodus reader button`);
     return;
   }
 
-  await page.locator('#labs-ref button[data-ref="Exodus 40:1-13"]').click();
-  await page.waitForSelector("#reader-modal.active", { timeout: 8000 });
-  const opened = await page.evaluate(() => ({
-    title: document.querySelector("#reader-title")?.textContent || "",
-    highlighted: [...document.querySelectorAll("#reader-modal .verse-highlight")]
-      .map((row) => Number(row.dataset.verse)),
-    error: document.querySelector("#reader-modal .reader-error")?.textContent || "",
-  }));
+  for (const item of uniqueRefs) {
+    const chapter = Number((item.ref.match(/^Exodus\s+(\d+)/i) || [])[1]);
+    if (!Number.isFinite(chapter)) {
+      issues.push(`${id} reader button has non-Exodus ref: ${JSON.stringify(item)}`);
+      continue;
+    }
+    await page.locator(`button[data-lab-reader-ref="1"][data-ref="${item.ref}"]:visible`).first().click();
+    await page.waitForSelector("#reader-modal.active", { timeout: 8000 });
+    const opened = await page.evaluate(() => ({
+      title: document.querySelector("#reader-title")?.textContent || "",
+      highlighted: [...document.querySelectorAll("#reader-modal .verse-highlight")]
+        .map((row) => Number(row.dataset.verse)),
+      error: document.querySelector("#reader-modal .reader-error")?.textContent || "",
+      message: document.querySelector("#reader-modal .reader-message")?.textContent || "",
+    }));
 
-  if (opened.title !== "Exodus 40") {
-    issues.push(`reference reader opened wrong title: ${JSON.stringify(opened)}`);
+    if (opened.title !== `Exodus ${chapter}`) {
+      issues.push(`${id} reader opened wrong title for ${item.ref}: ${JSON.stringify(opened)}`);
+    }
+    if (item.ref.includes(":") && opened.highlighted.length < 1) {
+      issues.push(`${id} reader did not highlight verse range for ${item.ref}: ${JSON.stringify(opened)}`);
+    }
+    if (opened.error) {
+      issues.push(`${id} reader showed error for ${item.ref}: ${opened.error}`);
+    }
+    if (/not available|unable to load|404/i.test(opened.message)) {
+      issues.push(`${id} reader did not load available OSB text for ${item.ref}: ${opened.message}`);
+    }
+    await page.locator("#reader-modal .reader-close-btn").click();
+    await page.waitForFunction(() => !document.getElementById("reader-modal")?.classList.contains("active"));
   }
-  if (opened.highlighted[0] !== 1 || opened.highlighted.at(-1) !== 13) {
-    issues.push(`reader did not highlight Exodus 40:1-13: ${JSON.stringify(opened)}`);
-  }
-  if (opened.error) {
-    issues.push(`reader showed error from lab reference: ${opened.error}`);
-  }
-
-  await page.locator("#reader-modal .reader-close-btn").click();
-  await page.waitForFunction(() => !document.getElementById("reader-modal")?.classList.contains("active"));
 }
 
 async function exerciseDragDispenser(page, id, issues) {

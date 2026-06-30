@@ -147,6 +147,7 @@
       btn.type = "button";
       btn.className = "link-btn";
       btn.dataset.ref = item.ref;
+      btn.dataset.labReaderRef = "1";
       btn.textContent = refs.length === 1 ? "Read OSB" : `Read ${item.shortLabel}`;
       btn.setAttribute("aria-label", `Read ${item.ref} in OSB`);
       btn.addEventListener("click", () => {
@@ -156,6 +157,36 @@
       });
       refLine.appendChild(btn);
     });
+  }
+
+  function renderWorkspaceReferenceAction(lab) {
+    const ws = document.getElementById("labs-workspace");
+    if (!ws) return;
+    ws.querySelector(".lab-workspace-ref")?.remove();
+    if (lab.interaction.type !== "tabernacle_place") return;
+
+    const refs = exodusReaderRefs(lab.ref);
+    if (!refs.length) return;
+    const line = document.createElement("p");
+    line.className = "lab-drag-subtitle lab-workspace-ref";
+    line.textContent = `${lab.ref} `;
+    refs.forEach((item, index) => {
+      if (index > 0) line.appendChild(document.createTextNode(" / "));
+      const btn = document.createElement("button");
+      btn.type = "button";
+      btn.className = "link-btn";
+      btn.dataset.ref = item.ref;
+      btn.dataset.labReaderRef = "1";
+      btn.textContent = refs.length === 1 ? "Read OSB" : `Read ${item.shortLabel}`;
+      btn.setAttribute("aria-label", `Read ${item.ref} in OSB`);
+      btn.addEventListener("click", () => {
+        if (window.BibleReader && typeof window.BibleReader.openRef === "function") {
+          window.BibleReader.openRef(item.ref);
+        }
+      });
+      line.appendChild(btn);
+    });
+    ws.prepend(line);
   }
 
   function initShelf() {
@@ -343,6 +374,7 @@
     } else if (window.BibleBowlLabDrag) {
       labSession = window.BibleBowlLabDrag.mount(ws, lab, { onComplete });
     }
+    renderWorkspaceReferenceAction(lab);
   }
 
   function openLabModal(lab) {

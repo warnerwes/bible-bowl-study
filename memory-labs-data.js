@@ -46,7 +46,7 @@
         id: "tribes",
         label: "Twelve Tribes",
         emoji: "⛺",
-        ref: "Genesis 29–35; Exodus 1",
+        ref: "Exodus 1:1-5",
         subtitle: "Birth order, not camp order",
         description:
           "Jacob's twelve sons in birth order — the foundation before camp lists, blessings, and land allotments.",
@@ -141,7 +141,7 @@
         id: "priest_line",
         label: "Line of the Priesthood",
         emoji: "🌿",
-        ref: "Exodus 6:16–25; 18:3–4; 28:1",
+        ref: "Exodus 6:16–25; 18:3–4",
         subtitle: "Aaron's line · Moses' sons for contrast",
         description:
           "Moses and Aaron share Levi's line, but priestly ministry runs through Aaron and his sons — not through Gershom or Eliezer.",
