@@ -56,7 +56,7 @@ try {
   await page.goto(`http://127.0.0.1:${PORT}/index.html?qa=1`, {
     waitUntil: "networkidle",
   });
-  await page.waitForFunction(() => window.BibleReader);
+  await page.waitForFunction(() => window.BibleReader && window.BibleBowlQA);
   const homeBadge = await page.evaluate(() => ({
     text: document.querySelector("#read-exodus .new-badge")?.textContent || "",
     visible: !!document.querySelector("#read-exodus .new-badge")?.offsetParent,
@@ -99,10 +99,42 @@ try {
     };
   });
 
+  await page.locator("#reader-modal .reader-close-btn").click();
+  await page.waitForFunction(() => !document.querySelector("#reader-modal")?.classList.contains("active"));
+  await page.evaluate(() => window.BibleBowlQA.open("red_sea"));
+  await page.waitForSelector("#rewards-modal.active", { timeout: 8000 });
+  await page.evaluate(() => {
+    const passage = document.querySelector(".rewards-passage");
+    if (passage) passage.open = true;
+  });
+  const rewardPassageButton = await page.evaluate(() => {
+    const btn = document.querySelector("#rewards-hud-passage");
+    return {
+      text: btn?.textContent || "",
+      ref: btn?.dataset.ref || "",
+      hidden: !!btn?.hidden,
+    };
+  });
+  await page.locator("#rewards-hud-passage").click();
+  await page.waitForSelector("#reader-modal.active", { timeout: 8000 });
+  await page.waitForSelector('#reader-modal .verse-highlight[data-verse="16"]', { timeout: 8000 });
+  const rewardReader = await page.evaluate(() => ({
+    title: document.querySelector("#reader-title")?.textContent || "",
+    highlighted: [...document.querySelectorAll("#reader-modal .verse-highlight")]
+      .map((row) => Number(row.dataset.verse)),
+  }));
+  await page.locator("#reader-modal .reader-close-btn").click();
+  await page.waitForFunction(() => !document.querySelector("#reader-modal")?.classList.contains("active"));
+  await page.evaluate(() => window.BibleBowlQA.close());
+
   await page.evaluate(() => window.BibleReader.startGame(12));
   await page.waitForSelector("#reader-modal .reader-game", { timeout: 8000 });
   const gameInitial = await page.evaluate(() => ({
     title: document.querySelector("#reader-title")?.textContent || "",
+    headerBox: (() => {
+      const box = document.querySelector("#reader-modal .reader-header")?.getBoundingClientRect();
+      return box ? { width: box.width, height: box.height } : null;
+    })(),
     titleBox: (() => {
       const box = document.querySelector("#reader-title")?.getBoundingClientRect();
       return box ? { width: box.width, height: box.height } : null;
@@ -112,7 +144,7 @@ try {
     state: window.BibleReader.gameState(),
   }));
   await page.locator(".reader-blank").first().click();
-  await page.waitForSelector(".reader-choice-tray .reader-choice", { timeout: 8000 });
+  await page.waitForFunction(() => document.querySelectorAll(".reader-choice-tray .reader-choice").length >= 4);
   const gameStageOne = await page.evaluate(() => {
     const tray = document.querySelector(".reader-choice-tray");
     const box = tray?.getBoundingClientRect();
@@ -141,12 +173,32 @@ try {
     state: window.BibleReader.gameState(),
   }));
   await page.locator(".reader-blank").first().click();
-  await page.waitForSelector(".reader-choice-tray .reader-choice", { timeout: 8000 });
+  await page.waitForFunction(() => document.querySelectorAll(".reader-choice-tray .reader-choice").length >= 4);
   const gameStageTwo = await page.evaluate(() => ({
     blankCount: document.querySelectorAll(".reader-blank").length,
     choiceCount: document.querySelectorAll(".reader-choice").length,
     state: window.BibleReader.gameState(),
   }));
+  await page.evaluate(() => window.BibleReader.startGame(1, 2));
+  await page.waitForFunction(() => window.BibleReader.gameState()?.stageIndex === 2);
+  const gameStageThreeChapterOne = await page.evaluate(() => {
+    const state = window.BibleReader.gameState();
+    return {
+      blankCount: document.querySelectorAll(".reader-blank").length,
+      answers: state?.blanks?.map((blank) => blank.answer) || [],
+      state,
+    };
+  });
+  await page.evaluate(() => window.BibleReader.startGame(3, 2));
+  await page.waitForFunction(() => window.BibleReader.gameState()?.stageIndex === 2);
+  const gameStageThreeChapterThree = await page.evaluate(() => {
+    const state = window.BibleReader.gameState();
+    return {
+      blankCount: document.querySelectorAll(".reader-blank").length,
+      answers: state?.blanks?.map((blank) => blank.answer) || [],
+      state,
+    };
+  });
 
   const checks = [
     {
@@ -184,8 +236,19 @@ try {
       detail: JSON.stringify(footerPlacement),
     },
     {
+      name: "reward passage button opens highlighted Bible reader passage",
+      ok: !rewardPassageButton.hidden &&
+        rewardPassageButton.ref === "Exodus 14:16-22" &&
+        /Read Exodus 14:16-22/.test(rewardPassageButton.text) &&
+        rewardReader.title === "Exodus 14" &&
+        rewardReader.highlighted.includes(16) &&
+        rewardReader.highlighted.includes(22),
+      detail: JSON.stringify({ button: rewardPassageButton, reader: rewardReader }),
+    },
+    {
       name: "reader word game starts with four unselected chapter blanks",
       ok: /Word Game/.test(gameInitial.title) &&
+        gameInitial.headerBox?.height < 82 &&
         gameInitial.titleBox?.width > 200 &&
         gameInitial.titleBox?.height < 60 &&
         gameInitial.blankCount === 4 &&
@@ -211,6 +274,20 @@ try {
         gameStageTwo.blankCount === 8 &&
         gameStageTwo.choiceCount >= 4,
       detail: JSON.stringify({ initial: gameStageTwoInitial, selected: gameStageTwo }),
+    },
+    {
+      name: "reader word game stage three emphasizes harder names and big words",
+      ok: gameStageThreeChapterOne.blankCount === 12 &&
+        ["multiplied", "Pithom", "Raamses", "Shiphrah", "Puah"].every((word) =>
+          gameStageThreeChapterOne.answers.includes(word)
+        ),
+      detail: JSON.stringify(gameStageThreeChapterOne),
+    },
+    {
+      name: "reader word game stage three includes larger content words",
+      ok: gameStageThreeChapterThree.blankCount === 12 &&
+        gameStageThreeChapterThree.answers.includes("affliction"),
+      detail: JSON.stringify(gameStageThreeChapterThree),
     },
   ];
 

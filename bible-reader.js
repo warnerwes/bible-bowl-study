@@ -10,11 +10,15 @@
   const STOP_WORDS = new Set([
     "about", "after", "again", "against", "also", "among", "and", "are", "because", "before",
     "being", "between", "both", "but", "came", "come", "did", "does", "down", "each",
-    "from", "had", "has", "have", "her", "him", "his", "into", "its", "let", "like",
-    "made", "may", "not", "now", "off", "one", "only", "out", "over", "said", "same",
-    "shall", "she", "should", "such", "than", "that", "the", "their", "them", "then",
-    "there", "these", "they", "this", "those", "through", "thus", "unto", "upon", "was",
-    "were", "when", "where", "which", "who", "will", "with", "you", "your"
+    "every", "from", "had", "has", "have", "her", "him", "his", "into", "its", "let",
+    "like", "made", "may", "moreover", "not", "now", "off", "one", "only", "out", "over",
+    "said", "same", "shall", "she", "should", "such", "than", "that", "the", "their",
+    "them", "then", "there", "therefore", "these", "they", "this", "those", "through",
+    "thus", "unto", "upon", "was", "were", "when", "where", "which", "who", "will",
+    "with", "you", "your"
+  ]);
+  const STUDY_WORDS = new Set([
+    "affliction", "multiplied", "pithom", "puah", "raamses", "shiphrah", "shiprah"
   ]);
 
   const $ = (id) => document.getElementById(id);
@@ -134,10 +138,17 @@
       }
     });
     return [...words.values()]
-      .map((item) => ({
-        ...item,
-        score: item.count * 4 + item.length * 0.35 + (item.proper ? 3 : 0),
-      }))
+      .map((item) => {
+        const longBonus = item.length >= 10 ? 9 : item.length >= 8 ? 6 : item.length >= 6 ? 3 : 0;
+        const rarityBonus = item.count === 1 ? 8 : item.count === 2 ? 5 : 2;
+        const properBonus = item.proper ? 12 : 0;
+        const studyBonus = STUDY_WORDS.has(item.key) ? 14 : 0;
+        return {
+          ...item,
+          score: item.count * 4 + item.length * 0.35 + (item.proper ? 3 : 0),
+          hardScore: item.length * 1.1 + longBonus + rarityBonus + properBonus + studyBonus + Math.min(item.count, 4) * 1.5,
+        };
+      })
       .sort((a, b) => b.score - a.score || a.firstVerse - b.firstVerse || a.key.localeCompare(b.key));
   }
 
@@ -214,13 +225,17 @@
     chapterSelect.id = "reader-chapter";
     chapterSelect.className = "reader-chapter-select";
 
-    prevBtn = el("button", "reader-nav-btn reader-nav-btn-prev", "‹ Prev");
+    prevBtn = el("button", "reader-nav-btn reader-nav-btn-prev", "<");
     prevBtn.type = "button";
     prevBtn.disabled = true;
+    prevBtn.setAttribute("aria-label", "Previous chapter");
+    prevBtn.title = "Previous chapter";
 
-    nextBtn = el("button", "reader-nav-btn reader-nav-btn-next", "Next ›");
+    nextBtn = el("button", "reader-nav-btn reader-nav-btn-next", ">");
     nextBtn.type = "button";
     nextBtn.disabled = true;
+    nextBtn.setAttribute("aria-label", "Next chapter");
+    nextBtn.title = "Next chapter";
 
     gameBtn = el("button", "reader-game-btn", "Word game");
     gameBtn.type = "button";
@@ -316,8 +331,16 @@
 
   function buildGameStage(chapter, stageIndex) {
     const keywords = chapterKeywords(chapter);
+    const useHardScore = stageIndex >= 2;
+    const rankField = useHardScore ? "hardScore" : "score";
+    const rankedKeywords = keywords.slice().sort((a, b) =>
+      b[rankField] - a[rankField] || b.score - a.score || a.firstVerse - b.firstVerse || a.key.localeCompare(b.key)
+    );
     const target = Math.min(GAME_BLANK_COUNTS[stageIndex] || GAME_BLANK_COUNTS[0], keywords.length);
-    const keywordKeys = new Set(keywords.slice(0, Math.max(target * 3, target)).map((item) => item.key));
+    const keywordKeys = new Set(
+      rankedKeywords.slice(0, Math.max(target * (useHardScore ? 5 : 3), target)).map((item) => item.key)
+    );
+    const keywordLookup = new Map(keywords.map((item) => [item.key, item]));
     const rows = chapterEntries(chapter);
     const occurrences = [];
     rows.forEach((row) => {
@@ -326,7 +349,7 @@
       matches.forEach((match) => {
         const key = normalizeWord(match[0]);
         if (!keywordKeys.has(key) || usedInVerse.has(key)) return;
-        const keyword = keywords.find((item) => item.key === key);
+        const keyword = keywordLookup.get(key);
         if (!keyword) return;
         occurrences.push({
           verse: row.verse,
@@ -335,6 +358,7 @@
           index: match.index,
           length: match[0].length,
           score: keyword.score,
+          hardScore: keyword.hardScore,
         });
         usedInVerse.add(key);
       });
@@ -343,7 +367,7 @@
     const perVerse = {};
     const selected = [];
     occurrences
-      .sort((a, b) => b.score - a.score || a.verse - b.verse)
+      .sort((a, b) => b[rankField] - a[rankField] || b.score - a.score || a.verse - b.verse)
       .forEach((item) => {
         if (selected.length >= target) return;
         if (selected.some((blank) => blank.key === item.key)) return;

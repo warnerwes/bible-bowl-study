@@ -11,7 +11,7 @@
 
   // The 8 milestones representing the journey of Exodus
   // Starts with concrete early wins, then widens by bank percentage.
-  // OSB/LXX-aligned copy — verify exact OSB wording before final publication pass.
+  // Scripture excerpts are checked against data/source-text/exodus/exodus-verses.json.
   const WONDERS = [
     {
       id: "red_sea",
@@ -19,8 +19,8 @@
       label: "Red Sea",
       chapter: "Ch 14",
       threshold: { type: "masteries", value: 1 },
-      ref: "Exodus 14:16, 21-22",
-      quote: "Lift up your rod, and stretch forth your hand over the sea… and the Lord drove back the sea with a strong south wind all that night, and made the sea dry land.",
+      ref: "Exodus 14:16, 21-22", readerRef: "Exodus 14:16-22",
+      quote: "Now lift up your rod, and stretch out your hand over the sea and divide it… Then Moses stretched out his hand over the sea; and the Lord carried back the sea by a strong south wind all that night and made the sea dry ground.",
       desc: "Moses obeys by lifting the rod and stretching out his hand, but the Lord Himself opens the way through the sea. Saint Paul teaches that Israel was baptized into Moses in the cloud and in the sea, so the crossing becomes a pattern of deliverance through water.",
       tip: "Lift the rod and hold your hand over the sea until the south wind opens a dry path.",
       color: "#3498db"
@@ -31,8 +31,8 @@
       label: "Marah",
       chapter: "Ch 15",
       threshold: { type: "masteries", value: 6 },
-      ref: "Exodus 15:23, 25-26",
-      quote: "They could not drink the water, for it was bitter… and the Lord showed him a tree, and he cast it into the water, and the water was sweetened… 'I am the Lord your God who heals you.'",
+      ref: "Exodus 15:23, 25-26", readerRef: "Exodus 15:23-26",
+      quote: "Now when they came to Marah, they could not drink the waters of Marah, for they were bitter… When he cast it into the waters, the waters were made sweet… for I am the Lord your God who heals you.",
       desc: "At Marah the bitter waters are healed by obedience to what God shows Moses. The Fathers read the wood cast into the water as a figure of the Cross: what is bitter becomes drinkable, and what is deadly becomes medicine.",
       tip: "Drag the tree into the bitter water and release it there.",
       color: "#2ecc71"
@@ -44,7 +44,7 @@
       chapter: "Ch 15",
       threshold: { type: "pct", value: 5 },
       ref: "Exodus 15:27",
-      quote: "Then they came to Elim, where there were twelve springs of water and seventy palm trees, and they encamped there by the waters.",
+      quote: "Then they came to Elim, where there were twelve fountains of water and seventy palm trees; so they camped there by the waters.",
       desc: "Elim is the oasis after bitterness: the Lord not only heals, He gives rest. The twelve springs and seventy palms teach ordered abundance for the whole people.",
       tip: "Find the twelve springs and camp under the seventy palms.",
       color: "#27ae60"
@@ -55,8 +55,8 @@
       label: "Manna",
       chapter: "Ch 16",
       threshold: { type: "pct", value: 12 },
-      ref: "Exodus 16:4-5, 13-21, 31-33",
-      quote: "I will rain bread from heaven for you… on the sixth day it shall be double… in the evening quails came up and covered the camp; in the morning, when the dew ceased, the manna appeared.",
+      ref: "Exodus 16:4-5, 13-21, 31-33", readerRef: "Exodus 16:4-33",
+      quote: "Behold, I will rain bread out of heaven for you… it shall be twice as much as they gather daily… quail came up at evening and covered the camp… when the layer of dew lifted… was a small round substance.",
       desc: "The wilderness feeding has a holy rhythm: evening quail, morning dew, daily bread, no hoarding, double on the sixth day, rest on the seventh. Christ reveals the fullness: He is the true Bread from heaven and the Bread of Life.",
       tip: "Wait for the dew to lift, gather one day's portion, and on day six gather double.",
       color: "#f1c40f"
@@ -68,7 +68,7 @@
       chapter: "Ch 17",
       threshold: { type: "pct", value: 22 },
       ref: "Exodus 17:5-7",
-      quote: "Take the rod… behold, I stand before you there on the rock in Horeb; and you shall strike the rock, and water will come out of it… and he called the place Massah and Meribah.",
+      quote: "Also take in your hand the rod with which you struck the river and go… I will stand before you there on the rock in Horeb; and you shall strike the rock, and water will come out of it so the people may drink.",
       desc: "Rephidim is not only a miracle of water; it is also a story of quarreling and testing the Lord. The rock is struck once, and Saint Paul says plainly, 'that Rock was Christ.'",
       tip: "Strike the rock once with the rod, then watch the water flow.",
       color: "#e67e22"
@@ -79,8 +79,8 @@
       label: "Sinai",
       chapter: "Ch 19",
       threshold: { type: "pct", value: 38 },
-      ref: "Exodus 19:10-13, 16-18",
-      quote: "Set bounds around the mountain… do not go up into the mountain, nor touch any part of it… there were voices, lightnings, a dark cloud, and a loud trumpet… because God descended upon it in fire.",
+      ref: "Exodus 19:10-13, 16-18", readerRef: "Exodus 19:10-18",
+      quote: "You shall set bounds for the people all around… there were thunderings and lightnings and a dark cloud on Mount Sinai… because God descended upon it in fire.",
       desc: "Sinai teaches holy distance before it teaches ascent. The people are sanctified, the mountain is bounded, the trumpet grows louder, and Moses ascends only when God calls.",
       tip: "Set the bounds, stand back, and wait until God calls.",
       color: "#9b59b6"
@@ -91,8 +91,8 @@
       label: "Golden Calf",
       chapter: "Ch 32",
       threshold: { type: "pct", value: 60 },
-      ref: "Exodus 32:19-20, 28",
-      quote: "Moses saw the calf and the dancing… he broke the tablets beneath the mountain. Then he took the calf they made, burned it with fire, ground it very small, scattered it on the water, and made the children of Israel drink it.",
+      ref: "Exodus 32:19-20, 28", readerRef: "Exodus 32:19-28",
+      quote: "So it was, as soon as he came near the camp, he saw the calf and the dancing… Moses became very angry; and he cast the two tablets out of his hands and broke them at the foot of the mountain. Then he took the calf they had made, burned it in the fire, and ground it to powder; and he scattered it on the water and made the children of Israel drink it.",
       desc: "While Moses was with God on the mountain, Israel fell into idolatry below, and Aaron was implicated in the making of the calf. Moses destroys the idol — burn, grind, scatter — and Israel faces the bitterness of false worship.",
       tip: "Burn the idol, grind it to dust, scatter it on the water, and remember the cost of idolatry.",
       color: "#e74c3c"
@@ -103,8 +103,8 @@
       label: "Glory",
       chapter: "Ch 40",
       threshold: { type: "pct", value: 100 },
-      ref: "Exodus 40:34-38",
-      quote: "The cloud covered the tabernacle of testimony, and the tabernacle was filled with the glory of the Lord. And Moses was not able to enter the tabernacle, because the cloud overshadowed it.",
+      ref: "Exodus 40:28-32",
+      quote: "Then the cloud covered the tabernacle of testimony, and the tabernacle was filled with the Lord's glory. But Moses was not able to enter the tabernacle of testimony because the cloud overshadowed it, and the glory of the Lord filled the tabernacle.",
       desc: "Exodus reaches its goal when the Lord fills His dwelling among His people. Moses can set up the tabernacle, but when the glory fills it, even he cannot enter. Saint John reveals the fulfillment: the Word became flesh and dwelt among us.",
       tip: "Wait outside and behold; when the glory fills the tent, even Moses does not enter.",
       color: "#f39c12"
@@ -362,6 +362,7 @@
             <details class="rewards-passage">
               <summary>Scripture &amp; story</summary>
               <blockquote id="rewards-hud-quote" class="rewards-hud-quote"></blockquote>
+              <button id="rewards-hud-passage" type="button" class="rewards-passage-link">Read passage</button>
               <p id="rewards-hud-desc" class="rewards-hud-desc"></p>
             </details>
             <p id="rewards-hud-tip" class="rewards-hud-tip"></p>
@@ -373,6 +374,10 @@
       document.body.appendChild(modal);
 
       document.getElementById("rewards-hud-close").addEventListener("click", closeModal);
+      document.getElementById("rewards-hud-passage").addEventListener("click", () => {
+        const ref = document.getElementById("rewards-hud-passage").dataset.ref;
+        if (ref && window.BibleReader && typeof window.BibleReader.openRef === "function") window.BibleReader.openRef(ref);
+      });
 
       canvas = document.getElementById("rewards-canvas");
       ctx = canvas.getContext("2d");
@@ -572,6 +577,11 @@
     document.getElementById("rewards-hud-quote").textContent = wonder.quote;
     document.getElementById("rewards-hud-desc").textContent = wonder.desc;
     document.getElementById("rewards-hud-tip").textContent = wonder.tip;
+    const passageBtn = document.getElementById("rewards-hud-passage");
+    const passageRef = wonder.readerRef || wonder.ref;
+    passageBtn.textContent = `Read ${passageRef}`;
+    passageBtn.dataset.ref = passageRef;
+    passageBtn.hidden = !(window.BibleReader && typeof window.BibleReader.openRef === "function");
 
     const controls = document.getElementById("rewards-hud-controls");
     controls.innerHTML = "";

@@ -141,12 +141,13 @@ function wonderTests() {
       return { note: `springs found ${found}/12` };
     },
     manna: async (page, box) => {
-      const cont = await mannaContinuePoint(page);
-      await tapCanvas(page, cont.x, cont.y, 500);
-      await page.waitForTimeout(300);
       let s = await page.evaluate(() => window.BibleBowlQA.state());
-      if (s.custom.mannaPhase === "quail") {
-        await tapCanvas(page, cont.x, cont.y, 500);
+      for (let attempt = 0; attempt < 4 && s.custom.mannaPhase === "quail"; attempt++) {
+        const cont = await mannaContinuePoint(page);
+        const target = attempt % 2 === 0
+          ? cont
+          : { x: s.canvas.w / 2, y: s.canvas.h * 0.5 };
+        await tapCanvas(page, target.x, target.y, 2400);
         await page.waitForTimeout(300);
         s = await page.evaluate(() => window.BibleBowlQA.state());
       }
