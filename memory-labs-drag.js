@@ -248,12 +248,6 @@
       hintCounter.setAttribute("aria-live", "polite");
       actions.appendChild(hintCounter);
 
-      const medalEl = document.createElement("div");
-      medalEl.className = "lab-medal";
-      medalEl.setAttribute("role", "status");
-      medalEl.setAttribute("aria-live", "polite");
-      medalEl.hidden = true;
-
       container.appendChild(status);
       if (lab.subtitle) {
         const sub = document.createElement("p");
@@ -275,7 +269,6 @@
         container.appendChild(poolEl);
       }
       container.appendChild(actions);
-      container.appendChild(medalEl);
 
       function renderPool() {
         poolEl.innerHTML = "";
@@ -653,18 +646,19 @@
           active.state.complete = complete;
           active.state.hintsUsed = hintsUsed;
           active.state.mistakes = mistakes;
+          let medal = null;
           if (window.BibleBowlLabMedals) {
-            const medal = window.BibleBowlLabMedals.recordAttempt(
+            medal = window.BibleBowlLabMedals.recordAttempt(
               lab.id,
               hintsUsed,
               mistakes
             );
-            window.BibleBowlLabMedals.renderBanner(medalEl, medal);
           }
-          // onComplete owns the modal-level celebration (sound + status
-          // text). Drag engine owns the in-lab burst + slot cascade.
+          // onComplete owns the modal-level celebration: it reports the
+          // earned medal in the panel (sound + status text). Drag engine
+          // owns the in-lab burst + slot cascade.
           celebrateLabVictory(slotEls);
-          if (callbacks && callbacks.onComplete) callbacks.onComplete();
+          if (callbacks && callbacks.onComplete) callbacks.onComplete(medal);
         } else {
           mistakes++;
           active.state.mistakes = mistakes;
@@ -688,8 +682,6 @@
         status.className = "lab-drag-status";
         checkBtn.disabled = false;
         hintBtn.disabled = false;
-        medalEl.hidden = true;
-        medalEl.innerHTML = "";
         renderAll();
       });
 

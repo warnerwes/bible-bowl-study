@@ -132,6 +132,7 @@
                 <p id="labs-ref" class="labs-ref"></p>
               </div>
             </header>
+            <div id="labs-medal" class="lab-medal" hidden></div>
             <div id="labs-teaching" class="labs-teaching" hidden></div>
             <details class="labs-passage">
               <summary>About this lab</summary>
@@ -235,18 +236,36 @@
     const ws = document.getElementById("labs-workspace");
     ws.innerHTML = "";
     ws.classList.remove("labs-workspace--tabernacle");
+    // Clear any prior achievement read-out so a fresh play starts blank.
+    const medalBox = document.getElementById("labs-medal");
+    if (medalBox) { medalBox.hidden = true; medalBox.innerHTML = ""; }
+    document.getElementById("labs-milestone").textContent = "Memory Lab";
     if (window.BibleBowlLabDrag) window.BibleBowlLabDrag.unmount();
     if (window.BibleBowlLabTree) window.BibleBowlLabTree.unmount();
     if (window.BibleBowlLabTabernacle) window.BibleBowlLabTabernacle.unmount();
 
-    const onComplete = () => {
+    const onComplete = (medal) => {
       if (!completedLabs.includes(lab.id)) {
         completedLabs.push(lab.id);
         saveCompleted();
         renderShelf();
       }
       document.getElementById("labs-status").textContent = lab.completion_teaching.memory_sentence;
-      document.getElementById("labs-milestone").textContent = "Memory Lab · completed";
+      // Report the player's earned achievement (gold/silver/bronze) right in
+      // the panel — the same medal read-out the Tabernacle ("holy things")
+      // lab gives. Labs that pass their recordAttempt result get the panel
+      // banner + tier milestone; the Tabernacle reports via its own inline
+      // medal (its panel collapses on mobile) and calls onComplete() with no
+      // arg, so it is not double-reported here.
+      const medalBox = document.getElementById("labs-medal");
+      if (medalBox && medal && window.BibleBowlLabMedals && window.BibleBowlLabMedals.renderBanner) {
+        window.BibleBowlLabMedals.renderBanner(medalBox, medal);
+        const emoji = window.BibleBowlLabMedals.TIER_EMOJI[medal.tier] || "🏅";
+        const label = window.BibleBowlLabMedals.TIER_LABEL[medal.tier] || "";
+        document.getElementById("labs-milestone").textContent = `${emoji} ${label} earned`;
+      } else {
+        document.getElementById("labs-milestone").textContent = "Memory Lab · completed";
+      }
       const replayBtn = document.getElementById("labs-replay");
       if (replayBtn) replayBtn.hidden = false;
       if (typeof window.BibleBowlPlaySound === "function") window.BibleBowlPlaySound("unlock");

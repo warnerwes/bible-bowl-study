@@ -114,17 +114,10 @@
       hintCounter.setAttribute("aria-live", "polite");
       actions.appendChild(hintCounter);
 
-      const medalEl = document.createElement("div");
-      medalEl.className = "lab-medal";
-      medalEl.setAttribute("role", "status");
-      medalEl.setAttribute("aria-live", "polite");
-      medalEl.hidden = true;
-
       container.appendChild(status);
       container.appendChild(tree);
       container.appendChild(dispenserWrap);
       container.appendChild(actions);
-      container.appendChild(medalEl);
 
       function wrongBranchMessage(name, slotId) {
         if ((name === "Gershom" || name === "Eliezer") && slotId.startsWith("nadab")) {
@@ -428,15 +421,15 @@
           active.state.complete = complete;
           active.state.hintsUsed = hintsUsed;
           active.state.mistakes = mistakes;
+          let medal = null;
           if (window.BibleBowlLabMedals) {
-            const medal = window.BibleBowlLabMedals.recordAttempt(
+            medal = window.BibleBowlLabMedals.recordAttempt(
               lab.id,
               hintsUsed,
               mistakes
             );
-            window.BibleBowlLabMedals.renderBanner(medalEl, medal);
           }
-          if (callbacks && callbacks.onComplete) callbacks.onComplete();
+          if (callbacks && callbacks.onComplete) callbacks.onComplete(medal);
           if (typeof window.BibleBowlPlaySound === "function") window.BibleBowlPlaySound("chime");
         } else {
           mistakes++;
@@ -471,8 +464,6 @@
         status.className = "lab-drag-status";
         checkBtn.disabled = false;
         hintBtn.disabled = false;
-        medalEl.hidden = true;
-        medalEl.innerHTML = "";
         render();
       });
 
