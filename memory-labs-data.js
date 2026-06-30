@@ -186,7 +186,7 @@
         label: "Setting Up the Tabernacle",
         emoji: "🕯️",
         ref: "Exodus 40:1-13",
-        subtitle: "The order Moses raised & consecrated it · OSB Exodus 40",
+        subtitle: "The order Moses raised & consecrated the tabernacle · OSB Exodus 40",
         // Exodus 40:1-13 — the ORDER God commanded Moses to raise and
         // consecrate the tabernacle, ending with the priests. This lab tests
         // the temporal sequence ("first..., then..."); the companion lab
@@ -194,8 +194,8 @@
         // The fuller Exodus 29 ordination rite (offerings, ordination ram, the
         // seven-day holy meal) is OUT of quiz scope and is not included.
         description:
-          "On the first day of the first month, Moses raises the tabernacle from the inside out, anoints it all holy, then washes, clothes, and anoints Aaron and his sons. You are remembering the order God gave, not performing the rite.",
-        tip: "Inside out: ark, then the Holy Place (table, lampstand, incense), then the door veil and the outer altar — anoint it all holy — then the priests at the door.",
+          "On the first day of the first month, Moses raises the tabernacle from the inside out, anoints the tabernacle and everything in it holy, then washes, clothes, and anoints Aaron and his sons. You are remembering the order God gave, not performing the rite.",
+        tip: "Inside out: ark, then the Holy Place (table, lampstand, incense), then the door veil and the outer altar — anoint the tabernacle and everything in it holy — then the priests at the door.",
         ordered_items: [
           "Set Up the Tabernacle",
           "Place the Ark & Veil",
@@ -204,7 +204,7 @@
           "Set the Altar of Incense",
           "Hang the Veil at the Door",
           "Set the Altar of Burnt Offering",
-          "Anoint & Consecrate It All",
+          "Anoint Tabernacle & Everything In It",
           "Wash Aaron & His Sons",
           "Clothe & Anoint Aaron",
           "Clothe & Anoint His Sons",
@@ -226,11 +226,11 @@
         unlock_teaching: {
           headline: "Raised in God's Order",
           body:
-            "The tabernacle is not thrown together — God gives Moses an exact order. Moses builds from the Most Holy outward, anoints everything holy, and consecrates the priests last, at the door. You are remembering the order God gave, not play-acting priestly rites.",
+            "The tabernacle is not thrown together — God gives Moses an exact order. Moses builds from the Most Holy outward, anoints the tabernacle and everything in it holy, and consecrates the priests last, at the door. You are remembering the order God gave, not play-acting priestly rites.",
         },
         completion_teaching: {
           memory_sentence:
-            "Moses raised the tabernacle from the ark outward, anointed it all holy, then washed, clothed, and anointed Aaron and his sons at the door.",
+            "Moses raised the tabernacle from the ark outward, anointed the tabernacle and everything in it holy, then washed, clothed, and anointed Aaron and his sons at the door.",
         },
         interaction: { type: "drag_order" },
       },

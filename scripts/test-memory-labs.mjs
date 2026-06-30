@@ -135,6 +135,29 @@ async function assertLabReferenceReader(page, id, issues) {
   }
 }
 
+async function assertConsecrationAnointingCopy(page, id, issues) {
+  if (id !== "consecration") return;
+  const copy = await page.evaluate(() => {
+    const lab = window.BibleBowlLabs?.labs?.find((item) => item.id === "consecration");
+    return {
+      step: lab?.ordered_items?.find((item) => /Anoint/i.test(item)) || "",
+      description: lab?.description || "",
+      tip: lab?.tip || "",
+      teaching: [
+        lab?.unlock_teaching?.body || "",
+        lab?.completion_teaching?.memory_sentence || "",
+      ].join(" "),
+    };
+  });
+  if (!/Tabernacle/i.test(copy.step) || !/Everything In It/i.test(copy.step)) {
+    issues.push(`consecration anointing step is ambiguous: "${copy.step}"`);
+  }
+  const teachingCopy = `${copy.description} ${copy.tip} ${copy.teaching}`;
+  if (!/tabernacle and everything in it/i.test(teachingCopy)) {
+    issues.push("consecration teaching should clarify the tabernacle and everything in it are anointed");
+  }
+}
+
 async function exerciseDragDispenser(page, id, issues) {
   const before = await page.evaluate(() => ({
     dispenserCount: document.querySelectorAll(".lab-drag-dispenser").length,
@@ -492,6 +515,7 @@ async function testLab(page, id, viewportName) {
 
   const issues = [];
   await assertLabReferenceReader(page, id, issues);
+  await assertConsecrationAnointingCopy(page, id, issues);
   const dispenserCount = await page.locator(".lab-drag-dispenser").count();
   if (dispenserCount !== 1) {
     issues.push(`${id} should render one dispenser, got ${dispenserCount}`);
