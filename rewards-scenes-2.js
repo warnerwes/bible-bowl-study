@@ -764,6 +764,206 @@
     return pts;
   }
 
+  // ---- Golden-calf judgment helpers: burn -> melt -> slab -> dust ----
+  function drawCalfFirePit(ctx, cx, baseY, halfW, scale, t, intensity) {
+    ctx.save();
+    // Charred bed + crossed logs under the idol.
+    ctx.fillStyle = "#1b130b";
+    ctx.beginPath();
+    ctx.ellipse(cx, baseY + 5, halfW * 1.2, 9 * scale, 0, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.strokeStyle = "#3a2616";
+    ctx.lineWidth = 4.5 * scale;
+    ctx.lineCap = "round";
+    for (let i = -1; i <= 1; i++) {
+      ctx.beginPath();
+      ctx.moveTo(cx - halfW * 0.75, baseY + 3 + i * 3);
+      ctx.lineTo(cx + halfW * 0.75, baseY + 3 - i * 3);
+      ctx.stroke();
+    }
+    // Flames licking up around the idol.
+    const flames = Math.round(5 + intensity * 4);
+    for (let i = 0; i < flames; i++) {
+      const fx = cx + (i / (flames - 1) - 0.5) * halfW * 1.8;
+      const flick = Math.sin(t * 0.3 + i) * 0.5 + Math.sin(t * 0.17 + i * 2) * 0.5;
+      const fh = (16 + intensity * 30 + flick * 7) * scale;
+      const g = ctx.createLinearGradient(fx, baseY, fx, baseY - fh);
+      g.addColorStop(0, "rgba(255, 120, 20, 0.95)");
+      g.addColorStop(0.5, "rgba(255, 195, 60, 0.85)");
+      g.addColorStop(1, "rgba(255, 240, 160, 0)");
+      ctx.fillStyle = g;
+      ctx.beginPath();
+      ctx.moveTo(fx - 6 * scale, baseY);
+      ctx.quadraticCurveTo(fx - 4 * scale, baseY - fh * 0.6, fx + flick * 4 * scale, baseY - fh);
+      ctx.quadraticCurveTo(fx + 4 * scale, baseY - fh * 0.6, fx + 6 * scale, baseY);
+      ctx.closePath();
+      ctx.fill();
+    }
+    ctx.restore();
+  }
+
+  function drawMeltingCalf(ctx, cx, baseY, scale, melt, t) {
+    // melt 0 -> recognizable glowing calf; melt 1 -> flat molten slab.
+    ctx.save();
+    ctx.translate(cx, baseY);
+    ctx.scale(scale, scale);
+    const sag = melt;
+    const gold = ctx.createLinearGradient(0, -52, 0, 6);
+    gold.addColorStop(0, "#fff1bb");
+    gold.addColorStop(0.5, "#f6c733");
+    gold.addColorStop(1, "#c8870c");
+    ctx.shadowColor = "#ff7a18";
+    ctx.shadowBlur = 12 + melt * 16;
+    ctx.fillStyle = gold;
+    const bodyW = 40 * (1 + sag * 0.7);
+    const bodyH = 26 * (1 - sag * 0.82);
+    const topY = -bodyH - 4;
+    // Legs shrink into the body as it melts.
+    const legH = 26 * (1 - sag);
+    if (legH > 1.5) {
+      [-26, -13, 13, 26].forEach((lx) => ctx.fillRect(lx - 4, -legH, 8, legH));
+    }
+    // Sagging body.
+    ctx.beginPath();
+    ctx.moveTo(-bodyW, 0);
+    ctx.quadraticCurveTo(-bodyW, topY, 0, topY);
+    ctx.quadraticCurveTo(bodyW, topY, bodyW, 0);
+    ctx.closePath();
+    ctx.fill();
+    // Head + horns fade/sag as it loses shape.
+    if (sag < 0.85) {
+      ctx.globalAlpha = 1 - sag / 0.85;
+      ctx.beginPath();
+      ctx.ellipse(-bodyW * 0.82, topY * 0.7, 12, 11 * (1 - sag), -0.3, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.fillStyle = "#fff3d2";
+      ctx.beginPath();
+      ctx.moveTo(-bodyW * 0.95, topY * 0.9);
+      ctx.quadraticCurveTo(-bodyW * 1.12, topY * 1.35, -bodyW * 1.22, topY * 1.55);
+      ctx.quadraticCurveTo(-bodyW * 1.0, topY * 1.2, -bodyW * 0.84, topY * 0.85);
+      ctx.closePath();
+      ctx.fill();
+      ctx.globalAlpha = 1;
+      ctx.fillStyle = gold;
+    }
+    // Molten pool spreading at the base.
+    ctx.shadowBlur = 9;
+    const pg = ctx.createLinearGradient(0, -6, 0, 7);
+    pg.addColorStop(0, "#ffd05a");
+    pg.addColorStop(1, "#d98a10");
+    ctx.fillStyle = pg;
+    ctx.beginPath();
+    ctx.ellipse(0, 3, bodyW * (1 + sag * 0.4) + 6, 5 + sag * 4, 0, 0, Math.PI * 2);
+    ctx.fill();
+    // Drips while actively melting.
+    if (sag > 0.12 && sag < 0.96) {
+      ctx.fillStyle = gold;
+      for (let i = 0; i < 3; i++) {
+        const dx = (i - 1) * bodyW * 0.55;
+        const dl = ((t * 0.6 + i * 13) % 16) * 0.4 * sag;
+        ctx.beginPath();
+        ctx.ellipse(dx, -1 + dl, 2.4, 4, 0, 0, Math.PI * 2);
+        ctx.fill();
+      }
+    }
+    ctx.shadowBlur = 0;
+    ctx.fillStyle = `rgba(255,255,255,${0.25 - melt * 0.12})`;
+    ctx.beginPath();
+    ctx.ellipse(0, topY * 0.6, bodyW * 0.5, 4, 0, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.restore();
+  }
+
+  function drawGoldSlab(ctx, cx, baseY, scale, erode, t) {
+    // The cooled slab, cracking and shrinking as it is ground (erode 0->1).
+    ctx.save();
+    ctx.translate(cx, baseY);
+    ctx.scale(scale, scale);
+    const halfW = 46 * (1 - erode * 0.55);
+    const hH = 9 * (1 - erode * 0.6);
+    const g = ctx.createLinearGradient(0, -hH, 0, hH);
+    g.addColorStop(0, "#ffe79a");
+    g.addColorStop(0.5, "#e6b32e");
+    g.addColorStop(1, "#a8770c");
+    ctx.shadowColor = "rgba(0,0,0,0.4)";
+    ctx.shadowBlur = 6;
+    ctx.fillStyle = g;
+    ctx.beginPath();
+    ctx.moveTo(-halfW, hH);
+    ctx.lineTo(-halfW * 0.86, -hH);
+    ctx.lineTo(halfW * 0.9, -hH * 0.8);
+    ctx.lineTo(halfW, hH);
+    ctx.closePath();
+    ctx.fill();
+    // Grinding cracks.
+    if (erode > 0.1) {
+      ctx.strokeStyle = `rgba(80,50,8,${0.3 + erode * 0.4})`;
+      ctx.lineWidth = 0.8;
+      for (let i = 0; i < 4; i++) {
+        const sx = -halfW * 0.7 + (i / 3) * halfW * 1.4;
+        ctx.beginPath();
+        ctx.moveTo(sx, -hH);
+        ctx.lineTo(sx + (Math.sin(i * 9) * 4), hH);
+        ctx.stroke();
+      }
+    }
+    ctx.restore();
+  }
+
+  function drawDustMound(ctx, cx, baseY, scale, amount) {
+    // A heap of gold dust (amount 0->1 grows the mound).
+    ctx.save();
+    ctx.translate(cx, baseY);
+    ctx.scale(scale, scale);
+    const halfW = 30 * (0.4 + amount * 0.7);
+    const hH = 11 * amount;
+    const g = ctx.createLinearGradient(0, -hH, 0, 2);
+    g.addColorStop(0, "#f3d77a");
+    g.addColorStop(1, "#b88a2a");
+    ctx.fillStyle = g;
+    ctx.beginPath();
+    ctx.moveTo(-halfW, 2);
+    ctx.quadraticCurveTo(-halfW * 0.4, -hH, 0, -hH);
+    ctx.quadraticCurveTo(halfW * 0.5, -hH, halfW, 2);
+    ctx.closePath();
+    ctx.fill();
+    // grain speckle
+    ctx.fillStyle = "rgba(255,240,180,0.5)";
+    for (let i = 0; i < 8; i++) {
+      const gx = (i / 7 - 0.5) * halfW * 1.4;
+      ctx.fillRect(gx, -hH * 0.5 - (i % 3), 1.2, 1.2);
+    }
+    ctx.restore();
+  }
+
+  function drawGrindStone(ctx, x, y, scale, pressing) {
+    // A hand-held grinding stone the player rubs over the gold.
+    ctx.save();
+    ctx.translate(x, y);
+    ctx.scale(scale, scale);
+    ctx.fillStyle = "rgba(0,0,0,0.28)";
+    ctx.beginPath();
+    ctx.ellipse(0, 9, 17, 4, 0, 0, Math.PI * 2);
+    ctx.fill();
+    const g = ctx.createLinearGradient(0, -11, 0, 8);
+    g.addColorStop(0, pressing ? "#b4b4b1" : "#9a9a98");
+    g.addColorStop(0.5, "#6f6f6d");
+    g.addColorStop(1, "#46463f");
+    ctx.fillStyle = g;
+    ctx.beginPath();
+    ctx.moveTo(-16, 5);
+    ctx.quadraticCurveTo(-17, -9, -4, -11);
+    ctx.quadraticCurveTo(13, -13, 17, -2);
+    ctx.quadraticCurveTo(18, 7, 6, 8);
+    ctx.closePath();
+    ctx.fill();
+    ctx.fillStyle = "rgba(255,255,255,0.16)";
+    ctx.beginPath();
+    ctx.ellipse(-3, -5, 5, 2.5, -0.3, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.restore();
+  }
+
   // ---------------- WONDER 7: GOLDEN CALF ----------------
   window.BibleBowlScenes.golden_calf = (w, h, ctx, canvasTime, mouse, particles, customWonderState) => {
     const calf = customWonderState.calf;
@@ -776,130 +976,138 @@
     const fireW = w * 0.28;
     const inFireZone = mouse.y > fireY - 28 && Math.abs(mouse.x - fireCX) < fireW;
 
-    window.BibleBowlScenes.drawCaption(ctx, w, "Golden calf");
-    window.BibleBowlScenes.drawProgress(ctx, w,
-      phase === "witness" ? "False worship below Sinai"
-        : phase === "burn" ? "Burn the idol in the fire"
-        : phase === "grind" ? "Rub to grind powder"
-        : phase === "water" ? "Tap water to scatter"
-        : "The people face their sin");
+    // ---- Staged judgment: witness -> burn -> grind -> throw -> drink ----
+    const calfBaseY = calf.y + 48 * scale;          // ground line under the idol
+    const waterY = h * 0.86;
+    const meltAmount = Math.min(1, (customWonderState.burnProgress || 0) / 70);
+    const grindAmount = Math.min(1, (customWonderState.grindProgress || 0) / 130);
+    const px = mouse.px == null ? mouse.x : mouse.px;
+    const py = mouse.py == null ? mouse.y : mouse.py;
 
-    const onCalf = Math.hypot(mouse.x - calf.x, mouse.y - calf.y) < Math.max(calf.w * 0.72, 58);
+    window.BibleBowlScenes.drawCaption(ctx, w, "Golden calf");
+    let prompt;
+    if (phase === "witness") prompt = "Tap the idol to cast it into the fire";
+    else if (phase === "burn") prompt = meltAmount < 0.98 ? "Hold the fire — burn it down" : "Molten — a shapeless slab";
+    else if (phase === "grind") prompt = grindAmount < 0.98 ? "Rub hard — grind it to powder" : "Drag the dust into the water";
+    else if (phase === "throw") prompt = "Drag the gold dust into the water";
+    else if (phase === "drink") prompt = "Communion with your god.";
+    else prompt = "Communion with your god.";
+    window.BibleBowlScenes.drawProgress(ctx, w, prompt);
+
+    // Water — drawn behind the action once the dust needs a target.
+    const waterShown = phase === "throw" || phase === "drink" || phase === "done" ||
+      (phase === "grind" && grindAmount >= 0.98);
+    if (waterShown) {
+      const tint = customWonderState.dustInWater || (phase === "drink" || phase === "done" ? 1 : 0);
+      const wg = ctx.createLinearGradient(0, waterY, 0, h);
+      wg.addColorStop(0, `rgba(${Math.round(52 + tint * 150)}, ${Math.round(152 - tint * 40)}, ${Math.round(219 - tint * 140)}, ${0.34 + tint * 0.14})`);
+      wg.addColorStop(1, `rgba(${Math.round(30 + tint * 120)}, ${Math.round(90 - tint * 20)}, ${Math.round(150 - tint * 100)}, 0.55)`);
+      ctx.fillStyle = wg;
+      ctx.fillRect(0, waterY, w, h - waterY);
+      ctx.strokeStyle = "rgba(255,255,255,0.1)";
+      ctx.lineWidth = 1;
+      for (let r = 0; r < 3; r++) {
+        const ry = waterY + 5 + r * 5;
+        ctx.beginPath();
+        ctx.moveTo(0, ry + Math.sin(canvasTime * 0.05 + r) * 1.5);
+        ctx.lineTo(w, ry + Math.cos(canvasTime * 0.05 + r) * 1.5);
+        ctx.stroke();
+      }
+    }
+
+    // WITNESS: tap the idol to cast it into the fire (no shatter — it melts).
+    const onCalf = Math.hypot(mouse.x - calf.x, mouse.y - calf.y) < Math.max(calf.w * 0.8, 64);
     if (phase === "witness" && mouse.down && !calf.broken && onCalf) {
       calf.broken = true;
       customWonderState.calfPhase = "burn";
-      if (typeof window.BibleBowlPlaySound === "function") {
-        window.BibleBowlPlaySound("shatter");
-      }
-      for (let idx = 0; idx < 40; idx++) {
-        particles.push({
-          x: calf.x,
-          y: calf.y,
-          vx: (Math.random() - 0.5) * 8,
-          vy: (Math.random() - 0.5) * 8 - 2,
-          r: Math.random() * 5 + 3,
-          alpha: 1,
-          type: "golden_shard"
-        });
-      }
+      customWonderState.burnProgress = 0;
+      if (typeof window.BibleBowlPlaySound === "function") window.BibleBowlPlaySound("smite");
     }
 
+    // BURN: a fire pit under the idol; hold to stoke; it melts down to a slab.
     if (phase === "burn") {
-      if (mouse.down && inFireZone) {
-        customWonderState.burnProgress = (customWonderState.burnProgress || 0) + 1.4;
-      }
-      for (let i = particles.length - 1; i >= 0; i--) {
-        const p = particles[i];
-        if (p.type !== "golden_shard") continue;
-        const nearFire = Math.hypot(p.x - fireCX, p.y - fireY) < fireW + 20;
-        if (mouse.down && Math.hypot(mouse.x - p.x, mouse.y - p.y) < p.r + 12) {
-          p.x += (mouse.x - p.x) * 0.25;
-          p.y += (mouse.y - p.y) * 0.25;
-        } else if (nearFire) {
-          p.x += (fireCX - p.x) * 0.04;
-          p.y += (fireY - p.y) * 0.06;
-          p.alpha -= 0.015;
-        }
-        if (nearFire && inFireZone) p.alpha -= 0.025;
-      }
-      if ((customWonderState.burnProgress || 0) > 60) {
-        customWonderState.calfPhase = "grind";
-      }
-    }
-
-    if (phase === "grind" && mouse.down) {
-      customWonderState.grindProgress = (customWonderState.grindProgress || 0) +
-        Math.hypot(mouse.x - mouse.px, mouse.y - mouse.py);
+      const onPit = mouse.down && mouse.y > calfBaseY - 56 * scale && Math.abs(mouse.x - calf.x) < calf.w;
+      customWonderState.burnProgress = (customWonderState.burnProgress || 0) + (onPit ? 1.0 : 0.2);
+      // Fire bed behind the idol (the idol itself melts in the render pass below).
+      drawCalfFirePit(ctx, calf.x, calfBaseY, calf.w * 0.95, scale, canvasTime, 0.4 + meltAmount * 0.6);
+      window.BibleBowlScenes.drawProgressBar(ctx, w, calfBaseY - 70 * scale, meltAmount, "Burn");
       if (canvasTime % 3 === 0) {
-        particles.push({
-          x: mouse.x, y: mouse.y,
-          vx: (Math.random() - 0.5) * 1.5,
-          vy: Math.random() * 0.8,
-          r: 1.5, alpha: 0.9, type: "ash"
-        });
+        particles.push({ x: calf.x + (Math.random() - 0.5) * calf.w * 1.4, y: calfBaseY, vx: (Math.random() - 0.5) * 0.9, vy: -(Math.random() * 2.2 + 1), r: Math.random() * 2.5 + 1, alpha: 0.9, type: "ember" });
       }
-      if (customWonderState.grindProgress > 90) {
-        customWonderState.calfPhase = "water";
-      }
+      if (meltAmount >= 1) { customWonderState.calfPhase = "grind"; customWonderState.grindProgress = 0; }
     }
 
+    // GRIND: rub the cooled slab roughly into a mound of gold dust.
     if (phase === "grind") {
-      const gp = Math.min(1, (customWonderState.grindProgress || 0) / 90);
-      ctx.fillStyle = `rgba(180, 160, 90, ${0.15 + gp * 0.25})`;
-      ctx.fillRect(calf.x - 60 * scale, calf.y + 20 * scale, 120 * scale, 24 * scale);
+      const onSlab = mouse.down && mouse.y > calfBaseY - 44 * scale && Math.abs(mouse.x - calf.x) < calf.w * 1.2;
+      if (onSlab) {
+        const d = Math.hypot(mouse.x - px, mouse.y - py);
+        customWonderState.grindProgress = (customWonderState.grindProgress || 0) + Math.min(d, 14);
+        if (canvasTime % 2 === 0 && d > 1) {
+          particles.push({ x: mouse.x + (Math.random() - 0.5) * 18, y: calfBaseY - 2, vx: (Math.random() - 0.5) * 2.2, vy: -(Math.random() * 1.2 + 0.2), r: Math.random() * 1.6 + 0.8, alpha: 0.9, type: "golddust" });
+        }
+      }
+      if (grindAmount < 1) drawGoldSlab(ctx, calf.x, calfBaseY, scale, grindAmount, canvasTime);
+      drawDustMound(ctx, calf.x, calfBaseY, scale, grindAmount);
+      // The grinding stone rides the gold — at the finger while rubbing,
+      // otherwise resting on top of the slab.
+      const stoneX = Math.max(calf.x - calf.w, Math.min(calf.x + calf.w, mouse.x));
+      const stoneY = onSlab ? Math.min(calfBaseY - 7 * scale, mouse.y) : calfBaseY - 9 * scale;
+      drawGrindStone(ctx, stoneX, stoneY, scale, onSlab);
+      window.BibleBowlScenes.drawProgressBar(ctx, w, calfBaseY - 44 * scale, grindAmount, "Grind");
+      if (grindAmount >= 1) customWonderState.calfPhase = "throw";
     }
 
-    if (phase === "burn") {
-      const bp = Math.min(1, (customWonderState.burnProgress || 0) / 60);
-      ctx.fillStyle = "#3d2a1a";
-      ctx.fillRect(fireCX - fireW, fireY, fireW * 2, h - fireY);
-      const fireGrad = ctx.createRadialGradient(fireCX, fireY + 8, 4, fireCX, fireY, fireW);
-      fireGrad.addColorStop(0, `rgba(255, 220, 80, ${0.5 + bp * 0.4})`);
-      fireGrad.addColorStop(0.5, `rgba(230, 80, 20, ${0.35 + bp * 0.35})`);
-      fireGrad.addColorStop(1, "rgba(180, 40, 10, 0)");
-      ctx.fillStyle = fireGrad;
-      ctx.beginPath();
-      ctx.ellipse(fireCX, fireY + 10, fireW, 22 + bp * 10, 0, 0, Math.PI * 2);
-      ctx.fill();
-      window.BibleBowlScenes.drawProgressBar(ctx, w, fireY - 18, bp, "Burn");
-      if (canvasTime % 4 === 0) {
-        particles.push({
-          x: fireCX + (Math.random() - 0.5) * fireW,
-          y: fireY + Math.random() * 8,
-          vx: (Math.random() - 0.5) * 1.5,
-          vy: -Math.random() * 2 - 0.5,
-          r: Math.random() * 3 + 1,
-          alpha: 0.9,
-          type: "ember"
-        });
+    // THROW: drag the dust mound down into the water.
+    if (phase === "throw") {
+      // The mound shrinks as you carry it out; the water goldens as you spread.
+      drawDustMound(ctx, calf.x, calfBaseY, scale, Math.max(0.15, 1 - (customWonderState.dustInWater || 0)));
+      if (!customWonderState.throwing) {
+        window.BibleBowlScenes.drawTapRing(ctx, calf.x, calfBaseY - 6 * scale, 26 * scale, 14 * scale, canvasTime);
       }
+      const onMound = Math.abs(mouse.x - calf.x) < calf.w && Math.abs(mouse.y - calfBaseY) < 34 * scale;
+      if (mouse.down && (onMound || customWonderState.throwing)) {
+        customWonderState.throwing = true;
+        if (mouse.y > waterY - 14) {
+          // Spreading across the water: a golden bloom follows the finger and
+          // the water goldens by how much surface you sweep — slow + satisfying.
+          customWonderState.dustInWater = Math.min(1, (customWonderState.dustInWater || 0) + 0.012);
+          for (let k = 0; k < 4; k++) {
+            particles.push({ x: mouse.x + (Math.random() - 0.5) * 34, y: waterY + Math.random() * 10, vx: (Math.random() - 0.5) * 2.4, vy: (Math.random() - 0.5) * 0.4, r: Math.random() * 2 + 1, alpha: 0.95, type: "golddust" });
+          }
+          const bloom = ctx.createRadialGradient(mouse.x, waterY + 4, 1, mouse.x, waterY + 4, 34 * scale);
+          bloom.addColorStop(0, "rgba(244,208,63,0.42)");
+          bloom.addColorStop(1, "rgba(244,208,63,0)");
+          ctx.fillStyle = bloom;
+          ctx.beginPath();
+          ctx.arc(mouse.x, waterY + 4, 34 * scale, 0, Math.PI * 2);
+          ctx.fill();
+          if (customWonderState.dustInWater >= 1) customWonderState.calfPhase = "drink";
+        } else if (canvasTime % 2 === 0) {
+          // Carrying a trail of dust from the mound toward the water.
+          particles.push({ x: mouse.x + (Math.random() - 0.5) * 12, y: mouse.y, vx: (Math.random() - 0.5) * 1.2, vy: Math.random() * 0.8 + 0.3, r: Math.random() * 2 + 1, alpha: 0.9, type: "golddust" });
+        }
+      }
+      if (!mouse.down) customWonderState.throwing = false;
     }
 
-    const waterY = h * 0.86;
-    if (phase === "water" || phase === "done") {
-      ctx.fillStyle = "rgba(52, 152, 219, 0.28)";
-      ctx.fillRect(0, waterY, w, h - waterY);
-      if (phase === "water") {
-        ctx.fillStyle = "rgba(236,230,216,0.6)";
-        ctx.font = "500 9px Spectral, Georgia, serif";
-        ctx.textAlign = "center";
-        ctx.fillText("Scatter ash on the water", w / 2, waterY + 16);
+    // DRINK: the bitter golden water — "drink the sin you asked for."
+    if (phase === "drink") {
+      ctx.fillStyle = "rgba(244,208,63,0.25)";
+      for (let i = 0; i < 10; i++) {
+        const dx = (i / 9) * w + Math.sin(canvasTime * 0.04 + i) * 6;
+        ctx.beginPath();
+        ctx.arc(dx, waterY + 8 + (i % 3) * 5, 1.6, 0, Math.PI * 2);
+        ctx.fill();
       }
-    }
-    if (phase === "water" && mouse.down && mouse.y > waterY - 12) {
-      customWonderState.waterScatter = (customWonderState.waterScatter || 0) + 1;
-      if (canvasTime % 4 === 0) {
-        particles.push({
-          x: mouse.x, y: waterY,
-          vx: (Math.random() - 0.5) * 2,
-          vy: Math.random() * 0.5,
-          r: 2, alpha: 0.8, type: "ash"
-        });
+      if (mouse.down && mouse.y > waterY - 14) {
+        customWonderState.drinkProgress = (customWonderState.drinkProgress || 0) + 1;
+        if (canvasTime % 3 === 0) {
+          particles.push({ x: mouse.x, y: waterY, vx: (Math.random() - 0.5) * 1.2, vy: Math.random() * 0.4, r: 1.5, alpha: 0.8, type: "golddust" });
+        }
+        if (customWonderState.drinkProgress > 30) { customWonderState.calfPhase = "done"; customWonderState.complete = true; }
       }
-      if (customWonderState.waterScatter > 35) {
-        customWonderState.calfPhase = "done";
-        customWonderState.complete = true;
-      }
+      window.BibleBowlScenes.drawProgressBar(ctx, w, waterY - 18, Math.min(1, (customWonderState.drinkProgress || 0) / 30), "Drink");
     }
 
     for (let i = particles.length - 1; i >= 0; i--) {
@@ -973,12 +1181,35 @@
         ctx.beginPath();
         ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
         ctx.fill();
+      } else if (p.type === "golddust") {
+        p.x += p.vx;
+        p.y += p.vy;
+        p.vy += 0.04;
+        p.alpha -= 0.02;
+        if (p.alpha <= 0 || p.y > h) {
+          particles.splice(i, 1);
+          continue;
+        }
+        ctx.fillStyle = `rgba(244, 208, 63, ${p.alpha})`;
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+        ctx.fill();
       }
     }
 
-    if (phase === "witness" && !calf.broken) {
-      window.BibleBowlScenes.drawTapRing(ctx, calf.x, calf.y, 52 * scale, 38 * scale, canvasTime);
+    if (phase === "witness" || phase === "burn") {
+      if (phase === "witness") {
+        window.BibleBowlScenes.drawTapRing(ctx, calf.x, calf.y, 52 * scale, 38 * scale, canvasTime);
+      }
       ctx.save();
+      if (phase === "burn") {
+        // Sink and squish the REAL idol toward the ground as it melts, so the
+        // player literally watches the calf slump down into a flat slab.
+        ctx.translate(calf.x, calfBaseY);
+        ctx.scale(1 + meltAmount * 0.55, Math.max(0.06, 1 - meltAmount * 0.92));
+        ctx.translate(-calf.x, -calfBaseY);
+        ctx.globalAlpha = 1 - meltAmount * 0.15;
+      }
       ctx.translate(calf.x, calf.y);
       ctx.scale(scale, scale);
       // --- Golden calf idol: side profile, facing left ---
@@ -1199,9 +1430,28 @@
       ctx.quadraticCurveTo(13, -26, 33, -15);
       ctx.stroke();
       ctx.restore();
-    } else {
-      ctx.fillStyle = "#5e4b3c";
-      ctx.fillRect(calf.x - 45 * scale, calf.y + 42 * scale, 90 * scale, 8);
+      if (phase === "burn") {
+        // Molten heat tint over the slumping idol.
+        ctx.save();
+        ctx.globalAlpha = 0.22 + meltAmount * 0.32;
+        ctx.fillStyle = "#ff8a1e";
+        ctx.beginPath();
+        ctx.ellipse(calf.x, calfBaseY - 12 * scale * (1 - meltAmount), calf.w * (0.5 + meltAmount * 0.5), (24 * (1 - meltAmount) + 7) * scale, 0, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.restore();
+        // A molten pool that spreads and becomes the cooled slab.
+        const poolW = (26 + meltAmount * 28) * scale;
+        const pg = ctx.createLinearGradient(0, calfBaseY - 6 * scale, 0, calfBaseY + 6 * scale);
+        pg.addColorStop(0, "#ffe79a");
+        pg.addColorStop(0.5, "#f3c233");
+        pg.addColorStop(1, "#b9830c");
+        ctx.fillStyle = pg;
+        ctx.beginPath();
+        ctx.ellipse(calf.x, calfBaseY + 2 * scale, poolW, (3 + meltAmount * 5) * scale, 0, 0, Math.PI * 2);
+        ctx.fill();
+        // Flames licking up in FRONT of the melting idol.
+        drawCalfFirePit(ctx, calf.x, calfBaseY, calf.w * 0.6, scale, canvasTime + 11, 0.4 + meltAmount * 0.5);
+      }
     }
   };
 
