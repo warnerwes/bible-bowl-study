@@ -51,7 +51,7 @@
       lampstand:
         "The Lampstand stands in the Holy Place, on the SOUTH side, opposite the table (Ex 40:24-25).",
       golden_altar:
-        "The Golden Altar of Incense stands in the Holy Place, BEFORE the veil (Ex 40:26-27).",
+        "The Golden Altar of Incense stands in the Holy Place, BEFORE the veil (Ex 40:24-25).",
       laver:
         "The Laver sits BETWEEN the tabernacle of witness and the altar — a washing station before approach (Ex 40:30; OSB Ex 30:18).",
       bronze_altar:

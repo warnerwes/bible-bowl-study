@@ -97,6 +97,15 @@ async function runViewport(browser, viewport, errors, checks) {
     name: `${viewport.name}: tabernacle_place tile present`,
     ok: tabTile === 1,
   });
+  const goldenAltarRef = await page.evaluate(() => {
+    const lab = window.BibleBowlLabs.labs.find((l) => l.id === "tabernacle_place");
+    return lab?.tabernacle_cards?.find((c) => c.id === "golden_altar")?.osb_ref;
+  });
+  checks.push({
+    name: `${viewport.name}: golden altar uses SAAS Ex 40:24-25 reference`,
+    ok: goldenAltarRef === "Ex 40:24-25",
+    detail: `ref=${goldenAltarRef}`,
+  });
 
   // 2. Open the lab modal.
   await openTabernacleLab(page);

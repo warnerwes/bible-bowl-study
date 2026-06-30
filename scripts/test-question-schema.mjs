@@ -17,6 +17,10 @@ import { readFile } from "fs/promises";
 import assert from "assert/strict";
 
 const json = JSON.parse(await readFile("data/questions.json", "utf8"));
+const exodusSource = JSON.parse(
+  await readFile("data/source-text/exodus/exodus-verses.json", "utf8")
+);
+const exodusVerses = exodusSource.verses;
 assert.ok(Array.isArray(json), "questions.json must be a top-level array");
 
 let pass = 0, fail = 0;
@@ -69,6 +73,18 @@ check("ex17-009 is multiple-choice about Aaron/Hur (regression #53)", () => {
   if (!q.options || q.options.length !== 4) throw new Error(`ex17-009 has ${q.options?.length} options, expected 4`);
   if (!/aaron/i.test(q.question) || !/hur/i.test(q.question)) {
     throw new Error(`ex17-009 question doesn't mention Aaron and Hur: ${q.question}`);
+  }
+});
+
+check("ex40-012 cites SAAS golden incense altar verses", () => {
+  const q = json.find(x => x.id === "ex40-012");
+  if (!q) throw new Error("ex40-012 missing");
+  if (q.reference !== "Exodus 40:24-25") {
+    throw new Error(`ex40-012 reference is ${q.reference}`);
+  }
+  const citedText = `${exodusVerses["40:24"]} ${exodusVerses["40:25"]}`;
+  if (!/gold altar/i.test(citedText) || !/incense/i.test(citedText)) {
+    throw new Error(`Exodus 40:24-25 does not mention gold altar and incense: ${citedText}`);
   }
 });
 

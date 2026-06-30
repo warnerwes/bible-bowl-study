@@ -1,7 +1,11 @@
 (() => {
   "use strict";
 
-  const DATA_URL = "data/source-text/exodus/exodus-verses.json";
+  const SCRIPT_URL = document.currentScript && document.currentScript.src;
+  const DATA_URL = new URL(
+    "data/source-text/exodus/exodus-verses.json",
+    SCRIPT_URL || window.location.href
+  ).href;
 
   const $ = (id) => document.getElementById(id);
   const el = (tag, cls, text) => {

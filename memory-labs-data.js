@@ -396,12 +396,12 @@
             emoji: "🕯️",
             osb_ref: "Ex 40:24-25",
           },
-          // OSB Ex 40:26-27 — Golden Altar before the veil
+          // OSB Ex 40:24-25 — Golden Altar before the veil
           {
             id: "golden_altar",
             label: "Golden Altar of Incense",
             emoji: "🪔",
-            osb_ref: "Ex 40:26-27",
+            osb_ref: "Ex 40:24-25",
           },
           // OSB Ex 40:30 + Ex 30:18 — between tabernacle and altar
           {

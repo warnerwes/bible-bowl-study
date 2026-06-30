@@ -21,6 +21,8 @@ const root = join(fileURLToPath(new URL(".", import.meta.url)), "..");
 const html = readFileSync(join(root, "index.html"), "utf8");
 
 const expectedAssets = [
+  "bible-reader.css",
+  "bible-reader.js",
   "memory-labs.css",
   "memory-labs-dispenser.css",
   "memory-labs-data.js",

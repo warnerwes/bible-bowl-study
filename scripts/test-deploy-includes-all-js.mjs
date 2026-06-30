@@ -54,6 +54,12 @@ check("deploy.yml includes data/questions.json copy step", () => {
   }
 });
 
+check("deploy.yml includes OSB reader source text", () => {
+  if (!deployYml.includes("data/source-text/exodus/exodus-verses.json")) {
+    throw new Error("deploy.yml does not copy exodus-verses.json");
+  }
+});
+
 check("deploy.yml triggers on push to main", () => {
   if (!/branches:\s*\[main\]/.test(deployYml)) {
     throw new Error("deploy.yml does not trigger on main push");
