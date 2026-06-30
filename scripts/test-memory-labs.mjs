@@ -212,6 +212,31 @@ async function exerciseDragSlotSwap(page, id, issues) {
 }
 
 async function exerciseTreeDispenser(page, issues) {
+  const sonLabels = await page.evaluate(() => {
+    const ids = ["nadab", "abihu", "eleazar", "ithamar", "gershom", "eliezer"];
+    return Object.fromEntries(
+      ids.map((id) => {
+        const slot = document.querySelector(`.lab-tree-slot[data-slot-id="${id}"]`);
+        const caption = slot?.closest(".lab-tree-cell")?.querySelector(".lab-tree-caption");
+        return [id, caption?.textContent || ""];
+      })
+    );
+  });
+  const expectedLabels = {
+    nadab: /1st son of Aaron/i,
+    abihu: /2nd son of Aaron/i,
+    eleazar: /3rd son of Aaron/i,
+    ithamar: /4th son of Aaron/i,
+    gershom: /1st son of Moses/i,
+    eliezer: /2nd son of Moses/i,
+  };
+  for (const [id, pattern] of Object.entries(expectedLabels)) {
+    if (!pattern.test(sonLabels[id] || "")) {
+      issues.push(`priest_line ${id} label should clarify birth order: ${JSON.stringify(sonLabels)}`);
+      break;
+    }
+  }
+
   const before = await page.evaluate(() => {
     const disp = document.querySelector(".lab-drag-dispenser");
     return {
@@ -340,6 +365,24 @@ async function exerciseTreeSlotSwap(page, issues) {
   }
 }
 
+async function exerciseAaronSonOrderMessage(page, issues) {
+  await page.evaluate(() => {
+    const tree = window.BibleBowlLabTree.getActive();
+    tree.fillCorrect();
+    tree.forcePlaceForTest("abihu", "Eleazar");
+    tree.forcePlaceForTest("eleazar", "Abihu");
+  });
+  await page.waitForTimeout(120);
+  await page.locator(".lab-check-btn").click();
+  await page.waitForTimeout(120);
+  const status = await page.locator(".lab-drag-status").textContent();
+  if (!/Nadab,\s*Abihu,\s*Eleazar,\s*Ithamar/i.test(status || "")) {
+    issues.push(`Aaron son order error should explain the sequence, got "${status}"`);
+  }
+  await page.locator(".lab-reset-btn").click();
+  await page.waitForTimeout(120);
+}
+
 async function exerciseResetClearsHints(page, id, issues) {
   if (id === "tabernacle_place") return;
   const resetButton = page.locator(".lab-reset-btn");
@@ -406,6 +449,7 @@ async function testLab(page, id, viewportName) {
   } else if (TREE_LAB_IDS.has(id)) {
     await exerciseTreeDispenser(page, issues);
     await exerciseTreeSlotSwap(page, issues);
+    await exerciseAaronSonOrderMessage(page, issues);
   }
 
   const before = await page.evaluate(() => window.BibleBowlLabQA.state());
@@ -483,6 +527,79 @@ async function testLab(page, id, viewportName) {
   };
 }
 
+async function testPriestLineMedalShelfRefresh(browser, viewport, errors) {
+  const page = await browser.newPage({
+    viewport: { width: viewport.width, height: viewport.height },
+  });
+  page.on("pageerror", (e) => errors.push(`[${viewport.name}] ${String(e)}`));
+  page.on("console", (m) => {
+    if (m.type() === "error") errors.push(`[${viewport.name}] console: ${m.text()}`);
+  });
+  await page.addInitScript(() => {
+    localStorage.removeItem("bbs:labs-completed:v1");
+    localStorage.removeItem("bbs:labs-seen-unlock:v1");
+    localStorage.removeItem("bbs-medal:priest_line");
+  });
+  await page.goto("http://127.0.0.1:9877/index.html?qa=1", { waitUntil: "networkidle" });
+  await page.waitForFunction(
+    () => window.BibleBowlLabQA && document.querySelector('#memory-labs-grid [data-lab-id="priest_line"]')
+  );
+
+  async function openPriestLine() {
+    await page.evaluate(() => window.BibleBowlLabQA.open("priest_line"));
+    await page.waitForSelector("#labs-modal.active", { timeout: 8000 });
+    const hasBegin = await page.locator("#labs-begin-btn:visible").count();
+    if (hasBegin > 0) await page.click("#labs-begin-btn");
+    await page.waitForFunction(() => {
+      const ws = document.getElementById("labs-workspace");
+      return ws && !ws.hidden && window.BibleBowlLabTree?.getActive();
+    });
+    await page.waitForTimeout(200);
+  }
+
+  async function shelfTier() {
+    return page.evaluate(() => {
+      const item = document.querySelector('#memory-labs-grid [data-lab-id="priest_line"]');
+      return {
+        classes: item ? [...item.classList] : [],
+        badge: item?.querySelector(".lab-medal-badge")?.textContent || "",
+        tooltip: item?.querySelector(".trophy-tooltip")?.textContent || "",
+      };
+    });
+  }
+
+  const issues = [];
+
+  await openPriestLine();
+  await page.locator(".lab-hint-btn").click();
+  await page.waitForTimeout(120);
+  await page.evaluate(() => window.BibleBowlLabQA.solve());
+  await page.waitForTimeout(250);
+  let tier = await shelfTier();
+  if (!tier.classes.includes("medal-silver")) {
+    issues.push(`first priest_line completion should show silver on shelf: ${JSON.stringify(tier)}`);
+  }
+  await page.evaluate(() => window.BibleBowlLabQA.close());
+  await page.waitForTimeout(120);
+
+  await openPriestLine();
+  await page.evaluate(() => window.BibleBowlLabQA.solve());
+  await page.waitForTimeout(250);
+  tier = await shelfTier();
+  if (!tier.classes.includes("medal-gold")) {
+    issues.push(`better priest_line replay should refresh shelf to gold before page reload: ${JSON.stringify(tier)}`);
+  }
+  await page.evaluate(() => window.BibleBowlLabQA.close());
+  await page.close();
+
+  return {
+    id: "priest_line_medal_refresh",
+    ok: issues.length === 0,
+    issues,
+    note: issues.length ? "shelf medal stale" : "silver replay upgraded to gold without reload",
+  };
+}
+
 async function runViewport(browser, viewport, errors) {
   const page = await browser.newPage({
     viewport: { width: viewport.width, height: viewport.height },
@@ -504,6 +621,7 @@ async function runViewport(browser, viewport, errors) {
     results.push(await testLab(page, id, viewport.name));
   }
   await page.close();
+  results.push(await testPriestLineMedalShelfRefresh(browser, viewport, errors));
   return results;
 }
 

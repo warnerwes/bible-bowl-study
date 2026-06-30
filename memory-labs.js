@@ -248,8 +248,8 @@
       if (!completedLabs.includes(lab.id)) {
         completedLabs.push(lab.id);
         saveCompleted();
-        renderShelf();
       }
+      renderShelf();
       document.getElementById("labs-status").textContent = lab.completion_teaching.memory_sentence;
       // Report the player's earned achievement (gold/silver/bronze) right in
       // the panel — the same medal read-out the Tabernacle ("holy things")

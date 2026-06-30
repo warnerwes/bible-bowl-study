@@ -119,7 +119,15 @@
       container.appendChild(dispenserWrap);
       container.appendChild(actions);
 
+      const AARON_SON_ORDER = ["Nadab", "Abihu", "Eleazar", "Ithamar"];
+      const ORDINAL = ["first", "second", "third", "fourth"];
+
       function wrongBranchMessage(name, slotId) {
+        const expected = correct[slotId];
+        if (AARON_SON_ORDER.includes(name) && AARON_SON_ORDER.includes(expected)) {
+          const idx = AARON_SON_ORDER.indexOf(name);
+          return `Aaron's sons are ordered Nadab, Abihu, Eleazar, Ithamar. ${name} belongs in the ${ORDINAL[idx]} son slot.`;
+        }
         if ((name === "Gershom" || name === "Eliezer") && slotId.startsWith("nadab")) {
           return "Moses' sons are not the Aaronic priestly line.";
         }
@@ -484,6 +492,15 @@
         },
         hintCount() {
           return hintsUsed;
+        },
+        forcePlaceForTest(slotId, name) {
+          Object.keys(filled).forEach((k) => {
+            if (filled[k] === name) delete filled[k];
+          });
+          filled[slotId] = name;
+          tray = tray.filter((n) => n !== name);
+          selectedSlot = null;
+          render();
         },
       };
 
