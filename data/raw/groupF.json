@@ -905,16 +905,16 @@
     "topic": "Tabernacle Placement",
     "type": "multiple-choice",
     "question": "Where was the Bronze Altar of Burnt Offering placed?",
-    "answer": "Outside the tabernacle, by the doors of the entrance",
+    "answer": "In the courtyard, between the east gate and the laver",
     "options": [
-      "Outside the tabernacle, by the doors of the entrance",
-      "Inside the Holy Place, beside the Table",
-      "In the Most Holy Place, in front of the Ark",
-      "In the courtyard, by the East Entrance only"
+      "In the courtyard, between the east gate and the laver",
+      "In the courtyard, between the laver and the tabernacle door",
+      "Inside the Holy Place, beside the golden table",
+      "In the Most Holy Place, before the Ark"
     ],
     "memoryAid": {
       "type": "mnemonic",
-      "text": "The Bronze Altar sits OUTSIDE the tabernacle, by the door. Sacrifices happen before the priest enters — the altar is the threshold between the world and the holy tent."
+      "text": "Order from the gate inward: bronze altar, then the laver, then the tabernacle door. Ex 40:7 sets the laver BETWEEN the tent and the altar — so the altar stands outermost, between the east gate and the laver, where sacrifice is made before drawing near."
     }
   },
   {
