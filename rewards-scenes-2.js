@@ -36,7 +36,7 @@
     const recentSoft = customWonderState.softHitFlash != null &&
       canvasTime - customWonderState.softHitFlash < 40;
 
-    window.BibleBowlScenes.drawCaption(ctx, w, "Massah · Meribah");
+    window.BibleBowlScenes.drawCaption(ctx, w, "Temptation · Abuse");
     window.BibleBowlScenes.drawProgress(ctx, w,
       rock.struck
         ? "Here the rock was struck once"

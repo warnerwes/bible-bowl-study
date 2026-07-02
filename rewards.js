@@ -117,7 +117,7 @@
     marah: { captionStart: "Cast the tree", progress: "The bitter water is healed", captionDone: "The Lord who heals you" },
     elim: { captionStart: "Find the twelve springs", progress: "12 springs", captionDone: "They camped by the waters" },
     manna: { captionStart: "Wait for the dew to lift", progress: "Gather today's portion", captionDay6: "Day 6: gather double", captionSabbath: "Sabbath: no manna today", captionDone: "Bread from heaven" },
-    rephidim: { captionStart: "Massah · Meribah", progress: "Strike the rock once", captionDone: "Water from the rock" },
+    rephidim: { captionStart: "Temptation · Abuse", progress: "Strike the rock once", captionDone: "Water from the rock" },
     sinai: { captionStart: "Set bounds around Sinai", progress: "Stand back and wait", captionDone: "The Lord descends in fire" },
     golden_calf: { captionStart: "False worship below Sinai", progressBurn: "Burn the idol", progressGrind: "Grind it to dust", progressWater: "Scatter it on the water", captionDone: "The people face their sin" },
     glory: { captionStart: "Glory fills the tabernacle", progress: "Wait outside and behold", captionDone: "Moses could not enter" }
