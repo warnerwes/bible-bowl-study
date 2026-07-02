@@ -406,14 +406,14 @@
     "book": "Exodus",
     "reference": "Exodus 38:8",
     "topic": "Bronze Laver",
-    "type": "fill-in",
+    "type": "multiple-choice",
     "question": "The bronze laver was made from the mirrors of which women?",
     "answer": "The women who served/fasted at the tabernacle entrance",
-    "acceptableAnswers": [
-      "the women who served at the tabernacle entrance",
-      "women who fasted",
-      "the serving women",
-      "women at the door of the tabernacle"
+    "options": [
+      "The women who served/fasted at the tabernacle entrance",
+      "The wives of the priests",
+      "The women who wove the tabernacle curtains",
+      "The daughters of Zelophehad"
     ],
     "memoryAid": {
       "type": "image",
