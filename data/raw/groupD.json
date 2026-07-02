@@ -258,10 +258,10 @@
   "reference": "Exodus 15:26",
   "topic": "At Marah",
   "type": "fill-in",
-  "question": "Complete the verse: 'I am the Lord thy God that ____ thee.'",
+  "question": "Complete the verse: 'I am the Lord your God who ____ you.'",
   "answer": "heals",
-  "acceptableAnswers": ["heals", "heals thee", "that heals thee"],
-  "memoryAid": { "type": "teaching", "text": "The Lord who heals reveals Himself at the very spot where He heals — Marah, the bitter, made sweet by wood. Read the title through the type: the Physician's medicine is the Cross plunged into our embittered nature, and only there does He name Himself 'the Lord that heals thee.'", "source": "St. Gregory of Nyssa, The Life of Moses" }
+  "acceptableAnswers": ["heals", "heals you", "who heals you"],
+  "memoryAid": { "type": "teaching", "text": "The Lord who heals reveals Himself at the very spot where He heals — Marah, the bitter, made sweet by wood. Read the title through the type: the Physician's medicine is the Cross plunged into our embittered nature, and only there does He name Himself 'the Lord your God who heals you.'", "source": "St. Gregory of Nyssa, The Life of Moses" }
  },
  {
   "id": "ex15-009",
