@@ -36,9 +36,9 @@ jobs:
       - name: Assemble publishable site
         run: |
           mkdir -p _site
-          cp index.html styles.css rewards.css memory-labs.css memory-labs-dispenser.css bible-reader.css mastery-trial.css \
+          cp index.html styles.css rewards.css memory-labs.css memory-labs-dispenser.css bible-reader.css mastery-trial.css updates.css \
             app.js rewards-audio.js rewards.js rewards-scenes-1.js rewards-scenes-2.js bible-reader.js \
-            memory-labs.js memory-labs-data.js memory-labs-medals.js memory-labs-drag.js memory-labs-tree.js memory-labs-tabernacle.js mastery-trial.js \
+            memory-labs.js memory-labs-data.js memory-labs-medals.js memory-labs-drag.js memory-labs-tree.js memory-labs-tabernacle.js mastery-trial.js updates.js \
             manifest.webmanifest sw.js _site/
           cp icon-192.png icon-512.png icon-maskable-512.png apple-touch-icon.png _site/
           cp favicon.png favicon-16.png favicon-32.png _site/
