@@ -245,7 +245,7 @@
     closeBtn.setAttribute("aria-label", "Close reader");
 
     const navRow = el("div", "reader-nav-row");
-    navRow.append(prevBtn, gameBtn, nextBtn);
+    navRow.append(gameBtn, prevBtn, nextBtn);
 
     selectWrap.append(selectLabel, chapterSelect);
     header.append(title, selectWrap, navRow, closeBtn);
