@@ -52,12 +52,12 @@
   "chapter": 17,
   "book": "Exodus",
   "reference": "Exodus 17:7",
-  "topic": "Massah and Meribah",
+  "topic": "Temptation and Abuse",
   "type": "multiple-choice",
   "question": "The OSB names the place “Temptation and Abuse” (Ex 17:7). Which two sins of Israel does that name record?",
-  "answer": "Tempting the Lord and quarreling against Him",
-  "options": ["Tempting the Lord and quarreling against Him", "Idolatry and grumbling for meat", "Fear of the Amalekites and unbelief", "Pride against Moses and envy of Aaron"],
-  "memoryAid": { "type": "mnemonic", "text": "Forget Massah/Meribah — the OSB calls the place “Temptation and Abuse” (Ex 17:7). Temptation: they put the Lord on trial, “Is the Lord among us or not?” Abuse: their abusive, contentious words against Moses and God. The place-name is the verdict on their hearts." }
+  "answer": "Tempting the Lord and their abusive language",
+  "options": ["Tempting the Lord and their abusive language", "Idolatry and grumbling for meat", "Fear of the Amalekites and unbelief", "Pride against Moses and envy of Aaron"],
+  "memoryAid": { "type": "mnemonic", "text": "The OSB calls the place “Temptation and Abuse” (Ex 17:7). Temptation: they tempted the Lord, putting Him on trial — “Is the Lord among us or not?” Abuse: the abusive language of the people against Moses and God. The place-name is the verdict on their hearts." }
  },
  {
   "id": "ex17-006",
@@ -270,10 +270,10 @@
   "reference": "Exodus 19:5",
   "topic": "Israel Set Apart",
   "type": "fill-in",
-  "question": "God said Israel would be His special what, above all peoples?",
+  "question": "God said Israel would be His ______, above all nations?",
   "answer": "special people",
-  "acceptableAnswers": ["special people", "people above all nations"],
-  "memoryAid": { "type": "image", "text": "The whole earth is God's, yet from all its peoples He reaches in and lifts out one as a king lifts a single jewel from his private hoard — His 'special people above all peoples.' Hold the contrast: He owns everything, yet sets His heart on this one." }
+  "acceptableAnswers": ["special people", "a special people", "special people to me"],
+  "memoryAid": { "type": "image", "text": "The whole earth is God's, yet from all its peoples He reaches in and lifts out one as a king lifts a single jewel from his private hoard — His “special people... above all nations” (Ex 19:5). He owns everything, yet sets His heart on this one." }
  },
  {
   "id": "ex19-006",

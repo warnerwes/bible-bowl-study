@@ -138,10 +138,10 @@
   "reference": "Exodus 33:18",
   "topic": "Moses Asks to See God",
   "type": "fill-in",
-  "question": "What did Moses request of God, saying 'Reveal Yourself to me.'?",
-  "answer": "Himself",
-  "acceptableAnswers": ["Himself", "Yourself"],
-  "memoryAid": { "type": "teaching", "text": "'Show me Your glory' is the soul's deepest hunger, and St. Gregory of Nyssa makes it the heart of the whole spiritual life: the more of God you see, the more you long to see, forever. There is no ceiling on this ascent, because His essence is inexhaustible, and to find Him is only to long to seek Him further.", "source": "St. Gregory of Nyssa, The Life of Moses" }
+  "question": "Moses prayed to the Lord in Exodus 33:18, saying, “______ to me.”",
+  "answer": "Reveal Yourself",
+  "acceptableAnswers": ["reveal yourself", "reveal yourself to me", "reveal"],
+  "memoryAid": { "type": "teaching", "text": "In the OSB Moses prays, “Reveal Yourself to me” (Ex 33:18). St. Gregory of Nyssa makes this longing the heart of the whole spiritual life: the more of God one sees, the more one longs to see, forever — for His essence is inexhaustible, and to find Him is only to long to seek Him further.", "source": "St. Gregory of Nyssa, The Life of Moses" }
  },
  {
   "id": "ex33-005",
