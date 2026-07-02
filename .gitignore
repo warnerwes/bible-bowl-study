@@ -6,3 +6,11 @@ _site/
 captures/
 data/source-exports/
 .claude/
+
+# Generated OSB-audit artifacts (working files, not app source)
+.codex-remote-attachments/
+data/reviews/osb-audit-ledger*.json
+data/reviews/osb-verify-ledger.json
+data/reviews/osb-audit-report.md
+data/reviews/osb-verify-report.md
+data/reviews/questions.backup.*.json

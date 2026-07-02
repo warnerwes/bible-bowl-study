@@ -15,6 +15,14 @@
 
   const REPO = "warnerwes/bible-bowl-study";
   const STORAGE_KEY = "bbs:stats:v1";
+  const CORRECTIONS_VERSION = 1;
+  // Question ids whose visible wording/answer changed in the OSB audit and must be re-learned.
+  // (Reference-only remaps are intentionally excluded - the student-visible Q/A did not change.)
+  const CORRECTED_IDS = [
+    "ex17-004", "ex17-005", "ex10-002", "ex16-013", "ex09-009",
+    "ex12-012", "ex16-017", "ex19-005", "ex33-004",
+  ];
+  const CORRECTIONS_KEY = STORAGE_KEY + ":corrections";
   const VOTE_STORAGE_KEY = "bbs:aid-votes:v1";
 
   const TYPE_LABELS = {
@@ -251,6 +259,19 @@
       window.dispatchEvent(new CustomEvent("bbs:stats-updated", { detail: { total: state.all.length } }));
     } catch (e) {}
   }
+  function applyCorrectionResets() {
+    let appliedVersion = 0;
+    try { appliedVersion = parseInt(localStorage.getItem(CORRECTIONS_KEY), 10) || 0; } catch (e) {}
+    if (appliedVersion >= CORRECTIONS_VERSION) return;
+    for (const id of CORRECTED_IDS) {
+      const s = stats[id];
+      if (s && s.streak >= MASTERY_STREAK) {
+        s.streak = 0;
+      }
+    }
+    saveStats();
+    try { localStorage.setItem(CORRECTIONS_KEY, String(CORRECTIONS_VERSION)); } catch (e) {}
+  }
   function saveAidVotes() {
     try { localStorage.setItem(VOTE_STORAGE_KEY, JSON.stringify(aidVotes)); } catch (e) {}
   }
@@ -423,6 +444,7 @@
   // ---------- Load data ----------
   async function load() {
     loadStats();
+    applyCorrectionResets();
     try {
       const res = await fetch("data/questions.json", { cache: "no-cache" });
       if (!res.ok) throw new Error(`HTTP ${res.status}`);

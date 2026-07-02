@@ -22,13 +22,15 @@
   <link rel="stylesheet" href="rewards.css?v=55" />
   <link rel="stylesheet" href="memory-labs.css?v=39" />
   <link rel="stylesheet" href="memory-labs-dispenser.css?v=39" />
-  <link rel="stylesheet" href="bible-reader.css?v=57" />
+  <link rel="stylesheet" href="bible-reader.css?v=59" />
+  <link rel="stylesheet" href="updates.css?v=61" />
   <link rel="stylesheet" href="mastery-trial.css?v=50" />
 </head>
 <body>
   <header class="site-header">
     <h1>Bible Bowl Study</h1>
     <p class="subtitle">The Book of Exodus</p>
+    <button type="button" id="open-updates" class="link-btn header-updates-link" aria-haspopup="dialog" aria-controls="updates-modal">Updates</button>
   </header>
 
   <main id="app">
@@ -192,8 +194,9 @@
     <p class="muted">Memory aids draw on Orthodox/patristic tradition and the Orthodox Study Bible.</p>
   </footer>
 
-  <script src="app.js?v=39"></script>
-  <script src="bible-reader.js?v=57"></script>
+  <script src="app.js?v=62"></script>
+  <script src="bible-reader.js?v=59"></script>
+  <script src="updates.js?v=60" defer></script>
   <script src="rewards-audio.js?v=48"></script>
   <script src="rewards-scenes-1.js?v=39"></script>
   <script src="rewards-scenes-2.js?v=40"></script>
@@ -210,7 +213,7 @@
     // The asset-busting version baked into this HTML build. Bump this
     // when shipping any change to scripts, styles, or the SW, so phones
     // that loaded an older HTML auto-detect the mismatch and reload.
-    var __BBS_VERSION = "57";
+    var __BBS_VERSION = "61";
     if ("serviceWorker" in navigator) {
       window.addEventListener("load", function () {
         navigator.serviceWorker.register("sw.js").catch(function () {});

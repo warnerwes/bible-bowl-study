@@ -57,6 +57,7 @@ try {
     waitUntil: "networkidle",
   });
   await page.waitForFunction(() => window.BibleReader && window.BibleBowlQA);
+  await page.evaluate(() => localStorage.removeItem("bbs:reader-word-game-progress:v1"));
   const homeBadge = await page.evaluate(() => ({
     text: document.querySelector("#read-exodus .new-badge")?.textContent || "",
     visible: !!document.querySelector("#read-exodus .new-badge")?.offsetParent,
@@ -127,6 +128,8 @@ try {
   await page.waitForFunction(() => !document.querySelector("#reader-modal")?.classList.contains("active"));
   await page.evaluate(() => window.BibleBowlQA.close());
 
+  await page.evaluate(() => window.BibleReader.open(12));
+  await page.waitForSelector("#reader-modal.active", { timeout: 8000 });
   await page.evaluate(() => window.BibleReader.startGame(12));
   await page.waitForSelector("#reader-modal .reader-game", { timeout: 8000 });
   const gameInitial = await page.evaluate(() => ({
@@ -139,6 +142,10 @@ try {
       const box = document.querySelector("#reader-title")?.getBoundingClientRect();
       return box ? { width: box.width, height: box.height } : null;
     })(),
+    navBoxes: [...document.querySelectorAll("#reader-modal .reader-nav-btn")].map((btn) => {
+      const box = btn.getBoundingClientRect();
+      return { width: box.width, height: box.height };
+    }),
     blankCount: document.querySelectorAll(".reader-blank").length,
     verseCount: document.querySelectorAll(".reader-game-verses .reader-verse").length,
     blankVerseCount: document.querySelectorAll(".reader-game-verse-has-blanks").length,
@@ -158,7 +165,8 @@ try {
     };
   });
   await page.evaluate(() => window.BibleReader.startGame(12));
-  await page.waitForFunction(() => window.BibleReader.gameState()?.showBlankVerses === false);
+  await page.waitForFunction(() => window.BibleReader.gameState()?.showBlankVerses === true);
+  await page.locator(".reader-blank").first().scrollIntoViewIfNeeded();
   await page.locator(".reader-blank").first().click();
   await page.waitForFunction(() => document.querySelectorAll(".reader-choice-tray .reader-choice").length >= 4);
   const gameStageOne = await page.evaluate(() => {
@@ -181,6 +189,11 @@ try {
     await page.evaluate(() => window.BibleReader.answerGameCorrect());
   }
   await page.waitForSelector(".reader-game-done", { timeout: 8000 });
+  const gameStageOneComplete = await page.evaluate(() => ({
+    progressLevel: window.BibleReader.gameState()?.progressLevel,
+    optionText: document.querySelector("#reader-chapter option:checked")?.textContent || "",
+    nextText: document.querySelector(".reader-choice-tray .primary-btn")?.textContent || "",
+  }));
   await page.evaluate(() => window.BibleReader.nextGameStage());
   await page.waitForFunction(() => window.BibleReader.gameState()?.stageIndex === 1);
   const gameStageTwoInitial = await page.evaluate(() => ({
@@ -188,6 +201,7 @@ try {
     choiceCount: document.querySelectorAll(".reader-choice").length,
     state: window.BibleReader.gameState(),
   }));
+  await page.locator(".reader-blank").first().scrollIntoViewIfNeeded();
   await page.locator(".reader-blank").first().click();
   await page.waitForFunction(() => document.querySelectorAll(".reader-choice-tray .reader-choice").length >= 4);
   const gameStageTwo = await page.evaluate(() => ({
@@ -215,6 +229,48 @@ try {
       state,
     };
   });
+  await page.evaluate(() => window.BibleReader.startGame(12, 2));
+  await page.waitForFunction(() => window.BibleReader.gameState()?.stageIndex === 2);
+  const gameStageThreeCount = await page.evaluate(() => window.BibleReader.gameState()?.blanks?.length || 0);
+  for (let i = 0; i < gameStageThreeCount; i++) {
+    await page.evaluate(() => window.BibleReader.answerGameCorrect());
+  }
+  await page.waitForSelector(".reader-game-done", { timeout: 8000 });
+  const gameStageThreeComplete = await page.evaluate(() => ({
+    progressLevel: window.BibleReader.gameState()?.progressLevel,
+    optionText: document.querySelector("#reader-chapter option:checked")?.textContent || "",
+    nextText: document.querySelector(".reader-choice-tray .primary-btn")?.textContent || "",
+  }));
+  await page.locator(".reader-choice-tray .primary-btn").click();
+  await page.waitForFunction(() => window.BibleReader.gameState()?.recall === true);
+  const recallInitial = await page.evaluate(() => ({
+    title: document.querySelector("#reader-title")?.textContent || "",
+    inputCount: document.querySelectorAll(".reader-recall-input").length,
+    choiceCount: document.querySelectorAll(".reader-choice").length,
+    checkText: document.querySelector(".reader-choice-tray .primary-btn")?.textContent || "",
+    optionText: document.querySelector("#reader-chapter option:checked")?.textContent || "",
+    state: window.BibleReader.gameState(),
+  }));
+  await page.locator(".reader-recall-input").first().fill("wrong");
+  await page.locator(".reader-choice-tray .primary-btn").click();
+  await page.waitForFunction(() => window.BibleReader.gameState()?.checked === true);
+  const recallWrong = await page.evaluate(() => ({
+    wrongCount: document.querySelectorAll(".reader-recall-input.wrong").length,
+    progressLevel: window.BibleReader.gameState()?.progressLevel,
+    optionText: document.querySelector("#reader-chapter option:checked")?.textContent || "",
+  }));
+  const recallCount = await page.evaluate(() => window.BibleReader.gameState()?.blanks?.length || 0);
+  for (let i = 0; i < recallCount; i++) {
+    await page.evaluate(() => window.BibleReader.answerGameCorrect());
+  }
+  await page.waitForSelector(".reader-game-done", { timeout: 8000 });
+  const recallComplete = await page.evaluate(() => ({
+    progressLevel: window.BibleReader.gameState()?.progressLevel,
+    optionText: document.querySelector("#reader-chapter option:checked")?.textContent || "",
+    nextText: document.querySelector(".reader-choice-tray .primary-btn")?.textContent || "",
+    filledCount: document.querySelectorAll(".reader-recall-input.filled").length,
+    state: window.BibleReader.gameState(),
+  }));
 
   const checks = [
     {
@@ -264,24 +320,25 @@ try {
     {
       name: "reader word game starts with four unselected chapter blanks",
       ok: /Word Game/.test(gameInitial.title) &&
-        gameInitial.headerBox?.height < 82 &&
+        gameInitial.headerBox?.height < 96 &&
         gameInitial.titleBox?.width > 200 &&
         gameInitial.titleBox?.height < 60 &&
+        gameInitial.navBoxes?.every((box) => box.width >= 42 && box.height >= 42) &&
         gameInitial.blankCount === 4 &&
-        gameInitial.verseCount === 51 &&
+        gameInitial.verseCount === new Set(gameInitial.state?.blanks?.map((blank) => blank.verse) || []).size &&
         gameInitial.blankVerseCount === new Set(gameInitial.state?.blanks?.map((blank) => blank.verse) || []).size &&
-        /Show some/.test(gameInitial.scopeText) &&
+        /Show all/.test(gameInitial.scopeText) &&
         gameInitial.choiceCount === 0 &&
         gameInitial.state?.activeIndex === -1 &&
-        gameInitial.state?.showBlankVerses === false &&
+        gameInitial.state?.showBlankVerses === true &&
         gameInitial.state?.blanks?.every((blank) => blank.options.length >= 4),
       detail: JSON.stringify(gameInitial),
     },
     {
-      name: "reader word game scope button filters to blank verses",
-      ok: gameScopedVerses.showBlankVerses === true &&
-        /Show all/.test(gameScopedVerses.scopeText) &&
-        gameScopedVerses.verseCount === gameScopedVerses.uniqueBlankVerses &&
+      name: "reader word game scope button can show all verses",
+      ok: gameScopedVerses.showBlankVerses === false &&
+        /Show some/.test(gameScopedVerses.scopeText) &&
+        gameScopedVerses.verseCount === 51 &&
         gameScopedVerses.blankVerseCount === gameScopedVerses.uniqueBlankVerses,
       detail: JSON.stringify(gameScopedVerses),
     },
@@ -293,6 +350,13 @@ try {
         gameStageOne.tray.top > gameStageOne.tray.viewportHeight * 0.55 &&
         gameStageOne.state?.activeIndex === 0,
       detail: JSON.stringify(gameStageOne),
+    },
+    {
+      name: "reader word game records completed stage in chapter selector",
+      ok: gameStageOneComplete.progressLevel === 1 &&
+        /Stage 1/.test(gameStageOneComplete.optionText) &&
+        /Next stage/.test(gameStageOneComplete.nextText),
+      detail: JSON.stringify(gameStageOneComplete),
     },
     {
       name: "reader word game stage two increases missing words",
@@ -316,6 +380,38 @@ try {
       ok: gameStageThreeChapterThree.blankCount === 12 &&
         gameStageThreeChapterThree.answers.includes("affliction"),
       detail: JSON.stringify(gameStageThreeChapterThree),
+    },
+    {
+      name: "reader word game unlocks Recall after stage three",
+      ok: gameStageThreeComplete.progressLevel === 3 &&
+        /Stage 3/.test(gameStageThreeComplete.optionText) &&
+        /Start Recall/.test(gameStageThreeComplete.nextText),
+      detail: JSON.stringify(gameStageThreeComplete),
+    },
+    {
+      name: "reader Recall uses typed inputs instead of choices",
+      ok: /Recall/.test(recallInitial.title) &&
+        recallInitial.inputCount === 12 &&
+        recallInitial.choiceCount === 0 &&
+        /Check Recall/.test(recallInitial.checkText) &&
+        /Stage 3/.test(recallInitial.optionText) &&
+        recallInitial.state?.recall === true,
+      detail: JSON.stringify(recallInitial),
+    },
+    {
+      name: "reader Recall marks missed typed answers without advancing progress",
+      ok: recallWrong.wrongCount >= 1 &&
+        recallWrong.progressLevel === 3 &&
+        /Stage 3/.test(recallWrong.optionText),
+      detail: JSON.stringify(recallWrong),
+    },
+    {
+      name: "reader Recall completion records Recall in chapter selector",
+      ok: recallComplete.progressLevel === 4 &&
+        /Recall/.test(recallComplete.optionText) &&
+        /Back to reading/.test(recallComplete.nextText) &&
+        recallComplete.filledCount === 12,
+      detail: JSON.stringify(recallComplete),
     },
   ];
 

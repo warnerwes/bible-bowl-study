@@ -1,0 +1,114 @@
+.header-updates-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 0.55rem;
+  font-size: 0.88rem;
+}
+
+#updates-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 1200;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: max(0.45rem, env(safe-area-inset-top, 0px))
+    max(0.45rem, env(safe-area-inset-right, 0px))
+    max(0.45rem, env(safe-area-inset-bottom, 0px))
+    max(0.45rem, env(safe-area-inset-left, 0px));
+  background: rgba(8, 10, 14, 0.76);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.25s ease, visibility 0.25s ease;
+}
+
+#updates-modal.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+#updates-modal .updates-card {
+  width: min(100%, 680px);
+  max-width: 100%;
+  max-height: min(85vh, 860px);
+  display: flex;
+  flex-direction: column;
+  border-radius: 16px;
+  border: 1px solid var(--border-gold);
+  background: #13171e;
+  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.56);
+  overflow: hidden;
+}
+
+#updates-modal .updates-header {
+  align-items: flex-start;
+}
+
+.updates-heading {
+  flex: 1;
+  min-width: 0;
+}
+
+.updates-kicker {
+  margin: 0 0 0.15rem;
+  color: var(--muted);
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.updates-body {
+  padding-top: 1rem;
+}
+
+.updates-entry + .updates-entry {
+  margin-top: 1.2rem;
+  padding-top: 1.2rem;
+  border-top: 1px solid var(--border);
+}
+
+.updates-entry-title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 1.28rem;
+  line-height: 1.2;
+  color: var(--accent-strong);
+}
+
+.updates-entry-intro {
+  margin: 0.6rem 0 0;
+  color: var(--text);
+}
+
+.updates-list {
+  margin: 0.9rem 0 0;
+  padding-left: 1.2rem;
+}
+
+.updates-list li + li {
+  margin-top: 0.65rem;
+}
+
+.updates-reference {
+  color: var(--accent-strong);
+}
+
+.updates-note {
+  display: block;
+  margin-top: 0.18rem;
+  color: var(--muted);
+  font-size: 0.94rem;
+}
+
+@media (max-width: 640px) {
+  .header-updates-link {
+    margin-top: 0.45rem;
+  }
+
+  .updates-entry-title {
+    font-size: 1.14rem;
+  }
+}
