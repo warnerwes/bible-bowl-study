@@ -245,10 +245,10 @@
     closeBtn.setAttribute("aria-label", "Close reader");
 
     const navRow = el("div", "reader-nav-row");
-    navRow.append(prevBtn, nextBtn);
+    navRow.append(prevBtn, gameBtn, nextBtn);
 
     selectWrap.append(selectLabel, chapterSelect);
-    header.append(title, selectWrap, gameBtn, navRow, closeBtn);
+    header.append(title, selectWrap, navRow, closeBtn);
 
     modalBody = el("div", "reader-body");
 
