@@ -350,9 +350,9 @@
           // Nested zones inside Courtyard. DECLARATION ORDER IS SPATIAL:
           // the courtyard slot is a flex column (top = WEST, toward the
           // tent; bottom = EAST, toward the gate), so the FIRST child
-          // renders highest/west. Per LXX (Ex 30:18; 40:30) the laver
+          // renders highest/west. Per LXX/OSB Ex 30:18, the laver
           // stands BETWEEN the tabernacle and the altar — so walking in
-          // from the east gate the order is Altar → Laver → Holy Place.
+          // from the east gate the order is Altar → Laver → Door Veil.
           // Therefore declare the Laver FIRST (higher/west) and the
           // Bronze Altar SECOND (lower/east, "before the door"). Do not
           // reorder these without re-checking the rendered Y positions.
@@ -419,19 +419,19 @@
             emoji: "🟦",
             osb_ref: "Ex 40:5",
           },
-          // OSB Ex 40:30 + Ex 30:18 — between tabernacle and altar
+          // OSB Ex 30:18 — between tabernacle and altar
           {
             id: "laver",
             label: "Bronze Laver",
             emoji: "🚰",
-            osb_ref: "Ex 40:30; OSB Ex 30:18",
+            osb_ref: "Ex 30:18",
           },
-          // OSB Ex 40:29 — Bronze Altar by the doors
+          // OSB Ex 40:26 — Bronze Altar before the doors
           {
             id: "bronze_altar",
             label: "Bronze Altar of Burnt Offering",
             emoji: "🔥",
-            osb_ref: "Ex 40:29",
+            osb_ref: "Ex 40:26",
           },
           // OSB Ex 40:33 — Court around the tabernacle and altar
           {

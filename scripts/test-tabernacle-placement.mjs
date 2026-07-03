@@ -670,6 +670,10 @@ async function main() {
 
   const placementIds = await (await fetch("http://127.0.0.1:9878/data/questions.json")).json();
   const newIds = ["ex40-010", "ex40-011", "ex40-012", "ex40-013", "ex40-014", "ex40-015"];
+  const expectedRefs = {
+    "ex40-014": /^Exodus 40:26$/,
+    "ex40-015": /^Exodus 30:18$/,
+  };
   for (const id of newIds) {
     const q = placementIds.find((qq) => qq.id === id);
     checks.push({
@@ -686,8 +690,8 @@ async function main() {
         detail: `type=${q.type} ans=${q.answer}`,
       });
       checks.push({
-        name: `bank: ${id} reference is in-scope Ex 40`,
-        ok: /^Exodus 40:/.test(q.reference || ""),
+        name: `bank: ${id} reference is source-aligned`,
+        ok: (expectedRefs[id] || /^Exodus 40:/).test(q.reference || ""),
         detail: `ref=${q.reference}`,
       });
       checks.push({

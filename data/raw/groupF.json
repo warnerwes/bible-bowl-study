@@ -543,22 +543,22 @@
   "id": "ex40-014",
   "chapter": 40,
   "book": "Exodus",
-  "reference": "Exodus 40:29",
+  "reference": "Exodus 40:26",
   "topic": "Tabernacle Placement",
   "type": "multiple-choice",
   "question": "Where was the Bronze Altar of Burnt Offering placed?",
   "answer": "In the courtyard, between the east gate and the laver",
   "options": ["In the courtyard, between the east gate and the laver", "In the courtyard, between the laver and the tabernacle door", "Inside the Holy Place, beside the golden table", "In the Most Holy Place, before the Ark"],
-  "memoryAid": { "type": "mnemonic", "text": "Order from the gate inward: bronze altar, then the laver, then the tabernacle door. Ex 40:7 sets the laver BETWEEN the tent and the altar — so the altar stands outermost, between the east gate and the laver, where sacrifice is made before drawing near." }
+  "memoryAid": { "type": "mnemonic", "text": "Order from the gate inward: bronze altar, then the laver, then the tabernacle door. Ex 40:26 puts the bronze altar before the doors of the tabernacle; Ex 30:18 puts the laver between the tabernacle and the altar. So the altar stands outermost, between the east gate and the laver, where sacrifice is made before drawing near." }
  },
  {
   "id": "ex40-015",
   "chapter": 40,
   "book": "Exodus",
-  "reference": "Exodus 40:30",
+  "reference": "Exodus 30:18",
   "topic": "Tabernacle Placement",
   "type": "multiple-choice",
-  "question": "According to OSB Exodus 30:18 and 40:30, where was the Bronze Laver placed?",
+  "question": "According to OSB Exodus 30:18, where was the Bronze Laver placed?",
   "answer": "Between the tabernacle of witness and the altar",
   "options": ["Between the tabernacle of witness and the altar", "Inside the Most Holy Place, beside the Ark", "Outside the courtyard, beyond the East Entrance", "In the Holy Place, beside the Lampstand"],
   "memoryAid": { "type": "mnemonic", "text": "Laver BETWEEN the tabernacle and the altar — the washing station a priest passes after the sacrifice but before entering the holy tent. Made from the mirrors of the women who served/fasted at the tabernacle entrance (Ex 38:8)." }
