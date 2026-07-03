@@ -35,6 +35,25 @@ IDX={ch:start_idx(anch[ch]) for ch in range(1,41)}; IDX[41]=len(spans)
 
 NOTE=set("†ω")
 EMB={n:re.compile(r'(?<!\d)'+str(n)+r'(?=[A-Za-z“‘"(])') for n in range(2,60)}
+CH15_TEXT_FIXES={
+    "salv ation":"salvation",
+    "cov ered":"covered",
+    "adv ersaries":"adversaries",
+    "wav es":"waves",
+    "ov ertake":"overtake",
+    "div ide":"divide",
+    "hav e":"have",
+    "Marv elous":"Marvelous",
+    "dismay ed":"dismayed",
+    "ov er":"over",
+    "forev er":"forever",
+    "ev er":"ever",
+}
+
+def clean_ch15_text(text):
+    for bad, good in CH15_TEXT_FIXES.items():
+        text=text.replace(bad,good)
+    return re.sub(r'\s+([,;:.!?])',r'\1',text)
 
 def parse_chapter(ch):
     maxv=COUNTS[ch]
@@ -105,7 +124,7 @@ def parse_ch15():
         t=re.sub(r'\s+',' ',out[v]).strip()
         # strip stray cross-ref digits (all real ch15 numbers are spelled out)
         t=re.sub(r'(?<=[A-Za-z,;])\s+\d+\s+(?=[A-Za-z])',' ',t)
-        out[v]=re.sub(r'\s+',' ',t).strip()
+        out[v]=clean_ch15_text(re.sub(r'\s+',' ',t).strip())
     return out,{}
 
 REQ=list(range(1,21))+[32,33,34,38,39,40]

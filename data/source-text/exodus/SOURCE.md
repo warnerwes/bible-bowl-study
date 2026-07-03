@@ -59,10 +59,9 @@ writes references (e.g. `"Exodus 1:1-5"` → loop `1:1`…`1:5`):
 - OSB **study articles/sidebars** (e.g. ch. 12 "Christ Our Passover", ch. 20
   "Grace of Christ and the Law of Moses") and study-note markers (`†`, `ω`) are
   **excluded** from the verse text.
-- Known cosmetic artifact: a handful of **intra-word spaces** survive in the
-  ch. 15 poetry (the Song of the Sea), e.g. `forev er`, `salv ation` — these are
-  in the source PDF's text layer on that page. ~18 occurrences, almost all in
-  ch. 15. Clean up with a downstream pass if needed.
+- Chapter 15 poetry (the Song of the Sea) receives a cleanup pass for PDF
+  text-layer artifacts such as `forev er` and `salv ation`, plus spaces before
+  punctuation.
 - Verse 1 of each chapter was located via the PDF's own per-verse navigation
   anchors (verse 1 is unnumbered in the text); verses 2..N split on the
   embedded/superscript verse numbers.
