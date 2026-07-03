@@ -1,20 +1,4 @@
-/**
- * Tabernacle placement mini-game regression test.
- *
- * Verifies the "Place the Holy Things" lab:
- *  - 6th tile appears on the labs shelf (unlocked in ?qa=1 mode)
- *  - Modal opens, board renders with 8 zones
- *  - Pool starts with 8 chips
- *  - solve() places all 8 cards in correct zones
- *  - Per-card failure hint appears for a misplaced card
- *  - Wrong placement is caught and not marked complete
- *  - Mobile viewport (390x844) renders without overflow that breaks pedagogy
- *  - Desktop viewport (1280x800) renders correctly
- *  - All 6 new placement MC questions (ex40-010..015) load and have correct schema
- *  - No console errors during full flow
- *
- * Run: npm run test:tabernacle
- */
+/** Run: npm run test:tabernacle */
 import { createServer } from "http";
 import { readFileSync, existsSync } from "fs";
 import { join, extname } from "path";
@@ -87,7 +71,6 @@ async function runViewport(browser, viewport, errors, checks) {
       document.querySelector("#memory-labs-grid .trophy-item")
   );
 
-  // 1. 6th tile (tabernacle_place) is unlocked on the shelf.
   const tileCount = await page.locator("#memory-labs-grid .trophy-item.unlocked").count();
   checks.push({ name: `${viewport.name}: 6 unlocked labs on shelf`, ok: tileCount === 6 });
   const tabTile = await page
@@ -106,22 +89,32 @@ async function runViewport(browser, viewport, errors, checks) {
     ok: goldenAltarRef === "Ex 40:24-25",
     detail: `ref=${goldenAltarRef}`,
   });
+  const veilRefs = await page.evaluate(() => {
+    const lab = window.BibleBowlLabs.labs.find((l) => l.id === "tabernacle_place");
+    return {
+      inner: lab?.tabernacle_cards?.find((c) => c.id === "veil"),
+      door: lab?.tabernacle_cards?.find((c) => c.id === "door_veil"),
+      doorZone: lab?.tabernacle_zones?.find((z) => z.id === "door_veil_zone"),
+    };
+  });
+  checks.push({
+    name: `${viewport.name}: inner veil and door veil are separate cards`,
+    ok:
+      veilRefs.inner?.osb_ref === "Ex 40:21" &&
+      veilRefs.door?.osb_ref === "Ex 40:5" &&
+      veilRefs.doorZone?.accept?.includes("door_veil"),
+    detail: JSON.stringify(veilRefs),
+  });
 
-  // 2. Open the lab modal.
   await openTabernacleLab(page);
 
-  // 3. Board renders 10 zones (4 top-level + 6 nested).
   const zoneCount = await page.locator("[data-zone-id]").count();
   checks.push({
-    name: `${viewport.name}: 10 zones rendered`,
-    ok: zoneCount === 10,
+    name: `${viewport.name}: 11 zones rendered`,
+    ok: zoneCount === 11,
     detail: `actual=${zoneCount}`,
   });
 
-  // 3a. Anti-leak guard (2026-06-28): every answer-name must be HIDDEN
-  // on initial mount. The static labels show only room/direction text.
-  // The reveal slots exist in the DOM but are hidden until a card is
-  // correctly placed in that zone.
   const leakCheck = await page.evaluate(() => {
     const labels = Array.from(
       document.querySelectorAll(".lab-tabernacle-zone-caption")
@@ -140,6 +133,7 @@ async function runViewport(browser, viewport, errors, checks) {
     /^Lampstand$/i,
     /Golden Altar of Incense/i,
     /^Veil\s*\(Parochet\)/i,
+    /Door Veil|Entrance Screen/i,
     /Bronze Altar of Burnt Offering/i,
     /Laver\s*\(Washing Basin\)/i,
     /^Court Gate$/i,
@@ -159,17 +153,13 @@ async function runViewport(browser, viewport, errors, checks) {
   checks.push({
     name: `${viewport.name}: all reveal slots are hidden on initial mount`,
     ok:
-      leakCheck.reveals.length >= 6 &&
+      leakCheck.reveals.length >= 9 &&
       leakCheck.allRevealsHidden,
     detail: `reveals=${JSON.stringify(
       leakCheck.reveals.map((r) => ({ text: r.text, hidden: r.hidden }))
     )}`,
   });
 
-  // 3b. The veil_zone must be visible AND have non-zero area in the
-  // rendered board (the original bug: veil_zone had `grid-area:
-  // veil_zone` but the board grid never declared that area, so the
-  // element got squashed to 0 height and was effectively invisible).
   const veilBox = await page.evaluate(() => {
     const el = document.querySelector('[data-zone-id="veil_zone"]');
     if (!el) return null;
@@ -184,8 +174,6 @@ async function runViewport(browser, viewport, errors, checks) {
       veilBox.h >= 30,
     detail: JSON.stringify(veilBox),
   });
-  // 3c. The veil_zone must sit visually between Most Holy and Holy
-  // Place (y-coordinate between the two parent rows).
   const veilBetweenCheck = await page.evaluate(() => {
     const veil = document.querySelector('[data-zone-id="veil_zone"]');
     const mhp = document.querySelector('[data-zone-id="most_holy"]');
@@ -194,8 +182,6 @@ async function runViewport(browser, viewport, errors, checks) {
     const v = veil.getBoundingClientRect();
     const m = mhp.getBoundingClientRect();
     const h = hp.getBoundingClientRect();
-    // Veil's top should be at or below Most Holy's bottom.
-    // Veil's bottom should be at or above Holy Place's top.
     return {
       veilTop: v.top,
       veilBottom: v.bottom,
@@ -212,13 +198,34 @@ async function runViewport(browser, viewport, errors, checks) {
       veilBetweenCheck.isBetween,
     detail: JSON.stringify(veilBetweenCheck),
   });
+  const doorVeilCheck = await page.evaluate(() => {
+    const doorVeil = document.querySelector('[data-zone-id="door_veil_zone"]');
+    const building = document.querySelector(".lab-tabernacle-building");
+    const court = document.querySelector('[data-zone-id="tabernacle_exterior"]');
+    if (!doorVeil || !building || !court) return null;
+    const d = doorVeil.getBoundingClientRect();
+    const b = building.getBoundingClientRect();
+    const c = court.getBoundingClientRect();
+    return {
+      doorVeilTop: d.top,
+      doorVeilBottom: d.bottom,
+      buildingBottom: b.bottom,
+      courtTop: c.top,
+      w: d.width,
+      h: d.height,
+      isBetween: d.top >= b.bottom - 1 && d.bottom <= c.top + 1,
+    };
+  });
+  checks.push({
+    name: `${viewport.name}: door_veil_zone sits between Holy Place and Courtyard`,
+    ok:
+      doorVeilCheck &&
+      doorVeilCheck.w > 60 &&
+      doorVeilCheck.h >= 26 &&
+      doorVeilCheck.isBetween,
+    detail: JSON.stringify(doorVeilCheck),
+  });
 
-  // 3d. Layout (2026-06-29 mobile-fit revision): on phones (<720px) the
-  // legend sidebar is HIDDEN so the map gets the full width and the chip
-  // pool sits in a pinned footer (the whole map+pool fits one viewport).
-  // On >=720px the sidebar reappears BESIDE the map (side-by-side). The
-  // sidebar element still exists in the DOM (desktop + the reveal flow
-  // rely on it), so we check its computed visibility, not its presence.
   const layoutCheck = await page.evaluate(() => {
     const board = document.querySelector(".lab-tabernacle-board");
     const sidebar = document.querySelector(".lab-tabernacle-sidebar");
@@ -236,8 +243,6 @@ async function runViewport(browser, viewport, errors, checks) {
       isStacked: s.y >= b.bottom - 1,
     };
   });
-  // Desktop (>=720px): sidebar visible + side-by-side. Mobile (<720px):
-  // sidebar hidden so the map fills the width.
   const isDesktop = layoutCheck && layoutCheck.viewportW >= 720;
   checks.push({
     name: `${viewport.name}: sidebar layout matches viewport`,
@@ -245,12 +250,6 @@ async function runViewport(browser, viewport, errors, checks) {
     detail: JSON.stringify(layoutCheck),
   });
 
-  // 3e. Mobile one-viewport fit (2026-06-29): the whole tabernacle UI
-  // (map + chip pool + actions) must fit inside the labs-card without the
-  // workspace scrolling past the card on phones. We assert the workspace's
-  // scrollHeight does not exceed the card height by more than a small
-  // tolerance (the pedagogy breaks when the user can't see map + chips at
-  // once). Only enforced on the mobile viewport.
   if (viewport.name === "mobile" && layoutCheck) {
     const fitCheck = await page.evaluate(() => {
       const card = document.querySelector("#labs-modal .labs-card");
@@ -270,15 +269,6 @@ async function runViewport(browser, viewport, errors, checks) {
     });
   }
 
-  // 3d. Drop-validation rules (2026-06-28):
-  //   - Card dropped on its correct zone → accepted.
-  //   - Card dropped on a parent whose child accepts it → soft-snapped.
-  //   - Card dropped on a parent whose NO child accepts it → REFUSED
-  //     (silent state corruption: nothing on screen would match).
-  //   - Card dropped on any other zone (including wrong ones) →
-  //     accepted as a WRONG PLACEMENT — the user is learning and can
-  //     drag the chip back out to try again. Only Check marks it red.
-  // First case: dropping Ark on Most Holy Place (correct) → accepted.
   const correctDrop = await page.evaluate(() => {
     const Tab = window.BibleBowlLabTabernacle.getActive();
     const result = Tab.assignForTest("most_holy", "ark");
@@ -297,8 +287,6 @@ async function runViewport(browser, viewport, errors, checks) {
       !correctDrop.trayArk,
     detail: JSON.stringify(correctDrop),
   });
-  // Second case: dropping Bronze Altar on Courtyard parent (soft-snap
-  // → bronze_altar_zone) → accepted.
   const softSnapDrop = await page.evaluate(() => {
     const Tab = window.BibleBowlLabTabernacle.getActive();
     const result = Tab.assignForTest("tabernacle_exterior", "bronze_altar");
@@ -317,8 +305,6 @@ async function runViewport(browser, viewport, errors, checks) {
       softSnapDrop.parentNotCorrupted,
     detail: JSON.stringify(softSnapDrop),
   });
-  // Third case: dropping Golden Altar on Courtyard parent (no child
-  // accepts it) → REFUSED. (Prevents silent state corruption.)
   const refuseDrop = await page.evaluate(() => {
     const Tab = window.BibleBowlLabTabernacle.getActive();
     const result = Tab.assignForTest("tabernacle_exterior", "golden_altar");
@@ -339,8 +325,6 @@ async function runViewport(browser, viewport, errors, checks) {
       refuseDrop.trayContainsCard,
     detail: JSON.stringify(refuseDrop),
   });
-  // Fourth case: dropping Golden Altar directly on the incense_zone
-  // (correct) → accepted. (Smoke test the normal placement path.)
   const incenseDrop = await page.evaluate(() => {
     const Tab = window.BibleBowlLabTabernacle.getActive();
     const result = Tab.assignForTest("incense_zone", "golden_altar");
@@ -356,35 +340,37 @@ async function runViewport(browser, viewport, errors, checks) {
       incenseDrop.result === true && incenseDrop.placedGoldenAltar,
     detail: JSON.stringify(incenseDrop),
   });
-  // Reset state so subsequent tests (which expect tray=8, placed={})
-  // see a fresh board.
+  const doorVeilDrop = await page.evaluate(() => {
+    const Tab = window.BibleBowlLabTabernacle.getActive();
+    const result = Tab.assignForTest("door_veil_zone", "door_veil");
+    const state = window.BibleBowlLabQA.state().tabernacle;
+    return {
+      result,
+      placedDoorVeil: state.placed.door_veil_zone === "door_veil",
+    };
+  });
+  checks.push({
+    name: `${viewport.name}: Ex 40:5 door veil has its own accepted drop zone`,
+    ok:
+      doorVeilDrop.result === true && doorVeilDrop.placedDoorVeil,
+    detail: JSON.stringify(doorVeilDrop),
+  });
   await page.locator(".lab-reset-btn").click();
   await page.waitForTimeout(150);
 
-  // 4. Pool starts with 8 chips.
   const initialState = await page.evaluate(() => window.BibleBowlLabQA.state());
   checks.push({
-    name: `${viewport.name}: 8 chips in tray at start`,
-    ok: initialState.tabernacle?.tray?.length === 8,
+    name: `${viewport.name}: 9 chips in tray at start`,
+    ok: initialState.tabernacle?.tray?.length === 9,
     detail: `tray=${JSON.stringify(initialState.tabernacle?.tray)}`,
   });
 
-  // 5. Place one card WRONG (Ark into the East Entrance zone, which only
-  // accepts east_entrance). First fill the rest correctly, then swap.
-  // (2026-06-28: uses forcePlaceForTest because assign() now correctly
-  // refuses wrong placements — so to set up a wrong-placement fixture
-  // we have to bypass the soft-snap validation.)
   await page.evaluate(() => {
     const Tab = window.BibleBowlLabTabernacle.getActive();
-    // Fill all zones with their declared accept[0].
     Tab.fillCorrect();
-    // Swap Ark and east_entrance so all zones still have cards — this
-    // surfaces the per-card hint instead of bailing on empty zones.
     Tab.forcePlaceForTest("east_entrance", "ark");
     Tab.forcePlaceForTest("most_holy", "east_entrance");
   });
-  // Need to re-render via click-to-place or by directly clicking Check.
-  // Click check button — should report hint, not complete.
   await page.locator(".lab-check-btn").click();
   await page.waitForTimeout(300);
   const afterWrong = await page.evaluate(() => window.BibleBowlLabQA.state());
@@ -401,7 +387,6 @@ async function runViewport(browser, viewport, errors, checks) {
       /2 misplacement|swap|Red zones/i.test(statusText),
     detail: `status="${(statusText || "").slice(0, 90)}..."`,
   });
-  // Each wrong zone must have the .wrong class for visible feedback.
   const wrongZoneCount = await page.evaluate(() => {
     return document.querySelectorAll(
       ".lab-tabernacle-zone.wrong"
@@ -412,31 +397,18 @@ async function runViewport(browser, viewport, errors, checks) {
     ok: wrongZoneCount >= 2,
     detail: `wrong-classed zones=${wrongZoneCount}`,
   });
-  // Placed-chip dragability: verify the placed chip has a pointerdown
-  // handler so user can re-drag it (the "I can't move it once placed"
-  // bug). We just check the class is wired and the element exists.
   const placedDraggable = await page.evaluate(() => {
     const el = document.querySelector(".lab-tabernacle-placed");
     if (!el) return false;
-    // Element must have a cardId so startDrag can resolve the source
-    // zone via findZoneContaining().
     return !!el.dataset.cardId;
   });
   checks.push({
     name: `${viewport.name}: placed chip has dataset.cardId for re-drag`,
     ok: placedDraggable,
   });
-  // Drag-out test (2026-06-28): user wants to drop a chip somewhere
-  // wrong, then drag it back out to try again. Verify the placed chip
-  // has a pointerdown listener attached (set up by renderZones for
-  // each placed chip) so startDrag() can fire.
   const placedHasPointerDown = await page.evaluate(() => {
     const el = document.querySelector(".lab-tabernacle-placed");
     if (!el) return false;
-    // Pointerdown listener is attached via addEventListener — we
-    // can't introspect that directly, but we can simulate a pointerdown
-    // event and see if the drag machinery kicks in (a dragGhost is
-    // appended to document.body).
     const before = document.querySelectorAll(".lab-chip.dragging-floating")
       .length;
     el.dispatchEvent(
@@ -451,7 +423,6 @@ async function runViewport(browser, viewport, errors, checks) {
     );
     const after = document.querySelectorAll(".lab-chip.dragging-floating")
       .length;
-    // Cleanup: dispatch pointercancel so any pending drag aborts.
     el.dispatchEvent(
       new PointerEvent("pointercancel", {
         bubbles: true,
@@ -464,20 +435,13 @@ async function runViewport(browser, viewport, errors, checks) {
     name: `${viewport.name}: placed chip pointerdown starts a drag (user can drag it back out)`,
     ok: placedHasPointerDown,
   });
-  // Capture the wrong placement screenshot.
   await page.screenshot({
     path: join(root, "captures", `qa-tabernacle-wrong-${viewport.name}.png`),
     fullPage: true,
   });
 
-  // 5b. Reset, partially fill, click Check, verify the EMPTY required
-  // zone gets a visible .missing class so user knows WHICH placement
-  // is still owed. (UX report: "I can't see where I am missing other
-  // placements".)
   await page.locator(".lab-reset-btn").click();
   await page.waitForTimeout(200);
-  // Fill 8 of 8 correct, then unplaceForTest one card so exactly 7
-  // remain correct + 1 zone is empty + 1 card returns to tray.
   await page.evaluate(() => {
     const Tab = window.BibleBowlLabTabernacle.getActive();
     Tab.fillCorrect();
@@ -503,11 +467,10 @@ async function runViewport(browser, viewport, errors, checks) {
   );
   checks.push({
     name: `${viewport.name}: correct placements get .right feedback (green)`,
-    ok: correctCount >= 6,
+    ok: correctCount >= 8,
     detail: `right-classed zones=${correctCount}`,
   });
 
-  // 6. Reset, then solve.
   await page.locator(".lab-reset-btn").click();
   await page.waitForTimeout(200);
   await page.evaluate(() => window.BibleBowlLabQA.solve());
@@ -521,15 +484,12 @@ async function runViewport(browser, viewport, errors, checks) {
     detail: `complete=${afterSolve.tabernacle?.complete} completed=${JSON.stringify(afterSolve.completed)}`,
   });
 
-  // 7. Verify all 8 cards in placed (none in tray).
   checks.push({
     name: `${viewport.name}: tray empty after solve`,
     ok: afterSolve.tabernacle?.tray?.length === 0,
     detail: `tray=${JSON.stringify(afterSolve.tabernacle?.tray)}`,
   });
 
-  // 7a. Reveal-after-place: after solving, every reveal slot should
-  // now be visible. The user has earned the answer-name as a reward.
   const revealsAfterSolve = await page.evaluate(() => {
     return Array.from(
       document.querySelectorAll('[data-role="reveal"]')
@@ -541,20 +501,15 @@ async function runViewport(browser, viewport, errors, checks) {
   const allRevealed = revealsAfterSolve.every((r) => !r.hidden);
   checks.push({
     name: `${viewport.name}: answer-name reveals after solve`,
-    ok: revealsAfterSolve.length >= 6 && allRevealed,
+    ok: revealsAfterSolve.length >= 9 && allRevealed,
     detail: JSON.stringify(revealsAfterSolve),
   });
 
-  // 8. Capture success screenshot.
   await page.screenshot({
     path: join(root, "captures", `qa-tabernacle-solved-${viewport.name}.png`),
     fullPage: true,
   });
 
-  // 9. Hint + medal feature: tier mapping, hint reveal, counter
-  // increment, persistence, gold/silver/bronze visual output.
-  // 9a. Tier mapping is deterministic — verify each tier for known
-  // hint counts.
   const tierCheck = await page.evaluate(() => {
     const Tab = window.BibleBowlLabTabernacle.getActive();
     return {
@@ -566,7 +521,7 @@ async function runViewport(browser, viewport, errors, checks) {
     };
   });
   checks.push({
-    name: `${viewport.name}: tier mapping 0→gold, 1-2→silver, 3+→bronze`,
+    name: `${viewport.name}: tier mapping 0â†’gold, 1-2â†’silver, 3+â†’bronze`,
     ok:
       tierCheck.zero === "gold" &&
       tierCheck.one === "silver" &&
@@ -576,12 +531,6 @@ async function runViewport(browser, viewport, errors, checks) {
     detail: JSON.stringify(tierCheck),
   });
 
-  // 9b. Reset and exercise the Hint button: each click must reveal a
-  // chip+zone pulse, increment the counter, and update the visible
-  // pill text. Crucially (2026-06-28): the Hint button MUST NOT auto-
-  // place the card. The user has to drag it themselves; the hint
-  // only lights up the source chip + target zone. Otherwise gold
-  // tier is trivially achievable by clicking Hint 8 times.
   await page.locator(".lab-reset-btn").click();
   await page.waitForTimeout(200);
   await page.evaluate(() => {
@@ -591,7 +540,6 @@ async function runViewport(browser, viewport, errors, checks) {
   const beforeHint = await page.evaluate(() =>
     window.BibleBowlLabQA.state().tabernacle
   );
-  // First hint press.
   await page.locator(".lab-hint-btn").click();
   await page.waitForTimeout(150);
   const hintAfterFirst = await page.evaluate(() => {
@@ -614,35 +562,26 @@ async function runViewport(browser, viewport, errors, checks) {
       /Hints:\s*1/.test(hintAfterFirst.pillText),
     detail: JSON.stringify(hintAfterFirst),
   });
-  // Brief pulse class must be present immediately after click.
   checks.push({
     name: `${viewport.name}: Hint reveals pulse class on chip or zone`,
     ok: hintAfterFirst.placementPulsing,
   });
-  // The hint must NOT auto-place the card (user must still drag it).
   checks.push({
     name: `${viewport.name}: Hint does NOT auto-place any card`,
     ok:
       JSON.stringify(beforeHint.placed) ===
         JSON.stringify(afterHint.placed) &&
-      afterHint.tray.length === 8,
+      afterHint.tray.length === 9,
     detail: `before=${JSON.stringify(beforeHint.placed)} after=${JSON.stringify(afterHint.placed)} tray=${afterHint.tray.length}`,
   });
 
-  // 9c. Solve with 1 hint already used → SILVER tier (since hints
-  // remaining = total - 1 hint revealed = 7 placements auto-done via
-  // solve(); we also need to re-hit Hint one more time to push
-  // counter to 2 so the silver tier (1-2 hints) is forced.
   await page.locator(".lab-hint-btn").click();
   await page.waitForTimeout(150);
-  // Solve remaining + check. solve() itself calls a.check() so the
-  // medal will render synchronously — no second Check click needed.
   await page.evaluate(() => window.BibleBowlLabQA.solve());
   await page.waitForTimeout(300);
   const silverState = await page.evaluate(() => {
     const medal = document.querySelector(".lab-tabernacle-medal-badge");
     const headline = medal?.querySelector(".lab-tabernacle-medal-headline")?.textContent || "";
-    // Find the TIER class (gold|silver|bronze), not the base "badge" class.
     const tierClass =
       ["lab-tabernacle-medal-gold", "lab-tabernacle-medal-silver", "lab-tabernacle-medal-bronze"]
         .find((c) => medal?.classList.contains(c)) || "";
@@ -655,7 +594,7 @@ async function runViewport(browser, viewport, errors, checks) {
     };
   });
   checks.push({
-    name: `${viewport.name}: 2 hints → SILVER medal rendered`,
+    name: `${viewport.name}: 2 hints â†’ SILVER medal rendered`,
     ok:
       silverState.visible &&
       /SILVER/i.test(silverState.headline) &&
@@ -670,10 +609,8 @@ async function runViewport(browser, viewport, errors, checks) {
     detail: JSON.stringify(silverState.best),
   });
 
-  // 9d. Reset and replay with ZERO hints → GOLD tier.
   await page.locator(".lab-reset-btn").click();
   await page.waitForTimeout(200);
-  // Counter pill must read "Hints: 0" after reset.
   const afterReset = await page.evaluate(
     () =>
       document.querySelector(".lab-tabernacle-hint-counter")?.textContent || ""
@@ -698,7 +635,7 @@ async function runViewport(browser, viewport, errors, checks) {
     };
   });
   checks.push({
-    name: `${viewport.name}: 0 hints → GOLD medal + persists as new best`,
+    name: `${viewport.name}: 0 hints â†’ GOLD medal + persists as new best`,
     ok:
       /GOLD/i.test(goldState.headline) &&
       goldState.tierClass === "lab-tabernacle-medal-gold" &&
@@ -706,7 +643,6 @@ async function runViewport(browser, viewport, errors, checks) {
     detail: JSON.stringify(goldState),
   });
 
-  // 9e. Capture completed screenshot with medal visible.
   await page.screenshot({
     path: join(root, "captures", `qa-tabernacle-medal-${viewport.name}.png`),
     fullPage: true,
@@ -732,7 +668,6 @@ async function main() {
     console.error("Test execution aborted due to error:", e);
   }
 
-  // 9. Verify the 6 new placement MC questions are in the bank.
   const placementIds = await (await fetch("http://127.0.0.1:9878/data/questions.json")).json();
   const newIds = ["ex40-010", "ex40-011", "ex40-012", "ex40-013", "ex40-014", "ex40-015"];
   for (const id of newIds) {
@@ -765,16 +700,15 @@ async function main() {
   await browser.close();
   server.close();
 
-  // Report
   console.log("\n=== Tabernacle Placement Lab QA ===\n");
   for (const c of checks) {
-    console.log(`${c.ok ? "PASS" : "FAIL"}  ${c.name}${c.detail ? " — " + c.detail : ""}`);
+    console.log(`${c.ok ? "PASS" : "FAIL"}  ${c.name}${c.detail ? " â€” " + c.detail : ""}`);
     if (!c.ok) failed++;
   }
   if (errors.length) {
     failed++;
     console.log("\nPage/console errors:");
-    errors.forEach((e) => console.log(`  · ${e}`));
+    errors.forEach((e) => console.log(`  Â· ${e}`));
   }
 
   console.log(

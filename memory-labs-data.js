@@ -239,7 +239,7 @@
         label: "Place the Holy Things",
         emoji: "⛪",
         ref: "Exodus 40:1-33",
-        subtitle: "OSB Ex 40 placements · 8 holy items on a map",
+        subtitle: "OSB Ex 40 placements · 9 holy items on a map",
         // This is NOT the same as the bank's Erect/Furnish/Wash/Anoint
         // mnemonic (ex40-003/004). This is a movement-only drill — what
         // you see walking east→west through the courtyard. Consecration
@@ -249,8 +249,8 @@
         description:
           "The tabernacle is laid out west to east: God's presence over the Ark at the far west, the priest entering from the east. Place each holy item where it stands according to OSB Exodus 40.",
         tip:
-          "Start at the east entrance and walk west — Bronze Altar → Laver → Holy Place (Table north, Lampstand south, Golden Altar before veil) → Ark in the Most Holy Place.",
-        // 8 zones. Court + Court Gate collapsed to "East Entrance" to fix the
+          "Start at the east entrance and walk west — Bronze Altar → Laver → Door Veil → Holy Place (Table north, Lampstand south, Golden Altar before the inner veil) → Ark in the Most Holy Place.",
+        // 9 required targets. Court + Court Gate collapsed to "East Entrance" to fix the
         // elimination-shortcut pedagogy problem (skeptic §2). The Courtyard
         // is split into two sub-zones (Bronze Altar slot + Laver slot) so
         // each card has a distinct drop target — fillCorrect can place both.
@@ -284,6 +284,15 @@
             position: "east",
             pattern: "plain",
             accept: [], // parent zone; only children accept
+          },
+          {
+            id: "door_veil_zone",
+            label: "Tent Door",
+            sublabel: "Tabernacle entrance",
+            reveal_label: "Door Veil / Entrance Screen",
+            position: "door-veil",
+            pattern: "stripes",
+            accept: ["door_veil"],
           },
           {
             id: "east_entrance",
@@ -378,7 +387,7 @@
           },
           {
             id: "veil",
-            label: "Veil",
+            label: "Inner Veil",
             emoji: "🟪",
             osb_ref: "Ex 40:21",
           },
@@ -402,6 +411,13 @@
             label: "Golden Altar of Incense",
             emoji: "🪔",
             osb_ref: "Ex 40:24-25",
+          },
+          // OSB Ex 40:5 — the entrance screen/veil at the door of the tent
+          {
+            id: "door_veil",
+            label: "Door Veil / Entrance Screen",
+            emoji: "🟦",
+            osb_ref: "Ex 40:5",
           },
           // OSB Ex 40:30 + Ex 30:18 — between tabernacle and altar
           {
@@ -433,7 +449,7 @@
         },
         completion_teaching: {
           memory_sentence:
-            "God's presence dwells in the Most Holy Place; the priest approaches through courtyard, altar, laver, and Holy Place to stand before the Ark.",
+            "God's presence dwells in the Most Holy Place; the priest approaches through court gate, altar, laver, door veil, Holy Place, and inner veil to stand before the Ark.",
         },
         interaction: { type: "tabernacle_place" },
       },

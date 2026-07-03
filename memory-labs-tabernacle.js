@@ -1,12 +1,13 @@
 /* Bible Bowl Study — Memory Labs Tabernacle spatial engine
  *
  * "Place the Holy Things." A 2D map of the tabernacle courtyard where the
- * student drags 8 holy items (Ark, Veil, Table, Lampstand, Golden Altar,
- * Laver, Bronze Altar, East Entrance) onto their correct drop zones.
+ * student drags 9 holy items (Ark, Inner Veil, Table, Lampstand, Golden
+ * Altar, Door Veil, Laver, Bronze Altar, East Entrance) onto their correct
+ * drop zones.
  *
  * Design decisions baked in (see docs/plan-tabernacle-spatial-minigame.md
  * and docs/review-tabernacle-spatial-skeptic.md):
- *   - 8 zones, not 9 (Court + Gate collapsed to "East Entrance")
+ *   - Court + Gate collapsed to "East Entrance"
  *   - Nested zones via DOM hierarchy with `data-parent-zone` walk
  *   - Soft snap: drop anywhere in parent zone counts as nested zone
  *   - Per-card failure hints via failureHintFor() function
