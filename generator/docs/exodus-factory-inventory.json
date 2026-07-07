@@ -1,0 +1,354 @@
+{
+  "generatedAt": "2026-07-07T01:23:10.620Z",
+  "generator": "generator/toolchain/scripts/inventory-exodus-factory.mjs",
+  "scripts": [
+    {
+      "path": "scripts/build.js",
+      "summary": "Merges raw question JSON, validates schema, and writes the consolidated question bank plus review-candidates.",
+      "findings": [
+        {
+          "tag": "book-specific",
+          "text": "Validates or references the literal book name 'Exodus'.",
+          "ref": "scripts/build.js:37"
+        },
+        {
+          "tag": "book-specific",
+          "text": "Hardcodes the raw group file list or group argument handling.",
+          "ref": "scripts/build.js:102"
+        },
+        {
+          "tag": "book-specific",
+          "text": "Hardcodes factory data directories or output files.",
+          "ref": "scripts/build.js:2"
+        },
+        {
+          "tag": "book-agnostic",
+          "text": "Schema and validation logic for questions, candidates, and memory aids."
+        },
+        {
+          "tag": "book-agnostic",
+          "text": "Merges, sorts, and writes the question bank."
+        },
+        {
+          "tag": "book-agnostic",
+          "text": "Review packet and candidate mechanics."
+        },
+        {
+          "tag": "book-agnostic",
+          "text": "JSON serialization helpers."
+        }
+      ]
+    },
+    {
+      "path": "scripts/build-review-packets.js",
+      "summary": "Creates per-group candidate packets and empty review records from the current memory aids.",
+      "findings": [
+        {
+          "tag": "book-specific",
+          "text": "Hardcodes the raw group file list or group argument handling.",
+          "ref": "scripts/build-review-packets.js:17"
+        },
+        {
+          "tag": "book-specific",
+          "text": "Hardcodes factory data directories or output files.",
+          "ref": "scripts/build-review-packets.js:2"
+        },
+        {
+          "tag": "book-specific",
+          "text": "Hardcoded group placeholder names.",
+          "ref": "scripts/build-review-packets.js:3"
+        },
+        {
+          "tag": "book-agnostic",
+          "text": "Review packet and candidate mechanics."
+        },
+        {
+          "tag": "book-agnostic",
+          "text": "Command-line argument parsing."
+        },
+        {
+          "tag": "book-agnostic",
+          "text": "Normalizes judge/verifier verdicts and suggested fields."
+        },
+        {
+          "tag": "book-agnostic",
+          "text": "JSON serialization helpers."
+        }
+      ]
+    },
+    {
+      "path": "scripts/apply-reviewed-choice.js",
+      "summary": "Applies human-approved candidate choices back into the raw question files.",
+      "findings": [
+        {
+          "tag": "book-specific",
+          "text": "Hardcodes the raw group file list or group argument handling.",
+          "ref": "scripts/apply-reviewed-choice.js:17"
+        },
+        {
+          "tag": "book-specific",
+          "text": "Hardcodes factory data directories or output files.",
+          "ref": "scripts/apply-reviewed-choice.js:2"
+        },
+        {
+          "tag": "book-specific",
+          "text": "Hardcoded group placeholder names.",
+          "ref": "scripts/apply-reviewed-choice.js:3"
+        },
+        {
+          "tag": "book-agnostic",
+          "text": "Schema and validation logic for questions, candidates, and memory aids."
+        },
+        {
+          "tag": "book-agnostic",
+          "text": "Review packet and candidate mechanics."
+        },
+        {
+          "tag": "book-agnostic",
+          "text": "Command-line argument parsing."
+        },
+        {
+          "tag": "book-agnostic",
+          "text": "JSON serialization helpers."
+        }
+      ]
+    },
+    {
+      "path": "scripts/import-review-csv.js",
+      "summary": "Parses a Pro-review CSV and appends agent-suggested replacement candidates into packets.",
+      "findings": [
+        {
+          "tag": "book-specific",
+          "text": "Hardcodes factory data directories or output files.",
+          "ref": "scripts/import-review-csv.js:2"
+        },
+        {
+          "tag": "book-agnostic",
+          "text": "CSV parsing for review imports."
+        },
+        {
+          "tag": "book-agnostic",
+          "text": "Review packet and candidate mechanics."
+        },
+        {
+          "tag": "book-agnostic",
+          "text": "Command-line argument parsing."
+        },
+        {
+          "tag": "book-agnostic",
+          "text": "Normalizes judge/verifier verdicts and suggested fields."
+        },
+        {
+          "tag": "book-agnostic",
+          "text": "JSON serialization helpers."
+        }
+      ]
+    },
+    {
+      "path": "scripts/osb-audit.mjs",
+      "summary": "Runs an LLM judge against OSB source text to detect mismatches and optionally apply fixes.",
+      "findings": [
+        {
+          "tag": "book-specific",
+          "text": "Validates or references the literal book name 'Exodus'.",
+          "ref": "scripts/osb-audit.mjs:238"
+        },
+        {
+          "tag": "book-specific",
+          "text": "Hardcodes review/ledger/questions path constants.",
+          "ref": "scripts/osb-audit.mjs:6"
+        },
+        {
+          "tag": "book-specific",
+          "text": "Hardcodes source-text loading path (currently Exodus-only).",
+          "ref": "scripts/osb-audit.mjs:15"
+        },
+        {
+          "tag": "book-specific",
+          "text": "Exodus 17:7 Massah/Meribah deterministic wording guard.",
+          "ref": "scripts/osb-audit.mjs:221"
+        },
+        {
+          "tag": "book-agnostic",
+          "text": "Command-line argument parsing."
+        },
+        {
+          "tag": "book-agnostic",
+          "text": "LLM lane invocation, jitter, and retry scheduling."
+        },
+        {
+          "tag": "book-agnostic",
+          "text": "Scripture reference parsing and verse collection."
+        },
+        {
+          "tag": "book-agnostic",
+          "text": "Normalizes judge/verifier verdicts and suggested fields."
+        },
+        {
+          "tag": "book-agnostic",
+          "text": "Markdown/JSON report generation."
+        },
+        {
+          "tag": "book-agnostic",
+          "text": "Backup creation and application of approved changes."
+        },
+        {
+          "tag": "book-agnostic",
+          "text": "JSON serialization helpers."
+        }
+      ]
+    },
+    {
+      "path": "scripts/osb-verify.mjs",
+      "summary": "Verifies prior audit mismatches with a skeptical second-pass LLM and optionally applies approved fixes.",
+      "findings": [
+        {
+          "tag": "book-specific",
+          "text": "Hardcodes review/ledger/questions path constants.",
+          "ref": "scripts/osb-verify.mjs:5"
+        },
+        {
+          "tag": "book-specific",
+          "text": "Hardcodes source-text loading path (currently Exodus-only).",
+          "ref": "scripts/osb-verify.mjs:12"
+        },
+        {
+          "tag": "book-agnostic",
+          "text": "Command-line argument parsing."
+        },
+        {
+          "tag": "book-agnostic",
+          "text": "LLM lane invocation, jitter, and retry scheduling."
+        },
+        {
+          "tag": "book-agnostic",
+          "text": "Scripture reference parsing and verse collection."
+        },
+        {
+          "tag": "book-agnostic",
+          "text": "Normalizes judge/verifier verdicts and suggested fields."
+        },
+        {
+          "tag": "book-agnostic",
+          "text": "Markdown/JSON report generation."
+        },
+        {
+          "tag": "book-agnostic",
+          "text": "Backup creation and application of approved changes."
+        },
+        {
+          "tag": "book-agnostic",
+          "text": "JSON serialization helpers."
+        }
+      ]
+    },
+    {
+      "path": "scripts/lib/osb-audit-core.mjs",
+      "summary": "Shared audit logic: prompts, reference parsing, verse collection, retry lanes, reports, and apply helpers.",
+      "findings": [
+        {
+          "tag": "book-specific",
+          "text": "Validates or references the literal book name 'Exodus'.",
+          "ref": "scripts/lib/osb-audit-core.mjs:286"
+        },
+        {
+          "tag": "book-specific",
+          "text": "Hardcodes the raw group file list or group argument handling.",
+          "ref": "scripts/lib/osb-audit-core.mjs:493"
+        },
+        {
+          "tag": "book-specific",
+          "text": "Hardcodes factory data directories or output files.",
+          "ref": "scripts/lib/osb-audit-core.mjs:5"
+        },
+        {
+          "tag": "book-specific",
+          "text": "Hardcodes review/ledger/questions path constants.",
+          "ref": "scripts/lib/osb-audit-core.mjs:5"
+        },
+        {
+          "tag": "book-specific",
+          "text": "Hardcodes source-text loading path (currently Exodus-only).",
+          "ref": "scripts/lib/osb-audit-core.mjs:128"
+        },
+        {
+          "tag": "book-agnostic",
+          "text": "Schema and validation logic for questions, candidates, and memory aids."
+        },
+        {
+          "tag": "book-agnostic",
+          "text": "Command-line argument parsing."
+        },
+        {
+          "tag": "book-agnostic",
+          "text": "LLM lane invocation, jitter, and retry scheduling."
+        },
+        {
+          "tag": "book-agnostic",
+          "text": "Scripture reference parsing and verse collection."
+        },
+        {
+          "tag": "book-agnostic",
+          "text": "Normalizes judge/verifier verdicts and suggested fields."
+        },
+        {
+          "tag": "book-agnostic",
+          "text": "Markdown/JSON report generation."
+        },
+        {
+          "tag": "book-agnostic",
+          "text": "Backup creation and application of approved changes."
+        },
+        {
+          "tag": "book-agnostic",
+          "text": "JSON serialization helpers."
+        }
+      ]
+    },
+    {
+      "path": "scripts/lib/osb-verify-core.mjs",
+      "summary": "Shared verify logic: verifier prompts, verdict normalization, reconciliation guards, and verify reports.",
+      "findings": [
+        {
+          "tag": "book-specific",
+          "text": "Validates or references the literal book name 'Exodus'.",
+          "ref": "scripts/lib/osb-verify-core.mjs:164"
+        },
+        {
+          "tag": "book-specific",
+          "text": "Hardcodes factory data directories or output files.",
+          "ref": "scripts/lib/osb-verify-core.mjs:8"
+        },
+        {
+          "tag": "book-specific",
+          "text": "Hardcodes review/ledger/questions path constants.",
+          "ref": "scripts/lib/osb-verify-core.mjs:8"
+        },
+        {
+          "tag": "book-agnostic",
+          "text": "Schema and validation logic for questions, candidates, and memory aids."
+        },
+        {
+          "tag": "book-agnostic",
+          "text": "Command-line argument parsing."
+        },
+        {
+          "tag": "book-agnostic",
+          "text": "LLM lane invocation, jitter, and retry scheduling."
+        },
+        {
+          "tag": "book-agnostic",
+          "text": "Normalizes judge/verifier verdicts and suggested fields."
+        },
+        {
+          "tag": "book-agnostic",
+          "text": "Markdown/JSON report generation."
+        },
+        {
+          "tag": "book-agnostic",
+          "text": "JSON serialization helpers."
+        }
+      ]
+    }
+  ]
+}
