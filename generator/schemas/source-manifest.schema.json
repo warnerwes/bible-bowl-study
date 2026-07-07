@@ -1,0 +1,148 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "source-manifest.schema.json",
+  "type": "object",
+  "required": [
+    "book",
+    "bookSlug",
+    "testament",
+    "canonicalVerseCount",
+    "translations"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "book": {
+      "type": "string"
+    },
+    "bookSlug": {
+      "type": "string",
+      "pattern": "^[a-z0-9-]+$"
+    },
+    "testament": {
+      "enum": [
+        "OT",
+        "NT"
+      ]
+    },
+    "canonicalVerseCount": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "translations": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "translation",
+          "rightsHolder",
+          "quotedVerseLimit",
+          "maxRatioOfWork",
+          "maxRatioOfBook",
+          "excludedUse",
+          "notice",
+          "internalPolicy"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "translation": {
+            "type": "string"
+          },
+          "rightsHolder": {
+            "type": "string"
+          },
+          "quotedVerseLimit": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "maxRatioOfWork": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1
+          },
+          "maxRatioOfBook": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1
+          },
+          "excludedUse": {
+            "type": "string"
+          },
+          "notice": {
+            "type": "string"
+          },
+          "internalPolicy": {
+            "type": "object",
+            "required": [
+              "selfImposed",
+              "rationale"
+            ],
+            "properties": {
+              "selfImposed": {
+                "const": true
+              },
+              "rationale": {
+                "type": "string",
+                "minLength": 1
+              },
+              "consecutiveVerseCap": {
+                "type": "integer",
+                "minimum": 1
+              }
+            }
+          },
+          "quotedUses": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": [
+                "id",
+                "file",
+                "fieldPath",
+                "reference",
+                "verseKeys",
+                "quotedChars",
+                "inclusionReason",
+                "reviewer",
+                "reviewedAt"
+              ],
+              "additionalProperties": false,
+              "properties": {
+                "id": {
+                  "type": "string"
+                },
+                "file": {
+                  "type": "string"
+                },
+                "fieldPath": {
+                  "type": "string"
+                },
+                "reference": {
+                  "type": "string"
+                },
+                "verseKeys": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "quotedChars": {
+                  "type": "integer",
+                  "minimum": 0
+                },
+                "inclusionReason": {
+                  "type": "string"
+                },
+                "reviewer": {
+                  "type": "string"
+                },
+                "reviewedAt": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

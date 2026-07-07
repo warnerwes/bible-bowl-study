@@ -1,0 +1,102 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "memory-tool-candidate.schema.json",
+  "type": "object",
+  "required": [
+    "id",
+    "book",
+    "chapterRange",
+    "title",
+    "type",
+    "learningGoal",
+    "reviewStatus"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z0-9-]+$"
+    },
+    "queueItemIds": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "researchArtifactIds": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "book": {
+      "type": "string"
+    },
+    "chapterRange": {
+      "type": "string",
+      "pattern": "^\\d+(:\\d+)?(-\\d+(:\\d+)?)?$"
+    },
+    "title": {
+      "type": "string",
+      "minLength": 1
+    },
+    "type": {
+      "enum": [
+        "drag-order",
+        "tree-placement",
+        "map-path",
+        "matching",
+        "timeline",
+        "reward-scene"
+      ]
+    },
+    "learningGoal": {
+      "type": "string"
+    },
+    "sourceReferences": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "items": {
+      "type": "array"
+    },
+    "correctOrder": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "distractors": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "gameplaySpec": {
+      "type": "string"
+    },
+    "redFlags": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "citations": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "reviewStatus": {
+      "enum": [
+        "draft",
+        "in-review",
+        "approved",
+        "rejected",
+        "published"
+      ]
+    }
+  }
+}

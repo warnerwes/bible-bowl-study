@@ -1,0 +1,160 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "question-candidate.schema.json",
+  "type": "object",
+  "required": [
+    "id",
+    "queueItemIds",
+    "book",
+    "bookSlug",
+    "chapter",
+    "reference",
+    "type",
+    "question",
+    "answer",
+    "difficulty",
+    "roundFormat",
+    "reviewStatus"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z0-9-]+$"
+    },
+    "queueItemIds": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "researchArtifactIds": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "book": {
+      "type": "string"
+    },
+    "bookSlug": {
+      "type": "string",
+      "pattern": "^[a-z0-9-]+$"
+    },
+    "chapter": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "reference": {
+      "type": "string"
+    },
+    "topic": {
+      "type": "string"
+    },
+    "type": {
+      "enum": [
+        "multiple-choice",
+        "true-false",
+        "fill-in"
+      ]
+    },
+    "question": {
+      "type": "string",
+      "minLength": 1
+    },
+    "answer": {
+      "type": "string"
+    },
+    "options": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "acceptableAnswers": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "difficulty": {
+      "enum": [
+        "easy",
+        "medium",
+        "hard"
+      ]
+    },
+    "roundFormat": {
+      "enum": [
+        "standard",
+        "speed",
+        "memory",
+        "tie-breaker"
+      ]
+    },
+    "memoryAid": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "type": {
+          "enum": [
+            "mnemonic",
+            "image",
+            "teaching"
+          ]
+        },
+        "text": {
+          "type": "string"
+        },
+        "claimKind": {
+          "enum": [
+            "none",
+            "source-backed"
+          ]
+        },
+        "source": {
+          "type": "string"
+        },
+        "sourceUrl": {
+          "type": "string"
+        },
+        "sourceClaim": {
+          "type": "string"
+        },
+        "sourceStatus": {
+          "enum": [
+            "not-needed",
+            "needs-review",
+            "found",
+            "verified",
+            "no-source-found"
+          ]
+        }
+      }
+    },
+    "studyGuide": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "summary": {
+          "type": "string"
+        },
+        "citations": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "reviewStatus": {
+      "enum": [
+        "draft",
+        "in-review",
+        "approved",
+        "rejected",
+        "published"
+      ]
+    }
+  }
+}

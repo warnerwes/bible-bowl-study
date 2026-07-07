@@ -1,0 +1,155 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "queue-item.schema.json",
+  "type": "object",
+  "required": [
+    "id",
+    "book",
+    "bookSlug",
+    "chapter",
+    "reference",
+    "kind",
+    "status",
+    "createdAt",
+    "updatedAt"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z0-9-]+$"
+    },
+    "book": {
+      "type": "string"
+    },
+    "bookSlug": {
+      "type": "string",
+      "pattern": "^[a-z0-9-]+$"
+    },
+    "chapter": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 150
+    },
+    "reference": {
+      "type": "string"
+    },
+    "kind": {
+      "enum": [
+        "memory_point",
+        "question_seed",
+        "sequence_seed",
+        "reward_seed",
+        "confusing_detail",
+        "patristic_thread"
+      ]
+    },
+    "userNote": {
+      "type": "string"
+    },
+    "tags": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "status": {
+      "enum": [
+        "queued",
+        "approved",
+        "researched",
+        "drafted",
+        "in-review",
+        "published",
+        "rejected"
+      ]
+    },
+    "sourceRowHash": {
+      "type": "string"
+    },
+    "duplicateOf": {
+      "type": "string"
+    },
+    "mergedSeedIds": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "rejection": {
+      "type": "object",
+      "required": [
+        "reasonCode",
+        "reasonText",
+        "permanent"
+      ],
+      "additionalProperties": true,
+      "properties": {
+        "reasonCode": {
+          "enum": [
+            "pii",
+            "offensive",
+            "off_topic",
+            "copyright_risk",
+            "duplicate",
+            "not_verifiable",
+            "too_broad",
+            "pastoral_sensitivity",
+            "already_covered",
+            "other"
+          ]
+        },
+        "reasonText": {
+          "type": "string"
+        },
+        "rejectedAt": {
+          "type": "string"
+        },
+        "reviewer": {
+          "type": "string"
+        },
+        "permanent": {
+          "type": "boolean"
+        }
+      }
+    },
+    "createdAt": {
+      "type": "string"
+    },
+    "updatedAt": {
+      "type": "string"
+    },
+    "stateHistory": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "status",
+          "at"
+        ],
+        "properties": {
+          "status": {
+            "enum": [
+              "queued",
+              "approved",
+              "researched",
+              "drafted",
+              "in-review",
+              "published",
+              "rejected"
+            ]
+          },
+          "at": {
+            "type": "string"
+          },
+          "actor": {
+            "type": "string"
+          },
+          "note": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}
