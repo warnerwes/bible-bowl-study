@@ -1,0 +1,3 @@
+# Corinthians Pilot (Step 5)
+
+This is the **pilot scaffold** for the combined **1 & 2 Corinthians** Bible Bowl site — the first viewable product of the config-driven engine. It assembles a static `_site/` from the engine in `engine/src/` plus a small set of placeholder JSON files. **All questions in `questions.seed.json` are PLACEHOLDER demos** (`placeholder: true`, `reviewStatus: "draft"`) — they are reference-based (no NKJV text is quoted) and will be replaced by student-submitted seeds followed by review. Build with `node build-site.mjs` (from this directory), then serve `_site/` with any static server, e.g. `npx serve _site` or `python -m http.server -d _site 8000`, and open the printed URL.

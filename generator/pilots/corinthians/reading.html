@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Reading Plan — 1 & 2 Corinthians</title>
+  <meta name="description" content="An 8-week reading plan across 1 & 2 Corinthians with external Bible Gateway (NKJV) links and a seed-submission form." />
+  <meta name="theme-color" content="#0c0e12" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Spectral:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    /* Reading-plan-specific layout (classes not present in the shared styles.css). */
+    .plan-weeks { display: flex; flex-direction: column; gap: 1rem; margin-top: 1.25rem; }
+    .plan-week { padding: 1rem 1.25rem; }
+    .plan-week-head { display: flex; align-items: center; gap: 0.6rem; flex-wrap: wrap; margin-bottom: 0.4rem; }
+    .plan-week-num { font-weight: 600; font-size: 1.05rem; }
+    .plan-week-links { display: flex; flex-direction: column; align-items: flex-start; gap: 0.6rem; margin-top: 0.9rem; }
+    .plan-week-links .primary-btn { display: inline-block; }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <h1>Bible Bowl Study</h1>
+    <p class="subtitle">1 &amp; 2 Corinthians — Reading Plan</p>
+    <nav class="header-nav">
+      <a href="index.html" class="link-btn">Quiz</a>
+      <a href="reading.html" class="link-btn">Reading Plan</a>
+      <a href="https://www.biblegateway.com/passage/?search=1+Corinthians+1&version=NKJV" class="link-btn" target="_blank" rel="noopener">Read on Bible Gateway (NKJV) ↗</a>
+    </nav>
+  </header>
+
+  <main id="app">
+    <section id="reading-plan" class="screen">
+      <h2 id="plan-title">Reading Plan</h2>
+      <p id="plan-description" class="lead"></p>
+      <p id="plan-error" class="error" hidden></p>
+      <div id="plan-weeks" class="plan-weeks"></div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p class="muted">Readings open externally on Bible Gateway (NKJV). The site never hosts scripture text.</p>
+  </footer>
+
+  <script type="module" src="reading-plan.js"></script>
+</body>
+</html>

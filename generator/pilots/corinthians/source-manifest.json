@@ -1,0 +1,27 @@
+{
+  "book": "1 & 2 Corinthians",
+  "bookSlug": "corinthians",
+  "testament": "NT",
+  "canonicalVerseCount": 694,
+  "translations": [
+    {
+      "translation": "NKJV",
+      "rightsHolder": "HarperCollins Christian Publishing / Thomas Nelson",
+      "quotedVerseLimit": 500,
+      "maxRatioOfWork": 0.25,
+      "maxRatioOfBook": 0.5,
+      "excludedUse": "Biblical reference work",
+      "notice": "Scripture taken from the New King James Version®. Copyright © 1982 by Thomas Nelson. Used by permission. All rights reserved.",
+      "internalPolicy": {
+        "selfImposed": true,
+        "rationale": "reference-first; verbatim quoting minimized",
+        "consecutiveVerseCap": 8,
+        "perBookCanonicalVerseCount": {
+          "1 Corinthians": 437,
+          "2 Corinthians": 257
+        }
+      },
+      "quotedUses": []
+    }
+  ]
+}

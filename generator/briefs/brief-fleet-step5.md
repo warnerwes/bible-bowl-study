@@ -51,3 +51,65 @@ SUMMARY: <≤6 lines>
 FILES CHANGED: <list>
 EVIDENCE: <commands → raw output>
 RISKS: <or NONE>
+
+---
+
+# ENGINE INTERFACE (verified against engine/src — build index.html to EXACTLY this)
+
+The engine is **ES modules** (not IIFE globals). In the built `_site/`, the six
+engine files sit at the site root beside index.html, so import them with
+relative `./` paths. index.html MUST use `<script type="module">`.
+
+## Exact boot snippet for index.html (use verbatim, adjust only the config path)
+```html
+<script type="module">
+  import { loadConfig } from "./config.js";
+  import { createStorage } from "./storage.js";
+  import { createState, weightedOrder } from "./quiz-core.js";
+  import { createQuiz } from "./quiz-render.js";
+
+  const cfg = await loadConfig("data/site-config.json");
+  const storage = createStorage(cfg);
+  const state = createState();
+  const quiz = createQuiz({ state, storage, config: cfg, weightedOrder });
+  await quiz.load();   // fetches data/questions.json, builds setup, wires events
+</script>
+```
+`createQuiz(...)` auto-wires the setup buttons (#quick-start, #drill-missed,
+#review-mastered, #start-btn) and the #answer-form submit + #next-btn. You do
+NOT wire quiz events yourself — just provide the DOM elements below and boot.
+
+## Required DOM contract (index.html MUST contain these element IDs)
+The engine looks these up (all guarded with `if (el)`, so extras/missing degrade
+gracefully — but for a working quiz include the core set). **Easiest correct
+path: copy the `#setup`, `#quiz`, and `#results` sections from the repo's
+existing `index.html` (the engine was extracted from that markup, so the IDs
+already match), then DELETE the reader/rewards/labs-only markup** (anything
+about the Bible reader, trophy shelf, memory labs, mastery wonders). Keep:
+
+- Screen containers (toggled via `.hidden`): `#setup`, `#quiz`, `#results`
+- Setup: `#chapter-list` (holds `.chapter-cb` checkboxes), `#type-list` (holds
+  `input:checked` type filters), `#count`, `#setup-summary`, `#quick-start`,
+  `#quick-note`, `#drill-missed`, `#missed-count`, `#missed-cta`, `#missed-review`,
+  `#review-mastered`, `#mastered-count`, `#mastered-cta`, `#start-btn`,
+  `#export-csv`, `#load-error`, and `[data-select]` buttons.
+- Quiz: `#q-ref`, `#q-topic`, `#q-type`, `#q-text`, `#q-position`, `#q-score`,
+  `#answer-area`, `#answer-form`, `#fill-input`, `#submit-btn`, `#feedback`,
+  `#feedback-verdict`, `#feedback-answer`, `#feedback-next-bar`, `#next-btn`,
+  `#passage-link`, `#progress-bar`, `#quit-btn`.
+- Results: `#result-score`.
+
+The engine renders `.option-btn` elements into `#answer-area` for multiple-choice
+/ true-false. `#passage-link` is populated by passage-links.js with an external
+Bible Gateway NKJV URL (no inline scripture).
+
+## build-site.mjs note
+Copy engine files as a FLAT set into `_site/` root: `config.js`, `storage.js`,
+`quiz-core.js`, `quiz-render.js`, `passage-links.js`, `anki-export.js` (they
+import each other by `./name.js`, so they must land in the same directory as
+index.html). Do NOT rewrite their import paths.
+
+## Reading plan page
+reading.html loads reading-plan.js as `<script type="module">` (or a plain
+script if it uses no imports) and renders reading-plan.json. It has NO
+dependency on the quiz engine.

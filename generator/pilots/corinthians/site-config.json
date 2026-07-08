@@ -1,0 +1,28 @@
+{
+  "siteName": "Bible Bowl Study — 1 & 2 Corinthians",
+  "siteTitle": "Bible Bowl Study — 1 & 2 Corinthians",
+  "siteSlug": "corinthians",
+  "defaultBookLabel": "Corinthians",
+  "defaultBook": "1 Corinthians",
+  "repo": "warnerwes/bible-bowl-study",
+  "bibleVersion": "NKJV",
+  "passageProvider": "biblegateway",
+  "questionsPath": "data/questions.json",
+  "formConfigPath": "data/form-config.json",
+  "statsKey": "bbs:cor:stats:v1",
+  "books": [
+    { "name": "1 Corinthians", "slug": "1cor", "chapters": 16 },
+    { "name": "2 Corinthians", "slug": "2cor", "chapters": 13 }
+  ],
+  "features": {
+    "memoryLabs": false,
+    "masteryTrial": false,
+    "reader": false,
+    "updates": false
+  },
+  "navigation": [
+    { "label": "Quiz", "href": "index.html" },
+    { "label": "Reading Plan", "href": "reading.html" },
+    { "label": "Read on Bible Gateway (NKJV)", "href": "https://www.biblegateway.com/passage/?search=1+Corinthians+1&version=NKJV" }
+  ]
+}
