@@ -1,0 +1,14 @@
+{
+  "siteName": "Test Bible Bowl",
+  "bookName": "Testament",
+  "siteSlug": "test-bowl",
+  "defaultBookLabel": "Testament",
+  "questionsPath": "data/questions.json",
+  "statsKey": "bbs:stats:v1",
+  "books": [
+    { "name": "Testament", "chapters": [1, 2] }
+  ],
+  "passageProvider": "biblegateway",
+  "bibleVersion": "NKJV",
+  "repo": "test/repo"
+}

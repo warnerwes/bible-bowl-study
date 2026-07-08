@@ -1,0 +1,24 @@
+[
+  {
+    "id": "te01-001",
+    "chapter": 1,
+    "book": "Testament",
+    "reference": "Testament 1:1-5",
+    "topic": "Opening",
+    "type": "multiple-choice",
+    "question": "Who opened the book?",
+    "answer": "Alpha",
+    "options": ["Alpha", "Bravo", "Charlie", "Delta"]
+  },
+  {
+    "id": "te02-002",
+    "chapter": 2,
+    "book": "Testament",
+    "reference": "Testament 2:3",
+    "topic": "Closing",
+    "type": "fill-in",
+    "question": "Type the word: yes",
+    "answer": "yes",
+    "acceptableAnswers": ["yes"]
+  }
+]
