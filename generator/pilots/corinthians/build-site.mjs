@@ -9,7 +9,7 @@
 "use strict";
 
 import { cp, mkdir, readdir, rm, stat, access } from "node:fs/promises";
-import { existsSync } from "node:fs";
+import { existsSync, readdirSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -21,14 +21,11 @@ const PILOT = __dirname;
 const OUT = path.join(PILOT, "_site");
 const OUT_DATA = path.join(OUT, "data");
 
-const ENGINE_FILES = [
-  "config.js",
-  "storage.js",
-  "quiz-core.js",
-  "quiz-render.js",
-  "passage-links.js",
-  "anki-export.js",
-];
+// All engine ES modules, discovered dynamically so new modules (e.g.
+// seed-link.js) are bundled automatically without editing this list.
+const ENGINE_FILES = readdirSync(ENGINE_SRC)
+  .filter((f) => f.endsWith(".js"))
+  .sort();
 
 const COPY_JSON_RENAME = {
   "questions.seed.json": "questions.json",

@@ -11,6 +11,7 @@
 
 import { referenceFor, isCorrectAnswer, submit, next, launch } from "./quiz-core.js";
 import { passageUrl, passageLabel } from "./passage-links.js";
+import { formReady, buildSeedUrl, SEED_LABEL } from "./seed-link.js";
 import { exportAnki } from "./anki-export.js";
 
 const TYPE_LABELS = {
@@ -32,6 +33,41 @@ function show(screen) {
     const node = $(s);
     if (node) node.hidden = s !== screen;
   });
+}
+
+// Seed-capture link ("Suggest a question about this passage"). Book-agnostic;
+// only renders when a real form-config is present. Uses an existing
+// element with `linkId` if present, otherwise creates one and inserts it
+// into the container with id `containerId` (falling back to the feedback /
+// passage-link area). When `!formReady` or `href` is null, hides the link.
+function renderSeedLink(formConfig, ctx, linkId = "suggest-seed", containerId) {
+  if (!formReady(formConfig)) {
+    const existing = $(linkId);
+    if (existing) existing.hidden = true;
+    return;
+  }
+  const href = buildSeedUrl(formConfig, ctx);
+  if (!href) return;
+  let node = $(linkId);
+  if (!node) {
+    node = el("a", "suggest-seed");
+    node.id = linkId;
+    node.target = "_blank";
+    node.rel = "noopener";
+    let host = null;
+    if (containerId) host = $(containerId);
+    if (!host) host = $("passage-link");
+    // Real browsers expose parentNode; the test DOM stub uses .parent.
+    let parent = host && (host.parentNode || host.parent);
+    if (!parent) {
+      const fb = $("feedback");
+      parent = fb && (fb.parentNode || fb.parent);
+    }
+    if (parent) parent.appendChild(node);
+  }
+  node.href = href;
+  node.textContent = SEED_LABEL;
+  node.hidden = false;
 }
 
 // Build the quiz controller bound to a specific DOM + state + storage + config.
@@ -272,6 +308,14 @@ export function createQuiz({ state, storage, config, weightedOrder }) {
         area.appendChild(b);
       });
     }
+
+    // Seed-capture link (only when a real form-config is present).
+    renderSeedLink(cfg.formConfig, {
+      book: q.book,
+      chapter: q.chapter,
+      reference: q.reference,
+      kind: "question_seed",
+    });
   }
 
   // ---------- Submit handler (wired onto #answer-form) ----------
@@ -379,6 +423,15 @@ export function createQuiz({ state, storage, config, weightedOrder }) {
       rs.innerHTML =
         "You scored <strong>" + state.score + " / " + total + "</strong> (" + pct + "%)";
     }
+
+    // One general seed link on the results screen (book-agnostic context).
+    const bookCtx = {};
+    if (cfg.defaultBookLabel) bookCtx.book = cfg.defaultBookLabel;
+    else if (Array.isArray(cfg.books) && cfg.books[0] && cfg.books[0].name) {
+      bookCtx.book = cfg.books[0].name;
+    }
+    bookCtx.kind = "question_seed";
+    renderSeedLink(cfg.formConfig, bookCtx, "suggest-seed-results", "results");
     const review = $("missed-review");
     if (!review) return;
     review.innerHTML = "";

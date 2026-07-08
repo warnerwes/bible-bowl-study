@@ -1,0 +1,39 @@
+{
+  "id": "test-seed-submit",
+  "title": "Test Seed Submission",
+  "description": "Test fixture Google Form for the seed-capture affordance. Uses synthetic entry IDs; not a real form.",
+  "formBaseUrl": "https://docs.google.com/forms/d/e/TESTFORMID/viewform",
+  "fields": [
+    {
+      "name": "book",
+      "label": "Book",
+      "type": "text",
+      "required": true,
+      "entryId": "2000001"
+    },
+    {
+      "name": "chapter",
+      "label": "Chapter or chapter range",
+      "type": "text",
+      "required": true,
+      "entryId": "2000002"
+    },
+    {
+      "name": "kind",
+      "label": "Seed kind",
+      "type": "select",
+      "required": true,
+      "entryId": "2000003",
+      "options": [
+        { "value": "question_seed", "label": "Question seed" }
+      ]
+    },
+    {
+      "name": "note",
+      "label": "Your note / wording",
+      "type": "textarea",
+      "required": true,
+      "entryId": "2000004"
+    }
+  ]
+}

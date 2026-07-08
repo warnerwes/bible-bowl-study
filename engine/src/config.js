@@ -72,6 +72,21 @@ export async function loadConfig(path = "data/site-config.json") {
     partial = {};
   }
   _config = resolveConfig(partial);
+  // Optional form-config: if a formConfigPath is set, fetch + attach the
+  // parsed form-config as cfg.formConfig. Never throws — config stays
+  // optional. Stays null when the path is absent or the fetch fails.
+  _config.formConfig = null;
+  if (_config.formConfigPath) {
+    try {
+      const fcRes = await fetch(_config.formConfigPath, { cache: "no-cache" });
+      if (fcRes.ok) {
+        const fcData = await fcRes.json();
+        if (fcData && typeof fcData === "object") _config.formConfig = fcData;
+      }
+    } catch (e) {
+      _config.formConfig = null;
+    }
+  }
   return _config;
 }
 

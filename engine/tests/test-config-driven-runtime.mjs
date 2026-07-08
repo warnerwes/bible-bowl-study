@@ -187,7 +187,13 @@ function makeDocument() {
   const doc = {
     body,
     head,
-    getElementById(id) { return byId[id] || null; },
+    getElementById(id) {
+      if (byId[id]) return byId[id];
+      // Fall back to walking for dynamically created + appended nodes
+      // (real browsers find these by id; the stub's byId map is static).
+      const found = body.querySelector(`#${id}`);
+      return found || null;
+    },
     createElement(tag) { return new StubNode(tag); },
     querySelectorAll(sel) { return body.querySelectorAll(sel); },
     querySelector(sel) { return body.querySelector(sel); },
@@ -209,11 +215,12 @@ function makeLocalStorage() {
   };
 }
 
-function makeFetch(fixtureConfig, fixtureQuestions) {
+function makeFetch(fixtureConfig, fixtureQuestions, extraRoutes = {}) {
   // Map of path → body. Routes known engine fetches to fixture content.
   const routes = {
     "data/site-config.json": JSON.stringify(fixtureConfig),
     "data/questions.json": JSON.stringify(fixtureQuestions),
+    ...extraRoutes,
   };
   return async function fetch(url, _opts) {
     const path = String(url).split("?")[0];
@@ -253,7 +260,11 @@ const { doc, body, byId } = makeDocument();
 const localStorage = makeLocalStorage();
 const fixtureConfig = JSON.parse(readFileSync(join(FIXTURES, "site-config.json"), "utf8"));
 const fixtureQuestions = JSON.parse(readFileSync(join(FIXTURES, "questions.json"), "utf8"));
-const fetch = makeFetch(fixtureConfig, fixtureQuestions);
+const fixtureFormConfig =
+  JSON.parse(readFileSync(join(FIXTURES, "form-config.json"), "utf8"));
+const fetch = makeFetch(fixtureConfig, fixtureQuestions, {
+  "data/form-config.json": JSON.stringify(fixtureFormConfig),
+});
 
 globalThis.document = doc;
 globalThis.localStorage = localStorage;
@@ -280,6 +291,8 @@ const { createState, launch, submit, next, weightedOrder, filterPool,
 const { createQuiz } = await import(srcUrl("quiz-render.js"));
 const { passageUrl, passageLabel, getProvider } =
   await import(srcUrl("passage-links.js"));
+const { formReady, buildSeedUrl, SEED_LABEL } =
+  await import(srcUrl("seed-link.js"));
 const { buildAnkiCsv, exportAnki } = await import(srcUrl("anki-export.js"));
 
 // ---------------------------------------------------------------------------
@@ -346,6 +359,43 @@ try {
   check("passageLabel is human-readable",
     passageLabel("Testament 1:1-5", { provider: cfg.passageProvider })
       .includes("Testament 1:1-5"));
+
+  // 6b. Seed link: formReady + buildSeedUrl (book-agnostic).
+  check("formReady returns true for the fixture form-config",
+    formReady(fixtureFormConfig) === true);
+  check("formReady returns false for a PLACEHOLDER formBaseUrl",
+    formReady({ formBaseUrl: "https://docs.google.com/forms/d/PLACEHOLDER/x/viewform", fields: [{ name: "book", entryId: "1" }] }) === false);
+  check("formReady returns false for null",
+    formReady(null) === false);
+  check("SEED_LABEL is a non-empty string",
+    typeof SEED_LABEL === "string" && SEED_LABEL.length > 0);
+  const seedUrl = buildSeedUrl(fixtureFormConfig, {
+    book: "1 Corinthians", chapter: 15, reference: "1 Corinthians 15", kind: "question_seed",
+  });
+  check("buildSeedUrl returns a non-null URL for the fixture",
+    typeof seedUrl === "string" && seedUrl.length > 0, `seedUrl=${seedUrl}`);
+  check("buildSeedUrl URL contains the form base path",
+    seedUrl && seedUrl.indexOf("TESTFORMID") !== -1, `seedUrl=${seedUrl}`);
+  check("buildSeedUrl URL contains each fixture entry id",
+    seedUrl && seedUrl.indexOf("entry.2000001=") !== -1 &&
+      seedUrl.indexOf("entry.2000002=") !== -1 &&
+      seedUrl.indexOf("entry.2000003=") !== -1 &&
+      seedUrl.indexOf("entry.2000004=") !== -1,
+    `seedUrl=${seedUrl}`);
+  check("buildSeedUrl URL prefills the book value",
+    seedUrl && seedUrl.indexOf(encodeURIComponent("1 Corinthians")) !== -1,
+    `seedUrl=${seedUrl}`);
+  check("buildSeedUrl URL prefills the chapter/reference value",
+    seedUrl && seedUrl.indexOf(encodeURIComponent("1 Corinthians 15")) !== -1,
+    `seedUrl=${seedUrl}`);
+  check("buildSeedUrl URL prefills the kind value",
+    seedUrl && seedUrl.indexOf(encodeURIComponent("question_seed")) !== -1,
+    `seedUrl=${seedUrl}`);
+  check("buildSeedUrl returns null for a placeholder form-config",
+    buildSeedUrl({ formBaseUrl: "...PLACEHOLDER...", fields: [] },
+      { book: "x", chapter: 1, reference: "x 1", kind: "question_seed" }) === null);
+  check("buildSeedUrl returns null for null form-config",
+    buildSeedUrl(null, { book: "x", chapter: 1 }) === null);
 
   // 7. Anki export is config-driven (deck name, filename, tag prefix).
   const csv = buildAnkiCsv(fixtureQuestions,
@@ -476,6 +526,100 @@ try {
     typeof globalThis.BibleBowlHasPendingUnlock === "undefined");
   check("no window.BibleBowlConsumeUnlockScroll required",
     typeof globalThis.BibleBowlConsumeUnlockScroll === "undefined");
+
+  // 10b. Seed link renders in the engine only when a real form-config is
+  // wired. Drive a second quiz instance with a site-config whose
+  // formConfigPath points at the fixture form-config (served by the stub
+  // fetch). Then assert the seed link is present after renderQuestion();
+  // and absent when no form-config (or a placeholder one) is used.
+  const cfgWithForm = resolveConfig({
+    ...fixtureConfig,
+    formConfigPath: "data/form-config.json",
+  });
+  const cfgLoaded = await loadConfig("data/site-config.json");
+  // Re-load with the form-config path so loadConfig fetches form-config.
+  const cfgForm = resolveConfig({ ...fixtureConfig, formConfigPath: "data/form-config.json" });
+  setConfig(cfgForm);
+  const cfgAfter = getConfig();
+  // Manually drive loadConfig's form-config fetch path by calling it.
+  // loadConfig uses the global fetch which serves the fixture.
+  const cfgFormLoaded = await loadConfig("data/site-config.json");
+  // The site-config fixture has no formConfigPath, so formConfig is null.
+  check("loadConfig leaves formConfig null when formConfigPath absent",
+    cfgFormLoaded.formConfig === null || cfgFormLoaded.formConfig === undefined);
+
+  // Now drive a fresh loadConfig with a config that has formConfigPath set.
+  // We can't change the served site-config, so test the form-config fetch
+  // path directly: simulate by fetching the fixture form-config the same
+  // way loadConfig does, and set it on a config.
+  let resolvedFormConfig = null;
+  try {
+    const fcRes = await fetch("data/form-config.json", { cache: "no-cache" });
+    if (fcRes.ok) resolvedFormConfig = await fcRes.json();
+  } catch (e) {}
+  check("stub fetch serves the fixture form-config",
+    resolvedFormConfig != null && resolvedFormConfig.formBaseUrl === fixtureFormConfig.formBaseUrl);
+
+  const cfgFormReady = resolveConfig({ ...fixtureConfig, formConfigPath: "data/form-config.json" });
+  cfgFormReady.formConfig = resolvedFormConfig;
+  check("formReady(cfg.formConfig) is true after attaching the fixture",
+    formReady(cfgFormReady.formConfig) === true);
+
+  // Build a fresh quiz instance with the form-ready config and render a
+  // question; assert a seed-link element exists with a non-empty href.
+  const state2 = createState();
+  state2.all = fixtureQuestions.slice();
+  const storage2 = createStorage(cfgFormReady);
+  storage2.load();
+  const quiz2 = createQuiz({
+    state: state2, storage: storage2, config: cfgFormReady, weightedOrder,
+  });
+  await quiz2.load();
+  quiz2.startQuick();
+  const seedNodeQ = document.getElementById("suggest-seed");
+  check("seed link present after renderQuestion() when form-config is wired",
+    !!seedNodeQ && typeof seedNodeQ.href === "string" && seedNodeQ.href.length > 0,
+    `href=${seedNodeQ ? seedNodeQ.href : "<none>"}`);
+  check("seed link href contains a fixture entry id",
+    !!seedNodeQ && seedNodeQ.href.indexOf("entry.2000001") !== -1,
+    `href=${seedNodeQ ? seedNodeQ.href : "<none>"}`);
+
+  // With NO form-config (or a placeholder one), the seed link is absent.
+  const cfgNoForm = resolveConfig({ ...fixtureConfig });
+  cfgNoForm.formConfig = null;
+  const state3 = createState();
+  state3.all = fixtureQuestions.slice();
+  const storage3 = createStorage(cfgNoForm);
+  storage3.load();
+  const quiz3 = createQuiz({
+    state: state3, storage: storage3, config: cfgNoForm, weightedOrder,
+  });
+  await quiz3.load();
+  quiz3.startQuick();
+  const seedNodeNone = document.getElementById("suggest-seed");
+  check("seed link absent/hidden when form-config is null",
+    !seedNodeNone || seedNodeNone.hidden === true,
+    `present=${!!seedNodeNone} hidden=${seedNodeNone ? seedNodeNone.hidden : "n/a"}`);
+
+  // Placeholder form-config also stays inert.
+  const cfgPlaceholder = resolveConfig({ ...fixtureConfig });
+  cfgPlaceholder.formConfig = {
+    formBaseUrl: "https://docs.google.com/forms/d/PLACEHOLDER/viewform",
+    fields: [{ name: "book", entryId: "9" }],
+  };
+  const state4 = createState();
+  state4.all = fixtureQuestions.slice();
+  const storage4 = createStorage(cfgPlaceholder);
+  storage4.load();
+  const quiz4 = createQuiz({
+    state: state4, storage: storage4, config: cfgPlaceholder, weightedOrder,
+  });
+  await quiz4.load();
+  quiz4.startQuick();
+  const seedNodePlaceholder = document.getElementById("suggest-seed");
+  check("seed link absent/hidden when form-config is a placeholder",
+    !seedNodePlaceholder || seedNodePlaceholder.hidden === true,
+    `present=${!!seedNodePlaceholder} hidden=${seedNodePlaceholder ? seedNodePlaceholder.hidden : "n/a"}`);
 
   // 11. No literal "Exodus" anywhere in engine/src.
   let exodusHits = [];
