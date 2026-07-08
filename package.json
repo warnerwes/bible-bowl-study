@@ -15,6 +15,7 @@
     "test:reader": "node scripts/test-bible-reader-routes.mjs",
     "test:refiner": "node scripts/test-refiner-trial.mjs",
     "test:reward-thresholds": "node scripts/test-reward-thresholds.mjs",
+    "test:quiz-flow": "node scripts/test-headless-quiz-flow.mjs",
     "test:wonder-passages": "node scripts/test-wonder-passages.mjs",
     "test:cache": "node scripts/test-cache-busters.mjs",
     "test:update": "node scripts/test-update-mechanism.mjs && node scripts/test-update-live.mjs",
