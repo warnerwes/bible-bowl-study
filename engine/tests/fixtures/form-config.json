@@ -25,7 +25,9 @@
       "required": true,
       "entryId": "2000003",
       "options": [
-        { "value": "question_seed", "label": "Question seed" }
+        { "value": "question_seed", "label": "Question seed" },
+        { "value": "memory_hook", "label": "Memory hook" },
+        { "value": "correction", "label": "Suggested correction" }
       ]
     },
     {

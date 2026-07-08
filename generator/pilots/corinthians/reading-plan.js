@@ -47,10 +47,17 @@ function seedFormUrl(form, week) {
       if (f.name && f.entryId != null) entryMap[f.name] = String(f.entryId);
     });
   }
-  // entry IDs are PLACEHOLDER values; still build the prefilled URL shape.
+  // Resolve the kind code → its option LABEL, because Google Forms
+  // dropdown prefill only pre-selects when the prefilled value EXACTLY
+  // equals the option text. Falls back to the raw code.
+  const kindField = (Array.isArray(form.fields)
+    ? form.fields.find((f) => f && f.name === "kind") : null);
+  const kindOpt = kindField && Array.isArray(kindField.options)
+    ? kindField.options.find((o) => o && o.value === "question_seed") : null;
+  const kindLabel = kindOpt && kindOpt.label ? kindOpt.label : "question_seed";
   if (entryMap.book) params.set(`entry.${entryMap.book}`, book);
   if (entryMap.chapter) params.set(`entry.${entryMap.chapter}`, chapter);
-  if (entryMap.kind) params.set(`entry.${entryMap.kind}`, "question_seed");
+  if (entryMap.kind) params.set(`entry.${entryMap.kind}`, kindLabel);
   if (entryMap.note) params.set(`entry.${entryMap.note}`, "");
   const qs = params.toString();
   return qs ? `${base}?${qs}` : base;

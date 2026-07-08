@@ -388,8 +388,11 @@ try {
   check("buildSeedUrl URL prefills the chapter/reference value",
     seedUrl && seedUrl.indexOf(encodeURIComponent("1 Corinthians 15")) !== -1,
     `seedUrl=${seedUrl}`);
-  check("buildSeedUrl URL prefills the kind value",
-    seedUrl && seedUrl.indexOf(encodeURIComponent("question_seed")) !== -1,
+  check("buildSeedUrl URL prefills the kind LABEL (not the raw code)",
+    seedUrl && seedUrl.indexOf(encodeURIComponent("Question seed")) !== -1,
+    `seedUrl=${seedUrl}`);
+  check("buildSeedUrl URL does NOT emit the raw kind code",
+    seedUrl && seedUrl.indexOf(encodeURIComponent("question_seed")) === -1,
     `seedUrl=${seedUrl}`);
   check("buildSeedUrl returns null for a placeholder form-config",
     buildSeedUrl({ formBaseUrl: "...PLACEHOLDER...", fields: [] },

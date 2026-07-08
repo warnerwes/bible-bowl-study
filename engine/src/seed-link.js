@@ -27,6 +27,18 @@ function entryIdFor(formConfig, name) {
   return f && f.entryId != null ? String(f.entryId) : "";
 }
 
+// Resolve the LABEL for a kind code from the form-config's kind-field
+// options (config-driven, book-agnostic). Google Forms dropdown prefill
+// only pre-selects when the prefilled value EXACTLY equals the option
+// text, so we send the label rather than the internal code. Falls back
+// to the raw value when no matching option is found.
+function labelForKind(formConfig, value) {
+  const f = (formConfig.fields || []).find((x) => x && x.name === "kind");
+  const opt = f && Array.isArray(f.options)
+    ? f.options.find((o) => o && o.value === value) : null;
+  return opt && opt.label ? opt.label : value;
+}
+
 // Build a prefilled Google-Form URL, or null when !formReady.
 // `ctx` is { book, chapter, reference, kind } — all optional.
 //  - book    → the "book" field
@@ -44,7 +56,7 @@ export function buildSeedUrl(formConfig, ctx) {
   };
   add("book", c.book || "");
   add("chapter", c.reference || (c.chapter != null ? String(c.chapter) : ""));
-  add("kind", c.kind || "question_seed");
+  add("kind", labelForKind(formConfig, c.kind || "question_seed"));
   add("note", "");
   const sep = base.indexOf("?") === -1 ? "?" : "&";
   return params.length ? `${base}${sep}${params.join("&")}` : base;

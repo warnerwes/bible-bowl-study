@@ -1,29 +1,29 @@
 {
   "id": "cor-seed-submit",
   "title": "Corinthians Seed Submission",
-  "description": "PLACEHOLDER Google Form — students submit a question seed (a fact + a chapter reference) for review. Not yet created; replace the formBaseUrl and entry IDs with real values from a published Google Form.",
-  "formBaseUrl": "https://docs.google.com/forms/d/PLACEHOLDER_FORM_ID/viewform",
+  "description": "Live Google Form — students submit a question seed (a fact + a chapter reference) for review.",
+  "formBaseUrl": "https://docs.google.com/forms/d/e/1FAIpQLSdGhsUWaLUcjfJs9KOlbfMx9ja0jTCp1FGx7ANrbcbuURN2mQ/viewform",
   "fields": [
     {
       "name": "book",
       "label": "Book",
       "type": "text",
       "required": true,
-      "entryId": "1000001"
+      "entryId": "777521353"
     },
     {
       "name": "chapter",
       "label": "Chapter or chapter range",
       "type": "text",
       "required": true,
-      "entryId": "1000002"
+      "entryId": "266107568"
     },
     {
       "name": "kind",
       "label": "Seed kind",
       "type": "select",
       "required": true,
-      "entryId": "1000003",
+      "entryId": "2141299893",
       "options": [
         { "value": "question_seed", "label": "Question seed" },
         { "value": "memory_hook", "label": "Memory hook" },
@@ -35,7 +35,7 @@
       "label": "Your note / wording",
       "type": "textarea",
       "required": true,
-      "entryId": "1000004"
+      "entryId": "1123445537"
     }
   ]
 }
