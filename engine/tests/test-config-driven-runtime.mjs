@@ -385,8 +385,10 @@ try {
   check("buildSeedUrl URL prefills the book value",
     seedUrl && seedUrl.indexOf(encodeURIComponent("1 Corinthians")) !== -1,
     `seedUrl=${seedUrl}`);
-  check("buildSeedUrl URL prefills the chapter/reference value",
-    seedUrl && seedUrl.indexOf(encodeURIComponent("1 Corinthians 15")) !== -1,
+  check("buildSeedUrl chapter field carries only the chapter number",
+    seedUrl && seedUrl.indexOf("entry.2000002=15") !== -1, `seedUrl=${seedUrl}`);
+  check("buildSeedUrl does NOT repeat the book in the chapter field",
+    seedUrl && seedUrl.indexOf(encodeURIComponent("1 Corinthians 15")) === -1,
     `seedUrl=${seedUrl}`);
   check("buildSeedUrl URL prefills the kind LABEL (not the raw code)",
     seedUrl && seedUrl.indexOf(encodeURIComponent("Question seed")) !== -1,
