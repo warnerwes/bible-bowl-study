@@ -39,10 +39,27 @@ function labelForKind(formConfig, value) {
   return opt && opt.label ? opt.label : value;
 }
 
+// Derive the CHAPTER-field value without repeating the book name. When the
+// reference begins with the book (e.g. book="1 Corinthians", reference=
+// "1 Corinthians 15:1"), strip that prefix → "15:1". Otherwise fall back to the
+// chapter number, then the raw reference. Book-agnostic: `book` comes from the
+// caller, never hardcoded here.
+function chapterField(book, reference, chapter) {
+  const ref = reference != null ? String(reference).trim() : "";
+  const bk = book != null ? String(book).trim() : "";
+  if (ref && bk && ref.toLowerCase().startsWith(bk.toLowerCase())) {
+    const rest = ref.slice(bk.length).trim();
+    if (rest) return rest;
+  }
+  if (chapter != null && String(chapter) !== "") return String(chapter);
+  return ref;
+}
+
 // Build a prefilled Google-Form URL, or null when !formReady.
 // `ctx` is { book, chapter, reference, kind } — all optional.
 //  - book    → the "book" field
-//  - chapter → the "chapter" field, preferring `reference` then `chapter`
+//  - chapter → the "chapter" field: the chapter portion only (book prefix
+//              stripped from `reference`), falling back to `chapter`.
 //  - kind    → the "kind" field, defaulting to "question_seed"
 //  - note    → the "note" field, always "" (the student fills it)
 export function buildSeedUrl(formConfig, ctx) {
@@ -55,7 +72,7 @@ export function buildSeedUrl(formConfig, ctx) {
     if (id) params.push(`entry.${id}=${encodeURIComponent(String(value))}`);
   };
   add("book", c.book || "");
-  add("chapter", c.reference || (c.chapter != null ? String(c.chapter) : ""));
+  add("chapter", chapterField(c.book, c.reference, c.chapter));
   add("kind", labelForKind(formConfig, c.kind || "question_seed"));
   add("note", "");
   const sep = base.indexOf("?") === -1 ? "?" : "&";
