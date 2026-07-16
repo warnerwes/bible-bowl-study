@@ -532,99 +532,17 @@ try {
   check("no window.BibleBowlConsumeUnlockScroll required",
     typeof globalThis.BibleBowlConsumeUnlockScroll === "undefined");
 
-  // 10b. Seed link renders in the engine only when a real form-config is
-  // wired. Drive a second quiz instance with a site-config whose
-  // formConfigPath points at the fixture form-config (served by the stub
-  // fetch). Then assert the seed link is present after renderQuestion();
-  // and absent when no form-config (or a placeholder one) is used.
-  const cfgWithForm = resolveConfig({
-    ...fixtureConfig,
-    formConfigPath: "data/form-config.json",
-  });
-  const cfgLoaded = await loadConfig("data/site-config.json");
-  // Re-load with the form-config path so loadConfig fetches form-config.
+  // 10b. Form-config can still be resolved for legacy utility callers, but
+  // the quiz UI no longer renders Google Form links.
   const cfgForm = resolveConfig({ ...fixtureConfig, formConfigPath: "data/form-config.json" });
   setConfig(cfgForm);
   const cfgAfter = getConfig();
-  // Manually drive loadConfig's form-config fetch path by calling it.
-  // loadConfig uses the global fetch which serves the fixture.
-  const cfgFormLoaded = await loadConfig("data/site-config.json");
-  // The site-config fixture has no formConfigPath, so formConfig is null.
-  check("loadConfig leaves formConfig null when formConfigPath absent",
-    cfgFormLoaded.formConfig === null || cfgFormLoaded.formConfig === undefined);
-
-  // Now drive a fresh loadConfig with a config that has formConfigPath set.
-  // We can't change the served site-config, so test the form-config fetch
-  // path directly: simulate by fetching the fixture form-config the same
-  // way loadConfig does, and set it on a config.
-  let resolvedFormConfig = null;
-  try {
-    const fcRes = await fetch("data/form-config.json", { cache: "no-cache" });
-    if (fcRes.ok) resolvedFormConfig = await fcRes.json();
-  } catch (e) {}
-  check("stub fetch serves the fixture form-config",
-    resolvedFormConfig != null && resolvedFormConfig.formBaseUrl === fixtureFormConfig.formBaseUrl);
-
-  const cfgFormReady = resolveConfig({ ...fixtureConfig, formConfigPath: "data/form-config.json" });
-  cfgFormReady.formConfig = resolvedFormConfig;
-  check("formReady(cfg.formConfig) is true after attaching the fixture",
-    formReady(cfgFormReady.formConfig) === true);
-
-  // Build a fresh quiz instance with the form-ready config and render a
-  // question; assert a seed-link element exists with a non-empty href.
-  const state2 = createState();
-  state2.all = fixtureQuestions.slice();
-  const storage2 = createStorage(cfgFormReady);
-  storage2.load();
-  const quiz2 = createQuiz({
-    state: state2, storage: storage2, config: cfgFormReady, weightedOrder,
-  });
-  await quiz2.load();
-  quiz2.startQuick();
-  const seedNodeQ = document.getElementById("suggest-seed");
-  check("seed link present after renderQuestion() when form-config is wired",
-    !!seedNodeQ && typeof seedNodeQ.href === "string" && seedNodeQ.href.length > 0,
-    `href=${seedNodeQ ? seedNodeQ.href : "<none>"}`);
-  check("seed link href contains a fixture entry id",
-    !!seedNodeQ && seedNodeQ.href.indexOf("entry.2000001") !== -1,
-    `href=${seedNodeQ ? seedNodeQ.href : "<none>"}`);
-
-  // With NO form-config (or a placeholder one), the seed link is absent.
-  const cfgNoForm = resolveConfig({ ...fixtureConfig });
-  cfgNoForm.formConfig = null;
-  const state3 = createState();
-  state3.all = fixtureQuestions.slice();
-  const storage3 = createStorage(cfgNoForm);
-  storage3.load();
-  const quiz3 = createQuiz({
-    state: state3, storage: storage3, config: cfgNoForm, weightedOrder,
-  });
-  await quiz3.load();
-  quiz3.startQuick();
-  const seedNodeNone = document.getElementById("suggest-seed");
-  check("seed link absent/hidden when form-config is null",
-    !seedNodeNone || seedNodeNone.hidden === true,
-    `present=${!!seedNodeNone} hidden=${seedNodeNone ? seedNodeNone.hidden : "n/a"}`);
-
-  // Placeholder form-config also stays inert.
-  const cfgPlaceholder = resolveConfig({ ...fixtureConfig });
-  cfgPlaceholder.formConfig = {
-    formBaseUrl: "https://docs.google.com/forms/d/PLACEHOLDER/viewform",
-    fields: [{ name: "book", entryId: "9" }],
-  };
-  const state4 = createState();
-  state4.all = fixtureQuestions.slice();
-  const storage4 = createStorage(cfgPlaceholder);
-  storage4.load();
-  const quiz4 = createQuiz({
-    state: state4, storage: storage4, config: cfgPlaceholder, weightedOrder,
-  });
-  await quiz4.load();
-  quiz4.startQuick();
-  const seedNodePlaceholder = document.getElementById("suggest-seed");
-  check("seed link absent/hidden when form-config is a placeholder",
-    !seedNodePlaceholder || seedNodePlaceholder.hidden === true,
-    `present=${!!seedNodePlaceholder} hidden=${seedNodePlaceholder ? seedNodePlaceholder.hidden : "n/a"}`);
+  check("setConfig preserves formConfigPath when explicitly set",
+    cfgAfter.formConfigPath === "data/form-config.json",
+    `formConfigPath=${cfgAfter.formConfigPath}`);
+  check("quiz screen renders no Google Form seed link",
+    document.getElementById("suggest-seed") == null,
+    `present=${!!document.getElementById("suggest-seed")}`);
 
   // 11. No literal "Exodus" anywhere in engine/src.
   let exodusHits = [];

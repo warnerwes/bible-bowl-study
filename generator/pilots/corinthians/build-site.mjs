@@ -1,6 +1,6 @@
 /* build-site.mjs - pure-Node static site assembler for the Corinthians pilot.
    Creates generator/pilots/corinthians/_site/ and copies in:
-     - the engine JS modules + reader.html (flat, at the site root beside index.html)
+     - the engine JS modules + reader assets (flat, at the site root beside index.html)
      - the engine stylesheet as _site/styles.css
      - this dir's index.html, reading.html
      - this dir's *.json into _site/data/, renaming questions.seed.json -> questions.json
@@ -25,7 +25,7 @@ const ENGINE_FILES = readdirSync(ENGINE_SRC)
   .filter((f) => f.endsWith(".js"))
   .sort();
 
-const ENGINE_STATIC_FILES = ["reader.html"];
+const ENGINE_STATIC_FILES = ["reader.html", "reader.css"];
 
 const COPY_JSON_RENAME = {
   "questions.seed.json": "questions.json",
@@ -80,7 +80,7 @@ async function build() {
 
   console.log(
     `Built ${path.relative(ROOT, OUT)}: ${ENGINE_FILES.length} engine files + ` +
-    `${ENGINE_STATIC_FILES.length} engine pages + styles.css + ${COPY_FILES.length} site files + ` +
+    `${ENGINE_STATIC_FILES.length} engine assets + styles.css + ${COPY_FILES.length} site files + ` +
     `${Object.keys(COPY_JSON_RENAME).length} data JSON.`
   );
 }
@@ -90,6 +90,7 @@ async function check() {
     "index.html",
     "reading.html",
     "reader.html",
+    "reader.css",
     "reader.js",
     "reader-route.js",
     "reading-plan.js",

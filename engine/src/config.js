@@ -31,7 +31,20 @@ const DEFAULTS = {
   bibleVersion: "NKJV",
   repo: "",
   formConfigPath: null,
+  firebase: null,
 };
+
+function normalizeFirebase(firebase) {
+  if (!firebase || typeof firebase !== "object") return null;
+  const out = {};
+  for (const key of ["projectId", "appId", "apiKey", "authDomain"]) {
+    if (firebase[key] == null) continue;
+    out[key] = typeof firebase[key] === "string"
+      ? firebase[key]
+      : String(firebase[key]);
+  }
+  return Object.keys(out).length ? out : null;
+}
 
 let _config = null;
 
@@ -52,6 +65,7 @@ export function resolveConfig(partial) {
   if (cfg.formConfigPath != null && typeof cfg.formConfigPath !== "string") {
     cfg.formConfigPath = String(cfg.formConfigPath);
   }
+  cfg.firebase = normalizeFirebase(cfg.firebase);
   return cfg;
 }
 

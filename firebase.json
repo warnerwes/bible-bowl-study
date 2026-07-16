@@ -2,6 +2,10 @@
   "functions": {
     "source": "firebase/functions"
   },
+  "firestore": {
+    "rules": "firebase/firestore.rules",
+    "indexes": "firebase/firestore.indexes.json"
+  },
   "hosting": {
     "public": "generator/pilots/corinthians/_site",
     "ignore": [
@@ -55,6 +59,9 @@
     ]
   },
   "emulators": {
+    "firestore": {
+      "port": 8080
+    },
     "functions": {
       "port": 5001
     },

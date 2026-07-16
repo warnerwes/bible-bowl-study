@@ -1,0 +1,66 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isReviewer() {
+      return isSignedIn()
+        && ('reviewer' in request.auth.token)
+        && request.auth.token.reviewer == true;
+    }
+
+    function isValidSuggestionCreate() {
+      let keys = [
+        'uid',
+        'authorName',
+        'kind',
+        'book',
+        'chapter',
+        'reference',
+        'text',
+        'answerText',
+        'status',
+        'createdAt'
+      ];
+
+      return request.resource.data.keys().hasAll(keys)
+        && request.resource.data.keys().hasOnly(keys)
+        && request.resource.data.uid == request.auth.uid
+        && request.resource.data.authorName is string
+        && request.resource.data.authorName.size() >= 1
+        && request.resource.data.authorName.size() <= 40
+        && request.resource.data.kind in ['question_seed', 'memory_hook', 'correction']
+        && request.resource.data.book in ['1 Corinthians', '2 Corinthians']
+        && request.resource.data.chapter is int
+        && request.resource.data.chapter >= 1
+        && request.resource.data.chapter <= 16
+        && request.resource.data.reference is string
+        && request.resource.data.reference.size() >= 1
+        && request.resource.data.reference.size() <= 60
+        && request.resource.data.text is string
+        && request.resource.data.text.size() >= 1
+        && request.resource.data.text.size() <= 1000
+        && request.resource.data.answerText is string
+        && request.resource.data.answerText.size() <= 500
+        && request.resource.data.status == 'new'
+        && request.resource.data.createdAt == request.time;
+    }
+
+    function isValidReviewerStatusUpdate() {
+      return request.resource.data.diff(resource.data).changedKeys().hasOnly(['status'])
+        && resource.data.status == 'new'
+        && request.resource.data.status in ['approved', 'rejected'];
+    }
+
+    match /suggestions/{id} {
+      allow create: if isSignedIn() && isValidSuggestionCreate();
+      allow get: if isReviewer() || (isSignedIn() && resource.data.uid == request.auth.uid);
+      allow list: if isReviewer();
+      allow update: if isReviewer() && isValidReviewerStatusUpdate();
+      allow delete: if isReviewer();
+    }
+  }
+}

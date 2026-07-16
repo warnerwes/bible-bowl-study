@@ -10,6 +10,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Spectral:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="reader.css" />
 </head>
 <body>
   <header class="site-header">
@@ -18,7 +19,7 @@
     <nav class="header-nav">
       <a href="index.html" class="link-btn">Quiz</a>
       <a href="reading.html" class="link-btn">Reading Plan</a>
-      <a href="https://www.biblegateway.com/passage/?search=1+Corinthians+1&version=NKJV" class="link-btn" target="_blank" rel="noopener">Read on Bible Gateway (NKJV) →</a>
+      <a href="https://www.biblegateway.com/passage/?search=1+Corinthians+1&version=NKJV" class="link-btn" target="_blank" rel="noopener">Read on Bible Gateway (NKJV) ↗</a>
     </nav>
   </header>
 
@@ -26,7 +27,7 @@
     <section class="screen">
       <div class="card reader-shell">
         <div class="reader-head">
-          <p class="tag tag-ref" id="reader-reference">Loading...</p>
+          <p class="tag tag-ref" id="reader-reference">Reader</p>
           <p class="muted reader-status" id="reader-status" aria-live="polite">Loading chapter...</p>
         </div>
         <nav class="reader-nav" aria-label="Chapter navigation">
@@ -42,9 +43,10 @@
             <a href="https://api.bible" target="_blank" rel="noopener">API.Bible</a>
           </p>
         </div>
+        <div id="suggest-panel-root" hidden></div>
         <div class="reader-actions">
           <button id="reader-retry" type="button" class="primary-btn" hidden>Retry</button>
-          <a id="reader-fallback" class="link-btn" href="#" target="_blank" rel="noopener" hidden>Open on Bible Gateway →</a>
+          <a id="reader-fallback" class="link-btn" href="#" target="_blank" rel="noopener" hidden>Open on Bible Gateway ↗</a>
         </div>
       </div>
     </section>

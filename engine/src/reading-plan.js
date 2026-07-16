@@ -35,37 +35,6 @@ function weekReference(week) {
   return `${week.book} ${week.chapters[0]}-${week.chapters[week.chapters.length - 1]}`;
 }
 
-export function createSeedFormUrl(form, week) {
-  if (!form || !form.formBaseUrl) return "#";
-  const base = form.formBaseUrl.split("?")[0];
-  const params = new URLSearchParams();
-  const book = week.book || "";
-  const chapter = (week.chapters && week.chapters.length)
-    ? (week.chapters.length === 1
-        ? String(week.chapters[0])
-        : `${week.chapters[0]}-${week.chapters[week.chapters.length - 1]}`)
-    : (week.reference || "");
-  const entryMap = {};
-  if (Array.isArray(form.fields)) {
-    form.fields.forEach((field) => {
-      if (field.name && field.entryId != null) entryMap[field.name] = String(field.entryId);
-    });
-  }
-  const kindField = Array.isArray(form.fields)
-    ? form.fields.find((field) => field && field.name === "kind")
-    : null;
-  const kindOpt = kindField && Array.isArray(kindField.options)
-    ? kindField.options.find((opt) => opt && opt.value === "question_seed")
-    : null;
-  const kindLabel = kindOpt && kindOpt.label ? kindOpt.label : "question_seed";
-  if (entryMap.book) params.set(`entry.${entryMap.book}`, book);
-  if (entryMap.chapter) params.set(`entry.${entryMap.chapter}`, chapter);
-  if (entryMap.kind) params.set(`entry.${entryMap.kind}`, kindLabel);
-  if (entryMap.note) params.set(`entry.${entryMap.note}`, "");
-  const qs = params.toString();
-  return qs ? `${base}?${qs}` : base;
-}
-
 export function buildReadLink(week, config) {
   const ref = weekReference(week);
   const url = passageUrl(ref, {
@@ -79,7 +48,19 @@ export function buildReadLink(week, config) {
   };
 }
 
-export function renderPlan(plan, form, config) {
+export function buildGatewayLink(week, config) {
+  const ref = weekReference(week);
+  return {
+    href: passageUrl(ref, {
+      provider: "biblegateway",
+      bibleVersion: config.bibleVersion,
+    }),
+    label: "Open on Bible Gateway ↗",
+    external: true,
+  };
+}
+
+export function renderPlan(plan, config) {
   const title = $("plan-title");
   if (title && plan.title) title.textContent = plan.title;
   const desc = $("plan-description");
@@ -102,13 +83,8 @@ export function renderPlan(plan, form, config) {
     const links = el("div", "plan-week-links");
     const readLink = buildReadLink(week, config);
     links.appendChild(link(readLink.href, "primary-btn", readLink.label, readLink.external));
-
-    const seedUrl = createSeedFormUrl(form, week);
-    const seed = link(seedUrl, "link-btn", "Submit a seed for this reading →", true);
-    if (seedUrl && seedUrl.indexOf("PLACEHOLDER") !== -1) {
-      seed.title = "Form not yet created - link is a placeholder.";
-    }
-    links.appendChild(seed);
+    const gatewayLink = buildGatewayLink(week, config);
+    links.appendChild(link(gatewayLink.href, "link-btn", gatewayLink.label, gatewayLink.external));
     card.appendChild(links);
 
     container.appendChild(card);
@@ -118,17 +94,10 @@ export function renderPlan(plan, form, config) {
 async function loadPlan() {
   try {
     const config = await loadConfig("data/site-config.json");
-    const [planRes, formRes] = await Promise.all([
-      fetch("data/reading-plan.json", { cache: "no-cache" }),
-      fetch("data/form-config.json", { cache: "no-cache" }),
-    ]);
+    const planRes = await fetch("data/reading-plan.json", { cache: "no-cache" });
     if (!planRes.ok) throw new Error(`HTTP ${planRes.status}`);
     const plan = await planRes.json();
-    let form = null;
-    if (formRes.ok) {
-      try { form = await formRes.json(); } catch { form = null; }
-    }
-    renderPlan(plan, form, config);
+    renderPlan(plan, config);
   } catch (error) {
     const node = $("plan-error");
     if (!node) return;

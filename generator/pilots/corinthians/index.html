@@ -23,15 +23,21 @@
   </header>
 
   <main id="app">
-    <!-- ===================== SETUP SCREEN ===================== -->
     <section id="setup" class="screen">
-      <!-- ---------- Home (simple "Go") ---------- -->
       <div id="home">
         <h2>Ready to study?</h2>
         <p class="lead">Quiz yourself on 1 &amp; 2 Corinthians. Miss a question and the answer is shown — then jump into the reader to see the chapter in context (NKJV, used by permission). Questions themselves stay reference-based.</p>
 
-        <button id="quick-start" class="primary-btn big-btn">Start studying</button>
-        <p id="quick-note" class="under-btn muted">Loading questions…</p>
+        <div class="home-cta-row">
+          <div class="home-cta-block">
+            <button id="quick-start" class="primary-btn big-btn">Start studying</button>
+            <p id="quick-note" class="under-btn muted">Loading questions...</p>
+          </div>
+          <div class="home-cta-block">
+            <a href="reader.html?ref=1%20Corinthians%201" class="primary-btn big-btn">Read the Bible</a>
+            <p class="under-btn muted">In-app reading uses a shared monthly allotment of Bible lookups. If we hit the limit, the reader rests until next month — Bible Gateway links always work.</p>
+          </div>
+        </div>
 
         <div id="missed-cta" hidden>
           <button id="drill-missed" class="primary-btn ghost-btn">Drill my missed questions (<span id="missed-count">0</span>)</button>
@@ -46,7 +52,6 @@
         </div>
       </div>
 
-      <!-- ---------- Advanced (custom builder) ---------- -->
       <div id="advanced" hidden>
         <h2>Build a custom quiz</h2>
 
@@ -121,7 +126,7 @@
         <div id="feedback" class="feedback" hidden>
           <div id="feedback-verdict" class="verdict"></div>
           <p id="feedback-answer" class="correct-answer"></p>
-          <a id="passage-link" class="passage-link" href="#">Read on Bible Gateway →</a>
+          <a id="passage-link" class="passage-link" href="#">Read on Bible Gateway ↗</a>
         </div>
         <div id="feedback-next-bar" class="feedback-next-bar" hidden>
           <button id="next-btn" type="button" class="primary-btn">Next</button>

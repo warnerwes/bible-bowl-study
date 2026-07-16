@@ -9,6 +9,12 @@
   "passageProvider": "reader",
   "questionsPath": "data/questions.json",
   "formConfigPath": "data/form-config.json",
+  "firebase": {
+    "projectId": "bible-bowl-study",
+    "appId": "1:67985258231:web:4440b917054deb2829c5f2",
+    "apiKey": "AIzaSyBIGw5Su9bIZt82E6_1TgbxfsjmxTp2_ZA",
+    "authDomain": "bible-bowl-study.firebaseapp.com"
+  },
   "statsKey": "bbs:cor:stats:v1",
   "books": [
     { "name": "1 Corinthians", "slug": "1cor", "chapters": 16 },

@@ -97,6 +97,28 @@ h2 { font-size: 1.45rem; margin-top: 0; line-height: 1.2; font-weight: 600; }
 }
 .big-btn { font-size: 1.18rem; padding: 1rem 2.6rem; }
 .under-btn { margin: 0.7rem 0 1.6rem; }
+.home-cta-row {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+  align-items: start;
+  max-width: 42rem;
+  margin: 0 auto 1.5rem;
+}
+.home-cta-block {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+.home-cta-block .primary-btn {
+  display: block;
+  width: 100%;
+  text-align: center;
+  text-decoration: none;
+}
+.home-cta-block .under-btn {
+  margin: 0.7rem 0 0;
+}
 #missed-cta { margin-bottom: 1.6rem; }
 .ghost-btn {
   background: transparent;
@@ -590,6 +612,10 @@ h2 { font-size: 1.45rem; margin-top: 0; line-height: 1.2; font-weight: 600; }
   main { padding: 1rem 0.85rem 2.5rem; }
 }
 
+@media (max-width: 640px) {
+  .home-cta-row { grid-template-columns: 1fr; }
+}
+
 /* ---------- Celebration (correct + mastery) ---------- */
 .confetti-layer {
   position: fixed;
@@ -699,64 +725,3 @@ h2 { font-size: 1.45rem; margin-top: 0; line-height: 1.2; font-weight: 600; }
   .mp-seg.pump { animation: none; }
 }
 
-/* ---------- Reader ---------- */
-.reader-shell {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-}
-.reader-head {
-  display: flex;
-  flex-direction: column;
-  gap: 0.45rem;
-}
-.reader-status { margin: 0; }
-.reader-nav {
-  display: flex;
-  justify-content: space-between;
-  gap: 0.75rem;
-  flex-wrap: wrap;
-}
-.reader-nav .link-btn[aria-disabled="true"] {
-  opacity: 0.45;
-  pointer-events: none;
-}
-.reader-content {
-  margin: 0;
-  padding: 1rem 1.1rem;
-  border: 1px solid var(--border-gold);
-  border-radius: var(--radius);
-  background: rgba(255, 255, 255, 0.03);
-  color: var(--text);
-  font-family: var(--font-body);
-  font-size: 1rem;
-  line-height: 1.75;
-  white-space: pre-wrap;
-  overflow-wrap: anywhere;
-}
-.reader-attribution {
-  padding-top: 0.25rem;
-  border-top: 1px solid var(--border);
-}
-.reader-attribution p { margin: 0; }
-.reader-attribution p + p { margin-top: 0.35rem; }
-.reader-attribution a { color: var(--accent-strong); }
-.reader-actions {
-  display: flex;
-  gap: 0.75rem;
-  align-items: center;
-  flex-wrap: wrap;
-}
-@media (max-width: 640px) {
-  .reader-nav,
-  .reader-actions {
-    flex-direction: column;
-    align-items: stretch;
-  }
-  .reader-nav .link-btn,
-  .reader-actions .link-btn,
-  .reader-actions .primary-btn {
-    width: 100%;
-    text-align: center;
-  }
-}

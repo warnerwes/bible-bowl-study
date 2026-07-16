@@ -1,5 +1,6 @@
 "use strict";
 
+import { loadConfig } from "./config.js";
 import { getProvider } from "./passage-links.js";
 import {
   buildReaderUrl,
@@ -8,10 +9,12 @@ import {
   parseReaderSearch,
   previousChapter,
 } from "./reader-route.js";
+import { mountSuggestPanel } from "./suggest-panel.js";
 
 const REQUEST_TIMEOUT_MS = 10000;
 const FALLBACK_COPYRIGHT = "NKJV © 1982 Thomas Nelson. All rights reserved.";
 
+const requestedRef = new URLSearchParams(window.location.search).get("ref");
 const route = parseReaderSearch(window.location.search);
 const fallbackProvider = getProvider("biblegateway");
 
@@ -26,18 +29,32 @@ const refs = {
   reference: document.getElementById("reader-reference"),
   retry: document.getElementById("reader-retry"),
   status: document.getElementById("reader-status"),
+  suggestRoot: document.getElementById("suggest-panel-root"),
 };
 
 let activeController = null;
 let activeRequest = 0;
 let trackedKey = "";
+let suggestPanel = { hide() {}, showForChapter() {} };
 
 function setStatus(message) {
   if (refs.status) refs.status.textContent = message || "";
 }
 
+function normalizeRequestedRef() {
+  return String(requestedRef || "").trim().replace(/\s+/g, " ") || "Reader";
+}
+
+function setReferenceText(text) {
+  if (refs.reference) refs.reference.textContent = text || "Reader";
+}
+
 function setReference(routeInfo) {
-  if (refs.reference) refs.reference.textContent = chapterReference(routeInfo.book, routeInfo.chapter);
+  if (routeInfo) {
+    setReferenceText(chapterReference(routeInfo.book, routeInfo.chapter));
+    return;
+  }
+  setReferenceText(normalizeRequestedRef());
 }
 
 function setNavLink(node, routeInfo, label) {
@@ -74,10 +91,12 @@ function clearDisplay() {
 }
 
 function showFailure(message, routeInfo) {
+  setReference(routeInfo);
   clearDisplay();
   updateFallback(routeInfo);
   if (refs.retry) refs.retry.hidden = false;
   if (refs.fallback) refs.fallback.hidden = false;
+  suggestPanel.hide();
   setStatus(message);
 }
 
@@ -85,6 +104,7 @@ function showLoading() {
   clearDisplay();
   if (refs.retry) refs.retry.hidden = true;
   if (refs.fallback) refs.fallback.hidden = true;
+  suggestPanel.hide();
   setStatus("Loading chapter...");
 }
 
@@ -140,6 +160,7 @@ async function fetchChapter(routeInfo, requestId, controller) {
     renderAttribution(payload);
     if (refs.retry) refs.retry.hidden = true;
     if (refs.fallback) refs.fallback.hidden = true;
+    suggestPanel.showForChapter(routeInfo);
     setStatus(`Showing ${chapterReference(routeInfo.book, routeInfo.chapter)}.`);
     trackView(payload, routeInfo, requestId);
   } finally {
@@ -176,10 +197,19 @@ async function loadChapter(routeInfo) {
   }
 }
 
-if (refs.retry) {
-  refs.retry.addEventListener("click", () => {
-    void loadChapter(route);
+async function initReader() {
+  const config = await loadConfig("data/site-config.json");
+  suggestPanel = mountSuggestPanel({
+    root: refs.suggestRoot,
+    config,
   });
+  if (refs.retry) {
+    refs.retry.addEventListener("click", () => {
+      void loadChapter(route);
+    });
+  }
+  void loadChapter(route);
 }
 
-void loadChapter(route);
+setReference(route);
+void initReader();
