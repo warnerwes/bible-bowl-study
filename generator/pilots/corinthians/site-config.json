@@ -1,12 +1,12 @@
 {
-  "siteName": "Bible Bowl Study — 1 & 2 Corinthians",
-  "siteTitle": "Bible Bowl Study — 1 & 2 Corinthians",
+  "siteName": "Bible Bowl Study - 1 & 2 Corinthians",
+  "siteTitle": "Bible Bowl Study - 1 & 2 Corinthians",
   "siteSlug": "corinthians",
   "defaultBookLabel": "Corinthians",
   "defaultBook": "1 Corinthians",
   "repo": "warnerwes/bible-bowl-study",
   "bibleVersion": "NKJV",
-  "passageProvider": "biblegateway",
+  "passageProvider": "reader",
   "questionsPath": "data/questions.json",
   "formConfigPath": "data/form-config.json",
   "statsKey": "bbs:cor:stats:v1",
@@ -17,7 +17,7 @@
   "features": {
     "memoryLabs": false,
     "masteryTrial": false,
-    "reader": false,
+    "reader": true,
     "updates": false
   },
   "navigation": [

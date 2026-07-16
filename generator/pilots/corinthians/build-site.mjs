@@ -1,31 +1,31 @@
-/* build-site.mjs — pure-Node static site assembler for the Corinthians pilot.
+/* build-site.mjs - pure-Node static site assembler for the Corinthians pilot.
    Creates generator/pilots/corinthians/_site/ and copies in:
-     - the six engine ES modules (flat, at the site root beside index.html)
-     - the repo's root styles.css (book-agnostic quiz styling)
-     - this dir's index.html, reading.html, reading-plan.js
-     - this dir's *.json into _site/data/, renaming questions.seed.json → questions.json
+     - the engine JS modules + reader.html (flat, at the site root beside index.html)
+     - the engine stylesheet as _site/styles.css
+     - this dir's index.html, reading.html
+     - this dir's *.json into _site/data/, renaming questions.seed.json -> questions.json
    Windows-safe (uses node:fs cp + path.join, no shell). No new deps.
    `--check` verifies the assembled _site has the expected files. */
 "use strict";
 
-import { cp, mkdir, readdir, rm, stat, access } from "node:fs/promises";
+import { cp, mkdir, rm, stat, access } from "node:fs/promises";
 import { existsSync, readdirSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const ROOT = path.resolve(__dirname, "..", "..", ".."); // repo root
+const ROOT = path.resolve(__dirname, "..", "..", "..");
 const ENGINE_SRC = path.join(ROOT, "engine", "src");
-const ROOT_STYLES = path.join(ROOT, "styles.css");
+const ENGINE_STYLES = path.join(ENGINE_SRC, "styles.css");
 const PILOT = __dirname;
 const OUT = path.join(PILOT, "_site");
 const OUT_DATA = path.join(OUT, "data");
 
-// All engine ES modules, discovered dynamically so new modules (e.g.
-// seed-link.js) are bundled automatically without editing this list.
 const ENGINE_FILES = readdirSync(ENGINE_SRC)
   .filter((f) => f.endsWith(".js"))
   .sort();
+
+const ENGINE_STATIC_FILES = ["reader.html"];
 
 const COPY_JSON_RENAME = {
   "questions.seed.json": "questions.json",
@@ -35,7 +35,7 @@ const COPY_JSON_RENAME = {
   "source-manifest.json": "source-manifest.json",
 };
 
-const COPY_FILES = ["index.html", "reading.html", "reading-plan.js"];
+const COPY_FILES = ["index.html", "reading.html"];
 
 async function mkdirp(p) {
   await mkdir(p, { recursive: true });
@@ -47,43 +47,51 @@ async function safeCopy(src, dest) {
 }
 
 async function build() {
-  // Clean previous build (ignore errors if absent).
-  try { await rm(OUT, { recursive: true, force: true }); } catch (e) {}
+  try { await rm(OUT, { recursive: true, force: true }); } catch {}
   await mkdirp(OUT);
   await mkdirp(OUT_DATA);
 
-  // Engine modules → _site/ (flat).
-  for (const f of ENGINE_FILES) {
-    const src = path.join(ENGINE_SRC, f);
+  for (const file of ENGINE_FILES) {
+    const src = path.join(ENGINE_SRC, file);
     if (!existsSync(src)) throw new Error(`Missing engine file: ${src}`);
-    await safeCopy(src, path.join(OUT, f));
+    await safeCopy(src, path.join(OUT, file));
   }
 
-  // Root styles.css → _site/styles.css (do NOT modify the original).
-  if (!existsSync(ROOT_STYLES)) throw new Error(`Missing root styles.css: ${ROOT_STYLES}`);
-  await safeCopy(ROOT_STYLES, path.join(OUT, "styles.css"));
+  for (const file of ENGINE_STATIC_FILES) {
+    const src = path.join(ENGINE_SRC, file);
+    if (!existsSync(src)) throw new Error(`Missing engine static file: ${src}`);
+    await safeCopy(src, path.join(OUT, file));
+  }
 
-  // index.html + reading.html + reading-plan.js → _site/
-  for (const f of COPY_FILES) {
-    const src = path.join(PILOT, f);
+  if (!existsSync(ENGINE_STYLES)) throw new Error(`Missing engine stylesheet: ${ENGINE_STYLES}`);
+  await safeCopy(ENGINE_STYLES, path.join(OUT, "styles.css"));
+
+  for (const file of COPY_FILES) {
+    const src = path.join(PILOT, file);
     if (!existsSync(src)) throw new Error(`Missing pilot file: ${src}`);
-    await safeCopy(src, path.join(OUT, f));
+    await safeCopy(src, path.join(OUT, file));
   }
 
-  // *.json (with rename map) → _site/data/
   for (const [srcName, destName] of Object.entries(COPY_JSON_RENAME)) {
     const src = path.join(PILOT, srcName);
     if (!existsSync(src)) throw new Error(`Missing pilot JSON: ${src}`);
     await safeCopy(src, path.join(OUT_DATA, destName));
   }
 
-  console.log(`Built ${path.relative(ROOT, OUT)}: ${ENGINE_FILES.length} engine files + styles.css + ${COPY_FILES.length} site files + ${Object.keys(COPY_JSON_RENAME).length} data JSON.`);
+  console.log(
+    `Built ${path.relative(ROOT, OUT)}: ${ENGINE_FILES.length} engine files + ` +
+    `${ENGINE_STATIC_FILES.length} engine pages + styles.css + ${COPY_FILES.length} site files + ` +
+    `${Object.keys(COPY_JSON_RENAME).length} data JSON.`
+  );
 }
 
 async function check() {
   const expected = [
     "index.html",
     "reading.html",
+    "reader.html",
+    "reader.js",
+    "reader-route.js",
     "reading-plan.js",
     "styles.css",
     "data/questions.json",
@@ -95,32 +103,32 @@ async function check() {
   ];
   const missing = [];
   for (const rel of expected) {
-    const p = path.join(OUT, rel);
+    const target = path.join(OUT, rel);
     try {
-      await access(p);
-      const s = await stat(p);
-      if (!s.isFile()) missing.push(`${rel} (not a file)`);
-    } catch (e) {
+      await access(target);
+      const fileStat = await stat(target);
+      if (!fileStat.isFile()) missing.push(`${rel} (not a file)`);
+    } catch {
       missing.push(rel);
     }
   }
   if (missing.length) {
-    console.error("CHECK FAILED — missing files in _site/:");
-    for (const m of missing) console.error(`  - ${m}`);
+    console.error("CHECK FAILED - missing files in _site/:");
+    for (const item of missing) console.error(`  - ${item}`);
     process.exit(1);
   }
-  console.log(`CHECK OK — ${expected.length} expected files present in ${path.relative(ROOT, OUT)}.`);
+  console.log(`CHECK OK - ${expected.length} expected files present in ${path.relative(ROOT, OUT)}.`);
 }
 
 const args = process.argv.slice(2);
 if (args.includes("--check")) {
-  check().catch((e) => {
-    console.error(e);
+  check().catch((error) => {
+    console.error(error);
     process.exit(1);
   });
 } else {
-  build().then(() => check()).catch((e) => {
-    console.error(e);
+  build().then(() => check()).catch((error) => {
+    console.error(error);
     process.exit(1);
   });
 }

@@ -21,6 +21,16 @@ const PROVIDERS = {
       return `Read ${ref || ""} on Bible Gateway ↗`;
     },
   },
+  reader: {
+    name: "In-App Reader",
+    build(ref) {
+      const r = encodeURIComponent(ref || "");
+      return `reader.html?ref=${r}`;
+    },
+    label(ref) {
+      return `Read ${ref || ""} here`;
+    },
+  },
 };
 
 export function getProvider(name) {

@@ -14,3 +14,4 @@ data/reviews/osb-verify-ledger.json
 data/reviews/osb-audit-report.md
 data/reviews/osb-verify-report.md
 data/reviews/questions.backup.*.json
+.firebase/

@@ -1,90 +1,114 @@
 {
-  "id": "corinthians-8wk",
+  "id": "corinthians-15wk",
   "book": "1 & 2 Corinthians",
   "bookSlug": "corinthians",
-  "title": "1 & 2 Corinthians in 8 Weeks",
-  "description": "An 8-week reading plan across both epistles, two chapters a week, with external NKJV links and a seed-submission form link per assignment. By design the site never displays scripture text — readings open on Bible Gateway.",
-  "formBaseUrl": "https://docs.google.com/forms/d/PLACEHOLDER_FORM_ID/viewform",
+  "title": "1 & 2 Corinthians in 15 Weeks",
+  "description": "A 15-week reading plan covering every chapter of both epistles, two chapters a week. Readings open on Bible Gateway (NKJV); each week links to the question-seed form.",
   "weeks": [
     {
       "week": 1,
       "book": "1 Corinthians",
       "bookSlug": "1cor",
       "chapters": [1, 2],
-      "reference": "1 Corinthians 1-2",
-      "summary": "Crosses, wisdom, and the mind of Christ.",
-      "readUrl": "https://www.biblegateway.com/passage/?search=1+Corinthians+1-2&version=NKJV",
-      "seedFormUrl": "https://docs.google.com/forms/d/PLACEHOLDER_FORM_ID/viewform?entry.1000001=1+Corinthians&entry.1000002=1-2&entry.1000003=question_seed&entry.1000004="
+      "summary": "Crosses, wisdom, and the mind of Christ."
     },
     {
       "week": 2,
       "book": "1 Corinthians",
       "bookSlug": "1cor",
       "chapters": [3, 4],
-      "reference": "1 Corinthians 3-4",
-      "summary": "God's building, stewards of the mysteries.",
-      "readUrl": "https://www.biblegateway.com/passage/?search=1+Corinthians+3-4&version=NKJV",
-      "seedFormUrl": "https://docs.google.com/forms/d/PLACEHOLDER_FORM_ID/viewform?entry.1000001=1+Corinthians&entry.1000002=3-4&entry.1000003=question_seed&entry.1000004="
+      "summary": "God's building, stewards of the mysteries."
     },
     {
       "week": 3,
       "book": "1 Corinthians",
       "bookSlug": "1cor",
       "chapters": [5, 6],
-      "reference": "1 Corinthians 5-6",
-      "summary": "Church discipline and lawsuits among believers.",
-      "readUrl": "https://www.biblegateway.com/passage/?search=1+Corinthians+5-6&version=NKJV",
-      "seedFormUrl": "https://docs.google.com/forms/d/PLACEHOLDER_FORM_ID/viewform?entry.1000001=1+Corinthians&entry.1000002=5-6&entry.1000003=question_seed&entry.1000004="
+      "summary": "Church discipline and lawsuits among believers."
     },
     {
       "week": 4,
       "book": "1 Corinthians",
       "bookSlug": "1cor",
       "chapters": [7, 8],
-      "reference": "1 Corinthians 7-8",
-      "summary": "Marriage, singleness, and food offered to idols.",
-      "readUrl": "https://www.biblegateway.com/passage/?search=1+Corinthians+7-8&version=NKJV",
-      "seedFormUrl": "https://docs.google.com/forms/d/PLACEHOLDER_FORM_ID/viewform?entry.1000001=1+Corinthians&entry.1000002=7-8&entry.1000003=question_seed&entry.1000004="
+      "summary": "Marriage, singleness, and food offered to idols."
     },
     {
       "week": 5,
       "book": "1 Corinthians",
       "bookSlug": "1cor",
-      "chapters": [13, 15],
-      "reference": "1 Corinthians 13-15",
-      "summary": "Love, the resurrection, and the body that is raised.",
-      "readUrl": "https://www.biblegateway.com/passage/?search=1+Corinthians+13-15&version=NKJV",
-      "seedFormUrl": "https://docs.google.com/forms/d/PLACEHOLDER_FORM_ID/viewform?entry.1000001=1+Corinthians&entry.1000002=13-15&entry.1000003=question_seed&entry.1000004="
+      "chapters": [9, 10],
+      "summary": "Ministry rights, Christian freedom, and Israel's warnings."
     },
     {
       "week": 6,
-      "book": "2 Corinthians",
-      "bookSlug": "2cor",
-      "chapters": [1, 2],
-      "reference": "2 Corinthians 1-2",
-      "summary": "Comfort in affliction; the God of all comfort.",
-      "readUrl": "https://www.biblegateway.com/passage/?search=2+Corinthians+1-2&version=NKJV",
-      "seedFormUrl": "https://docs.google.com/forms/d/PLACEHOLDER_FORM_ID/viewform?entry.1000001=2+Corinthians&entry.1000002=1-2&entry.1000003=question_seed&entry.1000004="
+      "book": "1 Corinthians",
+      "bookSlug": "1cor",
+      "chapters": [11, 12],
+      "summary": "Worship order, headship, and gifts for the body."
     },
     {
       "week": 7,
-      "book": "2 Corinthians",
-      "bookSlug": "2cor",
-      "chapters": [4, 5],
-      "reference": "2 Corinthians 4-5",
-      "summary": "Treasure in jars of clay; the heavenly dwelling.",
-      "readUrl": "https://www.biblegateway.com/passage/?search=2+Corinthians+4-5&version=NKJV",
-      "seedFormUrl": "https://docs.google.com/forms/d/PLACEHOLDER_FORM_ID/viewform?entry.1000001=2+Corinthians&entry.1000002=4-5&entry.1000003=question_seed&entry.1000004="
+      "book": "1 Corinthians",
+      "bookSlug": "1cor",
+      "chapters": [13, 14],
+      "summary": "Love's priority and the proper use of tongues and prophecy."
     },
     {
       "week": 8,
+      "book": "1 Corinthians",
+      "bookSlug": "1cor",
+      "chapters": [15, 16],
+      "summary": "Resurrection hope and final practical church instructions."
+    },
+    {
+      "week": 9,
       "book": "2 Corinthians",
       "bookSlug": "2cor",
-      "chapters": [8, 9],
-      "reference": "2 Corinthians 8-9",
-      "summary": "The collection for the saints and cheerful giving.",
-      "readUrl": "https://www.biblegateway.com/passage/?search=2+Corinthians+8-9&version=NKJV",
-      "seedFormUrl": "https://docs.google.com/forms/d/PLACEHOLDER_FORM_ID/viewform?entry.1000001=2+Corinthians&entry.1000002=8-9&entry.1000003=question_seed&entry.1000004="
+      "chapters": [1, 2],
+      "summary": "Comfort in affliction; the God of all comfort."
+    },
+    {
+      "week": 10,
+      "book": "2 Corinthians",
+      "bookSlug": "2cor",
+      "chapters": [3, 4],
+      "summary": "A new-covenant ministry that unveils the Lord's light."
+    },
+    {
+      "week": 11,
+      "book": "2 Corinthians",
+      "bookSlug": "2cor",
+      "chapters": [5, 6],
+      "summary": "Earthly tents, eternal home, and reconciliation in service."
+    },
+    {
+      "week": 12,
+      "book": "2 Corinthians",
+      "bookSlug": "2cor",
+      "chapters": [7, 8],
+      "summary": "Sorrow that leads to repentance and generous giving."
+    },
+    {
+      "week": 13,
+      "book": "2 Corinthians",
+      "bookSlug": "2cor",
+      "chapters": [9, 10],
+      "summary": "Cheerful generosity and apostolic authority over opposition."
+    },
+    {
+      "week": 14,
+      "book": "2 Corinthians",
+      "bookSlug": "2cor",
+      "chapters": [11, 12],
+      "summary": "False apostles exposed; strength in weakness and visions."
+    },
+    {
+      "week": 15,
+      "book": "2 Corinthians",
+      "bookSlug": "2cor",
+      "chapters": [13],
+      "summary": "Church discipline, examination, and final apostolic appeal."
     }
   ]
 }
