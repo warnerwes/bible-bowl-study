@@ -31,7 +31,7 @@ function migrateLegacyNote(routeInfo, verse, key) {
   const legacy = readStoredText(oldNoteKey(routeInfo, verse), "");
   const text = String(legacy || "").trim();
   if (!text) return [];
-  const migrated = [{ text, createdAt: new Date().toISOString() }];
+  const migrated = [{ text, createdAt: "1970-01-01T00:00:00.000Z" }];
   if (writeNoteArray(key, migrated)) {
     removeStoredValue(oldNoteKey(routeInfo, verse));
   }

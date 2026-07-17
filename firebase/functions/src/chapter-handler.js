@@ -9,6 +9,8 @@ function createChapterHandler({
   fetchImpl,
   getApiKey,
   rateLimiter,
+  verifyIdToken,
+  recordUsage = async () => {},
   logger = console,
   now = () => Date.now()
 }) {
@@ -20,6 +22,12 @@ function createChapterHandler({
   }
   if (!rateLimiter || typeof rateLimiter.check !== "function") {
     throw new Error("rateLimiter.check is required");
+  }
+  if (typeof verifyIdToken !== "function") {
+    throw new Error("verifyIdToken is required");
+  }
+  if (typeof recordUsage !== "function") {
+    throw new Error("recordUsage is required");
   }
 
   return async function chapterHandler(req, res) {
@@ -45,6 +53,22 @@ function createChapterHandler({
 
     if (!isAllowedBook(book) || !isAllowedChapter(book, chapter)) {
       return sendError(res, 400, "invalid_reference", logger, context, startedAt, now);
+    }
+
+    const idToken = parseBearerToken(req.headers.authorization);
+    if (!idToken) {
+      return sendError(res, 401, "SIGN_IN_REQUIRED", logger, context, startedAt, now);
+    }
+
+    let decodedToken;
+    try {
+      decodedToken = await verifyIdToken(idToken);
+    } catch {
+      return sendError(res, 401, "SIGN_IN_REQUIRED", logger, context, startedAt, now);
+    }
+
+    if (decodedToken?.firebase?.sign_in_provider !== "google.com") {
+      return sendError(res, 401, "SIGN_IN_REQUIRED", logger, context, startedAt, now);
     }
 
     const rateLimit = rateLimiter.check(getIpAddress(req));
@@ -95,6 +119,16 @@ function createChapterHandler({
         latencyMs: now() - startedAt
       });
 
+      try {
+        await recordUsage();
+      } catch (error) {
+        logger.error({
+          book,
+          chapter,
+          message: "usage_count_failed"
+        });
+      }
+
       res.status(200).json(projected);
     } catch (error) {
       if (isAbortError(error)) {
@@ -106,6 +140,14 @@ function createChapterHandler({
       clearTimeout(timeoutId);
     }
   };
+}
+
+function parseBearerToken(headerValue) {
+  if (typeof headerValue !== "string") {
+    return "";
+  }
+  const match = headerValue.match(/^Bearer ([^\s]+)$/);
+  return match ? match[1] : "";
 }
 
 function projectPayload(payload, book, chapter) {

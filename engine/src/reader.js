@@ -2,6 +2,8 @@
 
 import { loadConfig } from "./config.js";
 import { getProvider } from "./passage-links.js";
+import { createReaderAccess } from "./reader-access.js";
+import { loadOwnEntriesByVerse } from "./reader-data.js";
 import {
   buildReaderUrl,
   chapterReference,
@@ -9,8 +11,8 @@ import {
   parseReaderSearch,
   previousChapter,
 } from "./reader-route.js";
-import { loadOwnEntriesByVerse } from "./reader-data.js";
 import { mountSuggestPanel } from "./suggest-panel.js";
+import { mountUsageMeter } from "./usage-meter.js";
 import { mountVerseMenu } from "./verse-menu.js";
 
 const REQUEST_TIMEOUT_MS = 10000;
@@ -34,6 +36,17 @@ const route = typeof window === "object"
   : null;
 const fallbackProvider = getProvider("biblegateway");
 
+export function buildChapterRequestHeaders(idToken) {
+  if (!idToken) return {};
+  return { Authorization: `Bearer ${idToken}` };
+}
+
+export function messageForChapterStatus(status) {
+  if (status === 401) return "SIGN_IN_REQUIRED";
+  if (status === 429) return "Reader unavailable right now (HTTP 429).";
+  return `Reader unavailable (HTTP ${status}).`;
+}
+
 function textNode(value) {
   return document.createTextNode(value);
 }
@@ -48,10 +61,15 @@ function getRefs() {
     attributionLink: document.getElementById("reader-attribution-link"),
     content: document.getElementById("reader-content"),
     fallback: document.getElementById("reader-fallback"),
+    load: document.getElementById("reader-load"),
+    meter: document.getElementById("reader-usage-meter"),
     next: document.getElementById("reader-next"),
     prev: document.getElementById("reader-prev"),
     reference: document.getElementById("reader-reference"),
     retry: document.getElementById("reader-retry"),
+    sessionCopy: document.getElementById("reader-session-copy"),
+    signIn: document.getElementById("reader-sign-in"),
+    signOut: document.getElementById("reader-sign-out"),
     status: document.getElementById("reader-status"),
     suggestRoot: document.getElementById("suggest-panel-root"),
     verseMenuRoot: document.getElementById("verse-menu-root"),
@@ -125,9 +143,12 @@ let refs = getRefs();
 let activeController = null;
 let activeRequest = 0;
 let trackedKey = "";
+let readerConfig = null;
+let authState = { kind: "checking", name: "", user: null };
+let access = null;
+let usageMeter = { load: async () => null };
 let suggestPanel = { hide() {}, showForChapter() {} };
 let verseMenu = { bindRoute() {}, close() {}, setOwnedEntries() {} };
-let readerConfig = null;
 
 function setStatus(message) {
   if (refs.status) refs.status.textContent = message || "";
@@ -183,21 +204,73 @@ function clearDisplay() {
   verseMenu.close();
 }
 
-function showFailure(message, routeInfo) {
-  setReference(routeInfo);
-  clearDisplay();
-  updateFallback(routeInfo);
-  if (refs.retry) refs.retry.hidden = false;
-  if (refs.fallback) refs.fallback.hidden = false;
+function showSuggestPanel(routeInfo) {
+  if (routeInfo) {
+    suggestPanel.showForChapter(routeInfo);
+    return;
+  }
   suggestPanel.hide();
+}
+
+function setSessionUi() {
+  if (!refs.sessionCopy || !refs.signIn || !refs.signOut) return;
+  if (authState.kind === "google") {
+    refs.sessionCopy.textContent = `Signed in as ${authState.name} ·`;
+    refs.signIn.hidden = true;
+    refs.signOut.hidden = false;
+    return;
+  }
+
+  refs.sessionCopy.textContent = "";
+  refs.signIn.hidden = authState.kind === "checking";
+  refs.signOut.hidden = true;
+}
+
+function setActionUi(routeInfo, { loading = false, canRetry = false } = {}) {
+  if (refs.load) {
+    refs.load.hidden = authState.kind !== "google";
+    refs.load.disabled = loading;
+  }
+  if (refs.retry) {
+    refs.retry.hidden = authState.kind !== "google" || !canRetry;
+    refs.retry.disabled = loading;
+  }
+  if (refs.fallback) {
+    refs.fallback.hidden = !routeInfo;
+    refs.fallback.textContent = "Read on Bible Gateway — no sign-in or shared lookup ↗";
+  }
+}
+
+function showIdleState(routeInfo, message) {
+  clearDisplay();
+  setReference(routeInfo);
+  updateNavigation(routeInfo);
+  updateFallback(routeInfo);
+  showSuggestPanel(routeInfo);
+  setSessionUi();
+  setActionUi(routeInfo);
   setStatus(message);
 }
 
-function showLoading() {
+function showFailure(message, routeInfo) {
   clearDisplay();
-  if (refs.retry) refs.retry.hidden = true;
-  if (refs.fallback) refs.fallback.hidden = true;
-  suggestPanel.hide();
+  setReference(routeInfo);
+  updateNavigation(routeInfo);
+  updateFallback(routeInfo);
+  showSuggestPanel(routeInfo);
+  setSessionUi();
+  setActionUi(routeInfo, { canRetry: authState.kind === "google" });
+  setStatus(message);
+}
+
+function showLoading(routeInfo) {
+  clearDisplay();
+  setReference(routeInfo);
+  updateNavigation(routeInfo);
+  updateFallback(routeInfo);
+  showSuggestPanel(routeInfo);
+  setSessionUi();
+  setActionUi(routeInfo, { loading: true });
   setStatus("Loading chapter...");
 }
 
@@ -305,14 +378,27 @@ async function fetchChapter(routeInfo, requestId, controller) {
   const { signal } = controller;
   const timeout = window.setTimeout(() => controller.abort(), REQUEST_TIMEOUT_MS);
   try {
+    const idToken = await access.getIdToken();
+    if (!idToken) {
+      const error = new Error("SIGN_IN_REQUIRED");
+      error.code = "SIGN_IN_REQUIRED";
+      throw error;
+    }
+
     const url = `/api/chapter?book=${encodeURIComponent(routeInfo.bookApi)}&ch=${routeInfo.chapter}`;
-    const response = await fetch(url, { cache: "no-store", signal });
+    const response = await fetch(url, {
+      cache: "no-store",
+      headers: buildChapterRequestHeaders(idToken),
+      signal,
+    });
     if (!response.ok) {
-      throw new Error(
-        response.status === 429
-          ? "Reader unavailable right now (HTTP 429)."
-          : `Reader unavailable (HTTP ${response.status}).`
-      );
+      const message = messageForChapterStatus(response.status);
+      if (message === "SIGN_IN_REQUIRED") {
+        const error = new Error(message);
+        error.code = message;
+        throw error;
+      }
+      throw new Error(message);
     }
     const payload = await response.json();
     if (signal.aborted || requestId !== activeRequest) return;
@@ -320,9 +406,9 @@ async function fetchChapter(routeInfo, requestId, controller) {
     const chapterText = readChapterText(payload);
     renderChapterText(routeInfo, chapterText);
     renderAttribution(payload);
-    if (refs.retry) refs.retry.hidden = true;
-    if (refs.fallback) refs.fallback.hidden = true;
-    suggestPanel.showForChapter(routeInfo);
+    showSuggestPanel(routeInfo);
+    setSessionUi();
+    setActionUi(routeInfo);
     const menuRouteInfo = { ...routeInfo, bookSlug: routeInfo.bookApi === "1CO" ? "1cor" : "2cor" };
     verseMenu.bindRoute(menuRouteInfo);
     void loadOwnEntriesByVerse({ config: readerConfig, routeInfo: menuRouteInfo })
@@ -333,6 +419,7 @@ async function fetchChapter(routeInfo, requestId, controller) {
       .catch(() => {});
     setStatus(`Showing ${chapterReference(routeInfo.book, routeInfo.chapter)}.`);
     trackView(payload, routeInfo, requestId);
+    void usageMeter.load();
   } finally {
     window.clearTimeout(timeout);
   }
@@ -340,9 +427,11 @@ async function fetchChapter(routeInfo, requestId, controller) {
 
 async function loadChapter(routeInfo) {
   if (!routeInfo) {
-    updateFallback(null);
-    updateNavigation(null);
     showFailure("This reader link is invalid. Use the fallback link below.", null);
+    return;
+  }
+  if (authState.kind !== "google") {
+    showIdleState(routeInfo, "Sign in with Google to read here, or use Bible Gateway below.");
     return;
   }
 
@@ -350,16 +439,17 @@ async function loadChapter(routeInfo) {
   activeController = new AbortController();
   activeRequest += 1;
   const requestId = activeRequest;
-
-  setReference(routeInfo);
-  updateNavigation(routeInfo);
-  updateFallback(routeInfo);
-  showLoading();
+  showLoading(routeInfo);
 
   try {
     await fetchChapter(routeInfo, requestId, activeController);
   } catch (error) {
     if (activeController.signal.aborted || requestId !== activeRequest) return;
+    if ((error && error.code === "SIGN_IN_REQUIRED") || error?.message === "SIGN_IN_REQUIRED") {
+      authState = { kind: "signed_out", name: "", user: null };
+      showIdleState(routeInfo, "Sign in with Google to read here, or use Bible Gateway below.");
+      return;
+    }
     const message = error && error.name === "AbortError"
       ? "Loading was interrupted. Try again."
       : (error && error.message) || "Could not load this chapter.";
@@ -367,9 +457,34 @@ async function loadChapter(routeInfo) {
   }
 }
 
+function handleAuthChange(nextState) {
+  authState = nextState || { kind: "signed_out", name: "", user: null };
+  if (!route) {
+    showFailure("This reader link is invalid. Use the fallback link below.", null);
+    return;
+  }
+  if (authState.kind === "google" && refs.content && refs.content.textContent) {
+    setSessionUi();
+    setActionUi(route);
+    setStatus(`Showing ${chapterReference(route.book, route.chapter)}.`);
+    return;
+  }
+  if (authState.kind === "google") {
+    showIdleState(route, "Choose how to read this chapter.");
+    return;
+  }
+  showIdleState(route, authState.kind === "checking"
+    ? "Checking sign-in…"
+    : "Sign in with Google to read here, or use Bible Gateway below.");
+}
+
 async function initReader() {
   if (typeof document !== "object") return;
   refs = getRefs();
+  setReference(route);
+  updateNavigation(route);
+  updateFallback(route);
+  setStatus("Checking sign-in…");
   const config = await loadConfig("data/site-config.json");
   readerConfig = config;
   suggestPanel = mountSuggestPanel({
@@ -381,15 +496,46 @@ async function initReader() {
     content: refs.content,
     config,
   });
+  usageMeter = mountUsageMeter({
+    root: refs.meter,
+    config,
+  });
+  access = createReaderAccess({
+    config,
+    onChange: handleAuthChange,
+  });
+
+  if (refs.load) {
+    refs.load.addEventListener("click", () => {
+      void loadChapter(route);
+    });
+  }
   if (refs.retry) {
     refs.retry.addEventListener("click", () => {
       void loadChapter(route);
     });
   }
-  void loadChapter(route);
+  if (refs.signIn) {
+    refs.signIn.addEventListener("click", async () => {
+      setStatus("Opening Google sign-in…");
+      try {
+        await access.signIn();
+      } catch (error) {
+        showIdleState(route, (error && error.message) || "Google sign-in did not complete. You can keep reading on Bible Gateway.");
+      }
+    });
+  }
+  if (refs.signOut) {
+    refs.signOut.addEventListener("click", () => {
+      void access.signOut();
+    });
+  }
+
+  showSuggestPanel(route);
+  void usageMeter.load();
+  await access.init();
 }
 
 if (typeof window === "object" && typeof document === "object") {
-  setReference(route);
   void initReader();
 }

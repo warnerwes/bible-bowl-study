@@ -28,7 +28,13 @@
       <div class="card reader-shell">
         <div class="reader-head">
           <p class="tag tag-ref" id="reader-reference">Reader</p>
-          <p class="muted reader-status" id="reader-status" aria-live="polite">Loading chapter...</p>
+          <p id="reader-usage-meter" class="muted reader-usage-meter" aria-live="polite" hidden></p>
+          <div class="reader-session">
+            <p id="reader-session-copy" class="muted reader-session-copy" aria-live="polite"></p>
+            <button id="reader-sign-in" type="button" class="primary-btn">Sign in with Google to read here</button>
+            <button id="reader-sign-out" type="button" class="link-btn" hidden>Sign out</button>
+          </div>
+          <p class="muted reader-status" id="reader-status" aria-live="polite">Checking sign-in…</p>
         </div>
         <nav class="reader-nav" aria-label="Chapter navigation">
           <a id="reader-prev" class="link-btn" href="#" hidden>← Previous chapter</a>
@@ -46,8 +52,9 @@
         </div>
         <div id="suggest-panel-root" hidden></div>
         <div class="reader-actions">
-          <button id="reader-retry" type="button" class="primary-btn" hidden>Retry</button>
-          <a id="reader-fallback" class="link-btn" href="#" target="_blank" rel="noopener" hidden>Open on Bible Gateway ↗</a>
+          <button id="reader-load" type="button" class="primary-btn" hidden>Read here — uses 1 shared lookup</button>
+          <button id="reader-retry" type="button" class="primary-btn" hidden>Try again — may use another lookup.</button>
+          <a id="reader-fallback" class="link-btn" href="#" target="_blank" rel="noopener" hidden>Read on Bible Gateway — no sign-in or shared lookup ↗</a>
         </div>
       </div>
     </section>

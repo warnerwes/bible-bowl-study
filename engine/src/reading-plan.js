@@ -48,6 +48,29 @@ export function buildReadLink(week, config) {
   };
 }
 
+export function buildReadLinks(week, config) {
+  if (String((config && config.passageProvider) || "").toLowerCase() !== "reader") {
+    return [buildReadLink(week, config)];
+  }
+
+  const chapters = Array.isArray(week.chapters) ? week.chapters : [];
+  if (chapters.length <= 1) {
+    return [buildReadLink(week, config)];
+  }
+
+  return chapters.map((chapter) => {
+    const ref = `${week.book} ${chapter}`;
+    return {
+      href: passageUrl(ref, {
+        provider: config.passageProvider,
+        bibleVersion: config.bibleVersion,
+      }),
+      label: passageLabel(ref, { provider: config.passageProvider }),
+      external: false,
+    };
+  });
+}
+
 export function buildGatewayLink(week, config) {
   const ref = weekReference(week);
   return {
@@ -81,8 +104,9 @@ export function renderPlan(plan, config) {
     if (week.summary) card.appendChild(el("p", "muted", week.summary));
 
     const links = el("div", "plan-week-links");
-    const readLink = buildReadLink(week, config);
-    links.appendChild(link(readLink.href, "primary-btn", readLink.label, readLink.external));
+    buildReadLinks(week, config).forEach((readLink) => {
+      links.appendChild(link(readLink.href, "primary-btn", readLink.label, readLink.external));
+    });
     const gatewayLink = buildGatewayLink(week, config);
     links.appendChild(link(gatewayLink.href, "link-btn", gatewayLink.label, gatewayLink.external));
     card.appendChild(links);

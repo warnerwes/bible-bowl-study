@@ -6,6 +6,10 @@ service cloud.firestore {
       return request.auth != null;
     }
 
+    function isUsageMonthId(id) {
+      return id.matches('^\\d{4}-\\d{2}$');
+    }
+
     function isValidSuggestionCreate() {
       let keys = [
         'uid',
@@ -65,6 +69,11 @@ service cloud.firestore {
       match /reviewEvents/{eventId} {
         allow read, write: if false;
       }
+    }
+
+    match /usage/{month} {
+      allow get: if isUsageMonthId(month);
+      allow list, create, update, delete: if false;
     }
   }
 }

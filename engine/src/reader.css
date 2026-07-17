@@ -10,7 +10,19 @@
   gap: 0.45rem;
 }
 
+.reader-usage-meter,
 .reader-status { margin: 0; }
+
+.reader-session {
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.reader-session-copy {
+  margin: 0;
+}
 
 .reader-nav {
   display: flex;
@@ -95,6 +107,13 @@
   gap: 0.75rem;
   align-items: center;
   flex-wrap: wrap;
+}
+
+.reader-actions .primary-btn[hidden],
+.reader-actions .link-btn[hidden],
+.reader-session .primary-btn[hidden],
+.reader-session .link-btn[hidden] {
+  display: none;
 }
 
 .reader-suggest {
@@ -263,6 +282,7 @@
 
 @media (max-width: 640px) {
   .reader-nav,
+  .reader-session,
   .reader-actions,
   .suggest-actions {
     flex-direction: column;
@@ -270,6 +290,8 @@
   }
 
   .reader-nav .link-btn,
+  .reader-session .link-btn,
+  .reader-session .primary-btn,
   .reader-actions .link-btn,
   .reader-actions .primary-btn,
   .suggest-actions .primary-btn {

@@ -36,6 +36,7 @@
           <div class="home-cta-block">
             <a href="reader.html?ref=1%20Corinthians%201" class="primary-btn big-btn">Read the Bible</a>
             <p class="under-btn muted">In-app reading uses a shared monthly allotment of Bible lookups. If we hit the limit, the reader rests until next month — Bible Gateway links always work.</p>
+            <p id="home-usage-meter" class="under-btn muted" hidden></p>
           </div>
         </div>
 
@@ -161,6 +162,16 @@
     const state = createState();
     const quiz = createQuiz({ state, storage, config: cfg, weightedOrder });
     await quiz.load();
+  </script>
+  <script type="module">
+    import { loadConfig } from "./config.js";
+    import { mountLazyUsageMeter } from "./usage-meter.js";
+
+    const root = document.getElementById("home-usage-meter");
+    if (root) {
+      const cfg = await loadConfig("data/site-config.json");
+      mountLazyUsageMeter({ root, config: cfg });
+    }
   </script>
 </body>
 </html>

@@ -25,12 +25,17 @@ test("accepts every allowed chapter", async () => {
       }
     });
   };
+  const verifyCalls = [];
 
   for (const chapterId of getAllowedChapterIds()) {
     const [book, chapter] = chapterId.split(".");
     const { res } = await invokeHandler({
       req: createRequest(`/api/chapter?book=${book}&ch=${chapter}`),
-      fetchImpl
+      fetchImpl,
+      verifyIdToken: async (token) => {
+        verifyCalls.push(token);
+        return { firebase: { sign_in_provider: "google.com" } };
+      }
     });
 
     assert.equal(res.statusCode, 200, chapterId);
@@ -39,6 +44,7 @@ test("accepts every allowed chapter", async () => {
   }
 
   assert.equal(accepted.length, 29);
+  assert.equal(verifyCalls.length, 29);
 });
 
 test("rejects invalid boundaries and malformed requests", async () => {
@@ -289,6 +295,127 @@ test("integrates the rate limiter and returns retry-after on burst exhaustion", 
   assert.equal(third.res.headers["Cache-Control"], CACHE_CONTROL);
 });
 
+test("returns 401 when the authorization header is missing or malformed", async () => {
+  const requests = [
+    createRequest("/api/chapter?book=1CO&ch=1"),
+    createRequest("/api/chapter?book=1CO&ch=1", {
+      headers: { authorization: "token nope" }
+    }),
+    createRequest("/api/chapter?book=1CO&ch=1", {
+      headers: { authorization: "Bearer bad token" }
+    }),
+  ];
+
+  for (const req of requests) {
+    const { res } = await invokeHandler({ req, autoAuth: false });
+    assert.equal(res.statusCode, 401);
+    assert.equal(res.body.error, "SIGN_IN_REQUIRED");
+    assert.equal(res.headers["Cache-Control"], CACHE_CONTROL);
+  }
+});
+
+test("returns 401 when token verification fails or provider is not google", async () => {
+  const invalidToken = await invokeHandler({
+    req: createRequest("/api/chapter?book=1CO&ch=1", {
+      headers: { authorization: "Bearer invalid-token" }
+    }),
+    autoAuth: false,
+    verifyIdToken: async () => {
+      throw new Error("invalid");
+    }
+  });
+  assert.equal(invalidToken.res.statusCode, 401);
+  assert.equal(invalidToken.res.body.error, "SIGN_IN_REQUIRED");
+
+  const anonymous = await invokeHandler({
+    req: createRequest("/api/chapter?book=1CO&ch=1", {
+      headers: { authorization: "Bearer anon-token" }
+    }),
+    autoAuth: false,
+    verifyIdToken: async () => ({ firebase: { sign_in_provider: "anonymous" } })
+  });
+  assert.equal(anonymous.res.statusCode, 401);
+  assert.equal(anonymous.res.body.error, "SIGN_IN_REQUIRED");
+});
+
+test("accepts verified google tokens", async () => {
+  const verifyCalls = [];
+  const { res } = await invokeHandler({
+    req: createRequest("/api/chapter?book=2CO&ch=6", {
+      headers: { authorization: "Bearer real-token" }
+    }),
+    verifyIdToken: async (token) => {
+      verifyCalls.push(token);
+      return { firebase: { sign_in_provider: "google.com" } };
+    }
+  });
+
+  assert.equal(res.statusCode, 200);
+  assert.deepEqual(verifyCalls, ["real-token"]);
+});
+
+test("awaits usage counting only on upstream 200 responses", async () => {
+  const usageCalls = [];
+  const recordUsage = async () => {
+    usageCalls.push("counted");
+  };
+  const request = createRequest("/api/chapter?book=1CO&ch=1", {
+    headers: { authorization: "Bearer good-token" }
+  });
+
+  const success = await invokeHandler({ req: request, recordUsage });
+  assert.equal(success.res.statusCode, 200);
+  assert.equal(usageCalls.length, 1);
+
+  const scenarios = [
+    invokeHandler({
+      req: request,
+      recordUsage,
+      fetchImpl: async () => ({ ok: false, status: 400, json: async () => ({}) })
+    }),
+    invokeHandler({
+      req: request,
+      recordUsage,
+      fetchImpl: async () => ({ ok: false, status: 429, json: async () => ({}) })
+    }),
+    invokeHandler({
+      req: request,
+      recordUsage,
+      fetchImpl: async () => ({ ok: false, status: 500, json: async () => ({}) })
+    }),
+  ];
+  await Promise.all(scenarios);
+  assert.equal(usageCalls.length, 1);
+});
+
+test("still serves chapter 200 when usage counting fails", async () => {
+  const loggerCalls = [];
+  let usageAwaited = false;
+
+  const { res } = await invokeHandler({
+    req: createRequest("/api/chapter?book=1CO&ch=2", {
+      headers: { authorization: "Bearer good-token" }
+    }),
+    recordUsage: async () => {
+      await Promise.resolve();
+      usageAwaited = true;
+      throw new Error("write failed");
+    },
+    logger: {
+      info(payload) {
+        loggerCalls.push(payload);
+      },
+      error(payload) {
+        loggerCalls.push(payload);
+      }
+    }
+  });
+
+  assert.equal(res.statusCode, 200);
+  assert.equal(usageAwaited, true);
+  assert.equal(loggerCalls.at(-1).message, "usage_count_failed");
+});
+
 function okJsonResponse(payload) {
   return {
     ok: true,
@@ -312,6 +439,9 @@ async function invokeHandler({
       }
     }),
   logger = { info() {} },
+  verifyIdToken = async () => ({ firebase: { sign_in_provider: "google.com" } }),
+  recordUsage = async () => {},
+  autoAuth = true,
   rateLimiter = createRateLimiter({
     now: () => 0,
     globalCapacity: 100,
@@ -319,15 +449,24 @@ async function invokeHandler({
   })
 } = {}) {
   const res = createResponse();
+  const normalizedReq = req || createRequest("/api/chapter?book=1CO&ch=1");
+  normalizedReq.headers = autoAuth
+    ? {
+        authorization: "Bearer test-google-token",
+        ...(normalizedReq.headers || {})
+      }
+    : { ...(normalizedReq.headers || {}) };
   const handler = createChapterHandler({
     fetchImpl,
     getApiKey: () => FAKE_SECRET,
     rateLimiter,
+    verifyIdToken,
+    recordUsage,
     logger,
     now: () => 0
   });
 
-  await handler(req, res);
+  await handler(normalizedReq, res);
   return {
     res,
     serialized: JSON.stringify({

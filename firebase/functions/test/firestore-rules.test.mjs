@@ -278,6 +278,24 @@ test("clients cannot read reviewEvents subcollections", async () => {
   await assertFails(getDoc(eventDoc));
 });
 
+test("unauthenticated clients can read a monthly usage doc", async () => {
+  await seedUsage("2026-07", { count: 17 });
+  const usageDoc = doc(testEnv.unauthenticatedContext().firestore(), "usage/2026-07");
+
+  await assertSucceeds(getDoc(usageDoc));
+});
+
+test("clients cannot list or write monthly usage docs", async () => {
+  await seedUsage("2026-07", { count: 17 });
+
+  const unauthDb = testEnv.unauthenticatedContext().firestore();
+  await assertFails(getDocs(collection(unauthDb, "usage")));
+  await assertFails(setDoc(doc(unauthDb, "usage/2026-07"), { count: 18 }));
+
+  const authDb = studentDb("student-1");
+  await assertFails(updateDoc(doc(authDb, "usage/2026-07"), { count: 18 }));
+});
+
 function studentDb(uid) {
   return testEnv.authenticatedContext(uid).firestore();
 }
@@ -334,6 +352,12 @@ async function seedReviewEvent(suggestionId, eventId) {
         at: fixedTimestamp("2026-01-01T00:00:00Z"),
       }
     );
+  });
+}
+
+async function seedUsage(month, payload) {
+  await testEnv.withSecurityRulesDisabled(async (context) => {
+    await setDoc(doc(context.firestore(), `usage/${month}`), payload);
   });
 }
 

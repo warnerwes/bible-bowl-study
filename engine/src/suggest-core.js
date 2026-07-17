@@ -1,26 +1,9 @@
 "use strict";
 
+import { ensureFirebase, setFirebaseLoader } from "./firebase-client.js";
+
 export const AUTHOR_NAME_KEY = "bbs:authorName";
 export const SUBMIT_TIMEOUT_MS = 6000;
-
-const FIREBASE_VERSION = "12.9.0";
-const FIREBASE_URLS = [
-  `https://www.gstatic.com/firebasejs/${FIREBASE_VERSION}/firebase-app.js`,
-  `https://www.gstatic.com/firebasejs/${FIREBASE_VERSION}/firebase-auth.js`,
-  `https://www.gstatic.com/firebasejs/${FIREBASE_VERSION}/firebase-firestore.js`,
-];
-
-let firebaseLoader = () => Promise.all(FIREBASE_URLS.map((url) => import(url)));
-let firebaseState = null;
-let firebaseConfigKey = "";
-
-export function setFirebaseLoader(loader) {
-  firebaseLoader = typeof loader === "function"
-    ? loader
-    : () => Promise.all(FIREBASE_URLS.map((url) => import(url)));
-  firebaseState = null;
-  firebaseConfigKey = "";
-}
 
 export function readStoredText(key, fallback = "") {
   try {
@@ -71,49 +54,12 @@ function timeout(ms) {
   });
 }
 
-function resolveFirebaseApp(appMod, firebaseConfig) {
-  if (typeof appMod.getApps === "function" && typeof appMod.getApp === "function") {
-    const existing = appMod.getApps().find((app) =>
-      JSON.stringify(app.options || {}) === JSON.stringify(firebaseConfig || {})
-    );
-    return existing || appMod.initializeApp(firebaseConfig);
-  }
-  return appMod.initializeApp(firebaseConfig);
-}
-
-async function ensureFirebase(firebaseConfig) {
-  if (!firebaseConfig) {
-    throw new Error("Suggestions are unavailable right now.");
-  }
-  const nextKey = JSON.stringify(firebaseConfig);
-  if (firebaseState && firebaseConfigKey === nextKey) {
-    return firebaseState;
-  }
-
-  const [appMod, authMod, storeMod] = await firebaseLoader();
-  const app = resolveFirebaseApp(appMod, firebaseConfig);
-  const auth = authMod.getAuth(app);
-  const db = storeMod.getFirestore(app);
-  firebaseState = {
-    addDoc: storeMod.addDoc,
-    auth,
-    collection: storeMod.collection,
-    db,
-    doc: storeMod.doc,
-    getDocs: storeMod.getDocs,
-    orderBy: storeMod.orderBy,
-    query: storeMod.query,
-    serverTimestamp: storeMod.serverTimestamp,
-    signInAnonymously: authMod.signInAnonymously,
-    where: storeMod.where,
-  };
-  firebaseConfigKey = nextKey;
-  return firebaseState;
-}
-
 async function ensureSignedIn(firebase) {
   if (firebase.auth.currentUser) {
     return firebase.auth.currentUser;
+  }
+  if (firebase.setPersistence && firebase.browserLocalPersistence) {
+    await firebase.setPersistence(firebase.auth, firebase.browserLocalPersistence);
   }
   const cred = await firebase.signInAnonymously(firebase.auth);
   return (cred && cred.user) || firebase.auth.currentUser || null;
@@ -219,3 +165,5 @@ export async function loadOwnChapterSuggestions({ config, book, chapter, timeout
 export function normalizeOptionalHttpUrl(value) {
   return canonicalizeHttpUrl(value);
 }
+
+export { setFirebaseLoader };
