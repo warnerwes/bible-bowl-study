@@ -95,6 +95,7 @@ test("export projection is deterministic and removes the explicit placeholder it
         chapter: 13,
         reference: "1 Corinthians 13:4-7",
         text: "Synthetic hook",
+        url: "https://example.com/hook",
       },
     },
   ];
@@ -119,6 +120,7 @@ test("export projection is deterministic and removes the explicit placeholder it
     id: "mh-1cor13-fff111222333",
     reference: "1 Corinthians 13:4-7",
     text: "Synthetic hook",
+    url: "https://example.com/hook",
   });
   assert.deepEqual(first.exportableIds, ["s-1", "s-2"]);
 });

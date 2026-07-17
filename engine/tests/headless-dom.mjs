@@ -79,12 +79,18 @@ export class StubNode {
 
   getAttribute(name) {
     if (name === "id") return this.id || null;
-    if (name.startsWith("data-")) return this.dataset[name.slice(5)] || null;
-    return this.attributes[name] || null;
+    if (name.startsWith("data-")) {
+      const key = name.slice(5);
+      return Object.prototype.hasOwnProperty.call(this.dataset, key) ? this.dataset[key] : null;
+    }
+    return Object.prototype.hasOwnProperty.call(this.attributes, name) ? this.attributes[name] : null;
   }
 
   removeAttribute(name) {
     delete this.attributes[name];
+    if (name.startsWith("data-")) {
+      delete this.dataset[name.slice(5)];
+    }
   }
 
   closest(selector) {
@@ -112,6 +118,10 @@ export class StubNode {
   set textContent(value) {
     this._text = String(value);
     this.children = [];
+  }
+
+  get childNodes() {
+    return this.children;
   }
 }
 

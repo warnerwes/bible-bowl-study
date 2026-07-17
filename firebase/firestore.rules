@@ -21,6 +21,11 @@ service cloud.firestore {
         'createdAt'
       ];
       let hasUrl = request.resource.data.keys().hasAny(['url']);
+      let isValidHttpUrl = hasUrl
+        && request.resource.data.url is string
+        && request.resource.data.url.size() >= 1
+        && request.resource.data.url.size() <= 500
+        && request.resource.data.url.matches('^https?://.*');
 
       return request.resource.data.keys().hasAll(keys.removeAll(['url']))
         && request.resource.data.keys().hasOnly(hasUrl ? keys : keys.removeAll(['url']))
@@ -43,12 +48,10 @@ service cloud.firestore {
         && request.resource.data.answerText.size() <= 500
         && (
           request.resource.data.kind == 'link'
-            ? hasUrl
-              && request.resource.data.url is string
-              && request.resource.data.url.size() >= 1
-              && request.resource.data.url.size() <= 500
-              && request.resource.data.url.matches('^https?://.*')
-            : !hasUrl
+            ? isValidHttpUrl
+            : request.resource.data.kind == 'memory_hook'
+              ? (!hasUrl || isValidHttpUrl)
+              : !hasUrl
         )
         && request.resource.data.status == 'new'
         && request.resource.data.createdAt == request.time;
@@ -57,6 +60,7 @@ service cloud.firestore {
     match /suggestions/{id} {
       allow create: if isSignedIn() && isValidSuggestionCreate();
       allow get: if isSignedIn() && resource.data.uid == request.auth.uid;
+      allow list: if isSignedIn() && resource.data.uid == request.auth.uid;
 
       match /reviewEvents/{eventId} {
         allow read, write: if false;

@@ -2,16 +2,15 @@
 
 import {
   createSuggestionSubmitter,
+  normalizeOptionalHttpUrl,
   persistAuthorName,
   readAuthorName,
-  readStoredJson,
-  readStoredText,
-  removeStoredValue,
-  writeStoredJson,
-  writeStoredText,
+  setFirebaseLoader,
 } from "./suggest-core.js";
+import { applyVerseAdornments } from "./verse-adornments.js";
+import { appendVerseNote, readVerseNotesMap } from "./verse-notes.js";
 
-const MEMORIZE_KEY = "bbs:memorize";
+const MEMORY_KINDS = new Set(["memory_hook", "surprising_fact", "link"]);
 
 function el(tag, cls, text) {
   const node = document.createElement(tag);
@@ -20,26 +19,68 @@ function el(tag, cls, text) {
   return node;
 }
 
-function noteKey(routeInfo, verse) {
-  return `bbs:note:${routeInfo.bookSlug}:${routeInfo.chapter}:${verse}`;
+function compareEntries(left, right) {
+  return String(right.createdAt || "").localeCompare(String(left.createdAt || "")) ||
+    String(right.id || "").localeCompare(String(left.id || ""));
 }
 
-function isValidLink(value) {
-  return /^https?:\/\/.+/i.test(String(value || "")) && String(value || "").length <= 500;
+function entryIcon(entry) {
+  if (entry.kind === "question_seed") return "?";
+  return "↗";
 }
 
-function loadMemorizeList() {
-  const list = readStoredJson(MEMORIZE_KEY, []);
-  return Array.isArray(list) ? list.filter((entry) => entry && typeof entry.ref === "string") : [];
+function isAccepted(entry) {
+  return entry && (entry.status === "approved" || entry.status === "exported");
 }
 
-function saveMemorizeList(list) {
-  writeStoredJson(MEMORIZE_KEY, list);
+function firstLine(text) {
+  return String(text || "").trim().split(/\r?\n/, 1)[0] || "";
 }
+
+function normalizeEntriesMap(entriesByVerse) {
+  const next = {};
+  for (const [verse, entries] of Object.entries(entriesByVerse || {})) {
+    next[String(verse)] = [...entries].sort(compareEntries);
+  }
+  return next;
+}
+
+function createButton(label, cls = "link-btn") {
+  const button = el("button", cls, label);
+  button.type = "button";
+  return button;
+}
+
+function createTextInput(id, multiline = false) {
+  const input = multiline ? document.createElement("textarea") : el("input", "text-input");
+  input.className = "text-input";
+  input.id = id;
+  if (!multiline) input.type = "text";
+  return input;
+}
+
+function field(labelText, input) {
+  const label = el("label", "suggest-field");
+  label.appendChild(el("span", "field-label", labelText));
+  label.appendChild(input);
+  return label;
+}
+
+function historyEntryText(entry) {
+  return firstLine(entry.text || entry.url || "");
+}
+
+function entryMatchesPanel(entry, panelKind) {
+  if (panelKind === "question_seed") return entry.kind === "question_seed";
+  if (panelKind === "memory_hook") return MEMORY_KINDS.has(entry.kind);
+  return false;
+}
+
+export { setFirebaseLoader };
 
 export function mountVerseMenu({ root, content, config }) {
-  if (!root || !content || !config || !config.firebase) {
-    return { close() {}, bindRoute() {} };
+  if (!root || !content) {
+    return { close() {}, bindRoute() {}, setOwnedEntries() {} };
   }
 
   let routeInfo = null;
@@ -47,6 +88,9 @@ export function mountVerseMenu({ root, content, config }) {
   let currentMarker = null;
   let lastFocused = null;
   let activeTrap = null;
+  let panelKind = null;
+  let ownEntriesByVerse = {};
+  let notesByVerse = {};
   const submitSuggestion = createSuggestionSubmitter({ config });
 
   const overlay = el("div", "verse-menu-overlay");
@@ -60,96 +104,18 @@ export function mountVerseMenu({ root, content, config }) {
   const head = el("div", "verse-menu-head");
   const title = el("h2", "verse-menu-title");
   title.id = "verse-menu-title";
-  const copyRef = el("button", "link-btn", "Copy reference");
-  copyRef.type = "button";
-  const closeBtn = el("button", "link-btn", "Close");
-  closeBtn.type = "button";
+  const closeBtn = createButton("Close");
   head.appendChild(title);
-  head.appendChild(copyRef);
   head.appendChild(closeBtn);
 
-  const form = el("form", "verse-menu-form");
-  const nameField = el("label", "suggest-field");
-  nameField.appendChild(el("span", "field-label", "First name"));
-  const nameInput = el("input", "text-input");
-  nameInput.id = "verse-menu-name";
-  nameInput.type = "text";
-  nameInput.maxLength = 40;
-  nameInput.required = true;
-  nameInput.value = readAuthorName();
-  nameField.appendChild(nameInput);
-
-  const questionField = el("label", "suggest-field");
-  questionField.appendChild(el("span", "field-label", "Quiz question idea"));
-  const questionInput = document.createElement("textarea");
-  questionInput.className = "text-input";
-  questionInput.id = "verse-menu-question";
-  questionInput.maxLength = 1000;
-  questionField.appendChild(questionInput);
-
-  const answerField = el("label", "suggest-field");
-  answerField.appendChild(el("span", "field-label", "Suggested answer (optional)"));
-  const answerInput = el("input", "text-input");
-  answerInput.id = "verse-menu-answer";
-  answerInput.type = "text";
-  answerInput.maxLength = 500;
-  answerField.appendChild(answerInput);
-
-  const factField = el("label", "suggest-field");
-  factField.appendChild(el("span", "field-label", "Surprising fact"));
-  const factInput = document.createElement("textarea");
-  factInput.className = "text-input";
-  factInput.id = "verse-menu-fact";
-  factInput.maxLength = 1000;
-  factField.appendChild(factInput);
-
-  const linkField = el("label", "suggest-field");
-  linkField.appendChild(el("span", "field-label", "Link to something interesting (we'll mine it later)"));
-  const linkInput = el("input", "text-input");
-  linkInput.id = "verse-menu-link";
-  linkInput.type = "url";
-  linkInput.maxLength = 500;
-  linkInput.inputMode = "url";
-  linkField.appendChild(linkInput);
-
-  const noteField = el("label", "suggest-field");
-  noteField.appendChild(el("span", "field-label", "Private note (stays on this device)"));
-  const noteInput = document.createElement("textarea");
-  noteInput.className = "text-input";
-  noteInput.id = "verse-menu-note";
-  noteInput.maxLength = 2000;
-  noteField.appendChild(noteInput);
-
-  const memorizeField = el("label", "verse-menu-memorize");
-  const memorizeToggle = document.createElement("input");
-  memorizeToggle.id = "verse-menu-memorize";
-  memorizeToggle.type = "checkbox";
-  memorizeField.appendChild(memorizeToggle);
-  memorizeField.appendChild(el("span", "", "⭐ Mark for memorization"));
-
+  const body = el("div", "verse-menu-body");
   const status = el("p", "muted suggest-status");
   status.id = "verse-menu-status";
   status.setAttribute("aria-live", "polite");
-
-  const actions = el("div", "suggest-actions");
-  const submit = el("button", "primary-btn", "Submit filled suggestions");
-  submit.type = "submit";
-  actions.appendChild(submit);
-
-  [
-    nameField,
-    questionField,
-    answerField,
-    factField,
-    linkField,
-    noteField,
-    memorizeField,
-    status,
-    actions,
-  ].forEach((node) => form.appendChild(node));
+  body.appendChild(status);
 
   dialog.appendChild(head);
-  dialog.appendChild(form);
+  dialog.appendChild(body);
   root.textContent = "";
   root.appendChild(overlay);
   root.appendChild(dialog);
@@ -159,52 +125,68 @@ export function mountVerseMenu({ root, content, config }) {
     status.className = isError ? "suggest-status error" : "muted suggest-status";
   }
 
+  function refreshNotes() {
+    const verses = Object.keys(ownEntriesByVerse)
+      .concat(collectVisibleVerses())
+      .map((value) => Number(value))
+      .filter((value) => Number.isInteger(value) && value > 0);
+    notesByVerse = routeInfo ? readVerseNotesMap(routeInfo, verses) : {};
+  }
+
+  function refreshAdornments() {
+    if (!routeInfo) return;
+    refreshNotes();
+    applyVerseAdornments({
+      content,
+      notesByVerse,
+      entriesByVerse: ownEntriesByVerse,
+    });
+  }
+
+  function collectVisibleVerses() {
+    const verses = [];
+    const nodes = content.childNodes && typeof content.childNodes.length === "number"
+      ? Array.from(content.childNodes)
+      : (content.children && typeof content.children.length === "number" ? Array.from(content.children) : []);
+    for (const node of nodes) {
+      if (!node || typeof node.getAttribute !== "function") continue;
+      if (!String(node.className || "").split(/\s+/).includes("verse-marker")) continue;
+      const verse = Number(node.getAttribute("data-verse"));
+      if (Number.isInteger(verse) && verse > 0) verses.push(verse);
+    }
+    return verses;
+  }
+
+  function currentEntries() {
+    return [...(ownEntriesByVerse[String(currentVerse)] || [])].sort(compareEntries);
+  }
+
+  function currentNotes() {
+    return [...(notesByVerse[String(currentVerse)] || [])];
+  }
+
   function verseReference(verse) {
     return `${routeInfo.book} ${routeInfo.chapter}:${verse}`;
   }
 
-  function loadNote(verse) {
-    return readStoredText(noteKey(routeInfo, verse), "");
-  }
-
-  function saveNote(verse, value) {
-    const trimmed = String(value || "");
-    if (!trimmed) {
-      removeStoredValue(noteKey(routeInfo, verse));
-      return;
-    }
-    writeStoredText(noteKey(routeInfo, verse), trimmed);
-  }
-
-  function hasMemorized(ref) {
-    return loadMemorizeList().some((entry) => entry.ref === ref);
-  }
-
-  function setMemorized(ref, selected) {
-    const list = loadMemorizeList().filter((entry) => entry.ref !== ref);
-    if (selected) {
-      list.push({ ref, addedAt: new Date().toISOString() });
-    }
-    saveMemorizeList(list);
-  }
-
   function focusables() {
-    return [
-      copyRef,
-      closeBtn,
-      nameInput,
-      questionInput,
-      answerInput,
-      factInput,
-      linkInput,
-      noteInput,
-      memorizeToggle,
-      submit,
-    ].filter((node) => node && !node.disabled && !node.hidden);
+    const nodes = [];
+    const stack = [dialog];
+    while (stack.length) {
+      const node = stack.shift();
+      if (!node || !node.children) continue;
+      for (const child of node.children) {
+        stack.push(child);
+        if (child.tagName === "BUTTON" || child.tagName === "INPUT" || child.tagName === "TEXTAREA") {
+          if (!child.hidden && !child.disabled) nodes.push(child);
+        }
+      }
+    }
+    return nodes;
   }
 
   function trapFocus(event) {
-    if (event.key !== "Tab" || !dialog || dialog.hidden) return;
+    if (event.key !== "Tab" || dialog.hidden) return;
     const nodes = focusables();
     if (!nodes.length) return;
     const first = nodes[0];
@@ -221,6 +203,11 @@ export function mountVerseMenu({ root, content, config }) {
   function onKeydown(event) {
     if (event.key === "Escape") {
       event.preventDefault();
+      if (panelKind) {
+        panelKind = null;
+        render();
+        return;
+      }
       api.close();
       return;
     }
@@ -244,94 +231,245 @@ export function mountVerseMenu({ root, content, config }) {
     dialog.style.right = "auto";
   }
 
-  async function copyReference() {
-    try {
-      await navigator.clipboard.writeText(verseReference(currentVerse));
-      setStatus("Reference copied.");
-    } catch {
-      setStatus("Could not copy the reference.", true);
-    }
+  function pushOptimisticEntry(entry) {
+    const verseKey = String(currentVerse);
+    ownEntriesByVerse[verseKey] = [entry, ...(ownEntriesByVerse[verseKey] || [])].sort(compareEntries);
+    refreshAdornments();
   }
 
-  async function handleSubmit(event) {
-    event.preventDefault();
-    if (!routeInfo || !currentVerse) return;
-
-    const authorName = nameInput.value.trim();
-    const questionText = questionInput.value.trim();
-    const answerText = answerInput.value.trim();
-    const factText = factInput.value.trim();
-    const linkUrl = linkInput.value.trim();
-    const reference = verseReference(currentVerse);
-
-    if (!authorName) {
-      setStatus("Please enter your first name.", true);
-      return;
+  function compactHistoryList() {
+    const wrap = el("div", "verse-menu-history");
+    const entries = currentEntries();
+    const notes = currentNotes();
+    if (entries.length) {
+      wrap.appendChild(el("p", "muted verse-menu-section-title", "Your submissions"));
+      const list = el("div", "verse-menu-history-list");
+      for (const entry of entries) {
+        const item = el("div", "verse-menu-history-item");
+        const icon = el("span", "verse-menu-kind-icon", `${entryIcon(entry)} `);
+        const text = el("span", "verse-menu-history-text", historyEntryText(entry));
+        item.appendChild(icon);
+        item.appendChild(text);
+        if (isAccepted(entry)) item.appendChild(el("span", "verse-menu-history-star", " ⭐"));
+        list.appendChild(item);
+      }
+      wrap.appendChild(list);
     }
-    if (!questionText && !factText && !linkUrl) {
-      setStatus("Fill at least one suggestion field before submitting.", true);
-      return;
+    if (notes.length) {
+      wrap.appendChild(el("p", "muted verse-menu-section-title", "Your notes"));
+      const list = el("div", "verse-menu-history-list");
+      for (const note of notes) {
+        list.appendChild(el("div", "verse-menu-history-item", `✎ ${firstLine(note.text)}`));
+      }
+      wrap.appendChild(list);
     }
-    if (linkUrl && !isValidLink(linkUrl)) {
-      setStatus("Links must start with http:// or https:// and stay under 500 characters.", true);
-      return;
+    return wrap;
+  }
+
+  function renderBubble() {
+    const shell = el("div", "verse-menu-panel");
+    const actions = el("div", "verse-menu-actions");
+    const noteButton = createButton("Private note", "primary-btn");
+    const questionButton = createButton("Submit question", "primary-btn");
+    const memoryButton = createButton("Submit memory aid", "primary-btn");
+    noteButton.addEventListener("click", () => {
+      panelKind = "private_note";
+      render();
+    });
+    questionButton.addEventListener("click", () => {
+      panelKind = "question_seed";
+      render();
+    });
+    memoryButton.addEventListener("click", () => {
+      panelKind = "memory_hook";
+      render();
+    });
+    actions.appendChild(noteButton);
+    actions.appendChild(questionButton);
+    actions.appendChild(memoryButton);
+    shell.appendChild(actions);
+    shell.appendChild(compactHistoryList());
+    return shell;
+  }
+
+  function renderSubmissionHistory(kind) {
+    const entries = currentEntries().filter((entry) => entryMatchesPanel(entry, kind));
+    const shell = el("div", "verse-menu-history");
+    shell.appendChild(el("p", "muted verse-menu-section-title",
+      kind === "question_seed" ? "Your previous questions" : "Your previous memory aids"));
+    const list = el("div", "verse-menu-history-list");
+    for (const entry of entries) {
+      const item = el("div", "verse-menu-history-card");
+      item.appendChild(el("p", "verse-menu-history-line", historyEntryText(entry)));
+      if (entry.answerText) item.appendChild(el("p", "muted verse-menu-history-line", `Answer: ${firstLine(entry.answerText)}`));
+      if (entry.url) item.appendChild(el("p", "muted verse-menu-history-line", `↗ ${entry.url}`));
+      if (isAccepted(entry)) item.appendChild(el("p", "verse-menu-history-line", "⭐ Accepted"));
+      list.appendChild(item);
+    }
+    if (!entries.length) {
+      list.appendChild(el("p", "muted verse-menu-history-empty", "No previous entries yet."));
+    }
+    shell.appendChild(list);
+    return shell;
+  }
+
+  function renderNoteHistory() {
+    const notes = currentNotes();
+    const shell = el("div", "verse-menu-history");
+    shell.appendChild(el("p", "muted verse-menu-section-title", "Your previous notes"));
+    const list = el("div", "verse-menu-history-list");
+    for (const note of notes) {
+      list.appendChild(el("div", "verse-menu-history-card", note.text));
+    }
+    if (!notes.length) {
+      list.appendChild(el("p", "muted verse-menu-history-empty", "No notes yet."));
+    }
+    shell.appendChild(list);
+    return shell;
+  }
+
+  function renderExpanded(kind) {
+    const shell = el("div", "verse-menu-panel");
+    const back = createButton("Back");
+    back.addEventListener("click", () => {
+      panelKind = null;
+      render();
+    });
+    shell.appendChild(back);
+
+    const form = el("form", "verse-menu-form");
+    const authorName = readAuthorName().trim();
+    let nameInput = null;
+    if (kind !== "private_note" && !authorName) {
+      nameInput = createTextInput("verse-menu-name");
+      nameInput.maxLength = 40;
+      nameInput.required = true;
+      form.appendChild(field("First name", nameInput));
     }
 
-    persistAuthorName(authorName);
-    submit.disabled = true;
-    closeBtn.disabled = true;
-    copyRef.disabled = true;
-    setStatus("Sending...");
+    let primaryInput = null;
+    let secondaryInput = null;
+    let tertiaryInput = null;
+    let submitLabel = "";
 
-    try {
-      const submissions = [];
-      if (questionText) {
-        submissions.push(submitSuggestion({
-          authorName,
-          kind: "question_seed",
+    if (kind === "question_seed") {
+      primaryInput = createTextInput("verse-menu-question", true);
+      primaryInput.maxLength = 1000;
+      secondaryInput = createTextInput("verse-menu-answer");
+      secondaryInput.maxLength = 500;
+      form.appendChild(field("Question", primaryInput));
+      form.appendChild(field("Answer", secondaryInput));
+      submitLabel = "Submit question";
+    } else if (kind === "memory_hook") {
+      primaryInput = createTextInput("verse-menu-fact", true);
+      primaryInput.maxLength = 1000;
+      secondaryInput = createTextInput("verse-menu-url");
+      secondaryInput.maxLength = 500;
+      secondaryInput.type = "url";
+      secondaryInput.inputMode = "url";
+      form.appendChild(field("Fact", primaryInput));
+      form.appendChild(field("Source URL (optional)", secondaryInput));
+      submitLabel = "Submit memory aid";
+    } else {
+      primaryInput = createTextInput("verse-menu-note", true);
+      primaryInput.maxLength = 2000;
+      form.appendChild(field("Private note", primaryInput));
+      submitLabel = "Save note";
+    }
+
+    const actions = el("div", "suggest-actions");
+    const submit = el("button", "primary-btn", submitLabel);
+    submit.type = "submit";
+    actions.appendChild(submit);
+    form.appendChild(actions);
+
+    form.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      setStatus("");
+      if (!routeInfo || !currentVerse) return;
+      if (kind === "private_note") {
+        if (!primaryInput.value.trim()) {
+          setStatus("Please write a note before saving.", true);
+          return;
+        }
+        appendVerseNote(routeInfo, currentVerse, primaryInput.value);
+        primaryInput.value = "";
+        panelKind = null;
+        refreshAdornments();
+        setStatus("Note saved.");
+        render();
+        return;
+      }
+
+      const resolvedName = (nameInput ? nameInput.value : authorName).trim();
+      if (!resolvedName) {
+        setStatus("Please enter your first name.", true);
+        return;
+      }
+      if (!primaryInput.value.trim()) {
+        setStatus(kind === "question_seed" ? "Please enter a question." : "Please enter a memory aid.", true);
+        return;
+      }
+
+      let url = "";
+      if (kind === "memory_hook" && secondaryInput.value.trim()) {
+        try {
+          url = normalizeOptionalHttpUrl(secondaryInput.value);
+        } catch (error) {
+          setStatus((error && error.message) || "Links must start with http:// or https:// and stay under 500 characters.", true);
+          return;
+        }
+      }
+
+      submit.disabled = true;
+      closeBtn.disabled = true;
+      try {
+        persistAuthorName(resolvedName);
+        const response = await submitSuggestion({
+          authorName: resolvedName,
+          kind,
           book: routeInfo.book,
           chapter: routeInfo.chapter,
-          reference,
-          text: questionText,
-          answerText,
-        }));
-      }
-      if (factText) {
-        submissions.push(submitSuggestion({
-          authorName,
-          kind: "surprising_fact",
+          reference: verseReference(currentVerse),
+          text: primaryInput.value.trim(),
+          answerText: kind === "question_seed" ? secondaryInput.value.trim() : "",
+          ...(url ? { url } : {}),
+        });
+        pushOptimisticEntry({
+          id: response.id || `${kind}-${Date.now()}`,
+          uid: response.uid || "",
+          kind,
           book: routeInfo.book,
           chapter: routeInfo.chapter,
-          reference,
-          text: factText,
-          answerText: "",
-        }));
+          reference: verseReference(currentVerse),
+          text: primaryInput.value.trim(),
+          answerText: kind === "question_seed" ? secondaryInput.value.trim() : "",
+          ...(url ? { url } : {}),
+          status: "new",
+          createdAt: new Date().toISOString(),
+        });
+        panelKind = null;
+        setStatus(kind === "question_seed" ? "Question submitted." : "Memory aid submitted.");
+        render();
+      } catch (error) {
+        setStatus((error && error.message) || "Could not send that suggestion. Please try again.", true);
+      } finally {
+        submit.disabled = false;
+        closeBtn.disabled = false;
       }
-      if (linkUrl) {
-        submissions.push(submitSuggestion({
-          authorName,
-          kind: "link",
-          book: routeInfo.book,
-          chapter: routeInfo.chapter,
-          reference,
-          text: linkUrl,
-          url: linkUrl,
-          answerText: "",
-        }));
-      }
-      await Promise.all(submissions);
-      questionInput.value = "";
-      answerInput.value = "";
-      factInput.value = "";
-      linkInput.value = "";
-      setStatus(`Thanks ${authorName} — Wes reviews these.`);
-    } catch (error) {
-      setStatus((error && error.message) || "Could not send that suggestion. Please try again.", true);
-    } finally {
-      submit.disabled = false;
-      closeBtn.disabled = false;
-      copyRef.disabled = false;
-    }
+    });
+
+    shell.appendChild(form);
+    shell.appendChild(kind === "private_note" ? renderNoteHistory() : renderSubmissionHistory(kind));
+    return shell;
+  }
+
+  function render() {
+    title.textContent = routeInfo && currentVerse ? verseReference(currentVerse) : "Verse options";
+    body.textContent = "";
+    body.appendChild(status);
+    body.appendChild(panelKind ? renderExpanded(panelKind) : renderBubble());
+    setStatus(status.textContent, String(status.className || "").includes("error"));
   }
 
   function openForMarker(marker, verse) {
@@ -339,30 +477,20 @@ export function mountVerseMenu({ root, content, config }) {
     currentVerse = verse;
     currentMarker = marker;
     lastFocused = document.activeElement || marker;
-    title.textContent = verseReference(verse);
-    noteInput.value = loadNote(verse);
-    memorizeToggle.checked = hasMemorized(verseReference(verse));
+    panelKind = null;
     overlay.hidden = false;
     dialog.hidden = false;
     positionNearMarker(marker);
-    setStatus("");
+    render();
     if (activeTrap) document.removeEventListener("keydown", activeTrap);
     activeTrap = onKeydown;
     document.addEventListener("keydown", activeTrap);
-    nameInput.focus();
+    const first = focusables()[0];
+    if (first) first.focus();
   }
 
   overlay.addEventListener("click", () => api.close());
   closeBtn.addEventListener("click", () => api.close());
-  copyRef.addEventListener("click", () => void copyReference());
-  form.addEventListener("submit", (event) => void handleSubmit(event));
-  nameInput.addEventListener("input", () => persistAuthorName(nameInput.value.trim()));
-  noteInput.addEventListener("input", () => {
-    if (routeInfo && currentVerse) saveNote(currentVerse, noteInput.value);
-  });
-  memorizeToggle.addEventListener("change", () => {
-    if (routeInfo && currentVerse) setMemorized(verseReference(currentVerse), memorizeToggle.checked);
-  });
   content.addEventListener("click", (event) => {
     const marker = event.target && typeof event.target.closest === "function"
       ? event.target.closest(".verse-marker")
@@ -377,7 +505,7 @@ export function mountVerseMenu({ root, content, config }) {
     close() {
       overlay.hidden = true;
       dialog.hidden = true;
-      setStatus("");
+      panelKind = null;
       if (activeTrap) {
         document.removeEventListener("keydown", activeTrap);
         activeTrap = null;
@@ -390,7 +518,15 @@ export function mountVerseMenu({ root, content, config }) {
     },
     bindRoute(nextRouteInfo) {
       routeInfo = nextRouteInfo || null;
+      ownEntriesByVerse = {};
+      notesByVerse = {};
       api.close();
+      refreshAdornments();
+    },
+    setOwnedEntries(entriesByVerse) {
+      ownEntriesByVerse = normalizeEntriesMap(entriesByVerse);
+      refreshAdornments();
+      if (!dialog.hidden) render();
     },
   };
 

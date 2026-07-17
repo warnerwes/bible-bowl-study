@@ -217,6 +217,7 @@ function validateMemoryHookPayload({ payload, suggestion, suggestionPath }) {
     chapter: payload.chapter,
     reference: payload.reference,
     text: payload.text,
+    ...(payload.url ? { url: payload.url } : {}),
     ...(suggestion.kind !== "memory_hook" ? { kindTag: suggestion.kind } : {}),
   };
 }
@@ -231,6 +232,7 @@ function payloadTemplateForSuggestion(suggestion, derivedPayloadId) {
       chapter: suggestion.chapter,
       reference: suggestion.reference,
       text: "",
+      url: "",
     };
   }
   if (suggestion.kind === "question_seed") {

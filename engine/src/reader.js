@@ -9,6 +9,7 @@ import {
   parseReaderSearch,
   previousChapter,
 } from "./reader-route.js";
+import { loadOwnEntriesByVerse } from "./reader-data.js";
 import { mountSuggestPanel } from "./suggest-panel.js";
 import { mountVerseMenu } from "./verse-menu.js";
 
@@ -125,7 +126,8 @@ let activeController = null;
 let activeRequest = 0;
 let trackedKey = "";
 let suggestPanel = { hide() {}, showForChapter() {} };
-let verseMenu = { bindRoute() {}, close() {} };
+let verseMenu = { bindRoute() {}, close() {}, setOwnedEntries() {} };
+let readerConfig = null;
 
 function setStatus(message) {
   if (refs.status) refs.status.textContent = message || "";
@@ -245,13 +247,47 @@ export function renderSegmentedVerseContent(container, segment) {
     marker.className = "verse-marker";
     marker.dataset.verse = String(verse.number);
     marker.setAttribute("aria-label", `Verse ${verse.number} options`);
-    marker.textContent = verse.markerText;
+    marker.appendChild(textNode(verse.markerText));
+    const clue = document.createElement("span");
+    clue.className = "verse-submission-clue";
+    clue.hidden = true;
+    clue.setAttribute("data-reader-adornment", "");
     const span = document.createElement("span");
     span.className = "verse-text";
-    span.textContent = verse.verseText;
+    span.appendChild(textNode(verse.verseText));
+    const preview = document.createElement("span");
+    preview.className = "verse-note-preview";
+    preview.hidden = true;
+    preview.setAttribute("data-reader-adornment", "");
     container.appendChild(marker);
+    container.appendChild(clue);
     container.appendChild(span);
+    container.appendChild(preview);
   }
+}
+
+function childNodesOf(node) {
+  if (!node) return [];
+  if (node.childNodes && typeof node.childNodes.length === "number") {
+    return Array.from(node.childNodes);
+  }
+  if (node.children && typeof node.children.length === "number") {
+    return Array.from(node.children);
+  }
+  return [];
+}
+
+function serializeNode(node) {
+  if (!node) return "";
+  if (node.nodeType === 3) return node.textContent || "";
+  if (typeof node.getAttribute === "function" && node.getAttribute("data-reader-adornment") != null) {
+    return "";
+  }
+  return childNodesOf(node).map((child) => serializeNode(child)).join("");
+}
+
+export function serializeScripture(container) {
+  return childNodesOf(container).map((node) => serializeNode(node)).join("");
 }
 
 function renderChapterText(routeInfo, chapterText) {
@@ -287,7 +323,14 @@ async function fetchChapter(routeInfo, requestId, controller) {
     if (refs.retry) refs.retry.hidden = true;
     if (refs.fallback) refs.fallback.hidden = true;
     suggestPanel.showForChapter(routeInfo);
-    verseMenu.bindRoute({ ...routeInfo, bookSlug: routeInfo.bookApi === "1CO" ? "1cor" : "2cor" });
+    const menuRouteInfo = { ...routeInfo, bookSlug: routeInfo.bookApi === "1CO" ? "1cor" : "2cor" };
+    verseMenu.bindRoute(menuRouteInfo);
+    void loadOwnEntriesByVerse({ config: readerConfig, routeInfo: menuRouteInfo })
+      .then((entriesByVerse) => {
+        if (requestId !== activeRequest) return;
+        verseMenu.setOwnedEntries(entriesByVerse);
+      })
+      .catch(() => {});
     setStatus(`Showing ${chapterReference(routeInfo.book, routeInfo.chapter)}.`);
     trackView(payload, routeInfo, requestId);
   } finally {
@@ -328,6 +371,7 @@ async function initReader() {
   if (typeof document !== "object") return;
   refs = getRefs();
   const config = await loadConfig("data/site-config.json");
+  readerConfig = config;
   suggestPanel = mountSuggestPanel({
     root: refs.suggestRoot,
     config,

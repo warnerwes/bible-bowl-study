@@ -12,10 +12,12 @@ import {
   doc,
   getDoc,
   getDocs,
+  query,
   serverTimestamp,
   setDoc,
   updateDoc
 } from "firebase/firestore";
+import { where } from "firebase/firestore";
 
 const PROJECT_ID = "bible-bowl-study-rules";
 const RULES_PATH = new URL("../../firestore.rules", import.meta.url);
@@ -108,6 +110,34 @@ test("allows create for a valid link suggestion", async () => {
   );
 });
 
+test("allows create for a memory_hook with an optional https url", async () => {
+  const db = studentDb("student-1");
+  const suggestion = doc(db, "suggestions/memory-hook-url-ok");
+
+  await assertSucceeds(
+    setDoc(suggestion, buildSuggestion({
+      uid: "student-1",
+      kind: "memory_hook",
+      text: "Synthetic memory hook",
+      url: "https://example.com/memory-hook",
+    }))
+  );
+});
+
+test("denies create for a memory_hook with a javascript url", async () => {
+  const db = studentDb("student-1");
+  const suggestion = doc(db, "suggestions/memory-hook-url-bad");
+
+  await assertFails(
+    setDoc(suggestion, buildSuggestion({
+      uid: "student-1",
+      kind: "memory_hook",
+      text: "Synthetic memory hook",
+      url: "javascript:alert(1)",
+    }))
+  );
+});
+
 test("denies create for a link suggestion with a javascript URI", async () => {
   const db = studentDb("student-1");
   const suggestion = doc(db, "suggestions/link-bad-uri");
@@ -190,11 +220,53 @@ test("forged reviewer-style auth cannot update suggestion status", async () => {
   await assertFails(updateDoc(forgedDoc, { status: "approved" }));
 });
 
-test("clients cannot list suggestions even with forged reviewer-style auth", async () => {
-  await seedSuggestion("list-a", { uid: "student-1", createdAt: fixedTimestamp("2026-01-01T00:00:00Z") });
-  await seedSuggestion("list-b", { uid: "student-2", createdAt: fixedTimestamp("2026-01-02T00:00:00Z") });
+test("students can list only their own suggestions with uid, book, and chapter filters", async () => {
+  await seedSuggestion("list-own-a", {
+    uid: "student-1",
+    book: "1 Corinthians",
+    chapter: 3,
+    createdAt: fixedTimestamp("2026-01-01T00:00:00Z"),
+  });
+  await seedSuggestion("list-own-b", {
+    uid: "student-1",
+    book: "1 Corinthians",
+    chapter: 3,
+    createdAt: fixedTimestamp("2026-01-02T00:00:00Z"),
+  });
+  await seedSuggestion("list-other", {
+    uid: "student-2",
+    book: "1 Corinthians",
+    chapter: 3,
+    createdAt: fixedTimestamp("2026-01-03T00:00:00Z"),
+  });
 
-  const suggestions = collection(forgedReviewerDb(), "suggestions");
+  const suggestions = query(
+    collection(studentDb("student-1"), "suggestions"),
+    where("uid", "==", "student-1"),
+    where("book", "==", "1 Corinthians"),
+    where("chapter", "==", 3)
+  );
+  await assertSucceeds(getDocs(suggestions));
+});
+
+test("students cannot list suggestions without a uid filter", async () => {
+  await seedSuggestion("missing-uid-filter", { uid: "student-1" });
+  const suggestions = query(
+    collection(studentDb("student-1"), "suggestions"),
+    where("book", "==", "1 Corinthians"),
+    where("chapter", "==", 3)
+  );
+  await assertFails(getDocs(suggestions));
+});
+
+test("students cannot list another uid even with matching book and chapter filters", async () => {
+  await seedSuggestion("wrong-uid-filter", { uid: "student-2" });
+  const suggestions = query(
+    collection(studentDb("student-1"), "suggestions"),
+    where("uid", "==", "student-2"),
+    where("book", "==", "1 Corinthians"),
+    where("chapter", "==", 3)
+  );
   await assertFails(getDocs(suggestions));
 });
 

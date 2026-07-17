@@ -71,14 +71,19 @@ test("expectedVerseCount accepts display and API book keys", async () => {
 test("rendered verse content reconstructs the original source text exactly", async () => {
   const document = makeDocument();
   globalThis.document = document;
-  const { renderSegmentedVerseContent, segmentVerses } = await import(`${readerUrl}?case=reconstruct`);
+  const { renderSegmentedVerseContent, segmentVerses, serializeScripture } = await import(`${readerUrl}?case=reconstruct`);
   const source = "SYNTHETIC HEADING\n     [1] SYNTHETIC ALPHA.\n     [2] SYNTHETIC BETA.";
   const segment = segmentVerses(source, 2);
   const container = document.createElement("pre");
 
   renderSegmentedVerseContent(container, segment);
+  const elementNodes = container.children.filter((node) => node.tagName);
+  elementNodes[1].textContent = "•2 ⭐1";
+  elementNodes[3].textContent = "Your note: Synthetic note";
 
-  assert.equal(container.textContent, source);
-  assert.equal(container.children[2].tagName, "BUTTON");
-  assert.equal(container.children[2].textContent, "[1]");
+  assert.equal(serializeScripture(container), source);
+  assert.equal(elementNodes[0].tagName, "BUTTON");
+  assert.equal(elementNodes[0].textContent, "[1]");
+  assert.equal(elementNodes[1].getAttribute("data-reader-adornment"), "");
+  assert.equal(elementNodes[3].getAttribute("data-reader-adornment"), "");
 });
