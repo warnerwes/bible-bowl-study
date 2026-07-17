@@ -23,7 +23,7 @@ import {
   serializeScripture,
 } from "./reader-verses.js";
 import { mountSuggestPanel } from "./suggest-panel.js";
-import { mountUsageMeter } from "./usage-meter.js";
+import { readSiteUsageCount } from "./usage-meter.js";
 import { mountVerseMenu } from "./verse-menu.js";
 
 const REQUEST_TIMEOUT_MS = 10000;
@@ -53,7 +53,6 @@ function getRefs() {
     signIn: document.getElementById("reader-sign-in"),
     status: document.getElementById("reader-status"),
     suggestRoot: document.getElementById("suggest-panel-root"),
-    usageMeter: document.getElementById("reader-usage-meter"),
     verseMenuRoot: document.getElementById("verse-menu-root"),
   };
 }
@@ -64,7 +63,6 @@ let readerConfig = null;
 let authState = { kind: "checking", name: "", uid: "", user: null };
 let access = null;
 let cache = null;
-let usageMeter = { load: async () => null };
 let suggestPanel = { hide() {}, showForChapter() {} };
 let verseMenu = { bindRoute() {}, close() {}, setOwnedEntries() {} };
 let accountBubble = { close() {}, render() {} };
@@ -137,11 +135,19 @@ function hidePrompt() {
   if (refs.prompt) refs.prompt.hidden = true;
 }
 
+function formatQuietLine({ deviceCount, usage, siteCount }) {
+  const segments = [`This device: ${deviceCount} chapters checked out`];
+  if (usage) {
+    segments.push(`You've used ${usage.used} of 20`);
+  }
+  const siteText = Number.isFinite(siteCount) ? `Site total ${siteCount} of 5,000` : "Site total ? of 5,000";
+  segments.push(siteText);
+  return segments.join(" · ");
+}
+
 function renderQuietLine({ deviceCount, usage, siteCount }) {
   if (!refs.quietLine) return;
-  const usedText = usage ? `You've used ${usage.used} of 20` : "You've used ? of 20";
-  const siteText = Number.isFinite(siteCount) ? `Site total ${siteCount} of 5,000` : "Site total ? of 5,000";
-  refs.quietLine.textContent = `This device: ${deviceCount} chapters checked out · ${usedText} · ${siteText}`;
+  refs.quietLine.textContent = formatQuietLine({ deviceCount, usage, siteCount });
 }
 
 function trackView(token) {
@@ -252,7 +258,11 @@ function snapshotForCurrentUser(month) {
 }
 
 async function loadSiteUsage() {
-  currentSiteUsage = await usageMeter.load();
+  try {
+    currentSiteUsage = await readSiteUsageCount(readerConfig);
+  } catch {
+    currentSiteUsage = null;
+  }
   renderQuietLine({
     deviceCount: cache.getDeviceChapterCount(),
     usage: snapshotForCurrentUser(),
@@ -349,7 +359,6 @@ async function initReader() {
   cache.purge();
   suggestPanel = mountSuggestPanel({ root: refs.suggestRoot, config });
   verseMenu = mountVerseMenu({ root: refs.verseMenuRoot, content: refs.content, config });
-  usageMeter = mountUsageMeter({ root: refs.usageMeter, config });
   accountBubble = mountAccountBubble({
     root: refs.account,
     onSignOut() {
@@ -386,9 +395,10 @@ if (typeof window === "object" && typeof document === "object") {
   window.__readerTest = {
     expectedVerseCount,
     renderChapterText,
+    formatQuietLine,
     serializeScripture,
   };
   void initReader();
 }
 
-export { expectedVerseCount, renderChapterText, renderSegmentedVerseContent, segmentVerses, serializeScripture };
+export { expectedVerseCount, renderChapterText, renderSegmentedVerseContent, formatQuietLine, segmentVerses, serializeScripture };

@@ -12,7 +12,7 @@ export function formatUsageMeterCopy(count) {
   return `${count} of ${MONTHLY_LIMIT.toLocaleString()} shared Bible lookups used this month — it refills on the 1st. Read thoughtfully.`;
 }
 
-async function readUsageCount(config) {
+export async function readSiteUsageCount(config) {
   const firebase = await ensureFirebase(config && config.firebase);
   const snapshot = await firebase.getDoc(firebase.doc(firebase.db, `usage/${getUsageMonthKey()}`));
   if (!snapshot || (typeof snapshot.exists === "function" && !snapshot.exists())) {
@@ -33,7 +33,7 @@ export function mountUsageMeter({ root, config }) {
     async load() {
       if (!root || !config || !config.firebase) return null;
       try {
-        const count = await readUsageCount(config);
+        const count = await readSiteUsageCount(config);
         renderUsage(root, count);
         return count;
       } catch {
