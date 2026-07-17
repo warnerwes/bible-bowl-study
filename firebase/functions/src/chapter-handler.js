@@ -177,7 +177,10 @@ function createChapterHandler({
 }
 
 function buildPassageUrl(week) {
-  const refs = week.chapters.map((chapter) => `${week.book}.${chapter}`).join(",");
+  // API.Bible passages take a DASH range (1CO.1-1CO.2); comma lists return 400.
+  const first = `${week.book}.${week.chapters[0]}`;
+  const last = `${week.book}.${week.chapters[week.chapters.length - 1]}`;
+  const refs = week.chapters.length === 1 ? first : `${first}-${last}`;
   return `${API_BIBLE_URL}/${encodeURIComponent(refs)}?content-type=text&fums-version=3`;
 }
 

@@ -28,7 +28,7 @@ test("buildPassageUrl requests the whole week with one upstream call", () => {
   const week = getWeekForChapter("1CO", 2);
   assert.equal(
     buildPassageUrl(week),
-    `${API_BIBLE_URL}/1CO.1%2C1CO.2?content-type=text&fums-version=3`
+    `${API_BIBLE_URL}/1CO.1-1CO.2?content-type=text&fums-version=3`
   );
 });
 
@@ -117,7 +117,7 @@ test("accepts verified google tokens and returns the week checkout response", as
   });
 
   assert.equal(fetchCalls.length, 1);
-  assert.match(fetchCalls[0].url, /1CO\.3%2C1CO\.4/);
+  assert.match(fetchCalls[0].url, /1CO\.3-1CO\.4/);
   assert.equal(fetchCalls[0].options.headers["api-key"], FAKE_SECRET);
   assert.equal(res.statusCode, 200);
   assert.equal(res.body.fumsToken, "synthetic-token");
