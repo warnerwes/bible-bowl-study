@@ -9,7 +9,7 @@ import { applicationDefault, getApps, initializeApp } from "firebase-admin/app";
 import { FieldValue, Timestamp, getFirestore } from "firebase-admin/firestore";
 
 import { readJson, writeJsonAtomic } from "./lib/manifest.mjs";
-import { runExport, QUESTIONS_PATH } from "./lib/export.mjs";
+import { runExport, QUESTIONS_PATH, assertQuestionIdReuseAllowed } from "./lib/export.mjs";
 import { createFirestoreStore } from "./lib/store.mjs";
 import {
   BOOKS,
@@ -112,6 +112,7 @@ function ensurePlaceholderReplacement(existingQuestions, question, replacesPlace
 }
 
 function validateQuestionPayload({ payload, suggestion, suggestionPath, existingQuestions }) {
+  assertQuestionIdReuseAllowed(existingQuestions, payload);
   validateBookChapter(payload.book, payload.chapter);
   if (payload.book !== suggestion.book || payload.chapter !== suggestion.chapter) {
     throw domainError("QUESTION_SCOPE_MISMATCH", "Question payload does not match the suggestion book/chapter.", {

@@ -17,6 +17,24 @@ function stableJson(value) {
   return JSON.stringify(value);
 }
 
+function normalizeAnswer(value) {
+  return String(value ?? "").trim().toLowerCase();
+}
+
+export function assertQuestionIdReuseAllowed(existingQuestions, question) {
+  const id = String(question && question.id ? question.id : "").trim();
+  if (!id) return;
+  const existing = (existingQuestions || []).find((entry) => entry.id === id);
+  if (!existing) return;
+  if (normalizeAnswer(existing.answer) !== normalizeAnswer(question.answer)) {
+    throw domainError("ID_REUSE_REQUIRES_NEW_ID", `Question id "${id}" already exists with a different answer.`, {
+      id,
+      existingAnswer: existing.answer,
+      nextAnswer: question.answer,
+    });
+  }
+}
+
 function flattenMemoryHooks(memoryHooks) {
   const hooks = [];
   for (const [book, chapters] of Object.entries(memoryHooks.books ?? {})) {
@@ -83,6 +101,9 @@ function buildQuotedUse(doc) {
 
 function mergeQuestion(existingMap, question) {
   const previous = existingMap.get(question.id);
+  if (previous) {
+    assertQuestionIdReuseAllowed([previous], question);
+  }
   if (previous && stableJson(previous) !== stableJson(question)) {
     throw domainError("QUESTION_ID_CONFLICT", `Question id "${question.id}" has conflicting content.`, {
       id: question.id,

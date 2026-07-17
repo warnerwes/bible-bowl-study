@@ -54,7 +54,7 @@ function timeout(ms) {
   });
 }
 
-async function ensureSignedIn(firebase) {
+export async function ensureSignedInUser(firebase) {
   if (firebase.auth.currentUser) {
     return firebase.auth.currentUser;
   }
@@ -65,7 +65,7 @@ async function ensureSignedIn(firebase) {
   return (cred && cred.user) || firebase.auth.currentUser || null;
 }
 
-async function waitForExistingSession(firebase) {
+export async function waitForExistingSession(firebase) {
   if (typeof firebase.auth.authStateReady === "function") {
     try {
       await firebase.auth.authStateReady();
@@ -114,7 +114,7 @@ export function createSuggestionSubmitter({ config, timeoutMs = SUBMIT_TIMEOUT_M
     const firebase = await Promise.race([ensureFirebase(config && config.firebase), timeout(timeoutMs)]);
     const authorName = String(payload && payload.authorName ? payload.authorName : "").trim();
     persistAuthorName(authorName);
-    const user = await Promise.race([ensureSignedIn(firebase), timeout(timeoutMs)]);
+    const user = await Promise.race([ensureSignedInUser(firebase), timeout(timeoutMs)]);
     const url = Object.prototype.hasOwnProperty.call(payload || {}, "url")
       ? canonicalizeHttpUrl(payload.url)
       : "";

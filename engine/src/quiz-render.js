@@ -34,6 +34,17 @@ function show(screen) {
   });
 }
 
+function ensureResultsScoreboardRoot() {
+  const results = $("results");
+  if (!results) return null;
+  let root = $("results-scoreboard");
+  if (root) return root;
+  root = document.createElement("div");
+  root.id = "results-scoreboard";
+  results.appendChild(root);
+  return root;
+}
+
 // Build the quiz controller bound to a specific DOM + state + storage + config.
 // Returns an object with: load(questions), startQuick(), startDrill(),
 // startCustom(), renderQuestion(), and an answer-form submit handler (wired
@@ -380,16 +391,15 @@ export function createQuiz({ state, storage, config, weightedOrder }) {
         "You scored <strong>" + state.score + " / " + total + "</strong> (" + pct + "%)";
     }
     const review = $("missed-review");
-    if (!review) return;
-    review.innerHTML = "";
-    if (!state.missed.length) {
+    if (review) {
+      review.innerHTML = "";
+      if (!state.missed.length) {
       review.appendChild(el("p", "muted",
         "Nothing missed — well done."));
-      return;
-    }
-    review.appendChild(el("h3", null,
-      "Review what you missed (" + state.missed.length + ")"));
-    state.missed.forEach((q) => {
+      } else {
+        review.appendChild(el("h3", null,
+          "Review what you missed (" + state.missed.length + ")"));
+        state.missed.forEach((q) => {
       const item = el("div", "missed-item");
       item.appendChild(el("p", "mq", q.question));
       const a = el("p", "ma");
@@ -406,8 +416,26 @@ export function createQuiz({ state, storage, config, weightedOrder }) {
       passage.target = "_blank";
       passage.rel = "noopener";
       item.appendChild(passage);
-      review.appendChild(item);
-    });
+          review.appendChild(item);
+        });
+      }
+    }
+
+    const scoreboardRoot = ensureResultsScoreboardRoot();
+    if (scoreboardRoot) {
+      import("./scoreboard-core.js")
+        .then(({ mountResultsScoreboard }) =>
+          mountResultsScoreboard({
+            root: scoreboardRoot,
+            config: cfg,
+            storage,
+            questions: state.all,
+          }).load()
+        )
+        .catch(() => {
+          scoreboardRoot.textContent = "";
+        });
+    }
   }
 
   return {

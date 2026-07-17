@@ -296,6 +296,67 @@ test("clients cannot list or write monthly usage docs", async () => {
   await assertFails(updateDoc(doc(authDb, "usage/2026-07"), { count: 18 }));
 });
 
+test("students can create and update their own mastery docs", async () => {
+  const db = studentDb("student-1");
+  const ownDoc = doc(db, "mastery/student-1");
+
+  await assertSucceeds(setDoc(ownDoc, buildMastery({ mastered: 3, total: 12 })));
+  await assertSucceeds(updateDoc(ownDoc, {
+    authorName: "Student",
+    mastered: 4,
+    total: 12,
+    updatedAt: serverTimestamp(),
+  }));
+});
+
+test("students cannot forge another user's mastery doc id", async () => {
+  const db = studentDb("student-1");
+  const forgedDoc = doc(db, "mastery/student-2");
+
+  await assertFails(setDoc(forgedDoc, buildMastery({ mastered: 3, total: 12 })));
+});
+
+test("students cannot violate mastery bounds or key shape", async () => {
+  const db = studentDb("student-1");
+
+  await assertFails(setDoc(doc(db, "mastery/student-1"), buildMastery({
+    mastered: 6,
+    total: 5,
+  })));
+  await assertFails(setDoc(doc(db, "mastery/student-1"), {
+    ...buildMastery({ mastered: 2, total: 5 }),
+    extra: "nope",
+  }));
+  await assertFails(setDoc(doc(db, "mastery/student-1"), buildMastery({
+    authorName: "",
+    mastered: 2,
+    total: 5,
+  })));
+});
+
+test("unauthenticated users cannot read mastery docs", async () => {
+  await seedMastery("student-1", { authorName: "Seeded", mastered: 3, total: 12 });
+  const unauthDb = testEnv.unauthenticatedContext().firestore();
+
+  await assertFails(getDoc(doc(unauthDb, "mastery/student-1")));
+  await assertFails(getDocs(collection(unauthDb, "mastery")));
+});
+
+test("authenticated users can read the scoreboard but not update another student's row", async () => {
+  await seedMastery("student-1", { authorName: "Alpha", mastered: 5, total: 12 });
+  await seedMastery("student-2", { authorName: "Beta", mastered: 4, total: 12 });
+
+  const readerDb = studentDb("student-3");
+  await assertSucceeds(getDoc(doc(readerDb, "mastery/student-1")));
+  await assertSucceeds(getDocs(collection(readerDb, "mastery")));
+  await assertFails(updateDoc(doc(readerDb, "mastery/student-1"), {
+    authorName: "Hacker",
+    mastered: 5,
+    total: 12,
+    updatedAt: serverTimestamp(),
+  }));
+});
+
 function studentDb(uid) {
   return testEnv.authenticatedContext(uid).firestore();
 }
@@ -322,6 +383,16 @@ function buildSuggestion(overrides = {}) {
     delete payload.url;
   }
   return payload;
+}
+
+function buildMastery(overrides = {}) {
+  return {
+    authorName: "Student",
+    mastered: 3,
+    total: 12,
+    updatedAt: serverTimestamp(),
+    ...overrides,
+  };
 }
 
 async function seedSuggestion(id, overrides = {}) {
@@ -358,6 +429,18 @@ async function seedReviewEvent(suggestionId, eventId) {
 async function seedUsage(month, payload) {
   await testEnv.withSecurityRulesDisabled(async (context) => {
     await setDoc(doc(context.firestore(), `usage/${month}`), payload);
+  });
+}
+
+async function seedMastery(uid, overrides = {}) {
+  await testEnv.withSecurityRulesDisabled(async (context) => {
+    await setDoc(doc(context.firestore(), `mastery/${uid}`), {
+      authorName: "Seeded",
+      mastered: 3,
+      total: 12,
+      updatedAt: fixedTimestamp("2026-01-01T00:00:00Z"),
+      ...overrides,
+    });
   });
 }
 

@@ -61,6 +61,26 @@ service cloud.firestore {
         && request.resource.data.createdAt == request.time;
     }
 
+    function isValidMasteryWrite(uid) {
+      return request.resource.data.keys().hasOnly([
+          'authorName',
+          'mastered',
+          'total',
+          'updatedAt'
+        ])
+        && uid == request.auth.uid
+        && request.resource.data.authorName is string
+        && request.resource.data.authorName.size() >= 1
+        && request.resource.data.authorName.size() <= 40
+        && request.resource.data.mastered is int
+        && request.resource.data.mastered >= 0
+        && request.resource.data.total is int
+        && request.resource.data.total >= 1
+        && request.resource.data.total <= 500
+        && request.resource.data.mastered <= request.resource.data.total
+        && request.resource.data.updatedAt == request.time;
+    }
+
     match /suggestions/{id} {
       allow create: if isSignedIn() && isValidSuggestionCreate();
       allow get: if isSignedIn() && resource.data.uid == request.auth.uid;
@@ -74,6 +94,12 @@ service cloud.firestore {
     match /usage/{month} {
       allow get: if isUsageMonthId(month);
       allow list, create, update, delete: if false;
+    }
+
+    match /mastery/{uid} {
+      allow get, list: if isSignedIn();
+      allow create, update: if isSignedIn() && isValidMasteryWrite(uid);
+      allow delete: if false;
     }
   }
 }

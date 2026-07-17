@@ -59,3 +59,7 @@ node review.mjs export
 7. `git add tools/review generator/pilots/corinthians firebase`
 8. `git commit -m "Export reviewed Corinthians suggestions"`
 9. `firebase deploy --only hosting`
+
+## Question id corrections
+
+Material answer corrections must mint a new question id. Reusing an existing id with a different answer is refused with `ID_REUSE_REQUIRES_NEW_ID` so old mastery streaks cannot silently validate against the wrong answer.
