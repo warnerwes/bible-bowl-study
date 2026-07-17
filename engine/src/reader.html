@@ -28,18 +28,18 @@
       <div class="card reader-shell">
         <div class="reader-head">
           <p class="tag tag-ref" id="reader-reference">Reader</p>
-          <p id="reader-usage-meter" class="muted reader-usage-meter" aria-live="polite" hidden></p>
-          <div class="reader-session">
-            <p id="reader-session-copy" class="muted reader-session-copy" aria-live="polite"></p>
-            <button id="reader-sign-in" type="button" class="primary-btn">Sign in with Google to read here</button>
-            <button id="reader-sign-out" type="button" class="link-btn" hidden>Sign out</button>
-          </div>
-          <p class="muted reader-status" id="reader-status" aria-live="polite">Checking sign-in…</p>
+          <div id="reader-account" class="reader-account" hidden></div>
         </div>
         <nav class="reader-nav" aria-label="Chapter navigation">
           <a id="reader-prev" class="link-btn" href="#" hidden>← Previous chapter</a>
           <a id="reader-next" class="link-btn" href="#" hidden>Next chapter →</a>
         </nav>
+        <div id="reader-prompt" class="reader-prompt" hidden>
+          <button id="reader-sign-in" type="button" class="primary-btn">Sign in with Google to read</button>
+          <button id="reader-load" type="button" class="primary-btn" hidden>Check out this week</button>
+          <a id="reader-fallback" class="link-btn reader-fallback-small" href="#" target="_blank" rel="noopener">Bible Gateway ↗</a>
+        </div>
+        <p class="muted reader-status" id="reader-status" aria-live="polite">Checking sign-in…</p>
         <pre id="reader-content" class="reader-content"></pre>
         <div id="verse-menu-root"></div>
         <div id="reader-attribution" class="reader-attribution" hidden>
@@ -50,12 +50,9 @@
             <a href="https://api.bible" target="_blank" rel="noopener">API.Bible</a>
           </p>
         </div>
+        <p id="reader-quiet-line" class="muted reader-quiet-line" aria-live="polite"></p>
         <div id="suggest-panel-root" hidden></div>
-        <div class="reader-actions">
-          <button id="reader-load" type="button" class="primary-btn" hidden>Read here — uses 1 shared lookup</button>
-          <button id="reader-retry" type="button" class="primary-btn" hidden>Try again — may use another lookup.</button>
-          <a id="reader-fallback" class="link-btn" href="#" target="_blank" rel="noopener" hidden>Read on Bible Gateway — no sign-in or shared lookup ↗</a>
-        </div>
+        <p id="reader-usage-meter" hidden></p>
       </div>
     </section>
   </main>

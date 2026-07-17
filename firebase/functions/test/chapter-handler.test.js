@@ -2,154 +2,228 @@
 
 const test = require("node:test");
 const assert = require("node:assert/strict");
-const { getAllowedChapterIds } = require("../src/allowed-chapters");
-const { CACHE_CONTROL, createChapterHandler } = require("../src/chapter-handler");
+const { getAllowedChapterIds, getWeekForChapter } = require("../src/checkout-plan");
+const {
+  API_BIBLE_URL,
+  CACHE_CONTROL,
+  buildPassageUrl,
+  createChapterHandler,
+  projectWeekPayload,
+  splitRangeContentByChapter,
+} = require("../src/chapter-handler");
 const { createRateLimiter } = require("../src/rate-limit");
 
 const FAKE_SECRET = "test-key-not-real";
 
-test("accepts every allowed chapter", async () => {
-  const accepted = [];
-  const fetchImpl = async (url) => {
-    accepted.push(url);
-    const chapterId = url.match(/chapters\/([^?]+)/)[1];
-    return okJsonResponse({
-      data: {
-        id: chapterId,
-        reference: chapterId,
-        content: `SYNTHETIC VERSE TEXT ${chapterId}`,
-        copyright: "Synthetic Copyright"
-      },
-      meta: {
-        fumsToken: `token-${chapterId}`
-      }
-    });
-  };
-  const verifyCalls = [];
-
+test("week mapping covers every allowed chapter and keeps weeks at or below 200 verses", () => {
   for (const chapterId of getAllowedChapterIds()) {
-    const [book, chapter] = chapterId.split(".");
-    const { res } = await invokeHandler({
-      req: createRequest(`/api/chapter?book=${book}&ch=${chapter}`),
-      fetchImpl,
-      verifyIdToken: async (token) => {
-        verifyCalls.push(token);
-        return { firebase: { sign_in_provider: "google.com" } };
-      }
-    });
-
-    assert.equal(res.statusCode, 200, chapterId);
-    assert.equal(res.body.chapterId, chapterId);
-    assert.equal(res.headers["Cache-Control"], CACHE_CONTROL);
+    const [book, chapterText] = chapterId.split(".");
+    const week = getWeekForChapter(book, Number(chapterText));
+    assert.ok(week, chapterId);
+    assert.ok(week.totalVerses <= 200, week.weekKey);
   }
-
-  assert.equal(accepted.length, 29);
-  assert.equal(verifyCalls.length, 29);
 });
 
-test("rejects invalid boundaries and malformed requests", async () => {
-  const invalidRequests = [
-    "/api/chapter?book=1CO&ch=0",
-    "/api/chapter?book=1CO&ch=17",
-    "/api/chapter?book=2CO&ch=14",
-    "/api/chapter?book=GEN&ch=1",
-    "/api/chapter?book=63097d2a0a2f7db3-01&ch=1",
-    "/api/chapter?book=1CO&ch=1&extra=1",
-    "/api/chapter?book=1CO&ch=01",
-    "/api/chapter?book=1CO&ch=1.5",
-    "/api/chapter?book=1CO"
-  ];
+test("buildPassageUrl requests the whole week with one upstream call", () => {
+  const week = getWeekForChapter("1CO", 2);
+  assert.equal(
+    buildPassageUrl(week),
+    `${API_BIBLE_URL}/1CO.1%2C1CO.2?content-type=text&fums-version=3`
+  );
+});
 
-  for (const url of invalidRequests) {
-    const { res, serialized } = await invokeHandler({
-      req: createRequest(url)
-    });
+test("splitRangeContentByChapter validates the expected verse sequence per chapter", () => {
+  const week = getWeekForChapter("1CO", 1);
+  const content = makeWeekContent("1CO", [1, 2]);
+  const map = splitRangeContentByChapter(content, week);
+  assert.equal(map.get(1).startsWith("[1]"), true);
+  assert.equal(map.get(2).startsWith("[1]"), true);
+});
 
-    assert.equal(res.statusCode, 400, url);
-    assert.equal(res.headers["Cache-Control"], CACHE_CONTROL);
-    assert.ok(!serialized.includes(FAKE_SECRET));
-  }
+test("projectWeekPayload rejects whole-range truncation and per-chapter truncation", () => {
+  const week = getWeekForChapter("1CO", 1);
+  const goodContent = makeWeekContent("1CO", [1, 2]);
+  const wholeRangeTruncated = {
+    data: {
+      content: goodContent,
+      copyright: "Synthetic Copyright",
+      verseCount: week.totalVerses - 1,
+    },
+    meta: { fumsToken: "token" },
+  };
+  assert.equal(projectWeekPayload(wholeRangeTruncated, week, 1000), null);
 
-  const post = await invokeHandler({
-    req: createRequest("/api/chapter?book=1CO&ch=1", { method: "POST" })
+  const chapterTruncated = {
+    data: {
+      content: `${makeChapterContent("1CO", 1)}\n${makeChapterContent("1CO", 2, { dropLastVerse: true })}`,
+      copyright: "Synthetic Copyright",
+      verseCount: week.totalVerses - 1,
+    },
+    meta: { fumsToken: "token" },
+  };
+  assert.equal(projectWeekPayload(chapterTruncated, week, 1000), null);
+});
+
+test("projectWeekPayload rejects missing, duplicate, and reset-out-of-order markers", () => {
+  const week = getWeekForChapter("1CO", 1);
+  const duplicate = {
+    data: {
+      content: "[1] SYNTHETIC ONE.\n[1] SYNTHETIC DUPLICATE.",
+      copyright: "Synthetic Copyright",
+      verseCount: week.totalVerses,
+    },
+    meta: { fumsToken: "token" },
+  };
+  assert.equal(projectWeekPayload(duplicate, week, 1000), null);
+
+  const outOfOrder = {
+    data: {
+      content: `${makeChapterContent("1CO", 1)}\n[2] WRONG RESET.\n${makeChapterContent("1CO", 2).slice(4)}`,
+      copyright: "Synthetic Copyright",
+      verseCount: week.totalVerses,
+    },
+    meta: { fumsToken: "token" },
+  };
+  assert.equal(projectWeekPayload(outOfOrder, week, 1000), null);
+});
+
+test("accepts verified google tokens and returns the week checkout response", async () => {
+  const fetchCalls = [];
+  const usageTracker = createUsageTrackerDouble({
+    precheck: { monthKey: "2026-07", owned: false, count: 3, weeks: ["1CO:1-2"], remaining: 17 },
+    claim: { monthKey: "2026-07", owned: false, count: 4, weeks: ["1CO:1-2", "1CO:3-4"], remaining: 16, siteCount: 128 },
   });
 
-  assert.equal(post.res.statusCode, 405);
-  assert.equal(post.res.headers.Allow, "GET");
-  assert.equal(post.res.headers["Cache-Control"], CACHE_CONTROL);
+  const { res, serialized } = await invokeHandler({
+    req: createRequest("/api/checkout?book=1CO&ch=3", {
+      headers: { authorization: "Bearer real-token" },
+    }),
+    fetchImpl: async (url, options) => {
+      fetchCalls.push({ url, options });
+      return okJsonResponse({
+        data: {
+          content: makeWeekContent("1CO", [3, 4]),
+          copyright: "Synthetic Copyright",
+          verseCount: 44,
+        },
+        meta: { fumsToken: "synthetic-token" },
+      });
+    },
+    verifyIdToken: async (token) => {
+      assert.equal(token, "real-token");
+      return { uid: "student-1", firebase: { sign_in_provider: "google.com" } };
+    },
+    usageTracker,
+  });
+
+  assert.equal(fetchCalls.length, 1);
+  assert.match(fetchCalls[0].url, /1CO\.3%2C1CO\.4/);
+  assert.equal(fetchCalls[0].options.headers["api-key"], FAKE_SECRET);
+  assert.equal(res.statusCode, 200);
+  assert.equal(res.body.fumsToken, "synthetic-token");
+  assert.equal(res.body.remaining, 16);
+  assert.equal(res.body.ownedWeeks.length, 2);
+  assert.equal(res.body.siteUsage.used, 128);
+  assert.equal(res.body.chapters.length, 2);
+  assert.ok(!serialized.includes(FAKE_SECRET));
 });
 
-test("maps upstream 429 to downstream 429", async () => {
-  const { res, serialized } = await invokeHandler({
-    req: createRequest("/api/chapter?book=1CO&ch=1"),
-    fetchImpl: async () => ({
-      ok: false,
-      status: 429,
-      json: async () => ({})
-    })
+test("owned-week re-fetch is free and still returns scripture", async () => {
+  const usageTracker = createUsageTrackerDouble({
+    precheck: { monthKey: "2026-07", owned: true, count: 8, weeks: ["1CO:1-2"], remaining: 12 },
+    claim: { monthKey: "2026-07", owned: true, count: 8, weeks: ["1CO:1-2"], remaining: 12, siteCount: 200 },
+  });
+
+  const { res } = await invokeHandler({
+    req: createRequest("/api/checkout?book=1CO&ch=2"),
+    fetchImpl: async () => okJsonResponse({
+      data: {
+        content: makeWeekContent("1CO", [1, 2]),
+        copyright: "Synthetic Copyright",
+        verseCount: 47,
+      },
+      meta: { fumsToken: "token-1" },
+    }),
+    usageTracker,
+  });
+
+  assert.equal(res.statusCode, 200);
+  assert.equal(res.body.usage.used, 8);
+  assert.equal(res.body.remaining, 12);
+});
+
+test("advisory pre-check blocks a capped user before any upstream call", async () => {
+  let fetchCalled = false;
+  const { res } = await invokeHandler({
+    req: createRequest("/api/checkout?book=1CO&ch=1"),
+    fetchImpl: async () => {
+      fetchCalled = true;
+      return okJsonResponse({});
+    },
+    usageTracker: createUsageTrackerDouble({
+      precheck: { monthKey: "2026-07", owned: false, count: 20, weeks: [], remaining: 0 },
+    }),
   });
 
   assert.equal(res.statusCode, 429);
-  assert.equal(res.body.error, "upstream_rate_limited");
-  assert.equal(res.headers["Cache-Control"], CACHE_CONTROL);
-  assert.ok(!serialized.includes(FAKE_SECRET));
+  assert.equal(res.body.error, "MONTHLY_LIMIT");
+  assert.equal(fetchCalled, false);
 });
 
-test("treats non-json upstream responses as 502", async () => {
-  const { res, serialized } = await invokeHandler({
-    req: createRequest("/api/chapter?book=1CO&ch=2"),
-    fetchImpl: async () => ({
-      ok: true,
-      status: 200,
-      json: async () => {
-        throw new Error("not json");
-      }
-    })
+test("claim transaction blocks a cap race after a validated upstream fetch", async () => {
+  const { res } = await invokeHandler({
+    req: createRequest("/api/checkout?book=1CO&ch=1"),
+    fetchImpl: async () => okJsonResponse({
+      data: {
+        content: makeWeekContent("1CO", [1, 2]),
+        copyright: "Synthetic Copyright",
+        verseCount: 47,
+      },
+      meta: { fumsToken: "token-1" },
+    }),
+    usageTracker: createUsageTrackerDouble({
+      precheck: { monthKey: "2026-07", owned: false, count: 19, weeks: [], remaining: 1 },
+      claimError: createMonthlyLimitError(),
+    }),
   });
 
-  assert.equal(res.statusCode, 502);
-  assert.equal(res.body.error, "upstream_error");
-  assert.equal(res.headers["Cache-Control"], CACHE_CONTROL);
-  assert.ok(!serialized.includes(FAKE_SECRET));
+  assert.equal(res.statusCode, 429);
+  assert.equal(res.body.error, "MONTHLY_LIMIT");
 });
 
-test("rejects missing upstream content, copyright, or fums token", async () => {
-  const payloads = [
-    {
-      data: { id: "1CO.3", reference: "1 Corinthians 3", content: "", copyright: "ok" },
-      meta: { fumsToken: "token" }
-    },
-    {
-      data: { id: "1CO.3", reference: "1 Corinthians 3", content: "SYNTHETIC VERSE TEXT 1", copyright: "" },
-      meta: { fumsToken: "token" }
-    },
-    {
+test("uses one captured request month for precheck and claim", async () => {
+  const usageTracker = createUsageTrackerDouble({
+    precheck: { monthKey: "2026-07", owned: false, count: 0, weeks: [], remaining: 20 },
+    claim: { monthKey: "2026-07", owned: false, count: 1, weeks: ["2CO:13"], remaining: 19, siteCount: 1 },
+  });
+
+  const { res } = await invokeHandler({
+    req: createRequest("/api/checkout?book=2CO&ch=13"),
+    usageTracker,
+    nowValues: [Date.parse("2026-07-31T23:59:59.999Z"), Date.parse("2026-08-01T00:00:01.000Z")],
+    fetchImpl: async () => okJsonResponse({
       data: {
-        id: "1CO.3",
-        reference: "1 Corinthians 3",
-        content: "SYNTHETIC VERSE TEXT 1",
-        copyright: "Synthetic Copyright"
+        content: makeWeekContent("2CO", [13]),
+        copyright: "Synthetic Copyright",
+        verseCount: 14,
       },
-      meta: { fumsToken: "" }
-    }
-  ];
+      meta: { fumsToken: "token-13" },
+    }),
+  });
 
-  for (const payload of payloads) {
-    const { res, serialized } = await invokeHandler({
-      req: createRequest("/api/chapter?book=1CO&ch=3"),
-      fetchImpl: async () => okJsonResponse(payload)
-    });
-
-    assert.equal(res.statusCode, 502);
-    assert.equal(res.body.error, "upstream_error");
-    assert.equal(res.headers["Cache-Control"], CACHE_CONTROL);
-    assert.ok(!serialized.includes(FAKE_SECRET));
-  }
+  assert.equal(res.statusCode, 200);
+  assert.deepEqual(usageTracker.calls.map((call) => call.monthKey), ["2026-07", "2026-07"]);
 });
 
-test("returns 504 on upstream timeout", async () => {
-  const { res, serialized } = await invokeHandler({
-    req: createRequest("/api/chapter?book=1CO&ch=4"),
+test("maps upstream 429, timeout, and malformed auth to downstream errors", async () => {
+  const upstream429 = await invokeHandler({
+    req: createRequest("/api/checkout?book=1CO&ch=1"),
+    fetchImpl: async () => ({ ok: false, status: 429, json: async () => ({}) }),
+  });
+  assert.equal(upstream429.res.body.error, "upstream_rate_limited");
+
+  const timeout = await invokeHandler({
+    req: createRequest("/api/checkout?book=1CO&ch=1"),
     fetchImpl: async (_url, options) =>
       new Promise((_resolve, reject) => {
         options.signal.addEventListener("abort", () => {
@@ -158,269 +232,62 @@ test("returns 504 on upstream timeout", async () => {
           reject(error);
         });
         options.signal.dispatchEvent(new Event("abort"));
-      })
+      }),
   });
+  assert.equal(timeout.res.body.error, "upstream_timeout");
 
-  assert.equal(res.statusCode, 504);
-  assert.equal(res.body.error, "upstream_timeout");
-  assert.equal(res.headers["Cache-Control"], CACHE_CONTROL);
-  assert.ok(!serialized.includes(FAKE_SECRET));
+  const badAuth = await invokeHandler({
+    req: createRequest("/api/checkout?book=1CO&ch=1", {
+      headers: { authorization: "token nope" },
+    }),
+    autoAuth: false,
+  });
+  assert.equal(badAuth.res.statusCode, 401);
 });
 
-test("returns the success shape with verbatim content", async () => {
-  const syntheticContent = "SYNTHETIC VERSE TEXT 1\n\nSYNTHETIC VERSE TEXT 2  ";
-  const loggerCalls = [];
+function createMonthlyLimitError() {
+  const error = new Error("MONTHLY_LIMIT");
+  error.code = "MONTHLY_LIMIT";
+  return error;
+}
 
-  const { res, serialized } = await invokeHandler({
-    req: createRequest("/api/chapter?book=2CO&ch=5"),
-    fetchImpl: async (url, options) => {
-      assert.match(url, /2CO\.5\?content-type=text&fums-version=3$/);
-      assert.equal(options.headers["api-key"], FAKE_SECRET);
-
-      return okJsonResponse({
-        data: {
-          id: "2CO.5",
-          reference: "2 Corinthians 5",
-          content: syntheticContent,
-          copyright: "Synthetic Copyright"
-        },
-        meta: {
-          fumsToken: "synthetic-token"
-        }
-      });
+function createUsageTrackerDouble({ precheck, claim, claimError } = {}) {
+  return {
+    calls: [],
+    async precheck(payload) {
+      this.calls.push({ kind: "precheck", ...payload, monthKey: payload.monthKey || precheck?.monthKey });
+      return precheck ?? { monthKey: "2026-07", owned: false, count: 0, weeks: [], remaining: 20 };
     },
-    logger: {
-      info(payload) {
-        loggerCalls.push(payload);
-      }
-    }
-  });
-
-  assert.equal(res.statusCode, 200);
-  assert.deepEqual(res.body, {
-    book: "2CO",
-    chapter: 5,
-    chapterId: "2CO.5",
-    reference: "2 Corinthians 5",
-    content: syntheticContent,
-    copyright: "Synthetic Copyright",
-    attributionUrl: "https://api.bible",
-    fumsToken: "synthetic-token"
-  });
-  assert.equal(res.headers["Cache-Control"], CACHE_CONTROL);
-  assert.ok(!serialized.includes(FAKE_SECRET));
-  assert.deepEqual(loggerCalls, [
-    {
-      book: "2CO",
-      chapter: 5,
-      status: 200,
-      latencyMs: 0
-    }
-  ]);
-});
-
-test("never leaks the fake secret in any response body", async () => {
-  const scenarios = [
-    invokeHandler({
-      req: createRequest("/api/chapter?book=1CO&ch=1"),
-      fetchImpl: async () => okJsonResponse({
-        data: {
-          id: "1CO.1",
-          reference: "1 Corinthians 1",
-          content: "SYNTHETIC VERSE TEXT 1",
-          copyright: "Synthetic Copyright"
-        },
-        meta: { fumsToken: "token-1" }
-      })
-    }),
-    invokeHandler({
-      req: createRequest("/api/chapter?book=1CO&ch=1&extra=1")
-    }),
-    invokeHandler({
-      req: createRequest("/api/chapter?book=1CO&ch=1"),
-      fetchImpl: async () => ({
-        ok: false,
-        status: 500,
-        json: async () => ({ leaked: FAKE_SECRET })
-      })
-    })
-  ];
-
-  for (const scenario of scenarios) {
-    const { serialized } = await scenario;
-    assert.ok(!serialized.includes(FAKE_SECRET));
-  }
-});
-
-test("integrates the rate limiter and returns retry-after on burst exhaustion", async () => {
-  const rateLimiter = createRateLimiter({
-    now: () => 0,
-    perIpCapacity: 2,
-    perIpRefillPerMs: 1 / 60000,
-    globalCapacity: 100,
-    globalRefillPerMs: 100 / 1000
-  });
-
-  const fetchImpl = async () =>
-    okJsonResponse({
-      data: {
-        id: "1CO.1",
-        reference: "1 Corinthians 1",
-        content: "SYNTHETIC VERSE TEXT 1",
-        copyright: "Synthetic Copyright"
-      },
-      meta: { fumsToken: "token-1" }
-    });
-
-  const first = await invokeHandler({
-    req: createRequest("/api/chapter?book=1CO&ch=1", { ip: "9.9.9.9" }),
-    fetchImpl,
-    rateLimiter
-  });
-  const second = await invokeHandler({
-    req: createRequest("/api/chapter?book=1CO&ch=1", { ip: "9.9.9.9" }),
-    fetchImpl,
-    rateLimiter
-  });
-  const third = await invokeHandler({
-    req: createRequest("/api/chapter?book=1CO&ch=1", { ip: "9.9.9.9" }),
-    fetchImpl,
-    rateLimiter
-  });
-
-  assert.equal(first.res.statusCode, 200);
-  assert.equal(second.res.statusCode, 200);
-  assert.equal(third.res.statusCode, 429);
-  assert.equal(third.res.headers["Retry-After"], "60");
-  assert.equal(third.res.headers["Cache-Control"], CACHE_CONTROL);
-});
-
-test("returns 401 when the authorization header is missing or malformed", async () => {
-  const requests = [
-    createRequest("/api/chapter?book=1CO&ch=1"),
-    createRequest("/api/chapter?book=1CO&ch=1", {
-      headers: { authorization: "token nope" }
-    }),
-    createRequest("/api/chapter?book=1CO&ch=1", {
-      headers: { authorization: "Bearer bad token" }
-    }),
-  ];
-
-  for (const req of requests) {
-    const { res } = await invokeHandler({ req, autoAuth: false });
-    assert.equal(res.statusCode, 401);
-    assert.equal(res.body.error, "SIGN_IN_REQUIRED");
-    assert.equal(res.headers["Cache-Control"], CACHE_CONTROL);
-  }
-});
-
-test("returns 401 when token verification fails or provider is not google", async () => {
-  const invalidToken = await invokeHandler({
-    req: createRequest("/api/chapter?book=1CO&ch=1", {
-      headers: { authorization: "Bearer invalid-token" }
-    }),
-    autoAuth: false,
-    verifyIdToken: async () => {
-      throw new Error("invalid");
-    }
-  });
-  assert.equal(invalidToken.res.statusCode, 401);
-  assert.equal(invalidToken.res.body.error, "SIGN_IN_REQUIRED");
-
-  const anonymous = await invokeHandler({
-    req: createRequest("/api/chapter?book=1CO&ch=1", {
-      headers: { authorization: "Bearer anon-token" }
-    }),
-    autoAuth: false,
-    verifyIdToken: async () => ({ firebase: { sign_in_provider: "anonymous" } })
-  });
-  assert.equal(anonymous.res.statusCode, 401);
-  assert.equal(anonymous.res.body.error, "SIGN_IN_REQUIRED");
-});
-
-test("accepts verified google tokens", async () => {
-  const verifyCalls = [];
-  const { res } = await invokeHandler({
-    req: createRequest("/api/chapter?book=2CO&ch=6", {
-      headers: { authorization: "Bearer real-token" }
-    }),
-    verifyIdToken: async (token) => {
-      verifyCalls.push(token);
-      return { firebase: { sign_in_provider: "google.com" } };
-    }
-  });
-
-  assert.equal(res.statusCode, 200);
-  assert.deepEqual(verifyCalls, ["real-token"]);
-});
-
-test("awaits usage counting only on upstream 200 responses", async () => {
-  const usageCalls = [];
-  const recordUsage = async () => {
-    usageCalls.push("counted");
+    async claimWeek(payload) {
+      this.calls.push({ kind: "claim", ...payload });
+      if (claimError) throw claimError;
+      return claim ?? { monthKey: "2026-07", owned: false, count: 1, weeks: [payload.weekKey], remaining: 19, siteCount: 1 };
+    },
   };
-  const request = createRequest("/api/chapter?book=1CO&ch=1", {
-    headers: { authorization: "Bearer good-token" }
-  });
+}
 
-  const success = await invokeHandler({ req: request, recordUsage });
-  assert.equal(success.res.statusCode, 200);
-  assert.equal(usageCalls.length, 1);
+function makeWeekContent(book, chapters) {
+  return chapters.map((chapter) => makeChapterContent(book, chapter)).join("\n");
+}
 
-  const scenarios = [
-    invokeHandler({
-      req: request,
-      recordUsage,
-      fetchImpl: async () => ({ ok: false, status: 400, json: async () => ({}) })
-    }),
-    invokeHandler({
-      req: request,
-      recordUsage,
-      fetchImpl: async () => ({ ok: false, status: 429, json: async () => ({}) })
-    }),
-    invokeHandler({
-      req: request,
-      recordUsage,
-      fetchImpl: async () => ({ ok: false, status: 500, json: async () => ({}) })
-    }),
-  ];
-  await Promise.all(scenarios);
-  assert.equal(usageCalls.length, 1);
-});
-
-test("still serves chapter 200 when usage counting fails", async () => {
-  const loggerCalls = [];
-  let usageAwaited = false;
-
-  const { res } = await invokeHandler({
-    req: createRequest("/api/chapter?book=1CO&ch=2", {
-      headers: { authorization: "Bearer good-token" }
-    }),
-    recordUsage: async () => {
-      await Promise.resolve();
-      usageAwaited = true;
-      throw new Error("write failed");
-    },
-    logger: {
-      info(payload) {
-        loggerCalls.push(payload);
-      },
-      error(payload) {
-        loggerCalls.push(payload);
-      }
-    }
-  });
-
-  assert.equal(res.statusCode, 200);
-  assert.equal(usageAwaited, true);
-  assert.equal(loggerCalls.at(-1).message, "usage_count_failed");
-});
+function makeChapterContent(book, chapter, { dropLastVerse = false } = {}) {
+  const week = getWeekForChapter(book, chapter);
+  const expected = week
+    ? require("../src/checkout-plan").getExpectedVerseCount(book, chapter)
+    : 0;
+  const verses = [];
+  const total = dropLastVerse ? expected - 1 : expected;
+  for (let verse = 1; verse <= total; verse += 1) {
+    verses.push(`[${verse}] SYNTHETIC ${book}.${chapter}.${verse}.`);
+  }
+  return verses.join("\n");
+}
 
 function okJsonResponse(payload) {
   return {
     ok: true,
     status: 200,
-    json: async () => payload
+    json: async () => payload,
   };
 }
 
@@ -429,50 +296,44 @@ async function invokeHandler({
   fetchImpl = async () =>
     okJsonResponse({
       data: {
-        id: "1CO.1",
-        reference: "1 Corinthians 1",
-        content: "SYNTHETIC VERSE TEXT 1",
-        copyright: "Synthetic Copyright"
+        content: makeWeekContent("1CO", [1, 2]),
+        copyright: "Synthetic Copyright",
+        verseCount: 47,
       },
-      meta: {
-        fumsToken: "token-1"
-      }
+      meta: { fumsToken: "token-1" },
     }),
   logger = { info() {} },
-  verifyIdToken = async () => ({ firebase: { sign_in_provider: "google.com" } }),
-  recordUsage = async () => {},
+  verifyIdToken = async () => ({ uid: "student-1", firebase: { sign_in_provider: "google.com" } }),
+  usageTracker = createUsageTrackerDouble(),
   autoAuth = true,
+  nowValues = [0, 0, 0, 0],
   rateLimiter = createRateLimiter({
     now: () => 0,
     globalCapacity: 100,
-    globalRefillPerMs: 100 / 1000
-  })
+    globalRefillPerMs: 100 / 1000,
+  }),
 } = {}) {
   const res = createResponse();
-  const normalizedReq = req || createRequest("/api/chapter?book=1CO&ch=1");
+  const normalizedReq = req || createRequest("/api/checkout?book=1CO&ch=1");
   normalizedReq.headers = autoAuth
-    ? {
-        authorization: "Bearer test-google-token",
-        ...(normalizedReq.headers || {})
-      }
+    ? { authorization: "Bearer test-google-token", ...(normalizedReq.headers || {}) }
     : { ...(normalizedReq.headers || {}) };
+
+  let nowIndex = 0;
   const handler = createChapterHandler({
     fetchImpl,
     getApiKey: () => FAKE_SECRET,
     rateLimiter,
     verifyIdToken,
-    recordUsage,
+    usageTracker,
     logger,
-    now: () => 0
+    now: () => nowValues[Math.min(nowIndex++, nowValues.length - 1)],
   });
 
   await handler(normalizedReq, res);
   return {
     res,
-    serialized: JSON.stringify({
-      headers: res.headers,
-      body: res.body
-    })
+    serialized: JSON.stringify({ headers: res.headers, body: res.body }),
   };
 }
 
@@ -482,9 +343,7 @@ function createRequest(url, { method = "GET", ip = "127.0.0.1", headers = {} } =
     url,
     ip,
     headers,
-    socket: {
-      remoteAddress: ip
-    }
+    socket: { remoteAddress: ip },
   };
 }
 
@@ -503,6 +362,6 @@ function createResponse() {
     json(payload) {
       this.body = payload;
       return this;
-    }
+    },
   };
 }

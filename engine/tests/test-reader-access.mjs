@@ -116,3 +116,57 @@ test("reader access restores local persistence when popup sign-in fails for an a
   await assert.rejects(() => access.signIn(), /Google sign-in did not complete/);
   assert.deepEqual(calls, ["session", "local"]);
 });
+
+test("reader access purges before firebase signOut", async () => {
+  const calls = [];
+  const auth = {
+    currentUser: {
+      uid: "student-1",
+      displayName: "Anna",
+      providerData: [{ providerId: "google.com" }],
+      async getIdToken() { return "token"; },
+    },
+    async authStateReady() {},
+  };
+
+  const { setFirebaseLoader } = await import(`${firebaseUrl}?case=signout-order`);
+  setFirebaseLoader(async () => ([
+    {
+      getApps() { return []; },
+      initializeApp(config) { return { options: config }; },
+    },
+    {
+      getAuth() { return auth; },
+      browserLocalPersistence: { mode: "local" },
+      browserSessionPersistence: { mode: "session" },
+      GoogleAuthProvider: class {},
+      async setPersistence() {},
+      async signInWithPopup() {
+        return { user: auth.currentUser };
+      },
+      async signOut() {
+        calls.push("firebase-signOut");
+        auth.currentUser = null;
+      },
+      onAuthStateChanged(_auth, callback) {
+        callback(auth.currentUser);
+        return () => {};
+      },
+    },
+    {
+      getFirestore() { return {}; },
+    },
+  ]));
+
+  const { createReaderAccess } = await import(`${accessUrl}?case=signout-order`);
+  const access = createReaderAccess({
+    config: { firebase: { projectId: "bible-bowl-study" } },
+    beforeSignOut() {
+      calls.push("purge");
+    },
+  });
+
+  await access.init();
+  await access.signOut();
+  assert.deepEqual(calls, ["purge", "firebase-signOut"]);
+});

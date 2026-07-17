@@ -96,6 +96,10 @@ service cloud.firestore {
       allow list, create, update, delete: if false;
     }
 
+    match /usage_users/{docId} {
+      allow read, write: if false;
+    }
+
     match /mastery/{uid} {
       allow get, list: if isSignedIn();
       allow create, update: if isSignedIn() && isValidMasteryWrite(uid);

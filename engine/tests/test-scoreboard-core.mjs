@@ -129,7 +129,7 @@ test("computeMasterySnapshot ignores removed ids and malformed stats", async () 
   assert.deepEqual(snapshot, { mastered: 1, total: 2 });
 });
 
-test("scoreboard load does not write before opt-in and renders the empty-state prompt", async () => {
+test("scoreboard load does not write before opt-in and renders only the join prompt", async () => {
   const { document } = makeDocument(["results-scoreboard"]);
   globalThis.document = document;
   globalThis.window = globalThis;
@@ -188,8 +188,8 @@ test("scoreboard load does not write before opt-in and renders the empty-state p
 
   assert.equal(setDocCalls, 0);
   assert.match(textTree(root), /Mastered: 1/);
-  assert.match(textTree(root), /No one on the scoreboard yet/);
   assert.ok(document.getElementById("scoreboard-name"));
+  assert.equal(textTree(root).includes("No one on the scoreboard yet"), false);
 });
 
 test("scoreboard sync renders sorted rows and highlights the current student", async () => {

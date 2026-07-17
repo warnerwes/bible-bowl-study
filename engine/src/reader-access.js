@@ -17,6 +17,7 @@ function buildState(user) {
     return {
       kind: "google",
       name: getDisplayName(user),
+      uid: String(user.uid || ""),
       user,
     };
   }
@@ -24,12 +25,14 @@ function buildState(user) {
     return {
       kind: "anonymous",
       name: "",
+      uid: String(user.uid || ""),
       user,
     };
   }
   return {
     kind: "signed_out",
     name: "",
+    uid: "",
     user: null,
   };
 }
@@ -38,7 +41,7 @@ function signInErrorMessage() {
   return "Google sign-in did not complete. You can keep reading on Bible Gateway.";
 }
 
-export function createReaderAccess({ config, onChange = () => {} }) {
+export function createReaderAccess({ config, onChange = () => {}, beforeSignOut = () => {} }) {
   let firebasePromise = null;
   let unsubscribe = () => {};
 
@@ -86,6 +89,7 @@ export function createReaderAccess({ config, onChange = () => {} }) {
 
   async function signOutUser() {
     const firebase = await loadFirebase();
+    await beforeSignOut();
     await firebase.signOut(firebase.auth);
     try {
       await firebase.setPersistence(firebase.auth, firebase.browserLocalPersistence);

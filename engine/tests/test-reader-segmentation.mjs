@@ -6,7 +6,7 @@ import { fileURLToPath, pathToFileURL } from "node:url";
 import { makeDocument } from "./headless-dom.mjs";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const readerUrl = pathToFileURL(path.join(__dirname, "..", "src", "reader.js")).href;
+const readerUrl = pathToFileURL(path.join(__dirname, "..", "src", "reader-verses.js")).href;
 
 test("segmentVerses preserves headings and indentation when markers are valid", async () => {
   const { segmentVerses } = await import(`${readerUrl}?case=headings`);
@@ -86,4 +86,17 @@ test("rendered verse content reconstructs the original source text exactly", asy
   assert.equal(elementNodes[0].textContent, "[1]");
   assert.equal(elementNodes[1].getAttribute("data-reader-adornment"), "");
   assert.equal(elementNodes[3].getAttribute("data-reader-adornment"), "");
+});
+
+test("reader validation never falls back to raw text when segmentation fails", async () => {
+  const document = makeDocument();
+  globalThis.document = document;
+  const readerModuleUrl = pathToFileURL(path.join(__dirname, "..", "src", "reader.js")).href;
+  const { renderChapterText } = await import(`${readerModuleUrl}?case=no-raw-fallback`);
+  const container = document.createElement("pre");
+  document._byId.set("reader-content", container);
+
+  const rendered = renderChapterText({ book: "1 Corinthians", chapter: 1 }, "SYNTHETIC RAW WITHOUT MARKERS");
+  assert.equal(rendered, false);
+  assert.equal(container.textContent, "");
 });

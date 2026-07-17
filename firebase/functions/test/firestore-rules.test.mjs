@@ -21,7 +21,7 @@ import { where } from "firebase/firestore";
 
 const PROJECT_ID = "bible-bowl-study-rules";
 const RULES_PATH = new URL("../../firestore.rules", import.meta.url);
-const FIRESTORE_PORT = Number(process.env.FIRESTORE_EMULATOR_PORT ?? 8792);
+const FIRESTORE_PORT = getFirestorePort();
 
 let testEnv;
 
@@ -296,6 +296,24 @@ test("clients cannot list or write monthly usage docs", async () => {
   await assertFails(updateDoc(doc(authDb, "usage/2026-07"), { count: 18 }));
 });
 
+test("clients cannot read or write per-user usage docs", async () => {
+  await testEnv.withSecurityRulesDisabled(async (context) => {
+    await setDoc(doc(context.firestore(), "usage_users/student-1_2026-07"), {
+      count: 2,
+      weeks: ["1CO:1-2"],
+    });
+  });
+
+  const unauthDb = testEnv.unauthenticatedContext().firestore();
+  const authDb = studentDb("student-1");
+  await assertFails(getDoc(doc(unauthDb, "usage_users/student-1_2026-07")));
+  await assertFails(getDoc(doc(authDb, "usage_users/student-1_2026-07")));
+  await assertFails(setDoc(doc(authDb, "usage_users/student-1_2026-07"), {
+    count: 3,
+    weeks: ["1CO:1-2", "1CO:3-4"],
+  }));
+});
+
 test("students can create and update their own mastery docs", async () => {
   const db = studentDb("student-1");
   const ownDoc = doc(db, "mastery/student-1");
@@ -446,4 +464,16 @@ async function seedMastery(uid, overrides = {}) {
 
 function fixedTimestamp(value) {
   return new Date(value);
+}
+
+function getFirestorePort() {
+  if (process.env.FIRESTORE_EMULATOR_PORT) {
+    return Number(process.env.FIRESTORE_EMULATOR_PORT);
+  }
+  const host = String(process.env.FIRESTORE_EMULATOR_HOST || "");
+  const match = host.match(/:(\d+)$/);
+  if (match) {
+    return Number(match[1]);
+  }
+  return 8800;
 }

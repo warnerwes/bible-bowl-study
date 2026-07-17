@@ -166,7 +166,7 @@ export function renderScoreboard(root, model) {
     section.appendChild(prompt);
   }
 
-  if (!model.rows.length) {
+  if (!model.rows.length && !model.showPrompt) {
     section.appendChild(el(
       "p",
       "muted scoreboard-empty",

@@ -9,6 +9,7 @@ const src = (name) => pathToFileURL(path.join(__dirname, "..", "src", name)).hre
 const {
   buildReaderUrl,
   chapterReference,
+  getReaderWeek,
   nextChapter,
   parseReaderSearch,
   parseReference,
@@ -72,4 +73,15 @@ test("adjacent chapter navigation handles boundaries across both books", () => {
 test("buildReaderUrl and chapterReference stay stable", () => {
   assert.equal(chapterReference("1 Corinthians", 7), "1 Corinthians 7");
   assert.equal(buildReaderUrl("1 Corinthians 7"), "reader.html?ref=1%20Corinthians%207");
+});
+
+test("getReaderWeek maps a chapter to the checkout week", () => {
+  assert.deepEqual(getReaderWeek({ book: "1 Corinthians", bookApi: "1CO", chapter: 2 }), {
+    bookApi: "1CO",
+    chapters: [1, 2],
+  });
+  assert.deepEqual(getReaderWeek({ book: "2 Corinthians", bookApi: "2CO", chapter: 13 }), {
+    bookApi: "2CO",
+    chapters: [13],
+  });
 });

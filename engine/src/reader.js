@@ -1,33 +1,32 @@
 "use strict";
 
+import { mountAccountBubble } from "./account-bubble.js";
+import { fetchWeekCheckout } from "./checkout-client.js";
 import { loadConfig } from "./config.js";
+import { ensureFirebase } from "./firebase-client.js";
 import { getProvider } from "./passage-links.js";
 import { createReaderAccess } from "./reader-access.js";
+import { createReaderCache } from "./reader-cache.js";
 import { loadOwnEntriesByVerse } from "./reader-data.js";
 import {
   buildReaderUrl,
   chapterReference,
+  getReaderWeek,
   nextChapter,
   parseReaderSearch,
   previousChapter,
 } from "./reader-route.js";
+import {
+  expectedVerseCount,
+  renderSegmentedVerseContent,
+  segmentVerses,
+  serializeScripture,
+} from "./reader-verses.js";
 import { mountSuggestPanel } from "./suggest-panel.js";
 import { mountUsageMeter } from "./usage-meter.js";
 import { mountVerseMenu } from "./verse-menu.js";
 
 const REQUEST_TIMEOUT_MS = 10000;
-const FALLBACK_COPYRIGHT = "NKJV © 1982 Thomas Nelson. All rights reserved.";
-const CHAPTER_VERSE_COUNTS = {
-  "1 Corinthians": [31, 16, 23, 21, 13, 20, 40, 13, 27, 33, 34, 31, 13, 40, 58, 24],
-  "2 Corinthians": [24, 17, 18, 18, 21, 18, 16, 24, 15, 18, 33, 21, 14],
-};
-const CHAPTER_VERSE_COUNT_KEYS = {
-  "1CORINTHIANS": "1 Corinthians",
-  "1CO": "1 Corinthians",
-  "2CORINTHIANS": "2 Corinthians",
-  "2CO": "2 Corinthians",
-};
-
 const requestedRef = typeof window === "object"
   ? new URLSearchParams(window.location.search).get("ref")
   : null;
@@ -36,138 +35,54 @@ const route = typeof window === "object"
   : null;
 const fallbackProvider = getProvider("biblegateway");
 
-export function buildChapterRequestHeaders(idToken) {
-  if (!idToken) return {};
-  return { Authorization: `Bearer ${idToken}` };
-}
-
-export function messageForChapterStatus(status) {
-  if (status === 401) return "SIGN_IN_REQUIRED";
-  if (status === 429) return "Reader unavailable right now (HTTP 429).";
-  return `Reader unavailable (HTTP ${status}).`;
-}
-
-function textNode(value) {
-  return document.createTextNode(value);
-}
-
 function getRefs() {
-  if (typeof document !== "object") {
-    return {};
-  }
+  if (typeof document !== "object") return {};
   return {
+    account: document.getElementById("reader-account"),
     attribution: document.getElementById("reader-attribution"),
     attributionCopy: document.getElementById("reader-attribution-copy"),
     attributionLink: document.getElementById("reader-attribution-link"),
     content: document.getElementById("reader-content"),
     fallback: document.getElementById("reader-fallback"),
     load: document.getElementById("reader-load"),
-    meter: document.getElementById("reader-usage-meter"),
     next: document.getElementById("reader-next"),
     prev: document.getElementById("reader-prev"),
+    prompt: document.getElementById("reader-prompt"),
+    quietLine: document.getElementById("reader-quiet-line"),
     reference: document.getElementById("reader-reference"),
-    retry: document.getElementById("reader-retry"),
-    sessionCopy: document.getElementById("reader-session-copy"),
     signIn: document.getElementById("reader-sign-in"),
-    signOut: document.getElementById("reader-sign-out"),
     status: document.getElementById("reader-status"),
     suggestRoot: document.getElementById("suggest-panel-root"),
+    usageMeter: document.getElementById("reader-usage-meter"),
     verseMenuRoot: document.getElementById("verse-menu-root"),
   };
 }
 
-export function expectedVerseCount(book, chapter) {
-  const key = CHAPTER_VERSE_COUNT_KEYS[String(book || "").replace(/\s+/g, "").toUpperCase()] || book;
-  const chapters = CHAPTER_VERSE_COUNTS[key];
-  const count = chapters && chapters[chapter - 1];
-  return Number.isInteger(count) ? count : 0;
-}
-
-export function segmentVerses(text, expectedCount = 0) {
-  const source = String(text || "");
-  const markerRe = /\[(\d+)\]\s?/g;
-  const matches = [];
-  for (const match of source.matchAll(markerRe)) {
-    let prefixText = "";
-    let sliceIndex = match.index;
-    let prefixStart = match.index;
-    while (prefixStart > 0 && source[prefixStart - 1] !== "\n" && source[prefixStart - 1] !== "\r") {
-      prefixStart -= 1;
-    }
-    if (prefixStart < match.index) {
-      const candidatePrefix = source.slice(prefixStart, match.index);
-      if (/^[ \t]+$/.test(candidatePrefix)) {
-        prefixText = candidatePrefix;
-        sliceIndex = prefixStart;
-      }
-    }
-    matches.push({
-      full: match[0],
-      number: Number(match[1]),
-      index: match.index,
-      prefixText,
-      sliceIndex,
-    });
-  }
-  if (!matches.length) return null;
-
-  const verses = [];
-  const head = source.slice(0, matches[0].sliceIndex);
-  for (let index = 0; index < matches.length; index += 1) {
-    const match = matches[index];
-    const next = matches[index + 1];
-    const markerText = `[${match.number}]`;
-    const start = match.index + markerText.length;
-    const end = next ? next.sliceIndex : source.length;
-    verses.push({
-      number: match.number,
-      prefixText: match.prefixText,
-      markerText,
-      verseText: source.slice(start, end),
-    });
-  }
-
-  for (let index = 0; index < verses.length; index += 1) {
-    if (verses[index].number !== index + 1) {
-      return null;
-    }
-  }
-  if (expectedCount && verses.length !== expectedCount) {
-    return null;
-  }
-
-  return { headText: head, verses };
-}
-
 let refs = getRefs();
 let activeController = null;
-let activeRequest = 0;
-let trackedKey = "";
 let readerConfig = null;
-let authState = { kind: "checking", name: "", user: null };
+let authState = { kind: "checking", name: "", uid: "", user: null };
 let access = null;
+let cache = null;
 let usageMeter = { load: async () => null };
 let suggestPanel = { hide() {}, showForChapter() {} };
 let verseMenu = { bindRoute() {}, close() {}, setOwnedEntries() {} };
+let accountBubble = { close() {}, render() {} };
+let currentSiteUsage = null;
+
+function clearDisplay() {
+  if (refs.content) refs.content.textContent = "";
+  if (refs.attribution) refs.attribution.hidden = true;
+  verseMenu.close();
+}
 
 function setStatus(message) {
   if (refs.status) refs.status.textContent = message || "";
 }
 
-function normalizeRequestedRef() {
-  return String(requestedRef || "").trim().replace(/\s+/g, " ") || "Reader";
-}
-
-function setReferenceText(text) {
-  if (refs.reference) refs.reference.textContent = text || "Reader";
-}
-
 function setReference(routeInfo) {
-  if (routeInfo) {
-    setReferenceText(chapterReference(routeInfo.book, routeInfo.chapter));
-    return;
-  }
-  setReferenceText(normalizeRequestedRef());
+  const text = routeInfo ? chapterReference(routeInfo.book, routeInfo.chapter) : String(requestedRef || "Reader");
+  if (refs.reference) refs.reference.textContent = text;
 }
 
 function setNavLink(node, routeInfo, label) {
@@ -189,293 +104,235 @@ function updateNavigation(routeInfo) {
   setNavLink(refs.next, nextChapter(routeInfo), "Next chapter →");
 }
 
-function fallbackReference(routeInfo) {
-  return routeInfo ? chapterReference(routeInfo.book, routeInfo.chapter) : "1 Corinthians 1";
-}
-
 function updateFallback(routeInfo) {
   if (!refs.fallback) return;
-  refs.fallback.href = fallbackProvider.build(fallbackReference(routeInfo), "NKJV");
-}
-
-function clearDisplay() {
-  if (refs.content) refs.content.textContent = "";
-  if (refs.attribution) refs.attribution.hidden = true;
-  verseMenu.close();
-}
-
-function showSuggestPanel(routeInfo) {
-  if (routeInfo) {
-    suggestPanel.showForChapter(routeInfo);
+  if (!routeInfo) {
+    refs.fallback.hidden = true;
     return;
   }
-  suggestPanel.hide();
+  refs.fallback.hidden = false;
+  refs.fallback.href = fallbackProvider.build(chapterReference(routeInfo.book, routeInfo.chapter), "NKJV");
 }
 
-function setSessionUi() {
-  if (!refs.sessionCopy || !refs.signIn || !refs.signOut) return;
-  if (authState.kind === "google") {
-    refs.sessionCopy.textContent = `Signed in as ${authState.name} ·`;
-    refs.signIn.hidden = true;
-    refs.signOut.hidden = false;
-    return;
-  }
-
-  refs.sessionCopy.textContent = "";
-  refs.signIn.hidden = authState.kind === "checking";
-  refs.signOut.hidden = true;
-}
-
-function setActionUi(routeInfo, { loading = false, canRetry = false } = {}) {
-  if (refs.load) {
-    refs.load.hidden = authState.kind !== "google";
-    refs.load.disabled = loading;
-  }
-  if (refs.retry) {
-    refs.retry.hidden = authState.kind !== "google" || !canRetry;
-    refs.retry.disabled = loading;
-  }
-  if (refs.fallback) {
-    refs.fallback.hidden = !routeInfo;
-    refs.fallback.textContent = "Read on Bible Gateway — no sign-in or shared lookup ↗";
-  }
-}
-
-function showIdleState(routeInfo, message) {
-  clearDisplay();
-  setReference(routeInfo);
-  updateNavigation(routeInfo);
-  updateFallback(routeInfo);
-  showSuggestPanel(routeInfo);
-  setSessionUi();
-  setActionUi(routeInfo);
-  setStatus(message);
-}
-
-function showFailure(message, routeInfo) {
-  clearDisplay();
-  setReference(routeInfo);
-  updateNavigation(routeInfo);
-  updateFallback(routeInfo);
-  showSuggestPanel(routeInfo);
-  setSessionUi();
-  setActionUi(routeInfo, { canRetry: authState.kind === "google" });
-  setStatus(message);
-}
-
-function showLoading(routeInfo) {
-  clearDisplay();
-  setReference(routeInfo);
-  updateNavigation(routeInfo);
-  updateFallback(routeInfo);
-  showSuggestPanel(routeInfo);
-  setSessionUi();
-  setActionUi(routeInfo, { loading: true });
-  setStatus("Loading chapter...");
-}
-
-function readChapterText(payload) {
-  const candidates = [
-    payload && payload.text,
-    payload && payload.content,
-    payload && payload.chapter && payload.chapter.text,
-    payload && payload.data && payload.data.text,
-    payload && payload.data && payload.data.content,
-  ];
-  const text = candidates.find((value) => typeof value === "string");
-  if (!text) throw new Error("Chapter text missing from response.");
-  return text;
-}
-
-function renderAttribution(payload) {
+function renderAttribution(chapter) {
   if (!refs.attribution || !refs.attributionCopy || !refs.attributionLink) return;
-  refs.attributionCopy.textContent = payload.copyright || FALLBACK_COPYRIGHT;
-  refs.attributionLink.href = payload.attributionUrl || "https://api.bible";
+  refs.attributionCopy.textContent = chapter.copyright || "";
+  refs.attributionLink.href = chapter.attributionUrl || "https://api.bible";
   refs.attribution.hidden = false;
 }
 
-function trackView(payload, routeInfo, requestId) {
-  if (requestId !== activeRequest) return;
-  if (typeof window.fums !== "function") return;
-  const token = payload && payload.fumsToken;
-  if (!token) return;
-  const key = `${routeInfo.bookApi}:${routeInfo.chapter}:${token}`;
-  if (trackedKey === key) return;
-  trackedKey = key;
+function updatePrompt({ showSignIn = false, showCheckout = false, loading = false, weekLabel = "", capReached = false } = {}) {
+  if (!refs.prompt || !refs.signIn || !refs.load || !refs.fallback) return;
+  refs.prompt.hidden = false;
+  refs.signIn.hidden = !showSignIn;
+  refs.load.hidden = !showCheckout;
+  refs.load.disabled = loading;
+  refs.fallback.classList?.toggle?.("reader-fallback-small", showSignIn);
+  refs.load.textContent = capReached
+    ? "Monthly limit reached — use Bible Gateway"
+    : `Check out this week (${weekLabel}) — uses 1 of your 20 monthly lookups`;
+}
+
+function hidePrompt() {
+  if (refs.prompt) refs.prompt.hidden = true;
+}
+
+function renderQuietLine({ deviceCount, usage, siteCount }) {
+  if (!refs.quietLine) return;
+  const usedText = usage ? `You've used ${usage.used} of 20` : "You've used ? of 20";
+  const siteText = Number.isFinite(siteCount) ? `Site total ${siteCount} of 5,000` : "Site total ? of 5,000";
+  refs.quietLine.textContent = `This device: ${deviceCount} chapters checked out · ${usedText} · ${siteText}`;
+}
+
+function trackView(token) {
+  if (typeof window.fums !== "function" || !token) return;
   window.fums("trackView", token);
-}
-
-export function renderSegmentedVerseContent(container, segment) {
-  if (!container) return;
-  container.textContent = "";
-  if (segment.headText) {
-    container.appendChild(textNode(segment.headText));
-  }
-  for (const verse of segment.verses) {
-    if (verse.prefixText) {
-      container.appendChild(textNode(verse.prefixText));
-    }
-    const marker = document.createElement("button");
-    marker.type = "button";
-    marker.className = "verse-marker";
-    marker.dataset.verse = String(verse.number);
-    marker.setAttribute("aria-label", `Verse ${verse.number} options`);
-    marker.appendChild(textNode(verse.markerText));
-    const clue = document.createElement("span");
-    clue.className = "verse-submission-clue";
-    clue.hidden = true;
-    clue.setAttribute("data-reader-adornment", "");
-    const span = document.createElement("span");
-    span.className = "verse-text";
-    span.appendChild(textNode(verse.verseText));
-    const preview = document.createElement("span");
-    preview.className = "verse-note-preview";
-    preview.hidden = true;
-    preview.setAttribute("data-reader-adornment", "");
-    container.appendChild(marker);
-    container.appendChild(clue);
-    container.appendChild(span);
-    container.appendChild(preview);
-  }
-}
-
-function childNodesOf(node) {
-  if (!node) return [];
-  if (node.childNodes && typeof node.childNodes.length === "number") {
-    return Array.from(node.childNodes);
-  }
-  if (node.children && typeof node.children.length === "number") {
-    return Array.from(node.children);
-  }
-  return [];
-}
-
-function serializeNode(node) {
-  if (!node) return "";
-  if (node.nodeType === 3) return node.textContent || "";
-  if (typeof node.getAttribute === "function" && node.getAttribute("data-reader-adornment") != null) {
-    return "";
-  }
-  return childNodesOf(node).map((child) => serializeNode(child)).join("");
-}
-
-export function serializeScripture(container) {
-  return childNodesOf(container).map((node) => serializeNode(node)).join("");
 }
 
 function renderChapterText(routeInfo, chapterText) {
   if (!refs.content) return false;
   const segment = segmentVerses(chapterText, expectedVerseCount(routeInfo.book, routeInfo.chapter));
   if (!segment) {
-    refs.content.textContent = chapterText;
+    clearDisplay();
     return false;
   }
   renderSegmentedVerseContent(refs.content, segment);
+  return serializeScripture(refs.content) === chapterText;
+}
+
+async function bindVerseData(routeInfo) {
+  const menuRouteInfo = { ...routeInfo, bookSlug: routeInfo.bookApi === "1CO" ? "1cor" : "2cor" };
+  verseMenu.bindRoute(menuRouteInfo);
+  try {
+    const entriesByVerse = await loadOwnEntriesByVerse({ config: readerConfig, routeInfo: menuRouteInfo });
+    verseMenu.setOwnedEntries(entriesByVerse);
+  } catch {}
+}
+
+function renderAccount(usageSnapshot) {
+  accountBubble.render({
+    kind: authState.kind,
+    name: authState.name,
+    remaining: usageSnapshot?.remaining ?? 20,
+    ownedWeeks: usageSnapshot?.ownedWeeks || [],
+  });
+}
+
+function showSignedOut(routeInfo) {
+  clearDisplay();
+  setReference(routeInfo);
+  updateNavigation(routeInfo);
+  updateFallback(routeInfo);
+  renderQuietLine({ deviceCount: 0, usage: null, siteCount: currentSiteUsage });
+  renderAccount(null);
+  showSuggestPanel(routeInfo, false);
+  updatePrompt({ showSignIn: authState.kind !== "checking" });
+  setStatus(authState.kind === "checking" ? "Checking sign-in…" : "");
+}
+
+function showSuggestPanel(routeInfo, signedIn) {
+  if (!signedIn) {
+    suggestPanel.hide();
+    return;
+  }
+  if (routeInfo) suggestPanel.showForChapter(routeInfo);
+  else suggestPanel.hide();
+}
+
+function renderLoadedChapter(routeInfo, chapter, usageSnapshot, { cached = false } = {}) {
+  clearDisplay();
+  hidePrompt();
+  const rendered = renderChapterText(routeInfo, chapter.content);
+  if (!rendered) {
+    showCheckoutPrompt(routeInfo, usageSnapshot, "That chapter did not validate cleanly. Use Bible Gateway below.");
+    return false;
+  }
+  renderAttribution(chapter);
+  renderQuietLine({
+    deviceCount: cache.getDeviceChapterCount(),
+    usage: usageSnapshot,
+    siteCount: currentSiteUsage,
+  });
+  setStatus(cached ? "" : "");
+  showSuggestPanel(routeInfo, true);
+  void bindVerseData(routeInfo);
+  trackView(chapter.fumsToken);
   return true;
 }
 
-async function fetchChapter(routeInfo, requestId, controller) {
-  const { signal } = controller;
-  const timeout = window.setTimeout(() => controller.abort(), REQUEST_TIMEOUT_MS);
-  try {
-    const idToken = await access.getIdToken();
-    if (!idToken) {
-      const error = new Error("SIGN_IN_REQUIRED");
-      error.code = "SIGN_IN_REQUIRED";
-      throw error;
-    }
+function weekLabelForRoute(routeInfo) {
+  const week = getReaderWeek(routeInfo);
+  if (!week) return "";
+  return `${routeInfo.book} ${week.chapters.join("–")}`;
+}
 
-    const url = `/api/chapter?book=${encodeURIComponent(routeInfo.bookApi)}&ch=${routeInfo.chapter}`;
-    const response = await fetch(url, {
-      cache: "no-store",
-      headers: buildChapterRequestHeaders(idToken),
-      signal,
-    });
-    if (!response.ok) {
-      const message = messageForChapterStatus(response.status);
-      if (message === "SIGN_IN_REQUIRED") {
-        const error = new Error(message);
-        error.code = message;
-        throw error;
-      }
-      throw new Error(message);
-    }
-    const payload = await response.json();
-    if (signal.aborted || requestId !== activeRequest) return;
+function showCheckoutPrompt(routeInfo, usageSnapshot, statusMessage = "") {
+  clearDisplay();
+  setReference(routeInfo);
+  updateNavigation(routeInfo);
+  updateFallback(routeInfo);
+  renderQuietLine({
+    deviceCount: cache.getDeviceChapterCount(),
+    usage: usageSnapshot,
+    siteCount: currentSiteUsage,
+  });
+  renderAccount(usageSnapshot);
+  showSuggestPanel(routeInfo, true);
+  updatePrompt({
+    showCheckout: true,
+    weekLabel: weekLabelForRoute(routeInfo),
+    capReached: usageSnapshot?.remaining === 0,
+  });
+  setStatus(statusMessage);
+}
 
-    const chapterText = readChapterText(payload);
-    renderChapterText(routeInfo, chapterText);
-    renderAttribution(payload);
-    showSuggestPanel(routeInfo);
-    setSessionUi();
-    setActionUi(routeInfo);
-    const menuRouteInfo = { ...routeInfo, bookSlug: routeInfo.bookApi === "1CO" ? "1cor" : "2cor" };
-    verseMenu.bindRoute(menuRouteInfo);
-    void loadOwnEntriesByVerse({ config: readerConfig, routeInfo: menuRouteInfo })
-      .then((entriesByVerse) => {
-        if (requestId !== activeRequest) return;
-        verseMenu.setOwnedEntries(entriesByVerse);
-      })
-      .catch(() => {});
-    setStatus(`Showing ${chapterReference(routeInfo.book, routeInfo.chapter)}.`);
-    trackView(payload, routeInfo, requestId);
-    void usageMeter.load();
-  } finally {
-    window.clearTimeout(timeout);
+function snapshotForCurrentUser(month) {
+  if (authState.kind !== "google") return null;
+  return cache.readUsageSnapshot(authState.uid, month);
+}
+
+async function loadSiteUsage() {
+  currentSiteUsage = await usageMeter.load();
+  renderQuietLine({
+    deviceCount: cache.getDeviceChapterCount(),
+    usage: snapshotForCurrentUser(),
+    siteCount: currentSiteUsage,
+  });
+}
+
+function purgeForAuthTransition(nextState) {
+  const priorUid = authState.uid;
+  if (!priorUid) return;
+  const accountChanged = nextState.uid && nextState.uid !== priorUid;
+  const signedOut = nextState.kind !== "google";
+  if (accountChanged || signedOut) {
+    clearDisplay();
+    cache.clearAll();
   }
 }
 
-async function loadChapter(routeInfo) {
-  if (!routeInfo) {
-    showFailure("This reader link is invalid. Use the fallback link below.", null);
+async function renderFromCacheOrPrompt(routeInfo) {
+  const cached = cache.readChapter(routeInfo.bookApi, routeInfo.chapter);
+  const usageSnapshot = snapshotForCurrentUser();
+  renderAccount(usageSnapshot);
+  if (cached) {
+    renderLoadedChapter(routeInfo, cached, usageSnapshot, { cached: true });
     return;
   }
-  if (authState.kind !== "google") {
-    showIdleState(routeInfo, "Sign in with Google to read here, or use Bible Gateway below.");
-    return;
-  }
+  showCheckoutPrompt(routeInfo, usageSnapshot);
+}
 
+async function checkoutCurrentWeek() {
+  if (!route || authState.kind !== "google") {
+    showSignedOut(route);
+    return;
+  }
   if (activeController) activeController.abort();
   activeController = new AbortController();
-  activeRequest += 1;
-  const requestId = activeRequest;
-  showLoading(routeInfo);
+  window.setTimeout(() => activeController?.abort(), REQUEST_TIMEOUT_MS);
+  const usageSnapshot = snapshotForCurrentUser();
+  updatePrompt({ showCheckout: true, loading: true, weekLabel: weekLabelForRoute(route) });
+  setStatus("");
 
   try {
-    await fetchChapter(routeInfo, requestId, activeController);
+    const idToken = await access.getIdToken();
+    if (!idToken) throw new Error("SIGN_IN_REQUIRED");
+    const payload = await fetchWeekCheckout({
+      routeInfo: route,
+      idToken,
+      signal: activeController.signal,
+    });
+    cache.writeWeek(payload);
+    cache.writeUsageSnapshot(authState.uid, payload.usage, payload.ownedWeeks);
+    currentSiteUsage = payload.siteUsage?.used ?? currentSiteUsage;
+    const chapter = cache.readChapter(route.bookApi, route.chapter);
+    renderAccount(cache.readUsageSnapshot(authState.uid, payload.usage?.month));
+    if (!chapter || !renderLoadedChapter(route, chapter, cache.readUsageSnapshot(authState.uid, payload.usage?.month))) {
+      showCheckoutPrompt(route, cache.readUsageSnapshot(authState.uid, payload.usage?.month), "Use Bible Gateway below.");
+    }
   } catch (error) {
-    if (activeController.signal.aborted || requestId !== activeRequest) return;
-    if ((error && error.code === "SIGN_IN_REQUIRED") || error?.message === "SIGN_IN_REQUIRED") {
-      authState = { kind: "signed_out", name: "", user: null };
-      showIdleState(routeInfo, "Sign in with Google to read here, or use Bible Gateway below.");
+    if (error?.message === "SIGN_IN_REQUIRED" || error?.code === "SIGN_IN_REQUIRED") {
+      authState = { kind: "signed_out", name: "", uid: "", user: null };
+      showSignedOut(route);
       return;
     }
-    const message = error && error.name === "AbortError"
-      ? "Loading was interrupted. Try again."
-      : (error && error.message) || "Could not load this chapter.";
-    showFailure(message, routeInfo);
+    const usage = snapshotForCurrentUser();
+    showCheckoutPrompt(route, usage, error?.message || "Could not check out this week.");
   }
 }
 
 function handleAuthChange(nextState) {
-  authState = nextState || { kind: "signed_out", name: "", user: null };
+  purgeForAuthTransition(nextState);
+  authState = nextState || { kind: "signed_out", name: "", uid: "", user: null };
   if (!route) {
-    showFailure("This reader link is invalid. Use the fallback link below.", null);
+    setStatus("This reader link is invalid. Use Bible Gateway below.");
     return;
   }
-  if (authState.kind === "google" && refs.content && refs.content.textContent) {
-    setSessionUi();
-    setActionUi(route);
-    setStatus(`Showing ${chapterReference(route.book, route.chapter)}.`);
+  if (authState.kind !== "google") {
+    showSignedOut(route);
     return;
   }
-  if (authState.kind === "google") {
-    showIdleState(route, "Choose how to read this chapter.");
-    return;
-  }
-  showIdleState(route, authState.kind === "checking"
-    ? "Checking sign-in…"
-    : "Sign in with Google to read here, or use Bible Gateway below.");
+  void renderFromCacheOrPrompt(route);
 }
 
 async function initReader() {
@@ -485,57 +342,53 @@ async function initReader() {
   updateNavigation(route);
   updateFallback(route);
   setStatus("Checking sign-in…");
+
   const config = await loadConfig("data/site-config.json");
   readerConfig = config;
-  suggestPanel = mountSuggestPanel({
-    root: refs.suggestRoot,
-    config,
+  cache = createReaderCache();
+  cache.purge();
+  suggestPanel = mountSuggestPanel({ root: refs.suggestRoot, config });
+  verseMenu = mountVerseMenu({ root: refs.verseMenuRoot, content: refs.content, config });
+  usageMeter = mountUsageMeter({ root: refs.usageMeter, config });
+  accountBubble = mountAccountBubble({
+    root: refs.account,
+    onSignOut() {
+      void access.signOut();
+    },
   });
-  verseMenu = mountVerseMenu({
-    root: refs.verseMenuRoot,
-    content: refs.content,
-    config,
-  });
-  usageMeter = mountUsageMeter({
-    root: refs.meter,
-    config,
-  });
+
   access = createReaderAccess({
     config,
+    beforeSignOut() {
+      clearDisplay();
+      cache.clearAll();
+    },
     onChange: handleAuthChange,
   });
 
-  if (refs.load) {
-    refs.load.addEventListener("click", () => {
-      void loadChapter(route);
-    });
-  }
-  if (refs.retry) {
-    refs.retry.addEventListener("click", () => {
-      void loadChapter(route);
-    });
-  }
-  if (refs.signIn) {
-    refs.signIn.addEventListener("click", async () => {
-      setStatus("Opening Google sign-in…");
-      try {
-        await access.signIn();
-      } catch (error) {
-        showIdleState(route, (error && error.message) || "Google sign-in did not complete. You can keep reading on Bible Gateway.");
-      }
-    });
-  }
-  if (refs.signOut) {
-    refs.signOut.addEventListener("click", () => {
-      void access.signOut();
-    });
-  }
+  refs.signIn?.addEventListener("click", async () => {
+    setStatus("Opening Google sign-in…");
+    try {
+      await access.signIn();
+    } catch (error) {
+      setStatus((error && error.message) || "Google sign-in did not complete.");
+    }
+  });
+  refs.load?.addEventListener("click", () => {
+    void checkoutCurrentWeek();
+  });
 
-  showSuggestPanel(route);
-  void usageMeter.load();
+  await loadSiteUsage();
   await access.init();
 }
 
 if (typeof window === "object" && typeof document === "object") {
+  window.__readerTest = {
+    expectedVerseCount,
+    renderChapterText,
+    serializeScripture,
+  };
   void initReader();
 }
+
+export { expectedVerseCount, renderChapterText, renderSegmentedVerseContent, segmentVerses, serializeScripture };

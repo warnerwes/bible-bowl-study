@@ -53,15 +53,15 @@
     ],
     "rewrites": [
       {
-        "source": "/api/chapter",
-        "function": "getChapter"
+        "source": "/api/checkout",
+        "function": "getCheckout"
       }
     ]
   },
   "emulators": {
     "firestore": {
       "host": "127.0.0.1",
-      "port": 8792
+      "port": 8800
     },
     "functions": {
       "port": 5001
