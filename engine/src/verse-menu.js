@@ -81,10 +81,11 @@ export { setFirebaseLoader };
 
 export function mountVerseMenu({ root, content, config }) {
   if (!root || !content) {
-    return { close() {}, bindRoute() {}, setOwnedEntries() {} };
+    return { close() {}, bindRoute() {}, setOwnedEntries() {}, show() {} };
   }
 
   let routeInfo = null;
+  let verseTextByVerse = {};
   let currentVerse = 0;
   let currentMarker = null;
   let lastFocused = null;
@@ -168,6 +169,10 @@ export function mountVerseMenu({ root, content, config }) {
 
   function verseReference(verse) {
     return `${routeInfo.book} ${routeInfo.chapter}:${verse}`;
+  }
+
+  function currentVerseText() {
+    return verseTextByVerse[String(currentVerse)];
   }
 
   function focusables() {
@@ -291,6 +296,14 @@ export function mountVerseMenu({ root, content, config }) {
     shell.appendChild(actions);
     shell.appendChild(compactHistoryList());
     return shell;
+  }
+
+  function renderVerseText() {
+    const verseText = currentVerseText();
+    if (verseText == null || verseText === "") return null;
+    const block = el("blockquote", "verse-menu-verse-text");
+    block.textContent = verseText;
+    return block;
   }
 
   function renderSubmissionHistory(kind) {
@@ -477,13 +490,18 @@ export function mountVerseMenu({ root, content, config }) {
     title.textContent = routeInfo && currentVerse ? verseReference(currentVerse) : "Verse options";
     body.textContent = "";
     body.appendChild(status);
+    const verseText = renderVerseText();
+    if (verseText) body.appendChild(verseText);
     body.appendChild(panelKind ? renderExpanded(panelKind) : renderBubble());
     setStatus(status.textContent, String(status.className || "").includes("error"));
   }
 
-  function openForMarker(marker, verse) {
+  function openForMarker(marker, verse, verseText = verseTextByVerse[String(verse)]) {
     if (!routeInfo) return;
     currentVerse = verse;
+    if (verseText !== undefined) {
+      verseTextByVerse[String(verse)] = verseText;
+    }
     currentMarker = marker;
     lastFocused = document.activeElement || marker;
     panelKind = null;
@@ -507,7 +525,7 @@ export function mountVerseMenu({ root, content, config }) {
     if (!marker) return;
     const verse = Number(marker.getAttribute("data-verse"));
     if (!Number.isInteger(verse) || verse < 1) return;
-    openForMarker(marker, verse);
+    api.show(marker, verse);
   });
 
   const api = {
@@ -525,8 +543,9 @@ export function mountVerseMenu({ root, content, config }) {
         currentMarker.focus();
       }
     },
-    bindRoute(nextRouteInfo) {
+    bindRoute(nextRouteInfo, nextVerseTextByVerse = {}) {
       routeInfo = nextRouteInfo || null;
+      verseTextByVerse = { ...nextVerseTextByVerse };
       ownEntriesByVerse = {};
       notesByVerse = {};
       api.close();
@@ -536,6 +555,9 @@ export function mountVerseMenu({ root, content, config }) {
       ownEntriesByVerse = normalizeEntriesMap(entriesByVerse);
       refreshAdornments();
       if (!dialog.hidden) render();
+    },
+    show(marker, verse, verseText = verseTextByVerse[String(verse)]) {
+      openForMarker(marker, verse, verseText);
     },
   };
 

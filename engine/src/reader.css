@@ -279,6 +279,19 @@
   gap: 0.85rem;
 }
 
+.verse-menu-verse-text {
+  margin: 0;
+  padding: 0.8rem 0.9rem;
+  border-left: 3px solid rgba(247, 210, 122, 0.55);
+  border-radius: 0.7rem;
+  background: rgba(255, 255, 255, 0.04);
+  color: rgba(244, 234, 211, 0.82);
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  max-height: calc(1.55em * 6);
+  overflow-y: auto;
+}
+
 .verse-menu-actions {
   display: grid;
   gap: 0.6rem;

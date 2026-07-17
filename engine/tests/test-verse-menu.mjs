@@ -212,6 +212,72 @@ test("verse menu keeps the first-name field visible and editable when a name alr
   assert.equal(globalThis.localStorage.getItem("bbs:authorName"), "Mimi");
 });
 
+test("verse menu shows the exact verse text in both compact and expanded states", async () => {
+  const { document, root, content, marker } = setupDom();
+  globalThis.document = document;
+  globalThis.localStorage = makeStorage();
+  globalThis.window = globalThis;
+  globalThis.innerWidth = 1200;
+  globalThis.scrollX = 0;
+  globalThis.scrollY = 0;
+  globalThis.matchMedia = () => ({ matches: false });
+  setNavigator({ clipboard: { async writeText() {} } });
+
+  const calls = [];
+  await installFirebaseStub(calls);
+  const { mountVerseMenu } = await mountMenuFactory();
+  const menu = mountVerseMenu({
+    root,
+    content,
+    config: { firebase: { projectId: "bible-bowl-study" } },
+  });
+  const exactVerseText = " Synthetic verse text.\nStill the same verse.";
+  menu.bindRoute(
+    { book: "1 Corinthians", bookSlug: "1cor", chapter: 13 },
+    { 2: exactVerseText }
+  );
+
+  content.dispatch("click", { target: marker });
+
+  const compactVerseText = nodesByClass(root, "verse-menu-verse-text")[0];
+  assert.ok(compactVerseText);
+  assert.equal(compactVerseText.textContent, exactVerseText);
+
+  buttonByText(root, "Submit question").click();
+
+  const expandedVerseText = nodesByClass(root, "verse-menu-verse-text")[0];
+  assert.ok(expandedVerseText);
+  assert.equal(expandedVerseText.textContent, exactVerseText);
+});
+
+test("verse menu omits the verse text block when no verse text is available", async () => {
+  const { document, root, content, marker } = setupDom();
+  globalThis.document = document;
+  globalThis.localStorage = makeStorage();
+  globalThis.window = globalThis;
+  globalThis.innerWidth = 1200;
+  globalThis.scrollX = 0;
+  globalThis.scrollY = 0;
+  globalThis.matchMedia = () => ({ matches: false });
+  setNavigator({ clipboard: { async writeText() {} } });
+
+  const calls = [];
+  await installFirebaseStub(calls);
+  const { mountVerseMenu } = await mountMenuFactory();
+  const menu = mountVerseMenu({
+    root,
+    content,
+    config: { firebase: { projectId: "bible-bowl-study" } },
+  });
+  menu.bindRoute({ book: "1 Corinthians", bookSlug: "1cor", chapter: 13 });
+
+  content.dispatch("click", { target: marker });
+
+  assert.equal(nodesByClass(root, "verse-menu-verse-text").length, 0);
+  buttonByText(root, "Private note").click();
+  assert.equal(nodesByClass(root, "verse-menu-verse-text").length, 0);
+});
+
 test("verse menu history renders newest first and stars only approved/exported entries", async () => {
   const { document, root, content, marker } = setupDom();
   globalThis.document = document;

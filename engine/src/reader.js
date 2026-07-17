@@ -67,6 +67,7 @@ let suggestPanel = { hide() {}, showForChapter() {} };
 let verseMenu = { bindRoute() {}, close() {}, setOwnedEntries() {} };
 let accountBubble = { close() {}, render() {} };
 let currentSiteUsage = null;
+let currentVerseTextByVerse = {};
 
 function clearDisplay() {
   if (refs.content) refs.content.textContent = "";
@@ -159,16 +160,20 @@ function renderChapterText(routeInfo, chapterText) {
   if (!refs.content) return false;
   const segment = segmentVerses(chapterText, expectedVerseCount(routeInfo.book, routeInfo.chapter));
   if (!segment) {
+    currentVerseTextByVerse = {};
     clearDisplay();
     return false;
   }
+  currentVerseTextByVerse = Object.fromEntries(
+    segment.verses.map((verse) => [String(verse.number), verse.verseText])
+  );
   renderSegmentedVerseContent(refs.content, segment);
   return serializeScripture(refs.content) === chapterText;
 }
 
 async function bindVerseData(routeInfo) {
   const menuRouteInfo = { ...routeInfo, bookSlug: routeInfo.bookApi === "1CO" ? "1cor" : "2cor" };
-  verseMenu.bindRoute(menuRouteInfo);
+  verseMenu.bindRoute(menuRouteInfo, currentVerseTextByVerse);
   try {
     const entriesByVerse = await loadOwnEntriesByVerse({ config: readerConfig, routeInfo: menuRouteInfo });
     verseMenu.setOwnedEntries(entriesByVerse);
