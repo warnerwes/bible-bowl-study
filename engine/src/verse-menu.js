@@ -5,6 +5,7 @@ import {
   normalizeOptionalHttpUrl,
   persistAuthorName,
   readAuthorName,
+  resolveAuthorName,
   setFirebaseLoader,
 } from "./suggest-core.js";
 import { applyVerseAdornments } from "./verse-adornments.js";
@@ -340,11 +341,19 @@ export function mountVerseMenu({ root, content, config }) {
     const form = el("form", "verse-menu-form");
     const authorName = readAuthorName().trim();
     let nameInput = null;
-    if (kind !== "private_note" && !authorName) {
+    if (kind !== "private_note") {
       nameInput = createTextInput("verse-menu-name");
       nameInput.maxLength = 40;
       nameInput.required = true;
+      nameInput.value = authorName;
+      nameInput.addEventListener("input", () => {
+        persistAuthorName(nameInput.value.trim());
+      });
       form.appendChild(field("First name", nameInput));
+      void resolveAuthorName({ config }).then((resolvedName) => {
+        if (!resolvedName || nameInput.value.trim()) return;
+        nameInput.value = resolvedName;
+      });
     }
 
     let primaryInput = null;

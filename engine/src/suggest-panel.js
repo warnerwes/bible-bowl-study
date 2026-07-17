@@ -5,6 +5,7 @@ import {
   persistAuthorName,
   readAuthorName,
   readStoredJson,
+  resolveAuthorName,
   setFirebaseLoader,
   writeStoredJson,
 } from "./suggest-core.js";
@@ -110,6 +111,11 @@ export function mountSuggestPanel({ root, config }) {
   nameInput.required = true;
   nameInput.value = readAuthorName();
   nameField.appendChild(nameInput);
+
+  void resolveAuthorName({ config }).then((authorName) => {
+    if (!authorName || nameInput.value.trim()) return;
+    nameInput.value = authorName;
+  });
 
   const status = el("p", "muted suggest-status");
   status.id = "suggest-status";

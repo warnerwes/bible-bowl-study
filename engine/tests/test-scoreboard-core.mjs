@@ -266,6 +266,76 @@ test("scoreboard sync renders sorted rows and highlights the current student", a
   assert.ok(String(rows[1].className).includes("is-self"));
 });
 
+test("scoreboard join prompt prefills a google first name and stays editable", async () => {
+  const { document } = makeDocument(["results-scoreboard"]);
+  globalThis.document = document;
+  globalThis.window = globalThis;
+  globalThis.localStorage = makeStorage();
+
+  const { setFirebaseLoader } = await import(`${firebaseUrl}?case=google-prefill-prompt`);
+  setFirebaseLoader(async () => ([
+    {
+      getApps() { return []; },
+      initializeApp(config) { return { options: config }; },
+    },
+    {
+      getAuth() {
+        return {
+          currentUser: {
+            uid: "student-7",
+            displayName: "Mary Beth Johnson",
+            providerData: [{ providerId: "google.com" }],
+          },
+          async authStateReady() {},
+        };
+      },
+      browserLocalPersistence: { mode: "local" },
+      async setPersistence() {},
+      async signInAnonymously() {
+        return { user: { uid: "student-7" } };
+      },
+    },
+    {
+      getFirestore() { return { name: "db" }; },
+      collection(_db, name) { return { name }; },
+      query(...parts) { return parts; },
+      orderBy(field, direction) { return { field, direction }; },
+      limit(value) { return { limit: value }; },
+      doc(_db, ref) { return { ref }; },
+      serverTimestamp() { return "SERVER_TIME"; },
+      async setDoc() {},
+      async getDocs() {
+        return { docs: [] };
+      },
+    },
+  ]));
+
+  const { mountResultsScoreboard } = await import(`${scoreboardUrl}?case=google-prefill-prompt`);
+  const root = document.getElementById("results-scoreboard");
+  const api = mountResultsScoreboard({
+    root,
+    config: { firebase: { projectId: "bible-bowl-study" } },
+    storage: {
+      masteryStreak: 3,
+      all() {
+        return { "keep-1": { streak: 3 } };
+      },
+    },
+    questions: [{ id: "keep-1" }],
+  });
+
+  await api.load();
+
+  const input = document.getElementById("scoreboard-name");
+  assert.ok(input);
+  assert.equal(input.value, "Mary");
+  assert.equal(input.required, true);
+  input.value = "Mimi";
+  const form = findAllByClass(root, "scoreboard-join")[0];
+  await form._listeners.submit[0]({ preventDefault() {} });
+  assert.equal(globalThis.localStorage.getItem("bbs:authorName"), "Mimi");
+});
+
 test("quiz render keeps firebase unloaded until results", async () => {
   const ids = [
     "setup", "quiz", "results", "result-score", "missed-review", "results-scoreboard",

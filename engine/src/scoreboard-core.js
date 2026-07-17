@@ -5,6 +5,7 @@ import {
   persistAuthorName,
   readAuthorName,
   ensureSignedInUser,
+  resolveAuthorName,
   waitForExistingSession,
 } from "./suggest-core.js";
 
@@ -228,8 +229,9 @@ export function mountResultsScoreboard({ root, config, storage, questions }) {
       masteryStreak: storage && storage.masteryStreak ? storage.masteryStreak : 3,
     });
     const optedIn = readScoreboardOptIn();
+    const authorName = trimName(await resolveAuthorName({ config }));
     const model = {
-      authorName: trimName(readAuthorName()),
+      authorName,
       onJoin: null,
       ownUid: "",
       rows: [],

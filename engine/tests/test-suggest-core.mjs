@@ -120,3 +120,107 @@ test("anonymous suggestion submitters switch to a local anonymous session", asyn
   assert.equal(result.uid, "anon-uid");
   assert.deepEqual(calls, ["local"]);
 });
+
+test("resolveAuthorName stores the first word for signed-in google users", async () => {
+  globalThis.localStorage = makeStorage();
+  globalThis.window = globalThis;
+
+  const { resolveAuthorName, setFirebaseLoader } = await import(`${suggestCoreUrl}?case=google-prefill`);
+  setFirebaseLoader(async () => ([
+    { getApps() { return []; }, initializeApp(config) { return { options: config }; } },
+    {
+      getAuth() {
+        return {
+          currentUser: {
+            uid: "google-uid",
+            displayName: "Mary Beth Johnson",
+            providerData: [{ providerId: "google.com" }],
+            async authStateReady() {},
+          },
+        };
+      },
+      browserLocalPersistence: { mode: "local" },
+    },
+    {
+      getFirestore() { return { name: "db" }; },
+    },
+  ]));
+
+  const result = await resolveAuthorName({
+    config: { firebase: { projectId: "bible-bowl-study" } },
+  });
+
+  assert.equal(result, "Mary");
+  assert.equal(globalThis.localStorage.getItem("bbs:authorName"), "Mary");
+});
+
+test("resolveAuthorName keeps an existing stored name instead of a google prefill", async () => {
+  globalThis.localStorage = makeStorage();
+  globalThis.localStorage.setItem("bbs:authorName", "Mimi");
+  globalThis.window = globalThis;
+
+  let loaderCalls = 0;
+  const { resolveAuthorName, setFirebaseLoader } = await import(`${suggestCoreUrl}?case=stored-precedence`);
+  setFirebaseLoader(async () => {
+    loaderCalls += 1;
+    return [
+      { getApps() { return []; }, initializeApp(config) { return { options: config }; } },
+      {
+        getAuth() {
+          return {
+            currentUser: {
+              uid: "google-uid",
+              displayName: "Mary Beth Johnson",
+              providerData: [{ providerId: "google.com" }],
+              async authStateReady() {},
+            },
+          };
+        },
+      },
+      {
+        getFirestore() { return { name: "db" }; },
+      },
+    ];
+  });
+
+  const result = await resolveAuthorName({
+    config: { firebase: { projectId: "bible-bowl-study" } },
+  });
+
+  assert.equal(result, "Mimi");
+  assert.equal(globalThis.localStorage.getItem("bbs:authorName"), "Mimi");
+  assert.equal(loaderCalls, 0);
+});
+
+test("resolveAuthorName leaves anonymous users unchanged", async () => {
+  globalThis.localStorage = makeStorage();
+  globalThis.window = globalThis;
+
+  const { resolveAuthorName, setFirebaseLoader } = await import(`${suggestCoreUrl}?case=anonymous-unchanged`);
+  setFirebaseLoader(async () => ([
+    { getApps() { return []; }, initializeApp(config) { return { options: config }; } },
+    {
+      getAuth() {
+        return {
+          currentUser: {
+            uid: "anon-uid",
+            isAnonymous: true,
+            displayName: "Anon Child",
+            providerData: [],
+            async authStateReady() {},
+          },
+        };
+      },
+    },
+    {
+      getFirestore() { return { name: "db" }; },
+    },
+  ]));
+
+  const result = await resolveAuthorName({
+    config: { firebase: { projectId: "bible-bowl-study" } },
+  });
+
+  assert.equal(result, "");
+  assert.equal(globalThis.localStorage.getItem("bbs:authorName"), null);
+});

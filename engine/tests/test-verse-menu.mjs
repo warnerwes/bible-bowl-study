@@ -171,6 +171,47 @@ test("verse menu opens in bubble state, expands by type, and returns to bubble a
   assert.equal(compactItems[0].includes("Newest question"), true);
 });
 
+test("verse menu keeps the first-name field visible and editable when a name already exists", async () => {
+  const { document, root, content, marker } = setupDom();
+  globalThis.document = document;
+  globalThis.localStorage = makeStorage();
+  globalThis.window = globalThis;
+  globalThis.innerWidth = 1200;
+  globalThis.scrollX = 0;
+  globalThis.scrollY = 0;
+  globalThis.matchMedia = () => ({ matches: false });
+  setNavigator({ clipboard: { async writeText() {} } });
+
+  globalThis.localStorage.setItem("bbs:authorName", "Anna");
+
+  const calls = [];
+  await installFirebaseStub(calls);
+  const { mountVerseMenu } = await mountMenuFactory();
+  const menu = mountVerseMenu({
+    root,
+    content,
+    config: { firebase: { projectId: "bible-bowl-study" } },
+  });
+  menu.bindRoute({ book: "1 Corinthians", bookSlug: "1cor", chapter: 13 });
+
+  content.dispatch("click", { target: marker });
+  buttonByText(root, "Submit question").click();
+
+  const nameInput = document.getElementById("verse-menu-name");
+  assert.ok(nameInput);
+  assert.equal(nameInput.value, "Anna");
+
+  nameInput.value = "Mimi";
+  nameInput.dispatch("input");
+  document.getElementById("verse-menu-question").value = "Nickname question";
+  document.getElementById("verse-menu-answer").value = "Nickname answer";
+  const form = nodesByTag(root, "FORM")[0];
+  await form._listeners.submit[0]({ preventDefault() {} });
+
+  assert.equal(calls[0].payload.authorName, "Mimi");
+  assert.equal(globalThis.localStorage.getItem("bbs:authorName"), "Mimi");
+});
+
 test("verse menu history renders newest first and stars only approved/exported entries", async () => {
   const { document, root, content, marker } = setupDom();
   globalThis.document = document;

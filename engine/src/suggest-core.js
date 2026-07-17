@@ -48,6 +48,32 @@ export function persistAuthorName(value) {
   writeStoredText(AUTHOR_NAME_KEY, value || "");
 }
 
+function firstWord(value) {
+  return String(value || "").trim().split(/\s+/, 1)[0].slice(0, 40);
+}
+
+function isGoogleUser(user) {
+  if (!user || !Array.isArray(user.providerData)) return false;
+  return user.providerData.some((entry) => entry && entry.providerId === "google.com");
+}
+
+export async function resolveAuthorName({ config }) {
+  const existing = readAuthorName().trim();
+  if (existing) return existing;
+  if (!config || !config.firebase) return "";
+  try {
+    const firebase = await ensureFirebase(config.firebase);
+    const user = await waitForExistingSession(firebase);
+    if (!isGoogleUser(user)) return "";
+    const prefill = firstWord(user.displayName);
+    if (!prefill) return "";
+    persistAuthorName(prefill);
+    return prefill;
+  } catch {
+    return "";
+  }
+}
+
 function timeout(ms) {
   return new Promise((_, reject) => {
     window.setTimeout(() => reject(new Error("Timed out. Check your connection and try again.")), ms);
