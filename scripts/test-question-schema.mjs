@@ -15,11 +15,22 @@
 
 import { readFile } from "fs/promises";
 import assert from "assert/strict";
+import path from "path";
+import { fileURLToPath } from "url";
+
+import { validate } from "../generator/toolchain/scripts/lib/schema-utils.mjs";
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const root = path.join(__dirname, "..");
+const corinthiansSchemaPath = path.join(root, "generator", "schemas", "question-candidate.schema.json");
+const corinthiansSeedPath = path.join(root, "generator", "pilots", "corinthians", "questions.seed.json");
 
 const json = JSON.parse(await readFile("data/questions.json", "utf8"));
 const exodusSource = JSON.parse(
   await readFile("data/source-text/exodus/exodus-verses.json", "utf8")
 );
+const corinthiansSchema = JSON.parse(await readFile(corinthiansSchemaPath, "utf8"));
+const corinthiansSeed = JSON.parse(await readFile(corinthiansSeedPath, "utf8"));
 const exodusVerses = exodusSource.verses;
 assert.ok(Array.isArray(json), "questions.json must be a top-level array");
 
@@ -92,6 +103,15 @@ check("every question has an id, chapter, reference, topic, type, question", () 
   for (const q of json) {
     for (const f of ["id", "chapter", "reference", "topic", "type", "question"]) {
       if (!q[f]) throw new Error(`${q.id || "?"} missing ${f}`);
+    }
+  }
+});
+
+check("corinthians seed validates against question-candidate.schema.json", () => {
+  for (let index = 0; index < corinthiansSeed.length; index += 1) {
+    const result = validate(corinthiansSchema, corinthiansSeed[index]);
+    if (!result.valid) {
+      throw new Error(`corinthians seed item ${index} invalid: ${result.errors.join("; ")}`);
     }
   }
 });

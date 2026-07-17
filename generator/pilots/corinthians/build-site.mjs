@@ -12,6 +12,7 @@ import { cp, mkdir, rm, stat, access } from "node:fs/promises";
 import { existsSync, readdirSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import { validate } from "../../toolchain/scripts/lib/schema-utils.mjs";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, "..", "..", "..");
@@ -20,6 +21,8 @@ const ENGINE_STYLES = path.join(ENGINE_SRC, "styles.css");
 const PILOT = __dirname;
 const OUT = path.join(PILOT, "_site");
 const OUT_DATA = path.join(OUT, "data");
+const QUESTION_SCHEMA_PATH = path.join(ROOT, "generator", "schemas", "question-candidate.schema.json");
+const QUESTION_SEED_PATH = path.join(PILOT, "questions.seed.json");
 
 const ENGINE_FILES = readdirSync(ENGINE_SRC)
   .filter((f) => f.endsWith(".js"))
@@ -33,6 +36,7 @@ const COPY_JSON_RENAME = {
   "form-config.json": "form-config.json",
   "reading-plan.json": "reading-plan.json",
   "source-manifest.json": "source-manifest.json",
+  "memory-hooks.json": "memory-hooks.json",
 };
 
 const COPY_FILES = ["index.html", "reading.html"];
@@ -46,7 +50,28 @@ async function safeCopy(src, dest) {
   await cp(src, dest);
 }
 
+async function validateQuestionSeed() {
+  const [{ readFile }] = await Promise.all([import("node:fs/promises")]);
+  const [schema, seed] = await Promise.all([
+    readFile(QUESTION_SCHEMA_PATH, "utf8"),
+    readFile(QUESTION_SEED_PATH, "utf8"),
+  ]);
+  const parsedSchema = JSON.parse(schema);
+  const parsedSeed = JSON.parse(seed);
+  const errors = [];
+  for (let index = 0; index < parsedSeed.length; index += 1) {
+    const result = validate(parsedSchema, parsedSeed[index]);
+    if (!result.valid) {
+      errors.push(`questions.seed.json[${index}]`, ...result.errors);
+    }
+  }
+  if (errors.length) {
+    throw new Error(`questions.seed.json failed schema validation:\n${errors.join("\n")}`);
+  }
+}
+
 async function build() {
+  await validateQuestionSeed();
   try { await rm(OUT, { recursive: true, force: true }); } catch {}
   await mkdirp(OUT);
   await mkdirp(OUT_DATA);
@@ -86,6 +111,7 @@ async function build() {
 }
 
 async function check() {
+  await validateQuestionSeed();
   const expected = [
     "index.html",
     "reading.html",
@@ -100,6 +126,7 @@ async function check() {
     "data/form-config.json",
     "data/reading-plan.json",
     "data/source-manifest.json",
+    "data/memory-hooks.json",
     ...ENGINE_FILES,
   ];
   const missing = [];

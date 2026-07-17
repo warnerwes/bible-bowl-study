@@ -12,7 +12,6 @@ import {
   doc,
   getDoc,
   getDocs,
-  query,
   serverTimestamp,
   setDoc,
   updateDoc
@@ -20,6 +19,7 @@ import {
 
 const PROJECT_ID = "bible-bowl-study-rules";
 const RULES_PATH = new URL("../../firestore.rules", import.meta.url);
+const FIRESTORE_PORT = Number(process.env.FIRESTORE_EMULATOR_PORT ?? 8787);
 
 let testEnv;
 
@@ -28,7 +28,7 @@ test.before(async () => {
     projectId: PROJECT_ID,
     firestore: {
       host: "127.0.0.1",
-      port: 8080,
+      port: FIRESTORE_PORT,
       rules: await readFile(RULES_PATH, "utf8")
     }
   });
@@ -129,28 +129,34 @@ test("students cannot update or delete suggestions", async () => {
   await assertFails(deleteDoc(suggestion));
 });
 
-test("reviewer can approve a new suggestion via status-only update", async () => {
-  await seedSuggestion("review-status", { uid: "student-1", status: "new" });
-  const reviewerDoc = doc(reviewerDb(), "suggestions/review-status");
+test("forged reviewer-style auth cannot update suggestion status", async () => {
+  await seedSuggestion("forged-reviewer", { uid: "student-1", status: "new" });
+  const forgedDoc = doc(forgedReviewerDb(), "suggestions/forged-reviewer");
 
-  await assertSucceeds(updateDoc(reviewerDoc, { status: "approved" }));
+  await assertFails(updateDoc(forgedDoc, { status: "approved" }));
 });
 
-test("reviewer can list all suggestions", async () => {
+test("clients cannot list suggestions even with forged reviewer-style auth", async () => {
   await seedSuggestion("list-a", { uid: "student-1", createdAt: fixedTimestamp("2026-01-01T00:00:00Z") });
   await seedSuggestion("list-b", { uid: "student-2", createdAt: fixedTimestamp("2026-01-02T00:00:00Z") });
 
-  const suggestions = query(collection(reviewerDb(), "suggestions"));
-  const snapshot = await assertSucceeds(getDocs(suggestions));
+  const suggestions = collection(forgedReviewerDb(), "suggestions");
+  await assertFails(getDocs(suggestions));
+});
 
-  assert.equal(snapshot.size, 2);
+test("clients cannot read reviewEvents subcollections", async () => {
+  await seedSuggestion("event-parent", { uid: "student-1" });
+  await seedReviewEvent("event-parent", "event-1");
+  const eventDoc = doc(studentDb("student-1"), "suggestions/event-parent/reviewEvents/event-1");
+
+  await assertFails(getDoc(eventDoc));
 });
 
 function studentDb(uid) {
   return testEnv.authenticatedContext(uid).firestore();
 }
 
-function reviewerDb() {
+function forgedReviewerDb() {
   return testEnv.authenticatedContext("reviewer-user", { reviewer: true }).firestore();
 }
 
@@ -185,6 +191,19 @@ async function seedSuggestion(id, overrides = {}) {
       createdAt: fixedTimestamp("2026-01-01T00:00:00Z"),
       ...overrides
     });
+  });
+}
+
+async function seedReviewEvent(suggestionId, eventId) {
+  await testEnv.withSecurityRulesDisabled(async (context) => {
+    await setDoc(
+      doc(context.firestore(), `suggestions/${suggestionId}/reviewEvents/${eventId}`),
+      {
+        action: "approved",
+        actor: "reviewer",
+        at: fixedTimestamp("2026-01-01T00:00:00Z"),
+      }
+    );
   });
 }
 

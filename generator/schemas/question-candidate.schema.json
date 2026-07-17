@@ -147,6 +147,9 @@
         }
       }
     },
+    "placeholder": {
+      "type": "boolean"
+    },
     "reviewStatus": {
       "enum": [
         "draft",

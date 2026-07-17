@@ -1,58 +1,5 @@
 [
   {
-    "id": "1cor13-001",
-    "queueItemIds": [],
-    "book": "1 Corinthians",
-    "bookSlug": "1cor",
-    "chapter": 13,
-    "reference": "1 Corinthians 13",
-    "topic": "Love / Charity",
-    "type": "multiple-choice",
-    "question": "In which chapter of 1 Corinthians does Paul describe the way of love (often called the 'love chapter')?",
-    "answer": "Chapter 13",
-    "options": ["Chapter 11", "Chapter 13", "Chapter 15", "Chapter 16"],
-    "acceptableAnswers": ["chapter 13", "13", "1 corinthians 13"],
-    "difficulty": "easy",
-    "roundFormat": "standard",
-    "reviewStatus": "draft",
-    "placeholder": true
-  },
-  {
-    "id": "1cor15-001",
-    "queueItemIds": [],
-    "book": "1 Corinthians",
-    "bookSlug": "1cor",
-    "chapter": 15,
-    "reference": "1 Corinthians 15",
-    "topic": "Resurrection",
-    "type": "multiple-choice",
-    "question": "Which chapter of 1 Corinthians is the long teaching on the resurrection of the dead and the risen body?",
-    "answer": "Chapter 15",
-    "options": ["Chapter 12", "Chapter 13", "Chapter 15", "Chapter 16"],
-    "acceptableAnswers": ["chapter 15", "15"],
-    "difficulty": "easy",
-    "roundFormat": "standard",
-    "reviewStatus": "draft",
-    "placeholder": true
-  },
-  {
-    "id": "1cor15-002",
-    "queueItemIds": [],
-    "book": "1 Corinthians",
-    "bookSlug": "1cor",
-    "chapter": 15,
-    "reference": "1 Corinthians 15",
-    "topic": "Resurrection",
-    "type": "true-false",
-    "question": "In 1 Corinthians 15, Paul teaches that Christ's resurrection is the firstfruits of those who have fallen asleep.",
-    "answer": "True",
-    "options": ["True", "False"],
-    "difficulty": "medium",
-    "roundFormat": "standard",
-    "reviewStatus": "draft",
-    "placeholder": true
-  },
-  {
     "id": "1cor5-001",
     "queueItemIds": [],
     "book": "1 Corinthians",
@@ -63,7 +10,12 @@
     "type": "multiple-choice",
     "question": "In 1 Corinthians 5, what does Paul instruct the church to do with the man living in sexual immorality?",
     "answer": "Deliver him to Satan for the destruction of the flesh",
-    "options": ["Deliver him to Satan for the destruction of the flesh", "Take up a collection for him", "Ignore the matter entirely", "Send him to Jerusalem"],
+    "options": [
+      "Deliver him to Satan for the destruction of the flesh",
+      "Take up a collection for him",
+      "Ignore the matter entirely",
+      "Send him to Jerusalem"
+    ],
     "difficulty": "medium",
     "roundFormat": "standard",
     "reviewStatus": "draft",
@@ -80,7 +32,10 @@
     "type": "true-false",
     "question": "1 Corinthians 11 contains Paul's account of the institution of the Lord's Supper.",
     "answer": "True",
-    "options": ["True", "False"],
+    "options": [
+      "True",
+      "False"
+    ],
     "difficulty": "medium",
     "roundFormat": "standard",
     "reviewStatus": "draft",
@@ -97,8 +52,111 @@
     "type": "multiple-choice",
     "question": "In 1 Corinthians 12, what does Paul compare the church to in order to teach about spiritual gifts?",
     "answer": "A body with many members",
-    "options": ["A body with many members", "A vineyard with workers", "An army with captains", "A temple with musicians"],
+    "options": [
+      "A body with many members",
+      "A vineyard with workers",
+      "An army with captains",
+      "A temple with musicians"
+    ],
     "difficulty": "easy",
+    "roundFormat": "standard",
+    "reviewStatus": "draft",
+    "placeholder": true
+  },
+  {
+    "chapter": 13,
+    "question": "According to 1 Corinthians 13:4, which two qualities does Paul list FIRST when describing love?",
+    "book": "1 Corinthians",
+    "type": "multiple-choice",
+    "roundFormat": "standard",
+    "bookSlug": "1cor",
+    "acceptableAnswers": [
+      "suffers long and is kind",
+      "longsuffering and kind"
+    ],
+    "difficulty": "medium",
+    "reference": "1 Corinthians 13:4",
+    "answer": "Love suffers long and is kind",
+    "queueItemIds": [],
+    "options": [
+      "Love suffers long and is kind",
+      "Love rejoices in the truth and hopes all things",
+      "Love is patient and never fails",
+      "Love bears all things and endures all things"
+    ],
+    "topic": "Love chapter",
+    "reviewStatus": "approved",
+    "id": "1cor13-sug-3d1d2e77eadd"
+  },
+  {
+    "id": "1cor13-001",
+    "queueItemIds": [],
+    "book": "1 Corinthians",
+    "bookSlug": "1cor",
+    "chapter": 13,
+    "reference": "1 Corinthians 13",
+    "topic": "Love / Charity",
+    "type": "multiple-choice",
+    "question": "In which chapter of 1 Corinthians does Paul describe the way of love (often called the 'love chapter')?",
+    "answer": "Chapter 13",
+    "options": [
+      "Chapter 11",
+      "Chapter 13",
+      "Chapter 15",
+      "Chapter 16"
+    ],
+    "acceptableAnswers": [
+      "chapter 13",
+      "13",
+      "1 corinthians 13"
+    ],
+    "difficulty": "easy",
+    "roundFormat": "standard",
+    "reviewStatus": "draft",
+    "placeholder": true
+  },
+  {
+    "id": "1cor15-001",
+    "queueItemIds": [],
+    "book": "1 Corinthians",
+    "bookSlug": "1cor",
+    "chapter": 15,
+    "reference": "1 Corinthians 15",
+    "topic": "Resurrection",
+    "type": "multiple-choice",
+    "question": "Which chapter of 1 Corinthians is the long teaching on the resurrection of the dead and the risen body?",
+    "answer": "Chapter 15",
+    "options": [
+      "Chapter 12",
+      "Chapter 13",
+      "Chapter 15",
+      "Chapter 16"
+    ],
+    "acceptableAnswers": [
+      "chapter 15",
+      "15"
+    ],
+    "difficulty": "easy",
+    "roundFormat": "standard",
+    "reviewStatus": "draft",
+    "placeholder": true
+  },
+  {
+    "id": "1cor15-002",
+    "queueItemIds": [],
+    "book": "1 Corinthians",
+    "bookSlug": "1cor",
+    "chapter": 15,
+    "reference": "1 Corinthians 15",
+    "topic": "Resurrection",
+    "type": "true-false",
+    "question": "In 1 Corinthians 15, Paul teaches that Christ's resurrection is the firstfruits of those who have fallen asleep.",
+    "answer": "True",
+    "options": [
+      "True",
+      "False"
+    ],
+    "difficulty": "medium",
     "roundFormat": "standard",
     "reviewStatus": "draft",
     "placeholder": true
@@ -114,7 +172,12 @@
     "type": "multiple-choice",
     "question": "What title does Paul give God at the start of 2 Corinthians 1?",
     "answer": "The God of all comfort",
-    "options": ["The God of all comfort", "The God of peace", "The God of hosts", "The God of patience"],
+    "options": [
+      "The God of all comfort",
+      "The God of peace",
+      "The God of hosts",
+      "The God of patience"
+    ],
     "difficulty": "easy",
     "roundFormat": "standard",
     "reviewStatus": "draft",
@@ -131,7 +194,10 @@
     "type": "true-false",
     "question": "2 Corinthians 5 says that if anyone is in Christ, he is a new creation.",
     "answer": "True",
-    "options": ["True", "False"],
+    "options": [
+      "True",
+      "False"
+    ],
     "difficulty": "easy",
     "roundFormat": "standard",
     "reviewStatus": "draft",
@@ -148,7 +214,12 @@
     "type": "multiple-choice",
     "question": "What does Paul call the collection for the saints in 2 Corinthians 8-9?",
     "answer": "A gracious gift / ministry to the saints",
-    "options": ["A gracious gift / ministry to the saints", "A tax for the temple", "A loan to Jerusalem", "A sacrifice of animals"],
+    "options": [
+      "A gracious gift / ministry to the saints",
+      "A tax for the temple",
+      "A loan to Jerusalem",
+      "A sacrifice of animals"
+    ],
     "difficulty": "medium",
     "roundFormat": "standard",
     "reviewStatus": "draft",
@@ -165,7 +236,12 @@
     "type": "multiple-choice",
     "question": "In 2 Corinthians 12, what did Paul say was given to him to keep him from being exalted?",
     "answer": "A thorn in the flesh",
-    "options": ["A thorn in the flesh", "A recurring illness of the eyes", "Loss of his family", "Banishment to Patmos"],
+    "options": [
+      "A thorn in the flesh",
+      "A recurring illness of the eyes",
+      "Loss of his family",
+      "Banishment to Patmos"
+    ],
     "difficulty": "medium",
     "roundFormat": "standard",
     "reviewStatus": "draft",

@@ -6,12 +6,6 @@ service cloud.firestore {
       return request.auth != null;
     }
 
-    function isReviewer() {
-      return isSignedIn()
-        && ('reviewer' in request.auth.token)
-        && request.auth.token.reviewer == true;
-    }
-
     function isValidSuggestionCreate() {
       let keys = [
         'uid',
@@ -49,18 +43,13 @@ service cloud.firestore {
         && request.resource.data.createdAt == request.time;
     }
 
-    function isValidReviewerStatusUpdate() {
-      return request.resource.data.diff(resource.data).changedKeys().hasOnly(['status'])
-        && resource.data.status == 'new'
-        && request.resource.data.status in ['approved', 'rejected'];
-    }
-
     match /suggestions/{id} {
       allow create: if isSignedIn() && isValidSuggestionCreate();
-      allow get: if isReviewer() || (isSignedIn() && resource.data.uid == request.auth.uid);
-      allow list: if isReviewer();
-      allow update: if isReviewer() && isValidReviewerStatusUpdate();
-      allow delete: if isReviewer();
+      allow get: if isSignedIn() && resource.data.uid == request.auth.uid;
+
+      match /reviewEvents/{eventId} {
+        allow read, write: if false;
+      }
     }
   }
 }

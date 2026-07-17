@@ -21,7 +21,24 @@
           "2 Corinthians": 257
         }
       },
-      "quotedUses": []
+      "quotedUses": [
+        {
+          "id": "1cor13-sug-3d1d2e77eadd",
+          "file": "generator/pilots/corinthians/questions.seed.json",
+          "fieldPath": "payload",
+          "reference": "1 Corinthians 13:4",
+          "verseKeys": [
+            "1cor:13:4"
+          ],
+          "quotedChars": 321,
+          "inclusionReason": "review-approved-scripture-quote",
+          "reviewer": "atlas-session-20260716-slice3-proof",
+          "reviewedAt": {
+            "_seconds": 1784254546,
+            "_nanoseconds": 215000000
+          }
+        }
+      ]
     }
   ]
 }
