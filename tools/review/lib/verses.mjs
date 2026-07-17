@@ -181,7 +181,7 @@ export function derivePayloadId({ kind, book, chapter, suggestionPath }) {
   validateBookChapter(book, chapter);
   const digest = crypto.createHash("sha256").update(String(suggestionPath)).digest("hex").slice(0, 12);
   const slug = BOOKS[book].slug;
-  return kind === "memory_hook"
+  return kind === "memory_hook" || kind === "surprising_fact"
     ? `mh-${slug}${chapter}-${digest}`
     : `${slug}${chapter}-sug-${digest}`;
 }

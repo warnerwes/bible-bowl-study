@@ -16,17 +16,19 @@ service cloud.firestore {
         'reference',
         'text',
         'answerText',
+        'url',
         'status',
         'createdAt'
       ];
+      let hasUrl = request.resource.data.keys().hasAny(['url']);
 
-      return request.resource.data.keys().hasAll(keys)
-        && request.resource.data.keys().hasOnly(keys)
+      return request.resource.data.keys().hasAll(keys.removeAll(['url']))
+        && request.resource.data.keys().hasOnly(hasUrl ? keys : keys.removeAll(['url']))
         && request.resource.data.uid == request.auth.uid
         && request.resource.data.authorName is string
         && request.resource.data.authorName.size() >= 1
         && request.resource.data.authorName.size() <= 40
-        && request.resource.data.kind in ['question_seed', 'memory_hook', 'correction']
+        && request.resource.data.kind in ['question_seed', 'memory_hook', 'correction', 'surprising_fact', 'link']
         && request.resource.data.book in ['1 Corinthians', '2 Corinthians']
         && request.resource.data.chapter is int
         && request.resource.data.chapter >= 1
@@ -39,6 +41,15 @@ service cloud.firestore {
         && request.resource.data.text.size() <= 1000
         && request.resource.data.answerText is string
         && request.resource.data.answerText.size() <= 500
+        && (
+          request.resource.data.kind == 'link'
+            ? hasUrl
+              && request.resource.data.url is string
+              && request.resource.data.url.size() >= 1
+              && request.resource.data.url.size() <= 500
+              && request.resource.data.url.matches('^https?://.*')
+            : !hasUrl
+        )
         && request.resource.data.status == 'new'
         && request.resource.data.createdAt == request.time;
     }

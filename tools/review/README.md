@@ -38,6 +38,16 @@ node review.mjs reject SUGGESTION_ID --reason "Out of scope."
 node review.mjs export
 ```
 
+## Suggestion kinds
+
+| Kind | Review action | Export target |
+| --- | --- | --- |
+| `question_seed` | Approve with `--question`, annotate, reject | `questions.seed.json` |
+| `memory_hook` | Approve with `--memory-hook`, annotate, reject | `memory-hooks.json` |
+| `surprising_fact` | Approve with `--memory-hook`, annotate, reject | `memory-hooks.json` with `kindTag` |
+| `correction` | Annotate, reject | Not exportable |
+| `link` | Annotate, reject | Quarantined, not exportable |
+
 ## Runbook
 
 1. `node review.mjs list --status new --json`

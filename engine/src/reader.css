@@ -36,6 +36,29 @@
   line-height: 1.75;
   white-space: pre-wrap;
   overflow-wrap: anywhere;
+  position: relative;
+}
+
+.verse-marker {
+  display: inline;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--accent-strong);
+  font: inherit;
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 0.15em;
+}
+
+.verse-marker:hover,
+.verse-marker:focus-visible {
+  color: var(--accent);
+}
+
+.verse-text {
+  color: inherit;
 }
 
 .reader-attribution {
@@ -122,6 +145,57 @@
 
 .suggest-status.error { color: var(--wrong); }
 
+.verse-menu-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(7, 10, 16, 0.35);
+  z-index: 20;
+}
+
+.verse-menu {
+  position: absolute;
+  z-index: 21;
+  width: min(360px, calc(100vw - 2rem));
+  display: grid;
+  gap: 0.9rem;
+  padding: 1rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: #10141c;
+  box-shadow: 0 1.1rem 2.5rem rgba(0, 0, 0, 0.34);
+}
+
+.verse-menu[hidden],
+.verse-menu-overlay[hidden] {
+  display: none;
+}
+
+.verse-menu-head {
+  display: grid;
+  gap: 0.45rem;
+}
+
+.verse-menu-title {
+  margin: 0;
+  font-size: 1.15rem;
+}
+
+.verse-menu-form {
+  display: grid;
+  gap: 0.85rem;
+}
+
+.verse-menu-form textarea {
+  min-height: 5.5rem;
+  resize: vertical;
+}
+
+.verse-menu-memorize {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
 @media (max-width: 640px) {
   .reader-nav,
   .reader-actions,
@@ -136,5 +210,16 @@
   .suggest-actions .primary-btn {
     width: 100%;
     text-align: center;
+  }
+
+  .verse-menu {
+    position: fixed;
+    left: 1rem;
+    right: 1rem;
+    bottom: 1rem;
+    top: auto;
+    width: auto;
+    max-height: calc(100vh - 2rem);
+    overflow: auto;
   }
 }

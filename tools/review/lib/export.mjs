@@ -28,6 +28,7 @@ function flattenMemoryHooks(memoryHooks) {
           chapter: Number(chapter),
           reference: entry.reference,
           text: entry.text,
+          ...(entry.kindTag ? { kindTag: entry.kindTag } : {}),
         });
       }
     }
@@ -44,6 +45,7 @@ function buildMemoryHooks(hooks) {
       id: hook.id,
       reference: hook.reference,
       text: hook.text,
+      ...(hook.kindTag ? { kindTag: hook.kindTag } : {}),
     });
   }
   return { schemaVersion: 1, books };

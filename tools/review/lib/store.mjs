@@ -88,8 +88,8 @@ export function createFirestoreStore({ firestore, FieldValue, Timestamp }) {
             status: data.status,
           });
         }
-        if (data.kind === "correction") {
-          throw domainError("KIND_NOT_APPROVABLE", "Corrections cannot be approved.", { id });
+        if (data.kind === "correction" || data.kind === "link") {
+          throw domainError("KIND_NOT_APPROVABLE", `${data.kind} suggestions cannot be approved.`, { id });
         }
 
         const approvedAt = FieldValue.serverTimestamp();

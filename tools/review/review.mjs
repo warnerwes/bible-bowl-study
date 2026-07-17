@@ -217,12 +217,13 @@ function validateMemoryHookPayload({ payload, suggestion, suggestionPath }) {
     chapter: payload.chapter,
     reference: payload.reference,
     text: payload.text,
+    ...(suggestion.kind !== "memory_hook" ? { kindTag: suggestion.kind } : {}),
   };
 }
 
 function payloadTemplateForSuggestion(suggestion, derivedPayloadId) {
   const bookSlug = BOOKS[suggestion.book].slug;
-  if (suggestion.kind === "memory_hook") {
+  if (suggestion.kind === "memory_hook" || suggestion.kind === "surprising_fact") {
     return {
       id: derivedPayloadId,
       book: suggestion.book,
@@ -345,8 +346,8 @@ async function handleApprove(store, args) {
     quotedVerses: parsed.values["quotes-verses"] ?? [],
   });
 
-  if (suggestion.kind === "correction") {
-    throw domainError("KIND_NOT_APPROVABLE", "Corrections cannot be approved.", { id });
+  if (suggestion.kind === "correction" || suggestion.kind === "link") {
+    throw domainError("KIND_NOT_APPROVABLE", `${suggestion.kind} suggestions cannot be approved.`, { id });
   }
 
   let payloadField;
@@ -367,8 +368,8 @@ async function handleApprove(store, args) {
     ensurePlaceholderReplacement(existingQuestions, finalPayload, parsed.values["replaces-placeholder"]);
     payloadField = "finalQuestion";
   } else {
-    if (suggestion.kind !== "memory_hook") {
-      throw domainError("KIND_MISMATCH", "Memory hook payloads are only valid for memory_hook suggestions.", {
+    if (suggestion.kind !== "memory_hook" && suggestion.kind !== "surprising_fact") {
+      throw domainError("KIND_MISMATCH", "Memory hook payloads are only valid for memory_hook or surprising_fact suggestions.", {
         id,
         kind: suggestion.kind,
       });

@@ -184,3 +184,40 @@ test("export projection rejects conflicting duplicate payload ids", () => {
     /conflicting content/
   );
 });
+
+test("export projection keeps surprising facts in memory hooks with a kind tag", () => {
+  const reviewDocs = [
+    {
+      id: "sf-1",
+      status: "approved",
+      createdAt: "2026-07-16T03:00:00.000Z",
+      approvedAt: "2026-07-16T03:00:00.000Z",
+      reviewedBy: "reviewer",
+      kind: "surprising_fact",
+      payloadId: "mh-1cor13-sfact000001",
+      quoteDecision: { mode: "no-scripture-quote", verseKeys: [], references: [] },
+      finalMemoryHook: {
+        id: "mh-1cor13-sfact000001",
+        book: "1 Corinthians",
+        chapter: 13,
+        reference: "1 Corinthians 13:4",
+        text: "Synthetic surprising fact",
+        kindTag: "surprising_fact",
+      },
+    },
+  ];
+
+  const projected = projectArtifacts({
+    currentQuestions: [],
+    currentMemoryHooks: { schemaVersion: 1, books: {} },
+    currentManifest: baseManifest(),
+    reviewDocs,
+  });
+
+  assert.deepEqual(projected.memoryHooks.books["1 Corinthians"]["13"][0], {
+    id: "mh-1cor13-sfact000001",
+    reference: "1 Corinthians 13:4",
+    text: "Synthetic surprising fact",
+    kindTag: "surprising_fact",
+  });
+});

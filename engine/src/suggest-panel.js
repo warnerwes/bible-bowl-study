@@ -1,13 +1,15 @@
 "use strict";
 
-const AUTHOR_NAME_KEY = "bbs:authorName";
-const FIREBASE_VERSION = "12.9.0";
-const FIREBASE_URLS = [
-  `https://www.gstatic.com/firebasejs/${FIREBASE_VERSION}/firebase-app.js`,
-  `https://www.gstatic.com/firebasejs/${FIREBASE_VERSION}/firebase-auth.js`,
-  `https://www.gstatic.com/firebasejs/${FIREBASE_VERSION}/firebase-firestore.js`,
-];
-const SUBMIT_TIMEOUT_MS = 6000;
+import {
+  createSuggestionSubmitter,
+  persistAuthorName,
+  readAuthorName,
+  readStoredJson,
+  setFirebaseLoader,
+  writeStoredJson,
+} from "./suggest-core.js";
+
+const DRAFT_KEY = "bbs:suggest-panel:draft";
 const KIND_OPTIONS = [
   { value: "question_seed", label: "Quiz question idea" },
   {
@@ -17,8 +19,6 @@ const KIND_OPTIONS = [
   { value: "correction", label: "Correction" },
 ];
 
-let firebaseLoader = () => Promise.all(FIREBASE_URLS.map((url) => import(url)));
-
 function el(tag, cls, text) {
   const node = document.createElement(tag);
   if (cls) node.className = cls;
@@ -26,31 +26,16 @@ function el(tag, cls, text) {
   return node;
 }
 
-function safeName() {
-  try {
-    return String(localStorage.getItem(AUTHOR_NAME_KEY) || "");
-  } catch {
-    return "";
-  }
+function readDraft() {
+  const draft = readStoredJson(DRAFT_KEY, {});
+  return draft && typeof draft === "object" ? draft : {};
 }
 
-function persistName(value) {
-  try {
-    localStorage.setItem(AUTHOR_NAME_KEY, value);
-  } catch {}
+function writeDraft(nextDraft) {
+  writeStoredJson(DRAFT_KEY, nextDraft);
 }
 
-function timeout(ms) {
-  return new Promise((_, reject) => {
-    window.setTimeout(() => reject(new Error("Timed out. Check your connection and try again.")), ms);
-  });
-}
-
-export function setFirebaseLoader(loader) {
-  firebaseLoader = typeof loader === "function"
-    ? loader
-    : () => Promise.all(FIREBASE_URLS.map((url) => import(url)));
-}
+export { setFirebaseLoader };
 
 export function mountSuggestPanel({ root, config }) {
   if (!root || !config || !config.firebase) {
@@ -62,7 +47,7 @@ export function mountSuggestPanel({ root, config }) {
   }
 
   let routeInfo = null;
-  let firebaseState = null;
+  const submitSuggestion = createSuggestionSubmitter({ config });
 
   const shell = el("section", "reader-suggest");
   const head = el("div", "reader-suggest-head");
@@ -123,7 +108,7 @@ export function mountSuggestPanel({ root, config }) {
   nameInput.type = "text";
   nameInput.maxLength = 40;
   nameInput.required = true;
-  nameInput.value = safeName();
+  nameInput.value = readAuthorName();
   nameField.appendChild(nameInput);
 
   const status = el("p", "muted suggest-status");
@@ -177,30 +162,32 @@ export function mountSuggestPanel({ root, config }) {
     if (!isQuestion) answerInput.value = "";
   }
 
-  async function ensureFirebase() {
-    if (firebaseState) return firebaseState;
-    const [appMod, authMod, storeMod] = await firebaseLoader();
-    const app = appMod.initializeApp(config.firebase);
-    const auth = authMod.getAuth(app);
-    const db = storeMod.getFirestore(app);
-    const cred = await authMod.signInAnonymously(auth);
-    firebaseState = {
-      addDoc: storeMod.addDoc,
-      auth,
-      collection: storeMod.collection,
-      db,
-      serverTimestamp: storeMod.serverTimestamp,
-      uid: (cred && cred.user && cred.user.uid) || (auth.currentUser && auth.currentUser.uid) || "",
-    };
-    return firebaseState;
+  function saveDraft() {
+    writeDraft({
+      kind: kindSelect.value,
+      reference: referenceInput.value,
+      text: textInput.value,
+      answerText: answerInput.value,
+      authorName: nameInput.value,
+    });
+  }
+
+  function restoreDraft() {
+    const draft = readDraft();
+    kindSelect.value = draft.kind || "question_seed";
+    referenceInput.value = draft.reference || "";
+    textInput.value = draft.text || "";
+    answerInput.value = draft.answerText || "";
+    nameInput.value = draft.authorName || readAuthorName();
+    syncReference();
+    syncAnswerField();
   }
 
   affordance.addEventListener("click", () => {
     card.hidden = false;
     success.hidden = true;
     form.hidden = false;
-    syncReference();
-    syncAnswerField();
+    restoreDraft();
     setStatus("");
   });
 
@@ -217,11 +204,20 @@ export function mountSuggestPanel({ root, config }) {
     kindSelect.value = "question_seed";
     syncReference();
     syncAnswerField();
+    saveDraft();
     setStatus("");
   });
 
-  kindSelect.addEventListener("change", syncAnswerField);
-  nameInput.addEventListener("input", () => persistName(nameInput.value.trim()));
+  [kindSelect, referenceInput, textInput, answerInput, nameInput].forEach((node) => {
+    node.addEventListener("input", () => {
+      if (node === nameInput) persistAuthorName(nameInput.value.trim());
+      saveDraft();
+    });
+  });
+  kindSelect.addEventListener("change", () => {
+    syncAnswerField();
+    saveDraft();
+  });
 
   form.addEventListener("submit", async (event) => {
     event.preventDefault();
@@ -234,30 +230,26 @@ export function mountSuggestPanel({ root, config }) {
       setStatus("Please fill in the required fields.", true);
       return;
     }
-    persistName(authorName);
+
     submit.disabled = true;
     cancel.disabled = true;
     setStatus("Sending...");
     try {
-      const firebase = await Promise.race([ensureFirebase(), timeout(SUBMIT_TIMEOUT_MS)]);
-      await Promise.race([
-        firebase.addDoc(firebase.collection(firebase.db, "suggestions"), {
-          uid: firebase.uid || (firebase.auth.currentUser && firebase.auth.currentUser.uid) || "",
-          authorName,
-          kind: kindSelect.value,
-          book: routeInfo.book,
-          chapter: routeInfo.chapter,
-          reference,
-          text,
-          answerText: kindSelect.value === "question_seed" ? answerText : "",
-          status: "new",
-          createdAt: firebase.serverTimestamp(),
-        }),
-        timeout(SUBMIT_TIMEOUT_MS),
-      ]);
+      await submitSuggestion({
+        authorName,
+        kind: kindSelect.value,
+        book: routeInfo.book,
+        chapter: routeInfo.chapter,
+        reference,
+        text,
+        answerText: kindSelect.value === "question_seed" ? answerText : "",
+      });
       form.hidden = true;
       success.hidden = false;
       successCopy.textContent = `Thanks ${authorName} — Wes reviews these`;
+      textInput.value = "";
+      answerInput.value = "";
+      saveDraft();
       setStatus("");
     } catch (error) {
       setStatus((error && error.message) || "Could not send that suggestion. Please try again.", true);

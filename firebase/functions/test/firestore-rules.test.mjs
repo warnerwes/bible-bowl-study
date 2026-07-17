@@ -19,7 +19,7 @@ import {
 
 const PROJECT_ID = "bible-bowl-study-rules";
 const RULES_PATH = new URL("../../firestore.rules", import.meta.url);
-const FIRESTORE_PORT = Number(process.env.FIRESTORE_EMULATOR_PORT ?? 8787);
+const FIRESTORE_PORT = Number(process.env.FIRESTORE_EMULATOR_PORT ?? 8792);
 
 let testEnv;
 
@@ -78,6 +78,60 @@ test("denies create when kind is not allowed", async () => {
 
   await assertFails(
     setDoc(suggestion, buildSuggestion({ uid: "student-1", kind: "reference" }))
+  );
+});
+
+test("allows create for a surprising fact suggestion", async () => {
+  const db = studentDb("student-1");
+  const suggestion = doc(db, "suggestions/surprising-fact");
+
+  await assertSucceeds(
+    setDoc(suggestion, buildSuggestion({
+      uid: "student-1",
+      kind: "surprising_fact",
+      text: "Synthetic surprising fact",
+    }))
+  );
+});
+
+test("allows create for a valid link suggestion", async () => {
+  const db = studentDb("student-1");
+  const suggestion = doc(db, "suggestions/link-ok");
+
+  await assertSucceeds(
+    setDoc(suggestion, buildSuggestion({
+      uid: "student-1",
+      kind: "link",
+      text: "https://example.com/synthetic",
+      url: "https://example.com/synthetic",
+    }))
+  );
+});
+
+test("denies create for a link suggestion with a javascript URI", async () => {
+  const db = studentDb("student-1");
+  const suggestion = doc(db, "suggestions/link-bad-uri");
+
+  await assertFails(
+    setDoc(suggestion, buildSuggestion({
+      uid: "student-1",
+      kind: "link",
+      text: "javascript:alert(1)",
+      url: "javascript:alert(1)",
+    }))
+  );
+});
+
+test("denies create when question_seed includes a url field", async () => {
+  const db = studentDb("student-1");
+  const suggestion = doc(db, "suggestions/question-with-url");
+
+  await assertFails(
+    setDoc(suggestion, buildSuggestion({
+      uid: "student-1",
+      kind: "question_seed",
+      url: "https://example.com/not-allowed",
+    }))
   );
 });
 
@@ -161,7 +215,7 @@ function forgedReviewerDb() {
 }
 
 function buildSuggestion(overrides = {}) {
-  return {
+  const payload = {
     uid: "student-1",
     authorName: "Student",
     kind: "question_seed",
@@ -174,6 +228,10 @@ function buildSuggestion(overrides = {}) {
     createdAt: serverTimestamp(),
     ...overrides
   };
+  if (payload.kind !== "link" && !Object.prototype.hasOwnProperty.call(overrides, "url")) {
+    delete payload.url;
+  }
+  return payload;
 }
 
 async function seedSuggestion(id, overrides = {}) {
