@@ -1,93 +1,89 @@
-/* reading-plan.js — renders reading-plan.json as a week-by-week list.
-   Each row shows the week number, book + chapter range, a summary, an
-   external NKJV link (Bible Gateway), and a prefilled seed-submission
-   Google Form link. Pure browser JS (ES module), framework-free.
-   No dependency on the quiz engine. */
 "use strict";
+
+import { loadConfig } from "./config.js";
+import { passageLabel, passageUrl } from "./passage-links.js";
 
 const $ = (id) => document.getElementById(id);
 
 function el(tag, cls, text) {
-  const n = document.createElement(tag);
-  if (cls) n.className = cls;
-  if (text != null) n.textContent = text;
-  return n;
+  const node = document.createElement(tag);
+  if (cls) node.className = cls;
+  if (text != null) node.textContent = text;
+  return node;
 }
 
-function a(href, cls, text) {
-  const n = el("a", cls, text);
-  n.href = href;
-  n.target = "_blank";
-  n.rel = "noopener";
-  return n;
-}
-
-// Bible Gateway NKJV URL for a reference string (matches engine/passage-links).
-function gatewayUrl(reference) {
-  const v = encodeURIComponent("NKJV");
-  const r = encodeURIComponent(reference || "");
-  return `https://www.biblegateway.com/passage/?search=${r}&version=${v}`;
-}
-
-// Build a prefilled Google Form link from form-config + a week assignment.
-// `form` is the parsed form-config.json; `entry` is an entry-id map by name.
-function seedFormUrl(form, week) {
-  if (!form || !form.formBaseUrl) return "#";
-  const base = form.formBaseUrl.split("?")[0];
-  const params = new URLSearchParams();
-  const book = week.book || "";
-  const chapter = (week.chapters && week.chapters.length)
-    ? (week.chapters.length === 1
-        ? String(week.chapters[0])
-        : `${week.chapters[0]}-${week.chapters[week.chapters.length - 1]}`)
-    : (week.reference || "");
-  const entryMap = {};
-  if (Array.isArray(form.fields)) {
-    form.fields.forEach((f) => {
-      if (f.name && f.entryId != null) entryMap[f.name] = String(f.entryId);
-    });
+function link(href, cls, text, isExternal) {
+  const node = el("a", cls, text);
+  node.href = href;
+  if (isExternal) {
+    node.target = "_blank";
+    node.rel = "noopener";
   }
-  // Resolve the kind code → its option LABEL, because Google Forms
-  // dropdown prefill only pre-selects when the prefilled value EXACTLY
-  // equals the option text. Falls back to the raw code.
-  const kindField = (Array.isArray(form.fields)
-    ? form.fields.find((f) => f && f.name === "kind") : null);
-  const kindOpt = kindField && Array.isArray(kindField.options)
-    ? kindField.options.find((o) => o && o.value === "question_seed") : null;
-  const kindLabel = kindOpt && kindOpt.label ? kindOpt.label : "question_seed";
-  if (entryMap.book) params.set(`entry.${entryMap.book}`, book);
-  if (entryMap.chapter) params.set(`entry.${entryMap.chapter}`, chapter);
-  if (entryMap.kind) params.set(`entry.${entryMap.kind}`, kindLabel);
-  if (entryMap.note) params.set(`entry.${entryMap.note}`, "");
-  const qs = params.toString();
-  return qs ? `${base}?${qs}` : base;
+  return node;
 }
 
-async function loadPlan() {
-  try {
-    const [planRes, formRes] = await Promise.all([
-      fetch("data/reading-plan.json", { cache: "no-cache" }),
-      fetch("data/form-config.json", { cache: "no-cache" }),
-    ]);
-    if (!planRes.ok) throw new Error(`HTTP ${planRes.status}`);
-    const plan = await planRes.json();
-    let form = null;
-    if (formRes.ok) {
-      try { form = await formRes.json(); } catch (e) { form = null; }
-    }
-    renderPlan(plan, form);
-  } catch (err) {
-    const e = $("plan-error");
-    if (e) {
-      e.hidden = false;
-      e.textContent =
-        "Could not load reading plan (" + err.message +
-        "). If you opened this file directly, run a local server.";
-    }
+export function chapterRange(week) {
+  if (!week.chapters || !week.chapters.length) return week.reference || "";
+  if (week.chapters.length === 1) return `ch. ${week.chapters[0]}`;
+  return `ch. ${week.chapters[0]}-${week.chapters[week.chapters.length - 1]}`;
+}
+
+function weekReference(week) {
+  if (week.reference) return week.reference;
+  if (!week.chapters || !week.chapters.length) return week.book || "";
+  if (week.chapters.length === 1) return `${week.book} ${week.chapters[0]}`;
+  return `${week.book} ${week.chapters[0]}-${week.chapters[week.chapters.length - 1]}`;
+}
+
+export function buildReadLink(week, config) {
+  const ref = weekReference(week);
+  const url = passageUrl(ref, {
+    provider: config.passageProvider,
+    bibleVersion: config.bibleVersion,
+  });
+  return {
+    href: url,
+    label: passageLabel(ref, { provider: config.passageProvider }),
+    external: /^https?:\/\//i.test(url),
+  };
+}
+
+export function buildReadLinks(week, config) {
+  if (String((config && config.passageProvider) || "").toLowerCase() !== "reader") {
+    return [buildReadLink(week, config)];
   }
+
+  const chapters = Array.isArray(week.chapters) ? week.chapters : [];
+  if (chapters.length <= 1) {
+    return [buildReadLink(week, config)];
+  }
+
+  return chapters.map((chapter) => {
+    const ref = `${week.book} ${chapter}`;
+    return {
+      href: passageUrl(ref, {
+        provider: config.passageProvider,
+        bibleVersion: config.bibleVersion,
+      }),
+      label: passageLabel(ref, { provider: config.passageProvider }),
+      external: false,
+    };
+  });
 }
 
-function renderPlan(plan, form) {
+export function buildGatewayLink(week, config) {
+  const ref = weekReference(week);
+  return {
+    href: passageUrl(ref, {
+      provider: "biblegateway",
+      bibleVersion: config.bibleVersion,
+    }),
+    label: "Open on Bible Gateway ↗",
+    external: true,
+  };
+}
+
+export function renderPlan(plan, config) {
   const title = $("plan-title");
   if (title && plan.title) title.textContent = plan.title;
   const desc = $("plan-description");
@@ -95,41 +91,48 @@ function renderPlan(plan, form) {
 
   const container = $("plan-weeks");
   if (!container) return;
-  container.innerHTML = "";
+  container.textContent = "";
 
   const weeks = Array.isArray(plan.weeks) ? plan.weeks : [];
-  weeks.forEach((w) => {
+  weeks.forEach((week) => {
     const card = el("div", "card plan-week");
     const head = el("div", "plan-week-head");
-    head.appendChild(el("span", "plan-week-num", `Week ${w.week}`));
-    head.appendChild(el("span", "tag tag-ref", `${w.book} ${chapterRange(w)}`));
+    head.appendChild(el("span", "plan-week-num", `Week ${week.week}`));
+    head.appendChild(el("span", "tag tag-ref", `${week.book} ${chapterRange(week)}`));
     card.appendChild(head);
 
-    if (w.summary) card.appendChild(el("p", "muted", w.summary));
+    if (week.summary) card.appendChild(el("p", "muted", week.summary));
 
     const links = el("div", "plan-week-links");
-    const readRef = w.reference || `${w.book} ${chapterRange(w)}`;
-    const readUrl = w.readUrl || gatewayUrl(readRef);
-    links.appendChild(a(readUrl, "primary-btn", `Read ${readRef} on Bible Gateway ↗`));
-
-    const seedUrl = (w.seedFormUrl && w.seedFormUrl.indexOf("PLACEHOLDER") === -1)
-      ? w.seedFormUrl
-      : seedFormUrl(form, w);
-    const seed = a(seedUrl, "link-btn", "Submit a seed for this reading →");
-    if (seedUrl && seedUrl.indexOf("PLACEHOLDER") !== -1) {
-      seed.title = "Form not yet created — link is a placeholder.";
-    }
-    links.appendChild(seed);
+    buildReadLinks(week, config).forEach((readLink) => {
+      links.appendChild(link(readLink.href, "primary-btn", readLink.label, readLink.external));
+    });
+    const gatewayLink = buildGatewayLink(week, config);
+    links.appendChild(link(gatewayLink.href, "link-btn", gatewayLink.label, gatewayLink.external));
+    links.appendChild(link(`index.html?week=${week.week}`, 'link-btn', 'Study this week →', false));
     card.appendChild(links);
 
     container.appendChild(card);
   });
 }
 
-function chapterRange(w) {
-  if (!w.chapters || !w.chapters.length) return w.reference || "";
-  if (w.chapters.length === 1) return `ch. ${w.chapters[0]}`;
-  return `ch. ${w.chapters[0]}–${w.chapters[w.chapters.length - 1]}`;
+async function loadPlan() {
+  try {
+    const config = await loadConfig("data/site-config.json");
+    const planRes = await fetch("data/reading-plan.json", { cache: "no-cache" });
+    if (!planRes.ok) throw new Error(`HTTP ${planRes.status}`);
+    const plan = await planRes.json();
+    renderPlan(plan, config);
+  } catch (error) {
+    const node = $("plan-error");
+    if (!node) return;
+    node.hidden = false;
+    node.textContent =
+      "Could not load reading plan (" + error.message +
+      "). If you opened this file directly, run a local server.";
+  }
 }
 
-loadPlan();
+if (typeof window !== "undefined" && typeof document !== "undefined") {
+  void loadPlan();
+}

@@ -17,18 +17,48 @@
   },
   "statsKey": "bbs:cor:stats:v1",
   "books": [
-    { "name": "1 Corinthians", "slug": "1cor", "chapters": 16 },
-    { "name": "2 Corinthians", "slug": "2cor", "chapters": 13 }
+    {
+      "name": "1 Corinthians",
+      "slug": "1cor",
+      "chapters": 16
+    },
+    {
+      "name": "2 Corinthians",
+      "slug": "2cor",
+      "chapters": 13
+    }
   ],
   "features": {
     "memoryLabs": false,
     "masteryTrial": false,
     "reader": true,
-    "updates": false
+    "updates": false,
+    "scoreboard": false
   },
   "navigation": [
-    { "label": "Quiz", "href": "index.html" },
-    { "label": "Reading Plan", "href": "reading.html" },
-    { "label": "Read on Bible Gateway (NKJV)", "href": "https://www.biblegateway.com/passage/?search=1+Corinthians+1&version=NKJV" }
-  ]
+    {
+      "label": "This week",
+      "href": "index.html"
+    },
+    {
+      "label": "Reading Plan",
+      "href": "reading.html"
+    },
+    {
+      "label": "Read on Bible Gateway (NKJV)",
+      "href": "https://www.biblegateway.com/passage/?search=1+Corinthians+1&version=NKJV"
+    }
+  ],
+  "reviewedOnly": true,
+  "profileStorage": true,
+  "quickCount": 5,
+  "hideRecallReferences": true,
+  "lessonPath": "data/lesson.json",
+  "editorialPreview": false,
+  "publicPilot": true,
+  "release": {
+    "id": "parish-renewal-2026-09-28",
+    "channel": "parish-pilot",
+    "notice": "Parish pilot · Questions and reflections are being refined. Parish teaching review is pending; please flag anything unclear."
+  }
 }

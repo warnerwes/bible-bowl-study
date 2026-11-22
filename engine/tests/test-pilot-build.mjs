@@ -12,9 +12,11 @@ const root = path.join(__dirname, "..", "..");
 const buildScript = path.join(root, "generator", "pilots", "corinthians", "build-site.mjs");
 const siteDir = path.join(root, "generator", "pilots", "corinthians", "_site");
 
-test("pilot build includes the homepage note text exactly once", async () => {
+test("pilot build includes the parish home, reading plan, and data notice", async () => {
   await execFileAsync("node", [buildScript], { cwd: root });
   const indexHtml = readFileSync(path.join(siteDir, "index.html"), "utf8");
-  const count = (indexHtml.match(/shared monthly allotment/g) || []).length;
-  assert.equal(count, 1);
+  assert.match(indexHtml, /<script type="module" src="parish-app\.js">/);
+  assert.match(indexHtml, /href="privacy\.html"/);
+  assert.match(indexHtml, /href="reading\.html"/);
+  assert.match(readFileSync(path.join(siteDir, "privacy.html"), "utf8"), /session storage/);
 });

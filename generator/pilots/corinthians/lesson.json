@@ -1,0 +1,71 @@
+{
+  "id": "1cor-week-1",
+  "week": 1,
+  "book": "1 Corinthians",
+  "chapters": [
+    1,
+    2
+  ],
+  "reviewStatus": "pilot",
+  "title": "Belonging to Christ",
+  "subtitle": "Learning together with humility",
+  "introduction": "Paul writes to a community divided by loyalty to different teachers. Read how he turns their attention toward Christ, the cross, and the wisdom of God.",
+  "questionIds": [
+    "1cor1-dr-005",
+    "1cor1-dr-007",
+    "1cor1-dr-010",
+    "1cor2-dr-001",
+    "1cor2-dr-003"
+  ],
+  "hints": {
+    "1cor1-dr-005": "Look for the household connected with the report of quarrels, rather than the people Paul baptized.",
+    "1cor1-dr-007": "Notice the two questions Paul asks about himself. What does each question rule out?",
+    "1cor1-dr-010": "Paul describes two different responses to the cross. Focus on the people who are being saved.",
+    "1cor2-dr-001": "Paul names the center of his message before describing the way he spoke.",
+    "1cor2-dr-003": "Look for the reason Paul gives in verse 5. What does he want their faith to rest on?"
+  },
+  "discussion": "How can we make room for one another as we learn, without making a favorite teacher or winning team the center of our belonging?",
+  "takeaway": "Return to 1 Corinthians 1:10–13 this week. Notice how Paul brings a divided community's attention back to Christ.",
+  "reflection": "What is one idea or reference you would like to carry with you? You can keep it to yourself, share it, or pass.",
+  "teaching": [
+    {
+      "title": "Unity goes deeper than agreeing aloud",
+      "kind": "A Father's interpretation",
+      "text": "In his discussion of 1 Corinthians 1:10, St. John Chrysostom describes unity of mind and judgment as more than agreement in words. This offers a way to think about how we listen and learn together.",
+      "source": "St. John Chrysostom, Homily 3 on First Corinthians, section 2",
+      "url": "https://www.newadvent.org/fathers/220103.htm"
+    }
+  ],
+  "guide": [
+    {
+      "minutes": "0–3",
+      "title": "Arrive and prepare",
+      "text": "Welcome everyone. Use the parish's usual prayer or a quiet pause. People may pass on a question or reflection."
+    },
+    {
+      "minutes": "3–8",
+      "title": "Read in context",
+      "text": "Read 1 Corinthians 1:10–25 in an authorized Bible. Let one person read while others listen and follow."
+    },
+    {
+      "minutes": "8–16",
+      "title": "Find the evidence",
+      "text": "Think quietly, then discuss in pairs. Choose an answer together. Before revealing it, find a passage that supports your choice. Read 2:1–5 before the chapter 2 questions."
+    },
+    {
+      "minutes": "16–24",
+      "title": "Explain it to one another",
+      "text": "Invite a reader, an evidence finder, and an explainer to take turns. Ask what changed their understanding. Roles are voluntary; rotate without recording who spoke."
+    },
+    {
+      "minutes": "24–28",
+      "title": "Make a fair question",
+      "text": "On paper, write an original question, its answer, a reference, and why the passage supports it. Try to find a second reasonable answer, then improve the question. Give it to the leader for review."
+    },
+    {
+      "minutes": "28–30",
+      "title": "Carry one idea with you",
+      "text": "Offer the closing reflection. Allow silence and passing. Use the parish's usual closing prayer; shorten an activity rather than hurry the prayer."
+    }
+  ]
+}

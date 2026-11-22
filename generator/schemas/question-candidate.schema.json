@@ -155,6 +155,7 @@
         "draft",
         "in-review",
         "approved",
+        "pilot",
         "rejected",
         "published"
       ]

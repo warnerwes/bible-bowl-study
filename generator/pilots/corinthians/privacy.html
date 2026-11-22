@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Your data · Bible Bowl</title>
+<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="renewal.css">
+</head>
+<body>
+<header class="site-header">
+<h1>Bible Bowl</h1>
+<nav class="header-nav">
+<a class="link-btn" href="index.html">This week</a>
+<a class="link-btn" href="reading.html">Reading plan</a>
+</nav>
+</header>
+<main>
+<h2>Room to learn, with less to leave behind</h2>
+<p>You can practice and learn around one screen without an account. The app does not ask for your age, school, contact details, or prayer requests. Reflections are for conversation or quiet thought; the app does not collect them.</p>
+<h3>On this device</h3>
+<p>Practice results, reading notes, contribution drafts, and a chosen contribution name use this tab’s session storage. They clear when you change accounts or clear your visit. Browser session restore may keep a tab’s data, so clear your visit on a shared device. Notes are not encrypted and are not a confidential journal.</p>
+<button id="clear-visit" class="primary-btn">Clear this tab’s visit</button>
+<p id="privacy-status" role="status">
+</p>
+<h3>If you send a correction or suggestion</h3>
+<p>Moderators receive the text, Bible reference, chosen name or “Parish learner” alias, an account identifier, and a timestamp. A browser account identifier is created for sending if you are not signed in. Contributions are reviewed before publication. Leave out personal or sensitive information. Ask your parish leader to contact the app administrator if you want a submitted contribution removed; clearing this tab does not remove submitted contributions.</p>
+<h3>Reading and sign-in</h3>
+<p>The in-app reader uses Google sign-in and Firebase to manage reading access. The server records monthly reading allowances. Authorized chapter text is temporarily cached on this device and cleared on sign-out. API.Bible receives reading requests and required usage tracking. Google, Firebase, and API.Bible handle technical information under their own policies. Bible Gateway is an external service with its own policies. You can use your own Bible instead.</p>
+<p>
+<a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Google privacy policy</a> · <a href="https://api.bible/terms-and-conditions" target="_blank" rel="noopener">API.Bible terms &amp; privacy information</a>
+</p>
+<h3>Reading permissions and teaching</h3>
+<p>The publisher has approved API use for the reader. Copyright notices accompany retrieved text. This approval is not permission to republish Bible text or study notes in question files. This first parish pilot contains original, reference-based questions and explanations authorized for pilot publication by the app owner. Parish teaching review remains pending, as shown on the study and printed guide. Other research drafts are kept out of the public question bank.</p>
+<p>Questions help us learn a passage; results are never a measure of anyone’s faith. Bring questions of Orthodox teaching to your parish priest or teacher.</p>
+<h3>The earlier scoreboard</h3>
+<p>The renewed app does not display or submit public mastery rankings. If your signed-in account has an older scoreboard entry, you can remove that entry below.</p>
+<button id="delete-ranking" class="primary-btn ghost-btn">Remove my old scoreboard entry</button>
+<details class="gentle-details">
+<summary>Data saved by an older version on this device</summary>
+<p>Older versions stored notes, drafts, names, and practice results in unscoped browser storage. This version does not automatically open or adopt that data. On your own device, you can export it before deleting it. Only export data that belongs to you.</p>
+<div class="action-row">
+<button id="export-legacy" class="link-btn">Export old device data</button>
+<button id="delete-legacy" class="link-btn">Delete old device data</button>
+</div>
+</details>
+</main>
+<script type="module" src="privacy.js">
+</script>
+</body>
+</html>

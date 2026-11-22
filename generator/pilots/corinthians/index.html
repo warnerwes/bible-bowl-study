@@ -1,178 +1,216 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Bible Bowl Study — 1 & 2 Corinthians</title>
-  <meta name="description" content="Config-driven quiz and reading plan for 1 & 2 Corinthians. Questions are reference-based; scripture can be read in-app or on Bible Gateway." />
-  <meta name="theme-color" content="#0c0e12" />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Spectral:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="styles.css" />
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Bible Bowl · Read, learn, grow together</title>
+<meta name="description" content="Read Corinthians, explore questions together, and carry one idea into parish life." />
+<meta name="theme-color" content="#0c0e12" />
+<link rel="stylesheet" href="styles.css" />
+<link rel="stylesheet" href="renewal.css" />
 </head>
 <body>
-  <header class="site-header">
-    <h1>Bible Bowl Study</h1>
-    <p class="subtitle">1 &amp; 2 Corinthians</p>
-    <nav class="header-nav">
-      <a href="index.html" class="link-btn">Quiz</a>
-      <a href="reading.html" class="link-btn">Reading Plan</a>
-      <a href="https://www.biblegateway.com/passage/?search=1+Corinthians+1&version=NKJV" class="link-btn" target="_blank" rel="noopener">Read on Bible Gateway (NKJV) ↗</a>
-    </nav>
-  </header>
-
-  <main id="app">
-    <section id="setup" class="screen">
-      <div id="home">
-        <h2>Ready to study?</h2>
-        <p class="lead">Quiz yourself on 1 &amp; 2 Corinthians. Miss a question and the answer is shown — then jump into the reader to see the chapter in context (NKJV, used by permission). Questions themselves stay reference-based.</p>
-
-        <div class="home-cta-row">
-          <div class="home-cta-block">
-            <button id="quick-start" class="primary-btn big-btn">Start studying</button>
-            <p id="quick-note" class="under-btn muted">Loading questions...</p>
-          </div>
-          <div class="home-cta-block">
-            <a href="reader.html?ref=1%20Corinthians%201" class="primary-btn big-btn">Read the Bible</a>
-            <p class="under-btn muted">In-app reading uses a shared monthly allotment of Bible lookups. If we hit the limit, the reader rests until next month — Bible Gateway links always work.</p>
-            <p id="home-usage-meter" class="under-btn muted" hidden></p>
-          </div>
-        </div>
-
-        <div id="missed-cta" hidden>
-          <button id="drill-missed" class="primary-btn ghost-btn">Drill my missed questions (<span id="missed-count">0</span>)</button>
-        </div>
-
-        <div id="mastered-cta" hidden>
-          <button id="review-mastered" class="primary-btn ghost-btn">Review mastered (<span id="mastered-count">0</span>)</button>
-        </div>
-
-        <div class="home-foot">
-          <button type="button" id="toggle-advanced" class="link-btn" aria-expanded="false">Build a custom quiz ▾</button>
-        </div>
-      </div>
-
-      <div id="advanced" hidden>
-        <h2>Build a custom quiz</h2>
-
-        <div class="field">
-          <div class="field-label-row">
-            <label class="field-label">Chapters</label>
-            <div class="field-actions">
-              <button type="button" class="link-btn" data-select="all">All</button>
-              <button type="button" class="link-btn" data-select="none">None</button>
-            </div>
-          </div>
-          <div id="chapter-list" class="chip-grid" aria-label="Choose chapters"></div>
-        </div>
-
-        <div class="field">
-          <label class="field-label">Question types</label>
-          <div id="type-list" class="chip-grid">
-            <label class="chip"><input type="checkbox" value="multiple-choice" checked /><span>Multiple choice</span></label>
-            <label class="chip"><input type="checkbox" value="true-false" checked /><span>True / False</span></label>
-            <label class="chip"><input type="checkbox" value="fill-in" checked /><span>Fill in / Type in</span></label>
-          </div>
-        </div>
-
-        <div class="field">
-          <label class="field-label" for="count">How many questions?</label>
-          <select id="count" class="select">
-            <option value="10">10</option>
-            <option value="20" selected>20</option>
-            <option value="30">30</option>
-            <option value="0">All available</option>
-          </select>
-        </div>
-
-        <p id="setup-summary" class="muted"></p>
-        <button id="start-btn" class="primary-btn">Start custom quiz</button>
-
-        <div class="advanced-export">
-          <button type="button" id="export-csv" class="primary-btn ghost-btn">⬇ Export to Anki (CSV)</button>
-          <p class="muted export-note">Exports <strong>every</strong> matching question as an Anki deck (question → answer). The count above only limits a quiz.</p>
-        </div>
-
-        <button type="button" id="close-advanced" class="link-btn">← Back</button>
-      </div>
-
-      <p id="load-error" class="error" hidden></p>
-    </section>
-
-    <section id="quiz" class="screen" hidden>
-      <div class="quiz-top">
-        <div class="progress">
-          <div id="progress-bar" class="progress-bar"></div>
-        </div>
-        <div class="quiz-meta">
-          <span id="q-position">1 / 20</span>
-          <span id="q-score" class="score">Score: 0</span>
-        </div>
-      </div>
-
-      <div class="card">
-        <div class="q-tags">
-          <span id="q-ref" class="tag tag-ref"></span>
-          <span id="q-topic" class="tag"></span>
-          <span id="q-type" class="tag tag-type"></span>
-        </div>
-        <h2 id="q-text" class="q-text"></h2>
-
-        <form id="answer-form">
-          <div id="answer-area"></div>
-          <button id="submit-btn" type="submit" class="primary-btn" disabled>Check answer</button>
-        </form>
-
-        <div id="feedback" class="feedback" hidden>
-          <div id="feedback-verdict" class="verdict"></div>
-          <p id="feedback-answer" class="correct-answer"></p>
-          <a id="passage-link" class="passage-link" href="#">Read on Bible Gateway ↗</a>
-        </div>
-        <div id="feedback-next-bar" class="feedback-next-bar" hidden>
-          <button id="next-btn" type="button" class="primary-btn">Next</button>
-        </div>
-      </div>
-
-      <button id="quit-btn" class="link-btn quit">End quiz</button>
-    </section>
-
-    <section id="results" class="screen" hidden>
-      <h2>Results</h2>
-      <p id="result-score" class="result-score"></p>
-      <div class="results-actions">
-        <button id="restart-btn" class="primary-btn" onclick="location.reload()">New quiz</button>
-      </div>
-      <div id="results-scoreboard"></div>
-      <div id="missed-review"></div>
-    </section>
-  </main>
-
-  <footer class="site-footer">
-    <p class="muted">Pilot scaffold — questions are placeholders pending student seeds + review. Scripture readings open in the reader, with Bible Gateway as fallback.</p>
-  </footer>
-
-  <script type="module">
-    import { loadConfig } from "./config.js";
-    import { createStorage } from "./storage.js";
-    import { createState, weightedOrder } from "./quiz-core.js";
-    import { createQuiz } from "./quiz-render.js";
-
-    const cfg = await loadConfig("data/site-config.json");
-    const storage = createStorage(cfg);
-    const state = createState();
-    const quiz = createQuiz({ state, storage, config: cfg, weightedOrder });
-    await quiz.load();
-  </script>
-  <script type="module">
-    import { loadConfig } from "./config.js";
-    import { mountLazyUsageMeter } from "./usage-meter.js";
-
-    const root = document.getElementById("home-usage-meter");
-    if (root) {
-      const cfg = await loadConfig("data/site-config.json");
-      mountLazyUsageMeter({ root, config: cfg });
-    }
-  </script>
+<a class="skip-link" href="#app">Skip to study</a>
+<header class="site-header">
+<p class="eyebrow">A parish learning companion</p>
+<h1>Bible Bowl</h1>
+<p class="subtitle">1 &amp; 2 Corinthians</p>
+<nav class="header-nav" aria-label="Main navigation">
+<a href="index.html" class="link-btn" aria-current="page">This week</a>
+<a href="reading.html" class="link-btn">Reading plan</a>
+<a href="privacy.html" class="link-btn">About your data</a>
+</nav>
+</header>
+<p id="preview-banner" class="preview-banner" hidden>Editorial preview · Draft questions and teaching await human review. Please don’t use this as an approved parish lesson.</p>
+<main id="app">
+<section id="setup" class="screen" aria-labelledby="week-title">
+<div class="week-picker">
+<label for="week-select">Our reading journey</label>
+<select id="week-select" class="select" disabled>
+<option>Loading…</option>
+</select>
+</div>
+<div class="week-intro">
+<p id="week-kicker" class="eyebrow">Read · Explore · Carry with you</p>
+<h2 id="week-title">A little time in Scripture.<br>A little closer together.</h2>
+<p id="week-introduction" class="lead">Choose a reading, explore a few questions, and make space to listen.</p>
+</div>
+<div class="journey-card">
+<div class="journey-step">
+<span class="step-number" aria-hidden="true">01</span>
+<div>
+<h3>Begin with the reading</h3>
+<p class="muted">Use your own Bible, the reader, or Bible Gateway. No account is needed for the questions.</p>
+<div id="week-readings" class="action-row">
+</div>
+<a id="week-gateway" class="link-btn" target="_blank" rel="noopener">Read on Bible Gateway ↗</a>
+</div>
+</div>
+<div class="journey-step">
+<span class="step-number" aria-hidden="true">02</span>
+<div>
+<h3>Explore what you noticed</h3>
+<p id="week-availability" class="muted" role="status">Preparing your study…</p>
+<div class="action-row">
+<button id="week-practice" class="primary-btn" disabled>Explore five questions</button>
+<button id="learn-together" class="primary-btn ghost-btn" disabled>Learn together</button>
+</div>
+<p class="small muted">On your own, or around one screen. Take your time; help is always welcome.</p>
+</div>
+</div>
+<div class="journey-step">
+<span class="step-number" aria-hidden="true">03</span>
+<div>
+<h3>Carry one idea with you</h3>
+<p class="muted">Finish with an optional conversation or a quiet pause. There is nothing to submit or score.</p>
+</div>
+</div>
+</div>
+<details id="leader-guide" class="gentle-details" hidden>
+<summary>A 30-minute gathering guide</summary>
+<p class="muted">Adapt the pace for your group. Invite a reader, an evidence finder, and an explainer to take turns. Anyone may pass.</p>
+<ol id="guide-steps">
+</ol>
+<button id="print-guide" class="link-btn" type="button">Print leader guide</button>
+</details>
+<div id="missed-cta" hidden>
+<button id="drill-missed" class="link-btn">Revisit questions from this visit (<span id="missed-count">0</span>)</button>
+</div>
+<div id="mastered-cta" hidden>
+<button id="review-mastered" class="link-btn">Revisit familiar questions (<span id="mastered-count">0</span>)</button>
+</div>
+<button type="button" id="toggle-advanced" class="link-btn" aria-controls="advanced" aria-expanded="false">Choose chapters &amp; question count</button>
+<div id="advanced" class="card" hidden>
+<h2>Make a little room to practice</h2>
+<fieldset>
+<legend>Chapters</legend>
+<div class="action-row">
+<button type="button" class="link-btn" data-select="all">Select all</button>
+<button type="button" class="link-btn" data-select="none">Clear selection</button>
+</div>
+<div id="chapter-list" class="chip-grid">
+</div>
+</fieldset>
+<fieldset>
+<legend>Question types</legend>
+<div id="type-list" class="chip-grid">
+<label class="chip">
+<input type="checkbox" value="multiple-choice" checked /> Multiple choice</label>
+<label class="chip">
+<input type="checkbox" value="true-false" checked /> True / false</label>
+<label class="chip">
+<input type="checkbox" value="fill-in" checked /> Fill in</label>
+</div>
+</fieldset>
+<label for="count" class="field-label">How many questions?</label>
+<select id="count" class="select">
+<option value="5">5</option>
+<option value="10">10</option>
+<option value="0">All available</option>
+</select>
+<p id="setup-summary" class="muted">
+</p>
+<div class="action-row">
+<button id="start-btn" class="primary-btn" disabled>Start practice</button>
+<button type="button" id="close-advanced" class="link-btn">Close choices</button>
+</div>
+</div>
+<p id="load-error" class="error" role="alert" hidden>
+</p>
+</section>
+<section id="quiz" class="screen" aria-labelledby="q-text" hidden>
+<div class="quiz-top">
+<div class="progress" aria-hidden="true">
+<div id="progress-bar" class="progress-bar">
+</div>
+</div>
+<div class="quiz-meta">
+<span id="q-position">
+</span>
+<span id="q-score" class="score">
+</span>
+</div>
+</div>
+<aside id="together-cue" class="together-cue" hidden>
+<strong>Think · Pair · Find the evidence</strong>
+<p>Take a quiet moment. Compare ideas with someone nearby. Find what supports your answer before revealing it. Choosing an answer is optional; anyone may pass.</p>
+</aside>
+<div class="card question-card">
+<div class="q-tags">
+<span id="q-ref" class="tag tag-ref">
+</span>
+<span id="q-topic" class="tag">
+</span>
+<span id="q-type" class="tag tag-type">
+</span>
+</div>
+<h2 id="q-text" class="q-text" tabindex="-1">
+</h2>
+<form id="answer-form">
+<div id="answer-area" role="group" aria-labelledby="q-text">
+</div>
+<button id="submit-btn" type="submit" class="primary-btn" disabled>Check answer</button>
+</form>
+<div id="question-help">
+<div class="action-row">
+<button id="hint-btn" type="button" class="link-btn">A little help</button>
+<a id="help-passage" class="link-btn" target="_blank" rel="noopener">Find it in the passage ↗</a>
+</div>
+<p id="hint-text" class="help-note" role="status" hidden>
+</p>
+</div>
+<div id="feedback" class="feedback" tabindex="-1" role="region" aria-label="Answer and explanation" hidden>
+<div id="feedback-verdict" class="verdict" role="status">
+</div>
+<p id="feedback-answer" class="correct-answer">
+</p>
+<p id="feedback-explanation">
+</p>
+<a id="passage-link" class="passage-link" href="#">Read the supporting passage ↗</a>
+<div id="question-depth">
+</div>
+</div>
+<div id="feedback-next-bar" class="feedback-next-bar" hidden>
+<button id="next-btn" type="button" class="primary-btn">Continue</button>
+</div>
+</div>
+<details id="question-report" class="gentle-details">
+<summary>This question seems unclear</summary>
+<p class="small muted">Send a question correction to the moderators. Please leave out personal details and prayer requests.</p>
+<form id="report-form">
+<label for="report-text">What could be clearer?</label>
+<textarea id="report-text" maxlength="800" rows="3" required>
+</textarea>
+<button id="report-send" type="submit" class="primary-btn ghost-btn">Send for review</button>
+<p id="report-status" role="status">
+</p>
+</form>
+</details>
+<button id="quit-btn" class="link-btn quit">Finish here</button>
+</section>
+<section id="results" class="screen" aria-labelledby="results-title" hidden>
+<p class="eyebrow">Carry it into the week</p>
+<h2 id="results-title" tabindex="-1">A moment before you go</h2>
+<p id="result-score" class="muted">
+</p>
+<div id="session-close" class="journey-card">
+</div>
+<div id="missed-review">
+</div>
+<div class="action-row">
+<button id="restart-btn" class="primary-btn">Return to this week</button>
+<button id="end-visit" class="link-btn">Clear this visit</button>
+</div>
+</section>
+</main>
+<footer class="site-footer">
+<p>Learning Scripture in the life of the parish.</p>
+<p class="small muted">Practice stays in this browser tab for this visit. On a shared device, clear your visit when finished. <a href="privacy.html">Your data &amp; reading permissions</a>
+</p>
+</footer>
+<section id="printable-guide" hidden aria-label="Printable leader guide">
+</section>
+<script type="module" src="parish-app.js">
+</script>
 </body>
 </html>
