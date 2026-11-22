@@ -24,6 +24,17 @@
     "difficulty": "easy",
     "roundFormat": "standard",
     "reviewStatus": "pilot",
+    "memoryAid": {
+      "type": "teaching",
+      "text": "Corinth was destroyed by a Roman army and later refounded as a colony by Julius Caesar. The Corinth that received Paul’s letter was a rebuilt Roman city on an older Greek site.",
+      "claimKind": "source-backed",
+      "source": "Strabo, Geography 8.6.23",
+      "sourceUrl": "https://penelope.uchicago.edu/Thayer/E/Roman/Texts/Strabo/8F*.html",
+      "sourceStatus": "found"
+    },
+    "researchArtifactIds": [
+      "1cor1-p1-f01"
+    ],
     "queueItemIds": []
   },
   {
@@ -33,14 +44,14 @@
     "chapter": 1,
     "reference": "1 Corinthians 1:2",
     "type": "multiple-choice",
-    "question": "How does Paul describe the believers in Corinth?",
+    "question": "What does Paul say the people sanctified in Christ Jesus are called to be?",
     "options": [
-      "Made holy in Christ and called as God’s holy people",
-      "Appointed to rule other churches and cities",
-      "Separated from everyone else who calls on Jesus",
-      "Chosen because many were powerful and noble"
+      "Saints",
+      "Rulers",
+      "Prophets",
+      "Priests"
     ],
-    "answer": "Made holy in Christ and called as God’s holy people",
+    "answer": "Saints",
     "studyGuide": {
       "summary": "Paul addresses the church in Corinth as people made holy in Christ and called to holiness, together with believers who call on Jesus elsewhere.",
       "citations": [
@@ -51,6 +62,17 @@
     "difficulty": "medium",
     "roundFormat": "standard",
     "reviewStatus": "pilot",
+    "memoryAid": {
+      "type": "teaching",
+      "text": "The Greek word Paul uses for church is also used in the Greek Old Testament for Israel’s assembly at Horeb. Paul’s greeting brings that older picture of people gathered before God into a Roman city.",
+      "claimKind": "source-backed",
+      "source": "Deuteronomy 4:10 (Greek Old Testament translation)",
+      "sourceUrl": "https://www.ccel.org/b/brenton/lxx/htm/vi.37.iv.htm",
+      "sourceStatus": "found"
+    },
+    "researchArtifactIds": [
+      "1cor1-p2-f01"
+    ],
     "queueItemIds": []
   },
   {
@@ -78,6 +100,14 @@
     "difficulty": "medium",
     "roundFormat": "standard",
     "reviewStatus": "pilot",
+    "memoryAid": {
+      "type": "teaching",
+      "text": "Notice what Paul is willing to thank God for before raising difficult concerns. Later he says some of their gatherings do more harm than good. Gratitude and a frank account of a problem can belong to the same letter.",
+      "claimKind": "source-backed",
+      "source": "1 Corinthians 1:4-9 and related passages (NKJV)",
+      "sourceUrl": "https://www.biblegateway.com/passage/?search=1+Corinthians+1%3A4-9%3B+11%3A17-22&version=NKJV",
+      "sourceStatus": "found"
+    },
     "queueItemIds": []
   },
   {
@@ -105,6 +135,17 @@
     "difficulty": "easy",
     "roundFormat": "standard",
     "reviewStatus": "pilot",
+    "memoryAid": {
+      "type": "teaching",
+      "text": "Paul asked another church to read his letter to everyone. If Corinthians was read in the same way, imagine hearing Chloe’s household named aloud in a room where the people involved in the quarrels could hear it too.",
+      "claimKind": "source-backed",
+      "source": "1 Thessalonians 5:27 (NKJV)",
+      "sourceUrl": "https://www.biblegateway.com/passage/?search=1+Thessalonians+5%3A27&version=NKJV",
+      "sourceStatus": "found"
+    },
+    "researchArtifactIds": [
+      "1cor1-p1-f08"
+    ],
     "queueItemIds": []
   },
   {
@@ -132,6 +173,14 @@
     "difficulty": "medium",
     "roundFormat": "standard",
     "reviewStatus": "pilot",
+    "memoryAid": {
+      "type": "teaching",
+      "text": "Acts describes Apollos as an able teacher and shows Priscilla and Aquila helping him learn. At the end of this letter, Paul says he urged Apollos to visit Corinth. Their cooperation reads very differently from the factions claiming their names.",
+      "claimKind": "source-backed",
+      "source": "Acts 18:24-28 and related passages (NKJV)",
+      "sourceUrl": "https://www.biblegateway.com/passage/?search=Acts+18%3A24-28%3B+1+Corinthians+16%3A12&version=NKJV",
+      "sourceStatus": "found"
+    },
     "queueItemIds": []
   },
   {
@@ -141,14 +190,14 @@
     "chapter": 1,
     "reference": "1 Corinthians 1:13",
     "type": "multiple-choice",
-    "question": "What two facts does Paul use to challenge the idea of belonging to him as a party leader?",
+    "question": "After asking if he was crucified for them, what does Paul ask about their baptism?",
     "options": [
-      "Paul was not crucified for them, and they were not baptized into Paul’s name",
-      "Paul had not taught them, and Apollos had not baptized them",
-      "Paul was not an apostle, and Cephas had not met them",
-      "Paul had not preached Christ, and Chloe had not written to them"
+      "Were you baptized in the name of Paul?",
+      "Who taught you before your baptism?",
+      "When did you first hear the gospel?",
+      "How many of you were baptized?"
     ],
-    "answer": "Paul was not crucified for them, and they were not baptized into Paul’s name",
+    "answer": "Were you baptized in the name of Paul?",
     "studyGuide": {
       "summary": "Paul’s questions point away from personal factions: he was not the one crucified for them, and their baptism was not into his name.",
       "citations": [
@@ -159,6 +208,14 @@
     "difficulty": "hard",
     "roundFormat": "standard",
     "reviewStatus": "pilot",
+    "memoryAid": {
+      "type": "teaching",
+      "text": "Paul remembers baptizing Crispus, and Acts identifies Crispus as a synagogue ruler whose household believed. Even someone with that public standing received baptism in Christ’s name.",
+      "claimKind": "source-backed",
+      "source": "1 Corinthians 1:13-16 and related passages (NKJV)",
+      "sourceUrl": "https://www.biblegateway.com/passage/?search=1+Corinthians+1%3A13-16%3B+Acts+18%3A8&version=NKJV",
+      "sourceStatus": "found"
+    },
     "queueItemIds": []
   },
   {
@@ -168,14 +225,14 @@
     "chapter": 1,
     "reference": "1 Corinthians 1:17",
     "type": "multiple-choice",
-    "question": "What mission does Paul say Christ sent him to carry out?",
+    "question": "What did Christ send Paul to do?",
     "options": [
-      "Proclaim the gospel",
+      "Preach the gospel",
       "Make baptism his main commission",
       "Build a following around his own name",
       "Win respect through polished rhetoric"
     ],
-    "answer": "Proclaim the gospel",
+    "answer": "Preach the gospel",
     "studyGuide": {
       "summary": "Paul contrasts his commission to proclaim the gospel with baptizing in this argument, while warning against rhetoric that would empty the cross of its force.",
       "citations": [
@@ -186,6 +243,17 @@
     "difficulty": "medium",
     "roundFormat": "standard",
     "reviewStatus": "pilot",
+    "memoryAid": {
+      "type": "teaching",
+      "text": "In Acts, Paul’s Corinthian ministry starts alongside a tentmaking job with Aquila and Priscilla. He reasons in the synagogue on Sabbaths and ends up teaching in Corinth for a year and a half.",
+      "claimKind": "source-backed",
+      "source": "Acts 18:1-11 (NKJV)",
+      "sourceUrl": "https://www.biblegateway.com/passage/?search=Acts+18%3A1-11&version=NKJV",
+      "sourceStatus": "found"
+    },
+    "researchArtifactIds": [
+      "1cor1-p1-f07"
+    ],
     "queueItemIds": []
   },
   {
@@ -213,6 +281,17 @@
     "difficulty": "easy",
     "roundFormat": "standard",
     "reviewStatus": "pilot",
+    "memoryAid": {
+      "type": "teaching",
+      "text": "The verse after Paul’s statement about the cross quotes Isaiah. The original passage pictures a clay pot talking back to its maker, a vivid picture of what happens when human wisdom treats God as the one who needs explaining.",
+      "claimKind": "source-backed",
+      "source": "Isaiah 29:13-16 (NKJV)",
+      "sourceUrl": "https://www.biblegateway.com/passage/?search=Isaiah+29%3A13-16&version=NKJV",
+      "sourceStatus": "found"
+    },
+    "researchArtifactIds": [
+      "1cor1-p2-f09"
+    ],
     "queueItemIds": []
   },
   {
@@ -222,14 +301,14 @@
     "chapter": 1,
     "reference": "1 Corinthians 1:24",
     "type": "multiple-choice",
-    "question": "For those who are called, whether Jews or Greeks, how does Paul describe Christ?",
+    "question": "How does Paul describe Christ to those who are called?",
     "options": [
-      "God’s power and God’s wisdom",
+      "The power of God and the wisdom of God",
       "A sign and a philosophy",
       "Human weakness and foolishness",
       "A scribe and a ruler"
     ],
-    "answer": "God’s power and God’s wisdom",
+    "answer": "The power of God and the wisdom of God",
     "studyGuide": {
       "summary": "Paul says that for the called, from both Jews and Greeks, Christ is God’s power and God’s wisdom.",
       "citations": [
@@ -240,6 +319,17 @@
     "difficulty": "medium",
     "roundFormat": "standard",
     "reviewStatus": "pilot",
+    "memoryAid": {
+      "type": "teaching",
+      "text": "In a defense speech, Cicero treats even the mention of a cross as beneath the dignity of a Roman citizen. Against that background, Paul’s description of a crucified man as God’s power and wisdom would have sounded startling.",
+      "claimKind": "source-backed",
+      "source": "Cicero, In Defense of Rabirius 16",
+      "sourceUrl": "https://readancienttexts.com/cicero/oratoria/9",
+      "sourceStatus": "found"
+    },
+    "researchArtifactIds": [
+      "1cor1-p2-f10"
+    ],
     "queueItemIds": []
   },
   {
@@ -267,6 +357,14 @@
     "difficulty": "medium",
     "roundFormat": "standard",
     "reviewStatus": "pilot",
+    "memoryAid": {
+      "type": "teaching",
+      "text": "When Samuel is sent to anoint a king, David is still out tending sheep and has to be called in. The story gives Paul’s pattern of overlooked people a face.",
+      "claimKind": "source-backed",
+      "source": "1 Samuel 16:6-13 (NKJV)",
+      "sourceUrl": "https://www.biblegateway.com/passage/?search=1+Samuel+16%3A6-13&version=NKJV",
+      "sourceStatus": "found"
+    },
     "queueItemIds": []
   },
   {
@@ -276,14 +374,14 @@
     "chapter": 1,
     "reference": "1 Corinthians 1:26-29",
     "type": "multiple-choice",
-    "question": "What result does Paul draw from God’s choice of people the world often overlooks?",
+    "question": "What does Paul say no one should do in God’s presence?",
     "options": [
-      "It leaves no one grounds for boasting before God",
-      "It gives the socially powerful stronger grounds for boasting",
-      "It transfers boasting from wealth to speaking skill",
-      "It makes a human teacher the proper object of boasting"
+      "Glory",
+      "Pray",
+      "Serve",
+      "Give thanks"
     ],
-    "answer": "It leaves no one grounds for boasting before God",
+    "answer": "Glory",
     "studyGuide": {
       "summary": "Paul moves from the Corinthians’ calling to God’s choice of the lowly and overlooked, concluding that no one can boast before God.",
       "citations": [
@@ -294,6 +392,17 @@
     "difficulty": "hard",
     "roundFormat": "standard",
     "reviewStatus": "pilot",
+    "memoryAid": {
+      "type": "teaching",
+      "text": "In chapter 4, Paul puts himself on the low side of the social ladder. He describes going hungry, getting poorly treated, and working with his hands. The logic of God’s choice reaches the apostle too.",
+      "claimKind": "source-backed",
+      "source": "1 Corinthians 1:26-29 and related passages (NKJV)",
+      "sourceUrl": "https://www.biblegateway.com/passage/?search=1+Corinthians+1%3A26-29%3B+4%3A9-13&version=NKJV",
+      "sourceStatus": "found"
+    },
+    "researchArtifactIds": [
+      "1cor1-p2-f11"
+    ],
     "queueItemIds": []
   },
   {
@@ -321,6 +430,14 @@
     "difficulty": "easy",
     "roundFormat": "standard",
     "reviewStatus": "pilot",
+    "memoryAid": {
+      "type": "teaching",
+      "text": "Paul’s closing line echoes Jeremiah, who names wisdom, might, and wealth as things people brag about. He then describes knowing a God who practices lovingkindness, judgment, and righteousness.",
+      "claimKind": "source-backed",
+      "source": "Jeremiah 9:23-24 (NKJV)",
+      "sourceUrl": "https://www.biblegateway.com/passage/?search=Jeremiah+9%3A23-24&version=NKJV",
+      "sourceStatus": "found"
+    },
     "queueItemIds": []
   },
   {
@@ -348,6 +465,17 @@
     "difficulty": "easy",
     "roundFormat": "standard",
     "reviewStatus": "pilot",
+    "memoryAid": {
+      "type": "teaching",
+      "text": "Chrysostom imagines a listener expecting Paul to overcome a difficult message with impressive delivery. He sees Paul’s simple proclamation of the cross as an essential part of how its power came through.",
+      "claimKind": "source-backed",
+      "source": "Chrysostom, Homily 6 on 1 Corinthians",
+      "sourceUrl": "https://www.newadvent.org/fathers/220106.htm",
+      "sourceStatus": "found"
+    },
+    "researchArtifactIds": [
+      "1cor2-p1-f01"
+    ],
     "queueItemIds": []
   },
   {
@@ -375,6 +503,17 @@
     "difficulty": "medium",
     "roundFormat": "standard",
     "reviewStatus": "pilot",
+    "memoryAid": {
+      "type": "teaching",
+      "text": "Acts supplies a scene behind Paul’s admission of fear. The Lord tells him in a vision to keep speaking and says He has many people in Corinth. Paul then stays to teach for eighteen months.",
+      "claimKind": "source-backed",
+      "source": "Acts 18:5-11 (NKJV)",
+      "sourceUrl": "https://www.biblegateway.com/passage/?search=Acts+18%3A5-11&version=NKJV",
+      "sourceStatus": "found"
+    },
+    "researchArtifactIds": [
+      "1cor2-p1-f04"
+    ],
     "queueItemIds": []
   },
   {
@@ -384,14 +523,14 @@
     "chapter": 2,
     "reference": "1 Corinthians 2:4-5",
     "type": "multiple-choice",
-    "question": "What reason does Paul give for not grounding his preaching in persuasive human wisdom?",
+    "question": "In what does Paul want the Corinthians’ faith to rest?",
     "options": [
-      "So their faith would rest on God’s power rather than human wisdom",
-      "So their faith would depend on Paul’s personal courage",
-      "So they would stop listening to every spoken message",
-      "So they would judge faith by a speaker’s social rank"
+      "The power of God",
+      "Paul’s courage",
+      "The wisdom of men",
+      "A speaker’s social rank"
     ],
-    "answer": "So their faith would rest on God’s power rather than human wisdom",
+    "answer": "The power of God",
     "studyGuide": {
       "summary": "Paul connects his manner of preaching with its purpose: their faith should have its foundation in God’s power, not in human wisdom.",
       "citations": [
@@ -402,6 +541,14 @@
     "difficulty": "hard",
     "roundFormat": "standard",
     "reviewStatus": "pilot",
+    "memoryAid": {
+      "type": "teaching",
+      "text": "In his next letter, Paul develops the same idea with a picture of treasure carried in clay jars. The ordinary container makes the source of the power easier to see.",
+      "claimKind": "source-backed",
+      "source": "2 Corinthians 4:7-9 (NKJV)",
+      "sourceUrl": "https://www.biblegateway.com/passage/?search=2+Corinthians+4%3A7-9&version=NKJV",
+      "sourceStatus": "found"
+    },
     "queueItemIds": []
   },
   {
@@ -411,14 +558,14 @@
     "chapter": 2,
     "reference": "1 Corinthians 2:6-7",
     "type": "multiple-choice",
-    "question": "Which description fits the wisdom Paul says he speaks among the mature?",
+    "question": "When did God ordain the hidden wisdom Paul describes?",
     "options": [
-      "God’s hidden wisdom, planned before the ages for our glory",
-      "The wisdom of this age, shared by its rulers",
-      "Human wisdom learned through persuasive speech",
-      "A wisdom based on noble birth and social power"
+      "Before the ages",
+      "After the Exodus",
+      "During Paul’s visit",
+      "After the rulers heard it"
     ],
-    "answer": "God’s hidden wisdom, planned before the ages for our glory",
+    "answer": "Before the ages",
     "studyGuide": {
       "summary": "Paul contrasts God’s hidden wisdom, planned before the ages for our glory, with the wisdom of this age and its rulers.",
       "citations": [
@@ -429,6 +576,14 @@
     "difficulty": "medium",
     "roundFormat": "standard",
     "reviewStatus": "pilot",
+    "memoryAid": {
+      "type": "teaching",
+      "text": "Chrysostom pictures one man trying to prove that he can cross an ocean with no ship and another actually crossing by trusting a ship and its crew. He uses the image to show the limits of confidence in one’s own expertise.",
+      "claimKind": "source-backed",
+      "source": "Chrysostom, Homily 7 on 1 Corinthians",
+      "sourceUrl": "https://www.newadvent.org/fathers/220107.htm",
+      "sourceStatus": "found"
+    },
     "queueItemIds": []
   },
   {
@@ -438,16 +593,16 @@
     "chapter": 2,
     "reference": "1 Corinthians 2:6-8",
     "type": "multiple-choice",
-    "question": "Which contrast best follows Paul’s argument about the rulers of this age and God’s wisdom?",
+    "question": "Whom did the rulers of this age crucify?",
     "options": [
-      "The rulers themselves are coming to nothing, and they did not understand God’s hidden wisdom",
-      "The rulers will endure, and they fully understood God’s hidden wisdom",
-      "The rulers received their wisdom from the Spirit and recognized the Lord of glory",
-      "The rulers became the source of the gospel by crucifying the Lord of glory"
+      "The Lord of glory",
+      "John the Baptist",
+      "Sosthenes",
+      "Paul"
     ],
-    "answer": "The rulers themselves are coming to nothing, and they did not understand God’s hidden wisdom",
+    "answer": "The Lord of glory",
     "studyGuide": {
-      "summary": "Paul says the rulers of this age are coming to nothing and did not understand God’s hidden wisdom; otherwise they would not have crucified the Lord of glory.",
+      "summary": "Paul says the rulers of this age crucified the Lord of glory and that they would have acted differently if they had known God's wisdom.",
       "citations": [
         "1 Corinthians 2:6-8"
       ]
@@ -456,6 +611,14 @@
     "difficulty": "hard",
     "roundFormat": "standard",
     "reviewStatus": "pilot",
+    "memoryAid": {
+      "type": "teaching",
+      "text": "Chrysostom lists philosophers, speakers, and speechwriters among the powerful people he hears Paul describing. That reading helps a modern reader see how public speech itself could confer power in an ancient city.",
+      "claimKind": "source-backed",
+      "source": "Chrysostom, Homily 7 on 1 Corinthians",
+      "sourceUrl": "https://www.newadvent.org/fathers/220107.htm",
+      "sourceStatus": "found"
+    },
     "queueItemIds": []
   },
   {
@@ -465,14 +628,14 @@
     "chapter": 2,
     "reference": "1 Corinthians 2:12",
     "type": "multiple-choice",
-    "question": "Why does Paul say believers received the Spirit who is from God?",
+    "question": "What does the Spirit help believers know?",
     "options": [
-      "To understand what God has freely given them",
+      "The things God has freely given them",
       "To gain control over the rulers of the age",
       "To replace the need for Christ’s cross",
       "To become known for persuasive speaking"
     ],
-    "answer": "To understand what God has freely given them",
+    "answer": "The things God has freely given them",
     "studyGuide": {
       "summary": "Paul says believers received the Spirit from God so that they could understand what God has freely given them.",
       "citations": [
@@ -483,6 +646,3277 @@
     "difficulty": "medium",
     "roundFormat": "standard",
     "reviewStatus": "pilot",
+    "memoryAid": {
+      "type": "teaching",
+      "text": "At the end of this argument, Paul echoes Isaiah’s question about who could teach God. Isaiah has just imagined God measuring the sea in His hand. The scale of that picture makes Paul’s claim that the Spirit brings understanding all the more striking.",
+      "claimKind": "source-backed",
+      "source": "Isaiah 40:12-14 and related passages (NKJV)",
+      "sourceUrl": "https://www.biblegateway.com/passage/?search=Isaiah+40%3A12-14%3B+1+Corinthians+2%3A10-16&version=NKJV",
+      "sourceStatus": "found"
+    },
+    "researchArtifactIds": [
+      "1cor2-p2-f07"
+    ],
     "queueItemIds": []
+  },
+  {
+    "id": "1cor3-dr-001",
+    "queueItemIds": [],
+    "researchArtifactIds": [],
+    "book": "1 Corinthians",
+    "bookSlug": "1cor",
+    "chapter": 3,
+    "reference": "1 Corinthians 3:6",
+    "topic": "Planting and watering",
+    "type": "multiple-choice",
+    "question": "Who watered after Paul planted?",
+    "answer": "Apollos",
+    "options": [
+      "Apollos",
+      "Cephas",
+      "Timothy",
+      "Barnabas"
+    ],
+    "difficulty": "easy",
+    "roundFormat": "standard",
+    "studyGuide": {
+      "summary": "Paul planted, Apollos watered, and God gave the increase.",
+      "citations": [
+        "1 Corinthians 3:6"
+      ]
+    },
+    "reviewStatus": "pilot",
+    "memoryAid": {
+      "type": "teaching",
+      "text": "Acts gives the watering a backstory. Apollos taught in Ephesus, received further instruction from Priscilla and Aquila, and then went to Achaia, the region that included Corinth.",
+      "claimKind": "source-backed",
+      "source": "Acts 18:24-28 (NKJV)",
+      "sourceUrl": "https://www.biblegateway.com/passage/?search=Acts+18%3A24-28&version=NKJV",
+      "sourceStatus": "found"
+    }
+  },
+  {
+    "id": "1cor3-dr-002",
+    "queueItemIds": [],
+    "researchArtifactIds": [],
+    "book": "1 Corinthians",
+    "bookSlug": "1cor",
+    "chapter": 3,
+    "reference": "1 Corinthians 3:11",
+    "topic": "The foundation",
+    "type": "multiple-choice",
+    "question": "Who is the foundation Paul says has already been laid?",
+    "answer": "Jesus Christ",
+    "options": [
+      "Jesus Christ",
+      "Paul",
+      "Apollos",
+      "Moses"
+    ],
+    "difficulty": "easy",
+    "roundFormat": "standard",
+    "studyGuide": {
+      "summary": "Paul identifies Jesus Christ as the one foundation.",
+      "citations": [
+        "1 Corinthians 3:11"
+      ]
+    },
+    "reviewStatus": "pilot",
+    "memoryAid": {
+      "type": "teaching",
+      "text": "Ephesians gives the same building image a different angle. There Christ is the cornerstone that holds the structure together, and the whole community grows into a temple.",
+      "claimKind": "source-backed",
+      "source": "Ephesians 2:19-22 (NKJV)",
+      "sourceUrl": "https://www.biblegateway.com/passage/?search=Ephesians+2%3A19-22&version=NKJV",
+      "sourceStatus": "found"
+    }
+  },
+  {
+    "id": "1cor3-dr-003",
+    "queueItemIds": [],
+    "researchArtifactIds": [
+      "1cor3-p1-f11"
+    ],
+    "book": "1 Corinthians",
+    "bookSlug": "1cor",
+    "chapter": 3,
+    "reference": "1 Corinthians 3:16",
+    "topic": "God's temple",
+    "type": "multiple-choice",
+    "question": "What does Paul call the Corinthians because God’s Spirit dwells in them?",
+    "answer": "The temple of God",
+    "options": [
+      "The temple of God",
+      "A royal household",
+      "An army of witnesses",
+      "A vineyard"
+    ],
+    "difficulty": "easy",
+    "roundFormat": "standard",
+    "studyGuide": {
+      "summary": "Paul calls the Corinthians God’s temple and says God’s Spirit dwells in them.",
+      "citations": [
+        "1 Corinthians 3:16"
+      ]
+    },
+    "reviewStatus": "pilot",
+    "memoryAid": {
+      "type": "teaching",
+      "text": "At the dedication of Solomon’s temple, the glory of God fills the building and the priests cannot enter. Paul applies that old image of God’s presence to a quarrelling congregation.",
+      "claimKind": "source-backed",
+      "source": "2 Chronicles 7:1-3 and related passages (NKJV)",
+      "sourceUrl": "https://www.biblegateway.com/passage/?search=2+Chronicles+7%3A1-3%3B+1+Corinthians+3%3A16-17&version=NKJV",
+      "sourceStatus": "found"
+    }
+  },
+  {
+    "id": "1cor4-dr-001",
+    "queueItemIds": [],
+    "researchArtifactIds": [
+      "1cor4-p1-f02"
+    ],
+    "book": "1 Corinthians",
+    "bookSlug": "1cor",
+    "chapter": 4,
+    "reference": "1 Corinthians 4:2",
+    "topic": "Faithful stewardship",
+    "type": "multiple-choice",
+    "question": "What must a steward be found to be?",
+    "answer": "Faithful",
+    "options": [
+      "Faithful",
+      "Wealthy",
+      "Eloquent",
+      "Powerful"
+    ],
+    "difficulty": "easy",
+    "roundFormat": "standard",
+    "studyGuide": {
+      "summary": "Paul says faithfulness is required of stewards.",
+      "citations": [
+        "1 Corinthians 4:2"
+      ]
+    },
+    "reviewStatus": "pilot",
+    "memoryAid": {
+      "type": "teaching",
+      "text": "Xenophon uses estate management as an example of a skill someone can practice on property that belongs to someone else. That makes Paul’s image concrete. A steward has real responsibility for goods they do not own.",
+      "claimKind": "source-backed",
+      "source": "Xenophon, Estate Management 1.3-4",
+      "sourceUrl": "https://beta.perseus.tufts.edu/urn:cts:greekLit:tlg0032.tlg003.perseus-eng2/",
+      "sourceStatus": "found"
+    }
+  },
+  {
+    "id": "1cor4-dr-002",
+    "queueItemIds": [],
+    "researchArtifactIds": [],
+    "book": "1 Corinthians",
+    "bookSlug": "1cor",
+    "chapter": 4,
+    "reference": "1 Corinthians 4:5",
+    "topic": "Hidden motives",
+    "type": "multiple-choice",
+    "question": "What will the Lord reveal when He comes, besides hidden things in darkness?",
+    "answer": "The counsels of the hearts",
+    "options": [
+      "The counsels of the hearts",
+      "The number of believers",
+      "The dates of future feasts",
+      "The identities of the angels"
+    ],
+    "difficulty": "easy",
+    "roundFormat": "standard",
+    "studyGuide": {
+      "summary": "Paul says the Lord will reveal the counsels of the hearts.",
+      "citations": [
+        "1 Corinthians 4:5"
+      ]
+    },
+    "reviewStatus": "pilot",
+    "memoryAid": {
+      "type": "teaching",
+      "text": "Samuel once saw a likely king in Eliab. God redirected him from appearance to the heart. Paul similarly points to something a human evaluator cannot fully see.",
+      "claimKind": "source-backed",
+      "source": "1 Samuel 16:6-7 (NKJV)",
+      "sourceUrl": "https://www.biblegateway.com/passage/?search=1+Samuel+16%3A6-7&version=NKJV",
+      "sourceStatus": "found"
+    }
+  },
+  {
+    "id": "1cor4-dr-003",
+    "queueItemIds": [],
+    "researchArtifactIds": [
+      "1cor4-p2-f09"
+    ],
+    "book": "1 Corinthians",
+    "bookSlug": "1cor",
+    "chapter": 4,
+    "reference": "1 Corinthians 4:17",
+    "topic": "Timothy's assignment",
+    "type": "multiple-choice",
+    "question": "Whom did Paul send to remind the Corinthians of his ways in Christ?",
+    "answer": "Timothy",
+    "options": [
+      "Timothy",
+      "Titus",
+      "Silas",
+      "Apollos"
+    ],
+    "difficulty": "easy",
+    "roundFormat": "standard",
+    "studyGuide": {
+      "summary": "Timothy was sent to remind them of Paul’s ways in Christ.",
+      "citations": [
+        "1 Corinthians 4:17"
+      ]
+    },
+    "reviewStatus": "pilot",
+    "memoryAid": {
+      "type": "teaching",
+      "text": "Chrysostom notices that Timothy is sent to remind the Corinthians of a way of life. Their teacher’s absence puts what they already learned into their own hands.",
+      "claimKind": "source-backed",
+      "source": "Chrysostom, Homily 14 on 1 Corinthians",
+      "sourceUrl": "https://www.newadvent.org/fathers/220114.htm",
+      "sourceStatus": "found"
+    }
+  },
+  {
+    "id": "1cor5-dr-001",
+    "queueItemIds": [],
+    "researchArtifactIds": [],
+    "book": "1 Corinthians",
+    "bookSlug": "1cor",
+    "chapter": 5,
+    "reference": "1 Corinthians 5:6",
+    "topic": "Leaven",
+    "type": "multiple-choice",
+    "question": "What does a little leaven affect?",
+    "answer": "The whole lump",
+    "options": [
+      "The whole lump",
+      "Only the surface",
+      "Only the center",
+      "Only the next batch"
+    ],
+    "difficulty": "easy",
+    "roundFormat": "standard",
+    "studyGuide": {
+      "summary": "Paul says a little leaven leavens the whole lump.",
+      "citations": [
+        "1 Corinthians 5:6"
+      ]
+    },
+    "reviewStatus": "pilot",
+    "memoryAid": {
+      "type": "teaching",
+      "text": "Jesus uses leaven to picture hypocrisy. Paul applies the same kitchen image to a congregation’s tolerance of wrongdoing. In both cases, a small beginning can spread.",
+      "claimKind": "source-backed",
+      "source": "Luke 12:1 (NKJV)",
+      "sourceUrl": "https://www.biblegateway.com/passage/?search=Luke+12%3A1&version=NKJV",
+      "sourceStatus": "found"
+    }
+  },
+  {
+    "id": "1cor5-dr-002",
+    "queueItemIds": [],
+    "researchArtifactIds": [
+      "1cor5-p2-f08"
+    ],
+    "book": "1 Corinthians",
+    "bookSlug": "1cor",
+    "chapter": 5,
+    "reference": "1 Corinthians 5:7",
+    "topic": "Christ our Passover",
+    "type": "multiple-choice",
+    "question": "Whom does Paul call our Passover?",
+    "answer": "Christ",
+    "options": [
+      "Christ",
+      "Moses",
+      "Aaron",
+      "Abraham"
+    ],
+    "difficulty": "easy",
+    "roundFormat": "standard",
+    "studyGuide": {
+      "summary": "Paul calls Christ our Passover and says He was sacrificed for us.",
+      "citations": [
+        "1 Corinthians 5:7"
+      ]
+    },
+    "reviewStatus": "pilot",
+    "memoryAid": {
+      "type": "teaching",
+      "text": "Josephus connects the annual Passover sacrifice to Israel’s rescue from slavery in Egypt. That remembered rescue is the background when Paul puts Christ at the center of the feast.",
+      "claimKind": "source-backed",
+      "source": "Josephus, Antiquities of the Jews 3.248-249",
+      "sourceUrl": "https://lexundria.com/j_aj/3.248-3.249/wst",
+      "sourceStatus": "found"
+    }
+  },
+  {
+    "id": "1cor5-dr-003",
+    "queueItemIds": [],
+    "researchArtifactIds": [
+      "1cor5-p2-f13"
+    ],
+    "book": "1 Corinthians",
+    "bookSlug": "1cor",
+    "chapter": 5,
+    "reference": "1 Corinthians 5:12",
+    "topic": "Inside the church",
+    "type": "multiple-choice",
+    "question": "Which group does Paul ask the Corinthians to judge?",
+    "answer": "Those who are inside",
+    "options": [
+      "Those who are inside",
+      "Those who are outside",
+      "The Roman governors",
+      "The angels"
+    ],
+    "difficulty": "easy",
+    "roundFormat": "standard",
+    "studyGuide": {
+      "summary": "Paul directs this judgment toward those inside the community.",
+      "citations": [
+        "1 Corinthians 5:12"
+      ]
+    },
+    "reviewStatus": "pilot",
+    "memoryAid": {
+      "type": "teaching",
+      "text": "Paul ends the chapter with a line that echoes Israel’s law about removing evil from the community. The echo connects his ruling to a much older practice of holding the community responsible for what it permits.",
+      "claimKind": "source-backed",
+      "source": "Deuteronomy 17:6-7 and related passages (NKJV)",
+      "sourceUrl": "https://www.biblegateway.com/passage/?search=Deuteronomy+17%3A6-7%3B+1+Corinthians+5%3A12-13&version=NKJV",
+      "sourceStatus": "found"
+    }
+  },
+  {
+    "id": "1cor6-dr-001",
+    "queueItemIds": [],
+    "researchArtifactIds": [
+      "1cor6-p1-f04"
+    ],
+    "book": "1 Corinthians",
+    "bookSlug": "1cor",
+    "chapter": 6,
+    "reference": "1 Corinthians 6:3",
+    "topic": "Judging angels",
+    "type": "multiple-choice",
+    "question": "Whom does Paul say believers will judge, in addition to matters of this life?",
+    "answer": "Angels",
+    "options": [
+      "Angels",
+      "The apostles",
+      "The prophets",
+      "The Roman governors"
+    ],
+    "difficulty": "easy",
+    "roundFormat": "standard",
+    "studyGuide": {
+      "summary": "Paul says believers will judge angels.",
+      "citations": [
+        "1 Corinthians 6:3"
+      ]
+    },
+    "reviewStatus": "pilot",
+    "memoryAid": {
+      "type": "teaching",
+      "text": "In Plato’s dialogue Euthyphro, Socrates is shocked to meet a man prosecuting his own father. Paul brings that unsettling idea of taking one’s own people to court into the church and calls the disputants brothers.",
+      "claimKind": "source-backed",
+      "source": "Plato, Euthyphro 4a-b",
+      "sourceUrl": "https://beta.perseus.tufts.edu/urn:cts:greekLit:tlg0059.tlg001.perseus-eng2:4/",
+      "sourceStatus": "found"
+    }
+  },
+  {
+    "id": "1cor6-dr-002",
+    "queueItemIds": [],
+    "researchArtifactIds": [],
+    "book": "1 Corinthians",
+    "bookSlug": "1cor",
+    "chapter": 6,
+    "reference": "1 Corinthians 6:15",
+    "topic": "Members of Christ",
+    "type": "multiple-choice",
+    "question": "Of whom does Paul say the believers’ bodies are members?",
+    "answer": "Christ",
+    "options": [
+      "Christ",
+      "Adam",
+      "Moses",
+      "The rulers of this age"
+    ],
+    "difficulty": "easy",
+    "roundFormat": "standard",
+    "studyGuide": {
+      "summary": "Paul calls their bodies members of Christ.",
+      "citations": [
+        "1 Corinthians 6:15"
+      ]
+    },
+    "reviewStatus": "pilot",
+    "memoryAid": {
+      "type": "teaching",
+      "text": "Later, Paul gives this image a social dimension. A member of Christ’s body has a responsibility to the other members, so the pain of one belongs to the whole body.",
+      "claimKind": "source-backed",
+      "source": "1 Corinthians 12:21-27 (NKJV)",
+      "sourceUrl": "https://www.biblegateway.com/passage/?search=1+Corinthians+12%3A21-27&version=NKJV",
+      "sourceStatus": "found"
+    }
+  },
+  {
+    "id": "1cor6-dr-003",
+    "queueItemIds": [],
+    "researchArtifactIds": [
+      "1cor6-p1-f15"
+    ],
+    "book": "1 Corinthians",
+    "bookSlug": "1cor",
+    "chapter": 6,
+    "reference": "1 Corinthians 6:19",
+    "topic": "The Spirit's temple",
+    "type": "multiple-choice",
+    "question": "Whose temple does Paul say the believer’s body is?",
+    "answer": "The Holy Spirit",
+    "options": [
+      "The Holy Spirit",
+      "An angel",
+      "A priest",
+      "A prophet"
+    ],
+    "difficulty": "easy",
+    "roundFormat": "standard",
+    "studyGuide": {
+      "summary": "Paul calls the body a temple of the Holy Spirit.",
+      "citations": [
+        "1 Corinthians 6:19"
+      ]
+    },
+    "reviewStatus": "pilot",
+    "memoryAid": {
+      "type": "teaching",
+      "text": "On the Day of Atonement, the sanctuary itself had to be cleansed because it stood among the people. That older picture adds force to Paul’s claim that what we do with our bodies matters when God’s Spirit dwells in them.",
+      "claimKind": "source-backed",
+      "source": "Leviticus 16:15-16 (NKJV)",
+      "sourceUrl": "https://www.biblegateway.com/passage/?search=Leviticus+16%3A15-16&version=NKJV",
+      "sourceStatus": "found"
+    }
+  },
+  {
+    "id": "1cor7-dr-001",
+    "queueItemIds": [],
+    "researchArtifactIds": [],
+    "book": "1 Corinthians",
+    "bookSlug": "1cor",
+    "chapter": 7,
+    "reference": "1 Corinthians 7:15",
+    "topic": "Called to peace",
+    "type": "multiple-choice",
+    "question": "What does Paul say God has called believers to when discussing an unbelieving spouse who departs?",
+    "answer": "Peace",
+    "options": [
+      "Peace",
+      "Retaliation",
+      "Public judgment",
+      "Seclusion"
+    ],
+    "difficulty": "easy",
+    "roundFormat": "standard",
+    "studyGuide": {
+      "summary": "Paul says God has called believers to peace.",
+      "citations": [
+        "1 Corinthians 7:15"
+      ]
+    },
+    "reviewStatus": "pilot",
+    "memoryAid": {
+      "type": "teaching",
+      "text": "In Romans, Paul adds a practical limit to the duty to live peaceably. One person can take responsibility for their part, and the other person still makes their own choices.",
+      "claimKind": "source-backed",
+      "source": "Romans 12:17-18 (NKJV)",
+      "sourceUrl": "https://www.biblegateway.com/passage/?search=Romans+12%3A17-18&version=NKJV",
+      "sourceStatus": "found"
+    }
+  },
+  {
+    "id": "1cor7-dr-002",
+    "queueItemIds": [],
+    "researchArtifactIds": [
+      "1cor7-p2-f01"
+    ],
+    "book": "1 Corinthians",
+    "bookSlug": "1cor",
+    "chapter": 7,
+    "reference": "1 Corinthians 7:23",
+    "topic": "Bought at a price",
+    "type": "multiple-choice",
+    "question": "What does Paul tell the Corinthians to avoid becoming after being bought at a price?",
+    "answer": "Slaves of men",
+    "options": [
+      "Slaves of men",
+      "Servants of Christ",
+      "Workers in the Lord",
+      "Brothers and sisters"
+    ],
+    "difficulty": "easy",
+    "roundFormat": "standard",
+    "studyGuide": {
+      "summary": "Paul tells them to avoid becoming slaves of men.",
+      "citations": [
+        "1 Corinthians 7:23"
+      ]
+    },
+    "reviewStatus": "pilot",
+    "memoryAid": {
+      "type": "teaching",
+      "text": "Chrysostom reads this passage as a claim that even slavery cannot prevent a person from belonging to Christ. Paul has just called a Christian slave the Lord’s freed person. He applies the same claim of belonging to a person who is legally free.",
+      "claimKind": "source-backed",
+      "source": "Chrysostom, Homily 19 on 1 Corinthians",
+      "sourceUrl": "https://www.newadvent.org/fathers/220119.htm",
+      "sourceStatus": "found"
+    }
+  },
+  {
+    "id": "1cor7-dr-003",
+    "queueItemIds": [],
+    "researchArtifactIds": [],
+    "book": "1 Corinthians",
+    "bookSlug": "1cor",
+    "chapter": 7,
+    "reference": "1 Corinthians 7:32",
+    "topic": "Caring for the Lord's things",
+    "type": "multiple-choice",
+    "question": "Whom does Paul say the unmarried man is concerned with pleasing?",
+    "answer": "The Lord",
+    "options": [
+      "The Lord",
+      "His employer",
+      "His neighbors",
+      "A church leader"
+    ],
+    "difficulty": "easy",
+    "roundFormat": "standard",
+    "studyGuide": {
+      "summary": "Paul says the unmarried man cares about the things of the Lord and how to please Him.",
+      "citations": [
+        "1 Corinthians 7:32"
+      ]
+    },
+    "reviewStatus": "pilot",
+    "memoryAid": {
+      "type": "teaching",
+      "text": "Paul roots this advice in a larger picture of a world whose present form is passing. He also states his purpose in verse 35, which is to help people serve the Lord with fewer distractions.",
+      "claimKind": "source-backed",
+      "source": "1 Corinthians 7:29-35 (NKJV)",
+      "sourceUrl": "https://www.biblegateway.com/passage/?search=1+Corinthians+7%3A29-35&version=NKJV",
+      "sourceStatus": "found"
+    }
+  },
+  {
+    "id": "1cor8-dr-003",
+    "queueItemIds": [],
+    "researchArtifactIds": [
+      "1cor8-p1-f02"
+    ],
+    "book": "1 Corinthians",
+    "bookSlug": "1cor",
+    "chapter": 8,
+    "reference": "1 Corinthians 8:13",
+    "topic": "Care for a brother",
+    "type": "multiple-choice",
+    "question": "What does Paul say he will stop eating if food makes his brother stumble?",
+    "answer": "Meat",
+    "options": [
+      "Meat",
+      "Bread",
+      "Fruit",
+      "Herbs"
+    ],
+    "difficulty": "easy",
+    "roundFormat": "standard",
+    "studyGuide": {
+      "summary": "Paul says he will give up meat in that situation.",
+      "citations": [
+        "1 Corinthians 8:13"
+      ]
+    },
+    "reviewStatus": "pilot",
+    "memoryAid": {
+      "type": "teaching",
+      "text": "Excavators at Corinth’s sanctuary of Demeter and Kore found rows of small dining rooms. That gives you a picture of why food and worship could overlap in Corinth and why the location of a meal could matter to someone’s conscience.",
+      "claimKind": "source-backed",
+      "source": "Corinth Excavations, Sanctuary of Demeter and Kore",
+      "sourceUrl": "https://metis.ascsa.edu.gr/resource/a73b288be43b32c110da3976f711d042?feedback=true&image_id=52f3a1aa5d659e03cb784c70dc5286b2&tab=overview&view=preview",
+      "sourceStatus": "found"
+    }
+  },
+  {
+    "id": "1cor8-dr-001",
+    "queueItemIds": [],
+    "researchArtifactIds": [],
+    "book": "1 Corinthians",
+    "bookSlug": "1cor",
+    "chapter": 8,
+    "reference": "1 Corinthians 8:1",
+    "topic": "Knowledge and love",
+    "type": "multiple-choice",
+    "question": "What does Paul say edifies?",
+    "answer": "Love",
+    "options": [
+      "Love",
+      "Knowledge",
+      "Status",
+      "Wealth"
+    ],
+    "difficulty": "easy",
+    "roundFormat": "standard",
+    "studyGuide": {
+      "summary": "Paul says knowledge puffs up and love edifies.",
+      "citations": [
+        "1 Corinthians 8:1"
+      ]
+    },
+    "reviewStatus": "pilot",
+    "memoryAid": {
+      "type": "teaching",
+      "text": "Paul gives a concrete example of building someone up. A person who understands idols may still give up a meal if their example would lead another person to act against conscience.",
+      "claimKind": "source-backed",
+      "source": "1 Corinthians 8:9-13 (NKJV)",
+      "sourceUrl": "https://www.biblegateway.com/passage/?search=1+Corinthians+8%3A9-13&version=NKJV",
+      "sourceStatus": "found"
+    }
+  },
+  {
+    "id": "1cor8-dr-002",
+    "queueItemIds": [],
+    "researchArtifactIds": [],
+    "book": "1 Corinthians",
+    "bookSlug": "1cor",
+    "chapter": 8,
+    "reference": "1 Corinthians 8:6",
+    "topic": "One God",
+    "type": "multiple-choice",
+    "question": "Whom does Paul identify as the one God, from whom are all things?",
+    "answer": "The Father",
+    "options": [
+      "The Father",
+      "Moses",
+      "Abraham",
+      "Michael"
+    ],
+    "difficulty": "easy",
+    "roundFormat": "standard",
+    "studyGuide": {
+      "summary": "Paul identifies the one God as the Father.",
+      "citations": [
+        "1 Corinthians 8:6"
+      ]
+    },
+    "reviewStatus": "pilot",
+    "memoryAid": {
+      "type": "teaching",
+      "text": "Read this beside Israel’s confession in Deuteronomy. Notice how Paul places the one God and the one Lord together in a discussion about meals associated with other gods.",
+      "claimKind": "source-backed",
+      "source": "Deuteronomy 6:4 and related passages (NKJV)",
+      "sourceUrl": "https://www.biblegateway.com/passage/?search=Deuteronomy+6%3A4%3B+1+Corinthians+8%3A6&version=NKJV",
+      "sourceStatus": "found"
+    }
+  },
+  {
+    "id": "1cor9-dr-001",
+    "queueItemIds": [],
+    "researchArtifactIds": [],
+    "book": "1 Corinthians",
+    "bookSlug": "1cor",
+    "chapter": 9,
+    "reference": "1 Corinthians 9:7",
+    "topic": "Work and its fruit",
+    "type": "multiple-choice",
+    "question": "What does Paul say the person who tends a flock has a right to drink?",
+    "answer": "Milk",
+    "options": [
+      "Milk",
+      "Wine",
+      "Oil",
+      "Water"
+    ],
+    "difficulty": "easy",
+    "roundFormat": "standard",
+    "studyGuide": {
+      "summary": "Paul uses a flock’s milk as an example of a worker sharing in the benefit.",
+      "citations": [
+        "1 Corinthians 9:7"
+      ]
+    },
+    "reviewStatus": "pilot",
+    "memoryAid": {
+      "type": "teaching",
+      "text": "Paul makes a case for material support using everyday work. Then he describes his own choice to waive that right so it would put no obstacle in the way of the gospel.",
+      "claimKind": "source-backed",
+      "source": "1 Corinthians 9:12-15 (NKJV)",
+      "sourceUrl": "https://www.biblegateway.com/passage/?search=1+Corinthians+9%3A12-15&version=NKJV",
+      "sourceStatus": "found"
+    }
+  },
+  {
+    "id": "1cor9-dr-002",
+    "queueItemIds": [],
+    "researchArtifactIds": [
+      "1cor9-p1-f11"
+    ],
+    "book": "1 Corinthians",
+    "bookSlug": "1cor",
+    "chapter": 9,
+    "reference": "1 Corinthians 9:9",
+    "topic": "The threshing ox",
+    "type": "multiple-choice",
+    "question": "What does the law of Moses say must be left unmuzzled while it treads out grain?",
+    "answer": "An ox",
+    "options": [
+      "An ox",
+      "A sheep",
+      "A camel",
+      "A goat"
+    ],
+    "difficulty": "easy",
+    "roundFormat": "standard",
+    "studyGuide": {
+      "summary": "Paul cites the law about leaving an ox unmuzzled while it treads grain.",
+      "citations": [
+        "1 Corinthians 9:9"
+      ]
+    },
+    "reviewStatus": "pilot",
+    "memoryAid": {
+      "type": "teaching",
+      "text": "Josephus gives a memorable reason for the law about the ox. The animal has worked alongside the farmer and deserves a share in the fruit of that work. Paul takes the rule into a conversation about support for people who teach.",
+      "claimKind": "source-backed",
+      "source": "Josephus, Antiquities of the Jews 4.233",
+      "sourceUrl": "https://lexundria.com/j_aj/4.233/wst",
+      "sourceStatus": "found"
+    }
+  },
+  {
+    "id": "1cor9-dr-003",
+    "queueItemIds": [],
+    "researchArtifactIds": [
+      "1cor9-p2-f14"
+    ],
+    "book": "1 Corinthians",
+    "bookSlug": "1cor",
+    "chapter": 9,
+    "reference": "1 Corinthians 9:24",
+    "topic": "Running for the prize",
+    "type": "multiple-choice",
+    "question": "What does the winning runner receive in Paul’s illustration?",
+    "answer": "The prize",
+    "options": [
+      "The prize",
+      "A new pair of sandals",
+      "A place on the next team",
+      "A free meal"
+    ],
+    "difficulty": "easy",
+    "roundFormat": "standard",
+    "studyGuide": {
+      "summary": "Paul urges his readers to run with the aim of obtaining the prize.",
+      "citations": [
+        "1 Corinthians 9:24"
+      ]
+    },
+    "reviewStatus": "pilot",
+    "memoryAid": {
+      "type": "teaching",
+      "text": "The Isthmian Games were held near Corinth. Pausanias describes a victor’s crown made of pine. Knowing what a real prize could look like gives Paul’s reference to a perishable crown an edge.",
+      "claimKind": "source-backed",
+      "source": "Pausanias, Description of Greece 8.48.2",
+      "sourceUrl": "https://periegesis.abm.uu.se/en/reports.php?reportid=272",
+      "sourceStatus": "found"
+    }
+  },
+  {
+    "id": "1cor10-dr-001",
+    "queueItemIds": [],
+    "researchArtifactIds": [
+      "1cor10-p1-f09"
+    ],
+    "book": "1 Corinthians",
+    "bookSlug": "1cor",
+    "chapter": 10,
+    "reference": "1 Corinthians 10:4",
+    "topic": "The spiritual rock",
+    "type": "multiple-choice",
+    "question": "Whom does Paul identify as the spiritual Rock?",
+    "answer": "Christ",
+    "options": [
+      "Christ",
+      "Moses",
+      "Aaron",
+      "Joshua"
+    ],
+    "difficulty": "easy",
+    "roundFormat": "standard",
+    "studyGuide": {
+      "summary": "Paul identifies the spiritual Rock with Christ.",
+      "citations": [
+        "1 Corinthians 10:4"
+      ]
+    },
+    "reviewStatus": "pilot",
+    "memoryAid": {
+      "type": "teaching",
+      "text": "Chrysostom asks why water came from rock in the wilderness. His answer is that Christ was already present to sustain the people on their journey. That is how he reads Paul’s identification of the rock.",
+      "claimKind": "source-backed",
+      "source": "Chrysostom, Homily 23 on 1 Corinthians",
+      "sourceUrl": "https://www.newadvent.org/fathers/220123.htm",
+      "sourceStatus": "found"
+    }
+  },
+  {
+    "id": "1cor10-dr-002",
+    "queueItemIds": [],
+    "researchArtifactIds": [],
+    "book": "1 Corinthians",
+    "bookSlug": "1cor",
+    "chapter": 10,
+    "reference": "1 Corinthians 10:17",
+    "topic": "One bread, one body",
+    "type": "multiple-choice",
+    "question": "What does Paul say the many become because they share in the one bread?",
+    "answer": "One body",
+    "options": [
+      "One body",
+      "One city",
+      "One household of priests",
+      "One tribe"
+    ],
+    "difficulty": "easy",
+    "roundFormat": "standard",
+    "studyGuide": {
+      "summary": "He says the many are one bread and one body.",
+      "citations": [
+        "1 Corinthians 10:17"
+      ]
+    },
+    "reviewStatus": "pilot",
+    "memoryAid": {
+      "type": "teaching",
+      "text": "Paul returns to the shared meal soon afterward. Some are hungry while others have plenty, a practical contradiction of the unity that sharing one bread expresses.",
+      "claimKind": "source-backed",
+      "source": "1 Corinthians 11:20-22, 33-34 (NKJV)",
+      "sourceUrl": "https://www.biblegateway.com/passage/?search=1+Corinthians+11%3A20-22%2C+33-34&version=NKJV",
+      "sourceStatus": "found"
+    }
+  },
+  {
+    "id": "1cor10-dr-003",
+    "queueItemIds": [],
+    "researchArtifactIds": [],
+    "book": "1 Corinthians",
+    "bookSlug": "1cor",
+    "chapter": 10,
+    "reference": "1 Corinthians 10:31",
+    "topic": "God's glory in ordinary things",
+    "type": "multiple-choice",
+    "question": "What purpose does Paul give for eating, drinking, and whatever else believers do?",
+    "answer": "The glory of God",
+    "options": [
+      "The glory of God",
+      "Approval from neighbors",
+      "Avoiding all public meals",
+      "Keeping a feast calendar"
+    ],
+    "difficulty": "easy",
+    "roundFormat": "standard",
+    "studyGuide": {
+      "summary": "Paul says to do all such things to God’s glory.",
+      "citations": [
+        "1 Corinthians 10:31"
+      ]
+    },
+    "reviewStatus": "pilot",
+    "memoryAid": {
+      "type": "teaching",
+      "text": "The instruction comes after practical advice about buying food and visiting a neighbor for dinner. A grocery purchase or a shared meal is where Paul expects the principle to take shape.",
+      "claimKind": "source-backed",
+      "source": "1 Corinthians 10:25-33 (NKJV)",
+      "sourceUrl": "https://www.biblegateway.com/passage/?search=1+Corinthians+10%3A25-33&version=NKJV",
+      "sourceStatus": "found"
+    }
+  },
+  {
+    "id": "1cor11-dr-001",
+    "queueItemIds": [],
+    "researchArtifactIds": [],
+    "book": "1 Corinthians",
+    "bookSlug": "1cor",
+    "chapter": 11,
+    "reference": "1 Corinthians 11:1",
+    "topic": "Who Paul imitates",
+    "type": "multiple-choice",
+    "question": "Whom does Paul say he imitates?",
+    "answer": "Christ",
+    "options": [
+      "Christ",
+      "Peter",
+      "Moses",
+      "Abraham"
+    ],
+    "difficulty": "easy",
+    "roundFormat": "standard",
+    "studyGuide": {
+      "summary": "Paul asks them to imitate him as he imitates Christ.",
+      "citations": [
+        "1 Corinthians 11:1"
+      ]
+    },
+    "reviewStatus": "pilot",
+    "memoryAid": {
+      "type": "teaching",
+      "text": "Read the chapter break as a continuous sentence of thought. The example Paul wants copied includes seeking what benefits other people so they might be saved.",
+      "claimKind": "source-backed",
+      "source": "1 Corinthians 10:32-33 and related passages (NKJV)",
+      "sourceUrl": "https://www.biblegateway.com/passage/?search=1+Corinthians+10%3A32-33%3B+11%3A1&version=NKJV",
+      "sourceStatus": "found"
+    }
+  },
+  {
+    "id": "1cor11-dr-002",
+    "queueItemIds": [],
+    "researchArtifactIds": [
+      "1cor11-p2-f06"
+    ],
+    "book": "1 Corinthians",
+    "bookSlug": "1cor",
+    "chapter": 11,
+    "reference": "1 Corinthians 11:26",
+    "topic": "Proclaiming the Lord's death",
+    "type": "multiple-choice",
+    "question": "What does eating this bread and drinking this cup proclaim until the Lord comes?",
+    "answer": "The Lord’s death",
+    "options": [
+      "The Lord’s death",
+      "The fall of Jerusalem",
+      "The birth of Moses",
+      "Paul’s return"
+    ],
+    "difficulty": "easy",
+    "roundFormat": "standard",
+    "studyGuide": {
+      "summary": "Paul says the bread and cup proclaim the Lord’s death until He comes.",
+      "citations": [
+        "1 Corinthians 11:26"
+      ]
+    },
+    "reviewStatus": "pilot",
+    "memoryAid": {
+      "type": "teaching",
+      "text": "Compare Luke’s supper account with Paul’s. Both put the cup after supper and connect it to a new covenant. Paul adds what the gathered church does with that memory. Its meal proclaims Christ’s death until His return.",
+      "claimKind": "source-backed",
+      "source": "Luke 22:14-20 and related passages (NKJV)",
+      "sourceUrl": "https://www.biblegateway.com/passage/?search=Luke+22%3A14-20%3B+1+Corinthians+11%3A23-26&version=NKJV",
+      "sourceStatus": "found"
+    }
+  },
+  {
+    "id": "1cor11-dr-003",
+    "queueItemIds": [],
+    "researchArtifactIds": [
+      "1cor11-p2-f02"
+    ],
+    "book": "1 Corinthians",
+    "bookSlug": "1cor",
+    "chapter": 11,
+    "reference": "1 Corinthians 11:33",
+    "topic": "Waiting at the table",
+    "type": "multiple-choice",
+    "question": "When the Corinthians gather to eat, what does Paul tell them to do for one another?",
+    "answer": "Wait for one another",
+    "options": [
+      "Wait for one another",
+      "Choose one another’s meals",
+      "Ask one another to fast",
+      "Give one another seats by rank"
+    ],
+    "difficulty": "easy",
+    "roundFormat": "standard",
+    "studyGuide": {
+      "summary": "Paul tells them to wait for one another when they come together to eat.",
+      "citations": [
+        "1 Corinthians 11:33"
+      ]
+    },
+    "reviewStatus": "pilot",
+    "memoryAid": {
+      "type": "teaching",
+      "text": "The Greek word Paul uses for supper, deipnon, was an ordinary word for a meal. That makes his rebuke easier to picture. Some people are eating their own suppers, while the gathering is supposed to be the Lord’s supper.",
+      "claimKind": "source-backed",
+      "source": "Liddell-Scott-Jones, Greek lexicon (deipnon)",
+      "sourceUrl": "https://atlas.perseus.tufts.edu/dictionaries/entry/urn%3Acite2%3Ascaife-viewer%3Adictionaries.v1%3Alsj-n23762/",
+      "sourceStatus": "found"
+    }
+  },
+  {
+    "id": "1cor12-dr-001",
+    "queueItemIds": [],
+    "researchArtifactIds": [
+      "1cor12-p2-f10"
+    ],
+    "book": "1 Corinthians",
+    "bookSlug": "1cor",
+    "chapter": 12,
+    "reference": "1 Corinthians 12:7",
+    "topic": "Gifts for everyone",
+    "type": "multiple-choice",
+    "question": "For whose benefit is the manifestation of the Spirit given?",
+    "answer": "All",
+    "options": [
+      "All",
+      "Only the person who receives it",
+      "Only the apostles",
+      "Only the congregation’s leaders"
+    ],
+    "difficulty": "easy",
+    "roundFormat": "standard",
+    "studyGuide": {
+      "summary": "Paul says the manifestation is given for the profit of all.",
+      "citations": [
+        "1 Corinthians 12:7"
+      ]
+    },
+    "reviewStatus": "pilot",
+    "memoryAid": {
+      "type": "teaching",
+      "text": "Paul’s list of gifts includes a little word for practical help. Chrysostom reads it as supporting weak people and puts it among the gifts for which we need God’s help. It gives quiet service a place beside the more visible gifts.",
+      "claimKind": "source-backed",
+      "source": "Chrysostom, Homily 32 on 1 Corinthians",
+      "sourceUrl": "https://www.newadvent.org/fathers/220132.htm",
+      "sourceStatus": "found"
+    }
+  },
+  {
+    "id": "1cor12-dr-002",
+    "queueItemIds": [],
+    "researchArtifactIds": [],
+    "book": "1 Corinthians",
+    "bookSlug": "1cor",
+    "chapter": 12,
+    "reference": "1 Corinthians 12:13",
+    "topic": "Baptized into one body",
+    "type": "multiple-choice",
+    "question": "By what does Paul say all believers were baptized into one body?",
+    "answer": "One Spirit",
+    "options": [
+      "One Spirit",
+      "One apostle",
+      "One family line",
+      "One language"
+    ],
+    "difficulty": "easy",
+    "roundFormat": "standard",
+    "studyGuide": {
+      "summary": "Paul says that all were baptized into one body by one Spirit.",
+      "citations": [
+        "1 Corinthians 12:13"
+      ]
+    },
+    "reviewStatus": "pilot",
+    "memoryAid": {
+      "type": "teaching",
+      "text": "In both letters Paul names social boundaries, including slave and free. Galatians adds that those who belong to Christ share in Abraham’s promise.",
+      "claimKind": "source-backed",
+      "source": "1 Corinthians 12:13 and related passages (NKJV)",
+      "sourceUrl": "https://www.biblegateway.com/passage/?search=1+Corinthians+12%3A13%3B+Galatians+3%3A27-29&version=NKJV",
+      "sourceStatus": "found"
+    }
+  },
+  {
+    "id": "1cor12-dr-003",
+    "queueItemIds": [],
+    "researchArtifactIds": [],
+    "book": "1 Corinthians",
+    "bookSlug": "1cor",
+    "chapter": 12,
+    "reference": "1 Corinthians 12:26",
+    "topic": "Shared suffering",
+    "type": "multiple-choice",
+    "question": "What do all the members do when one member suffers?",
+    "answer": "Suffer with it",
+    "options": [
+      "Suffer with it",
+      "They decide whether it belongs",
+      "They choose a replacement",
+      "They stop receiving gifts"
+    ],
+    "difficulty": "easy",
+    "roundFormat": "standard",
+    "studyGuide": {
+      "summary": "Paul says every member suffers with the one that suffers.",
+      "citations": [
+        "1 Corinthians 12:26"
+      ]
+    },
+    "reviewStatus": "pilot",
+    "memoryAid": {
+      "type": "teaching",
+      "text": "Just before this, Paul says parts that seem weaker are necessary and deserve honor. Sharing pain belongs to a community where overlooked people already matter.",
+      "claimKind": "source-backed",
+      "source": "1 Corinthians 12:21-26 (NKJV)",
+      "sourceUrl": "https://www.biblegateway.com/passage/?search=1+Corinthians+12%3A21-26&version=NKJV",
+      "sourceStatus": "found"
+    }
+  },
+  {
+    "id": "1cor13-dr-001",
+    "queueItemIds": [],
+    "researchArtifactIds": [
+      "1cor13-p1-f02"
+    ],
+    "book": "1 Corinthians",
+    "bookSlug": "1cor",
+    "chapter": 13,
+    "reference": "1 Corinthians 13:1",
+    "topic": "Speaking with love",
+    "type": "multiple-choice",
+    "question": "What is missing when impressive speech is compared to noise?",
+    "answer": "Love",
+    "options": [
+      "Wisdom",
+      "Love",
+      "Courage"
+    ],
+    "difficulty": "easy",
+    "roundFormat": "standard",
+    "studyGuide": {
+      "summary": "Paul says impressive speech is empty without love.",
+      "citations": [
+        "1 Corinthians 13:1"
+      ]
+    },
+    "memoryAid": {
+      "type": "teaching",
+      "text": "Chrysostom explains that even impressive speech falls flat when it does not serve someone in love.",
+      "claimKind": "source-backed",
+      "source": "Chrysostom, Homily 32",
+      "sourceUrl": "https://www.newadvent.org/fathers/220132.htm",
+      "sourceClaim": "Chrysostom describes speech without love as sound that serves no good purpose.",
+      "sourceStatus": "found"
+    },
+    "reviewStatus": "pilot"
+  },
+  {
+    "id": "1cor13-dr-002",
+    "queueItemIds": [],
+    "researchArtifactIds": [
+      "1cor13-p1-f04"
+    ],
+    "book": "1 Corinthians",
+    "bookSlug": "1cor",
+    "chapter": 13,
+    "reference": "1 Corinthians 13:2",
+    "topic": "Faith and love",
+    "type": "multiple-choice",
+    "question": "What does Paul picture extraordinary faith being able to move?",
+    "answer": "Mountains",
+    "options": [
+      "Mountains",
+      "The stars",
+      "The city gates"
+    ],
+    "difficulty": "easy",
+    "roundFormat": "standard",
+    "studyGuide": {
+      "summary": "Paul pictures faith strong enough to move mountains. Even faith that powerful needs love.",
+      "citations": [
+        "1 Corinthians 13:2"
+      ]
+    },
+    "memoryAid": {
+      "type": "teaching",
+      "text": "Chrysostom connects the image to Jesus’ teaching about faith in Matthew 17:20. The size of the mountain makes Paul’s point vivid. Even great faith needs love.",
+      "claimKind": "source-backed",
+      "source": "Chrysostom, Homily 32",
+      "sourceUrl": "https://www.newadvent.org/fathers/220132.htm",
+      "sourceClaim": "Chrysostom connects Paul’s mountain image to Matthew 17:20 and explains why Paul chooses such an astonishing example.",
+      "sourceStatus": "found"
+    },
+    "reviewStatus": "pilot"
+  },
+  {
+    "id": "1cor13-dr-003",
+    "queueItemIds": [],
+    "researchArtifactIds": [
+      "1cor13-p1-f05",
+      "1cor13-p1-f06"
+    ],
+    "book": "1 Corinthians",
+    "bookSlug": "1cor",
+    "chapter": 13,
+    "reference": "1 Corinthians 13:3",
+    "topic": "Generosity and love",
+    "type": "multiple-choice",
+    "question": "What is missing when giving all your goods to feed the poor profits you nothing?",
+    "answer": "Love",
+    "options": [
+      "Thanks",
+      "Love",
+      "Recognition"
+    ],
+    "difficulty": "easy",
+    "roundFormat": "standard",
+    "studyGuide": {
+      "summary": "Paul imagines giving away everything to help the poor and asks what such generosity is worth without love.",
+      "citations": [
+        "1 Corinthians 13:3"
+      ]
+    },
+    "memoryAid": {
+      "type": "teaching",
+      "text": "Chrysostom notices how far Paul takes the example. The giver gives everything and takes care in distributing it. The example asks us to consider whether we truly care for the people we help.",
+      "claimKind": "source-backed",
+      "source": "Chrysostom, Homily 32",
+      "sourceUrl": "https://www.newadvent.org/fathers/220132.htm",
+      "sourceClaim": "Chrysostom emphasizes both the amount given and the care taken in distributing it, even in Paul’s example of giving without love.",
+      "sourceStatus": "found"
+    },
+    "reviewStatus": "pilot"
+  },
+  {
+    "id": "1cor13-dr-004",
+    "queueItemIds": [],
+    "researchArtifactIds": [
+      "1cor13-p1-f08"
+    ],
+    "book": "1 Corinthians",
+    "bookSlug": "1cor",
+    "chapter": 13,
+    "reference": "1 Corinthians 13:4",
+    "topic": "Patience and kindness",
+    "type": "multiple-choice",
+    "question": "How does Paul first describe love?",
+    "answer": "Suffers long and is kind",
+    "options": [
+      "Is clever and bold",
+      "Suffers long and is kind",
+      "Is quiet and reserved"
+    ],
+    "difficulty": "easy",
+    "roundFormat": "standard",
+    "studyGuide": {
+      "summary": "Paul begins his description of love with patience and kindness.",
+      "citations": [
+        "1 Corinthians 13:4"
+      ]
+    },
+    "memoryAid": {
+      "type": "teaching",
+      "text": "Chrysostom sees the two qualities working together. Patience holds back anger, and kindness actively helps calm the person who is upset.",
+      "claimKind": "source-backed",
+      "source": "Chrysostom, Homily 33",
+      "sourceUrl": "https://www.newadvent.org/fathers/220133.htm",
+      "sourceClaim": "Chrysostom explains that patience can withstand provocation and that kindness goes further by helping calm another person’s anger.",
+      "sourceStatus": "found"
+    },
+    "reviewStatus": "pilot"
+  },
+  {
+    "id": "1cor13-dr-005",
+    "queueItemIds": [],
+    "researchArtifactIds": [
+      "1cor13-p1-f08",
+      "1cor13-p1-f11"
+    ],
+    "book": "1 Corinthians",
+    "bookSlug": "1cor",
+    "chapter": 13,
+    "reference": "1 Corinthians 13:5",
+    "topic": "Looking beyond ourselves",
+    "type": "multiple-choice",
+    "question": "Whose interests does love avoid seeking first?",
+    "answer": "Its own",
+    "options": [
+      "Its own",
+      "A neighbor’s",
+      "A friend’s"
+    ],
+    "difficulty": "medium",
+    "roundFormat": "standard",
+    "studyGuide": {
+      "summary": "Paul describes love as looking beyond its own interests.",
+      "citations": [
+        "1 Corinthians 13:5"
+      ]
+    },
+    "memoryAid": {
+      "type": "teaching",
+      "text": "Chrysostom connects this verse to Paul’s instruction to seek our neighbor’s good. Helping someone else becomes one way both people grow together.",
+      "claimKind": "source-backed",
+      "source": "Chrysostom, Homily 33",
+      "sourceUrl": "https://www.newadvent.org/fathers/220133.htm",
+      "sourceClaim": "Chrysostom links this verse to 1 Corinthians 10:24 and explains that each person’s good is bound up with their neighbor’s.",
+      "sourceStatus": "found"
+    },
+    "reviewStatus": "pilot"
+  },
+  {
+    "id": "1cor13-dr-006",
+    "queueItemIds": [],
+    "researchArtifactIds": [
+      "1cor13-p1-f08"
+    ],
+    "book": "1 Corinthians",
+    "bookSlug": "1cor",
+    "chapter": 13,
+    "reference": "1 Corinthians 13:6",
+    "topic": "Love and truth",
+    "type": "multiple-choice",
+    "question": "What does love rejoice in, according to Paul?",
+    "answer": "The truth",
+    "options": [
+      "Winning an argument",
+      "Being praised",
+      "The truth"
+    ],
+    "difficulty": "medium",
+    "roundFormat": "standard",
+    "studyGuide": {
+      "summary": "Paul contrasts celebrating wrongdoing with taking joy in the truth.",
+      "citations": [
+        "1 Corinthians 13:6"
+      ]
+    },
+    "memoryAid": {
+      "type": "teaching",
+      "text": "Chrysostom connects this verse to sharing another person’s joy. Love can celebrate the good in someone else’s life as readily as its own.",
+      "claimKind": "source-backed",
+      "source": "Chrysostom, Homily 33",
+      "sourceUrl": "https://www.newadvent.org/fathers/220133.htm",
+      "sourceClaim": "Chrysostom connects rejoicing in the truth with Romans 12:15 and taking joy in the good of others.",
+      "sourceStatus": "found"
+    },
+    "reviewStatus": "pilot"
+  },
+  {
+    "id": "1cor13-dr-007",
+    "queueItemIds": [],
+    "researchArtifactIds": [
+      "1cor13-p1-f13"
+    ],
+    "book": "1 Corinthians",
+    "bookSlug": "1cor",
+    "chapter": 13,
+    "reference": "1 Corinthians 13:12",
+    "topic": "Seeing clearly",
+    "type": "multiple-choice",
+    "question": "What object does Paul use to show how incomplete our understanding is now?",
+    "answer": "A mirror",
+    "options": [
+      "A lamp",
+      "A mirror",
+      "A window"
+    ],
+    "difficulty": "medium",
+    "roundFormat": "standard",
+    "studyGuide": {
+      "summary": "Paul’s image is a dim reflection in a mirror. It points to the difference between what we know now and what we will see clearly later.",
+      "citations": [
+        "1 Corinthians 13:12"
+      ]
+    },
+    "memoryAid": {
+      "type": "teaching",
+      "text": "Chrysostom says the dim reflection is a picture of how partial our knowledge is. Paul’s contrast with seeing face to face points to greater clarity to come.",
+      "claimKind": "source-backed",
+      "source": "Chrysostom, Homily 34",
+      "sourceUrl": "https://www.newadvent.org/fathers/220134.htm",
+      "sourceClaim": "Chrysostom explains the dim mirror as a sign of partial knowledge and seeing face to face as an image of greater clarity.",
+      "sourceStatus": "found"
+    },
+    "reviewStatus": "pilot"
+  },
+  {
+    "id": "1cor13-dr-008",
+    "queueItemIds": [],
+    "researchArtifactIds": [
+      "1cor13-p1-f13"
+    ],
+    "book": "1 Corinthians",
+    "bookSlug": "1cor",
+    "chapter": 13,
+    "reference": "1 Corinthians 13:13",
+    "topic": "The greatest of the three",
+    "type": "multiple-choice",
+    "question": "Which of faith, hope, and love does Paul call the greatest?",
+    "answer": "Love",
+    "options": [
+      "Hope",
+      "Faith",
+      "Love"
+    ],
+    "difficulty": "easy",
+    "roundFormat": "standard",
+    "studyGuide": {
+      "summary": "Paul names faith, hope, and love and calls love the greatest of the three.",
+      "citations": [
+        "1 Corinthians 13:13"
+      ]
+    },
+    "memoryAid": {
+      "type": "teaching",
+      "text": "Chrysostom ties love’s greatness to how long it lasts. When what we have believed and hoped for comes to pass, love continues and grows.",
+      "claimKind": "source-backed",
+      "source": "Chrysostom, Homily 34",
+      "sourceUrl": "https://www.newadvent.org/fathers/220134.htm",
+      "sourceClaim": "Chrysostom says the fulfillment of faith and hope leaves love still present and stronger.",
+      "sourceStatus": "found"
+    },
+    "reviewStatus": "pilot"
+  },
+  {
+    "id": "1cor14-dr-001",
+    "queueItemIds": [],
+    "researchArtifactIds": [
+      "1cor14-p1-f01"
+    ],
+    "book": "1 Corinthians",
+    "bookSlug": "1cor",
+    "chapter": 14,
+    "reference": "1 Corinthians 14:3",
+    "topic": "What prophecy gives others",
+    "type": "multiple-choice",
+    "question": "Which of these does Paul list alongside edification and exhortation as a result of prophecy?",
+    "answer": "Comfort",
+    "options": [
+      "Comfort",
+      "Wealth",
+      "Popularity",
+      "Power over others"
+    ],
+    "difficulty": "easy",
+    "roundFormat": "standard",
+    "studyGuide": {
+      "summary": "Paul lists edification, exhortation, and comfort.",
+      "citations": [
+        "1 Corinthians 14:3"
+      ]
+    },
+    "reviewStatus": "pilot",
+    "memoryAid": {
+      "type": "teaching",
+      "text": "Chrysostom reads this verse as a test of whom a gift benefits. He explains the prominence of tongues at the Church’s beginning through the apostles’ need to travel and speak across languages.",
+      "claimKind": "source-backed",
+      "source": "Chrysostom, Homily 35 on 1 Corinthians",
+      "sourceUrl": "https://www.newadvent.org/fathers/220135.htm",
+      "sourceStatus": "found"
+    }
+  },
+  {
+    "id": "1cor14-dr-002",
+    "queueItemIds": [],
+    "researchArtifactIds": [
+      "1cor14-p1-f05"
+    ],
+    "book": "1 Corinthians",
+    "bookSlug": "1cor",
+    "chapter": 14,
+    "reference": "1 Corinthians 14:16",
+    "topic": "An understandable Amen",
+    "type": "multiple-choice",
+    "question": "What word does Paul say a listener cannot say at the thanksgiving if they do not understand it?",
+    "answer": "Amen",
+    "options": [
+      "Amen",
+      "Hosanna",
+      "Abba",
+      "Maranatha"
+    ],
+    "difficulty": "easy",
+    "roundFormat": "standard",
+    "studyGuide": {
+      "summary": "Paul asks how the listener can say Amen without understanding.",
+      "citations": [
+        "1 Corinthians 14:16"
+      ]
+    },
+    "reviewStatus": "pilot",
+    "memoryAid": {
+      "type": "teaching",
+      "text": "Chrysostom points out that the person listening has a real job to do in common prayer. Their Amen joins them to the thanksgiving. If nobody can understand what is being said, the congregation loses its turn.",
+      "claimKind": "source-backed",
+      "source": "Chrysostom, Homily 35 on 1 Corinthians",
+      "sourceUrl": "https://www.newadvent.org/fathers/220135.htm",
+      "sourceStatus": "found"
+    }
+  },
+  {
+    "id": "1cor14-dr-003",
+    "queueItemIds": [],
+    "researchArtifactIds": [],
+    "book": "1 Corinthians",
+    "bookSlug": "1cor",
+    "chapter": 14,
+    "reference": "1 Corinthians 14:40",
+    "topic": "Order in worship",
+    "type": "multiple-choice",
+    "question": "How does Paul say all things should be done?",
+    "answer": "Decently and in order",
+    "options": [
+      "Decently and in order",
+      "Silently and in private",
+      "As quickly as possible",
+      "In order of age"
+    ],
+    "difficulty": "easy",
+    "roundFormat": "standard",
+    "studyGuide": {
+      "summary": "The chapter closes by calling for decent and orderly practice.",
+      "citations": [
+        "1 Corinthians 14:40"
+      ]
+    },
+    "reviewStatus": "pilot",
+    "memoryAid": {
+      "type": "teaching",
+      "text": "The instructions cover more than one kind of participation. Paul asks those who speak to take turns and has others weigh what the prophets say. Order makes room for listening and discernment.",
+      "claimKind": "source-backed",
+      "source": "1 Corinthians 14:26-33, 39-40 (NKJV)",
+      "sourceUrl": "https://www.biblegateway.com/passage/?search=1+Corinthians+14%3A26-33%2C+39-40&version=NKJV",
+      "sourceStatus": "found"
+    }
+  },
+  {
+    "id": "1cor15-dr-001",
+    "queueItemIds": [],
+    "researchArtifactIds": [],
+    "book": "1 Corinthians",
+    "bookSlug": "1cor",
+    "chapter": 15,
+    "reference": "1 Corinthians 15:4",
+    "topic": "When Jesus rose",
+    "type": "multiple-choice",
+    "question": "On which day does Paul say Christ rose again?",
+    "answer": "The third day",
+    "options": [
+      "The third day",
+      "The second day",
+      "The seventh day",
+      "The fortieth day"
+    ],
+    "difficulty": "easy",
+    "roundFormat": "standard",
+    "studyGuide": {
+      "summary": "Paul says Christ was buried and rose again the third day.",
+      "citations": [
+        "1 Corinthians 15:4"
+      ]
+    },
+    "reviewStatus": "pilot",
+    "memoryAid": {
+      "type": "teaching",
+      "text": "Paul describes passing on a message he first received. Luke connects the third day to Scripture as well, then links the resurrection to the disciples’ job as witnesses.",
+      "claimKind": "source-backed",
+      "source": "1 Corinthians 15:3-8 and related passages (NKJV)",
+      "sourceUrl": "https://www.biblegateway.com/passage/?search=1+Corinthians+15%3A3-8%3B+Luke+24%3A44-48&version=NKJV",
+      "sourceStatus": "found"
+    }
+  },
+  {
+    "id": "1cor15-dr-002",
+    "queueItemIds": [],
+    "researchArtifactIds": [
+      "1cor15-p2-f07"
+    ],
+    "book": "1 Corinthians",
+    "bookSlug": "1cor",
+    "chapter": 15,
+    "reference": "1 Corinthians 15:20",
+    "topic": "Firstfruits",
+    "type": "multiple-choice",
+    "question": "What word does Paul use for Christ in relation to those who have died?",
+    "answer": "Firstfruits",
+    "options": [
+      "Firstfruits",
+      "Steward",
+      "Sower",
+      "Laborer"
+    ],
+    "difficulty": "easy",
+    "roundFormat": "standard",
+    "studyGuide": {
+      "summary": "Paul calls the risen Christ the firstfruits of those who have fallen asleep.",
+      "citations": [
+        "1 Corinthians 15:20"
+      ]
+    },
+    "reviewStatus": "pilot",
+    "memoryAid": {
+      "type": "teaching",
+      "text": "The first sheaf of the harvest was brought to God before people ate from the new crop. Paul’s sequence in verse 23 makes the picture clear. Christ comes first and those who belong to Him follow.",
+      "claimKind": "source-backed",
+      "source": "Leviticus 23:9-14 and related passages (NKJV)",
+      "sourceUrl": "https://www.biblegateway.com/passage/?search=Leviticus+23%3A9-14%3B+1+Corinthians+15%3A20-23&version=NKJV",
+      "sourceStatus": "found"
+    }
+  },
+  {
+    "id": "1cor15-dr-003",
+    "queueItemIds": [],
+    "researchArtifactIds": [],
+    "book": "1 Corinthians",
+    "bookSlug": "1cor",
+    "chapter": 15,
+    "reference": "1 Corinthians 15:58",
+    "topic": "Work that endures",
+    "type": "multiple-choice",
+    "question": "What does Paul say about the Corinthians’ labor in the Lord?",
+    "answer": "It is not in vain",
+    "options": [
+      "It is not in vain",
+      "It is already finished",
+      "Only Paul can evaluate it",
+      "It matters for a short time"
+    ],
+    "difficulty": "easy",
+    "roundFormat": "standard",
+    "studyGuide": {
+      "summary": "Paul encourages steady work because their labor in the Lord is not in vain.",
+      "citations": [
+        "1 Corinthians 15:58"
+      ]
+    },
+    "reviewStatus": "pilot",
+    "memoryAid": {
+      "type": "teaching",
+      "text": "Paul imagines how empty preaching and faith would be if Christ had stayed dead. The closing promise about work answers that earlier thought after celebrating victory over death.",
+      "claimKind": "source-backed",
+      "source": "1 Corinthians 15:14, 17, 54-58 (NKJV)",
+      "sourceUrl": "https://www.biblegateway.com/passage/?search=1+Corinthians+15%3A14%2C+17%2C+54-58&version=NKJV",
+      "sourceStatus": "found"
+    }
+  },
+  {
+    "id": "1cor16-dr-001",
+    "queueItemIds": [],
+    "researchArtifactIds": [],
+    "book": "1 Corinthians",
+    "bookSlug": "1cor",
+    "chapter": 16,
+    "reference": "1 Corinthians 16:2",
+    "topic": "Setting aside the collection",
+    "type": "multiple-choice",
+    "question": "On which day does Paul tell each person to set something aside?",
+    "answer": "The first day of the week",
+    "options": [
+      "The first day of the week",
+      "The last day of the week",
+      "The first day of the month",
+      "The day Paul arrives"
+    ],
+    "difficulty": "easy",
+    "roundFormat": "standard",
+    "studyGuide": {
+      "summary": "Paul asks each person to set something aside on the first day.",
+      "citations": [
+        "1 Corinthians 16:2"
+      ]
+    },
+    "reviewStatus": "pilot",
+    "memoryAid": {
+      "type": "teaching",
+      "text": "Two letters show the planning behind the gift. People save ahead of time, and the Corinthians approve delegates to carry it. Generosity here has a schedule and a way to protect trust.",
+      "claimKind": "source-backed",
+      "source": "1 Corinthians 16:1-4 and related passages (NKJV)",
+      "sourceUrl": "https://www.biblegateway.com/passage/?search=1+Corinthians+16%3A1-4%3B+2+Corinthians+9%3A3-5&version=NKJV",
+      "sourceStatus": "found"
+    }
+  },
+  {
+    "id": "1cor16-dr-002",
+    "queueItemIds": [],
+    "researchArtifactIds": [
+      "1cor16-p1-f12"
+    ],
+    "book": "1 Corinthians",
+    "bookSlug": "1cor",
+    "chapter": 16,
+    "reference": "1 Corinthians 16:8",
+    "topic": "Staying in Ephesus",
+    "type": "multiple-choice",
+    "question": "Until which feast does Paul say he will stay in Ephesus?",
+    "answer": "Pentecost",
+    "options": [
+      "Pentecost",
+      "Passover",
+      "Tabernacles",
+      "Purim"
+    ],
+    "difficulty": "easy",
+    "roundFormat": "standard",
+    "studyGuide": {
+      "summary": "Paul plans to stay in Ephesus until Pentecost.",
+      "citations": [
+        "1 Corinthians 16:8"
+      ]
+    },
+    "reviewStatus": "pilot",
+    "memoryAid": {
+      "type": "teaching",
+      "text": "Josephus explains the festival’s name by its timing. Pentecost came after seven weeks, on the fiftieth day, and marked an offering from the new harvest. Paul uses that date to tell Corinth when he plans to leave Ephesus.",
+      "claimKind": "source-backed",
+      "source": "Josephus, Antiquities of the Jews 3.10.6",
+      "sourceUrl": "https://penelope.uchicago.edu/Josephus/ant-3.html",
+      "sourceStatus": "found"
+    }
+  },
+  {
+    "id": "1cor16-dr-003",
+    "queueItemIds": [],
+    "researchArtifactIds": [],
+    "book": "1 Corinthians",
+    "bookSlug": "1cor",
+    "chapter": 16,
+    "reference": "1 Corinthians 16:14",
+    "topic": "Love at the close",
+    "type": "multiple-choice",
+    "question": "What does Paul say should shape everything the Corinthians do?",
+    "answer": "Love",
+    "options": [
+      "Love",
+      "Fear",
+      "Competition",
+      "Secrecy"
+    ],
+    "difficulty": "easy",
+    "roundFormat": "standard",
+    "studyGuide": {
+      "summary": "Paul tells them to let everything they do be done with love.",
+      "citations": [
+        "1 Corinthians 16:14"
+      ]
+    },
+    "reviewStatus": "pilot",
+    "memoryAid": {
+      "type": "teaching",
+      "text": "The call to love follows commands to be watchful, brave, and strong. Paul then ends with his own love for them, bringing the teaching of chapter 13 into the letter’s farewell.",
+      "claimKind": "source-backed",
+      "source": "1 Corinthians 16:13-14, 24 and related passages (NKJV)",
+      "sourceUrl": "https://www.biblegateway.com/passage/?search=1+Corinthians+16%3A13-14%2C+24%3B+13%3A13&version=NKJV",
+      "sourceStatus": "found"
+    }
+  },
+  {
+    "id": "2cor1-dr-001",
+    "queueItemIds": [],
+    "researchArtifactIds": [],
+    "book": "2 Corinthians",
+    "bookSlug": "2cor",
+    "chapter": 1,
+    "reference": "2 Corinthians 1:1",
+    "topic": "Paul's coworker",
+    "type": "multiple-choice",
+    "question": "Whom does Paul name alongside himself in the greeting?",
+    "answer": "Timothy",
+    "options": [
+      "Timothy",
+      "Titus",
+      "Sosthenes",
+      "Silas"
+    ],
+    "difficulty": "easy",
+    "roundFormat": "standard",
+    "studyGuide": {
+      "summary": "Paul opens the letter by naming Timothy as a brother.",
+      "citations": [
+        "2 Corinthians 1:1"
+      ]
+    },
+    "reviewStatus": "pilot",
+    "memoryAid": {
+      "type": "teaching",
+      "text": "The greeting has a backstory. Acts names Timothy and Silas arriving from Macedonia during Paul’s earlier stay in Corinth. Timothy already knew the city.",
+      "claimKind": "source-backed",
+      "source": "Acts 18:1-5 (NKJV)",
+      "sourceUrl": "https://www.biblegateway.com/passage/?search=Acts+18%3A1-5&version=NKJV",
+      "sourceStatus": "found"
+    }
+  },
+  {
+    "id": "2cor1-dr-002",
+    "queueItemIds": [],
+    "researchArtifactIds": [],
+    "book": "2 Corinthians",
+    "bookSlug": "2cor",
+    "chapter": 1,
+    "reference": "2 Corinthians 1:4",
+    "topic": "Sharing comfort",
+    "type": "multiple-choice",
+    "question": "Why does God comfort Paul and his companions in their troubles?",
+    "answer": "So they can comfort others",
+    "options": [
+      "So they can comfort others",
+      "So they will never face trouble again",
+      "So they can stop traveling",
+      "So they can depend on their own strength"
+    ],
+    "difficulty": "easy",
+    "roundFormat": "standard",
+    "studyGuide": {
+      "summary": "They receive comfort so they can pass that comfort on to people in trouble.",
+      "citations": [
+        "2 Corinthians 1:4"
+      ]
+    },
+    "reviewStatus": "pilot",
+    "memoryAid": {
+      "type": "teaching",
+      "text": "Paul soon describes a danger in Asia so severe that he expected to die. He credits the Corinthians’ prayers with helping him, so the care in this letter runs in both directions.",
+      "claimKind": "source-backed",
+      "source": "2 Corinthians 1:4, 8-11 (NKJV)",
+      "sourceUrl": "https://www.biblegateway.com/passage/?search=2+Corinthians+1%3A4%2C+8-11&version=NKJV",
+      "sourceStatus": "found"
+    }
+  },
+  {
+    "id": "2cor1-dr-003",
+    "queueItemIds": [],
+    "researchArtifactIds": [
+      "2cor1-p2-f09"
+    ],
+    "book": "2 Corinthians",
+    "bookSlug": "2cor",
+    "chapter": 1,
+    "reference": "2 Corinthians 1:19-20",
+    "topic": "God's promises",
+    "type": "multiple-choice",
+    "question": "In whom are all the promises of God Yes and Amen?",
+    "answer": "Jesus Christ",
+    "options": [
+      "Jesus Christ",
+      "Abraham",
+      "Moses",
+      "Timothy"
+    ],
+    "difficulty": "easy",
+    "roundFormat": "standard",
+    "studyGuide": {
+      "summary": "The verse says all the promises of God in Christ are Yes.",
+      "citations": [
+        "2 Corinthians 1:19-20"
+      ]
+    },
+    "reviewStatus": "pilot",
+    "memoryAid": {
+      "type": "teaching",
+      "text": "The argument about Paul’s reliability starts with travel plans. Corinth sat between two harbors, which Strabo says gave it access toward Asia and Italy. A church in a city built around journeys knew how much could depend on a route.",
+      "claimKind": "source-backed",
+      "source": "Strabo, Geography 8.6.20-23",
+      "sourceUrl": "https://penelope.uchicago.edu/Thayer/E/Roman/Texts/Strabo/8F%2A.html",
+      "sourceStatus": "found"
+    }
+  },
+  {
+    "id": "2cor2-dr-001",
+    "queueItemIds": [],
+    "researchArtifactIds": [],
+    "book": "2 Corinthians",
+    "bookSlug": "2cor",
+    "chapter": 2,
+    "reference": "2 Corinthians 2:4",
+    "topic": "The tearful letter",
+    "type": "multiple-choice",
+    "question": "What does Paul say he shed as he wrote out of anguish?",
+    "answer": "Many tears",
+    "options": [
+      "Many tears",
+      "Drops of blood",
+      "Sweat from his work",
+      "Water for a washing"
+    ],
+    "difficulty": "easy",
+    "roundFormat": "standard",
+    "studyGuide": {
+      "summary": "Paul says he wrote with many tears so they would know his love.",
+      "citations": [
+        "2 Corinthians 2:4"
+      ]
+    },
+    "reviewStatus": "pilot",
+    "memoryAid": {
+      "type": "teaching",
+      "text": "Later Paul admits a letter made them sad and that he briefly regretted sending it. He is glad the sorrow led to a change of heart. The two passages show how uncertain and personal correction could be.",
+      "claimKind": "source-backed",
+      "source": "2 Corinthians 7:8-12 (NKJV)",
+      "sourceUrl": "https://www.biblegateway.com/passage/?search=2+Corinthians+7%3A8-12&version=NKJV",
+      "sourceStatus": "found"
+    }
+  },
+  {
+    "id": "2cor2-dr-002",
+    "queueItemIds": [],
+    "researchArtifactIds": [],
+    "book": "2 Corinthians",
+    "bookSlug": "2cor",
+    "chapter": 2,
+    "reference": "2 Corinthians 2:7",
+    "topic": "Forgive and comfort",
+    "type": "multiple-choice",
+    "question": "What does Paul tell the Corinthians to do for someone who might be overwhelmed by sorrow?",
+    "answer": "Forgive and comfort him",
+    "options": [
+      "Forgive and comfort him",
+      "Send him away for good",
+      "Leave him alone indefinitely",
+      "Keep reminding him of the offense"
+    ],
+    "difficulty": "easy",
+    "roundFormat": "standard",
+    "studyGuide": {
+      "summary": "Paul asks the community to forgive and comfort him.",
+      "citations": [
+        "2 Corinthians 2:7"
+      ]
+    },
+    "reviewStatus": "pilot",
+    "memoryAid": {
+      "type": "teaching",
+      "text": "Paul says the penalty has done enough. He then treats overwhelming sorrow as a danger and asks the community to reaffirm its love. Restoration takes as much attention as correction.",
+      "claimKind": "source-backed",
+      "source": "2 Corinthians 2:6-11 (NKJV)",
+      "sourceUrl": "https://www.biblegateway.com/passage/?search=2+Corinthians+2%3A6-11&version=NKJV",
+      "sourceStatus": "found"
+    }
+  },
+  {
+    "id": "2cor2-dr-003",
+    "queueItemIds": [],
+    "researchArtifactIds": [
+      "2cor2-p1-f06"
+    ],
+    "book": "2 Corinthians",
+    "bookSlug": "2cor",
+    "chapter": 2,
+    "reference": "2 Corinthians 2:13",
+    "topic": "Looking for Titus",
+    "type": "multiple-choice",
+    "question": "Whom did Paul fail to find when he came to Troas?",
+    "answer": "Titus",
+    "options": [
+      "Titus",
+      "Timothy",
+      "Apollos",
+      "Barnabas"
+    ],
+    "difficulty": "easy",
+    "roundFormat": "standard",
+    "studyGuide": {
+      "summary": "Paul says he had no rest in his spirit because he did not find Titus.",
+      "citations": [
+        "2 Corinthians 2:13"
+      ]
+    },
+    "reviewStatus": "pilot",
+    "memoryAid": {
+      "type": "teaching",
+      "text": "Right after describing an anxious departure, Paul switches to the image of a triumph. Josephus describes a Roman triumph with trophies and captives paraded before the city. Paul gives the victory to God and puts himself in the procession.",
+      "claimKind": "source-backed",
+      "source": "Josephus, The Jewish War 7.5.5-6",
+      "sourceUrl": "https://penelope.uchicago.edu/Josephus/war-7.html",
+      "sourceStatus": "found"
+    }
+  },
+  {
+    "id": "2cor3-dr-001",
+    "queueItemIds": [],
+    "researchArtifactIds": [
+      "2cor3-p1-f01"
+    ],
+    "book": "2 Corinthians",
+    "bookSlug": "2cor",
+    "chapter": 3,
+    "reference": "2 Corinthians 3:3",
+    "topic": "Living letters",
+    "type": "multiple-choice",
+    "question": "Where does Paul say Christ’s letter is written, instead of on tablets of stone?",
+    "answer": "On the heart",
+    "options": [
+      "On the heart",
+      "On parchment scrolls",
+      "On clay jars",
+      "On the walls of the temple"
+    ],
+    "difficulty": "easy",
+    "roundFormat": "standard",
+    "studyGuide": {
+      "summary": "Paul pictures Christ’s letter written on human hearts by God’s Spirit.",
+      "citations": [
+        "2 Corinthians 3:3"
+      ]
+    },
+    "reviewStatus": "pilot",
+    "memoryAid": {
+      "type": "teaching",
+      "text": "When Apollos went to Achaia, believers sent a letter asking local disciples to welcome him. Paul starts this chapter by questioning whether he needs that kind of letter. He says the Corinthians themselves are the letter others can read.",
+      "claimKind": "source-backed",
+      "source": "Acts 18:24-28 and related passages (NKJV)",
+      "sourceUrl": "https://www.biblegateway.com/passage/?search=Acts+18%3A24-28%3B+2+Corinthians+3%3A1-3&version=NKJV",
+      "sourceStatus": "found"
+    }
+  },
+  {
+    "id": "2cor3-dr-002",
+    "queueItemIds": [],
+    "researchArtifactIds": [],
+    "book": "2 Corinthians",
+    "bookSlug": "2cor",
+    "chapter": 3,
+    "reference": "2 Corinthians 3:6",
+    "topic": "The Spirit gives life",
+    "type": "multiple-choice",
+    "question": "What does Paul say the Spirit gives?",
+    "answer": "Life",
+    "options": [
+      "Life",
+      "Stone tablets",
+      "A new public title",
+      "A letter of recommendation"
+    ],
+    "difficulty": "easy",
+    "roundFormat": "standard",
+    "studyGuide": {
+      "summary": "Paul says that the Spirit gives life.",
+      "citations": [
+        "2 Corinthians 3:6"
+      ]
+    },
+    "reviewStatus": "pilot",
+    "memoryAid": {
+      "type": "teaching",
+      "text": "The words new covenant recall Jeremiah’s promise that God would put His law within His people. That helps explain Paul’s move from a visible letter to what the Spirit writes in people.",
+      "claimKind": "source-backed",
+      "source": "Jeremiah 31:31-34 and related passages (NKJV)",
+      "sourceUrl": "https://www.biblegateway.com/passage/?search=Jeremiah+31%3A31-34%3B+2+Corinthians+3%3A3-6&version=NKJV",
+      "sourceStatus": "found"
+    }
+  },
+  {
+    "id": "2cor3-dr-003",
+    "queueItemIds": [],
+    "researchArtifactIds": [],
+    "book": "2 Corinthians",
+    "bookSlug": "2cor",
+    "chapter": 3,
+    "reference": "2 Corinthians 3:17",
+    "topic": "Liberty",
+    "type": "multiple-choice",
+    "question": "What does Paul say is present where the Spirit of the Lord is?",
+    "answer": "Liberty",
+    "options": [
+      "Liberty",
+      "A veil",
+      "Darkness",
+      "Fear"
+    ],
+    "difficulty": "easy",
+    "roundFormat": "standard",
+    "studyGuide": {
+      "summary": "Paul says there is liberty where the Spirit of the Lord is.",
+      "citations": [
+        "2 Corinthians 3:17"
+      ]
+    },
+    "reviewStatus": "pilot",
+    "memoryAid": {
+      "type": "teaching",
+      "text": "Moses takes off his veil when he goes in before the Lord. Paul extends that scene to everyone who turns to the Lord and, with an unveiled face, is being transformed.",
+      "claimKind": "source-backed",
+      "source": "Exodus 34:29-35 and related passages (NKJV)",
+      "sourceUrl": "https://www.biblegateway.com/passage/?search=Exodus+34%3A29-35%3B+2+Corinthians+3%3A15-18&version=NKJV",
+      "sourceStatus": "found"
+    }
+  },
+  {
+    "id": "2cor4-dr-001",
+    "queueItemIds": [],
+    "researchArtifactIds": [],
+    "book": "2 Corinthians",
+    "bookSlug": "2cor",
+    "chapter": 4,
+    "reference": "2 Corinthians 4:6",
+    "topic": "Light out of darkness",
+    "type": "multiple-choice",
+    "question": "What did God command to shine out of darkness?",
+    "answer": "Light",
+    "options": [
+      "Light",
+      "Fire from the altar",
+      "Gold from the temple",
+      "The glory of Moses"
+    ],
+    "difficulty": "easy",
+    "roundFormat": "standard",
+    "studyGuide": {
+      "summary": "The verse recalls God’s command for light to shine out of darkness.",
+      "citations": [
+        "2 Corinthians 4:6"
+      ]
+    },
+    "reviewStatus": "pilot",
+    "memoryAid": {
+      "type": "teaching",
+      "text": "Paul reaches back to the first command of the creation story. When he writes about God shining in human hearts, he uses the birth of light itself to describe seeing God’s glory in Christ.",
+      "claimKind": "source-backed",
+      "source": "Genesis 1:1-5 and related passages (NKJV)",
+      "sourceUrl": "https://www.biblegateway.com/passage/?search=Genesis+1%3A1-5%3B+2+Corinthians+4%3A6&version=NKJV",
+      "sourceStatus": "found"
+    }
+  },
+  {
+    "id": "2cor4-dr-002",
+    "queueItemIds": [],
+    "researchArtifactIds": [
+      "2cor4-p2-f06"
+    ],
+    "book": "2 Corinthians",
+    "bookSlug": "2cor",
+    "chapter": 4,
+    "reference": "2 Corinthians 4:7",
+    "topic": "Treasure in clay",
+    "type": "multiple-choice",
+    "question": "What sort of vessels does Paul say hold the treasure?",
+    "answer": "Earthen vessels",
+    "options": [
+      "Earthen vessels",
+      "Silver cups",
+      "Golden bowls",
+      "Stone cisterns"
+    ],
+    "difficulty": "easy",
+    "roundFormat": "standard",
+    "studyGuide": {
+      "summary": "Paul puts the treasure in earthen vessels so the power is seen to come from God.",
+      "citations": [
+        "2 Corinthians 4:7"
+      ]
+    },
+    "reviewStatus": "pilot",
+    "memoryAid": {
+      "type": "teaching",
+      "text": "Clay was ordinary enough that even the broken pieces had uses. Plutarch describes Athenians scratching names on potsherds when voting to exile a citizen. The material in Paul’s image could be cheap, breakable, and readily at hand.",
+      "claimKind": "source-backed",
+      "source": "Plutarch, Life of Aristides 7.4-5",
+      "sourceUrl": "https://penelope.uchicago.edu/Thayer/E/Roman/Texts/Plutarch/Lives/Aristides%2A.html",
+      "sourceStatus": "found"
+    }
+  },
+  {
+    "id": "2cor4-dr-003",
+    "queueItemIds": [],
+    "researchArtifactIds": [],
+    "book": "2 Corinthians",
+    "bookSlug": "2cor",
+    "chapter": 4,
+    "reference": "2 Corinthians 4:18",
+    "topic": "What lasts",
+    "type": "multiple-choice",
+    "question": "What does Paul say is eternal?",
+    "answer": "Things which are not seen",
+    "options": [
+      "Things which are not seen",
+      "Things that are seen",
+      "Momentary affliction",
+      "The present outward body"
+    ],
+    "difficulty": "easy",
+    "roundFormat": "standard",
+    "studyGuide": {
+      "summary": "Paul says the things that are unseen are eternal.",
+      "citations": [
+        "2 Corinthians 4:18"
+      ]
+    },
+    "reviewStatus": "pilot",
+    "memoryAid": {
+      "type": "teaching",
+      "text": "Paul combines two ways to weigh hardship. Its duration is a moment and its weight is light. He sets both against an enduring weight of glory.",
+      "claimKind": "source-backed",
+      "source": "2 Corinthians 4:16-18 (NKJV)",
+      "sourceUrl": "https://www.biblegateway.com/passage/?search=2+Corinthians+4%3A16-18&version=NKJV",
+      "sourceStatus": "found"
+    }
+  },
+  {
+    "id": "2cor5-dr-001",
+    "queueItemIds": [],
+    "researchArtifactIds": [
+      "2cor5-p1-f05"
+    ],
+    "book": "2 Corinthians",
+    "bookSlug": "2cor",
+    "chapter": 5,
+    "reference": "2 Corinthians 5:1",
+    "topic": "A lasting dwelling",
+    "type": "multiple-choice",
+    "question": "What kind of building does Paul say believers have from God if their earthly tent is destroyed?",
+    "answer": "A house not made with hands",
+    "options": [
+      "A house not made with hands",
+      "A larger earthly tent",
+      "A house in Corinth",
+      "A building made from cedar"
+    ],
+    "difficulty": "easy",
+    "roundFormat": "standard",
+    "studyGuide": {
+      "summary": "Paul describes a house not made with hands, eternal in the heavens.",
+      "citations": [
+        "2 Corinthians 5:1"
+      ]
+    },
+    "reviewStatus": "pilot",
+    "memoryAid": {
+      "type": "teaching",
+      "text": "Chrysostom follows Paul’s imagery from a tent and house to putting on clothing. He reads the change as a more lasting way to live bodily, with mortality swallowed up by life.",
+      "claimKind": "source-backed",
+      "source": "Chrysostom, Homily 10 on 2 Corinthians",
+      "sourceUrl": "https://www.newadvent.org/fathers/220210.htm",
+      "sourceStatus": "found"
+    }
+  },
+  {
+    "id": "2cor5-dr-002",
+    "queueItemIds": [],
+    "researchArtifactIds": [],
+    "book": "2 Corinthians",
+    "bookSlug": "2cor",
+    "chapter": 5,
+    "reference": "2 Corinthians 5:17",
+    "topic": "New creation",
+    "type": "multiple-choice",
+    "question": "What is anyone who is in Christ, according to Paul?",
+    "answer": "A new creation",
+    "options": [
+      "A new creation",
+      "A new apostle",
+      "A citizen of Rome",
+      "A teacher of the law"
+    ],
+    "difficulty": "easy",
+    "roundFormat": "standard",
+    "studyGuide": {
+      "summary": "Paul says that if anyone is in Christ, that person is a new creation.",
+      "citations": [
+        "2 Corinthians 5:17"
+      ]
+    },
+    "reviewStatus": "pilot",
+    "memoryAid": {
+      "type": "teaching",
+      "text": "Isaiah pictures a new act of deliverance using water in the wilderness after recalling the way through the sea. Paul’s language about old things passing and new things coming invites a similar look at what God can remake.",
+      "claimKind": "source-backed",
+      "source": "Isaiah 43:16-21 and related passages (NKJV)",
+      "sourceUrl": "https://www.biblegateway.com/passage/?search=Isaiah+43%3A16-21%3B+2+Corinthians+5%3A16-17&version=NKJV",
+      "sourceStatus": "found"
+    }
+  },
+  {
+    "id": "2cor5-dr-003",
+    "queueItemIds": [],
+    "researchArtifactIds": [],
+    "book": "2 Corinthians",
+    "bookSlug": "2cor",
+    "chapter": 5,
+    "reference": "2 Corinthians 5:20",
+    "topic": "Ambassadors for Christ",
+    "type": "multiple-choice",
+    "question": "What role does Paul say he and his coworkers have for Christ?",
+    "answer": "Ambassadors",
+    "options": [
+      "Ambassadors",
+      "Tax collectors",
+      "Military commanders",
+      "Court judges"
+    ],
+    "difficulty": "easy",
+    "roundFormat": "standard",
+    "studyGuide": {
+      "summary": "Paul calls them ambassadors for Christ who appeal for reconciliation with God.",
+      "citations": [
+        "2 Corinthians 5:20"
+      ]
+    },
+    "reviewStatus": "pilot",
+    "memoryAid": {
+      "type": "teaching",
+      "text": "In Ephesians the same role appears with a twist. Paul calls himself an ambassador in chains. He asks for courage to speak, even when he has the status of a prisoner.",
+      "claimKind": "source-backed",
+      "source": "2 Corinthians 5:18-20 and related passages (NKJV)",
+      "sourceUrl": "https://www.biblegateway.com/passage/?search=2+Corinthians+5%3A18-20%3B+Ephesians+6%3A19-20&version=NKJV",
+      "sourceStatus": "found"
+    }
+  },
+  {
+    "id": "2cor6-dr-001",
+    "queueItemIds": [],
+    "researchArtifactIds": [],
+    "book": "2 Corinthians",
+    "bookSlug": "2cor",
+    "chapter": 6,
+    "reference": "2 Corinthians 6:2",
+    "topic": "The day of salvation",
+    "type": "multiple-choice",
+    "question": "When does Paul say the day of salvation is?",
+    "answer": "Now",
+    "options": [
+      "Now",
+      "When Paul next visits",
+      "At the next Passover",
+      "After the next Sabbath"
+    ],
+    "difficulty": "easy",
+    "roundFormat": "standard",
+    "studyGuide": {
+      "summary": "Paul says now is the day of salvation.",
+      "citations": [
+        "2 Corinthians 6:2"
+      ]
+    },
+    "reviewStatus": "pilot",
+    "memoryAid": {
+      "type": "teaching",
+      "text": "Isaiah’s words about an acceptable time are followed by a picture of prisoners coming out and people finding food and water. Paul takes that promise of rescue and makes the timing immediate for his readers.",
+      "claimKind": "source-backed",
+      "source": "Isaiah 49:8-10 and related passages (NKJV)",
+      "sourceUrl": "https://www.biblegateway.com/passage/?search=Isaiah+49%3A8-10%3B+2+Corinthians+6%3A2&version=NKJV",
+      "sourceStatus": "found"
+    }
+  },
+  {
+    "id": "2cor6-dr-002",
+    "queueItemIds": [],
+    "researchArtifactIds": [],
+    "book": "2 Corinthians",
+    "bookSlug": "2cor",
+    "chapter": 6,
+    "reference": "2 Corinthians 6:10",
+    "topic": "Joy in sorrow",
+    "type": "multiple-choice",
+    "question": "What does Paul say the ministers are always doing even while sorrowful?",
+    "answer": "Rejoicing",
+    "options": [
+      "Rejoicing",
+      "Traveling",
+      "Fasting",
+      "Teaching"
+    ],
+    "difficulty": "easy",
+    "roundFormat": "standard",
+    "studyGuide": {
+      "summary": "Paul describes himself and his fellow workers as sorrowful yet always rejoicing.",
+      "citations": [
+        "2 Corinthians 6:10"
+      ]
+    },
+    "reviewStatus": "pilot",
+    "memoryAid": {
+      "type": "teaching",
+      "text": "Read this as one of a series of paired descriptions. Paul can be regarded as unknown and still be well known, or look poor while making others rich. Each pair gives a different perspective on the same life.",
+      "claimKind": "source-backed",
+      "source": "2 Corinthians 6:4-10 (NKJV)",
+      "sourceUrl": "https://www.biblegateway.com/passage/?search=2+Corinthians+6%3A4-10&version=NKJV",
+      "sourceStatus": "found"
+    }
+  },
+  {
+    "id": "2cor6-dr-003",
+    "queueItemIds": [],
+    "researchArtifactIds": [
+      "2cor6-p2-f12"
+    ],
+    "book": "2 Corinthians",
+    "bookSlug": "2cor",
+    "chapter": 6,
+    "reference": "2 Corinthians 6:16",
+    "topic": "The living God's temple",
+    "type": "multiple-choice",
+    "question": "Whose temple does Paul say the believers are?",
+    "answer": "The living God",
+    "options": [
+      "The living God",
+      "One of the Greek gods",
+      "A Roman ruler",
+      "Solomon"
+    ],
+    "difficulty": "easy",
+    "roundFormat": "standard",
+    "studyGuide": {
+      "summary": "Paul says believers are the temple of the living God.",
+      "citations": [
+        "2 Corinthians 6:16"
+      ]
+    },
+    "reviewStatus": "pilot",
+    "memoryAid": {
+      "type": "teaching",
+      "text": "Paul joins an old promise that God will walk among His people with temple language. Ezekiel gave that promise to a people being restored, so the temple here is closely tied to belonging.",
+      "claimKind": "source-backed",
+      "source": "Leviticus 26:11-12 and related passages (NKJV)",
+      "sourceUrl": "https://www.biblegateway.com/passage/?search=Leviticus+26%3A11-12%3B+Ezekiel+37%3A26-28&version=NKJV",
+      "sourceStatus": "found"
+    }
+  },
+  {
+    "id": "2cor7-dr-001",
+    "queueItemIds": [],
+    "researchArtifactIds": [],
+    "book": "2 Corinthians",
+    "bookSlug": "2cor",
+    "chapter": 7,
+    "reference": "2 Corinthians 7:6",
+    "topic": "Titus arrives",
+    "type": "multiple-choice",
+    "question": "Who came and brought Paul comfort?",
+    "answer": "Titus",
+    "options": [
+      "Titus",
+      "Timothy",
+      "Apollos",
+      "Luke"
+    ],
+    "difficulty": "easy",
+    "roundFormat": "standard",
+    "studyGuide": {
+      "summary": "God comforted Paul and his companions by the coming of Titus.",
+      "citations": [
+        "2 Corinthians 7:6"
+      ]
+    },
+    "reviewStatus": "pilot",
+    "memoryAid": {
+      "type": "teaching",
+      "text": "The meeting resolves a story Paul left hanging when he departed Troas. Titus also brings an account of how the Corinthians responded. Paul receives comfort from both a person and the news that person brings.",
+      "claimKind": "source-backed",
+      "source": "2 Corinthians 2:12-13 and related passages (NKJV)",
+      "sourceUrl": "https://www.biblegateway.com/passage/?search=2+Corinthians+2%3A12-13%3B+7%3A5-7&version=NKJV",
+      "sourceStatus": "found"
+    }
+  },
+  {
+    "id": "2cor7-dr-002",
+    "queueItemIds": [],
+    "researchArtifactIds": [],
+    "book": "2 Corinthians",
+    "bookSlug": "2cor",
+    "chapter": 7,
+    "reference": "2 Corinthians 7:10",
+    "topic": "Sorrow and repentance",
+    "type": "multiple-choice",
+    "question": "What does godly sorrow produce, according to Paul?",
+    "answer": "Repentance leading to salvation",
+    "options": [
+      "Repentance leading to salvation",
+      "Worldly success",
+      "Freedom from all troubles",
+      "A reason to boast"
+    ],
+    "difficulty": "easy",
+    "roundFormat": "standard",
+    "studyGuide": {
+      "summary": "Paul says godly sorrow produces repentance leading to salvation.",
+      "citations": [
+        "2 Corinthians 7:10"
+      ]
+    },
+    "reviewStatus": "pilot",
+    "memoryAid": {
+      "type": "teaching",
+      "text": "Chrysostom asks when grief actually repairs the thing that caused it. He distinguishes grieving a loss, which cannot bring it back, from grieving a wrong, which can move a person to change how they live.",
+      "claimKind": "source-backed",
+      "source": "Chrysostom, Homily 15 on 2 Corinthians",
+      "sourceUrl": "https://www.newadvent.org/fathers/220215.htm",
+      "sourceStatus": "found"
+    }
+  },
+  {
+    "id": "2cor7-dr-003",
+    "queueItemIds": [],
+    "researchArtifactIds": [
+      "2cor7-p2-f13"
+    ],
+    "book": "2 Corinthians",
+    "bookSlug": "2cor",
+    "chapter": 7,
+    "reference": "2 Corinthians 7:15",
+    "topic": "Receiving Titus",
+    "type": "multiple-choice",
+    "question": "With what attitude does Titus remember the Corinthians receiving him?",
+    "answer": "Fear and trembling",
+    "options": [
+      "Fear and trembling",
+      "Laughter and applause",
+      "Anger and contempt",
+      "Silence and refusal"
+    ],
+    "difficulty": "easy",
+    "roundFormat": "standard",
+    "studyGuide": {
+      "summary": "Titus remembers being received with fear and trembling.",
+      "citations": [
+        "2 Corinthians 7:15"
+      ]
+    },
+    "reviewStatus": "pilot",
+    "memoryAid": {
+      "type": "teaching",
+      "text": "Fear and trembling can sound like terror to a modern reader. Chrysostom hears the phrase here as honor and respect. He points out that Titus remembers their welcome with affection.",
+      "claimKind": "source-backed",
+      "source": "Chrysostom, Homily 16 on 2 Corinthians",
+      "sourceUrl": "https://www.newadvent.org/fathers/220216.htm",
+      "sourceStatus": "found"
+    }
+  },
+  {
+    "id": "2cor8-dr-001",
+    "queueItemIds": [],
+    "researchArtifactIds": [
+      "2cor8-p1-f01"
+    ],
+    "book": "2 Corinthians",
+    "bookSlug": "2cor",
+    "chapter": 8,
+    "reference": "2 Corinthians 8:2",
+    "topic": "Generosity in poverty",
+    "type": "multiple-choice",
+    "question": "What hardship did the Macedonians experience even as they gave generously?",
+    "answer": "Deep poverty",
+    "options": [
+      "Deep poverty",
+      "Their pride",
+      "Their stores of money",
+      "Their reluctance"
+    ],
+    "difficulty": "easy",
+    "roundFormat": "standard",
+    "studyGuide": {
+      "summary": "Paul says their deep poverty abounded in generous giving.",
+      "citations": [
+        "2 Corinthians 8:2"
+      ]
+    },
+    "reviewStatus": "pilot",
+    "memoryAid": {
+      "type": "teaching",
+      "text": "The Macedonians resemble the widow Jesus notices at the treasury. Both stories ask the reader to pay attention to what a gift costs the giver. Paul adds that the Macedonians actually pleaded for the chance to take part.",
+      "claimKind": "source-backed",
+      "source": "Mark 12:41-44 and related passages (NKJV)",
+      "sourceUrl": "https://www.biblegateway.com/passage/?search=Mark+12%3A41-44%3B+2+Corinthians+8%3A1-4&version=NKJV",
+      "sourceStatus": "found"
+    }
+  },
+  {
+    "id": "2cor8-dr-002",
+    "queueItemIds": [],
+    "researchArtifactIds": [
+      "2cor8-p1-f07"
+    ],
+    "book": "2 Corinthians",
+    "bookSlug": "2cor",
+    "chapter": 8,
+    "reference": "2 Corinthians 8:9",
+    "topic": "Christ became poor",
+    "type": "multiple-choice",
+    "question": "What does Paul say Jesus became for their sakes, though He was rich?",
+    "answer": "Poor",
+    "options": [
+      "Poor",
+      "A civil ruler",
+      "A wealthy merchant",
+      "A temple officer"
+    ],
+    "difficulty": "easy",
+    "roundFormat": "standard",
+    "studyGuide": {
+      "summary": "Paul says Jesus became poor for their sakes, that they might become rich through His poverty.",
+      "citations": [
+        "2 Corinthians 8:9"
+      ]
+    },
+    "reviewStatus": "pilot",
+    "memoryAid": {
+      "type": "teaching",
+      "text": "What kind of riches could come from Christ becoming poor? In the middle of a collection appeal, Chrysostom points his listeners to forgiveness and holiness. Those are the treasures he hears in Paul’s words.",
+      "claimKind": "source-backed",
+      "source": "Chrysostom, Homily 17 on 2 Corinthians",
+      "sourceUrl": "https://www.newadvent.org/fathers/220217.htm",
+      "sourceStatus": "found"
+    }
+  },
+  {
+    "id": "2cor8-dr-003",
+    "queueItemIds": [],
+    "researchArtifactIds": [
+      "2cor8-p1-f10"
+    ],
+    "book": "2 Corinthians",
+    "bookSlug": "2cor",
+    "chapter": 8,
+    "reference": "2 Corinthians 8:15",
+    "topic": "Manna and enough",
+    "type": "multiple-choice",
+    "question": "What did the one who gathered little lack?",
+    "answer": "Nothing",
+    "options": [
+      "Nothing",
+      "Half a portion",
+      "A full portion",
+      "All of it"
+    ],
+    "difficulty": "easy",
+    "roundFormat": "standard",
+    "studyGuide": {
+      "summary": "Paul quotes Scripture saying the one who gathered little had no lack.",
+      "citations": [
+        "2 Corinthians 8:15"
+      ]
+    },
+    "reviewStatus": "pilot",
+    "memoryAid": {
+      "type": "teaching",
+      "text": "Paul borrows the line from the manna story. There, a household’s needs determine its share. Here that becomes a picture of a gift traveling between communities so people have enough.",
+      "claimKind": "source-backed",
+      "source": "Exodus 16:14-21 and related passages (NKJV)",
+      "sourceUrl": "https://www.biblegateway.com/passage/?search=Exodus+16%3A14-21%3B+2+Corinthians+8%3A13-15&version=NKJV",
+      "sourceStatus": "found"
+    }
+  },
+  {
+    "id": "2cor9-dr-001",
+    "queueItemIds": [],
+    "researchArtifactIds": [
+      "2cor9-p1-f11"
+    ],
+    "book": "2 Corinthians",
+    "bookSlug": "2cor",
+    "chapter": 9,
+    "reference": "2 Corinthians 9:6",
+    "topic": "Sowing and reaping",
+    "type": "multiple-choice",
+    "question": "How will someone reap if they sow sparingly?",
+    "answer": "Sparingly",
+    "options": [
+      "Sparingly",
+      "Bountifully",
+      "Only after a full year",
+      "More than they sowed"
+    ],
+    "difficulty": "easy",
+    "roundFormat": "standard",
+    "studyGuide": {
+      "summary": "Paul says that the one who sows sparingly will reap sparingly.",
+      "citations": [
+        "2 Corinthians 9:6"
+      ]
+    },
+    "reviewStatus": "pilot",
+    "memoryAid": {
+      "type": "teaching",
+      "text": "Paul’s seed image continues a few verses later with language from Isaiah about seed for the sower and bread for food. Seed in the image is something God provides so that people can go on doing good.",
+      "claimKind": "source-backed",
+      "source": "Isaiah 55:10-11 and related passages (NKJV)",
+      "sourceUrl": "https://www.biblegateway.com/passage/?search=Isaiah+55%3A10-11%3B+2+Corinthians+9%3A6-10&version=NKJV",
+      "sourceStatus": "found"
+    }
+  },
+  {
+    "id": "2cor9-dr-002",
+    "queueItemIds": [],
+    "researchArtifactIds": [],
+    "book": "2 Corinthians",
+    "bookSlug": "2cor",
+    "chapter": 9,
+    "reference": "2 Corinthians 9:7",
+    "topic": "The giver God loves",
+    "type": "multiple-choice",
+    "question": "How does Paul describe the giver God loves?",
+    "answer": "Cheerful",
+    "options": [
+      "Cheerful",
+      "Reluctant",
+      "Boastful",
+      "Compelled"
+    ],
+    "difficulty": "easy",
+    "roundFormat": "standard",
+    "studyGuide": {
+      "summary": "Paul says God loves a cheerful giver.",
+      "citations": [
+        "2 Corinthians 9:7"
+      ]
+    },
+    "reviewStatus": "pilot",
+    "memoryAid": {
+      "type": "teaching",
+      "text": "Deuteronomy tells a giver to watch their own heart, especially when it would be easy to hold back because the year for releasing debts is near. Paul also pays attention to the will behind the gift.",
+      "claimKind": "source-backed",
+      "source": "Deuteronomy 15:7-11 and related passages (NKJV)",
+      "sourceUrl": "https://www.biblegateway.com/passage/?search=Deuteronomy+15%3A7-11%3B+2+Corinthians+9%3A7&version=NKJV",
+      "sourceStatus": "found"
+    }
+  },
+  {
+    "id": "2cor9-dr-003",
+    "queueItemIds": [],
+    "researchArtifactIds": [],
+    "book": "2 Corinthians",
+    "bookSlug": "2cor",
+    "chapter": 9,
+    "reference": "2 Corinthians 9:11",
+    "topic": "Giving leads to thanksgiving",
+    "type": "multiple-choice",
+    "question": "What does the Corinthians’ generosity produce through Paul and his coworkers?",
+    "answer": "Thanksgiving to God",
+    "options": [
+      "Thanksgiving to God",
+      "Praise for Corinth’s wealth",
+      "A reward from Rome",
+      "A new rule for the churches"
+    ],
+    "difficulty": "easy",
+    "roundFormat": "standard",
+    "studyGuide": {
+      "summary": "Paul says this generosity produces thanksgiving to God.",
+      "citations": [
+        "2 Corinthians 9:11"
+      ]
+    },
+    "reviewStatus": "pilot",
+    "memoryAid": {
+      "type": "teaching",
+      "text": "Paul follows the money all the way to its recipients. He imagines them thanking God and praying for the givers, so a gift can start a relationship between people who live far apart.",
+      "claimKind": "source-backed",
+      "source": "2 Corinthians 9:11-14 (NKJV)",
+      "sourceUrl": "https://www.biblegateway.com/passage/?search=2+Corinthians+9%3A11-14&version=NKJV",
+      "sourceStatus": "found"
+    }
+  },
+  {
+    "id": "2cor10-dr-001",
+    "queueItemIds": [],
+    "researchArtifactIds": [],
+    "book": "2 Corinthians",
+    "bookSlug": "2cor",
+    "chapter": 10,
+    "reference": "2 Corinthians 10:4",
+    "topic": "Power against strongholds",
+    "type": "multiple-choice",
+    "question": "What can the weapons of Paul’s warfare pull down through God’s power?",
+    "answer": "Strongholds",
+    "options": [
+      "Strongholds",
+      "Temple curtains",
+      "Roman roads",
+      "City markets"
+    ],
+    "difficulty": "easy",
+    "roundFormat": "standard",
+    "studyGuide": {
+      "summary": "Paul says the weapons are mighty in God for pulling down strongholds.",
+      "citations": [
+        "2 Corinthians 10:4"
+      ]
+    },
+    "reviewStatus": "pilot",
+    "memoryAid": {
+      "type": "teaching",
+      "text": "The next verse identifies targets such as arguments and claims raised against the knowledge of God. Paul takes the language of a siege into the realm of what people think and believe.",
+      "claimKind": "source-backed",
+      "source": "2 Corinthians 10:3-5 (NKJV)",
+      "sourceUrl": "https://www.biblegateway.com/passage/?search=2+Corinthians+10%3A3-5&version=NKJV",
+      "sourceStatus": "found"
+    }
+  },
+  {
+    "id": "2cor10-dr-002",
+    "queueItemIds": [],
+    "researchArtifactIds": [
+      "2cor10-p1-f11"
+    ],
+    "book": "2 Corinthians",
+    "bookSlug": "2cor",
+    "chapter": 10,
+    "reference": "2 Corinthians 10:5",
+    "topic": "Taking thoughts captive",
+    "type": "multiple-choice",
+    "question": "To whom are thoughts brought into obedience?",
+    "answer": "Christ",
+    "options": [
+      "Christ",
+      "Paul",
+      "Moses",
+      "Caesar"
+    ],
+    "difficulty": "easy",
+    "roundFormat": "standard",
+    "studyGuide": {
+      "summary": "Paul describes bringing every thought into captivity to Christ’s obedience.",
+      "citations": [
+        "2 Corinthians 10:5"
+      ]
+    },
+    "reviewStatus": "pilot",
+    "memoryAid": {
+      "type": "teaching",
+      "text": "Chrysostom asks what kind of captivity can be a benefit. He reads the image as rescue from one kind of bondage into service to Christ, turning the expected outcome of a military capture around.",
+      "claimKind": "source-backed",
+      "source": "Chrysostom, Homily 21 on 2 Corinthians",
+      "sourceUrl": "https://www.newadvent.org/fathers/220221.htm",
+      "sourceStatus": "found"
+    }
+  },
+  {
+    "id": "2cor10-dr-003",
+    "queueItemIds": [],
+    "researchArtifactIds": [],
+    "book": "2 Corinthians",
+    "bookSlug": "2cor",
+    "chapter": 10,
+    "reference": "2 Corinthians 10:17",
+    "topic": "Glory in the Lord",
+    "type": "multiple-choice",
+    "question": "In whom should a person who glories glory?",
+    "answer": "The Lord",
+    "options": [
+      "The Lord",
+      "Himself",
+      "His teachers",
+      "His city"
+    ],
+    "difficulty": "easy",
+    "roundFormat": "standard",
+    "studyGuide": {
+      "summary": "Paul directs anyone who glories to glory in the Lord.",
+      "citations": [
+        "2 Corinthians 10:17"
+      ]
+    },
+    "reviewStatus": "pilot",
+    "memoryAid": {
+      "type": "teaching",
+      "text": "Paul ends very different arguments in the two letters with the same instruction. Jeremiah’s background names three familiar grounds for bragging, wisdom, strength, and wealth, then points to knowing the Lord.",
+      "claimKind": "source-backed",
+      "source": "Jeremiah 9:23-24 and related passages (NKJV)",
+      "sourceUrl": "https://www.biblegateway.com/passage/?search=Jeremiah+9%3A23-24%3B+1+Corinthians+1%3A31&version=NKJV",
+      "sourceStatus": "found"
+    }
+  },
+  {
+    "id": "2cor11-dr-001",
+    "queueItemIds": [],
+    "researchArtifactIds": [
+      "2cor11-p2-f05"
+    ],
+    "book": "2 Corinthians",
+    "bookSlug": "2cor",
+    "chapter": 11,
+    "reference": "2 Corinthians 11:2",
+    "topic": "Promised to Christ",
+    "type": "multiple-choice",
+    "question": "To whom does Paul say he has betrothed the Corinthians?",
+    "answer": "Christ",
+    "options": [
+      "Christ",
+      "Timothy",
+      "Apollos",
+      "Cephas"
+    ],
+    "difficulty": "easy",
+    "roundFormat": "standard",
+    "studyGuide": {
+      "summary": "Paul says he has betrothed the community to one husband, Christ.",
+      "citations": [
+        "2 Corinthians 11:2"
+      ]
+    },
+    "reviewStatus": "pilot",
+    "memoryAid": {
+      "type": "teaching",
+      "text": "A scene from Genesis gives this image a backstory. Abraham’s servant arranges the marriage and brings Rebekah to meet Isaac. Paul gives himself a similar part in a relationship that belongs to Christ.",
+      "claimKind": "source-backed",
+      "source": "Genesis 24:34-49, 58-67 (NKJV)",
+      "sourceUrl": "https://www.biblegateway.com/passage/?search=Genesis+24%3A34-49%2C+58-67&version=NKJV",
+      "sourceStatus": "found"
+    }
+  },
+  {
+    "id": "2cor11-dr-002",
+    "queueItemIds": [],
+    "researchArtifactIds": [],
+    "book": "2 Corinthians",
+    "bookSlug": "2cor",
+    "chapter": 11,
+    "reference": "2 Corinthians 11:3",
+    "topic": "Eve and the serpent",
+    "type": "multiple-choice",
+    "question": "Whom does Paul name as the person deceived by the serpent?",
+    "answer": "Eve",
+    "options": [
+      "Eve",
+      "Sarah",
+      "Rebekah",
+      "Miriam"
+    ],
+    "difficulty": "easy",
+    "roundFormat": "standard",
+    "studyGuide": {
+      "summary": "Paul recalls how the serpent deceived Eve through craftiness.",
+      "citations": [
+        "2 Corinthians 11:3"
+      ]
+    },
+    "reviewStatus": "pilot",
+    "memoryAid": {
+      "type": "teaching",
+      "text": "The serpent in Genesis begins with a question about what God said. Paul also pictures a threat arriving through persuasive words, here preaching about another Jesus or a different gospel.",
+      "claimKind": "source-backed",
+      "source": "Genesis 3:1-6 and related passages (NKJV)",
+      "sourceUrl": "https://www.biblegateway.com/passage/?search=Genesis+3%3A1-6%3B+2+Corinthians+11%3A3-4&version=NKJV",
+      "sourceStatus": "found"
+    }
+  },
+  {
+    "id": "2cor11-dr-003",
+    "queueItemIds": [],
+    "researchArtifactIds": [
+      "2cor11-p3-f10"
+    ],
+    "book": "2 Corinthians",
+    "bookSlug": "2cor",
+    "chapter": 11,
+    "reference": "2 Corinthians 11:33",
+    "topic": "A basket escape",
+    "type": "multiple-choice",
+    "question": "In what was Paul lowered through a window in the wall?",
+    "answer": "A basket",
+    "options": [
+      "A basket",
+      "A water jar",
+      "A wooden chest",
+      "A fishing net"
+    ],
+    "difficulty": "easy",
+    "roundFormat": "standard",
+    "studyGuide": {
+      "summary": "Paul says he was lowered in a basket through a window in the wall.",
+      "citations": [
+        "2 Corinthians 11:33"
+      ]
+    },
+    "reviewStatus": "pilot",
+    "memoryAid": {
+      "type": "teaching",
+      "text": "Paul could have used a daring getaway to make himself sound like a hero. Chrysostom focuses instead on Paul’s willingness to escape in a basket so he could go on preaching. Sometimes courage looks like letting people get you out of trouble.",
+      "claimKind": "source-backed",
+      "source": "Chrysostom, Homily 25 on 2 Corinthians",
+      "sourceUrl": "https://www.newadvent.org/fathers/220225.htm",
+      "sourceStatus": "found"
+    }
+  },
+  {
+    "id": "2cor12-dr-001",
+    "queueItemIds": [],
+    "researchArtifactIds": [
+      "2cor12-p2-f01"
+    ],
+    "book": "2 Corinthians",
+    "bookSlug": "2cor",
+    "chapter": 12,
+    "reference": "2 Corinthians 12:2",
+    "topic": "The third heaven",
+    "type": "multiple-choice",
+    "question": "To which heaven was the man in Christ caught up?",
+    "answer": "The third heaven",
+    "options": [
+      "The third heaven",
+      "The first heaven",
+      "The second heaven",
+      "The seventh heaven"
+    ],
+    "difficulty": "easy",
+    "roundFormat": "standard",
+    "studyGuide": {
+      "summary": "Paul describes the man as caught up to the third heaven.",
+      "citations": [
+        "2 Corinthians 12:2"
+      ]
+    },
+    "reviewStatus": "pilot",
+    "memoryAid": {
+      "type": "teaching",
+      "text": "Chrysostom reads the man as Paul and hears deliberate restraint in the third-person telling. The speaker knows an extraordinary thing happened and twice admits he cannot explain how it happened.",
+      "claimKind": "source-backed",
+      "source": "Chrysostom, Homily 26 on 2 Corinthians",
+      "sourceUrl": "https://www.newadvent.org/fathers/220226.htm",
+      "sourceStatus": "found"
+    }
+  },
+  {
+    "id": "2cor12-dr-002",
+    "queueItemIds": [],
+    "researchArtifactIds": [],
+    "book": "2 Corinthians",
+    "bookSlug": "2cor",
+    "chapter": 12,
+    "reference": "2 Corinthians 12:9",
+    "topic": "Grace in weakness",
+    "type": "multiple-choice",
+    "question": "In what does the Lord say His strength is made perfect?",
+    "answer": "Weakness",
+    "options": [
+      "Weakness",
+      "Wealth",
+      "Secrets",
+      "Persuasive speech"
+    ],
+    "difficulty": "easy",
+    "roundFormat": "standard",
+    "studyGuide": {
+      "summary": "The Lord tells Paul that His strength is made perfect in weakness.",
+      "citations": [
+        "2 Corinthians 12:9"
+      ]
+    },
+    "reviewStatus": "pilot",
+    "memoryAid": {
+      "type": "teaching",
+      "text": "Paul asked three times for the thorn to go away. The reply he records reshapes what he can expect from Christ in the presence of a difficulty that persists.",
+      "claimKind": "source-backed",
+      "source": "2 Corinthians 12:7-10 (NKJV)",
+      "sourceUrl": "https://www.biblegateway.com/passage/?search=2+Corinthians+12%3A7-10&version=NKJV",
+      "sourceStatus": "found"
+    }
+  },
+  {
+    "id": "2cor12-dr-003",
+    "queueItemIds": [],
+    "researchArtifactIds": [],
+    "book": "2 Corinthians",
+    "bookSlug": "2cor",
+    "chapter": 12,
+    "reference": "2 Corinthians 12:15",
+    "topic": "Spending himself",
+    "type": "multiple-choice",
+    "question": "For what does Paul say he will gladly spend and be spent?",
+    "answer": "Their souls",
+    "options": [
+      "Their souls",
+      "A new meeting house",
+      "His own reputation",
+      "A Roman office"
+    ],
+    "difficulty": "easy",
+    "roundFormat": "standard",
+    "studyGuide": {
+      "summary": "Paul says he will gladly spend and be spent for their souls.",
+      "citations": [
+        "2 Corinthians 12:15"
+      ]
+    },
+    "reviewStatus": "pilot",
+    "memoryAid": {
+      "type": "teaching",
+      "text": "A verse earlier, Paul compares himself to a parent who saves for children. He offers more than his resources here, even wondering whether his greater love will be returned with less love.",
+      "claimKind": "source-backed",
+      "source": "2 Corinthians 12:13-18 (NKJV)",
+      "sourceUrl": "https://www.biblegateway.com/passage/?search=2+Corinthians+12%3A13-18&version=NKJV",
+      "sourceStatus": "found"
+    }
+  },
+  {
+    "id": "2cor13-dr-001",
+    "queueItemIds": [],
+    "researchArtifactIds": [
+      "2cor13-p2-f01"
+    ],
+    "book": "2 Corinthians",
+    "bookSlug": "2cor",
+    "chapter": 13,
+    "reference": "2 Corinthians 13:1",
+    "topic": "Two or three witnesses",
+    "type": "multiple-choice",
+    "question": "How many witnesses does Paul say establish a matter?",
+    "answer": "Two or three",
+    "options": [
+      "Two or three",
+      "Only one",
+      "Five or six",
+      "Exactly twelve"
+    ],
+    "difficulty": "easy",
+    "roundFormat": "standard",
+    "studyGuide": {
+      "summary": "Paul says a matter is established by the testimony of two or three witnesses.",
+      "citations": [
+        "2 Corinthians 13:1"
+      ]
+    },
+    "reviewStatus": "pilot",
+    "memoryAid": {
+      "type": "teaching",
+      "text": "The rule comes from Israel’s law about evidence. The same paragraph calls for judges to investigate false testimony, so the number belongs to a larger concern with fair judgment.",
+      "claimKind": "source-backed",
+      "source": "Deuteronomy 19:15-21 and related passages (NKJV)",
+      "sourceUrl": "https://www.biblegateway.com/passage/?search=Deuteronomy+19%3A15-21%3B+2+Corinthians+13%3A1&version=NKJV",
+      "sourceStatus": "found"
+    }
+  },
+  {
+    "id": "2cor13-dr-002",
+    "queueItemIds": [],
+    "researchArtifactIds": [],
+    "book": "2 Corinthians",
+    "bookSlug": "2cor",
+    "chapter": 13,
+    "reference": "2 Corinthians 13:4",
+    "topic": "Living by God's power",
+    "type": "multiple-choice",
+    "question": "By whose power does Christ live after being crucified in weakness?",
+    "answer": "God’s",
+    "options": [
+      "God’s",
+      "The apostles’",
+      "The Roman ruler’s",
+      "The crowd’s"
+    ],
+    "difficulty": "easy",
+    "roundFormat": "standard",
+    "studyGuide": {
+      "summary": "Paul says Christ was crucified in weakness and lives by the power of God.",
+      "citations": [
+        "2 Corinthians 13:4"
+      ]
+    },
+    "reviewStatus": "pilot",
+    "memoryAid": {
+      "type": "teaching",
+      "text": "Earlier Paul describes carrying the dying of Jesus in his own body so Jesus’ life can be seen there too. He returns to that same pairing when speaking about Christ’s power among the Corinthians.",
+      "claimKind": "source-backed",
+      "source": "2 Corinthians 4:10-12 and related passages (NKJV)",
+      "sourceUrl": "https://www.biblegateway.com/passage/?search=2+Corinthians+4%3A10-12%3B+13%3A3-4&version=NKJV",
+      "sourceStatus": "found"
+    }
+  },
+  {
+    "id": "2cor13-dr-003",
+    "queueItemIds": [],
+    "researchArtifactIds": [],
+    "book": "2 Corinthians",
+    "bookSlug": "2cor",
+    "chapter": 13,
+    "reference": "2 Corinthians 13:5",
+    "topic": "Examine yourselves",
+    "type": "multiple-choice",
+    "question": "What does Paul tell the Corinthians to examine themselves to see?",
+    "answer": "Whether they are in the faith",
+    "options": [
+      "Whether they are in the faith",
+      "Whether they remember his itinerary",
+      "Whether they give more than Macedonia",
+      "Whether they can speak in tongues"
+    ],
+    "difficulty": "easy",
+    "roundFormat": "standard",
+    "studyGuide": {
+      "summary": "Paul tells them to examine themselves to see whether they are in the faith.",
+      "citations": [
+        "2 Corinthians 13:5"
+      ]
+    },
+    "reviewStatus": "pilot",
+    "memoryAid": {
+      "type": "teaching",
+      "text": "The readers want proof that Christ speaks in Paul. Paul turns their demand into a question about whether they can recognize Christ in their own lives.",
+      "claimKind": "source-backed",
+      "source": "2 Corinthians 13:3-6 (NKJV)",
+      "sourceUrl": "https://www.biblegateway.com/passage/?search=2+Corinthians+13%3A3-6&version=NKJV",
+      "sourceStatus": "found"
+    }
+  },
+  {
+    "id": "2cor13-dr-004",
+    "queueItemIds": [],
+    "researchArtifactIds": [
+      "2cor13-p2-f09"
+    ],
+    "book": "2 Corinthians",
+    "bookSlug": "2cor",
+    "chapter": 13,
+    "reference": "2 Corinthians 13:9",
+    "topic": "Paul's prayer for them",
+    "type": "multiple-choice",
+    "question": "What does Paul say he prays for the Corinthians to become?",
+    "answer": "Complete",
+    "options": [
+      "Complete",
+      "Wealthy",
+      "Famous",
+      "Independent of one another"
+    ],
+    "difficulty": "easy",
+    "roundFormat": "standard",
+    "studyGuide": {
+      "summary": "Paul says he prays that they may be made complete.",
+      "citations": [
+        "2 Corinthians 13:9"
+      ]
+    },
+    "reviewStatus": "pilot",
+    "memoryAid": {
+      "type": "teaching",
+      "text": "Chrysostom hears Paul’s related instruction in verse 11 as filling in what is missing. Look at verse 10 between the prayer and the instruction. Paul hopes that his authority can be used to build people up.",
+      "claimKind": "source-backed",
+      "source": "Chrysostom, Homily 30 on 2 Corinthians",
+      "sourceUrl": "https://www.newadvent.org/fathers/220230.htm",
+      "sourceStatus": "found"
+    }
+  },
+  {
+    "id": "2cor13-dr-005",
+    "queueItemIds": [],
+    "researchArtifactIds": [
+      "2cor13-p2-f12"
+    ],
+    "book": "2 Corinthians",
+    "bookSlug": "2cor",
+    "chapter": 13,
+    "reference": "2 Corinthians 13:14",
+    "topic": "The closing blessing",
+    "type": "multiple-choice",
+    "question": "Whose communion does Paul name in the final blessing?",
+    "answer": "The Holy Spirit",
+    "options": [
+      "The Holy Spirit",
+      "Timothy",
+      "Titus",
+      "The angels"
+    ],
+    "difficulty": "easy",
+    "roundFormat": "standard",
+    "studyGuide": {
+      "summary": "Paul closes with the grace of Jesus Christ, the love of God, and the communion of the Holy Spirit.",
+      "citations": [
+        "2 Corinthians 13:14"
+      ]
+    },
+    "reviewStatus": "pilot",
+    "memoryAid": {
+      "type": "teaching",
+      "text": "The same three-part blessing is heard in the Orthodox Divine Liturgy as the Eucharistic prayer begins. A line that once closed a letter is now spoken to a gathered congregation.",
+      "claimKind": "source-backed",
+      "source": "Orthodox Church in America, Anaphora",
+      "sourceUrl": "https://www.oca.org/orthodoxy/the-orthodox-faith/worship/the-divine-liturgy/eucharistic-canon-anaphora",
+      "sourceStatus": "found"
+    }
   }
 ]

@@ -83,9 +83,22 @@ async function init() {
     const depth = $('question-depth');
     const citations = q.studyGuide?.citations || [];
     if (citations.length) depth.append(node('p', `Passage evidence: ${citations.join('; ')}`, 'source-note'));
-    if (q.memoryAid?.text) {
-      const details = node('details', null, 'gentle-details');
-      details.append(node('summary', 'A way to remember'), node('p', q.memoryAid.text));
+    const aid = q.memoryAid;
+    if (aid?.text) {
+      const href = aid.type === 'teaching' && aid.source && safeSourceUrl(aid.sourceUrl);
+      const details = node('details', null, href ? 'go-deeper' : 'gentle-details');
+      const summary = node('summary', href ? null : 'A way to remember');
+      if (href) {
+        const label = node('span', 'Go deeper');
+        label.dir = 'ltr';
+        summary.append(label);
+      }
+      details.append(summary, node('p', aid.text));
+      if (href) {
+        const link = node('a', aid.source, 'go-deeper-source');
+        Object.assign(link, { href, target: '_blank', rel: 'noopener' });
+        details.append(link);
+      }
       depth.append(details);
     }
     if (state.mode === 'together') depth.append(node('p', 'Invite someone to explain where they found the evidence. Did another person notice something you missed?', 'help-note'));

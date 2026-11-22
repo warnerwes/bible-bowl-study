@@ -23,7 +23,18 @@ export function questionsForWeek(questions, week) {
 export function sessionQuestions(questions, lesson, count = 5) {
   const pool = questionsForWeek(questions, lesson);
   const preferred = (lesson.questionIds || []).map(id => pool.find(q => q.id === id)).filter(Boolean);
-  return [...preferred, ...pool.filter(q => !preferred.includes(q))].slice(0, count);
+  if (preferred.length || lesson.chapters.length < 2) {
+    return [...preferred, ...pool.filter(q => !preferred.includes(q))].slice(0, count);
+  }
+
+  const byChapter = [...new Set(lesson.chapters)].map(chapter => pool.filter(q => q.chapter === chapter));
+  const ordered = [];
+  for (let index = 0; ordered.length < pool.length; index += 1) {
+    for (const chapter of byChapter) {
+      if (chapter[index]) ordered.push(chapter[index]);
+    }
+  }
+  return ordered.slice(0, count);
 }
 
 export function safeSourceUrl(value) {

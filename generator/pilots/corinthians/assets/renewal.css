@@ -40,6 +40,26 @@ legend { color: var(--accent-strong); padding: 0 .3rem; }
 .feedback { line-height: 1.65; }
 .feedback .verdict { font-size: 1.3rem; }
 .source-note { font-size: .88rem; color: var(--muted); }
+.go-deeper {
+  margin: 1rem 0 .5rem;
+  border-top: 1px solid var(--accent);
+}
+.go-deeper summary {
+  direction: rtl;
+  list-style-position: outside;
+  margin-inline-start: 1.25rem;
+  text-align: left;
+  font: 700 1.35rem/1.4 var(--font-display);
+}
+.go-deeper p { margin: .2rem 0 .35rem; max-width: 68ch; }
+.go-deeper-source {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  color: var(--accent-strong);
+  text-decoration: underline;
+  text-underline-offset: .16em;
+}
 textarea { box-sizing: border-box; width: 100%; padding: .8rem; margin: .5rem 0 1rem; background: var(--surface); color: var(--text); border: 1px solid var(--border); border-radius: 8px; font: inherit; resize: vertical; }
 .preview-banner { margin: 1rem auto 0; padding: .7rem 1rem; max-width: 790px; border: 1px dashed var(--accent); color: var(--accent-strong); font: .84rem/1.5 system-ui, sans-serif; }
 .skip-link { position: absolute; top: -100px; left: 1rem; padding: .6rem; background: var(--surface); color: var(--text); z-index: 10; }
